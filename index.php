@@ -33,7 +33,17 @@ HTML;
     exit(1);
 }
 
-$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+//$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $_SERVER);
+$params = $_SERVER;
+$domain2store = array(
+    'vmmag01dvlp.ixcomercio.com'=>'default', // Replace your Website, Store or Storeview code with this.
+    'vmmag02dvlp.ixcomercio.com'=>'retailer1_store_view',      // Replace your Website, Store or Storeview code with this.
+    );
+if(isset($domain2store[$_SERVER['HTTP_HOST']]))
+    $storecode = $domain2store[$_SERVER['HTTP_HOST']];
+$params[\Magento\Store\Model\StoreManager::PARAM_RUN_CODE] = isset($storecode) ? $storecode : '';
+$params[\Magento\Store\Model\StoreManager::PARAM_RUN_TYPE] = 'store';
+$bootstrap = \Magento\Framework\App\Bootstrap::create(BP, $params);
 /** @var \Magento\Framework\App\Http $app */
 $app = $bootstrap->createApplication(\Magento\Framework\App\Http::class);
 $bootstrap->run($app);
