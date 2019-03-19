@@ -1,5 +1,5 @@
 {
-    "name": "iws/magento2-catalogo",
+    "name": "iws/module-catalogo",
     "description": "Catálogo desde Iws",
     "type": "magento2-module",
     "version": "0.0.1",
