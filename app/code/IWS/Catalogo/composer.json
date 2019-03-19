@@ -1,8 +1,8 @@
 {
-    "name": "IWS/magento2-catalogo",
-    "description": "Catálogo desde IWS",
+    "name": "iws/magento2-catalogo",
+    "description": "Catálogo desde Iws",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "authors": [
         {
             "name": "CDI - Ariadna",
@@ -24,7 +24,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "IWS\\Catalogo\\": ""
+            "Iws\\Catalogo\\": ""
         }
     }
 }
