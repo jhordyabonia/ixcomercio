@@ -4,7 +4,7 @@
         <tab id="trax" translate="label" sortOrder="10">
             <label>Trax</label>
         </tab>
-        <section id="catalogo" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="traxcatalogo" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Test</label>
             <tab>trax</tab>
