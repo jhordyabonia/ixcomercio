@@ -1,0 +1,37 @@
+<?php
+    $_helper    = $this->helper('Magento\Catalog\Helper\Output');
+    $_category  = $block->getCurrentCategory();
+	
+?>
+<section class="fullwidth category-features">
+	<div class="content">
+		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
+			<img src="<?php echo $this->getViewFileUrl('images/Playtime.png'); ?>" alt="Battery Life Galore">
+			<div class="callout-text">
+				<b>Keep The Party Going</b><br>
+				<p>Hours of playtime in each of these little powerhouses</p>
+			</div>
+		</div>
+		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
+			<img src="<?php echo $this->getViewFileUrl('images/BTRange.png'); ?>" alt="100 ft Bluetooth Range">
+			<div class="callout-text">
+				<b>Massive Range</b><br>
+				<p>100 ft (30 m) Bluetooth® range lets you move without losing the groove</p>
+			</div>
+		</div>
+		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
+			<img src="<?php echo $this->getViewFileUrl('images/IP67.png'); ?>" alt="Water &amp; Dust Proof">
+			<div class="callout-text">
+				<b>Water &amp; Dust Proof</b><br>
+				<p>IP67 rated so they’re beach and pool ready</p>
+			</div>
+		</div>
+		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
+			<img src="<?php echo $this->getViewFileUrl('images/IntegratedChargingCable.png'); ?>" alt="Integrated Charging Cable">
+			<div class="callout-text">
+				<b>Integrated Charging Cable</b><br>
+				<p>Never worry about losing your charging cable again!</p>
+			</div>
+		</div>
+	</div>
+</section>

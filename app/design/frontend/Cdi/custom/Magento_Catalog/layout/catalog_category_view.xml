@@ -1,0 +1,18 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+		<!--Elimina el bloque de título-->
+		<referenceBlock name="page.main.title" remove="true" />
+		<!--Elimina el bloque Shop by-->
+		<referenceBlock name="catalog.leftnav" remove="true" />
+		<!--Contenedor de la categoría-->
+		<referenceContainer name="category.view.container">
+			<!--Elimina imagen, descripción y cms-->
+			<referenceBlock name="category.image" remove="true" />
+			<referenceBlock name="category.description" remove="true" />
+			<referenceBlock name="category.cms" remove="true" />
+			<!--Agrega bloques personalizados de categoría-->
+			<block class="Magento\Catalog\Block\Category\View" name="category.prods" template="Magento_Catalog::category/products_customview.phtml"/>
+			<block class="Magento\Catalog\Block\Category\View" name="category.atts" template="Magento_Catalog::category/attributes.phtml"/>
+		</referenceContainer>
+    </body>
+</page>
