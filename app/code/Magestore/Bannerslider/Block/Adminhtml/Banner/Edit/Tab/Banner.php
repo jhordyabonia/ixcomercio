@@ -23,6 +23,8 @@
 namespace Magestore\Bannerslider\Block\Adminhtml\Banner\Edit\Tab;
 
 use Magestore\Bannerslider\Model\Status;
+use Magestore\Bannerslider\Model\Type;
+use Magestore\Bannerslider\Model\Position;
 
 /**
  * Banner Edit tab.
@@ -182,6 +184,17 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'options' => Status::getAvailableStatuses(),
             ]
         );
+		//Jhonatan Holguín:Agrega fields tipo de banner
+		 $elements['banner_type'] = $fieldset->addField(
+            'banner_type',
+            'select',
+            [
+                'label' => __('Banner Type'),
+                'title' => __('Banner Type'),
+                'name' => 'banner_type',
+                'options' => Type::getAvailableBannerTypes(),
+            ]
+        );
 
         $slider = $this->_sliderFactory->create()->load($sliderId);
 
@@ -222,9 +235,19 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'note' => 'Used for SEO',
             ]
         );
-
+		//Jhonatan Holguín:Titulo de banner
+		$elements['title'] = $fieldset->addField(
+            'title',
+            'text',
+            [
+                'title' => __('Caption title'),
+                'label' => __('Caption title'),
+                'name' => 'title',
+				'note' => __('Banner caption title.'),
+            ]
+        );
+		
         $wysiwygConfig = $this->_wysiwygConfig->getConfig();
-
         $elements['caption'] = $fieldset->addField(
             'caption',
             'editor',
@@ -235,6 +258,29 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'config' => $wysiwygConfig
             ]
         );
+		
+		//Jhonatan Holguín:Font color
+		$elements['font_color'] = $fieldset->addField(
+            'font_color',
+            'text',
+            [
+                'title' => __('Caption color'),
+                'label' => __('Caption color'),
+                'name' => 'font_color',
+				'note' => __('Banner caption color.'),
+            ]
+        );
+		//Jhonatan Holguín:Agrega fields position del caption
+		 $elements['text_location'] = $fieldset->addField(
+            'text_location',
+            'select',
+            [
+                'label' => __('Caption location'),
+                'title' => __('Caption location'),
+                'name' => 'text_location',
+                'options' => Position::getAvailableBannerPositions(),
+            ]
+        );
 
         $elements['click_url'] = $fieldset->addField(
             'click_url',
@@ -243,6 +289,8 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'title' => __('URL'),
                 'label' => __('URL'),
                 'name' => 'click_url',
+				//Jhonatan Holguín, agrega descripción para url
+				'note' => __('Type Image: click url target. Type Video: youtube video'),
             ]
         );
 
@@ -329,6 +377,29 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                         'label' => __('New Window without Browser Navigation'),
                     ],
                 ],
+            ]
+        );
+		
+		//Jhonatan Holguín:Banner class
+		$elements['banner_class'] = $fieldset->addField(
+            'banner_class',
+            'text',
+            [
+                'title' => __('Custom banner css class'),
+                'label' => __('Custom banner css class'),
+                'name' => 'banner_class',
+				'note' => __('Add custom class list to banner.'),
+            ]
+        );
+		//Jhonatan Holguín:Banner custom Css
+		$elements['banner_css'] = $fieldset->addField(
+            'banner_css',
+			'editor',
+            [
+                'title' => __('Banner custom CSS'),
+                'label' => __('Banner custom CSS'),
+                'name' => 'banner_css',
+                'config' => $wysiwygConfig
             ]
         );
 

@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<!--
+<?php
+
 /**
  * Magestore
  *
@@ -19,7 +19,30 @@
  * @copyright   Copyright (c) 2012 Magestore (http://www.magestore.com/)
  * @license     http://www.magestore.com/license-agreement.html
  */
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Magestore_Bannerslider" setup_version="1.7.4"/>
-</config>
+
+namespace Magestore\Bannerslider\Model;
+
+/**
+ * Status
+ * @category Magestore
+ * @package  Magestore_Bannerslider
+ * @module   Bannerslider
+ * @author   Magestore Developer
+ */
+class Type
+{
+    const TYPE_IMAGE = 'image';
+    const TYPE_VIDEO = 'video';
+
+    /**
+     * get available statuses.
+     *
+     * @return []
+     */
+    public static function getAvailableBannerTypes(){
+        return [
+            self::TYPE_IMAGE => __('Image')
+            , self::TYPE_VIDEO => __('Video'),
+        ];
+    }
+}
