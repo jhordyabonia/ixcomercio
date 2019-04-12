@@ -1,0 +1,32 @@
+<?php 
+$banner = $this->getBanner(); 
+$color = ($banner->getFontColor() != '') ? $banner->getFontColor() : '#ffffff';
+?>
+<section id="banner-image-<?php echo $banner->getId();?>" class="fullwidth <?php echo $banner->getBannerClass();?>">
+	<div class="content">
+		<div class="cms-col-1-1 mobile-cms-col-1-1">
+			<?php if($banner->getClickUrl()){ ?>
+				<a href="<?php echo $banner->getClickUrl()?>" target="<?php echo $this->getTargetValue()?>">
+			<?php } ?>
+				<div class="text-block-banner">
+					<?php if($banner->getTitle() || $banner->getCaption()){ ?>
+						<div class="text-overlay-banner banner-text-<?php echo $banner->getTextLocation(); ?>" style="color: <?php echo $color;?>">
+							<?php if($banner->getTitle()){ ?>
+								<h1 class="caption-title"><?php echo $banner->getTitle();?></h1>
+							<?php } ?>
+							<?php if($banner->getCaption()){ ?>
+								<div class="caption-desc"><?php echo $banner->getCaption();?></h1>
+							<?php } ?>
+						</div>
+					<?php } ?>
+					<img src="<?php echo $this->getBannerImageUrl($banner);?>" alt="<?php echo $banner->getImageAlt()?>" />
+				</div>
+			<?php if($banner->getClickUrl()){ ?>
+				</a>
+			<?php } ?>
+		</div>
+	</div>
+</section>
+<?php if($banner->getBannerCss()){ ?>
+	<style><?php echo $banner->getBannerCss() ?></style>
+<?php } ?>
