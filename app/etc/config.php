@@ -265,7 +265,9 @@ return [
         'Magento_ProductVideoStaging' => 1,
         'Magento_WishlistAnalytics' => 1,
         'Magento_Worldpay' => 1,
+		'Cdi_Custom' => 1,
         'Temando_Shipping' => 1,
+		'Trax_Catalogo' => 0,
         'Vertex_Tax' => 1
     ]
 ];
