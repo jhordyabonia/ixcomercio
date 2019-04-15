@@ -1,0 +1,38 @@
+<a id="scroll-to-top" href="#top" class="show" title="Back to top">
+	<div class="b2tArrow"><?php echo __('Back to top')?></div>
+</a>
+<div class="footer-bottom">
+    <div class="container">
+		<div class="row">
+			<div class="col-md-4 col-12 footer-address text-left">
+				<span class="icon"></span>
+				<div class="address-info">
+					<h5><?= $block->getStoreConfig('general/store_information/name') ?></h5>
+					<?= $block->getStoreConfig('general/store_information/street_line1') ?><br/>
+					<?= $block->getStoreConfig('general/store_information/street_line2') ?><br>
+					<?= $block->getStoreConfig('general/store_information/postcode') ?>
+				</div>
+            </div>
+			<div class="col-md-4 col-12 footer-contacts text-left">
+				<span class="icon"></span>
+				<div class="contact-info">
+					<h5><?php echo __('Need Help?')?></h5>
+					<a href="tel:<?= $block->getStoreConfig('general/store_information/phone') ?>">
+						<?= $block->getStoreConfig('general/store_information/phone') ?>
+					</a> / <a href="/<?= $block->getStoreConfig('general/store_information/contacts') ?>"><?php echo __('Email')?></a>
+				</div>
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 col-12 footer-legal">
+				<p id="disclaimer"><?= $block->getStoreConfig('general/store_information/disclaimer') ?></p>
+				<p><?= /* @escapeNotVerified */ $block->getCopyright() ?></p>
+                <p>
+					<strong><a href="/<?= $block->getStoreConfig('general/store_information/sitemap') ?>"><?php echo __('Site Map')?></a></strong>
+					<strong><a href="/<?= $block->getStoreConfig('general/store_information/privacypolicy') ?>"><?php echo __('Privacy Policy')?></a></strong>  
+					<strong><a href="/<?= $block->getStoreConfig('general/store_information/termsofuse') ?>"><?php echo __('Terms of Use')?></a></strong>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>

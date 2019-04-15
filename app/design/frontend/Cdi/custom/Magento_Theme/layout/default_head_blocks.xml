@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<css src="css/main.min.css" />
+		<link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" src_type="url" /> 
+		<css src="lib/bootstrap/bootstrap.min.css" />
+		<remove src="lib\web\jquery.js"/>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" src_type="url"></script>
+		<!--<link src="js/main.min.js"/>-->
+    </head>
+</page>

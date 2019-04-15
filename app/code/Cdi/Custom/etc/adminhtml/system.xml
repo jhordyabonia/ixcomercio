@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="general">
+            <tab>general</tab>
+            <group id="store_information">
+                <field id="disclaimer" translate="label" type="text" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disclaimer</label>
+                </field>
+                <field id="sitemap" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sitemap</label>
+                </field>
+				<field id="privacypolicy" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Privacy Policy</label>
+                </field>
+				<field id="termsofuse" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Terms of Use</label>
+                </field>
+				<field id="contacts" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Contact</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
