@@ -85,6 +85,23 @@ class UpgradeData implements UpgradeDataInterface{
 				]
 			); 
 		}
+		
+		if(version_compare($context->getVersion(), '1.0.4', '<')){
+			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+			$eavSetup->addAttribute(\Magento\Catalog\Model\Category::ENTITY, 'cat_attributes', [
+				'type'     => 'text',
+				'label'    => 'Category attributes',
+				'input'    => 'text',
+				'source'   => '',
+				'frontend' => 'Cdi\Custom\Model\Attribute\Frontend\Attributes',
+                'backend' => 'Cdi\Custom\Model\Attribute\Backend\Attributes',
+				'visible'  => true,
+				'default'  => '0',
+				'required' => false,
+				'global'   => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
+				'group'    => 'Display Settings',
+			]);			
+		}
 		$setup->endSetup();
 	}
 	

@@ -1,6 +1,8 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<head>
-		<!--<css src="css/test1.css" media="all and (min-width: 1px)"/>-->
+		<css src="lib/bootstrap/bootstrap.min.css" />
+		<css src="css/main.min.css" />
+		<link src="js/main.min.js"/>
     </head>
 	<body>
 		<referenceBlock name="logo">
@@ -21,6 +23,11 @@
 		</referenceContainer>
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
-		
+		<!--Reemplaza el footer-->
+		<referenceBlock name="footer-container" remove="true" />
+		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
+		<referenceContainer name="footer-container-custom">
+			<block class="Magento\Theme\Block\Html\Footer" name="footer" template="html/footer.phtml"/>
+		</referenceContainer>
     </body>
 </page>

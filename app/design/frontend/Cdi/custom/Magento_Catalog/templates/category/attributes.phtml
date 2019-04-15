@@ -1,37 +1,37 @@
 <?php
     $_helper    = $this->helper('Magento\Catalog\Helper\Output');
     $_category  = $block->getCurrentCategory();
-	
+	$_helperAtt = $this->helper('Cdi\Custom\Helper\Data');
+	$atts = $_category->getCatAttributes();
+	$fields = array();
+	if($atts){
+		$fields = $_helperAtt->getAttributeArrayFromJson($atts);
+	}
 ?>
-<section class="fullwidth category-features">
-	<div class="content">
-		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
-			<img src="<?php echo $this->getViewFileUrl('images/Playtime.png'); ?>" alt="Battery Life Galore">
-			<div class="callout-text">
-				<b>Keep The Party Going</b><br>
-				<p>Hours of playtime in each of these little powerhouses</p>
+<?php if(count($fields)){ ?>
+	<?php
+	$colsm = 12/count($fields);
+	$col = $colsm*2;
+	?>
+	<section class="category-features">
+		<div class="container">
+			<div class="row">
+				<?php foreach($fields as $field){ ?>
+					<div class="col-sm-<?php echo $colsm?> col-<?php echo $col?> feature-callout">
+						<img src="<?php echo $this->getViewFileUrl("images/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
+						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
+							<div class="callout-text">
+								<?php if(isset($field['title'])){ ?>
+									<b><?php echo $field['title'];?></b><br>
+								<?php } ?>
+								<?php if(isset($field['desc'])){ ?>
+									<p><?php echo $field['desc'];?></p>
+								<?php } ?>
+							</div>
+						<?php } ?>
+					</div>
+				<?php } ?>
 			</div>
 		</div>
-		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
-			<img src="<?php echo $this->getViewFileUrl('images/BTRange.png'); ?>" alt="100 ft Bluetooth Range">
-			<div class="callout-text">
-				<b>Massive Range</b><br>
-				<p>100 ft (30 m) Bluetooth® range lets you move without losing the groove</p>
-			</div>
-		</div>
-		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
-			<img src="<?php echo $this->getViewFileUrl('images/IP67.png'); ?>" alt="Water &amp; Dust Proof">
-			<div class="callout-text">
-				<b>Water &amp; Dust Proof</b><br>
-				<p>IP67 rated so they’re beach and pool ready</p>
-			</div>
-		</div>
-		<div class="cms-col-1-4 mobile-cms-col-1-2 feature-callout">
-			<img src="<?php echo $this->getViewFileUrl('images/IntegratedChargingCable.png'); ?>" alt="Integrated Charging Cable">
-			<div class="callout-text">
-				<b>Integrated Charging Cable</b><br>
-				<p>Never worry about losing your charging cable again!</p>
-			</div>
-		</div>
-	</div>
-</section>
+	</section>
+<?php } ?>
