@@ -17,8 +17,9 @@ class Images
         return [
             'water.png' => __('Water'),
             'time.png' => __('Time'),
-            'location.png' => __('Location'),
+            'location.png' => __('Range'),
             'cable.png' => __('Cable'),
+            'handsfree.png' => __('Hands Free'),
         ];
     }
 }
