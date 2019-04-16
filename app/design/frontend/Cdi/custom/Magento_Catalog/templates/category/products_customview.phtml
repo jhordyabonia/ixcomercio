@@ -3,7 +3,6 @@
     $_helper    = $this->helper('Magento\Catalog\Helper\Output');
     $_category  = $block->getCurrentCategory();
 	$subCats = $_category->getChildrenCategories();
-	$cols = 12/count($subCats);
 ?>
 <?php if(count($subCats)){ ?>
 <?php $cols = 12/count($subCats); ?>
