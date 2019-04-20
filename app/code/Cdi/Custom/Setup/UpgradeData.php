@@ -36,6 +36,7 @@ class UpgradeData implements UpgradeDataInterface{
 	
  	public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context){
 		$setup->startSetup();
+		$attsToAdd = array();
 		
 		if(version_compare($context->getVersion(), '1.0.3', '<')){
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
@@ -43,8 +44,6 @@ class UpgradeData implements UpgradeDataInterface{
 			$entityTypeId = $categorySetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 			$attributeSetId = $categorySetup->getDefaultAttributeSetId($entityTypeId);
 			$setName = 'Jam';
-			//DELETE OLD
-			$eavSetup->removeAttribute($entityTypeId, 'map_image_link');
 			
 			// CREATE ATTRIBUTE SET 
 			$attsetId = $this->getAttrSetId($setName);
@@ -60,11 +59,11 @@ class UpgradeData implements UpgradeDataInterface{
 				$attributeSet->save();
 				$attributeSet->initFromSkeleton($attributeSetId);
 				$attributeSet->save();
-				$attsetId = $attributeSet->getAttributeSetId();
 			}
-	 
-			// CREATE PRODUCT ATTRIBUTE
 			
+			// DELETE OLD
+			$eavSetup->removeAttribute($entityTypeId, 'map_image_link');
+			// CREATE PRODUCT ATTRIBUTE
 			$eavSetup->addAttribute(
 				\Magento\Catalog\Model\Product::ENTITY,
 				'map_image_link',
@@ -78,16 +77,18 @@ class UpgradeData implements UpgradeDataInterface{
 					'source' => '',
 					'required' => false,
 					'sort_order' => 5,
+					'user_defined' => true,
 					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
 					'used_in_product_listing' => true,
 					'visible_on_front' => true,
-					'attribute_set_id' => $attsetId,
+					'attribute_set' => $setName,
 				]
-			); 
+			);
 		}
 		
 		if(version_compare($context->getVersion(), '1.0.4', '<')){
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+			$entityTypeId = $categorySetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 			$eavSetup->addAttribute(\Magento\Catalog\Model\Category::ENTITY, 'cat_attributes', [
 				'type'     => 'text',
 				'label'    => 'Category attributes',
@@ -98,10 +99,341 @@ class UpgradeData implements UpgradeDataInterface{
 				'visible'  => true,
 				'default'  => '0',
 				'required' => false,
+				'user_defined' => true,
 				'global'   => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
 				'group'    => 'Display Settings',
 			]);			
 		}
+		
+		if(version_compare($context->getVersion(), '1.0.8', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['map_image_link'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Category image coords',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'simple',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 2,
+				)
+			);
+			$attsToAdd['specs_img1'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Quick specs - imagen 1',
+					'input' => 'media_image',
+					'wysiwyg_enabled' => false,
+					'frontend' => 'Magento\Catalog\Model\Product\Attribute\Frontend\Image',
+					'backend' => '',
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 5,
+				)
+			);
+			$attsToAdd['thebox_img1'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'In the box - imagen 1',
+					'input' => 'media_image',
+					'wysiwyg_enabled' => false,
+					'frontend' => 'Magento\Catalog\Model\Product\Attribute\Frontend\Image',
+					'backend' => '',
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 5,
+				)
+			);
+			$attsToAdd['thebox_img2'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'In the box - imagen 2',
+					'input' => 'media_image',
+					'wysiwyg_enabled' => false,
+					'frontend' => 'Magento\Catalog\Model\Product\Attribute\Frontend\Image',
+					'backend' => '',
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 5,
+				)
+			);
+			$attsToAdd['depth'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Depth',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Product Details',
+					'sort_order' => 71,
+				)
+			);
+			$attsToAdd['height'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Height',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Product Details',
+					'sort_order' => 72,
+				)
+			);
+			$attsToAdd['width'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Width',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Product Details',
+					'sort_order' => 73,
+				)
+			);
+		}
+		
+		if(version_compare($context->getVersion(), '1.0.9', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['product_attributes'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type'     => 'text',
+					'label' => 'Product attributes',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'input_renderer' => 'Cdi\Custom\Block\Adminhtml\Product\Helper\Form\ProductAttributes',
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 2,
+				)
+			);
+		}
+		
+		if(version_compare($context->getVersion(), '1.0.10', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['instrucctions'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Instructions',
+					'backend' => 'Webkul\ProductFileAttribute\Model\Product\Attribute\Backend\File',
+					'input' => 'file',
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 5,
+				)
+			);
+		}
+		
+		if(version_compare($context->getVersion(), '1.0.11', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['quickstart'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Quick Start',
+					'backend' => 'Webkul\ProductFileAttribute\Model\Product\Attribute\Backend\File',
+					'input' => 'file',
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 6,
+				)
+			);
+			// ADD ATTRIBUTES
+			$attsToAdd['warranty_link'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Warranty link',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 7,
+				)
+			);
+			// ADD ATTRIBUTES
+			$attsToAdd['register_jam'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Register your JAM link',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 8,
+				)
+			);
+			// ADD ATTRIBUTES
+			$attsToAdd['in_the_box'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'In the box',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 9,
+				)
+			);
+		}
+		
+		if(count($attsToAdd)){
+			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+			foreach($attsToAdd as $attcode => $data){
+				$categorySetup = $this->categorySetupFactory->create(['setup' => $setup]);
+				$entityTypeId = $categorySetup->getEntityTypeId($data['entity']);
+				// DELETE OLD
+				$eavSetup->removeAttribute($entityTypeId, $attcode);
+				// CREATE ATTRIBUTE
+				$eavSetup->addAttribute($data['entity'], $attcode, $data['attdata']);
+				// ADD ATTRIBUTE TO GROUP
+				if(isset($data['group'])){
+					$eavSetup->addAttributeToGroup(
+						$data['entity'],
+						$data['group']['attribute_set'],
+						$data['group']['group'],
+						$attcode,
+						$data['group']['sort_order']
+					);					
+				}				
+			}
+		}
+		
 		$setup->endSetup();
 	}
 	

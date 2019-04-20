@@ -1,0 +1,46 @@
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+<?php $_product = $block->getProduct(); ?>
+<div class="fullwidth">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-12">
+				<div class="sticky-name">
+					<?= $block->escapeHtml($_product->getName()) ?>
+				</div>
+			</div>
+			<div class="col-md-4 col-12" style="text-align: center;">
+				<ul class="sticky-sections">
+					<li class="goto-section"><a href="#features"><?php echo __('Features')?></a></li>
+					<li class="goto-section"><a href="#product-specs"><?php echo __('Specs')?></a></li>
+					<li class="goto-section"><a href="#product-in-box"><?php echo __('In the Box')?></a></li>
+				</ul>
+			</div>
+			<div class="col-md-4 col-12">
+				<div class="sticky-price-box">
+					<div class="sticky-price">
+						<?= $block->getChildHtml('product.price.final') ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+    require(['jquery'], function($){
+		//en este js cargar las opciones del sticky-sections
+        //console.log('product page js ');
+		$(".sticky-sections li a").click(function(e){
+			e.preventDefault();
+			var href = $(this).attr('href');
+			if('#features' != href){
+				element = $(href);
+			}else{
+				element = $('.product-essential').next();
+			}
+			$('html,body').animate({
+				scrollTop: element.offset().top
+			}, 'slow');
+			
+		});
+    });
+</script>

@@ -1,1 +1,15 @@
-<?php var_dump($this->getBannerId());?>
+<?php 
+$banner = $this->getBanner(); 
+$color = ($banner->getFontColor() != '') ? $banner->getFontColor() : '#ffffff';
+?>
+<section id="banner-video-<?php echo $banner->getId();?>" class="<?php echo $banner->getBannerClass();?>">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-12">
+				<div class="video-container">
+					<iframe src="https://www.youtube.com/embed/<?php echo $banner->getClickUrl()?>?modestbranding=0&amp;showinfo=0&amp;controls=1&amp;rel=0" allowfullscreen="" frameborder="0"></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

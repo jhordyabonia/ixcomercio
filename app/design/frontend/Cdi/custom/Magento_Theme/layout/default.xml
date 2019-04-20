@@ -10,6 +10,7 @@
 	</referenceBlock>
 	-->
 	<body>
+		<!--parametriza el logo por defecto de la página-->
 		<referenceBlock name="logo">
             <arguments>
                 <argument name="logo_file" xsi:type="string">images/logo.svg</argument>
@@ -17,6 +18,7 @@
                 <argument name="logo_img_height" xsi:type="number">50</argument>
             </arguments>
         </referenceBlock>
+		<!--Mueve el menú al header-->
 		<move element="navigation.sections" destination="header.container" as="navigation.sections" after="-"/>
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">

@@ -269,6 +269,7 @@ return [
 		'Cdi_Custom' => 1,
         'Temando_Shipping' => 1,
 		'Trax_Catalogo' => 0,
-        'Vertex_Tax' => 1
+        'Vertex_Tax' => 1,
+		'Webkul_ProductFileAttribute' => 1
     ]
 ];

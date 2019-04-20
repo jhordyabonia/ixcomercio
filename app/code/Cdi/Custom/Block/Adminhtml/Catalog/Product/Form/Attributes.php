@@ -1,5 +1,5 @@
 <?php
-namespace Cdi\Custom\Block\Adminhtml\Catalog\Category\Form;
+namespace Cdi\Custom\Block\Adminhtml\Catalog\Product\Form;
 use Cdi\Custom\Model\Images; 
 use Cdi\Custom\Helper\Data;
 
@@ -10,15 +10,15 @@ class Attributes extends \Magento\Backend\Block\Template{
      *
      * @var string
      */
-    protected $_template = 'group/category/attributes.phtml';
+    protected $_template = 'group/product/attributes.phtml';
 	
-	public function getFieldsCategory(){
+	public function getFieldsProduct(){
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 		
 		$helper = $objectManager->get('Cdi\Custom\Helper\Data');
-		$category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+		$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
 		$fields = array();
-		$atts = $category->getCatAttributes();
+		$atts = $product->getProductAttributes();
 		if($atts){
 			$fields = $helper->getAttributeArrayFromJson($atts);
 		}

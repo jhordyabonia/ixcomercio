@@ -1,0 +1,52 @@
+<?php 
+$_helper = $this->helper('Magento\Catalog\Helper\Output'); 
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$_product = $block->getProduct(); 
+$atts = $_product->getProductAttributes();
+$fields = array();
+if($atts){
+	$fields = $_helperCdi->getAttributeArrayFromJson($atts);
+}
+?>
+<section class="product-specs fullwidth" style="background: #F6F6F6;" id="product-specs">
+	<h3><?php echo __('Quick Specs')?></h3>
+	<div class="container">
+		<div class="row">
+			<?php if($image = $_helperCdi->getCustomProductImage($_product, 'specs_img1')){ ?>
+				<?php $productImage1 = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'specs_img1')->setImageFile($image);?>
+				<div class="col-md-9 col-12">
+					<img src="<?php echo $productImage1->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
+				</div>
+			<?php } ?>
+			<div class="col-md-3 col-12" style="text-align: center;">
+				<b><?php echo __('Dimensions')?></b>
+				<ul>
+					<?php if($_product->getHeight()): ?><li><?php echo __('Height:')?> <?= $_product->getHeight() ?></li><?php endif;?>
+					<?php if($_product->getWidth()): ?><li><?php echo __('Width:')?> <?= $_product->getWidth() ?></li><?php endif;?>
+					<?php if($_product->getDepth()): ?><li><?php echo __('Depth:')?> <?= $_product->getDepth() ?></li><?php endif;?>
+					<?php if($_product->getWeight()): ?><li><?php echo __('Weight:')?> <?= $_product->getWeight() ?></li><?php endif;?>
+				</ul>
+			</div>
+		</div>
+		<?php if(count($fields)){ ?>
+			<?php $colsm = $_helperCdi->getColumnsBt(count($fields));?>
+			<div class="row">
+				<?php foreach($fields as $field){ ?>
+					<div class="col-md-<?php echo $colsm?> col-xs-6 feature-callout">
+						<img src="<?php echo $this->getViewFileUrl("images/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
+						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
+							<div class="callout-text">
+								<?php if(isset($field['title'])){ ?>
+									<b><?php echo $field['title'];?></b><br>
+								<?php } ?>
+								<?php if(isset($field['desc'])){ ?>
+									<p><?php echo $field['desc'];?></p>
+								<?php } ?>
+							</div>
+						<?php } ?>
+					</div>
+				<?php } ?>
+			</div>
+		<?php } ?>
+	</div>
+</section>

@@ -20,6 +20,8 @@ class Images
             'location.png' => __('Range'),
             'cable.png' => __('Cable'),
             'handsfree.png' => __('Hands Free'),
+            'pairing.png' => __('Pairing'),
+            'speakerphone.png' => __('Speaker Phone'),
         ];
     }
 }

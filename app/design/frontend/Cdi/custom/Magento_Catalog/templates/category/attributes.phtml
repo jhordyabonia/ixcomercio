@@ -1,23 +1,20 @@
 <?php
     $_helper    = $this->helper('Magento\Catalog\Helper\Output');
     $_category  = $block->getCurrentCategory();
-	$_helperAtt = $this->helper('Cdi\Custom\Helper\Data');
+	$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 	$atts = $_category->getCatAttributes();
 	$fields = array();
 	if($atts){
-		$fields = $_helperAtt->getAttributeArrayFromJson($atts);
+		$fields = $_helperCdi->getAttributeArrayFromJson($atts);
 	}
 ?>
 <?php if(count($fields)){ ?>
-	<?php
-	$colsm = 12/count($fields);
-	$col = $colsm*2;
-	?>
+	<?php $colsm = $_helperCdi->getColumnsBt(count($fields));?>
 	<section class="category-features">
 		<div class="container">
 			<div class="row">
 				<?php foreach($fields as $field){ ?>
-					<div class="col-sm-<?php echo $colsm?> col-<?php echo $col?> feature-callout">
+					<div class="col-md-<?php echo $colsm?> col-xs-6 feature-callout">
 						<img src="<?php echo $this->getViewFileUrl("images/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
 						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
 							<div class="callout-text">

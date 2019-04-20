@@ -1,0 +1,73 @@
+<?php 
+$fields = $block->getFieldsProduct();
+$images = $block->getImages();
+?>
+<div class="admin__field" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design">
+	<div class="attrlistitems">
+		<?php foreach($fields as $id => $field){ ?>
+			<fieldset class="admin__field catattr_field <?php echo $field['type']?>" data-bind="css: {_required: required}, attr: {'data-index': index}, visible: visible" data-index="date_group" <?php echo ($field['type'] == 'dummy') ? 'style="display:none"' : '';?>>
+				<legend class="admin__field-label">
+					<span data-bind="attr: {'data-config-scope': $data.scopeLabel}, i18n: label"><?php echo __('Extra attribute')?></span>
+				</legend>
+				<div class="admin__field-control admin__control-grouped-date admin__control-grouped" data-bind="css: $data.additionalClasses">
+					<div class="admin__field admin__field-date" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design_from">
+						<div class="admin__field-control">
+							<div class="admin__field-label" data-bind="visible: $data.labelVisible">
+								<label><span><?php echo __('Title')?></span></label>
+							</div>
+							<input class="admin__control-text" type="text" value="<?php echo (isset($field['title'])) ? $field['title'] : '';?>" name="title" />
+						</div>
+					</div>
+					<div class="admin__field admin__field-date" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design_from">
+						<div class="admin__field-control">
+							<div class="admin__field-label" data-bind="visible: $data.labelVisible">
+								<label><span><?php echo __('Description')?></span></label>
+							</div>
+							<input class="admin__control-text" type="text" value="<?php echo (isset($field['desc'])) ? $field['desc'] : '';?>" name="desc" />
+						</div>
+					</div>
+					<div class="admin__field admin__field-date" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design_from">
+						<div class="admin__field-control">
+							<div class="admin__field-label" data-bind="visible: $data.labelVisible">
+								<label><span><?php echo __('Image')?></span></label>
+							</div>
+							<select class="admin__control-select" name="image">
+								<?php foreach($images as $path => $label){ ?>
+									<option <?php echo (isset($field['image']) && $field['image'] == $path) ? 'selected="selected"' : ''?> value="<?php echo $path;?>"><?php echo $label;?></option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+					<div class="admin__field admin__field-date" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design_from">
+						<div class="admin__field-control">
+							<button title="-" type="button" class="action- attcat-less scalable primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+								<span class="ui-button-text"><span>-</span></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		<?php } ?>
+	</div>
+	<button title="+" type="button" class="action- attcat-plus scalable primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false">
+		<span class="ui-button-text"><span>+</span></span>
+	</button>
+</div>
+<script>
+	if(jQuery('input[name="product[product_attributes]"]').length){
+		jQuery('input[name="product[product_attributes]"]').closest('div.admin__field').hide();
+		jQuery('body').on('click', '.attcat-plus', function(){
+			jQuery('.catattr_field.dummy:not(:visible)').clone().appendTo( ".attrlistitems" ).show();
+		});
+		jQuery('body').on('click', '.attcat-less', function(){
+			jQuery(this).closest("fieldset.catattr_field").remove();
+		});
+		jQuery('body').on('change', '.attrlistitems input, .attrlistitems select', function(){
+			attcathaschanged();
+		});
+	}
+	function attcathaschanged(){
+		data = JSON.stringify(jQuery( ".attrlistitems input:visible, .attrlistitems select:visible" ).serializeArray());
+		jQuery('input[name="product[product_attributes]"]').val(data).trigger('change');
+	}
+</script>

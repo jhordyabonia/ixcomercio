@@ -1,0 +1,7 @@
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+<?php $_product = $block->getProduct(); ?>
+<div class="product-name">
+	<span class="h1"><?= $block->escapeHtml($_product->getName()) ?> 
+		<?php if($_product->getShortDescription()): ?><span><?= $_product->getShortDescription() ?></span><?php endif;?>
+	</span>
+</div>

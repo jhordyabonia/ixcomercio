@@ -1,0 +1,47 @@
+<?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
+<?php $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');?>
+<?php $_product = $block->getProduct(); ?>
+<section class="product-box fullwidth frame bkg-pattern shatter-shiro-dark" id="product-in-box">
+	<h3><?php echo __('In the Box')?></h3>
+	<div class="container" style="background-color: white;">
+		<div class="row">
+			<div class="col-md-4 col-12">
+				<?php if($image = $_helperCdi->getCustomProductImage($_product, 'thebox_img1')){ ?>
+					<?php $productImage1 = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thebox_img1')->setImageFile($image);?>
+					<img src="<?php echo $productImage1->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
+				<?php } ?>
+			</div>
+			<div class="col-md-4 col-12">
+				<?php if($image = $_helperCdi->getCustomProductImage($_product, 'thebox_img2')){ ?>
+					<?php $productImage1 = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thebox_img2')->setImageFile($image);?>
+					<img src="<?php echo $productImage1->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
+				<?php } ?>
+				<?php if($_product->getInTheBox()){ ?>
+					<?php $box = explode(',', $_product->getInTheBox())?>
+					<div class="box-list">
+						<ul>
+							<?php foreach($box as $_b){ ?>
+								<li><?php echo trim($_b);?></li>
+							<?php } ?>
+						</ul>
+					</div>
+				<?php } ?>
+			</div>
+			<div class="col-md-4 col-12" style="text-align: center;">
+				<h4><?php echo __('Support')?></h4>
+				<ul>
+					<li><a href="https://www.jamaudio.com/media/documents/jamaudio/instructionbooks/HX-P404_IB.pdf" target="doc_win">Instruction Book</a></li>
+					<li><a href="https://www.jamaudio.com/media/documents/jamaudio/quickstartguides/HX-P404_QSG.pdf" target="doc_win">Quick Start Guide</a></li>
+					<?php if($_product->getWarrantyLink() && ($title = $_helperCdi->getPage($_product->getWarrantyLink()))): ?>
+						<li><a href="<?php echo $_product->getWarrantyLink() ?>" target="doc_win"><?php echo $title;?></a></li>
+					<?php endif;?>
+					<?php if($_product->getRegisterJam() && ($title = $_helperCdi->getPage($_product->getRegisterJam()))): ?>
+						<li><a href="<?php echo $_product->getRegisterJam() ?>" target="doc_win"><?php echo $title;?></a></li>
+					<?php endif;?>
+				</ul>
+				<br />
+				<img src="<?php echo $this->getViewFileUrl("images/icon-qsg.png"); ?>" alt="Jam support" style="width: 80%; margin: 0 auto;" />
+			</div>
+		</div>
+	</div>
+</section>
