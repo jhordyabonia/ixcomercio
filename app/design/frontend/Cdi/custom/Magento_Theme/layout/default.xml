@@ -10,8 +10,6 @@
 	</referenceBlock>
 	-->
 	<body>
-		<container name="your.custom.name" as="your-custom" label="Your Label Name" htmlTag="div" htmlClass="your-class" htmlId="your-id" before="main.content"/>
-
 		<!--parametriza el logo por defecto de la página-->
 		<referenceBlock name="logo">
             <arguments>
