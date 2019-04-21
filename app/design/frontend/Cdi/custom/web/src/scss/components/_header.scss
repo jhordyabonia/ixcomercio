@@ -81,7 +81,7 @@ header{
         margin: 0;
         &:hover{
           @media only screen and (min-width: 768px){
-            > a, a.level-top{
+            &.level0.active a.level-top, &.level0.has-active a.level-top, > a, a.level-top{
               color: #E73C3E;
               transition: all .45s ease;
             } 
