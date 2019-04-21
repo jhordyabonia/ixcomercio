@@ -15,6 +15,9 @@ header{
     .header.content{
       padding: 0;
     }
+    .nav-sections{
+      background: none;
+    }
   }
   .header-wrapper{
     position: relative;
@@ -60,12 +63,12 @@ header{
       }
     }
   }
-  #header-nav{
+  .sections.nav-sections{
     @media only screen and (min-width: 771px){
       display: block;
     }
   }
-  .nav-primary {
+  .nav ul{
     display: block;
     margin: 15px 0;
     text-align: center;
