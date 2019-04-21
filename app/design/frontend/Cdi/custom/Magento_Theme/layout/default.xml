@@ -10,7 +10,16 @@
 	</referenceBlock>
 	-->
 	<body>
-		<container name="wrapper-header-custom" as="header_custom" before="-" label="Page Header Container" htmlTag="div" htmlClass="wrapper header-wrapper"/>
+		<referenceContainer name="header.wrapper-container">
+			<referenceBlock name="logo">
+	            <arguments>
+	                <argument name="logo_file" xsi:type="string">images/logo.svg</argument>
+	                <argument name="logo_img_width" xsi:type="number">160</argument>
+	                <argument name="logo_img_height" xsi:type="number">50</argument>
+	            </arguments>
+	        </referenceBlock>
+	        <move element="navigation.sections" destination="header.wrapper-container" as="navigation.sections" after="-"/>
+		</referenceContainer>
 
 		<!--parametriza el logo por defecto de la página-->
 		<referenceBlock name="logo">
