@@ -2,7 +2,7 @@
 $fields = $block->getFieldsProduct();
 $images = $block->getImages();
 ?>
-<div class="admin__field" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design">
+<div class="admin__field" id="productattrs" data-bind="css: $data.additionalClasses, attr: {'data-index': index}, visible: visible" data-index="custom_design">
 	<div class="attrlistitems">
 		<?php foreach($fields as $id => $field){ ?>
 			<fieldset class="admin__field catattr_field <?php echo $field['type']?>" data-bind="css: {_required: required}, attr: {'data-index': index}, visible: visible" data-index="date_group" <?php echo ($field['type'] == 'dummy') ? 'style="display:none"' : '';?>>
@@ -54,20 +54,40 @@ $images = $block->getImages();
 	</button>
 </div>
 <script>
-	if(jQuery('input[name="product[product_attributes]"]').length){
-		jQuery('input[name="product[product_attributes]"]').closest('div.admin__field').hide();
-		jQuery('body').on('click', '.attcat-plus', function(){
+	getElement();
+	
+	jQuery('body').on('click', '.attcat-plus', function(){
+		el = getElement();
+		if(getElement()){
 			jQuery('.catattr_field.dummy:not(:visible)').clone().appendTo( ".attrlistitems" ).show();
-		});
-		jQuery('body').on('click', '.attcat-less', function(){
-			jQuery(this).closest("fieldset.catattr_field").remove();
-		});
-		jQuery('body').on('change', '.attrlistitems input, .attrlistitems select', function(){
-			attcathaschanged();
-		});
+		}
+	});
+	
+	jQuery('body').on('click', '.attcat-less', function(){
+		jQuery(this).closest("fieldset.catattr_field").remove();
+	});
+	jQuery('body').on('change', '.attrlistitems input, .attrlistitems select', function(){
+		attcathaschanged();
+	});
+	
+	function getElement(){
+		if((jQuery('input[name="product[product_attributes]"]').length)){
+			jQuery('input[name="product[product_attributes]"]').closest('div.admin__field').hide();
+			//jQuery('#productattrs').show();
+			element = jQuery('input[name="product[product_attributes]"]');
+			return element;
+		}else if(jQuery('input[name="product_attributes"]').length){
+			jQuery('input[name="product_attributes"]').closest('div.admin__field').hide();
+			//jQuery('#productattrs').show();
+			element = jQuery('input[name="product_attributes"]');
+			return element;
+		}
+		//jQuery('#productattrs').hide();
+		return false;
 	}
+	
 	function attcathaschanged(){
 		data = JSON.stringify(jQuery( ".attrlistitems input:visible, .attrlistitems select:visible" ).serializeArray());
-		jQuery('input[name="product[product_attributes]"]').val(data).trigger('change');
+		element.val(data).trigger('change');
 	}
 </script>

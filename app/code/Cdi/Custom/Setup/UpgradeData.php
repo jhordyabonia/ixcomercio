@@ -442,6 +442,13 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 		
+		if(version_compare($context->getVersion(), '1.0.13', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['product_attributes'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY
+			);
+		}
+		
 		if(count($attsToAdd)){
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 			foreach($attsToAdd as $attcode => $data){
@@ -450,7 +457,9 @@ class UpgradeData implements UpgradeDataInterface{
 				// DELETE OLD
 				$eavSetup->removeAttribute($entityTypeId, $attcode);
 				// CREATE ATTRIBUTE
-				$eavSetup->addAttribute($data['entity'], $attcode, $data['attdata']);
+				if(isset($data['attdata'])){
+					$eavSetup->addAttribute($data['entity'], $attcode, $data['attdata']);
+				}
 				// ADD ATTRIBUTE TO GROUP
 				if(isset($data['group'])){
 					$eavSetup->addAttributeToGroup(
