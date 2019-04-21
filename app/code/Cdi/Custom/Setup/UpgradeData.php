@@ -269,34 +269,7 @@ class UpgradeData implements UpgradeDataInterface{
 				)
 			);
 		}
-		
-		if(version_compare($context->getVersion(), '1.0.9', '<')){
-			// ADD ATTRIBUTES
-			$attsToAdd['product_attributes'] = array(
-				'entity' => \Magento\Catalog\Model\Product::ENTITY,
-				'attdata' => array(
-					'type'     => 'text',
-					'label' => 'Product attributes',
-					'backend' => '',
-					'input' => 'text',
-					'wysiwyg_enabled' => false,
-					'input_renderer' => 'Cdi\Custom\Block\Adminhtml\Product\Helper\Form\ProductAttributes',
-					'source' => '',
-					'required' => false,
-					'user_defined' => true,
-					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
-					'used_in_product_listing' => true,
-					'visible_on_front' => true,
-					'apply_to' => 'configurable',
-				),
-				'group' => array(
-					'attribute_set' => 'Jam',
-					'group' => 'Jam Attributes',
-					'sort_order' => 2,
-				)
-			);
-		}
-		
+			
 		if(version_compare($context->getVersion(), '1.0.10', '<')){
 			// ADD ATTRIBUTES
 			$attsToAdd['instrucctions'] = array(
@@ -323,51 +296,6 @@ class UpgradeData implements UpgradeDataInterface{
 		}
 		
 		if(version_compare($context->getVersion(), '1.0.11', '<')){
-			// ADD ATTRIBUTES
-			$attsToAdd['quickstart'] = array(
-				'entity' => \Magento\Catalog\Model\Product::ENTITY,
-				'attdata' => array(
-					'type' => 'varchar',
-					'label' => 'Quick Start',
-					'backend' => 'Webkul\ProductFileAttribute\Model\Product\Attribute\Backend\File',
-					'input' => 'file',
-					'source' => '',
-					'required' => false,
-					'user_defined' => true,
-					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
-					'used_in_product_listing' => true,
-					'visible_on_front' => true,
-					'apply_to' => 'configurable',
-				),
-				'group' => array(
-					'attribute_set' => 'Jam',
-					'group' => 'Jam Attributes',
-					'sort_order' => 6,
-				)
-			);
-			// ADD ATTRIBUTES
-			$attsToAdd['warranty_link'] = array(
-				'entity' => \Magento\Catalog\Model\Product::ENTITY,
-				'attdata' => array(
-					'type' => 'varchar',
-					'label' => 'Warranty link',
-					'backend' => '',
-					'input' => 'text',
-					'wysiwyg_enabled' => false,
-					'source' => '',
-					'required' => false,
-					'user_defined' => true,
-					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
-					'used_in_product_listing' => true,
-					'visible_on_front' => true,
-					'apply_to' => 'configurable',
-				),
-				'group' => array(
-					'attribute_set' => 'Jam',
-					'group' => 'Jam Attributes',
-					'sort_order' => 7,
-				)
-			);
 			// ADD ATTRIBUTES
 			$attsToAdd['register_jam'] = array(
 				'entity' => \Magento\Catalog\Model\Product::ENTITY,
@@ -416,36 +344,78 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 		
-		if(version_compare($context->getVersion(), '1.0.12', '<')){
+		if(version_compare($context->getVersion(), '1.0.14', '<')){
 			// ADD ATTRIBUTES
 			$attsToAdd['color_swatch_att'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY
+			);
+			// ADD ATTRIBUTES
+			$attsToAdd['quickstart'] = array(
 				'entity' => \Magento\Catalog\Model\Product::ENTITY,
 				'attdata' => array(
-					'type' => 'int',
-				   'label' => 'Color',
-				   'input' => 'select',
-				   'required' => false,
-				   'user_defined' => true,
-				   'searchable' => true,
-				   'filterable' => true,
-				   'comparable' => true,
-				   'visible_in_advanced_search' => true,
-				   'apply_to' => 'simple',
-				   'is_used_in_grid' => true,
-				   'is_visible_in_grid' => false,
+					'type' => 'varchar',
+					'label' => 'Quick Start',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
 				),
 				'group' => array(
 					'attribute_set' => 'Jam',
 					'group' => 'Jam Attributes',
-					'sort_order' => 1,
+					'sort_order' => 6,
 				)
 			);
-		}
-		
-		if(version_compare($context->getVersion(), '1.0.13', '<')){
 			// ADD ATTRIBUTES
+			$attsToAdd['warranty_link'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Warranty link',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 7,
+				)
+			);
 			$attsToAdd['product_attributes'] = array(
-				'entity' => \Magento\Catalog\Model\Product::ENTITY
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Extra attributes',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Extra Attributes',
+					'sort_order' => 7,
+				)
 			);
 		}
 		
