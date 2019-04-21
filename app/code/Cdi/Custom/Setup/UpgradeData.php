@@ -270,31 +270,6 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 			
-		if(version_compare($context->getVersion(), '1.0.10', '<')){
-			// ADD ATTRIBUTES
-			$attsToAdd['instrucctions'] = array(
-				'entity' => \Magento\Catalog\Model\Product::ENTITY,
-				'attdata' => array(
-					'type' => 'varchar',
-					'label' => 'Instructions',
-					'backend' => 'Webkul\ProductFileAttribute\Model\Product\Attribute\Backend\File',
-					'input' => 'file',
-					'source' => '',
-					'required' => false,
-					'user_defined' => true,
-					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
-					'used_in_product_listing' => true,
-					'visible_on_front' => true,
-					'apply_to' => 'configurable',
-				),
-				'group' => array(
-					'attribute_set' => 'Jam',
-					'group' => 'Jam Attributes',
-					'sort_order' => 5,
-				)
-			);
-		}
-		
 		if(version_compare($context->getVersion(), '1.0.11', '<')){
 			// ADD ATTRIBUTES
 			$attsToAdd['register_jam'] = array(
@@ -419,6 +394,32 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 		
+		if(version_compare($context->getVersion(), '1.0.15', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['instrucctions'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'varchar',
+					'label' => 'Instructions',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 5,
+				)
+			);
+		}
+		
 		if(count($attsToAdd)){
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 			foreach($attsToAdd as $attcode => $data){
@@ -441,18 +442,6 @@ class UpgradeData implements UpgradeDataInterface{
 					);					
 				}				
 			}
-		}
-		
-		if(version_compare($context->getVersion(), '1.0.12', '<')){
-			$this->eavConfig->clear();
-			$attribute = $this->eavConfig->getAttribute('catalog_product', 'color_swatch_att');
-			if(!$attribute) return;
-			$attributeData['frontend_input'] = 'select';
-			$attributeData['swatch_input_type'] = 'visual';
-			$attributeData['update_product_preview_image'] = 1;
-			$attributeData['use_product_image_for_swatch'] = 1;
-			$attribute->addData($attributeData);
-			$attribute->save();
 		}
 		
 		$setup->endSetup();
