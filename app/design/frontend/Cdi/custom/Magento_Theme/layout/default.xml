@@ -10,6 +10,8 @@
 	</referenceBlock>
 	-->
 	<body>
+		<container name="wrapper-header-custom" as="header_custom" before="-" label="Page Header Container" htmlTag="div" htmlClass="wrapper header-wrapper"/>
+
 		<!--parametriza el logo por defecto de la página-->
 		<referenceBlock name="logo">
             <arguments>
