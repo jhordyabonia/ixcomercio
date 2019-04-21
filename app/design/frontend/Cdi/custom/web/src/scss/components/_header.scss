@@ -80,9 +80,11 @@ header{
         padding: 0 2em !important;
         margin: 0;
         &:hover{
-          > a, a.level-top{
-            color: #E73C3E;
-            transition: all .45s ease;
+          @media only screen and (min-width: 768px){
+            > a, a.level-top{
+              color: #E73C3E;
+              transition: all .45s ease;
+            } 
           }
         }
         &.level0 {
