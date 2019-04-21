@@ -80,7 +80,7 @@ header{
         padding: 0 2em !important;
         margin: 0;
         &:hover{
-          > a{
+          > a, a.level-top{
             color: #E73C3E;
             transition: all .45s ease;
           }
@@ -96,6 +96,7 @@ header{
             font-weight: 700;
             font-size: 18px;
             line-height: 30px;
+            padding: 0;
             border: 0;
           }
           ul{
