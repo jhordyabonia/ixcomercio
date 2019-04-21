@@ -77,7 +77,8 @@ header{
       }
       li{
         position: relative;
-        padding: 0 2em;
+        padding: 0 2em !important;
+        margin: 0;
         &:hover{
           > a{
             color: #E73C3E;
@@ -122,6 +123,7 @@ header{
         &.level0 {
           @media only screen and (min-width: 771px){
             display: inline-block;
+            margin: 0;
           }
         }
       }
