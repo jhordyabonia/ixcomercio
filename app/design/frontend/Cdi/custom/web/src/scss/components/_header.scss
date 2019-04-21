@@ -85,10 +85,17 @@ header{
           }
         }
         &.level0 {
-          > a {
+          &.active, &.has-active{
+            > a.level-top {
+              border: 0;
+            }
+          }
+          > a.level-top {
             text-transform: capitalize;
             font-weight: 700;
             font-size: 18px;
+            line-height: 30px;
+            border: 0;
           }
           ul{
             @media only screen and (min-width: 771px){
