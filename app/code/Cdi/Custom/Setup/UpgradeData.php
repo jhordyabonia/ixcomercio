@@ -13,6 +13,7 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Catalog\Setup\CategorySetupFactory;
 use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+use Magento\Catalog\Model\ResourceModel\Eav\Attribute as eavAttribute;
  
  
 class UpgradeData implements UpgradeDataInterface{
@@ -21,17 +22,20 @@ class UpgradeData implements UpgradeDataInterface{
 	private $attributeSet;
 	private $categorySetupFactory;
 	protected $_attributeSetCollection;
+	private $eavConfig;
  
    	public function __construct(
 		EavSetupFactory $eavSetupFactory, 
 		AttributeSetFactory $attributeSetFactory, 
 		CategorySetupFactory $categorySetupFactory,
-		\Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory $attributeSetCollection
+		\Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory $attributeSetCollection,
+		\Magento\Eav\Model\Config $eavConfig
 	){
 		$this->eavSetupFactory = $eavSetupFactory; 
 		$this->attributeSetFactory = $attributeSetFactory; 
 		$this->categorySetupFactory = $categorySetupFactory;
 		$this->_attributeSetCollection = $attributeSetCollection;
+		$this->eavConfig = $eavConfig;
 	} 
 	
  	public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context){
@@ -412,6 +416,32 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 		
+		if(version_compare($context->getVersion(), '1.0.12', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['color_swatch_att'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'int',
+				   'label' => 'Color',
+				   'input' => 'select',
+				   'required' => false,
+				   'user_defined' => true,
+				   'searchable' => true,
+				   'filterable' => true,
+				   'comparable' => true,
+				   'visible_in_advanced_search' => true,
+				   'apply_to' => 'simple',
+				   'is_used_in_grid' => true,
+				   'is_visible_in_grid' => false,
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 1,
+				)
+			);
+		}
+		
 		if(count($attsToAdd)){
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 			foreach($attsToAdd as $attcode => $data){
@@ -432,6 +462,18 @@ class UpgradeData implements UpgradeDataInterface{
 					);					
 				}				
 			}
+		}
+		
+		if(version_compare($context->getVersion(), '1.0.12', '<')){
+			$this->eavConfig->clear();
+			$attribute = $this->eavConfig->getAttribute('catalog_product', 'color_swatch_att');
+			if(!$attribute) return;
+			$attributeData['frontend_input'] = 'select';
+			$attributeData['swatch_input_type'] = 'visual';
+			$attributeData['update_product_preview_image'] = 1;
+			$attributeData['use_product_image_for_swatch'] = 1;
+			$attribute->addData($attributeData);
+			$attribute->save();
 		}
 		
 		$setup->endSetup();
