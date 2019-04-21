@@ -1,0 +1,91 @@
+.main-banner{
+  padding: 0;
+  .text-block-banner {
+    position: relative;
+  }
+  .text-overlay-banner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 70%;
+    text-align: center;
+    &.txt-right {
+      width: 50%;
+      right: 0;
+      transform: translateY(-50%) translateX(0%);
+    }
+    h1, h1 span{
+      font-family: 'Frankfurter W05 Regular';
+      font-weight: normal;
+      font-size: 6vw;
+      line-height: .9em;
+      margin-bottom: .1em;
+    }
+    p{
+      font-size: 1.5vw;
+      padding: 0 2em;
+      font-weight: normal;
+      line-height: 1.5em;
+    }
+  }
+}
+.category-products {
+  padding: 2em 0;
+}
+.category-callout{
+  img{
+    width: 90%;
+    margin: 0 auto;
+    padding: 15px 0;
+  }
+  h2{
+    font-weight: 700;
+    padding-top: 1em;
+  }
+  .cat-product-links {
+    li {
+      font-weight: 400;
+      font-size: 1.2em;
+      display: inline;
+      &:after{
+        content: "/";
+        padding: 0 1em;
+      }
+      &:last-child:after {
+        content: "";
+        padding: 0;
+      }
+    }
+  }
+}
+.category-features {
+  padding: 0 0 5em;
+}
+.feature-callout {
+  height: 400px;
+  padding: 3em 2em;
+  text-align: center;
+  img{
+    width: 100%;
+    max-width: 180px;
+    margin: 0 auto;
+    padding: 15px 0;
+  }
+  .callout-text {
+    padding: 0 0 2em;
+    max-width: 250px;
+    margin: 0 auto;
+    b{
+      font-size: 1.2em;
+    }
+    p{
+      font-size: 1em;
+      font-weight: 300;
+    }
+  }
+}
+.banner-fullwidth{
+  padding: 0;
+  max-height: 620px;
+}
