@@ -45,9 +45,13 @@ header{
       max-width: 160px;
     }
     img{
-      width: auto;
+      width: 100px;
       max-width: 100%;
       transition: all .5s ease;
+      margin: 0 auto;
+      @media only screen and (min-width: 771px){
+        width: auto;
+      }
       &:hover {
         opacity: 0;
       }
@@ -67,6 +71,7 @@ header{
     }
   }
   nav.navigation {
+    margin: 0;
     background: none;
     ul{
       display: block;
