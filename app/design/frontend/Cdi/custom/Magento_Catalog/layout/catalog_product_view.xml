@@ -10,13 +10,13 @@
 		<referenceContainer name="content">
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
 			<container name="product.essential" htmlTag="div" htmlClass="product-essential" before="-" />
-            <referenceContainer name="product.info.media" htmlClass="product-info_media col-md-7 col-12"/>
-                <block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" before="-" />
-                <block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
-            </referenceContainer>
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-md-5 col-12">
-				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" after="product-essential" />
+				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
+			<referenceContainer name="product.info.media" htmlClass="product-info_media col-md-7 col-12"/>
+    			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
+    			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
+		    </referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
@@ -30,8 +30,8 @@
 		* Mueve elementos
 		-->
 		<!--main-->
-		<move element="product.info.main" destination="product.essential" as="product.info.main" before="-"/>
-		<move element="product.info.sku" destination="product.info.main" as="product.info.sku" after="product.custom.name"/>
+        <move element="product.info.sku" destination="product.info.main" as="product.info.sku" before="-"/>
+		<move element="product.info.main" destination="product.essential" as="product.info.main" after="product.custom.name"/>
 		<move element="product.info.description" destination="product.info.main" as="product.info.description" after="product.info.price"/>
 		<!--media-->
 		<move element="product.info.media" destination="product.essential" as="product.info.media" after="product.info.main"/>
