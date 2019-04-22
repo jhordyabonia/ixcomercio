@@ -10,10 +10,20 @@
   .sticky-name, .sticky-price, .sticky-addto {
     font-size: 1.75em;
     display: inline;
+    color: #000;
   }
   .sticky-name{
     span {
       display: none;
+    }
+  }
+  .price-box {
+    margin: 0;
+    display: inline;
+    padding-right: 10px;
+    .price {
+      color: #333333;
+      font-size: 1.0em;
     }
   }
 }

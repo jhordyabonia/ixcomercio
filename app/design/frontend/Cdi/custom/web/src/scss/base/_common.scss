@@ -14,7 +14,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
 }
-body {
+body[data-container='body']{
   color: #333;
   font-size: 14px;
   background-color: white;
