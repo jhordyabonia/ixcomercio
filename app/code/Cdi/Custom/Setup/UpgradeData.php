@@ -370,28 +370,6 @@ class UpgradeData implements UpgradeDataInterface{
 					'sort_order' => 7,
 				)
 			);
-			$attsToAdd['product_attributes'] = array(
-				'entity' => \Magento\Catalog\Model\Product::ENTITY,
-				'attdata' => array(
-					'type' => 'varchar',
-					'label' => 'Extra attributes',
-					'backend' => '',
-					'input' => 'text',
-					'wysiwyg_enabled' => false,
-					'source' => '',
-					'required' => false,
-					'user_defined' => true,
-					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
-					'used_in_product_listing' => true,
-					'visible_on_front' => true,
-					'apply_to' => 'configurable',
-				),
-				'group' => array(
-					'attribute_set' => 'Jam',
-					'group' => 'Extra Attributes',
-					'sort_order' => 7,
-				)
-			);
 		}
 		
 		if(version_compare($context->getVersion(), '1.0.15', '<')){
@@ -416,6 +394,33 @@ class UpgradeData implements UpgradeDataInterface{
 					'attribute_set' => 'Jam',
 					'group' => 'Jam Attributes',
 					'sort_order' => 5,
+				)
+			);
+		}
+		
+		
+		if(version_compare($context->getVersion(), '1.0.16', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['product_attributes'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'text',
+					'label' => 'Extra attributes',
+					'backend' => '',
+					'input' => 'text',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'global' => \Magento\Catalog\Model\ResourceModel\Eav\Attribute::SCOPE_STORE,
+					'used_in_product_listing' => true,
+					'visible_on_front' => true,
+					'apply_to' => 'configurable',
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Extra Attributes',
+					'sort_order' => 7,
 				)
 			);
 		}

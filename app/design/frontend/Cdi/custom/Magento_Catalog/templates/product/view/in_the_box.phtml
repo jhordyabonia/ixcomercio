@@ -30,13 +30,17 @@
 			<div class="col-md-4 col-12" style="text-align: center;">
 				<h4><?php echo __('Support')?></h4>
 				<ul>
-					<li><a href="https://www.jamaudio.com/media/documents/jamaudio/instructionbooks/HX-P404_IB.pdf" target="doc_win">Instruction Book</a></li>
-					<li><a href="https://www.jamaudio.com/media/documents/jamaudio/quickstartguides/HX-P404_QSG.pdf" target="doc_win">Quick Start Guide</a></li>
+					<?php if($_product->getInstrucctions()): ?>
+						<li><a href="<?php echo $_product->getInstrucctions() ?>" target="_blank"><?php echo __('Instruction Book')?></a></li>
+					<?php endif;?>
+					<?php if($_product->getQuickstart()): ?>
+						<li><a href="<?php echo $_product->getQuickstart() ?>" target="_blank"><?php echo __('Quick Start Guide')?></a></li>
+					<?php endif;?>
 					<?php if($_product->getWarrantyLink() && ($title = $_helperCdi->getPage($_product->getWarrantyLink()))): ?>
-						<li><a href="<?php echo $_product->getWarrantyLink() ?>" target="doc_win"><?php echo $title;?></a></li>
+						<li><a href="<?php echo $_product->getWarrantyLink() ?>" target="_blank"><?php echo $title;?></a></li>
 					<?php endif;?>
 					<?php if($_product->getRegisterJam() && ($title = $_helperCdi->getPage($_product->getRegisterJam()))): ?>
-						<li><a href="<?php echo $_product->getRegisterJam() ?>" target="doc_win"><?php echo $title;?></a></li>
+						<li><a href="<?php echo $_product->getRegisterJam() ?>" target="_blank"><?php echo $title;?></a></li>
 					<?php endif;?>
 				</ul>
 				<br />

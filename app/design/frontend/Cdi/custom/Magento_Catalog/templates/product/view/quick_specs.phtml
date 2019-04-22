@@ -24,7 +24,7 @@ if($atts){
 					<?php if($_product->getHeight()): ?><li><?php echo __('Height:')?> <?= $_product->getHeight() ?></li><?php endif;?>
 					<?php if($_product->getWidth()): ?><li><?php echo __('Width:')?> <?= $_product->getWidth() ?></li><?php endif;?>
 					<?php if($_product->getDepth()): ?><li><?php echo __('Depth:')?> <?= $_product->getDepth() ?></li><?php endif;?>
-					<?php if($_product->getWeight()): ?><li><?php echo __('Weight:')?> <?= $_product->getWeight() ?></li><?php endif;?>
+					<?php if($_product->getWeight()): ?><li><?php echo __('Weight:')?> <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?></li><?php endif;?>
 				</ul>
 			</div>
 		</div>
