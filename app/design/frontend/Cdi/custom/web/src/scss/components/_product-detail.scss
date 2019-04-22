@@ -1,0 +1,27 @@
+.sticky-product-nav{
+  position: sticky;
+  top: 0;
+  z-index: 150;
+  opacity: 0.95;
+  .fullwidth{
+    background: #eee;
+    padding: 30px 0;
+  }
+  .sticky-name, .sticky-price, .sticky-addto {
+    font-size: 1.75em;
+    display: inline;
+  }
+  .sticky-name{
+    span {
+      display: none;
+    }
+  }
+}
+ul.sticky-sections {
+  display: inline-block;
+  font-size: 16px;
+  li{
+    display: inline;
+    padding-right: 2em;
+  }
+}
