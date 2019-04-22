@@ -96,7 +96,6 @@ function clearData(){
 
 
 $(document).ready(function(){
-	console.log("test cache");
 	$(".section-main-slider .owl-carousel").owlCarousel({
 		items:1,
 		dots: false,
