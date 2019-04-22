@@ -70,3 +70,32 @@ atlassian*
 
 #deploy file
 deploy/
+
+.github 
+bin/ 
+dev/ 
+auth.json.sample 
+CHANGELOG.md 
+composer.json 
+composer.lock 
+COPYING.txt 
+dev/
+generated/ 
+grunt-config.json.sample/
+Gruntfile.js.sample/
+.htaccess 
+.htaccess.sample 
+lib 
+LICENSE* 
+nginx.conf.sample 
+package.json.sample 
+.php_cs.dist 
+php.ini.sample 
+phpserver/ 
+pub/ 
+README_EE.md setup/ 
+.travis.yml 
+update/ 
+.user.ini 
+var/ 
+vendor/
