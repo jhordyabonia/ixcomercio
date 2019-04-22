@@ -70,6 +70,12 @@ section{
 .container-fluid{
   max-width: 1320px;
 }
+.page-wrapper {
+  .page-main{
+    padding: 0;
+    max-width: 100%;
+  }
+}
 .fullwidth {
   width: 100vw;
   position: relative;
