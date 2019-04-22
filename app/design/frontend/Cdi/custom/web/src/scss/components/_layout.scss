@@ -22,6 +22,11 @@
       right: 0;
       transform: translateY(-50%) translateX(0%);
     }
+    &.banner-text-left {
+      width: 50%;
+      left: 0;
+      transform: translateY(-50%) translateX(0%);
+    }
     h1, h1 span{
       font-family: 'Frankfurter W05 Regular';
       font-weight: normal;
