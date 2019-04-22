@@ -16,15 +16,17 @@ class Data extends AbstractHelper{
 		$fields = array();
         $atss = json_decode($json);
 		$data = array();
-		foreach($atss as $val){
-			//inicia un nuevo array
-			if($val->name == 'title'){
-				if(!empty($data)) $fields[] = $data;
-				$data = array('type' => 'data');
+		if(is_array($atss)){
+			foreach($atss as $val){
+				//inicia un nuevo array
+				if($val->name == 'title'){
+					if(!empty($data)) $fields[] = $data;
+					$data = array('type' => 'data');
+				}
+				$data[$val->name] = $val->value;
 			}
-			$data[$val->name] = $val->value;
+			$fields[] = $data;
 		}
-		$fields[] = $data;
 		return $fields;
     }
 	
