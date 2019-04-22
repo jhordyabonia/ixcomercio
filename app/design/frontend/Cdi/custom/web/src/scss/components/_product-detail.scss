@@ -29,10 +29,14 @@
   }
 }
 ul.sticky-sections {
-  display: inline-block;
   font-size: 16px;
+  display: inline-block;
+  margin: 0;
   li{
     display: inline;
     padding-right: 2em;
   }
+}
+.product-essential{
+  margin: 30px 0;
 }
