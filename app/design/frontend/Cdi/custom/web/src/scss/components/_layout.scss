@@ -1,4 +1,11 @@
+.page-wrapper {
+  .page-main{
+    padding: 0;
+    max-width: 100%;
+  }
+}
 .main-banner{
+  width: 100%;
   padding: 0;
   .text-block-banner {
     position: relative;
@@ -10,9 +17,14 @@
     transform: translateX(-50%) translateY(-50%);
     width: 70%;
     text-align: center;
-    &.txt-right {
+    &.banner-text-right {
       width: 50%;
       right: 0;
+      transform: translateY(-50%) translateX(0%);
+    }
+    &.banner-text-left {
+      width: 50%;
+      left: 0;
       transform: translateY(-50%) translateX(0%);
     }
     h1, h1 span{
