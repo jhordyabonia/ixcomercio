@@ -82,14 +82,14 @@ header{
       }
       li{
         position: relative;
-        padding: 0 2em !important;
+        padding: 0 2em;
         margin: 0;
         &:hover{
           @media only screen and (min-width: 768px){
             &.level0.active a.level-top, &.level0.has-active a.level-top, > a, a.level-top{
               color: #E73C3E;
               transition: all .45s ease;
-            } 
+            }
           }
         }
         &.level0 {
