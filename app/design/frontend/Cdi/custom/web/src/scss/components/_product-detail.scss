@@ -215,6 +215,9 @@ ul.sticky-sections {
             width: 100%;
             white-space: normal;
             border-radius: 20px;
+            &:hover{
+              background: #e42528;
+            }
           }
         }
       }
