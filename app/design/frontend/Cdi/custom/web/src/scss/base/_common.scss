@@ -175,3 +175,9 @@ input.input-text, select, textarea {
     overflow: hidden;
   }
 }
+h1, .h1{
+  margin: 0;
+  font-style: normal;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+}
