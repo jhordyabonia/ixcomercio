@@ -42,8 +42,9 @@
 			}else{
 				element = $('.product-essential').next();
 			}
+			stick = $('.sticky-product-nav').outerHeight();
 			$('html,body').animate({
-				scrollTop: element.offset().top
+				scrollTop: element.offset().top - stick
 			}, 'slow');
 			
 		});
