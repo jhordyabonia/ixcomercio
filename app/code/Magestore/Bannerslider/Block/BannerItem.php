@@ -224,4 +224,8 @@ class BannerItem extends \Magento\Framework\View\Element\Template{
     {
         return 'magestore-bannerslider-flex-slider-'.$this->getSlider()->getId().$this->_stdlibDateTime->gmtTimestamp();
     }
+	
+	public function cleanCss($string){
+		return strip_tags($string);
+	}
 }

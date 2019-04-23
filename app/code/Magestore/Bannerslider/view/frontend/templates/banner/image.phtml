@@ -1,8 +1,20 @@
 <?php 
 $banner = $this->getBanner(); 
 $color = ($banner->getFontColor() != '') ? $banner->getFontColor() : '#ffffff';
+$bannerClass = $banner->getBannerClass();
+$isFullWidth = false;
+if($bannerClass){
+	$isFullWidth = strpos($bannerClass, 'fullwidth');
+	$isFullWidth = ($isFullWidth !== false);
+}
 ?>
-<section id="banner-image-<?php echo $banner->getId();?>" class="<?php echo $banner->getBannerClass();?>">
+<section 
+	id="banner-image-<?php echo $banner->getId();?>" 
+	class="<?php echo $banner->getBannerClass();?>" 
+	<?php if($isFullWidth && $banner->getImage()){ ?>
+		style="background: url('<?php echo $this->getBannerImageUrl($banner);?>') no-repeat center center transparent; background-size: cover;"
+	<?php } ?>
+>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-12">
@@ -20,7 +32,9 @@ $color = ($banner->getFontColor() != '') ? $banner->getFontColor() : '#ffffff';
 								<?php } ?>
 							</div>
 						<?php } ?>
-						<img src="<?php echo $this->getBannerImageUrl($banner);?>" alt="<?php echo $banner->getImageAlt()?>" />
+						<?php if(!$isFullWidth && $banner->getImage()){ ?>
+							<img src="<?php echo $this->getBannerImageUrl($banner);?>" alt="<?php echo $banner->getImageAlt()?>" />
+						<?php } ?>
 					</div>
 				<?php if($banner->getClickUrl()){ ?>
 					</a>
@@ -30,5 +44,5 @@ $color = ($banner->getFontColor() != '') ? $banner->getFontColor() : '#ffffff';
 	</div>
 </section>
 <?php if($banner->getBannerCss()){ ?>
-	<style><?php echo $banner->getBannerCss() ?></style>
+	<style><?php echo $this->cleanCss($banner->getBannerCss()) ?></style>
 <?php } ?>
