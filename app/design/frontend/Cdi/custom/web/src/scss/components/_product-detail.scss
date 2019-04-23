@@ -166,6 +166,9 @@ ul.sticky-sections {
             @media only screen and (min-width: 768px){
               display: block;
             }
+            .label, .control{
+              display: inline-block;
+            }
             .control{
               input{
                 width: 3em;
