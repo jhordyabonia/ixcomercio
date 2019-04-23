@@ -75,6 +75,25 @@ ul.sticky-sections {
         font-weight: normal;
         font-size: 52px;
         margin-bottom: 5px;
+        span{
+          font-family: 'Roboto';
+          font-weight: 500;
+        }
+      }
+    }
+    .sku {
+      padding: 1em 0;
+      color: #c3c5c4;
+    }
+    .product-info-price{
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .product.description {
+      margin-bottom: 10px;
+      clear: both;
+      @media only screen and (min-width: 600px){
+        display: block;
       }
     }
   }
@@ -83,6 +102,13 @@ ul.sticky-sections {
       .h1{
         color: #000000;
         border: 0;
+        span{
+          display: block;
+          font-size: .4em;
+          p{
+            margin: 0;
+          }
+        }
       }
     }
   }

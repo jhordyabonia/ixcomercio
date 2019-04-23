@@ -8,9 +8,8 @@
 			</container>
 		</referenceContainer>
 		<referenceContainer name="content">
-            <container name="product.view" htmlTag="div" htmlClass="product-view" before="-" />
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
-			<container name="product.essential" htmlTag="div" htmlClass="product-essential" before="product.view" />
+			<container name="product.essential" htmlTag="div" htmlClass="product-essential" before="-" />
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-md-5 col-12 pull-left">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>

@@ -125,3 +125,14 @@
   padding-bottom: 3px;
   text-transform: capitalize;
 }
+.available {
+  margin-bottom: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  .stock{
+    color: #11B400;
+  }
+  .out-of-stock {
+    color: #DF280A;
+  }
+}
