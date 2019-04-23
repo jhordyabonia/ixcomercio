@@ -19,3 +19,6 @@ $color = ($banner->getFontColor() != '') ? $banner->getFontColor() : '#ffffff';
 		</div>
 	</div>
 </section>
+<?php if($banner->getBannerCss()){ ?>
+	<style><?php echo $this->cleanCss($banner->getBannerCss()) ?></style>
+<?php } ?>
