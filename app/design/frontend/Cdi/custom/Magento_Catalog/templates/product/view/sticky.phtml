@@ -20,16 +20,22 @@
 					<div class="sticky-price">
 						<?= $block->getChildHtml('product.price.final') ?>
 					</div>
+					<div class="sticky-addto">
+						<button class="button btn-cart">
+							<span><span><a href="#buybox"> + </a></span></span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<a id="buybox" name="buybox"></a>
 <script>
     require(['jquery'], function($){
 		//en este js cargar las opciones del sticky-sections
         //console.log('product page js ');
-		$(".sticky-sections li a").click(function(e){
+		$(".sticky-sections li a, .sticky-addto a").click(function(e){
 			e.preventDefault();
 			var href = $(this).attr('href');
 			if('#features' != href){
