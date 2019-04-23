@@ -129,10 +129,10 @@
   margin-bottom: 0;
   font-size: 13px;
   text-transform: uppercase;
-  .stock{
+  &.stock{
     color: #11B400;
   }
-  .out-of-stock {
+  &.out-of-stock {
     color: #DF280A;
   }
 }
