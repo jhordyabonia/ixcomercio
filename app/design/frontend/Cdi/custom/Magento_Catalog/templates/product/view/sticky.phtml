@@ -20,6 +20,11 @@
 					<div class="sticky-price">
 						<?= $block->getChildHtml('product.price.final') ?>
 					</div>
+					<div class="sticky-addto">
+						<button class="button btn-cart">
+							<span><span><a href="#features"> + </a></span></span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -29,7 +34,7 @@
     require(['jquery'], function($){
 		//en este js cargar las opciones del sticky-sections
         //console.log('product page js ');
-		$(".sticky-sections li a").click(function(e){
+		$(".sticky-sections li a, .sticky-addto a").click(function(e){
 			e.preventDefault();
 			var href = $(this).attr('href');
 			if('#features' != href){
@@ -37,8 +42,9 @@
 			}else{
 				element = $('.product-essential').next();
 			}
+			stick = $('.sticky-product-nav').outerHeight();
 			$('html,body').animate({
-				scrollTop: element.offset().top
+				scrollTop: element.offset().top - stick
 			}, 'slow');
 			
 		});

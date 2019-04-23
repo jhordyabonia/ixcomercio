@@ -398,8 +398,7 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
             [
                 'title' => __('Banner custom CSS'),
                 'label' => __('Banner custom CSS'),
-                'name' => 'banner_css',
-                'config' => $wysiwygConfig
+                'name' => 'banner_css'
             ]
         );
 
