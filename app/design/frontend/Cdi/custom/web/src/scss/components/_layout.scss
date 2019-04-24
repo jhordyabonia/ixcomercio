@@ -179,3 +179,21 @@
     position: absolute;
   }
 }
+.feature-icons {
+    clear: both;
+    li{
+      display: inline;
+      float: left;
+      width: 20%;
+      text-align: center;
+      margin: 30px 0;
+      padding: 15px;
+      line-height: 1.2em;
+      min-height: 235px;
+      font-weight: 100;
+    }
+    img{
+      height: 150px;
+      width: auto;
+    }
+}
