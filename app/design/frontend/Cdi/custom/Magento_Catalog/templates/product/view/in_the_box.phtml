@@ -2,9 +2,9 @@
 <?php $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');?>
 <?php $_product = $block->getProduct(); ?>
 <section class="product-box fullwidth frame bkg-pattern shatter-shiro-dark" id="product-in-box">
-	<h3><?php echo __('In the Box')?></h3>
 	<div class="container" style="background-color: white;">
 		<div class="row">
+			<h3><?php echo __('In the Box')?></h3>
 			<div class="col-md-4 col-12">
 				<?php if($image = $_helperCdi->getCustomProductImage($_product, 'thebox_img1')){ ?>
 					<?php $productImage1 = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thebox_img1')->setImageFile($image);?>
