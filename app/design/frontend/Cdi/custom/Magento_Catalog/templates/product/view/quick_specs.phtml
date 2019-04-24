@@ -31,8 +31,9 @@ if($atts){
 		<?php if(count($fields)){ ?>
 			<?php $colsm = $_helperCdi->getColumnsBt(count($fields));?>
 			<div class="row">
+				<ul class="feature-icons">
 				<?php foreach($fields as $field){ ?>
-					<div class="col-md-<?php echo $colsm?> col-xs-6 feature-callout">
+					<li>
 						<img src="<?php echo $this->getViewFileUrl("images/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
 						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
 							<div class="callout-text">
@@ -44,8 +45,9 @@ if($atts){
 								<?php } ?>
 							</div>
 						<?php } ?>
-					</div>
+					</li>
 				<?php } ?>
+				</ul>
 			</div>
 		<?php } ?>
 	</div>
