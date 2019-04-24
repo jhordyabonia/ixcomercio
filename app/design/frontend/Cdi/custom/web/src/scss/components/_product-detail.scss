@@ -135,7 +135,7 @@ ul.sticky-sections {
             &:first-child{
               margin-left: 0;
             }
-            &:not(.disabled):hover{
+            &:not( .disabled ):hover{
               outline: none;
               &:after{
                 display: block;
@@ -206,11 +206,10 @@ ul.sticky-sections {
             text-align: center;
             text-transform: uppercase;
             vertical-align: middle;
-            white-space: nowrap;
             min-height: 40px;
             line-height: 40px;
             font-size: 16px;
-            padding: 0px 30px;
+            padding: 0 30px;
             float: left;
             min-width: 160px;
             width: 100%;
