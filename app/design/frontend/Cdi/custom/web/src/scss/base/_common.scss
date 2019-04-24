@@ -21,7 +21,6 @@ body[data-container='body']{
   text-align: center;
   font-family: 'Roboto', sans-serif;
   line-height: 2;
-  background-color: red!important;
 }
 ul, ol {
   list-style: none;
@@ -54,6 +53,7 @@ button:focus {
 section{
   width: 100%;
   padding: 20px 0;
+  float: left;
   &.section-main-slider{
     padding-top: 0;
   }
@@ -175,4 +175,10 @@ input.input-text, select, textarea {
     text-indent: -999px;
     overflow: hidden;
   }
+}
+h1, .h1{
+  margin: 0;
+  font-style: normal;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
 }

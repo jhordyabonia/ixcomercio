@@ -106,6 +106,9 @@ header{
             line-height: 30px;
             padding: 0;
             border: 0;
+            @media only screen and (min-width: 768px){
+              color: #000;
+            }
           }
           ul{
             @media only screen and (min-width: 771px){

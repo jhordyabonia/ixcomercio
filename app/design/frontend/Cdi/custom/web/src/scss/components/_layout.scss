@@ -2,11 +2,19 @@
   .page-main{
     padding: 0;
     max-width: 100%;
+    > .columns{
+      float: left;
+      width: 100%;
+    }
   }
 }
 .main-banner{
   width: 100%;
   padding: 0;
+  float: left;
+  &.frame{
+    padding: 60px;
+  }
   .text-block-banner {
     position: relative;
   }
@@ -100,4 +108,50 @@
 .banner-fullwidth{
   padding: 0;
   max-height: 620px;
+  height: 240px;
+  float: left;
+  @media only screen and (min-width: 768px){
+    height: 400px;
+  }
+  @media only screen and (min-width: 1280px){
+    height: 620px;
+  }
+}
+.button, .cart-table .product-cart-actions .button, #co-shipping-method-form .buttons-set .button, .footer .button{
+  background: #E73C3E;
+  display: inline-block;
+  padding: 7px 15px;
+  border: 0;
+  color: #fff;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 19px;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+  &:hover{
+    color: #fff;
+    background: #e42528;
+    cursor: pointer;
+    border: 0;
+  }
+}
+.page-title h1, .page-title h2, .product-name h1, .product-name .h1{
+  padding-bottom: 3px;
+  text-transform: capitalize;
+}
+.available {
+  margin-bottom: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  &.stock{
+    color: #11B400;
+  }
+  &.out-of-stock {
+    color: #DF280A;
+  }
+}
+.gallery-placeholder .loader img{
+  width: auto;
 }
