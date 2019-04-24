@@ -127,10 +127,11 @@
     height: 620px;
   }
   .text-block-banner{
+    width: 50%;
     position: relative;
     padding-top: 50%;
-    width: 50%;
     text-align: center;
+    float: right;
     .text-overlay-banner{
       width: 80%;
       left: 10%;
