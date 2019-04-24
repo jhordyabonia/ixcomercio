@@ -217,4 +217,27 @@
       height: 150px;
       width: auto;
     }
+    .callout-text{
+      font-weight: 400;
+    }
+}
+.product-box .box-list {
+  ul{
+    text-align: center;
+    line-height: 1.2em;
+    margin-bottom: 30px;
+    li{
+      display: inline;
+      font-weight: 100;
+      font-size: 0.9em;
+      &:after{
+        content: "|";
+        padding: 0 0.5em;
+      }
+      &:last-child:after {
+        content: "";
+        padding: 0;
+      }
+    }
+  }
 }
