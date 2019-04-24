@@ -143,7 +143,7 @@ class BannerItem extends \Magento\Framework\View\Element\Template{
      * @return
      */
     protected function _toHtml(){
-        if($this->_banner->getStatus() === Status::STATUS_DISABLED || !$this->_banner->getId()){
+        if($this->_banner && $this->_banner->getStatus() === Status::STATUS_DISABLED || !$this->_banner->getId()){
             return '';
         }
         return parent::_toHtml();
