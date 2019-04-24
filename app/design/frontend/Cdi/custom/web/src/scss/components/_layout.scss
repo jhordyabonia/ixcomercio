@@ -2,6 +2,10 @@
   .page-main{
     padding: 0;
     max-width: 100%;
+    > columns{
+      float: left;
+      width: 100%;
+    }
   }
 }
 .main-banner{
