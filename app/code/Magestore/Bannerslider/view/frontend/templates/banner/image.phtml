@@ -12,7 +12,11 @@ if($bannerClass){
 	id="banner-image-<?php echo $banner->getId();?>" 
 	class="<?php echo $banner->getBannerClass();?>" 
 	<?php if($isFullWidth && $banner->getImage()){ ?>
-		style="background: url('<?php echo $this->getBannerImageUrl($banner);?>') no-repeat center center transparent; background-size: cover;"
+		<?php 
+			$image = $this->getBannerImageUrl($banner); // imagen desktop
+			$respImage = ($banner->getImageresp()) ? $this->getBannerImageUrl($banner, 'responsive') : $image; //imagen mobile
+		?>
+		style="background: url('<?php echo $image;?>') no-repeat center center transparent; background-size: cover;"
 	<?php } ?>
 >
 	<div class="container">
@@ -33,7 +37,14 @@ if($bannerClass){
 							</div>
 						<?php } ?>
 						<?php if(!$isFullWidth && $banner->getImage()){ ?>
-							<img src="<?php echo $this->getBannerImageUrl($banner);?>" alt="<?php echo $banner->getImageAlt()?>" />
+							<picture>
+								<?php 
+								$image = $this->getBannerImageUrl($banner); // imagen desktop
+								$respImage = ($banner->getImageresp()) ? $this->getBannerImageUrl($banner, 'responsive') : $image; //imagen mobile
+								?>
+								<source media="(max-width: 650px)" srcset="<?php echo $respImage;?>">
+								<img src="<?php echo $image;?>" alt="<?php echo $banner->getImageAlt()?>" />
+							</picture>
 						<?php } ?>
 					</div>
 				<?php if($banner->getClickUrl()){ ?>

@@ -143,6 +143,7 @@ class BannerItem extends \Magento\Framework\View\Element\Template{
      * @return
      */
     protected function _toHtml(){
+		if(!isset($this->_banner) || !$this->_banner) return '';
         if($this->_banner->getStatus() === Status::STATUS_DISABLED || !$this->_banner->getId()){
             return '';
         }
@@ -157,8 +158,12 @@ class BannerItem extends \Magento\Framework\View\Element\Template{
      *
      * @return string
      */
-    public function getBannerImageUrl(\Magestore\Bannerslider\Model\Banner $banner){
-        return $this->_bannersliderHelper->getBaseUrlMedia($banner->getImage());
+    public function getBannerImageUrl(\Magestore\Bannerslider\Model\Banner $banner, $type = 'image'){
+		if($type == 'image'){
+			return $this->_bannersliderHelper->getBaseUrlMedia($banner->getImage());
+		}else{
+			return $this->_bannersliderHelper->getBaseUrlMedia($banner->getImageresp());
+		}
     }
 	
 	/*

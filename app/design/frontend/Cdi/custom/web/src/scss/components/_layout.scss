@@ -2,9 +2,13 @@
   .page-main{
     padding: 0;
     max-width: 100%;
+    > .columns{
+      float: left;
+      width: 100%;
+    }
   }
 }
-.main-banner{
+.banner{
   width: 100%;
   padding: 0;
   float: left;
@@ -34,15 +38,25 @@
     h1, h1 span{
       font-family: 'Frankfurter W05 Regular';
       font-weight: normal;
-      font-size: 6vw;
+      font-size: 72px;
       line-height: .9em;
       margin-bottom: .1em;
     }
     p{
-      font-size: 1.5vw;
+      font-size: 16px;
       padding: 0 2em;
       font-weight: normal;
       line-height: 1.5em;
+    }
+  }
+  &.main-banner{
+    .text-overlay-banner {
+      h1, h1 span, h2, h2 span{
+        font-size: 6vw;  
+      }
+      p{
+        font-size: 1.5vw;
+      }
     }
   }
 }
@@ -106,6 +120,35 @@
 .banner-fullwidth{
   padding: 0;
   max-height: 620px;
+  height: 240px;
+  float: left;
+  @media only screen and (min-width: 768px){
+    height: 400px;
+  }
+  @media only screen and (min-width: 1280px){
+    height: 620px;
+  }
+  .text-block-banner{
+    width: 50%;
+    position: relative;
+    padding-top: 50%;
+    text-align: center;
+    float: right;
+    .text-overlay-banner{
+      width: 80%;
+      left: 10%;
+      h1{
+        font-size: 7vw;
+      }
+    }
+    .text-overlay-banner{
+      p{
+        font-size: 1.5vw;
+        font-weight: normal;
+        line-height: 1.5em;
+      }
+    }
+  }
 }
 .button, .cart-table .product-cart-actions .button, #co-shipping-method-form .buttons-set .button, .footer .button{
   background: #E73C3E;
@@ -144,4 +187,59 @@
 }
 .gallery-placeholder .loader img{
   width: auto;
+}
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+  iframe{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 96%;
+    position: absolute;
+  }
+}
+.feature-icons {
+    clear: both;
+    li{
+      display: inline;
+      float: left;
+      width: 20%;
+      text-align: center;
+      margin: 30px 0;
+      padding: 15px;
+      line-height: 1.2em;
+      min-height: 235px;
+      font-weight: 100;
+    }
+    img{
+      height: 150px;
+      width: auto;
+    }
+    .callout-text{
+      font-weight: 400;
+    }
+}
+.product-box .box-list {
+  ul{
+    text-align: center;
+    line-height: 1.2em;
+    margin-bottom: 30px;
+    li{
+      display: inline;
+      font-weight: 300;
+      font-size: 0.9em;
+      &:after{
+        content: "|";
+        padding: 0 0.5em;
+      }
+      &:last-child:after {
+        content: "";
+        padding: 0;
+      }
+    }
+  }
 }

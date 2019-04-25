@@ -304,6 +304,17 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'note' => 'Allow image type: jpg, jpeg, gif, png',
             ]
         );
+		
+		$elements['imageresp'] = $fieldset->addField(
+            'imageresp',
+            'image',
+            [
+                'title' => __('Responsive Banner Image'),
+                'label' => __('Responsive Banner Image'),
+                'name' => 'imageresp',
+                'note' => 'Allow image type: jpg, jpeg, gif, png',
+            ]
+        );
 
         $dateFormat = 'M/d/yyyy';
         $timeFormat = 'h:mm a';
