@@ -47,7 +47,7 @@ class Save extends \Magestore\Bannerslider\Controller\Adminhtml\Banner
             if ($id = $this->getRequest()->getParam(static::PARAM_CRUD_ID)) {
                 $model->load($id);
             }
-
+			//IMAGE
             $imageRequest = $this->getRequest()->getFiles('image');
             if ($imageRequest) {
                 if (isset($imageRequest['name'])) {
@@ -96,6 +96,59 @@ class Save extends \Magestore\Bannerslider\Controller\Adminhtml\Banner
                         $data['image'] = $data['image']['value'];
                     } else {
                         $data['image'] = null;
+                    }
+                }
+            }
+			
+			//IMAGE RESP
+            $imageRequest = $this->getRequest()->getFiles('imageresp');
+            if ($imageRequest) {
+                if (isset($imageRequest['name'])) {
+                    $fileName = $imageRequest['name'];
+                } else {
+                    $fileName = '';
+                }
+            } else {
+                $fileName = '';
+            }
+
+            if ($imageRequest && strlen($fileName)) {
+                /*
+                 * Save image upload
+                 */
+                try {
+                    $uploader = $this->_uploaderFactory->create(['fileId' => 'imageresp']);
+
+                    $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+
+                    /** @var \Magento\Framework\Image\Adapter\AdapterInterface $imageAdapter */
+                    $imageAdapter = $this->_adapterFactory->create();
+
+                    $uploader->addValidateCallback('banner_image', $imageAdapter, 'validateUploadFile');
+                    $uploader->setAllowRenameFiles(true);
+                    $uploader->setFilesDispersion(true);
+
+                    /** @var \Magento\Framework\Filesystem\Directory\Read $mediaDirectory */
+                    $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')
+                        ->getDirectoryRead(DirectoryList::MEDIA);
+                    $result = $uploader->save(
+                        $mediaDirectory->getAbsolutePath(\Magestore\Bannerslider\Model\Banner::BASE_MEDIA_PATH)
+                    );
+                    $data['imageresp'] = \Magestore\Bannerslider\Model\Banner::BASE_MEDIA_PATH.$result['file'];
+                } catch (\Exception $e) {
+                    if ($e->getCode() == 0) {
+                        $this->messageManager->addError($e->getMessage());
+                    }
+                }
+            } else {
+                if (isset($data['imageresp']) && isset($data['imageresp']['value'])) {
+                    if (isset($data['imageresp']['delete'])) {
+                        $data['imageresp'] = null;
+                        $data['delete_imageresp'] = true;
+                    } elseif (isset($data['imageresp']['value'])) {
+                        $data['imageresp'] = $data['imageresp']['value'];
+                    } else {
+                        $data['imageresp'] = null;
                     }
                 }
             }

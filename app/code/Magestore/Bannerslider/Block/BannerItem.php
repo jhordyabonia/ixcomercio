@@ -158,8 +158,12 @@ class BannerItem extends \Magento\Framework\View\Element\Template{
      *
      * @return string
      */
-    public function getBannerImageUrl(\Magestore\Bannerslider\Model\Banner $banner){
-        return $this->_bannersliderHelper->getBaseUrlMedia($banner->getImage());
+    public function getBannerImageUrl(\Magestore\Bannerslider\Model\Banner $banner, $type = 'image'){
+		if($type == 'image'){
+			return $this->_bannersliderHelper->getBaseUrlMedia($banner->getImage());
+		}else{
+			return $this->_bannersliderHelper->getBaseUrlMedia($banner->getImageresp());
+		}
     }
 	
 	/*
