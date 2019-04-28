@@ -1,14 +1,16 @@
 var config = {
     paths: {
-		'bootstrap':'Magento_Theme/js/bootstrap.bundle',
-		'mainjs': ['js/main.min.js']
+    	"*": {
+	    	"bootstrap": "Magento_Theme/js/bootstrap.bundle",
+	      	"mainJs": "Magento_Theme/js/main.min"
+	    }]
     } ,
     shim: {
-        'bootstrap': {
-            'deps': ['jquery']
+        "bootstrap": {
+            "deps": ["jquery"]
         },
-        'customjs': {
-        	'deps': ['jquery']  
+        "mainJs": {
+        	"deps": ['jquery']  
         }
     }
 };
