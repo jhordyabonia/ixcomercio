@@ -37,9 +37,5 @@
 		<referenceContainer name="footer-container-custom">
 			<block class="Magento\Theme\Block\Html\Footer" name="footer" template="html/footer.phtml"/>
 		</referenceContainer>
-
-		<!--Custom Js-->
-		<link src="js/main.min.js"/>
-		
     </body>
 </page>
