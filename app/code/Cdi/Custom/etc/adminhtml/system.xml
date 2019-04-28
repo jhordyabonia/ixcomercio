@@ -19,6 +19,10 @@
 				<field id="contacts" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Contact</label>
                 </field>
+				<field id="custom_disable_checkout" translate="label" type="select" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Sales enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
             </group>
         </section>
     </system>

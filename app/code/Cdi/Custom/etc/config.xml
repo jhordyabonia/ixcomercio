@@ -3,11 +3,12 @@
     <default>
         <general>
             <store_information>
-                <disclaimer>1</disclaimer>
+                <disclaimer></disclaimer>
                 <sitemap>sitemap</sitemap>
                 <privacypolicy>privacy-policy</privacypolicy>
                 <termsofuse>terms-of-use</termsofuse>
                 <contacts>contacts</contacts>
+                <custom_disable_checkout>0</custom_disable_checkout>
             </store_information>
         </general>
     </default>
