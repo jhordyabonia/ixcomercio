@@ -5,6 +5,9 @@ var config = {
     shim: {
         'bootstrap': {
             'deps': ['jquery']
+        },
+        'customjs': {
+            'mainjs': ['js/main.min.js']
         }
     }
 };
