@@ -8,17 +8,7 @@ if($bannerClass){
 	$isFullWidth = ($isFullWidth !== false);
 }
 ?>
-<section 
-	id="banner-image-<?php echo $banner->getId();?>" 
-	class="<?php echo $banner->getBannerClass();?>" 
-	<?php if($isFullWidth && $banner->getImage()){ ?>
-		<?php 
-			$image = $this->getBannerImageUrl($banner); // imagen desktop
-			$respImage = ($banner->getImageresp()) ? $this->getBannerImageUrl($banner, 'responsive') : $image; //imagen mobile
-		?>
-		style="background: url('<?php echo $image;?>') no-repeat center center transparent; background-size: cover;"
-	<?php } ?>
->
+<section id="banner-image-<?php echo $banner->getId();?>" class="<?php echo $banner->getBannerClass();?> <?php echo ($isFullWidth) ? 'banner-background' : '';?>">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-12">
@@ -54,6 +44,22 @@ if($bannerClass){
 		</div>
 	</div>
 </section>
-<?php if($banner->getBannerCss()){ ?>
-	<style><?php echo $this->cleanCss($banner->getBannerCss()) ?></style>
+<?php if($banner->getBannerCss()){ ?><style><?php echo $this->cleanCss($banner->getBannerCss()) ?></style><?php } ?>
+<?php if($isFullWidth && $banner->getImage()){ ?>
+	<?php 
+		$image = $this->getBannerImageUrl($banner); // imagen desktop
+		$respImage = ($banner->getImageresp()) ? $this->getBannerImageUrl($banner, 'responsive') : $image; //imagen mobile
+	?>
+	<style>
+		#banner-image-<?php echo $banner->getId();?>.banner-background{
+			background: url('<?php echo $image;?>') no-repeat center center transparent; 
+			background-size: cover;
+		}
+		@media (max-width: 650px) {
+			#banner-image-<?php echo $banner->getId();?>.banner-background{
+				background: url('<?php echo $respImage;?>') no-repeat center center transparent; 
+				background-size: cover;
+			}
+		}
+	</style>
 <?php } ?>
