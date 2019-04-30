@@ -118,6 +118,17 @@ header{
             &:last-child{
               border: 0;
             }
+            ul.submenu{
+              border: 0;
+              a{
+                font-size: 14px;
+                padding: 0 15px 0 25px;
+                border-bottom: 1px solid #CCCCCC;
+              }
+            }
+            li{
+              padding: 0 0 0 25px;
+            }
           }
           &.active, &.has-active{
             > a.level-top {
