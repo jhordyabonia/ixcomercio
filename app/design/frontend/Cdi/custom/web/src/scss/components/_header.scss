@@ -16,6 +16,10 @@ header{
       padding: 0;
     }
     .nav-sections{
+      left: 0;
+      height: auto;
+      position: relative;
+      box-shadow: none;
       background: none;
       margin: 0;
       @media only screen and (min-width: 771px){
