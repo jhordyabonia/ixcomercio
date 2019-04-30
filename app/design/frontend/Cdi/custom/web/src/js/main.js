@@ -1,3 +1,5 @@
+require(['jquery','mainJs','domReady!']);
+
 jQuery(document).ready(function(){
 
 	if(jQuery(".product-options-wrapper .swatch-attribute.jam_color").length){
