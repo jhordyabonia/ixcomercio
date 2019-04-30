@@ -189,5 +189,15 @@ h1, .h1{
 html.nav-open .page-wrapper{
   @media only screen and (max-width: 767px){
     left: 0;
+    .nav-toggle:after{
+      display: none;
+    }
+    .nav-sections{
+      left: 0;
+      width: 100%;
+      height: auto;
+      position: relative;
+      box-shadow: none;
+    }
   }
 }
