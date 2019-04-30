@@ -21,15 +21,11 @@ header{
       height: auto;
       position: relative;
       box-shadow: none;
-      background: none;
+      background: #EDEDED;
       margin: 0;
-      @media only screen and (min-width: 771px){
-        width: auto;
-        display: block;
-      }
+      display: none;
       @media only screen and (max-width: 770px){
         padding: 5px 0;
-        background: #EDEDED;
         .nav-sections-item-title, .nav-sections-item-title.active{
           display: none;
         }
@@ -37,6 +33,11 @@ header{
           margin: 0;
           padding: 0;
         }
+      }
+      @media only screen and (min-width: 771px){
+        width: auto;
+        display: block;
+        background: none;
       }
     }
   }
@@ -117,6 +118,9 @@ header{
             border: 0;
             &:last-child{
               border: 0;
+              > a.level-top{
+                border-bottom: 0;
+              }
             }
             &.parent{
               a.level-top{
@@ -136,6 +140,7 @@ header{
                   margin-top: -5px;
                 }
                 &.ui-state-active:after{
+                  margin-top: -2px;
                   border-right: 5px solid transparent;
                   border-left: 5px solid transparent;
                   border-top: 5px solid #ccc;
