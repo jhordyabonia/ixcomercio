@@ -17,13 +17,26 @@ header{
     }
     .nav-sections{
       left: 0;
+      width: 100%;
       height: auto;
       position: relative;
       box-shadow: none;
       background: none;
       margin: 0;
       @media only screen and (min-width: 771px){
+        width: auto;
         display: block;
+      }
+      @media only screen and (max-width: 770px){
+        padding: 5px 0;
+        background: #EDEDED;
+        .nav-sections-item-title, .nav-sections-item-title.active{
+          display: none;
+        }
+        .nav-sections-item-content{
+          margin: 0;
+          padding: 0;
+        }
       }
     }
   }
@@ -80,10 +93,12 @@ header{
     background: none;
     ul{
       display: block;
-      margin: 15px 0;
-      text-align: center;
+      margin: 0;
+      text-align: left;
       @media only screen and (min-width: 771px){
         padding: 10px 0;
+        margin: 15px 0;
+        text-align: center;
       }
       li{
         position: relative;
@@ -98,6 +113,12 @@ header{
           }
         }
         &.level0 {
+          @media only screen and (max-width: 770px){
+            border: 0;
+            &:last-child{
+              border: 0;
+            }
+          }
           &.active, &.has-active{
             > a.level-top {
               border: 0;
@@ -136,6 +157,12 @@ header{
         }
       }
       li, a {
+        @media only screen and (max-width: 770px){
+          line-height: 35px;
+          padding: 0 15px 0 25px;
+          border-bottom: 1px solid #CCCCCC;
+          text-align: left;
+        }
         &.level0 {
           @media only screen and (min-width: 771px){
             display: inline-block;
