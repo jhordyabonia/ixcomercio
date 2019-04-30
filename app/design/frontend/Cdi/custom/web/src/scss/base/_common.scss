@@ -186,3 +186,8 @@ h1, .h1{
   line-height: 1.2;
   text-rendering: optimizeLegibility;
 }
+html.nav-open .page-wrapper{
+  @media only screen and (max-width: 767px){
+    left: 0;
+  }
+}
