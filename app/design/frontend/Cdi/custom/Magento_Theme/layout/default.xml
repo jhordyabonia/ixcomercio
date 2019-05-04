@@ -35,7 +35,8 @@
 		<referenceBlock name="footer-container" remove="true" />
 		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
 		<referenceContainer name="footer-container-custom">
-			<block class="Magento\Theme\Block\Html\Footer" name="footer" template="html/footer.phtml"/>
-		</referenceContainer>
+			<block class="Magento\Theme\Block\Html\Footer" name="footer.top" before="footer" template="Magento_Theme::html/footer_top.phtml"/>
+			<block class="Magento\Theme\Block\Html\Footer" name="footer" after="footer.top" template="Magento_Theme::html/footer.phtml"/>
+		</referenceContainer> 
     </body>
 </page>

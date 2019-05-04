@@ -4,20 +4,45 @@
         <section id="general">
             <tab>general</tab>
             <group id="store_information">
-                <field id="disclaimer" translate="label" type="text" sortOrder="32" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Disclaimer</label>
+                <field id="about_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>About Link</label>
+                </field>
+				<field id="retailers_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Retailers Link</label>
+                </field>
+				<field id="press_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Press Link</label>
+                </field>
+				<field id="support_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Support Link</label>
+                </field>
+				
+				<field id="disclaimer" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disclaimer Link</label>
                 </field>
                 <field id="sitemap" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sitemap</label>
+                    <label>Sitemap Link</label>
                 </field>
 				<field id="privacypolicy" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Privacy Policy</label>
+                    <label>Privacy Policy Link</label>
                 </field>
 				<field id="termsofuse" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Terms of Use</label>
+                    <label>Terms of Use Link</label>
                 </field>
 				<field id="contacts" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Contact</label>
+                    <label>Contacts Link</label>
+                </field>
+				<field id="facebook_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook link</label>
+                </field>
+				<field id="twitter_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Twitter link</label>
+                </field>
+				<field id="youtube_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Youtube link</label>
+                </field>
+				<field id="instagram_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Instagram link</label>
                 </field>
 				<field id="custom_disable_checkout" translate="label" type="select" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Sales enabled</label>

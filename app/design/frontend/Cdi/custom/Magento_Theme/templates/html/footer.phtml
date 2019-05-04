@@ -1,3 +1,7 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$cartEnabled = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/custom_disable_checkout');
+?>
 <a id="scroll-to-top" href="#top" class="show" title="Back to top">
 	<div class="b2tArrow"><?php echo __('Back to top')?></div>
 </a>
@@ -8,8 +12,8 @@
 				<span class="icon"></span>
 				<div class="address-info">
 					<h5>JAM USA</h5>
-					3000 Pontiac Trail<br>
-					Commerce Township, MI<br>
+					3000 Pontiac Trail<br/>
+					Commerce Township, MI<br/>
 					48390 USA
 				</div>
             </div>

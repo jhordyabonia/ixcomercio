@@ -3,12 +3,20 @@
     <default>
         <general>
             <store_information>
-                <disclaimer></disclaimer>
+                <disclaimer>Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.</disclaimer>
+                <about_link>about-us</about_link>
+                <retailers_link>about-us/where-to-buy</retailers_link>
+                <press_link>about-us/press-releases</press_link>
+                <support_link>customer-support</support_link>
                 <sitemap>sitemap</sitemap>
                 <privacypolicy>privacy-policy</privacypolicy>
                 <termsofuse>terms-of-use</termsofuse>
                 <contacts>contacts</contacts>
                 <custom_disable_checkout>0</custom_disable_checkout>
+                <facebook_link>http://www.facebook.com/jamspeaker</facebook_link>
+                <twitter_link>http://www.twitter.com/jamspeaker</twitter_link>
+                <youtube_link>https://www.youtube.com/channel/UCvEy79cCEBS2OWeXkFyQ-8A</youtube_link>
+                <instagram_link>https://instagram.com/jamaudio/</instagram_link>
             </store_information>
         </general>
     </default>
