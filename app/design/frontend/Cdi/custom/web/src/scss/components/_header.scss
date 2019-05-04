@@ -147,9 +147,6 @@ header{
                   border-top: 5px solid #ccc;
                   border-bottom: none;
                 }
-                .ui-menu-icon{
-                  display: none;
-                }
               }
             }
             ul.submenu{
@@ -189,6 +186,11 @@ header{
               line-height: 30px;
               text-align: inherit;
               border: 0;
+            }
+            .ui-menu-icon{
+              &:after{
+                display: none!important;  
+              }
             }
           }
           ul{
