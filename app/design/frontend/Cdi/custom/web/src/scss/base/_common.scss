@@ -165,6 +165,7 @@ input.input-text, select, textarea {
   cursor: pointer;
   opacity: 0;
   bottom: -60px;
+  transition: 1s all ease;
   &.show{
     opacity: 1;
     bottom: 10%;
