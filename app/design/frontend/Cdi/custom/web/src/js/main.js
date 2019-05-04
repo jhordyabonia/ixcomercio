@@ -15,7 +15,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 		});
 
 		jQuery('#scroll-to-top').click(function(){
-			jQuery( "html, body" ).animate({scrollTop:0}, 500, 'swing');
+			jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
+			return false;
 		});
 
 	});
