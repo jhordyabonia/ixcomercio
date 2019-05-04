@@ -14,13 +14,14 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 		});
 
-		jQuery(document).on( 'scroll', function(){
-		   if (jQuery(this).scrollTop() > 300){
-		        jQuery('#scroll-to-top').removeClass("hide").addClass("show");
-		    }else{
-		        jQuery('#scroll-to-top').removeClass("show").addClass("hide");
-		    }
-		});
+		jQuery(window).on("scroll", function(){
+			if(jQuery(window).scrollTop() > 300){
+				jQuery("#scroll-to-top").addClass("show");
+			}else{
+				jQuery("#scroll-to-top").removeClass("show");
+			}
+			
+		})
 		jQuery('#scroll-to-top').click(function(){
 			jQuery( "html, body" ).animate({scrollTop:0}, 500, 'swing');
 		});
