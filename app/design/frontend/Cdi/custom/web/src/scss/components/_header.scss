@@ -187,6 +187,9 @@ header{
               text-align: inherit;
               border: 0;
             }
+            .ui-menu-icon{
+              display: none;
+            }
           }
           ul{
             @media only screen and (min-width: 771px){
