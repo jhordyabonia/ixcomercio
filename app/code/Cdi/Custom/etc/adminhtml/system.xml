@@ -18,7 +18,7 @@
                 </field>
 				
 				<field id="disclaimer" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Disclaimer Link</label>
+                    <label>Disclaimer</label>
                 </field>
                 <field id="sitemap" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sitemap Link</label>
