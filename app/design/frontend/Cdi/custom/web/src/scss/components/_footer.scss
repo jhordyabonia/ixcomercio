@@ -74,6 +74,11 @@ footer{
         font-size: 12px;
         float: none;
         width: 400px;
+        form{
+          .block-content{
+            padding-top: 7px;
+          }
+        }
         .input-box{
           width: 100%;
           float: left;
