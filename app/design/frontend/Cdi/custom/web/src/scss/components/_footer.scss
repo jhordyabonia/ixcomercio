@@ -23,6 +23,18 @@ footer{
     color: #f0efed;
     transition: all .45s ease;
   }
+  .footer{
+    .footer-nav{
+      text-align: center;
+      li{
+        display: inline-block;
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 0 1.5em;
+      }
+    }
+  }
   .footer-top{
     background-color: #f0efed;
     padding: 30px 0;
