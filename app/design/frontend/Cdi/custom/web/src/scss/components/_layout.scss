@@ -243,11 +243,15 @@
     }
   }
 }
+.page-layout-2columns-left{
+  .page-main{
+    padding: 30px;
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
+  }  
+}
 .page-main{
-  padding: 30px;
-  position: relative;
-  max-width: 1300px;
-  margin: 0 auto;
   .sidebar-main{
     li{
       text-align: left;
