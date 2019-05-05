@@ -269,10 +269,15 @@
     text-align: left;
     h1{
       color: #333333;
+      font-size: 28px;
+      font-style: normal;
       font-weight: 600;
-      text-transform: capitalize;
-      margin: 0;
-      margin-bottom: .7rem;
+      line-height: 1.2;
+    }
+    h2{
+      color: #333333;
+      font-weight: 500;
+      padding-top: 1em;
     }
   }
 }
