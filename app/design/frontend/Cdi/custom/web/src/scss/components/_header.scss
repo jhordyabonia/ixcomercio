@@ -187,6 +187,11 @@ header{
               text-align: inherit;
               border: 0;
             }
+            .ui-menu-icon{
+              &:after{
+                display: none!important;  
+              }
+            }
           }
           ul{
             @media only screen and (min-width: 771px){
@@ -199,7 +204,7 @@ header{
               width: 250px;
               padding-left: 10px;
               padding-right: 10px;
-              display: none;
+              display: none!important;
             }
           }
         }
