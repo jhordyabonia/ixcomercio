@@ -74,6 +74,32 @@ footer{
         font-size: 12px;
         float: none;
         width: 400px;
+        .input-box{
+          width: 100%;
+          float: left;
+          padding-top: 0;
+          input[type=email]{
+            border-radius: 0;
+            width: 400px;
+            padding: 5px 10px;
+            height: 40px;
+            border: 1px solid #C0C0C0;
+          }
+        }
+        .actions{
+          width: auto;
+          position: absolute;
+          right: 0;
+          bottom: 8px;
+          margin: 0;
+          float: left;
+          button{
+            height: 20px;
+            background: url(/images/icon-right-arrow.svg) no-repeat;
+            line-height: 17px;
+            float: left;
+          }
+        }
       }
     }
   }
