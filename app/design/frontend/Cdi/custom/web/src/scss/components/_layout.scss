@@ -243,3 +243,18 @@
     }
   }
 }
+.page-main{
+  .sidebar-main{
+    li{
+      text-align: left;
+    }
+    a{
+      color: #00B5E2;
+      text-decoration: none;
+      &:hover{
+        color: #00a1c9;
+        text-decoration: underline;
+      }
+    }
+  }
+}
