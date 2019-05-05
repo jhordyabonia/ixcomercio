@@ -39,6 +39,11 @@ footer{
     background-color: #f0efed;
     padding: 30px 0;
     line-height: 1.5em;
+    a, li > a{
+      color: #E73C3E;
+      transition: all 0.45s ease;
+      text-decoration: none;
+    }
     .footer-email{
       h3{
         font-size: 3.0em;
