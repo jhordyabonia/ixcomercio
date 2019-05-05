@@ -265,4 +265,14 @@
       }
     }
   }
+  .column.main{
+    text-align: left;
+    h1{
+      color: #333333;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin: 0;
+      margin-bottom: .7rem;
+    }
+  }
 }
