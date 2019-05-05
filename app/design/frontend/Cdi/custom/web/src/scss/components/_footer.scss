@@ -78,6 +78,11 @@ footer{
           width: 100%;
           float: left;
           padding-top: 0;
+          .control{
+            &:before{
+              display: none;
+            }
+          }
           input[type=email]{
             border-radius: 0;
             width: 400px;
