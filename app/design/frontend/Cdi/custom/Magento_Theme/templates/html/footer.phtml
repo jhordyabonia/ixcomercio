@@ -1,15 +1,15 @@
 <?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$storeName = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/name');
-$storePhone = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/phone');
-$storeZip = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/postcode');
-$storeStreet1 = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/street_line1');
-$storeStreet2 = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/street_line2');
-$storeDisclaimer = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/disclaimer');
-$sitemap = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/sitemap');
-$contacts = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/contacts');
-$terms = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/termsofuse');
-$privacy = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/privacypolicy');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$storeName = $_helperCdi->getStoreConfig('general/store_information/name');
+$storePhone = $_helperCdi->getStoreConfig('general/store_information/phone');
+$storeZip = $_helperCdi->getStoreConfig('general/store_information/postcode');
+$storeStreet1 = $_helperCdi->getStoreConfig('general/store_information/street_line1');
+$storeStreet2 = $_helperCdi->getStoreConfig('general/store_information/street_line2');
+$storeDisclaimer = $_helperCdi->getStoreConfig('general/store_information/disclaimer');
+$sitemap = $_helperCdi->getStoreConfig('general/store_information/sitemap');
+$contacts = $_helperCdi->getStoreConfig('general/store_information/contacts');
+$terms = $_helperCdi->getStoreConfig('general/store_information/termsofuse');
+$privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy');
 ?>
 <a id="scroll-to-top" href="#top" class="show" title="Back to top">
 	<div class="b2tArrow"><?php echo __('Back to top')?></div>

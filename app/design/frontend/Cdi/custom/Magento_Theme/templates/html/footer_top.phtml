@@ -1,13 +1,13 @@
 <?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$facebook = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/facebook_link');
-$instagram = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/instagram_link');
-$youtube = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/youtube_link');
-$twitter = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/twitter_link');
-$about = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/about_link');
-$retailers = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/retailers_link');
-$press = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/press_link');
-$support = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/support_link');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$facebook = $_helperCdi->getStoreConfig('general/store_information/facebook_link');
+$instagram = $_helperCdi->getStoreConfig('general/store_information/instagram_link');
+$youtube = $_helperCdi->getStoreConfig('general/store_information/youtube_link');
+$twitter = $_helperCdi->getStoreConfig('general/store_information/twitter_link');
+$about = $_helperCdi->getStoreConfig('general/store_information/about_link');
+$retailers = $_helperCdi->getStoreConfig('general/store_information/retailers_link');
+$press = $_helperCdi->getStoreConfig('general/store_information/press_link');
+$support = $_helperCdi->getStoreConfig('general/store_information/support_link');
 ?>
 <a id="scroll-to-top" href="#top" class="show" title="Back to top">
 	<div class="b2tArrow"><?php echo __('Back to top')?></div>

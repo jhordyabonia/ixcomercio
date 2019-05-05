@@ -1,8 +1,8 @@
 <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $block->getProduct(); ?>
 <?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$cartEnabled = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('general/store_information/custom_disable_checkout');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$cartEnabled = $_helperCdi->getStoreConfig('general/store_information/custom_disable_checkout');
 ?>
 <div class="fullwidth">
 	<div class="container">

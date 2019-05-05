@@ -7,10 +7,21 @@ use Magento\Cms\Model\PageFactory;
 class Data extends AbstractHelper{
  
 	protected $pageFactory;
+	protected $_scopeConfig;
 	
-	public function __construct(PageFactory $pageFactory){
+	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig){
 		$this->pageFactory = $pageFactory;
+		$this->_scopeConfig = $scopeConfig;
+		
 	}
+	
+	public function getStoreConfig($key){
+		$this->_value = $this->_scopeConfig->getValue(
+			$key,
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+        return __($this->_value);
+    }
 	
     public function getAttributeArrayFromJson($json){
 		$fields = array();
