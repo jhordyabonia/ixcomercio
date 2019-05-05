@@ -22,6 +22,101 @@ footer{
   a:hover, li:hover > a{
     color: #f0efed;
     transition: all .45s ease;
+    text-decoration: none;
+  }
+  .footer{
+    .footer-nav{
+      text-align: center;
+      li{
+        display: inline-block;
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 0 1.5em;
+      }
+    }
+    .footer-social {
+      text-align: right;
+      li{
+        display: inline-block;
+        &:hover{
+          opacity: 0.6;
+          transition: all 0.45s ease;
+        }
+      }
+      img{
+        width: 100%;
+        height: auto;
+        max-width: 40px;
+        padding-left: 15px;
+      }
+    }
+  }
+  .footer-top{
+    background-color: #f0efed;
+    padding: 30px 0;
+    line-height: 1.5em;
+    a:hover, li:hover > a{
+      color: #E73C3E;
+      transition: all 0.45s ease;
+      text-decoration: none;
+    }
+    .footer-email{
+      h3{
+        font-size: 3.0em;
+        text-transform: none;
+        padding-bottom: 0.25em;
+        font-weight: 500;
+      }
+      .block.newsletter{
+        position: relative;
+        margin: 0 auto;
+        text-transform: uppercase;
+        font-size: 12px;
+        float: none;
+        width: 400px;
+        form{
+          .block-content{
+            padding-top: 7px;
+          }
+        }
+        .input-box{
+          width: 100%;
+          float: left;
+          padding-top: 0;
+          .control{
+            &:before{
+              display: none;
+            }
+          }
+          input[type=email]{
+            border-radius: 0;
+            width: 400px;
+            padding: 5px 10px;
+            height: 40px;
+            border: 1px solid #C0C0C0;
+          }
+        }
+        .actions{
+          width: auto;
+          position: absolute;
+          right: 0;
+          top: 18px;
+          margin: 0;
+          float: left;
+          button{
+            height: 20px;
+            background: url(../img/icons/icon-right-arrow.svg) no-repeat;
+            line-height: 17px;
+            float: left;
+            border: 0;
+            span{
+              display: none;
+            }
+          }
+        }
+      }
+    }
   }
   .footer-bottom {
     padding: 30px 0;
@@ -59,5 +154,8 @@ footer{
     text-align: center;
     font-size: 12px;
     line-height: 1.5em;
+    a{
+      margin: 0 5px; 
+    }
   }
 }

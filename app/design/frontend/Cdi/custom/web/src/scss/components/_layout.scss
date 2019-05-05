@@ -243,3 +243,41 @@
     }
   }
 }
+.page-layout-2columns-left{
+  .page-main{
+    padding: 30px;
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
+  }  
+}
+.page-main{
+  .sidebar-main{
+    li{
+      text-align: left;
+    }
+    a{
+      color: #00B5E2;
+      text-decoration: none;
+      &:hover{
+        color: #00a1c9;
+        text-decoration: underline;
+      }
+    }
+  }
+  .column.main{
+    text-align: left;
+    h1{
+      color: #333333;
+      font-size: 28px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    h2{
+      color: #333333;
+      font-weight: 500;
+      padding-top: 1em;
+    }
+  }
+}

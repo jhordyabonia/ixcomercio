@@ -9,14 +9,14 @@ $retailers = $_helperCdi->getStoreConfig('general/store_information/retailers_li
 $press = $_helperCdi->getStoreConfig('general/store_information/press_link');
 $support = $_helperCdi->getStoreConfig('general/store_information/support_link');
 ?>
-<a id="scroll-to-top" href="#top" class="show" title="Back to top">
+<a id="scroll-to-top" href="#top" class="" title="Back to top">
 	<div class="b2tArrow"><?php echo __('Back to top')?></div>
-</a> 
+</a>
 <div class="footer-top">
     <div class="footer cms-grid">
 		<div class="container"> 
 			<div class="row">
-				<div class="col-md-12 col-12 text-left footer-email">
+				<div class="col-md-6 col-12 col-md-offset-3 text-center footer-email">
 					<h3><?= $block->escapeHtml(__('Connect with JAM')) ?></h3>
 					<div class="block newsletter">
 						<form class="form subscribe"
@@ -46,9 +46,9 @@ $support = $_helperCdi->getStoreConfig('general/store_information/support_link')
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4 col-12 text-left footer-country">
+				<div class="col-md-3 col-12 text-left footer-country">
 				</div>
-				<div class="col-md-4 col-12 text-left footer-nav">
+				<div class="col-md-6 col-12 text-left footer-nav">
 					<ul class="second-nav">
 						<?php if($about){ ?><li><a href="/<?php echo $about?>"><?php echo __('About');?></a></li><?php }?>
 						<?php if($retailers){ ?><li><a href="/<?php echo $retailers?>"><?php echo __('Retailers');?></a></li><?php }?>
@@ -56,7 +56,7 @@ $support = $_helperCdi->getStoreConfig('general/store_information/support_link')
 						<?php if($support){ ?><li><a href="/<?php echo $support?>"><?php echo __('Support');?></a></li><?php }?>
 					</ul>
 				</div>
-				<div class="col-md-4 col-12 text-left footer-social">
+				<div class="col-md-3 col-12 text-left footer-social">
 					<ul class="social-icons">
 						<?php if($facebook){ ?>
 						   <li>
