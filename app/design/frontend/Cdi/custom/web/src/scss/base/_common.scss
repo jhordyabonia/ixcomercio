@@ -181,24 +181,26 @@ input.input-text, select, textarea {
     overflow: hidden;
   }
 }
-h1, .h1{
-  margin: 0;
-  font-style: normal;
-  line-height: 1.2;
-  text-rendering: optimizeLegibility;
-  text-transform: capitalize;
-  margin: 0;
-  margin-bottom: .7em;
-}
-h1, h2, h3, h4, h5{
-  text-transform: capitalize;
-}
-h2{
-  font-size: 24px;
-  font-style: normal;
-  line-height: 1.2;
-  margin: 0;
-  margin-bottom: 0.5em;
+.page-wrapper{
+  h1, .h1{
+    margin: 0;
+    font-style: normal;
+    line-height: 1.2;
+    text-rendering: optimizeLegibility;
+    text-transform: capitalize;
+    margin: 0;
+    margin-bottom: .7em;
+  }
+  h1, h2, h3, h4, h5{
+    text-transform: capitalize;
+  }
+  h2{
+    font-size: 24px;
+    font-style: normal;
+    line-height: 1.2;
+    margin: 0;
+    margin-bottom: 0.5em;
+  }
 }
 html.nav-open .page-wrapper{
   @media only screen and (max-width: 767px){
