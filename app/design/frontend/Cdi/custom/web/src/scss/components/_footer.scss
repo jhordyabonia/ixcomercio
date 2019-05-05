@@ -98,6 +98,10 @@ footer{
             background: url(../img/icons/icon-right-arrow.svg) no-repeat;
             line-height: 17px;
             float: left;
+            border: 0;
+            span{
+              display: none;
+            }
           }
         }
       }
