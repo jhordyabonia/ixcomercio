@@ -67,7 +67,7 @@ ul, ol {
         opacity: 0;
         top: 0;
         left: 0;
-        input[type=checkbox]:checked{
+        &:checked{
           ~ i{
             &:before{
               transform: translate(2px, 0) rotate(45deg);
