@@ -243,13 +243,24 @@
     }
   }
 }
-.page-layout-2columns-left{
+body.page-layout-2columns-left{
   .page-main{
     padding: 30px;
     position: relative;
     max-width: 1300px;
     margin: 0 auto;
-  }  
+  }
+  @media only screen and (min-width: 768px){
+    .column.main{
+      width: 73.68421%;
+    }
+    .sidebar.sidebar-main{
+      width: 26.31579%;
+    }
+  }
+  &.cms-support .page-main > .columns{
+    width: 79.16667%;
+  }
 }
 .page-main{
   .sidebar-main{
