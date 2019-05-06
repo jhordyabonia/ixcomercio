@@ -249,7 +249,13 @@
     position: relative;
     max-width: 1300px;
     margin: 0 auto;
-  }  
+  }
+  .column.main{
+    width: 73.68421%;
+  }
+  .sidebar.sidebar-main{
+    width: 26.31579%;
+  }
 }
 .page-main{
   .sidebar-main{
