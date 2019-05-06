@@ -1,4 +1,4 @@
-require(['jquery', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
     
 	jQuery('#scroll-to-top').click(function(){
 		jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
