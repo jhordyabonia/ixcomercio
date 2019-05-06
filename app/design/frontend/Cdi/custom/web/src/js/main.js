@@ -3,6 +3,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	jQuery(document).ready(function(){
 
 		if(jQuery(".product-options-wrapper .swatch-attribute.jam_color").length){
+			console.log("cargan colores");
 			jQuery(".product-options-wrapper .swatch-attribute.jam_color .swatch-attribute-options .swatch-option").hover(function(){
 				var labelColor = jQuery(this).attr("option-label");
 				jQuery(".swatch-attribute-selected-option").text(labelColor);
