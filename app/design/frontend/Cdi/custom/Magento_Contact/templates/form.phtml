@@ -16,10 +16,10 @@
     <fieldset class="fieldset">
         <legend class="legend"><span><?= $block->escapeHtml(__('Write Us')) ?></span></legend><br />
         <div class="field note no-label"><?= $block->escapeHtml(__('Jot us a note and we’ll get back to you as quickly as possible.')) ?></div>
-        <div class="field firstname required">
-            <label class="label" for="firstname"><span><?= $block->escapeHtml(__('First name')) ?></span></label>
+        <div class="field name required">
+            <label class="label" for="name"><span><?= $block->escapeHtml(__('First name')) ?></span></label>
             <div class="control">
-                <input name="firstname" id="firstname" title="<?= $block->escapeHtmlAttr(__('First name')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('firstname') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
+                <input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('First name')) ?>" value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('name') ?: $this->helper('Magento\Contact\Helper\Data')->getUserName()) ?>" class="input-text" type="text" data-validate="{required:true}"/>
             </div>
         </div>
 		<div class="field lastname required">
