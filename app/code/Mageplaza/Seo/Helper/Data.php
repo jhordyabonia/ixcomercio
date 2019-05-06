@@ -35,7 +35,6 @@ class Data extends CoreHelper
     /**
      * @param $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getMetaConfig($code, $storeId = null)
@@ -48,7 +47,6 @@ class Data extends CoreHelper
     /**
      * @param $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getVerficationConfig($code, $storeId = null)
@@ -61,7 +59,6 @@ class Data extends CoreHelper
     /**
      * @param $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getRichsnippetsConfig($code, $storeId = null)
@@ -74,7 +71,6 @@ class Data extends CoreHelper
     /**
      * @param null $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getInfoConfig($code = null, $storeId = null)
@@ -87,7 +83,6 @@ class Data extends CoreHelper
     /**
      * @param null $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getSocialProfiles($code = null, $storeId = null)
@@ -100,7 +95,6 @@ class Data extends CoreHelper
     /**
      * @param null $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getDuplicateConfig($code = null, $storeId = null)
@@ -116,7 +110,6 @@ class Data extends CoreHelper
      * @param $data
      * @param string $prefixComment
      * @param string $subfixComment
-     *
      * @return string
      */
     public function createStructuredData($data, $prefixComment = '', $subfixComment = '')

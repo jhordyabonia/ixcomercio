@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -15,8 +15,8 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Smtp\Model\Config\Source;
@@ -38,15 +38,19 @@ class Authentication implements ArrayInterface
     {
         $options = [
             [
+                'value' => '',
+                'label' => __('NONE')
+            ],
+            [
                 'value' => 'plain',
                 'label' => __('PLAIN')
             ],
             [
                 'value' => 'login',
-                'label' => __('Login')
+                'label' => __('LOGIN')
             ],
             [
-                'value' => 'cram-md5',
+                'value' => 'crammd5',
                 'label' => __('CRAM-MD5')
             ],
         ];

@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -15,14 +15,16 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Smtp\Cron;
 
+use Exception;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Mageplaza\Smtp\Helper\Data;
+use Mageplaza\Smtp\Model\ResourceModel\Log\Collection;
 use Mageplaza\Smtp\Model\ResourceModel\Log\CollectionFactory;
 use Psr\Log\LoggerInterface;
 
@@ -33,43 +35,42 @@ use Psr\Log\LoggerInterface;
 class ClearLog
 {
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @var \Mageplaza\Smtp\Helper\Data
+     * @var Data
      */
     protected $helper;
 
     /**
-     * @var \Mageplaza\Smtp\Model\ResourceModel\Log\CollectionFactory
+     * @var CollectionFactory
      */
     protected $collectionLog;
 
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     * @var DateTime
      */
     protected $date;
 
     /**
      * ClearLog constructor.
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Mageplaza\Smtp\Model\ResourceModel\Log\CollectionFactory $collectionLog
-     * @param \Mageplaza\Smtp\Helper\Data $helper
+     * @param LoggerInterface $logger
+     * @param DateTime $date
+     * @param CollectionFactory $collectionLog
+     * @param Data $helper
      */
     public function __construct(
         LoggerInterface $logger,
         DateTime $date,
         CollectionFactory $collectionLog,
         Data $helper
-    )
-    {
-        $this->logger        = $logger;
-        $this->date          = $date;
+    ) {
+        $this->logger = $logger;
+        $this->date = $date;
         $this->collectionLog = $collectionLog;
-        $this->helper        = $helper;
+        $this->helper = $helper;
     }
 
     /**
@@ -83,17 +84,20 @@ class ClearLog
             return $this;
         }
 
-        $day = (int)$this->helper->getConfig(Data::DEVELOP_GROUP_SMTP, 'clean_email');
+        $day = (int)$this->helper->getConfigGeneral('clean_email');
         if (isset($day) && $day > 0) {
             $timeEnd = strtotime($this->date->date()) - $day * 24 * 60 * 60;
-            $logs    = $this->collectionLog->create()
+
+            /** @var Collection $logs */
+            $logs = $this->collectionLog->create()
                 ->addFieldToFilter('created_at', ['lteq' => date('Y-m-d H:i:s', $timeEnd)]);
-            try {
-                foreach ($logs as $log) {
+
+            foreach ($logs as $log) {
+                try {
                     $log->delete();
+                } catch (Exception $e) {
+                    $this->logger->critical($e);
                 }
-            } catch (\Exception $e) {
-                $this->logger->critical($e);
             }
         }
 

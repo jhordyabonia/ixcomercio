@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -15,8 +15,8 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Smtp\Model\ResourceModel;
@@ -33,24 +33,22 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 class Log extends AbstractDb
 {
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
+     * @var DateTime
      */
     protected $date;
 
     /**
      * Log constructor.
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
+     * @param DateTime $date
+     * @param Context $context
      */
     public function __construct(
         DateTime $date,
         Context $context
-    )
-    {
+    ) {
         $this->date = $date;
         parent::__construct($context);
     }
-
 
     /**
      * @inheritdoc

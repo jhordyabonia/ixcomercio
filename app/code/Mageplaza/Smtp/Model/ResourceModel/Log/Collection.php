@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -15,13 +15,14 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Smtp\Model\ResourceModel\Log;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Mageplaza\Smtp\Model\ResourceModel\Log;
 
 /**
  * Class Collection
@@ -30,13 +31,18 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 class Collection extends AbstractCollection
 {
     /**
+     * @type string
+     */
+    protected $_idFieldName = 'id';
+
+    /**
      * Define resource model
      *
      * @return void
      */
     protected function _construct()
     {
-        $this->_init('Mageplaza\Smtp\Model\Log', 'Mageplaza\Smtp\Model\ResourceModel\Log');
+        $this->_init(\Mageplaza\Smtp\Model\Log::class, Log::class);
     }
 
     /**
@@ -46,8 +52,6 @@ class Collection extends AbstractCollection
      */
     public function clearLog()
     {
-        $connection = $this->getConnection();
-        $tableName  = $this->getMainTable();
-        $connection->truncateTable($tableName);
+        $this->getConnection()->truncateTable($this->getMainTable());
     }
 }

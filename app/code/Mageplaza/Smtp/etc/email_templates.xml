@@ -1,4 +1,5 @@
-<?xml version="1.0"?><!--
+<?xml version="1.0"?>
+<!--
 /**
  * Mageplaza
  *
@@ -19,17 +20,7 @@
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <default>
-        <smtp>
-            <module>
-                <type>1</type>
-            </module>
-            <general>
-                <enabled>0</enabled>
-                <log_email>1</log_email>
-                <clean_email>10</clean_email>
-            </general>
-        </smtp>
-    </default>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="mpsmtp_resend_email_template" label="SMTP Resend Email" file="resend_email_template.html" type="html" module="Mageplaza_Smtp" area="frontend"/>
+    <template id="mpsmtp_test_email_template" label="SMTP Test Email" file="test_email_template.html" type="html" module="Mageplaza_Smtp" area="frontend"/>
 </config>

@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -15,12 +15,15 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Smtp\Helper;
 
+use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Store\Model\ScopeInterface;
 use Mageplaza\Core\Helper\AbstractData;
 
 /**
@@ -30,17 +33,19 @@ use Mageplaza\Core\Helper\AbstractData;
 class Data extends AbstractData
 {
     const CONFIG_MODULE_PATH = 'smtp';
-
     const CONFIG_GROUP_SMTP = 'configuration_option';
     const DEVELOP_GROUP_SMTP = 'developer';
 
     /**
+     * @param string $code
      * @param null $storeId
-     * @return bool
+     * @return mixed
      */
-    public function isEnabled($storeId = null)
+    public function getSmtpConfig($code = '', $storeId = null)
     {
-        return $this->getConfigGeneral('enabled', $storeId);
+        $code = ($code !== '') ? '/' . $code : '';
+
+        return $this->getModuleConfig(self::CONFIG_GROUP_SMTP . $code, $storeId);
     }
 
     /**
@@ -48,23 +53,51 @@ class Data extends AbstractData
      * @param null $storeId
      * @return mixed
      */
-    public function getConfigGeneral($code = '', $storeId = null)
+    public function getDeveloperConfig($code = '', $storeId = null)
     {
         $code = ($code !== '') ? '/' . $code : '';
 
-        return $this->getConfigValue(static::CONFIG_MODULE_PATH . '/general' . $code, $storeId);
+        return $this->getModuleConfig(self::DEVELOP_GROUP_SMTP . $code, $storeId);
     }
 
     /**
-     * @param $group
-     * @param $code
      * @param null $storeId
-     * @return mixed
+     * @param bool $decrypt
+     * @return array|mixed|string
      */
-    public function getConfig($group, $code = '', $storeId = null)
+    public function getPassword($storeId = null, $decrypt = true)
     {
-        $code = ($code !== '') ? '/' . $code : '';
+        if ($storeId || $storeId = $this->_request->getParam('store')) {
+            $password = $this->getSmtpConfig('password', $storeId);
+        } elseif ($websiteCode = $this->_request->getParam('website')) {
+            $passwordPath = self::CONFIG_MODULE_PATH . '/' . self::CONFIG_GROUP_SMTP . '/password';
+            $password = $this->getConfigValue($passwordPath, $websiteCode, ScopeInterface::SCOPE_WEBSITE);
+        } else {
+            $password = $this->getSmtpConfig('password');
+        }
 
-        return $this->getConfigValue(static::CONFIG_MODULE_PATH . '/' . $group . $code, $storeId);
+        if ($decrypt) {
+            /** @var EncryptorInterface $encryptor */
+            $encryptor = $this->getObject(EncryptorInterface::class);
+
+            return $encryptor->decrypt($password);
+        }
+
+        return $password;
+    }
+
+    /**
+     * @return int
+     * @throws LocalizedException
+     */
+    public function getScopeId()
+    {
+        $scope = $this->_request->getParam(ScopeInterface::SCOPE_STORE) ?: $this->storeManager->getStore()->getId();
+
+        if ($website = $this->_request->getParam(ScopeInterface::SCOPE_WEBSITE)) {
+            $scope = $this->storeManager->getWebsite($website)->getDefaultStore()->getId();
+        }
+
+        return $scope;
     }
 }

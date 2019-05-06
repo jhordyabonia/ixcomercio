@@ -36,7 +36,6 @@ class Page
 
     /**
      * Page constructor.
-     *
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      */
     public function __construct(PageFactory $pageFactory)
@@ -50,7 +49,7 @@ class Page
      */
     public function toOptionArray()
     {
-        $options = [];
+        $options    = [];
         $collection = $this->_pageFactory->create()->getCollection();
         foreach ($collection as $item) {
             $options[] = ['value' => $item->getIdentifier(), 'label' => $item->getTitle()];

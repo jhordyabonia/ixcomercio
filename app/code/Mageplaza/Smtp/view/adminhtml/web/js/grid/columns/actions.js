@@ -14,30 +14,32 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (http://www.mageplaza.com/)
+ * @copyright   Copyright (c) Mageplaza (http://www.mageplaza.com/)
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 define([
-    'Magento_Ui/js/grid/columns/thumbnail',
     'jquery',
+    'Magento_Ui/js/grid/columns/actions',
     'Magento_Ui/js/modal/modal'
-], function (Column, $) {
+], function ($, Column) {
     'use strict';
 
     return Column.extend({
-        defaults: {
-            bodyTmpl: 'Mageplaza_Smtp/grid/cells/view',
-            fieldClass: {
-                'data-grid-thumbnail-cell': true
-            }
-        },
         modal: {},
-        preview: function (row) {
-            var emailId = row.id;
-            if (typeof this.modal[emailId] === 'undefined') {
-                var modalHtml = '<iframe srcdoc="' + row['email_content'] + '" style="width: 100%; height: 100%"></iframe>';
-                this.modal[emailId] = $('<div/>')
+
+        /**
+         * @inheritDoc
+         */
+        defaultCallback: function (actionIndex, recordId, action) {
+            if (actionIndex !== 'view') {
+                return this._super();
+            }
+
+            if (typeof this.modal[action.rowIndex] === 'undefined') {
+                var row = this.rows[action.rowIndex],
+                    modalHtml = '<iframe srcdoc="' + row['email_content'] + '" style="width: 100%; height: 100%"></iframe>';
+                this.modal[action.rowIndex] = $('<div/>')
                     .html(modalHtml)
                     .modal({
                         type: 'slide',
@@ -47,7 +49,8 @@ define([
                         buttons: []
                     });
             }
-            this.modal[emailId].trigger('openModal');
+
+            this.modal[action.rowIndex].trigger('openModal');
         }
     });
 });

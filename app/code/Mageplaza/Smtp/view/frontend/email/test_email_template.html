@@ -1,4 +1,4 @@
-<?php
+<!--
 /**
  * Mageplaza
  *
@@ -6,7 +6,7 @@
  *
  * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -14,12 +14,13 @@
  * version in the future.
  *
  * @category    Mageplaza
- * @package     Mageplaza_Seo
+ * @package     Mageplaza_Smtp
  * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
-?>
+-->
 
-<form id="mageplaza-seo-form" target="_blank" method="post" action="<?php echo $block->getSeoToolUrl() ?>">
-    <input title="" type="hidden" name="mageplazaSeoData" value='<?php echo $block->getSeoData(); ?>'>
-</form>
+<!--@subject {{trans "TEST EMAIL from Custom SMTP"}} @-->
+
+<p>{{trans "Your store has been connected with a custom SMTP successfully. Now you can Save Config and use this connection."}}</p>
+<p>Sent via SMTP by https://www.mageplaza.com</p>

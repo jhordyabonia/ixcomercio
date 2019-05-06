@@ -34,9 +34,7 @@ class Data extends AbstractHelper
 
     /************************ HTML Sitemap Configuration *************************
      * Is enable html site map
-     *
      * @param null $storeId
-     *
      * @return mixed
      */
     public function isEnableHtmlSiteMap($storeId = null)
@@ -47,7 +45,6 @@ class Data extends AbstractHelper
     /**
      * @param $code
      * @param null $storeId
-     *
      * @return array|bool|mixed
      */
     public function getHtmlSitemapConfig($code, $storeId = null)
@@ -128,10 +125,8 @@ class Data extends AbstractHelper
     }
 
     /*********************** XML Sitemap Configuration *************************
-     *
      * @param $code
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getXmlSitemapConfig($code, $storeId = null)
@@ -141,7 +136,6 @@ class Data extends AbstractHelper
 
     /**
      * @param null $storeId
-     *
      * @return mixed
      */
     public function isEnableHomepageOptimization($storeId = null)
@@ -151,7 +145,6 @@ class Data extends AbstractHelper
 
     /**
      * @param null $storeId
-     *
      * @return mixed
      */
     public function isEnableAdditionalLinks($storeId = null)
@@ -161,7 +154,6 @@ class Data extends AbstractHelper
 
     /**
      * @param null $storeId
-     *
      * @return array
      */
     public function getXmlAdditionalLinks($storeId = null)
@@ -171,7 +163,6 @@ class Data extends AbstractHelper
 
     /**
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getFrequency($storeId = null)
@@ -181,7 +172,6 @@ class Data extends AbstractHelper
 
     /**
      * @param null $storeId
-     *
      * @return mixed
      */
     public function getPriority($storeId = null)

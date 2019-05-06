@@ -1,13 +1,12 @@
-<?xml version="1.0"?>
-<!--
+<?xml version="1.0"?><!--
 /**
  * Mageplaza
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -16,15 +15,15 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 -->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">mageplaza_smtp_emails_log_grid.mageplaza_smtp_emails_log_grid_data_source</item>
-            <item name="deps" xsi:type="string">mageplaza_smtp_emails_log_grid.mageplaza_smtp_emails_log_grid_data_source</item>
+            <item name="provider" xsi:type="string">mpsmtp_emails_log_grid.mpsmtp_emails_log_grid_data_source</item>
+            <item name="deps" xsi:type="string">mpsmtp_emails_log_grid.mpsmtp_emails_log_grid_data_source</item>
         </item>
         <item name="spinner" xsi:type="string">emails_log_columns</item>
         <item name="buttons" xsi:type="array">
@@ -36,10 +35,10 @@
             </item>
         </item>
     </argument>
-    <dataSource name="mageplaza_smtp_emails_log_grid_data_source">
+    <dataSource name="mpsmtp_emails_log_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
-            <argument name="name" xsi:type="string">mageplaza_smtp_emails_log_grid_data_source</argument>
+            <argument name="name" xsi:type="string">mpsmtp_emails_log_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
@@ -79,9 +78,47 @@
                 </item>
             </argument>
         </filters>
+        <massaction name="listing_massaction">
+            <action name="resend">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">resend</item>
+                        <item name="label" xsi:type="string" translate="true">Resend</item>
+                        <item name="url" xsi:type="url" path="adminhtml/smtp/massresend"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Resend items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure to resend selected log(s)?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="adminhtml/smtp/massdelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure to delete selected log email(s)?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="emails_log_columns">
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                    <item name="sortOrder" xsi:type="number">9</item>
+                </item>
+            </argument>
+        </selectionsColumn>
         <column name="id">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -102,22 +139,22 @@
                 </item>
             </argument>
         </column>
-        <column name="from">
+        <column name="sender">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
                     <item name="align" xsi:type="string">left</item>
-                    <item name="label" xsi:type="string" translate="true">From</item>
+                    <item name="label" xsi:type="string" translate="true">Sender</item>
                     <item name="sortOrder" xsi:type="number">21</item>
                 </item>
             </argument>
         </column>
-        <column name="to">
+        <column name="recipient">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
                     <item name="align" xsi:type="string">left</item>
-                    <item name="label" xsi:type="string" translate="true">To</item>
+                    <item name="label" xsi:type="string" translate="true">Recipient</item>
                     <item name="sortOrder" xsi:type="number">22</item>
                 </item>
             </argument>
@@ -169,13 +206,11 @@
                 </item>
             </argument>
         </column>
-        <actionsColumn name="view" class="Mageplaza\Smtp\Ui\Component\Listing\Column\ViewAction">
+        <actionsColumn name="actions" class="Mageplaza\Smtp\Ui\Component\Listing\Column\Actions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="component" xsi:type="string">Mageplaza_Smtp/js/grid/columns/view</item>
+                    <item name="component" xsi:type="string">Mageplaza_Smtp/js/grid/columns/actions</item>
                     <item name="sortable" xsi:type="boolean">false</item>
-                    <item name="altField" xsi:type="string">name</item>
-                    <item name="has_preview" xsi:type="string">1</item>
                     <item name="sortOrder" xsi:type="number">100</item>
                 </item>
             </argument>

@@ -36,7 +36,6 @@ class CanUseCanonicalTagForProducts
 
     /**
      * CanUseCanonicalTagForProducts constructor.
-     *
      * @param HelperData $helper
      */
     function __construct(HelperData $helper)
@@ -47,7 +46,6 @@ class CanUseCanonicalTagForProducts
     /**
      * @param \Magento\Catalog\Helper\Product $product
      * @param $result
-     *
      * @return mixed
      */
     public function afterCanUseCanonicalTag(\Magento\Catalog\Helper\Product $product, $result)

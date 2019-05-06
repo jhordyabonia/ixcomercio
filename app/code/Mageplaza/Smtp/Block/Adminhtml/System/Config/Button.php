@@ -4,9 +4,9 @@
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the mageplaza.com license that is
+ * This source file is subject to the Mageplaza.com license that is
  * available through the world-wide-web at this URL:
- * https://mageplaza.com/LICENSE.txt
+ * https://www.mageplaza.com/LICENSE.txt
  *
  * DISCLAIMER
  *
@@ -15,8 +15,8 @@
  *
  * @category    Mageplaza
  * @package     Mageplaza_Smtp
- * @copyright   Copyright (c) 2017 Mageplaza (https://www.mageplaza.com/)
- * @license     http://mageplaza.com/LICENSE.txt
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
 namespace Mageplaza\Smtp\Block\Adminhtml\System\Config;
@@ -38,7 +38,7 @@ class Button extends Field
     /**
      * Unset scope
      *
-     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
     public function render(AbstractElement $element)
@@ -51,19 +51,17 @@ class Button extends Field
     /**
      * Get the button and scripts contents
      *
-     * @param \Magento\Framework\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
     protected function _getElementHtml(AbstractElement $element)
     {
         $originalData = $element->getOriginalData();
-        $this->addData(
-            [
-                'button_label' => $originalData['button_label'],
-                'button_url'   => $this->getUrl($originalData['button_url']),
-                'html_id'      => $element->getHtmlId(),
-            ]
-        );
+        $this->addData([
+            'button_label' => $originalData['button_label'],
+            'button_url'   => $this->getUrl($originalData['button_url'], ['_current' => true]),
+            'html_id'      => $element->getHtmlId(),
+        ]);
 
         return $this->_toHtml();
     }
