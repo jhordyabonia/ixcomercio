@@ -258,6 +258,9 @@ body.page-layout-2columns-left{
       width: 26.31579%;
     }
   }
+  .page-main > .columns{
+    width: 79.16667%;
+  }
 }
 .page-main{
   .sidebar-main{
@@ -272,9 +275,6 @@ body.page-layout-2columns-left{
         text-decoration: underline;
       }
     }
-  }
-  > .columns{
-    width: 79.16667%;
   }
   .column.main{
     text-align: left;
