@@ -17,9 +17,10 @@
 		<link src="js/main.min.js"/>
 
 		<!--
-		<remove src="lib\web\jquery.js"/>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js" src_type="url"></script>
+		<remove src="jquery.js"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" src_type="url"></script>
 		-->
+		
 		<!--Favicon-->
 		<link src="Cdi_custom::img/favicon.png" rel="icon" sizes="32x32" />
     </head>
