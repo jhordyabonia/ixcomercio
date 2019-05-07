@@ -253,6 +253,11 @@
     }
   }
 }
+body .page-wrapper .col-main {
+  @media only screen and (min-width: 768px){
+    width: 75%;
+  }
+}
 body.page-layout-2columns-left{
   .page-main{
     padding: 30px;
