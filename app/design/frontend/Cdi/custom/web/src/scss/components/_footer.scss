@@ -81,7 +81,8 @@ footer{
         text-transform: uppercase;
         font-size: 12px;
         float: none;
-        width: 400px;
+        width: 100%;
+        max-width: 400px;
         form{
           .block-content{
             padding-top: 7px;
@@ -98,7 +99,6 @@ footer{
           }
           input[type=email]{
             width: 100%;
-            max-width: 400px;
             height: 40px;
             border-radius: 0;
             border: 1px solid #C0C0C0;
