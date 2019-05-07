@@ -80,7 +80,7 @@ ul, ol {
         top: 0;
         left: 0;
         &:checked{
-          ~ i{
+          ~ i, ~ h2{
             &:before{
               transform: translate(2px, 0) rotate(45deg);
             }
@@ -126,6 +126,23 @@ ul, ol {
       background-color: #fefffa;
       margin: 0;
       cursor: pointer;
+    }
+    h2{
+      &:before, &:after{
+        content: '';
+        top: 30px;
+        right: 20px;
+        width: 3px;
+        height: 9px;
+        position: absolute;
+        background-color: rgba(0, 163, 233, 1);
+      }
+      &:before{
+        transform: translate(-2px, 0) rotate(45deg);
+      }
+      &:after{
+        transform: translate(3px, 0) rotate(-45deg);
+      }
     }
     p{
       color: #000000;
