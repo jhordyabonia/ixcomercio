@@ -253,7 +253,7 @@
     }
   }
 }
-body .page-wrapper .column.main {
+body.cms-page-view .page-wrapper .column.main {
   @media only screen and (min-width: 768px){
     width: 75%;
   }
