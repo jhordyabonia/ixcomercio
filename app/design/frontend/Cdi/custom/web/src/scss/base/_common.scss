@@ -146,13 +146,13 @@ html a {
     color: #00a1c9;
     text-decoration: underline;
   }
+  &:visited, &.alink:visited{
+    color: #00a1c9;
+  }
 }
 a, button {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
-}
-a:visited, .alink:visited{
-  color: inherit;
 }
 img{
   width: 100%;
