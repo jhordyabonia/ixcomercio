@@ -37,6 +37,9 @@ footer{
     }
     .footer-social {
       text-align: right;
+      @media only screen and (max-width: 599px){
+        text-align: center;
+      }
       li{
         display: inline-block;
         &:hover{
