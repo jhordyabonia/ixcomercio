@@ -1,7 +1,9 @@
 .page-wrapper {
   .page-main{
-    padding: 0;
-    max-width: 100%;
+    padding: 0 30px;
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
     > .columns{
       float: left;
       width: 100%;
@@ -9,9 +11,15 @@
   }
 }
 .banner{
-  width: 100%;
-  padding: 0;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   float: left;
+  display: block;
+  clear: both;
   &.frame{
     padding: 60px;
   }
