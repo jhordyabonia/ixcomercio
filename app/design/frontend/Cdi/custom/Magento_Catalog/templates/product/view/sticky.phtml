@@ -7,19 +7,19 @@ $cartEnabled = $_helperCdi->getStoreConfig('general/store_information/custom_dis
 <div class="fullwidth">
 	<div class="container">
 		
-			<div class="col-md-4 col-12">
+			<div class="col-sm-4 col-12">
 				<div class="sticky-name">
 					<?= $block->escapeHtml($_product->getName()) ?>
 				</div>
 			</div>
-			<div class="col-md-4 col-12" style="text-align: center;">
+			<div class="col-sm-4 col-12" style="text-align: center;">
 				<ul class="sticky-sections">
 					<li class="goto-section"><a href="#features"><?php echo __('Features')?></a></li>
 					<li class="goto-section"><a href="#product-specs"><?php echo __('Specs')?></a></li>
 					<li class="goto-section"><a href="#product-in-box"><?php echo __('In the Box')?></a></li>
 				</ul>
 			</div>
-			<div class="col-md-4 col-12">
+			<div class="col-sm-4 col-12">
 				<?php if($cartEnabled){ ?>
 					<div class="sticky-price-box">
 						<div class="sticky-price">
