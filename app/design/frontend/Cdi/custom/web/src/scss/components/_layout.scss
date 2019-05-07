@@ -257,7 +257,8 @@
   }
 }
 body.cms-page-view .page-wrapper .column.main {
-  @media only screen and (min-width: 769px){
+  width: 100%;
+  @media only screen and (max-width: $tablet){
     width: 75%;
   }
 }
@@ -268,14 +269,19 @@ body.page-layout-2columns-left{
     max-width: 1300px;
     margin: 0 auto;
   }
-  @media only screen and (min-width: 769px){
-    .column.main{
-      width: 75%;
-    }
-    .sidebar.sidebar-main{
-      width: 25%;
+  .column.main{
+    width: 25%;
+    @media only screen and (max-width: $tablet){
+      width: 100%;
     }
   }
+  .sidebar.sidebar-main{
+    width: 25%;
+    @media only screen and (max-width: $tablet){
+      width: 100%;
+    }
+  }
+  
   &.cms-support .page-main > .columns{
     width: 79.16667%;
   }
