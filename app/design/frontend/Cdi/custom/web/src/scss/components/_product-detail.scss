@@ -51,6 +51,9 @@ ul.sticky-sections {
   font-size: 16px;
   display: inline-block;
   margin: 0;
+  @media only screen and (min-width: 599px){
+    display: none;
+  }
   li{
     display: inline;
     padding-right: 2em;
