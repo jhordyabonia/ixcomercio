@@ -361,9 +361,12 @@ html.nav-open .page-wrapper{
   }
 }
 .bkg-pattern {
-  padding-top: 60px;
+  padding: 60px;
   background-position: top left;
   background-repeat: repeat;
+  .container{
+    padding: 15px;
+  }
 }
 .shatter-shiro-dark {
   background-image: url(../images/patterns/shatter-shiro-dark.svg);
