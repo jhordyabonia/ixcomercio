@@ -261,6 +261,14 @@ body.page-layout-2columns-left{
   &.cms-support .page-main > .columns{
     width: 79.16667%;
   }
+  .std{
+    li{
+      color: #000000;
+      font-size: 14px;
+      font-style: italic;
+      line-height: 24px;
+    }
+  }
 }
 .page-main{
   .sidebar-main{

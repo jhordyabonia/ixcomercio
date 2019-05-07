@@ -22,9 +22,14 @@ body[data-container='body']{
   font-family: 'Roboto', sans-serif;
   line-height: 2;
 }
-.std ul {
-  list-style: disc outside;
-  margin-bottom: 1.5em;
+.std {
+  ul {
+    list-style: disc outside;
+    margin-bottom: 1.5em;
+    li {
+      margin-left: 2em;
+    }
+  }
 }
 ul, ol {
   list-style: none;
