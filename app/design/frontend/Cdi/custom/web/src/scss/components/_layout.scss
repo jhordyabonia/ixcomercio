@@ -305,3 +305,23 @@ body.page-layout-2columns-left{
     }
   }
 }
+.products-grid > li {
+  position: relative;
+  margin-bottom: 20px;
+  margin-left: 2em;
+  text-align: center;
+  color: #000000;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 24px;
+  float: left;
+  @media only screen and (min-width: 480px){
+    .products-grid > li {
+      width: 30.8642%;
+      margin-right: 3.7037%;
+    }
+  }
+}
+.sectionVideo img {
+  width: 100%;
+}
