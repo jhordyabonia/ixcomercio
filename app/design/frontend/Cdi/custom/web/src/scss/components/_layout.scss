@@ -306,15 +306,17 @@ body.page-layout-2columns-left{
   }
 }
 .products-grid > li {
+  width: 38.8642%;
   position: relative;
-  margin-bottom: 20px;
-  margin-left: 2em;
-  text-align: center;
   color: #000000;
   font-size: 14px;
   font-style: italic;
+  text-align: center;
   line-height: 24px;
   float: left;
+  margin-right: 3.7037%;
+  margin-bottom: 20px;
+  margin-left: 0em;
   @media only screen and (min-width: 480px){
     .products-grid > li {
       width: 30.8642%;
@@ -324,4 +326,7 @@ body.page-layout-2columns-left{
 }
 .sectionVideo img {
   width: 100%;
+}
+.videoContain{
+  float: left;
 }
