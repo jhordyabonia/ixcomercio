@@ -38,6 +38,7 @@
       width: 100%;
       top: 0;
       left: 0;
+      right: 0;
       position: relative;
       transform: translateY(0) translateX(0);
       padding: 60px 0;
@@ -47,6 +48,7 @@
       right: 0;
       transform: translateY(-50%) translateX(0%);
       @media only screen and (max-width: 599px){
+        width: 100%;
         transform: translateY(0) translateX(0);
       }
     }
@@ -55,6 +57,7 @@
       left: 0;
       transform: translateY(-50%) translateX(0%);
       @media only screen and (max-width: 599px){
+        width: 100%;
         transform: translateY(0) translateX(0);
       }
     }
