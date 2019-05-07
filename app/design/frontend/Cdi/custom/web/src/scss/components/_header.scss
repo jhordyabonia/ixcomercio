@@ -25,7 +25,7 @@ header{
       background: #EDEDED;
       margin: 0;
       display: none;
-      @media only screen and (max-width: 770px){
+      @media only screen and (max-width: $tablet){
         padding: 5px 0;
         .nav-sections-item-title, .nav-sections-item-title.active{
           display: none;
@@ -35,7 +35,7 @@ header{
           padding: 0;
         }
       }
-      @media only screen and (min-width: 771px){
+      @media only screen and (min-width: 769px){
         width: auto;
         display: block;
         background: none;
