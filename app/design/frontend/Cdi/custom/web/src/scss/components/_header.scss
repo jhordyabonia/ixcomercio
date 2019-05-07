@@ -90,6 +90,12 @@ header{
       }
     }
   }
+  .nav-toggle{
+    display: block!important;
+    @media only screen and (min-width: 769px){
+      display: none !important;
+    }
+  }
   nav.navigation {
     margin: 0;
     background: none;
