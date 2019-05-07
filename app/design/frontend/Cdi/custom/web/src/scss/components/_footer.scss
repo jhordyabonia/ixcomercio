@@ -38,6 +38,7 @@ footer{
     .footer-social {
       text-align: right;
       @media only screen and (max-width: 599px){
+        margin-top: 30px;
         text-align: center;
       }
       li{
@@ -96,11 +97,12 @@ footer{
             }
           }
           input[type=email]{
-            border-radius: 0;
-            width: 400px;
-            padding: 5px 10px;
+            width: 100%;
+            max-width: 400px;
             height: 40px;
+            border-radius: 0;
             border: 1px solid #C0C0C0;
+            padding: 5px 10px;
           }
         }
         .actions{
