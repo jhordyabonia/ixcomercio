@@ -22,6 +22,10 @@ body[data-container='body']{
   font-family: 'Roboto', sans-serif;
   line-height: 2;
 }
+.std ul {
+  list-style: disc outside;
+  margin-bottom: 1.5em;
+}
 ul, ol {
   list-style: none;
   > li{
