@@ -163,6 +163,9 @@
         font-size: 1.5vw;
         font-weight: normal;
         line-height: 1.5em;
+        @media only screen and (max-width: $tablet){
+          font-size: 12px;
+        }
       }
     }
   }
