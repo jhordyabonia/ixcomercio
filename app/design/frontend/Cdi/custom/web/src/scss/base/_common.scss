@@ -349,7 +349,7 @@ input.input-text, select, textarea {
   }
 }
 html.nav-open .page-wrapper{
-  @media only screen and (max-width: 767px){
+  @media only screen and (max-width: 768px){
     left: 0;
     .nav-toggle:after{
       display: none;

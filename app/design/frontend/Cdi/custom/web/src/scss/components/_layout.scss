@@ -139,7 +139,7 @@
   max-height: 620px;
   height: 240px;
   float: left;
-  @media only screen and (min-width: 768px){
+  @media only screen and (min-width: 769px){
     height: 400px;
   }
   @media only screen and (min-width: 1280px){
@@ -268,7 +268,7 @@ body.page-layout-2columns-left{
     max-width: 1300px;
     margin: 0 auto;
   }
-  @media only screen and (min-width: 768px){
+  @media only screen and (min-width: 769px){
     .column.main{
       width: 75%;
     }
