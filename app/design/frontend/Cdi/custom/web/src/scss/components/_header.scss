@@ -91,6 +91,7 @@ header{
     }
   }
   .nav-toggle{
+    top: 0;
     display: block!important;
     @media only screen and (min-width: 769px){
       display: none !important;
