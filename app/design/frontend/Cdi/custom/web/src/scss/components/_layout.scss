@@ -410,10 +410,17 @@ body.page-layout-2columns-left{
       }
       &:not(.choice){
         > .label{
+          text-align: left;
           @media only screen and (min-width: $tablet){
             float: left;
             width: 135px;
             padding: 7px 8px 0 0;
+            text-align: left;
+          }
+          span{
+            color: #000;
+            display: inline-block;
+            font-size: 13px;
           }
         }
         .control{
