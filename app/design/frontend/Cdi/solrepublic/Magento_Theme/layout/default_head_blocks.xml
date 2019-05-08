@@ -11,8 +11,8 @@
 		<link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" src_type="url" /> 
 		
 		<!--Custom Css
-		<css src="css/main.min.css" />
 		-->
+		<css src="css/main.min.css" />
 		
 		<!--Custom Js
 		<link src="js/main.min.js"/>
