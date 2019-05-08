@@ -439,6 +439,9 @@ body.page-layout-2columns-left{
     text-align: right;
     margin-left: 30px;
     padding-top: 5px;
+    @media only screen and (min-width: $tablet){
+      margin-left: 30px;
+    }
     .primary{
       float: right;
       button{
