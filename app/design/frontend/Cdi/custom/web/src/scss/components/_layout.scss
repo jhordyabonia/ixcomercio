@@ -398,14 +398,16 @@ body.page-layout-2columns-left{
     width: 75%;
     float: right;
   }
-  .legend{
-    width: auto;
-    display: block;
-    margin-left: 0;
-  }
-  .field{
-    &:before{
-      display: none;
+  .fieldset{
+    > .legend{
+      width: auto;
+      display: block;
+      margin-left: 0;
+    }
+    .field{
+      &:before{
+        display: none;
+      }
     }
   }
 }
