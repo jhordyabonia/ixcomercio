@@ -404,9 +404,14 @@ body.page-layout-2columns-left{
       display: block;
       margin-left: 0;
     }
-    .field{
+    > .field{
       &:before{
         display: none;
+      }
+      label{
+        float: left;
+        width: 135px;
+        padding: 7px 8px 0 0;
       }
     }
   }
