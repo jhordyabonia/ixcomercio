@@ -1,7 +1,9 @@
 .page-wrapper {
   .page-main{
-    padding: 0;
-    max-width: 100%;
+    padding: 0 30px;
+    position: relative;
+    max-width: 1300px;
+    margin: 0 auto;
     > .columns{
       float: left;
       width: 100%;
@@ -9,9 +11,16 @@
   }
 }
 .banner{
-  width: 100%;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   padding: 0;
   float: left;
+  display: block;
+  clear: both;
   &.frame{
     padding: 60px;
   }
@@ -25,15 +34,32 @@
     transform: translateX(-50%) translateY(-50%);
     width: 70%;
     text-align: center;
+    @media only screen and (max-width: 599px){
+      width: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      position: relative;
+      transform: translateY(0) translateX(0);
+      padding: 60px 0;
+    }
     &.banner-text-right {
       width: 50%;
       right: 0;
       transform: translateY(-50%) translateX(0%);
+      @media only screen and (max-width: 599px){
+        width: 100%;
+        transform: translateY(0) translateX(0);
+      }
     }
     &.banner-text-left {
       width: 50%;
       left: 0;
       transform: translateY(-50%) translateX(0%);
+      @media only screen and (max-width: 599px){
+        width: 100%;
+        transform: translateY(0) translateX(0);
+      }
     }
     h1, h1 span{
       font-family: 'Frankfurter W05 Regular';
@@ -41,12 +67,19 @@
       font-size: 72px;
       line-height: .9em;
       margin-bottom: .1em;
+      word-break: break-word;
+      @media only screen and (max-width: $tablet){
+        font-size: 40px;
+      }
     }
     p{
       font-size: 16px;
       padding: 0 2em;
       font-weight: normal;
       line-height: 1.5em;
+      @media only screen and (max-width: $tablet){
+        font-size: 14px;
+      }
     }
   }
   &.main-banner{
@@ -62,6 +95,7 @@
 }
 .category-products {
   padding: 2em 0;
+  clear: both;
 }
 .category-callout{
   img{
@@ -122,7 +156,7 @@
   max-height: 620px;
   height: 240px;
   float: left;
-  @media only screen and (min-width: 768px){
+  @media only screen and (min-width: 769px){
     height: 400px;
   }
   @media only screen and (min-width: 1280px){
@@ -146,6 +180,9 @@
         font-size: 1.5vw;
         font-weight: normal;
         line-height: 1.5em;
+        @media only screen and (max-width: $tablet){
+          font-size: 12px;
+        }
       }
     }
   }
@@ -215,10 +252,6 @@
       min-height: 235px;
       font-weight: 100;
     }
-    img{
-      height: 150px;
-      width: auto;
-    }
     .callout-text{
       font-weight: 400;
     }
@@ -243,6 +276,12 @@
     }
   }
 }
+body.cms-page-view .page-wrapper .column.main {
+  width: 100%;
+  @media only screen and (max-width: $tablet){
+    width: 75%;
+  }
+}
 body.page-layout-2columns-left{
   .page-main{
     padding: 30px;
@@ -250,14 +289,21 @@ body.page-layout-2columns-left{
     max-width: 1300px;
     margin: 0 auto;
   }
-  @media only screen and (min-width: 768px){
+  .page-wrapper{
     .column.main{
-      width: 73.68421%;
+      width: 75%;
+      @media only screen and (max-width: $tablet){
+        width: 100%;
+      }
     }
     .sidebar.sidebar-main{
-      width: 26.31579%;
+      width: 25%;
+      @media only screen and (max-width: $tablet){
+        width: 100%;
+      }
     }
   }
+  
   &.cms-support .page-main > .columns{
     width: 79.16667%;
   }
@@ -274,8 +320,12 @@ body.page-layout-2columns-left{
       line-height: 24px;
     }
   }
+  .category-intro.helpSection{
+    width: 100%;
+    float: left;
+  }
 }
-.page-main{
+.cms-page-view .page-main{
   .sidebar-main{
     li{
       text-align: left;
@@ -303,5 +353,40 @@ body.page-layout-2columns-left{
       font-weight: 500;
       padding-top: 1em;
     }
+  }
+}
+.products-grid > li {
+  width: 38.8642%;
+  position: relative;
+  color: #000000;
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+  line-height: 24px;
+  float: left;
+  margin-right: 3.7037%;
+  margin-bottom: 20px;
+  margin-left: 0em;
+  @media only screen and (min-width: 480px){
+    .products-grid > li {
+      width: 30.8642%;
+      margin-right: 3.7037%;
+    }
+  }
+}
+.sectionVideo img {
+  width: 100%;
+}
+.videoContain{
+  float: left;
+  width: 100%;
+}
+.press-article {
+  border-bottom: 1px dashed #d7dade;
+  margin-bottom: 20px;
+}
+#mageplaza-seo-html-sitemap{
+  .row{
+    margin: 0;
   }
 }

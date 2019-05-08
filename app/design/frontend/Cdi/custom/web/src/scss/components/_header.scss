@@ -1,6 +1,6 @@
 header{
   .container{
-    @media only screen and (max-width: 770px){
+    @media only screen and (max-width: $tablet){
       padding: 0;
     }
   }
@@ -10,7 +10,7 @@ header{
     margin: 0 auto;
     padding-bottom: 0;
     border: 0;
-    @media only screen and (min-width: 771px){
+    @media only screen and (min-width: 769px){
       padding: 30px 30px 0;
     }
     .header.content{
@@ -25,7 +25,7 @@ header{
       background: #EDEDED;
       margin: 0;
       display: none;
-      @media only screen and (max-width: 770px){
+      @media only screen and (max-width: $tablet){
         padding: 5px 0;
         .nav-sections-item-title, .nav-sections-item-title.active{
           display: none;
@@ -35,7 +35,7 @@ header{
           padding: 0;
         }
       }
-      @media only screen and (min-width: 771px){
+      @media only screen and (min-width: 769px){
         width: auto;
         display: block;
         background: none;
@@ -56,7 +56,7 @@ header{
     padding: 10px;
     margin: 0 auto;
     opacity: 1;
-    @media only screen and (min-width: 771px){
+    @media only screen and (min-width: 769px){
       max-width: 150px;
       padding: 0;
       background: url(../img/JAM_logo-blue.svg) no-repeat top;
@@ -69,7 +69,7 @@ header{
       max-width: 100%;
       transition: all .5s ease;
       margin: 0 auto;
-      @media only screen and (min-width: 771px){
+      @media only screen and (min-width: 769px){
         width: auto;
       }
       &:hover {
@@ -77,17 +77,24 @@ header{
       }
       &.large{
         display: none;
-        @media only screen and (min-width: 771px){
+        @media only screen and (min-width: 769px){
           display: inline-block;
         }
       }
       &.small {
         display: block;
         margin: 0 auto;
-        @media only screen and (min-width: 771px){
+        @media only screen and (min-width: 769px){
           display: none;
         }
       }
+    }
+  }
+  .nav-toggle{
+    top: 0;
+    display: block!important;
+    @media only screen and (min-width: 769px){
+      display: none !important;
     }
   }
   nav.navigation {
@@ -97,7 +104,7 @@ header{
       display: block;
       margin: 0;
       text-align: left;
-      @media only screen and (min-width: 771px){
+      @media only screen and (min-width: 769px){
         padding: 10px 0;
         margin: 15px 0;
         text-align: center;
@@ -107,7 +114,7 @@ header{
         padding: 0 2em;
         margin: 0;
         &:hover{
-          @media only screen and (min-width: 768px){
+          @media only screen and (min-width: 769px){
             &.level0.active a.level-top, &.level0.has-active a.level-top, > a, a.level-top{
               color: #E73C3E;
               transition: all .45s ease;
@@ -115,7 +122,7 @@ header{
           }
         }
         &.level0 {
-          @media only screen and (max-width: 770px){
+          @media only screen and (max-width: $tablet){
             border: 0;
             &:last-child{
               border: 0;
@@ -194,7 +201,7 @@ header{
             }
           }
           ul{
-            @media only screen and (min-width: 771px){
+            @media only screen and (min-width: 769px){
               background: #fbfbfb;
               border: solid 1px #ccc;
               position: absolute;
@@ -216,7 +223,7 @@ header{
       }
       li, a {
         &.level0 {
-          @media only screen and (min-width: 771px){
+          @media only screen and (min-width: 769px){
             display: inline-block;
             margin: 0;
           }

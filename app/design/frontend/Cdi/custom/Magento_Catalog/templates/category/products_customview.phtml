@@ -19,7 +19,7 @@
 						$_imgHtml = "<img src='{$_imgUrl}' usemap='#chill-map-{$subcat->getId()}'/>";
 						$_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
 					} ?>			
-					<div class="col-md-<?php echo $cols;?> col-12 category-callout">
+					<div class="col-sm-<?php echo $cols;?> col-12 category-callout">
 						<?php echo $_imgHtml;?>
 						<map name="chill-map-<?php echo $subcat->getId(); ?>">
 							<?php foreach($prods as $prod){ ?>

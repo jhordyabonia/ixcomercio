@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="row">
 				<?php foreach($fields as $field){ ?>
-					<div class="col-md-<?php echo $colsm?> col-xs-6 feature-callout">
+					<div class="col-sm-<?php echo $colsm?> col-xs-6 feature-callout">
 						<img src="<?php echo $this->getViewFileUrl("images/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
 						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
 							<div class="callout-text">
