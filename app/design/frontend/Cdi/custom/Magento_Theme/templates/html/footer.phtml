@@ -6,10 +6,10 @@ $storeZip = $_helperCdi->getStoreConfig('general/store_information/postcode');
 $storeStreet1 = $_helperCdi->getStoreConfig('general/store_information/street_line1');
 $storeStreet2 = $_helperCdi->getStoreConfig('general/store_information/street_line2');
 $storeDisclaimer = $_helperCdi->getStoreConfig('general/store_information/disclaimer');
-$sitemap = $_helperCdi->getStoreConfig('general/store_information/sitemap');
-$contacts = $_helperCdi->getStoreConfig('general/store_information/contacts');
-$terms = $_helperCdi->getStoreConfig('general/store_information/termsofuse');
-$privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy');
+$contacts = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/contacts'));
+$terms = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/termsofuse'));
+$privacy = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/privacypolicy'));
+$sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/sitemap'));
 ?>
 <div class="footer-bottom">
     <div class="container">
