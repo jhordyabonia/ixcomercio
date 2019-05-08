@@ -408,11 +408,13 @@ body.page-layout-2columns-left{
       &:before{
         display: none;
       }
-      label{
-        @media only screen and (min-width: $tablet){
-          float: left;
-          width: 135px;
-          padding: 7px 8px 0 0;
+      &:not(.choice){
+        > .label{
+          @media only screen and (min-width: $tablet){
+            float: left;
+            width: 135px;
+            padding: 7px 8px 0 0;
+          }
         }
       }
     }
