@@ -16,16 +16,6 @@ if($bannerClass){
 					<a href="<?php echo $banner->getClickUrl()?>" target="<?php echo $this->getTargetValue()?>">
 				<?php } ?>
 					<div class="text-block-banner">
-						<?php if($banner->getTitle() || $banner->getCaption()){ ?>
-							<div class="text-overlay-banner banner-text-<?php echo $banner->getTextLocation(); ?>" style="color: <?php echo $color;?>">
-								<?php if($banner->getTitle()){ ?>
-									<h1 class="caption-title"><?php echo $banner->getTitle();?></h1>
-								<?php } ?>
-								<?php if($banner->getCaption()){ ?>
-									<div class="caption-desc"><?php echo $banner->getCaption();?></div>
-								<?php } ?>
-							</div>
-						<?php } ?>
 						<?php if(!$isFullWidth && $banner->getImage()){ ?>
 							<picture>
 								<?php 
@@ -35,6 +25,16 @@ if($bannerClass){
 								<source media="(max-width: 650px)" srcset="<?php echo $respImage;?>">
 								<img src="<?php echo $image;?>" alt="<?php echo $banner->getImageAlt()?>" />
 							</picture>
+						<?php } ?>
+						<?php if($banner->getTitle() || $banner->getCaption()){ ?>
+							<div class="text-overlay-banner banner-text-<?php echo $banner->getTextLocation(); ?>" style="color: <?php echo $color;?>">
+								<?php if($banner->getTitle()){ ?>
+									<h1 class="caption-title"><?php echo $banner->getTitle();?></h1>
+								<?php } ?>
+								<?php if($banner->getCaption()){ ?>
+									<div class="caption-desc"><?php echo $banner->getCaption();?></div>
+								<?php } ?>
+							</div>
 						<?php } ?>
 					</div>
 				<?php if($banner->getClickUrl()){ ?>
