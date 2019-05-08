@@ -392,3 +392,20 @@ body.page-layout-2columns-left{
     margin: 0;
   }
 }
+.form{
+  &.contact{
+    text-align: left;
+    width: 75%;
+    float: right;
+  }
+  .legend{
+    width: auto;
+    display: block;
+    margin-left: 0;
+  }
+  .field{
+    &:before{
+      display: none;
+    }
+  }
+}
