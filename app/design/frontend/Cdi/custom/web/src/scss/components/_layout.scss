@@ -431,6 +431,35 @@ body.page-layout-2columns-left{
       }
     }
   }
+  .actions-toolbar{
+    max-width: 435px;
+    clear: both;
+    margin: 10px 0 0;
+    border-top: 1px solid #EDEDED;
+    text-align: right;
+    margin-left: 30px;
+    padding-top: 5px;
+    .primary{
+      float: right;
+      button{
+        margin-left: 5px;
+        min-width: 140px;
+        border-radius: 25px;
+        background: #E73C3E;
+        display: inline-block;
+        padding: 7px 15px;
+        border: 0;
+        color: #FFFFFF;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 19px;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+    }
+  }
 }
 .form-note p {
   line-height: 1.5em;
