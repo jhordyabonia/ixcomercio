@@ -393,6 +393,7 @@ body.page-layout-2columns-left{
   }
 }
 .form{
+  margin-bottom: 40px;
   &.contact{
     text-align: left;
     width: 75%;
@@ -432,7 +433,7 @@ body.page-layout-2columns-left{
     }
   }
   .actions-toolbar{
-    max-width: 435px;
+    max-width: 485px;
     clear: both;
     margin: 10px 0 0;
     border-top: 1px solid #EDEDED;
@@ -467,4 +468,7 @@ body.page-layout-2columns-left{
 .form-note p {
   line-height: 1.5em;
   font-size: .9em;
+}
+body .column:not(.sidebar-main) form .actions-toolbar{
+  margin-left: 30px;
 }
