@@ -1,0 +1,25 @@
+<?php
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$facebook = $_helperCdi->getStoreConfig('general/store_information/facebook_link');
+$instagram = $_helperCdi->getStoreConfig('general/store_information/instagram_link');
+$youtube = $_helperCdi->getStoreConfig('general/store_information/youtube_link');
+$twitter = $_helperCdi->getStoreConfig('general/store_information/twitter_link');
+$about = $_helperCdi->getStoreConfig('general/store_information/about_link');
+$retailers = $_helperCdi->getStoreConfig('general/store_information/retailers_link');
+$press = $_helperCdi->getStoreConfig('general/store_information/press_link');
+$support = $_helperCdi->getStoreConfig('general/store_information/support_link');
+?>
+<section class="HPsec8 ltgryBG">
+	<div class="form-subscribe">
+		<div id="mc_embed_signup">
+			<form action="//solrepublic.us12.list-manage.com/subscribe/post?u=8c965bd7bf0a11bc7d4aae353&amp;id=2a37fa0b98" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+				<div class="fields" id="mc_embed_signup_scroll">
+					<h3 class="blktxt"><?php echo __('Join the REPUBLIC')?></h3>
+					<div class="mc-field-group">
+						<input type="email" value="" placeholder="Email Address" name="EMAIL" class="required email" id="mce-EMAIL"><input type="submit" value="Join" name="subscribe" class="button" id="mc-embedded-subscribe">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</section>

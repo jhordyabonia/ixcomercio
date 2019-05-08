@@ -57,6 +57,14 @@ class Data extends AbstractHelper{
 		return false;
 	}
 	
+	public function checkUrl($string){
+		if(!$string) return '';
+		if(filter_var($string, FILTER_VALIDATE_URL)){
+			return $string;
+		}
+		return "/{$string}";
+	}
+	
 	public function getColumnsBt($count){
 		switch($count){
 			case 1:

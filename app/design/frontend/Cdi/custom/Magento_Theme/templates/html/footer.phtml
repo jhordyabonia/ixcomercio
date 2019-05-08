@@ -6,10 +6,10 @@ $storeZip = $_helperCdi->getStoreConfig('general/store_information/postcode');
 $storeStreet1 = $_helperCdi->getStoreConfig('general/store_information/street_line1');
 $storeStreet2 = $_helperCdi->getStoreConfig('general/store_information/street_line2');
 $storeDisclaimer = $_helperCdi->getStoreConfig('general/store_information/disclaimer');
-$sitemap = $_helperCdi->getStoreConfig('general/store_information/sitemap');
-$contacts = $_helperCdi->getStoreConfig('general/store_information/contacts');
-$terms = $_helperCdi->getStoreConfig('general/store_information/termsofuse');
-$privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy');
+$contacts = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/contacts'));
+$terms = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/termsofuse'));
+$privacy = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/privacypolicy'));
+$sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/sitemap'));
 ?>
 <div class="footer-bottom">
     <div class="container">
@@ -27,7 +27,7 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 				<span class="icon"></span>
 				<div class="contact-info">
 					<h5><?php echo __('Need Help?');?></h5>
-					<a href="tel:<?php echo $storePhone;?>"><?php echo $storePhone;?></a> / <a href="/<?php echo $contacts?>"><?php echo __('Email Jam');?></a>
+					<a href="tel:<?php echo $storePhone;?>"><?php echo $storePhone;?></a> / <a href="<?php echo $contacts?>"><?php echo __('Email Jam');?></a>
 				</div>
             </div>
 		</div>
@@ -36,9 +36,9 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 				<p id="disclaimer"><?php echo $storeDisclaimer; ?></p>
 				<p><?= /* @escapeNotVerified */ $block->getCopyright() ?></p>
                 <p>
-					<strong><a href="/<?php echo $sitemap;?>"><?php echo __('Site Map')?></a></strong>
-					<strong><a href="/<?php echo $privacy;?>"><?php echo __('Privacy Policy')?></a></strong>  
-					<strong><a href="/<?php echo $terms;?>"><?php echo __('Terms of Use')?></a></strong>
+					<strong><a href="<?php echo $sitemap;?>"><?php echo __('Site Map')?></a></strong>
+					<strong><a href="<?php echo $privacy;?>"><?php echo __('Privacy Policy')?></a></strong>  
+					<strong><a href="<?php echo $terms;?>"><?php echo __('Terms of Use')?></a></strong>
 				</p>
 			</div>
 		</div>
