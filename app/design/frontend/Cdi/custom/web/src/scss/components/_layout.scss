@@ -441,7 +441,7 @@ body.page-layout-2columns-left{
     margin-left: 30px;
     padding-top: 5px;
     @media only screen and (min-width: $tablet){
-      margin-left: 30px;
+      margin-left: 0;
     }
     .primary{
       float: right;
@@ -470,5 +470,5 @@ body.page-layout-2columns-left{
   font-size: .9em;
 }
 body .column:not(.sidebar-main) form .actions-toolbar{
-  margin-left: 30px;
+  margin-left: 0;
 }
