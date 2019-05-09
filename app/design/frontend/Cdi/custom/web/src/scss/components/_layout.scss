@@ -418,6 +418,9 @@ body.page-layout-2columns-left{
     > .field{
       margin-bottom: 7px;
       padding-left: 40px;
+      @media only screen and (max-width: 599px){
+        padding-left: 0;
+      }
       &:before{
         display: none;
       }
@@ -460,6 +463,9 @@ body.page-layout-2columns-left{
     @media only screen and (min-width: $tablet){
       margin-left: 40px;
     }
+    @media only screen and (max-width: 599px){
+      margin-left: 0;
+    }
     .primary{
       float: right;
       button{
@@ -488,6 +494,9 @@ body.page-layout-2columns-left{
 }
 body .column:not( .sidebar-main ) form .actions-toolbar{
   margin-left: 40px;
+  @media only screen and (max-width: 599px){
+    margin-left: 0;
+  }
 }
 .input-text.mage-error {
   border-color: #DF280A;
