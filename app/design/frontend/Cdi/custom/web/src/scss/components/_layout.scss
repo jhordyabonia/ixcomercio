@@ -468,6 +468,9 @@ body.page-layout-2columns-left{
     }
     .primary{
       float: right;
+      @media only screen and (max-width: 480px){
+        width: 100%;
+      }
       button{
         margin-left: 5px;
         min-width: 140px;
@@ -484,6 +487,9 @@ body.page-layout-2columns-left{
         text-transform: uppercase;
         vertical-align: middle;
         white-space: nowrap;
+        @media only screen and (max-width: 480px){
+          width: 100%;
+        }
       }
     }
   }
