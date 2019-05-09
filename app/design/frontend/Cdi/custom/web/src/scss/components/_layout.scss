@@ -418,6 +418,9 @@ body.page-layout-2columns-left{
     > .field{
       margin-bottom: 7px;
       padding-left: 40px;
+      @media only screen and (max-width: 599px){
+        padding-left: 0;
+      }
       &:before{
         display: none;
       }
@@ -429,7 +432,8 @@ body.page-layout-2columns-left{
           text-align: left;
           @media only screen and (min-width: $tablet){
             float: left;
-            width: 135px;
+            width: 100%;
+            max-width: 135px;
             padding: 7px 8px 0 0;
             text-align: left;
           }
@@ -441,7 +445,8 @@ body.page-layout-2columns-left{
         }
         .control{
           float: left;
-          max-width: 350px;
+          width: 100%;
+          max-width: 349px;
           padding-top: 2px;
         }
       }
@@ -458,8 +463,14 @@ body.page-layout-2columns-left{
     @media only screen and (min-width: $tablet){
       margin-left: 40px;
     }
+    @media only screen and (max-width: 599px){
+      margin-left: 0;
+    }
     .primary{
       float: right;
+      @media only screen and (max-width: 480px){
+        width: 100%;
+      }
       button{
         margin-left: 5px;
         min-width: 140px;
@@ -476,6 +487,9 @@ body.page-layout-2columns-left{
         text-transform: uppercase;
         vertical-align: middle;
         white-space: nowrap;
+        @media only screen and (max-width: 480px){
+          width: 100%;
+        }
       }
     }
   }
@@ -486,6 +500,9 @@ body.page-layout-2columns-left{
 }
 body .column:not( .sidebar-main ) form .actions-toolbar{
   margin-left: 40px;
+  @media only screen and (max-width: 599px){
+    margin-left: 0;
+  }
 }
 .input-text.mage-error {
   border-color: #DF280A;

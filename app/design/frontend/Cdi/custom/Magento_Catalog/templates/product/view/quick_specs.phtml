@@ -14,11 +14,11 @@ if($atts){
 		<div class="row">
 			<?php if($image = $_helperCdi->getCustomProductImage($_product, 'specs_img1')){ ?>
 				<?php $productImage1 = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'specs_img1')->setImageFile($image);?>
-				<div class="col-md-9 col-12">
+				<div class="col-sm-9 col-12">
 					<img src="<?php echo $productImage1->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
 				</div>
 			<?php } ?>
-			<div class="col-md-3 col-12" style="text-align: center;">
+			<div class="col-sm-3 col-12" style="text-align: center;">
 				<b><?php echo __('Dimensions')?></b>
 				<ul>
 					<?php if($_product->getHeight()): ?><li><?php echo __('Height:')?> <?= $_product->getHeight() ?></li><?php endif;?>
