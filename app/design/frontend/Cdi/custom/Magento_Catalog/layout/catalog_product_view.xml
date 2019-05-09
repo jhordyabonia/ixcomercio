@@ -10,10 +10,10 @@
 		<referenceContainer name="content">
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
 			<container name="product.essential" htmlTag="div" htmlClass="product-essential container" before="-" />
-			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-5 col-12 pull-left">
+			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-5 col-xs-12 pull-left">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
-			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-7 col-12 pull-right"/>
+			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-7 col-xs-12 pull-right"/>
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
 		    </referenceContainer>
