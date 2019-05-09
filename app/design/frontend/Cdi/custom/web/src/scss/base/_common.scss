@@ -349,8 +349,11 @@ input.input-text, select, textarea {
 html.nav-open .page-wrapper{
   @media only screen and (max-width: 768px){
     left: 0;
-    .nav-toggle:after{
-      display: none;
+    .nav-toggle{
+      background: #ededed;
+      &:after{
+        display: none;
+      }
     }
     .nav-sections{
       width: 100%;
