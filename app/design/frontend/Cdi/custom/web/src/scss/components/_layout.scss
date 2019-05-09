@@ -363,13 +363,13 @@ body.page-layout-2columns-left{
   text-align: center;
   line-height: 24px;
   float: left;
-  margin-right: 3.70%;
+  margin-right: 3.7%;
   margin-bottom: 20px;
-  margin-left: 0em;
+  margin-left: 0;
   @media only screen and (min-width: 480px){
     .products-grid > li {
       width: 30.86%;
-      margin-right: 3.70%;
+      margin-right: 3.7%;
     }
   }
 }
@@ -441,7 +441,7 @@ body.page-layout-2columns-left{
     margin-left: 30px;
     padding-top: 5px;
     @media only screen and (min-width: $tablet){
-      margin-left: 0;
+      margin-left: 40px;
     }
     .primary{
       float: right;
@@ -471,4 +471,12 @@ body.page-layout-2columns-left{
 }
 body .column:not( .sidebar-main ) form .actions-toolbar{
   margin-left: 0;
+}
+.input-text.validation-failed {
+  border-color: #DF280A;
+}
+p.required, .validation-advice {
+  margin: 5px 0 0;
+  color: #DF280A;
+  font-size: 13px;
 }
