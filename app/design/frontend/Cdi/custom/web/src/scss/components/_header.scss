@@ -92,6 +92,8 @@ header{
   }
   .nav-toggle{
     top: 0;
+    left: 0;
+    width: 20%;
     display: block!important;
     @media only screen and (min-width: 769px){
       display: none !important;
@@ -196,7 +198,7 @@ header{
             }
             .ui-menu-icon{
               &:after{
-                display: none!important;  
+                display: none!important;
               }
             }
           }

@@ -7,7 +7,7 @@
 // @codingStandardsIgnoreFile
 /** @var \Magento\Contact\Block\ContactForm $block */
 ?>
-<form class="form contact"
+<form class="form contact col-md-6 col-md-offset-3"
       action="<?= $block->escapeUrl($block->getFormAction()) ?>"
       id="contact-form"
       method="post"
@@ -83,7 +83,7 @@
             </div>
         </div>
 		<div class="field note">
-            <label class="label" for="note"><span><?= $block->escapeHtml(__('Note')) ?></span></label>
+            <label class="label" for="note"><!--<span><?= $block->escapeHtml(__('Note')) ?></span>--></label>
             <div class="control">
                 <div class="form-note">
 					<p>
