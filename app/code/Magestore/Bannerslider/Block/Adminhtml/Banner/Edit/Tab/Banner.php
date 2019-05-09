@@ -293,6 +293,17 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
 				'note' => __('Type Image: click url target. Type Video: youtube video'),
             ]
         );
+		
+		$elements['buttontext'] = $fieldset->addField(
+            'buttontext',
+            'text',
+            [
+                'title' => __('Button text'),
+                'label' => __('Button text'),
+                'name' => 'buttontext',
+				'note' => __('Empty to link all banner; add text to link only button.'),
+            ]
+        );
 
         $elements['image'] = $fieldset->addField(
             'image',
