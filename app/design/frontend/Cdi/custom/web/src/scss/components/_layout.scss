@@ -4,6 +4,9 @@
     position: relative;
     max-width: 1300px;
     margin: 0 auto;
+    @media only screen and (max-width: 599px){
+      padding: 0 15px;
+    }
     > .columns{
       float: left;
       width: 100%;
