@@ -429,7 +429,8 @@ body.page-layout-2columns-left{
           text-align: left;
           @media only screen and (min-width: $tablet){
             float: left;
-            width: 135px;
+            width: 100%;
+            max-width: 135px;
             padding: 7px 8px 0 0;
             text-align: left;
           }
@@ -441,7 +442,8 @@ body.page-layout-2columns-left{
         }
         .control{
           float: left;
-          max-width: 350px;
+          width: 100%;
+          max-width: 349px;
           padding-top: 2px;
         }
       }
