@@ -407,7 +407,7 @@ body.page-layout-2columns-left{
         display: none;
       }
       &.no-label{
-        padding-top: 0 0 1.5em;
+        padding: 0 0 1.5em;
       }
       &:not( .choice ){
         > .label{
@@ -470,12 +470,12 @@ body.page-layout-2columns-left{
   font-size: .9em;
 }
 body .column:not( .sidebar-main ) form .actions-toolbar{
-  margin-left: 0;
+  margin-left: 40px;
 }
-.input-text.validation-failed {
+.input-text.mage-error {
   border-color: #DF280A;
 }
-p.required, .validation-advice {
+div.mage-error{
   margin: 5px 0 0;
   color: #DF280A;
   font-size: 13px;
