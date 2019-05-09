@@ -12,7 +12,7 @@ if($bannerClass){
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-12">
-				<?php if($banner->getClickUrl()){ ?>
+				<?php if($banner->getClickUrl() && !$banner->getButtontext()){ ?>
 					<a href="<?php echo $banner->getClickUrl()?>" target="<?php echo $this->getTargetValue()?>">
 				<?php } ?>
 					<div class="text-block-banner">
@@ -26,7 +26,7 @@ if($bannerClass){
 								<img src="<?php echo $image;?>" alt="<?php echo $banner->getImageAlt()?>" />
 							</picture>
 						<?php } ?>
-						<?php if($banner->getTitle() || $banner->getCaption()){ ?>
+						<?php if($banner->getTitle() || $banner->getCaption() || $banner->getButtontext()){ ?>
 							<div class="text-overlay-banner banner-text-<?php echo $banner->getTextLocation(); ?>" style="color: <?php echo $color;?>">
 								<?php if($banner->getTitle()){ ?>
 									<h1 class="caption-title"><?php echo $banner->getTitle();?></h1>
@@ -34,10 +34,15 @@ if($bannerClass){
 								<?php if($banner->getCaption()){ ?>
 									<div class="caption-desc"><?php echo $banner->getCaption();?></div>
 								<?php } ?>
+								<?php if($banner->getButtontext()){ ?>
+									<a class="banner-button" href="<?php echo $banner->getClickUrl(); ?>" target="<?php echo $this->getTargetValue()?>">
+										<?php echo $banner->getButtontext();?>
+									</a>
+								<?php } ?>
 							</div>
 						<?php } ?>
 					</div>
-				<?php if($banner->getClickUrl()){ ?>
+				<?php if($banner->getClickUrl() && !$banner->getButtontext()){ ?>
 					</a>
 				<?php } ?>
 			</div>
@@ -50,16 +55,6 @@ if($bannerClass){
 		$image = $this->getBannerImageUrl($banner); // imagen desktop
 		$respImage = ($banner->getImageresp()) ? $this->getBannerImageUrl($banner, 'responsive') : $image; //imagen mobile
 	?>
-	<style>
-		#banner-image-<?php echo $banner->getId();?>.banner-background{
-			background: url('<?php echo $image;?>') no-repeat center center transparent; 
-			background-size: cover;
-		}
-		@media (max-width: 650px) {
-			#banner-image-<?php echo $banner->getId();?>.banner-background{
-				background: url('<?php echo $respImage;?>') no-repeat center center transparent; 
-				background-size: cover;
-			}
-		}
-	</style>
+	<style>#banner-image-<?php echo $banner->getId();?>.banner-background{background: url('<?php echo $image;?>') no-repeat center center transparent;background-size: cover;}
+		@media (max-width: 650px) {#banner-image-<?php echo $banner->getId();?>.banner-background{background: url('<?php echo $respImage;?>') no-repeat center center transparent; background-size: cover;}}</style>
 <?php } ?>
