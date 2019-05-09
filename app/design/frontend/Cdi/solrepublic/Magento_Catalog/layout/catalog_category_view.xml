@@ -10,9 +10,8 @@
 			<!--Elimina imagen, descripción y cms-->
 			<referenceBlock name="category.image" remove="true" />
 			<referenceBlock name="category.description" remove="true" />
-			<!--Agrega bloques personalizados de categoría
-			<block class="Magento\Catalog\Block\Category\View" name="category.prods" template="Magento_Catalog::category/products_customview.phtml"/>
-			-->
+			<!--Agrega bloques personalizados de categoría-->
+			<block class="Magento\Catalog\Block\Product\ListProduct" name="category.prods" template="Magento_Catalog::category/products_customview.phtml"/>
 		</referenceContainer>
 		<move element="category.cms" destination="content" as="category.cms" before="-"/>
     </body>

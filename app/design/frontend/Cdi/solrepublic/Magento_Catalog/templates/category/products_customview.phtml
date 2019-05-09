@@ -1,49 +1,56 @@
 <?php
-	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $_helper    = $this->helper('Magento\Catalog\Helper\Output');
-    $_category  = $block->getCurrentCategory();
-	$subCats = $_category->getChildrenCategories();
+use Magento\Framework\App\Action\Action;
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$imageDisplayArea = 'category_page_list';
 ?>
-<?php if(count($subCats)){ ?>
-<?php $cols = 12/count($subCats); ?>
-	<section class="category-products">
-		<div class="container">
-			<div class="row">
-				<?php
-				foreach ($subCats as $subcat) {
-					$_category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcat->getId());
-					$prods = $block->getCategoryProducts($_category);
-					$subcaturl = $subcat->getUrl();
-					$_imgHtml = '';
-					if ($_imgUrl = $_category->getImageUrl()) {
-						$_imgHtml = "<img src='{$_imgUrl}' usemap='#chill-map-{$subcat->getId()}'/>";
-						$_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
-					} ?>			
-					<div class="col-sm-<?php echo $cols;?> col-12 category-callout">
-						<?php echo $_imgHtml;?>
-						<map name="chill-map-<?php echo $subcat->getId(); ?>">
-							<?php foreach($prods as $prod){ ?>
-								<?php 
-								$coords = explode(',', $prod->getMapImageLink());
-								$cType = (count($coords) == 4) ? 'rect' : 'poly';
-								?>
-								<area 
-									href="<?php echo $prod->getProductUrl()?>" 
-									alt="<?php echo $prod->getName()?>" 
-									coords="<?php echo $prod->getMapImageLink()?>" 
-									shape="<?php echo $cType; ?>" 
-								/>
-							<?php }  ?>
-						</map>
-						<h2><?php echo $subcat->getName(); ?></h2>
-						<ul class="cat-product-links">
-							<?php foreach($prods as $prod){ ?>
-								<li><a href="<?php echo $prod->getProductUrl()?>"><nobr><?php echo $prod->getName()?></nobr></a></li>
-							<?php }  ?>
-						</ul>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+	<?php
+	/**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+	<div class="category-products">
+		<div class="container products-list" id="products-list">
+			<?php $count = 0;?>
+			<?php foreach ($_productCollection as $_product): ?>
+				<div class="row item  lightBG <?php echo ($count % 2 == 0) ? 'odd' : 'even'; ?>">
+					<?php $count++; ?>
+					<div class="secContain">
+						<?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+						<div class="productImageContain col-md-6 xs-12">
+							<?php
+							$productImage = $block->getImage($_product, $imageDisplayArea);
+							if ($pos != null) {
+								$position = ' style="left:' . $productImage->getWidth() . 'px;'
+									. 'top:' . $productImage->getHeight() . 'px;"';
+							}
+							?>
+							<a href="<?php echo $_product->getProductUrl()?>" title="<?php echo $_productNameStripped;?>" class="product-image">
+								<?= $productImage->toHtml() ?>
+							</a>
+						</div>
+						<div class="product-shop col-md-6 xs-12">
+							<div class="f-fix">
+								<h2 class="product-name">
+									<a href="<?php echo $_product->getProductUrl()?>" title="<?php echo $_productNameStripped;?>">
+										<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+									</a>
+								</h2>
+								<div class="desc std">
+									<?php echo $_helper->productAttribute($_product, $_product->getDescription(), 'description') ?>
+									<a class="buy-now SOLbtn" href="<?php echo $_product->getProductUrl()?>"><?php echo __('Explore')?></a>
+								</div>
+							</div>
+						</div>
 					</div>
-				<?php } ?>
-			</div>
+				</div>
+			<?php endforeach; ?>
 		</div>
-	</section>
-<?php } ?>
+	</div>
+<?php endif; ?>
