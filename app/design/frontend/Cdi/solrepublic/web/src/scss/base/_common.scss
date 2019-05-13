@@ -185,6 +185,9 @@ input.input-text, select, textarea {
   }
 }
 .page-wrapper{
+  .h1, .h2, .h3, h1, h2, h3{
+    margin: 0;
+  }
   h3{
     color: #fff;
     font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
