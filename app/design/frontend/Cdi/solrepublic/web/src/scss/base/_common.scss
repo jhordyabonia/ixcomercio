@@ -184,12 +184,14 @@ input.input-text, select, textarea {
     overflow: hidden;
   }
 }
-h3{
-  color: #fff;
-  font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
-  font-size: 40px;
-  text-transform: uppercase;
-  line-height: 1;
-  margin-bottom: .5em;
-  font-weight: 300;
+.page-wrapper{
+  h3{
+    color: #fff;
+    font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
+    font-size: 40px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: .5em;
+    font-weight: 300;
+  }
 }
