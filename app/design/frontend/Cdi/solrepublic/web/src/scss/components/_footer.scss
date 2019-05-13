@@ -57,6 +57,7 @@
     font-size: 12px;
     text-transform: uppercase;
     text-decoration: none;
+    display: inline-block;
     &:hover{
       text-decoration: none;
     }
@@ -83,9 +84,45 @@
     padding: 0;
     li{
       display: block;
+      line-height: normal;
       vertical-align: top;
       margin: 0 0 11px;
       padding: 0;
     }
+  }
+  .footer-social{
+    width: 100%;
+    text-align: left;
+    vertical-align: top;
+    display: inline-block;
+    div.row{
+      max-width: 155px;
+      height: 28px;
+      margin: 0 auto 7% 0;
+      float: none;
+      > div{
+        padding-left: 0;
+      }
+    }
+    a{
+      width: 28px;
+      display: initial;
+      max-width: 28px;
+      max-height: 28px;
+      opacity: 1;
+      transition: opacity 0.3s linear;
+      margin: 0 auto 31% 0;
+      img{
+        display: block;
+        max-width: inherit;
+        max-height: inherit;
+        margin: 0;
+      }
+    }
+  }
+  .footerTitle {
+    margin: 12px 100% 20px 0;
+    text-align: left;
+    float: none;
   }
 }
