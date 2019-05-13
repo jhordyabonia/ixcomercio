@@ -99,6 +99,10 @@
       height: 28px;
       margin: 0 auto 7% 0;
       float: none;
+      @media screen and (max-width: 700px){
+        width: 100%;
+        max-width: 100%;
+      }
       > div{
         padding-left: 0;
       }
