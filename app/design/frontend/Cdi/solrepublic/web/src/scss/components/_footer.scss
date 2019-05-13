@@ -43,7 +43,7 @@
   font-weight: normal;
   font-family: Helvetica, Arial, sans-serif;
   text-align: center;
-  padding: 30px 0 0; 
+  padding: 30px 0 0;
   position: relative;
   margin: 0 auto;
   background: #000;
@@ -91,7 +91,6 @@
     }
   }
   .footer-social{
-    width: 100%;
     text-align: left;
     vertical-align: top;
     display: inline-block;
@@ -110,7 +109,7 @@
       max-width: 28px;
       max-height: 28px;
       opacity: 1;
-      transition: opacity 0.3s linear;
+      transition: opacity .3s linear;
       margin: 0 auto 31% 0;
       img{
         display: block;
@@ -121,7 +120,7 @@
     }
   }
   .footerTitle {
-    margin: 12px 100% 20px 0;
+    margin: 12px 0 20px;
     text-align: left;
     float: none;
   }
