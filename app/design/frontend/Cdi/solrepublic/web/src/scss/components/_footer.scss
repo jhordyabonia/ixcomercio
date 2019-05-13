@@ -57,5 +57,8 @@
     font-size: 12px;
     text-transform: uppercase;
     text-decoration: none;
+    &:hover{
+      text-decoration: none;
+    }
   }
 }
