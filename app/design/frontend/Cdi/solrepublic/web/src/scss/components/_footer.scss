@@ -94,14 +94,17 @@
     text-align: left;
     vertical-align: top;
     display: inline-block;
+    @media screen and (max-width: 700px){
+      width: 100%;
+      text-align: center;
+    }
     div.row{
       max-width: 155px;
       height: 28px;
       margin: 0 auto 7% 0;
       float: none;
       @media screen and (max-width: 700px){
-        width: 100%;
-        max-width: 100%;
+        display: inline-block;
       }
       > div{
         padding-left: 0;
@@ -127,5 +130,8 @@
     margin: 12px 0 20px;
     text-align: left;
     float: none;
+    @media screen and (max-width: 700px){
+      display: none;
+    }
   }
 }
