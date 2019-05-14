@@ -4,10 +4,6 @@ $facebook = $_helperCdi->getStoreConfig('general/store_information/facebook_link
 $instagram = $_helperCdi->getStoreConfig('general/store_information/instagram_link');
 $youtube = $_helperCdi->getStoreConfig('general/store_information/youtube_link');
 $twitter = $_helperCdi->getStoreConfig('general/store_information/twitter_link');
-$about = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/about_link'));
-$retailers = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/retailers_link'));
-$press = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/press_link'));
-$support = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_information/support_link'));
 ?>
 <a id="scroll-to-top" href="#top" class="" title="Back to top">
 	<div class="b2tArrow"><?php echo __('Back to top')?></div>
@@ -49,12 +45,7 @@ $support = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_info
 				<div class="col-md-3 col-12 text-left footer-country">
 				</div>
 				<div class="col-md-6 col-12 text-left footer-nav">
-					<ul class="second-nav">
-						<?php if($about){ ?><li><a href="<?php echo $about?>"><?php echo __('About');?></a></li><?php }?>
-						<?php if($retailers){ ?><li><a href="<?php echo $retailers?>"><?php echo __('Retailers');?></a></li><?php }?>
-						<?php if($press){ ?><li><a href="<?php echo $press?>"><?php echo __('Press');?></a></li><?php }?>
-						<?php if($support){ ?><li><a href="<?php echo $support?>"><?php echo __('Support');?></a></li><?php }?>
-					</ul>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('jam_footer_top_links')->toHtml();?>
 				</div>
 				<div class="col-md-3 col-12 text-left footer-social">
 					<ul class="social-icons">

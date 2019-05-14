@@ -3,20 +3,11 @@
     <default>
         <general>
             <store_information>
-                <disclaimer></disclaimer>
-                <about_link>about-us</about_link>
-                <retailers_link>about-us/where-to-buy</retailers_link>
-                <press_link>about-us/press-releases</press_link>
-                <support_link>customer-support</support_link>
                 <sitemap>sitemap</sitemap>
                 <privacypolicy>privacy-policy</privacypolicy>
                 <termsofuse>terms-of-use</termsofuse>
                 <contacts>contacts</contacts>
                 <custom_disable_checkout>0</custom_disable_checkout>
-                <facebook_link></facebook_link>
-                <twitter_link></twitter_link>
-                <youtube_link></youtube_link>
-                <instagram_link></instagram_link>
             </store_information>
         </general>
     </default>
