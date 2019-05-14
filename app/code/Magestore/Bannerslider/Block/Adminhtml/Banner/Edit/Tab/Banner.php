@@ -25,6 +25,7 @@ namespace Magestore\Bannerslider\Block\Adminhtml\Banner\Edit\Tab;
 use Magestore\Bannerslider\Model\Status;
 use Magestore\Bannerslider\Model\Type;
 use Magestore\Bannerslider\Model\Position;
+use Magestore\Bannerslider\Model\Vposition;
 
 /**
  * Banner Edit tab.
@@ -275,10 +276,21 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
             'text_location',
             'select',
             [
-                'label' => __('Caption location'),
-                'title' => __('Caption location'),
+                'label' => __('Caption location (horizontal)'),
+                'title' => __('Caption location (horizontal)'),
                 'name' => 'text_location',
                 'options' => Position::getAvailableBannerPositions(),
+            ]
+        );
+		//Jhonatan Holguín:Agrega fields position del caption
+		$elements['text_location_v'] = $fieldset->addField(
+            'text_location_v',
+            'select',
+            [
+                'label' => __('Caption location (vertical)'),
+                'title' => __('Caption location (vertical)'),
+                'name' => 'text_location_v',
+                'options' => Vposition::getAvailableBannerPositions(),
             ]
         );
 
