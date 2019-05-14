@@ -290,7 +290,7 @@ class Banner extends \Magento\Backend\Block\Widget\Form\Generic implements \Mage
                 'label' => __('Caption location (vertical)'),
                 'title' => __('Caption location (vertical)'),
                 'name' => 'text_location_v',
-                'options' => Vposition::getAvailableBannerPositions(),
+                'options' => Vposition::getAvailableBannerVPositions(),
             ]
         );
 

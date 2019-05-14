@@ -40,7 +40,7 @@ class Vposition
      *
      * @return []
      */
-    public static function getAvailableBannerPositions(){
+    public static function getAvailableBannerVPositions(){
         return [
 			self::POSITION_TOP => __('Top'),
             self::POSITION_MIDDLE => __('Middle'), 
