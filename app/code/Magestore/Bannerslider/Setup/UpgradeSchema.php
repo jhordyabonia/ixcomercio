@@ -99,5 +99,22 @@ class UpgradeSchema implements UpgradeSchemaInterface{
 			}
 			$installer->endSetup();
 		}
+		
+		if(version_compare($context->getVersion(), '1.7.7', '<')) {
+			
+			$table = $installer->getTable('magestore_bannerslider_banner');
+			$columns = array(
+				'text_location_v' => array(
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					'nullable' => true,
+					'comment' => 'Ubicacion vertical del texto',
+				),
+			);
+			$connection = $installer->getConnection();
+			foreach ($columns as $name => $definition){
+				$connection->addColumn($table, $name, $definition);
+			}
+			$installer->endSetup();
+		}
 	}
 }
