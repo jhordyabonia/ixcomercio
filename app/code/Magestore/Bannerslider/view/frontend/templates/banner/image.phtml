@@ -28,7 +28,7 @@ if($bannerClass){
 						<?php } ?>
 						<?php if($banner->getTitle() || $banner->getCaption() || $banner->getButtontext()){ ?>
 							<div 
-								class="text-overlay-banner banner-text-<?php echo $banner->getTextLocation(); ?> banner-text-vertical-<?php echo ($banner->getTextLocation()) ? $banner->getTextLocation() : 'middle'; ?>" 
+								class="text-overlay-banner banner-text-<?php echo $banner->getTextLocation(); ?> banner-text-vertical-<?php echo ($banner->getTextLocationV()) ? $banner->getTextLocationV() : 'middle'; ?>" 
 								style="color: <?php echo $color;?>"
 							>
 								<?php if($banner->getTitle()){ ?>
