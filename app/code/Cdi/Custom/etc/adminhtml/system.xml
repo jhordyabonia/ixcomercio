@@ -4,47 +4,53 @@
         <section id="general">
             <tab>general</tab>
             <group id="store_information">
-                <field id="about_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="about_link" translate="label" type="text" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>About Link</label>
                 </field>
-				<field id="retailers_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="retailers_link" translate="label" type="text" sortOrder="905" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Retailers Link</label>
                 </field>
-				<field id="press_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="press_link" translate="label" type="text" sortOrder="910" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Press Link</label>
                 </field>
-				<field id="support_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="support_link" translate="label" type="text" sortOrder="915" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Support Link</label>
                 </field>
 				
-				<field id="disclaimer" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="disclaimer" translate="label" type="text" sortOrder="920" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Disclaimer</label>
                 </field>
-                <field id="sitemap" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="sitemap" translate="label" type="text" sortOrder="925" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sitemap Link</label>
                 </field>
-				<field id="privacypolicy" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="privacypolicy" translate="label" type="text" sortOrder="930" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Privacy Policy Link</label>
                 </field>
-				<field id="termsofuse" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="termsofuse" translate="label" type="text" sortOrder="935" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Terms of Use Link</label>
                 </field>
-				<field id="contacts" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="contacts" translate="label" type="text" sortOrder="940" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Contacts Link</label>
                 </field>
-				<field id="facebook_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="facebook_link" translate="label" type="text" sortOrder="945" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Facebook link</label>
                 </field>
-				<field id="twitter_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="twitter_link" translate="label" type="text" sortOrder="950" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Twitter link</label>
                 </field>
-				<field id="youtube_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="youtube_link" translate="label" type="text" sortOrder="955" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Youtube link</label>
                 </field>
-				<field id="instagram_link" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="instagram_link" translate="label" type="text" sortOrder="960" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Instagram link</label>
                 </field>
-				<field id="custom_disable_checkout" translate="label" type="select" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="1">
+				<field id="spotify_link" translate="label" type="text" sortOrder="965" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Spotify</label>
+                </field>
+				<field id="pinterest_link" translate="label" type="text" sortOrder="970" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Pinterest link</label>
+                </field>
+				<field id="custom_disable_checkout" translate="label" type="select" sortOrder="990" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Sales enabled</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
