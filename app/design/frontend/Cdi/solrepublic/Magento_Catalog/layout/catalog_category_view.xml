@@ -4,15 +4,26 @@
 		<referenceBlock name="page.main.title" remove="true" />
 		<!--Elimina el bloque Shop by-->
 		<referenceBlock name="catalog.leftnav" remove="true" />
-
+		
+		<referenceContainer name="sidebar.main">
+			<block class="Magento\Catalog\Block\Category\View" name="category.support" template="Magento_Catalog::category/support-menu.phtml"/>
+		</referenceContainer>
 		<!--Contenedor de la categoría-->
 		<referenceContainer name="category.view.container">
 			<!--Elimina imagen, descripción y cms-->
 			<referenceBlock name="category.image" remove="true" />
 			<referenceBlock name="category.description" remove="true" />
+			<!--<referenceBlock name="category.cms" remove="true" />-->
 			<!--Agrega bloques personalizados de categoría-->
 			<block class="Magento\Catalog\Block\Product\ListProduct" name="category.prods" template="Magento_Catalog::category/products_customview.phtml"/>
+			
 		</referenceContainer>
+		<!--
+		<referenceContainer name="content">	
+			<referenceBlock name="category.product.addto" remove="true" />
+		</referenceContainer>
+		<referenceBlock name="category.product.addto" remove="true" />
+		-->
 		<move element="category.cms" destination="content" as="category.cms" before="-"/>
     </body>
 </page>
