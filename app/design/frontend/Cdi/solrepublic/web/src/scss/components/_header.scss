@@ -2,13 +2,16 @@
   .page-header{
     top: 0;
     width: 100%;
-    height: 120px;
+    height: auto;
     position: fixed;
     z-index: 9999;
     background: #000;
     transition: all linear .3s;
     padding: 0 0 20px 0;
     margin: 0;
+    .header-container{
+        padding: 20px 0;
+    }
     .header{
         width: 95%;
         max-width: 1095px;
@@ -20,6 +23,9 @@
         display: inline-block;
     }
     .logo {
+        margin: 0;
+        float: left;
+        max-width: none;
         img {
             width: auto;
             height: 55px;
