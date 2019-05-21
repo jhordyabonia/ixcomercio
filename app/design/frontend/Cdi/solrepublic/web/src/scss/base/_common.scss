@@ -151,12 +151,8 @@ button:focus {
   outline: none;
 }
 section{
-  width: 100%;
-  padding: 20px 0;
-  float: left;
-  &.section-main-slider{
-    padding-top: 0;
-  }
+  overflow: hidden;
+  position: relative;
   header{
     h2{
       margin: 0 0 40px;
