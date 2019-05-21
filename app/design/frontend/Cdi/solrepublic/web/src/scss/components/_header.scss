@@ -11,32 +11,60 @@
     padding: 0;
     margin: 0;
     .header-container{
-        padding: 20px 0;
+      padding: 20px 0;
     }
     .header{
-        width: 100%;
-        max-width: 1095px;
-        text-align: right;
-        padding: 0 2.5%;
-        margin: 0 auto;
-        position: relative;
-        z-index: 5;
-        display: inline-block;
-        .header-mainmenu{
-            .nav-sections{
-                margin-bottom: 0;
+      width: 100%;
+      max-width: 1095px;
+      text-align: right;
+      padding: 0 2.5%;
+      margin: 0 auto;
+      position: relative;
+      z-index: 5;
+      display: inline-block;
+      .header-mainmenu{
+        .nav-sections{
+          margin-bottom: 0;
+          background: none;
+          .navigation{
+            background: none;
+            ul{
+              li{
+                height: 55px;
+                margin: 0 1.25%;
+                padding: 0 1.25%;
+                display: inline-block;
+                a{
+                  color: #c2c2c2;
+                  font-size: 16px;
+                  line-height: 55px;
+                  font-family: 'Gilroy-SemiBold', 'Helvetica', sans-serif;
+                  text-transform: uppercase;
+                  transition: all 0.3s ease;
+                  padding: 0;
+                  span{
+                    display: table;
+                    width: 100%;
+                    height: 100%;
+                    text-align: center;
+                    vertical-align: middle;
+                  }
+                }
+              }
             }
+          }
         }
+      }
     }
     .logo {
-        margin: 0;
-        float: left;
+      margin: 0;
+      float: left;
+      max-width: none;
+      img {
+        width: auto;
+        height: 55px;
         max-width: none;
-        img {
-            width: auto;
-            height: 55px;
-            max-width: none;
-        }
+      }
     }
   }
 }
