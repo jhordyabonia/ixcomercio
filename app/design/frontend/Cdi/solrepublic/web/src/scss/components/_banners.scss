@@ -28,18 +28,15 @@
           margin-left: auto;
           margin-right: auto;
         }
+        &.banner-text-vertical-bottom{
+          position: absolute;
+          top: 80%;
+          left: 50%;
+          transform: translate(-50%);
+        }
       }
       &.banner-text-left{
         float: left;
-      }
-      &.banner-text-vertical-top{
-        left: 0;
-        top: 80%;
-        width: 100%;
-        max-width: 100%;
-        position: absolute;
-        text-align: center;
-        padding: 0;
       }
     }
   }
