@@ -68,6 +68,10 @@ a.appstoreBtn, a.playstoreBtn {
   max-width: 131px;
   padding-top: 16%;
   transition: opacity 0.3s linear;
+  &:hover{
+    opacity: 0.75;
+    transition: opacity 0.3s linear;
+  }
 }
 a.appstoreBtn {
   background: url(../images/app-store.png) center center no-repeat transparent;
