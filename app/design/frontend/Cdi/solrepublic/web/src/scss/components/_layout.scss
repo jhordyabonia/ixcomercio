@@ -44,8 +44,31 @@ h3.blktxt {
     }
   }
   img.iPhone{
+    width: auto;
     display: block;
     float: right;
     margin-left: auto;
   }
+  .textContain {
+    width: 80%;
+    display: inline-block;
+    padding: 10% 0;
+    margin: auto;
+  }
+}
+a.appstoreBtn, a.playstoreBtn {
+  display: inline-block;
+  width: 100%;
+  max-width: 131px;
+  padding-top: 16%;
+  transition: opacity 0.3s linear;
+}
+a.appstoreBtn {
+  background: url(../images/app-store.png) center center no-repeat transparent;
+  background-size: contain;
+  margin-right: 3%;
+}
+a.playstoreBtn {
+  background: url(../images/play-store.png) center center no-repeat transparent;
+  background-size: contain;
 }
