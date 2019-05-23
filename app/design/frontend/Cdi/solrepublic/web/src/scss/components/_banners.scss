@@ -41,6 +41,16 @@
       &.banner-text-right{
         float: right;
       }
+      h1, h2, h3{
+        font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
+        font-size: 40px;
+        text-transform: uppercase;
+        line-height: 1;
+        margin-bottom: .5em;
+      }
+      p{
+        margin-bottom: 1.5em;
+      }
     }
   }
 }
