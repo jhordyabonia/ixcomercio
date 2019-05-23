@@ -1,0 +1,16 @@
+.banner{
+  .text-block-banner{
+    .text-overlay-banner{
+      color: #fff;
+      font-size: 18px;
+      text-align: left;
+      &.banner-text-center{
+        text-align: center;
+      }
+      .caption-desc{
+        width: 88%;
+        max-width: 410px;
+      }
+    }
+  }
+}
