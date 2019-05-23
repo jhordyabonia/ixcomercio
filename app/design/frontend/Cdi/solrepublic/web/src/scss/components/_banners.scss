@@ -9,6 +9,9 @@
       margin: auto;
     }
   }
+  .container{
+    max-width: 1140px!important;
+  }
   .text-block-banner{
     img{
       max-width: 840px;
@@ -25,6 +28,9 @@
           margin-left: auto;
           margin-right: auto;
         }
+      }
+      .banner-text-left{
+        float: left;
       }
       &.banner-text-vertical-top{
         left: 0;
