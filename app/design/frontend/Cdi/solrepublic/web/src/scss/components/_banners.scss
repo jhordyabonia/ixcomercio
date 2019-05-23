@@ -4,12 +4,27 @@
       color: #fff;
       font-size: 18px;
       text-align: left;
-      &.banner-text-center{
-        text-align: center;
-      }
       .caption-desc{
         width: 88%;
         max-width: 410px;
+      }
+      &.banner-text-center{
+        text-align: center;
+        .caption-desc{
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+      &.banner-text-vertical-top{
+        .text-overlay-banner{
+          left: 0;
+          top: 80%;
+          width: 100%;
+          max-width: 100%;
+          position: absolute;
+          text-align: center;
+          padding: 0;
+        }
       }
     }
   }
