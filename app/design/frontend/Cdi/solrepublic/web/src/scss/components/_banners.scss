@@ -8,6 +8,14 @@
       margin: auto;
     }
   }
+  &.bgcolor-light{
+    h1, h2, h3{
+      color: #636363;
+    }
+    p{
+      color: #373737;
+    }
+  }
   .container{
     max-width: 1140px!important;
   }
@@ -39,14 +47,6 @@
       }
       &.banner-text-right{
         float: right;
-      }
-      &.bgcolor-light{
-        h1, h2, h3{
-          color: #636363;
-        }
-        p{
-          color: #373737;
-        }
       }
       h1, h2, h3{
         font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
