@@ -2,19 +2,23 @@
   &.banner-background{
     padding: 50px 0;
     min-height: 300px;
+    .text-overlay-banner{
+      padding: 10% 0;
+      position: relative;
+      z-index: 99;
+      margin: auto;
+    }
   }
   .text-block-banner{
     img{
       max-width: 840px;
     }
     .text-overlay-banner{
+      width: 88%;
+      max-width: 410px;
       color: #fff;
       font-size: 18px;
       text-align: left;
-      .caption-desc{
-        width: 88%;
-        max-width: 410px;
-      }
       &.banner-text-center{
         text-align: center;
         .caption-desc{
