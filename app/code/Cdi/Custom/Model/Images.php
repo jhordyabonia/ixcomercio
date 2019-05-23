@@ -22,6 +22,12 @@ class Images
             'handsfree.png' => __('Hands Free'),
             'pairing.png' => __('Pairing'),
             'speakerphone.png' => __('Speaker Phone'),
+            'anc.png' => __('ANC'),
+            'convenientControls.png' => __('Convenient controls'),
+            'CordManagement.png' => __('Cord Management'),
+            'OnEarDesign.png' => __('On Ear Design'),
+            'StickyPad.png' => __('Sticky Pad'),
+            'TrulyWireless.png' => __('Truly Wireless'),
         ];
     }
 }
