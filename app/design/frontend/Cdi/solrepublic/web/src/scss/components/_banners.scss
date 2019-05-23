@@ -1,6 +1,5 @@
 .banner{
   &.banner-background{
-    padding: 50px 0;
     min-height: 300px;
     .text-overlay-banner{
       padding: 10% 0;
@@ -40,6 +39,14 @@
       }
       &.banner-text-right{
         float: right;
+      }
+      &.bgcolor-light{
+        h1, h2, h3{
+          color: #636363;
+        }
+        p{
+          color: #373737;
+        }
       }
       h1, h2, h3{
         font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
