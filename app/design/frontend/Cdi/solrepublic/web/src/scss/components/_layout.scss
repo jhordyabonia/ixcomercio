@@ -34,4 +34,18 @@ h3.blktxt {
 .HPsec6 {
   background: url(../images/banners/sec6BG.jpg) center center no-repeat #000;
   background-size: cover;
+  .secContain{
+    max-width: 1140px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    &.short{
+      max-height: 440px;
+    }
+  }
+  img.iPhone{
+    display: block;
+    float: right;
+    margin-left: auto;
+  }
 }
