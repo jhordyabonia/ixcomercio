@@ -129,6 +129,9 @@ html a {
     text-decoration: underline;
   }
 }
+p{
+  margin-bottom: 0;
+}
 a, button {
   -ms-touch-action: manipulation;
   touch-action: manipulation;
