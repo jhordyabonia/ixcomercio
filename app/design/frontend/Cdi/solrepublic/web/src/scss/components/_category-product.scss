@@ -23,6 +23,9 @@
       .productImageContain{
         padding: 0;
         margin: 0;
+        .product-image-container{
+          width: 100%;
+        }
       }
       a.product-image {
         float: left;
