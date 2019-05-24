@@ -18,6 +18,9 @@ h3.blktxt {
 }
 .page-main{
   padding: 95px 0 0;
+  @media (min-width: $tablet){
+    padding: 95px 0 0;
+  }
 }
 .HPsec2 {
   color: #fff;
