@@ -39,5 +39,46 @@
         }
       }
     }
+    .f-fix{
+      float: none;
+      width: 70%;
+      padding: 0;
+      margin: auto;
+    }
+    .product-name{
+      color: #393939;
+      font-weight: normal;
+      font-size: 28px;
+      margin-bottom: 0;
+      a{
+        color: #333;
+        text-decoration: none;
+        text-transform: uppercase;
+        &:hover{
+          color: #00adef;
+          text-decoration: none;
+        }
+      }
+    }
+    .desc {
+      font-family: 'Graphik-Light', 'Helvetica', sans-serif;
+      font-size: 18px;
+      color: #373737;
+      .SOLbtn{
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 20px 0 0 0;
+        display: block;
+      }
+    }
+    .price-box {
+      margin: 6% 0;
+      font-family: 'Graphik-Light', 'Helvetica', sans-serif;
+      font-size: 18px;
+      color: #373737;
+      .regular-price .price {
+        font-weight: normal;
+      }
+    }
   }
 }
