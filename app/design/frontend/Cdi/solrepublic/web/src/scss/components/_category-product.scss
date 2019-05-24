@@ -1,0 +1,40 @@
+.category-product{
+  .products-list{
+    width: 100%;
+    margin: 0 auto;
+    max-width: 100%;
+    position: relative;
+    padding: 0;
+    .row.item{
+      margin: 0;
+      display: flex;
+      border: 0 none;
+      color: #373737;
+      padding: 3% 20px 20px;
+      background: #ffffff;
+      background: linear-gradient(to bottom, #ffffff 0%,#f7f7f7 100%);
+      .secContain {
+        max-width: 1140px;
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+        display: flex;        
+      }
+      .productImageContain{
+        padding: 0;
+        margin: 0;
+      }
+      a.product-image {
+        float: left;
+        width: 100%;
+        img{
+          display: block;
+          width: 100%;
+          height: auto;
+          max-width: 400px;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
