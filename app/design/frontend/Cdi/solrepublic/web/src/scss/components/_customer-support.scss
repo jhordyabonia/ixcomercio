@@ -7,6 +7,21 @@
       .columns{
         .column.main{
           width: 74%;
+          padding: 20px;
+          text-align: left;
+          h2{
+            font-size: 22px;
+            font-weight: normal;
+            color: #636363;
+            line-height: 19px;
+            margin: 0 0 1em;
+            font-family: Gilroy-Regular, Helvetica, Arial, sans-serif;
+            text-transform: uppercase;
+          }
+          p{
+            color: #636363;
+            margin-bottom: 1.5em;
+          }
         }
         .sidebar{
           width: 24%;
