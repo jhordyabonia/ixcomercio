@@ -4,6 +4,8 @@
       width: 975px;
       max-width: 1140px;
       margin: 0 auto;
+      min-height: 350px;
+      position: relative;
       .columns{
         .column.main{
           width: 74%;
@@ -29,6 +31,38 @@
         }
         .sidebar{
           width: 24%;
+          padding: 0 0 2em 0;
+          .cms-menu{
+            font-size: 1em;
+            padding: 15px 0;
+            border-bottom: 1px solid #d1d1d1;
+            list-style-position: inside;
+            margin-top: 0;
+            li{
+              color: #999;
+              margin: 3px 0;
+              line-height: 1.2em;
+              padding-top: 1em;
+              &.parent{
+                > strong{
+                  background: url(../images/bkg_cms-menu-arrow-down.gif) 100% 50% no-repeat;
+                  padding-right: 13px;
+                  font-size: 1.1em;
+                }
+              }
+              strong{
+                font-weight: 700;
+                color: #333;
+              }
+              ul{
+                margin-bottom: 7px;
+                list-style-position: inside;
+                li a{
+                  color: #00abf2;
+                }
+              }
+            }
+          }
         } 
       }
     }
