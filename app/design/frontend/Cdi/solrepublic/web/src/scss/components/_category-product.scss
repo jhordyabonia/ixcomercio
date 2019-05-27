@@ -13,6 +13,11 @@
       padding: 3% 20px 20px;
       background: #ffffff;
       background: linear-gradient(to bottom, #ffffff 0%,#f7f7f7 100%);
+      &.even{
+        .productImageContain{
+          order: 1;
+        }
+      }
       .secContain {
         max-width: 1140px;
         width: 100%;
