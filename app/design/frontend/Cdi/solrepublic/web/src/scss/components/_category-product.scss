@@ -68,11 +68,16 @@
       font-family: 'Graphik-Light', 'Helvetica', sans-serif;
       font-size: 18px;
       color: #373737;
+      margin: 0 0 10px;
       .SOLbtn{
         font-weight: 700;
         text-transform: uppercase;
-        margin: 20px 0 0 0;
+        margin: 20px 0 0 0!important;
         display: block;
+        color: #00abf2;
+        &:hover{
+          color: #fff;
+        }
       }
     }
     .price-box {

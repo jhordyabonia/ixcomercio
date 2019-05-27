@@ -126,7 +126,8 @@ html a {
   text-decoration: none;
   &:hover{
     color: #00a1c9;
-    text-decoration: underline;
+    text-decoration: none;
+    transition: color 225ms ease-out 0s;
   }
 }
 p{
