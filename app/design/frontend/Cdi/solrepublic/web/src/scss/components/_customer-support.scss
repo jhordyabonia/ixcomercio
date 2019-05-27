@@ -11,6 +11,12 @@
           width: 74%;
           padding: 20px;
           text-align: left;
+          h1.page-title{
+            padding: 6% 0 0;
+            color: #636363;
+            margin-bottom: 3%;
+            text-transform: uppercase;
+          }
           h2{
             font-size: 22px;
             font-weight: normal;
@@ -58,10 +64,10 @@
               ul{
                 margin-bottom: 7px;
                 list-style-position: inside;
-                li a{
-                  color: #00abf2;
-                }
               }
+            }
+            a{
+              color: #00abf2;
             }
           }
         } 
