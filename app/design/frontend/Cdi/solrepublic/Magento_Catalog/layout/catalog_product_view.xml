@@ -4,7 +4,7 @@
 		<!--Agrega cabecera sticky para producto-->
 		<referenceContainer name="content">
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
-			<container name="product.essential" htmlTag="div" htmlClass="product-essential container" before="-" />
+			<container name="product.essential" htmlTag="div" htmlClass="product-essential container" after="-" />
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-5 col-xs-12 pull-right">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
