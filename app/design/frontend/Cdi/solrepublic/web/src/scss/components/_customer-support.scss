@@ -1,0 +1,17 @@
+.page-layout-2columns-left{
+  .page-wrapper{
+    .page-main{
+      width: 975px;
+      max-width: 1140px;
+      margin: 0 auto;
+      .columns{
+        .column.main{
+          width: 74%;
+        }
+        .sidebar{
+          width: 24%;
+        } 
+      }
+    }
+  }  
+}
