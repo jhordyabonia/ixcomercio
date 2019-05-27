@@ -1,0 +1,138 @@
+.footer-container{
+  text-align: left;
+  background: #282828;
+  font-size: 12px;
+  .footer{
+    .footer-top{
+      width: 100%;
+      max-width: 1095px;
+      display: inline-block;
+      box-sizing: border-box;
+      padding-right: 10px;
+      padding-left: 10px;
+      text-align: center;
+    }
+    .footer-bottom{
+      width: 100%;
+      color: #828282;
+      font-weight: 700;
+      background: #000000;
+      display: inline-block;
+      .footer-bottom-content{
+        width: 100%;
+        max-width: 1319px;
+        display: inline-block;
+        padding-top: 2em;
+        padding-bottom: 2em;
+        p{
+          display: inline-block;
+          margin-right: 50px;
+        }
+        a{
+          display: inline-block;
+          margin: 0 20px;
+        }
+      }
+    }
+  }
+}
+.footer{
+  width: 100%;
+  color: #000;
+  font-size: 12px;
+  font-weight: normal;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  padding: 30px 0 0;
+  position: relative;
+  margin: 0 auto;
+  background: #000;
+  box-shadow: 0 2.5rem 2.5rem #000;
+  p{
+    margin-bottom: 10px;
+  }
+  a{
+    color: #828282;
+    text-align: left;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+    &:hover{
+      text-decoration: none;
+    }
+  }
+  h4{
+    color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+    margin-bottom: 2%;
+    margin-top: 6%;
+  }
+  ul{
+    width: 100%;
+    float: none;
+    color: #828282;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    display: block;
+    margin: 0;
+    padding: 0;
+    li{
+      display: block;
+      line-height: normal;
+      vertical-align: top;
+      margin: 0 0 11px;
+      padding: 0;
+    }
+  }
+  .footer-social{
+    text-align: left;
+    vertical-align: top;
+    display: inline-block;
+    @media screen and (max-width: 700px){
+      width: 100%;
+      text-align: center;
+    }
+    div.row{
+      max-width: 155px;
+      height: 28px;
+      margin: 0 auto 7% 0;
+      float: none;
+      @media screen and (max-width: 700px){
+        display: inline-block;
+      }
+      > div{
+        padding-left: 0;
+      }
+    }
+    a{
+      width: 28px;
+      display: initial;
+      max-width: 28px;
+      max-height: 28px;
+      opacity: 1;
+      transition: opacity .3s linear;
+      margin: 0 auto 31% 0;
+      img{
+        display: block;
+        max-width: inherit;
+        max-height: inherit;
+        margin: 0;
+      }
+    }
+  }
+  .footerTitle {
+    width: auto;
+    margin: 12px 0 20px;
+    text-align: left;
+    float: none;
+    @media screen and (max-width: 700px){
+      display: none;
+    }
+  }
+}
