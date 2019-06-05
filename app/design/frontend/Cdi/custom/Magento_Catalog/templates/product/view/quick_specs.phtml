@@ -21,10 +21,18 @@ if($atts){
 			<div class="col-sm-3 col-12" style="text-align: center;">
 				<b><?php echo __('Dimensions')?></b>
 				<ul>
-					<?php if($_product->getHeight()): ?><li><?php echo __('Height:')?> <?= $_product->getHeight() ?></li><?php endif;?>
-					<?php if($_product->getWidth()): ?><li><?php echo __('Width:')?> <?= $_product->getWidth() ?></li><?php endif;?>
-					<?php if($_product->getDepth()): ?><li><?php echo __('Depth:')?> <?= $_product->getDepth() ?></li><?php endif;?>
-					<?php if($_product->getWeight()): ?><li><?php echo __('Weight:')?> <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?></li><?php endif;?>
+					<?php if($_product->getHeight()): ?>
+						<li><?php echo $_product->getResource()->getAttribute('height')->getStoreLabel();?>: <?= $_product->getHeight() ?></li>
+					<?php endif;?>
+					<?php if($_product->getWidth()): ?>
+						<li><?php echo $_product->getResource()->getAttribute('width')->getStoreLabel();?>: <?= $_product->getWidth() ?></li>
+					<?php endif;?>
+					<?php if($_product->getDepth()): ?>
+						<li><?php echo $_product->getResource()->getAttribute('depth')->getStoreLabel();?>: <?= $_product->getDepth() ?></li>
+					<?php endif;?>
+					<?php if($_product->getWeight()): ?>
+						<li><?php echo $_product->getResource()->getAttribute('weight')->getStoreLabel();?>: <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?></li>
+					<?php endif;?>
 				</ul>
 			</div>
 		</div>
