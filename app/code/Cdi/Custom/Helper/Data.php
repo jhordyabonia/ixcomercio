@@ -51,7 +51,7 @@ class Data extends AbstractHelper{
 	
 	public function getCustomProductImage($_product, $attribute){
 		$productImageAttr = $_product->getCustomAttribute($attribute);
-		if($productImageAttr->getValue() && 'no_selection' != $productImageAttr->getValue()){
+		if($productImageAttr && $productImageAttr->getValue() && 'no_selection' != $productImageAttr->getValue()){
 			return $productImageAttr->getValue();
 		}
 		return false;
