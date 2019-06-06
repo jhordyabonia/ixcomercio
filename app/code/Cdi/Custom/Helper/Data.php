@@ -16,11 +16,7 @@ class Data extends AbstractHelper{
 	}
 	
 	public function getStoreConfig($key){
-		$this->_value = $this->_scopeConfig->getValue(
-			$key,
-			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-		);
-        return __($this->_value);
+		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 	
     public function getAttributeArrayFromJson($json){
