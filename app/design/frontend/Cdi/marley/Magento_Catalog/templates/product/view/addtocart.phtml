@@ -8,7 +8,7 @@
 
 /** @var $block \Magento\Catalog\Block\Product\View */
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
-$cartEnabled = $_helperCdi->getStoreConfig('general/store_information/custom_disable_checkout');
+$cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/custom_disable_checkout');
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>

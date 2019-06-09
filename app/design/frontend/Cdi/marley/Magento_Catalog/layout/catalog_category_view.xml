@@ -13,7 +13,7 @@
 			<!--Elimina imagen, descripción y cms-->
 			<referenceBlock name="category.image" remove="true" />
 			<referenceBlock name="category.description" remove="true" />
-			<!--<referenceBlock name="category.cms" remove="true" />-->
+			<referenceBlock name="category.cms" remove="true" />
 			<!--Agrega bloques personalizados de categoría
 			<block class="Magento\Catalog\Block\Product\ListProduct" name="category.prods" template="Magento_Catalog::category/products_customview.phtml"/>
 			-->
@@ -24,6 +24,5 @@
 		</referenceContainer>
 		<referenceBlock name="category.product.addto" remove="true" />
 		-->
-		<move element="category.cms" destination="content" as="category.cms" before="-"/>
     </body>
 </page>

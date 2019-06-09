@@ -1,0 +1,94 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+?>
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $imageDisplayArea = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="container-fluid container products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
+        <ul class="products list items product-items row">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product): ?>
+            <li class="item product product-item col-sm-6 col-md-4 col-xl-3" style="opacity: 1;">
+				<div class="product-image-wrapper">
+					<?php
+					$productImage = $block->getImage($_product, $imageDisplayArea);
+					if ($pos != null) {
+						$position = ' style="left:' . $productImage->getWidth() . 'px;'
+							. 'top:' . $productImage->getHeight() . 'px;"';
+					}
+					?>
+					<?php // Product Image ?>
+                    <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo product-image" tabindex="-1">
+                        <?= $productImage->toHtml() ?>
+                    </a>
+				</div>
+				<h2 class="product name product-item-name product-name">
+					<a class=""
+					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
+						<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+					</a>
+				</h2>
+				<div class="atributo-familia">
+					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
+				</div>
+                <div class="actions">
+					<a class="button btn-cart"
+					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
+						<?= /* @escapeNotVerified */ __('View more') ?>
+					</a>
+				</div>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?= $block->getToolbarHtml() ?>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= /* @NoEscape */ $_product->getSku() ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

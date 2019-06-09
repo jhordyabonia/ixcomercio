@@ -53,6 +53,19 @@ class Data extends AbstractHelper{
 		return false;
 	}
 	
+	public function getProductGalleryImages($_product){
+		$images = $_product->getMediaGalleryImages();
+		var_dump($images);
+		if($images->count()>0){
+			$i = 0;
+			foreach($images as $child){
+				$i++;
+				return $child;
+			}
+		}
+		return false;
+	}
+	
 	public function checkUrl($string){
 		if(!$string) return '';
 		if(filter_var($string, FILTER_VALIDATE_URL)){
