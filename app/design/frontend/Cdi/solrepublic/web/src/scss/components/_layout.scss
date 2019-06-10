@@ -27,12 +27,26 @@ section.BSsec2 {
     }
   }
 }
+section.BSsec3 {
+  padding: 6% 0;
+}
 .secContain {
   max-width: 1140px;
   width: 100%;
   margin: 0 auto;
   position: relative;
   display: flex;
+}
+.grid {
+  width: 100%;
+  max-width: 1140px;
+  min-width: 701px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.flex-container {
+  max-width: 840px;
+  margin: auto;
 }
 .cms-page-view h2 {
   font-size: 22px;
