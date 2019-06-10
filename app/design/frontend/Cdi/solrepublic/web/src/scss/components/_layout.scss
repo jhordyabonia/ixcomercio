@@ -87,6 +87,18 @@ section.BSsec3 {
     height: 100%;
   }
 }
+.contentPadding {
+  padding: 6% 0 0 2%;
+}
+.BSsec5 {
+  .contentPadding {
+    padding: 6% 2%;
+    color: #fff;
+  }
+  .txtPad {
+    padding: 30% 10% 0;
+  }
+}
 .cms-page-view h2 {
   font-size: 22px;
   font-weight: 300;
