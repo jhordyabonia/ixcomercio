@@ -20,7 +20,7 @@
         <move element="product.info.media" destination="product.essential" as="product.info.media" after="product.info.main"/>
 
         <!--main-->
-		<referenceBlock element="product.price.final" remove="true"/>
+		<referenceBlock name="product.price.final" remove="true"/>
 		<!--Mueve el precio al bloque sticky-->		
 		
         <!--
