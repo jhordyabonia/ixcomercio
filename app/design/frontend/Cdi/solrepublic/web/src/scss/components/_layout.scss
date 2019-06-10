@@ -14,6 +14,9 @@
     color: #636363;
   }
 }
+.blkbg, .blkBG {
+  background-color: #000;
+}
 section.BSsec2 {
   padding: 6% 0;
   .textContain{
@@ -47,6 +50,25 @@ section.BSsec3 {
 .flex-container {
   max-width: 840px;
   margin: auto;
+}
+.SOLvideo{
+  .content {
+    max-width: 640px;
+    margin: 6% auto;
+  }
+}
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 25px;
+  height: 0;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 .cms-page-view h2 {
   font-size: 22px;
