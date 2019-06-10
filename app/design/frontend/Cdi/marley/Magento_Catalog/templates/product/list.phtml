@@ -49,6 +49,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
             <li class="item product product-item col-sm-6 col-md-4 col-xl-3" style="opacity: 1;">
 				<div class="product-image-wrapper">
 					<?php
+					$baseImage = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'category_page_grid');//->getUrl();
 					$productImage = $block->getImage($_product, $imageDisplayArea);
 					if ($pos != null) {
 						$position = ' style="left:' . $productImage->getWidth() . 'px;'
@@ -57,7 +58,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 					?>
 					<?php // Product Image ?>
                     <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo product-image" tabindex="-1">
-                        <?= $productImage->toHtml() ?>
+                        <img src="<?php echo $baseImage->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
                     </a>
 				</div>
 				<h2 class="product name product-item-name product-name">

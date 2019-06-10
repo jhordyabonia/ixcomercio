@@ -1,2 +1,7 @@
 <?php $_product = $block->getProduct(); ?>
-<h3 class="productpage_tagline"><?= $block->escapeHtml($_product->getName()) ?></h3>
+<h1 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h1>
+<div class="sku">
+	<span class="label"><?php echo __('SKU:')?></span>
+	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
+</div>
+<p><strong><?= $block->escapeHtml($_product->getMarleyType()) ?></strong></p>

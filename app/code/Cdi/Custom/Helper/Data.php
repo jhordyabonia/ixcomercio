@@ -55,7 +55,6 @@ class Data extends AbstractHelper{
 	
 	public function getProductGalleryImages($_product){
 		$images = $_product->getMediaGalleryImages();
-		var_dump($images);
 		if($images->count()>0){
 			$i = 0;
 			foreach($images as $child){
