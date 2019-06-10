@@ -16,6 +16,13 @@
 }
 section.BSsec2 {
   padding: 6% 0;
+  .textContain{
+    width: 100%;
+    max-width: 600px;
+    font-size: 18px;
+    text-align: center;
+    margin: auto;
+  }
 }
 .secContain {
   max-width: 1140px;
@@ -23,6 +30,9 @@ section.BSsec2 {
   margin: 0 auto;
   position: relative;
   display: flex;
+}
+.cms-page-view h2 {
+  font-size: 22px;
 }
 h3.blktxt {
   color: #636363;
