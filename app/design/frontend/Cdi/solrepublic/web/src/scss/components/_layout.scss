@@ -22,6 +22,9 @@ section.BSsec2 {
     font-size: 18px;
     text-align: center;
     margin: auto;
+    p{
+      margin-bottom: 1.5em;
+    }
   }
 }
 .secContain {
@@ -33,8 +36,6 @@ section.BSsec2 {
 }
 .cms-page-view h2 {
   font-size: 22px;
-}
-h2{
   font-weight: 300;
   font-family: Gilroy-Regular, Helvetica, Arial, sans-serif;
   text-transform: uppercase;
@@ -42,9 +43,6 @@ h2{
 }
 h3.blktxt {
   color: #636363;
-}
-.std ul, .std ol, .std dl, .std p, .std address, .std blockquote, .std table{
-  margin-bottom: 1.5em;
 }
 .button {
   padding: 6px 13px 5px;
