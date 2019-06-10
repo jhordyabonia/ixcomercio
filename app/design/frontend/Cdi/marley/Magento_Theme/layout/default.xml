@@ -3,11 +3,44 @@
 		<!--parametriza el logo por defecto de la página-->
 		<referenceBlock name="logo">
             <arguments>
-                <argument name="logo_file" xsi:type="string">images/logo.jpg</argument>
-                <argument name="logo_img_width" xsi:type="number">55</argument>
-                <argument name="logo_img_height" xsi:type="number">55</argument>
+                <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                <argument name="logo_img_width" xsi:type="number">240</argument>
+                <argument name="logo_img_height" xsi:type="number">32</argument>
             </arguments>
         </referenceBlock>
+
+		<!--Redeclara el header-->
+		<referenceContainer name="header.container" htmlClass="header-primary-container">
+			<referenceBlock name="header.panel.wrapper" remove="true" />
+				<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="container">
+					<container name="header.row.wrapper.row" as="header_row_wrapper_row" before="-" htmlTag="div" htmlClass="row">
+						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="wrapper-brand col-6 col-md-4" />
+						<container name="header.row.container.access" as="header_row_container_access" htmlTag="div" htmlClass="mobnav-trigger-wrapper">
+							<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
+						</container>
+						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-md-8" after="-"/>
+					</container>
+				</container>
+		</referenceContainer>
 		
+		<!--Mueve bloques al header-->
+		<move element="navigation.sections" destination="header.row.container.mainmenu" as="navigation.sections" after="-"/>
+		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
+		
+		<!--Elimina el carrito y el buscador de la cabecera-->
+		<referenceContainer name="header-wrapper">
+			<referenceBlock name="minicart" remove="true" />
+			<referenceBlock name="top.search" remove="true" />
+		</referenceContainer>
+		
+		<!--Elimina breadcrumb-->
+		<referenceBlock name="breadcrumbs" remove="true" />
+		
+		<!--Reemplaza el footer-->
+		<referenceBlock name="footer-container" remove="true" />
+		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
+		<referenceContainer name="footer-container-custom">
+			<block class="Magento\Theme\Block\Html\Footer" name="footer" after="-" template="Magento_Theme::html/footer.phtml"/>
+		</referenceContainer> 
     </body>
 </page>

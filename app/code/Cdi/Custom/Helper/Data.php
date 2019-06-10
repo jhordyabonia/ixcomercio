@@ -16,11 +16,7 @@ class Data extends AbstractHelper{
 	}
 	
 	public function getStoreConfig($key){
-		$this->_value = $this->_scopeConfig->getValue(
-			$key,
-			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-		);
-        return __($this->_value);
+		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 	
     public function getAttributeArrayFromJson($json){
@@ -51,8 +47,20 @@ class Data extends AbstractHelper{
 	
 	public function getCustomProductImage($_product, $attribute){
 		$productImageAttr = $_product->getCustomAttribute($attribute);
-		if($productImageAttr->getValue() && 'no_selection' != $productImageAttr->getValue()){
+		if($productImageAttr && $productImageAttr->getValue() && 'no_selection' != $productImageAttr->getValue()){
 			return $productImageAttr->getValue();
+		}
+		return false;
+	}
+	
+	public function getProductGalleryImages($_product){
+		$images = $_product->getMediaGalleryImages();
+		if($images->count()>0){
+			$i = 0;
+			foreach($images as $child){
+				$i++;
+				return $child;
+			}
 		}
 		return false;
 	}
