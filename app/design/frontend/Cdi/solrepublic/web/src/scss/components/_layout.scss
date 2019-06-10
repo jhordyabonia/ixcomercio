@@ -17,6 +17,13 @@
 section.BSsec2 {
   padding: 6% 0;
 }
+.secContain {
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+}
 h3.blktxt {
   color: #636363;
 }
