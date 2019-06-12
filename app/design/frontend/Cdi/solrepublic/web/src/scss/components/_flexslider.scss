@@ -58,6 +58,10 @@
               margin: 5% auto 0 0;
               width: 200px;
               max-height: 43px !important;
+              &:hover{
+                background: #00aeef;
+                color: #fff;
+              }
             }
           }
         }
