@@ -62,12 +62,6 @@
           margin-left: auto;
           margin-right: auto;
         }
-        &.banner-text-vertical-top{
-          padding: 2% 0 36rem;
-          width: 100%;
-          max-width: 600px;
-          margin: 0 auto;
-        }
         &.banner-text-vertical-bottom{
           position: absolute;
           bottom: 5%;
@@ -98,11 +92,26 @@
   }
 }
 .catalog-product-view{
-  .banner .text-block-banner .text-overlay-banner .caption-desc{
-    font-family: 'Graphik-Light';
-    font-weight: 300;
-    font-style: normal;
-    font-stretch: normal;
-    font-size: 24px;
+  .banner {
+    &.banner-background{
+      background-size: auto!important;
+    }
+    .text-block-banner .text-overlay-banner {
+      .caption-desc{
+        font-family: 'Graphik-Light';
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        font-size: 24px;
+      }
+      &.banner-text-center{
+        &.banner-text-vertical-top{
+          padding: 3% 0 55rem;
+          width: 100%;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+      }
+    }
   }
 }
