@@ -8,7 +8,10 @@
       margin: auto;
     }
     &.without-caption{
-      min-height: 600px;  
+      min-height: 600px;
+      .text-overlay-banner{
+        display: none;
+      }
     }
   }
   &.bgcolor-light{
