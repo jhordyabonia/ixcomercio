@@ -81,5 +81,32 @@ section.BSsec3{
     max-width: 840px;
     margin: auto;
     position: relative;
+    .magestore-bannerslide-flex-slider{
+      ul.slides{
+        li{
+          section{
+            .text-overlay-banner{
+              top: 16%;
+              left: 6%;
+              width: 90%;
+              max-width: 340px;
+              position: absolute;
+              text-align: left;
+              .caption-title{
+                font-size: 24px;
+                color: #fff;
+              }
+              .caption-desc{
+                font-size: 16px;
+                color: #fff;
+              }
+              .banner-button{
+                width: 120px;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
