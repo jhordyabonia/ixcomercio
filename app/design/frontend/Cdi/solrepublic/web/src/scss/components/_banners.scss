@@ -95,6 +95,13 @@
   .banner {
     &.banner-background.bgSizeAuto{
       background-size: auto!important;
+      .text-block-banner .text-overlay-banner {
+        &.banner-text-center{
+          &.banner-text-vertical-top{
+            background-position: center bottom!important;
+          }
+        }
+      }
     }
     .text-block-banner .text-overlay-banner {
       .caption-desc{
