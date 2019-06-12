@@ -93,9 +93,14 @@
 }
 .catalog-product-view{
   .banner {
-    &.banner-background.bgSizeAuto{
-      background-size: auto!important;
-      background-position: center bottom!important;
+    &.banner-background{
+      &.bgSizeAuto{
+        background-size: auto!important;
+        background-position: center bottom!important;
+      }
+      &.bgSize100{
+        background-size: 100% !important;
+      }
     }
     .text-block-banner .text-overlay-banner {
       .caption-desc{
