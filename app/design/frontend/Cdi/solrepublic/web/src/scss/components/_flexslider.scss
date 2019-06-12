@@ -1,4 +1,7 @@
 .magestore-bannerslider-standard{
+  .magestore-bannerslider-title{
+    display: none;
+  }
   .magestore-bannerslide-flex-slider{
     margin: 0!important;
     ul.slides{
@@ -70,5 +73,14 @@
     .flex-control-nav{
       display: none;
     }
+  }
+}
+section.BSsec3{
+  .magestore-bannerslider-standard{
+    width: 100%;
+    max-width: 840px;
+    margin: auto;
+    position: relative;
+    display: flex;
   }
 }
