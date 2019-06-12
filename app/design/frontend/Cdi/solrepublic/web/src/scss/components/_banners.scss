@@ -93,6 +93,9 @@
 }
 .catalog-product-view{
   .banner {
+    &.bgcolor-light p {
+      color: #636363;
+    }
     &.banner-background{
       &.bgSizeAuto{
         background-size: auto!important;
