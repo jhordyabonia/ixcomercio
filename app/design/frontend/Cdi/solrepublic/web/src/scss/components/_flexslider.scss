@@ -72,6 +72,23 @@
     }
     .flex-control-nav{
       display: none;
+      &.flex-control-paging{
+        li {
+          a{
+            width: 14px;
+            height: 14px;
+            background: transparent;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            box-shadow: none;
+            &.flex-active{
+              background: #fff;
+              cursor: default;
+              border: 1px solid #fff;
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -93,12 +110,16 @@ section.BSsec3{
               position: absolute;
               text-align: left;
               .caption-title{
-                font-size: 24px;
                 color: #fff;
+                font-size: 24px;
+                font-weight: 300;
+                margin: 0 0 .5em;
+                font-family: 'Graphik-Regular', 'Helvetica', sans-serif;
               }
               .caption-desc{
-                font-size: 16px;
                 color: #fff;
+                font-size: 16px;
+                line-height: normal;
               }
               .banner-button{
                 width: 120px;
@@ -106,6 +127,15 @@ section.BSsec3{
             }
           }
         }
+      }
+      .flex-direction-nav{
+        display: none;
+      }
+      .flex-control-nav{
+        right: 0;
+        width: 100%;
+        padding-left: 0;
+        display: block;
       }
     }
   }
