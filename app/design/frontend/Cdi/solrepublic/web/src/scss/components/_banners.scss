@@ -93,7 +93,7 @@
 }
 .catalog-product-view{
   .banner {
-    &.banner-background{
+    &.banner-background.bgSizeAuto{
       background-size: auto!important;
     }
     .text-block-banner .text-overlay-banner {
