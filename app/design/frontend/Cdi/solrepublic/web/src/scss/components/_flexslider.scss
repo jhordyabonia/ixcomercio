@@ -7,6 +7,58 @@
           .container{
             padding: 0;
           }
+          .text-overlay-banner{
+            left: 5%;
+            top: 17%;
+            bottom: 27%;
+            width: 90%;
+            max-width: 1155px;
+            position: absolute;
+            margin: auto;
+            height: 57%;
+            font-size: 24px;
+            &.banner-text-left{
+              text-align: left;
+            }
+            &.banner-text-right{
+              text-align: right; 
+            }
+            .caption-title, .caption-desc{
+              width: 100%;
+              max-width: 560px;
+              display: block;
+            }
+            .caption-title{
+              font-family: 'Gilroy-bold', Arial, Helvetica, sans-serif;
+              letter-spacing: normal;
+              font-weight: normal;
+              color: #ffffff;
+              font-size: 70px;
+              text-transform: uppercase;
+              line-height: .9;
+              margin-top: 4%;
+            }
+            .caption-desc{
+              font-family: 'Graphik-Regular', 'Helvetica', sans-serif;
+              font-size: 25px;
+              font-weight: normal;
+              color: #fff;
+              text-transform: none;
+              display: block;
+            }
+            .banner-button{
+              font-family: 'Graphik-Regular', 'Helvetica', sans-serif;
+              padding: 10px 0;
+              background: transparent;
+              border: 2px solid #00aeef;
+              display: inline-block;
+              font-size: 16px;
+              text-transform: uppercase;
+              text-align: center;
+              margin: 0 auto 0 0;
+              width: 200px;
+            }
+          }
         }
       }
     }
