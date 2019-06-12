@@ -1,4 +1,23 @@
 .banner{
+  &.main-category-banner{
+    .text-block-banner {
+      .text-overlay-banner.banner-text-left{
+        left: 17%;
+      }
+      .text-overlay-banner{
+        .caption-title{
+          font-size: 60px;
+          font-family: 'Gilroy-Medium', 'Helvetica', sans-serif;
+          line-height: 110%;
+          margin: 0;
+        }
+        .caption-desc{
+          font-size: 25px;  
+          font-family: 'Graphik-Light', 'Helvetica', sans-serif;
+        }
+      }
+    }
+  }
   &.banner-background{
     min-height: 300px;
     .text-overlay-banner{
