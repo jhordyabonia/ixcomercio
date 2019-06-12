@@ -7,6 +7,9 @@
       z-index: 99;
       margin: auto;
     }
+    &.without-caption{
+      min-height: 600px;  
+    }
   }
   &.bgcolor-light{
     h1, h2, h3{
