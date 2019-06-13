@@ -1,5 +1,5 @@
 .banner{
-  @media (min-width: $tablet){
+  @media (max-width: $mobile){
     padding: 20px 0;
   }
   &.main-category-banner{
