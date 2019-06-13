@@ -125,7 +125,7 @@ h3.blktxt {
     max-width: 100%;
   }
 }
-.page-layout-1column{
+.cms-index-index .page-layout-1column{
   .page-wrapper .page-main{
     background: #000;
   }
@@ -191,9 +191,13 @@ a.playstoreBtn {
   background: url(../images/play-store.png) center center no-repeat transparent;
   background-size: contain;
 }
+body.catalog-product-view{
+  .page-wrapper .page-main{
+
+  }
+}
 body.cms-terms-of-use, body.cms-privacy-policy{
   .page-wrapper .page-main{
-    background: #fff;
     .column.main .std{
       text-align: left;
       max-width: 1040px;
