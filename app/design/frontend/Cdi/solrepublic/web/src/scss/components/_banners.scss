@@ -34,6 +34,9 @@
       position: relative;
       z-index: 99;
       margin: auto;
+      @media (max-width: $mobile){
+        padding-top: 10%;
+      }
     }
     &.without-caption{
       min-height: 600px;
