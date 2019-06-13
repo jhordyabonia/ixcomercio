@@ -1,5 +1,8 @@
 .magestore-bannerslider-standard{
   overflow: hidden;
+  @media (max-width: $tablet){
+    width: 100%;
+  }
   .flexslider{
     background: #000;
   }
