@@ -191,24 +191,29 @@ a.playstoreBtn {
   background: url(../images/play-store.png) center center no-repeat transparent;
   background-size: contain;
 }
-body.cms-terms-of-use .page-wrapper .column.main .std, body.cms-privacy-policy .page-wrapper .column.main .std{
-  text-align: left;
-  max-width: 1040px;
-  margin: 6% auto;
-  padding: 20px;
-  padding-top: 6%;
-  color: #636363;
-  h3, h4{
-    margin: 0;
-    margin-bottom: .3em;
-    font-size: 1.1em;
-    color: #000;
-  }
-  p{
-    color: #464646;
-    margin-bottom: 1.5em;
-    strong, b{
-      color: #000;
+body.cms-terms-of-use, body.cms-privacy-policy{
+  .page-wrapper{
+    background: #fff;
+    .column.main .std{
+      text-align: left;
+      max-width: 1040px;
+      margin: 6% auto;
+      padding: 20px;
+      padding-top: 6%;
+      color: #636363;
+      h3, h4{
+        margin: 0;
+        margin-bottom: .3em;
+        font-size: 1.1em;
+        color: #000;
+      }
+      p{
+        color: #464646;
+        margin-bottom: 1.5em;
+        strong, b{
+          color: #000;
+        }
+      }
     }
   }
 }
