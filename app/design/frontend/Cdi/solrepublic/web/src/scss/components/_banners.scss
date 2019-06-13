@@ -67,6 +67,12 @@
           bottom: 5%;
           left: 50%;
           transform: translate(-50%);
+          @media (max-width: $mobile){
+            left: 0;
+            width: 100%;
+            position: relative;
+            transform: translate(0);
+          }
         }
         &.banner-text-vertical-middle{
           max-width: 610px;
