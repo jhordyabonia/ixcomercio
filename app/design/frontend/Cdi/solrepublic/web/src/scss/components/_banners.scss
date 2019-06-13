@@ -25,6 +25,10 @@
   }
   &.banner-background{
     min-height: 300px;
+    @media (max-width: $mobile){
+      background-position: center top!important;
+      background-size: 100%!important;
+    }
     .text-overlay-banner{
       padding: 10% 0;
       position: relative;
@@ -59,6 +63,11 @@
       color: #fff;
       font-size: 18px;
       text-align: left;
+      @media (max-width: $mobile){
+        width: 90%;
+        padding-top: 85%;
+        float: none;
+      }
       &.banner-text-center{
         text-align: center;
         .caption-desc{
