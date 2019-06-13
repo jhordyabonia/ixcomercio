@@ -133,6 +133,13 @@ h3.blktxt {
 .HPsec2 {
   color: #fff;
   background: #000;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  clear: both;
 }
 .HPsec4 {
   background: #ebebeb;
