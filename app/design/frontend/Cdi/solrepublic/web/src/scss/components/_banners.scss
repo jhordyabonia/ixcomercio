@@ -1,4 +1,7 @@
 .banner{
+  @media (min-width: $tablet){
+    padding: 20px 0;
+  }
   &.main-category-banner{
     .text-block-banner {
       .text-overlay-banner.banner-text-left{
