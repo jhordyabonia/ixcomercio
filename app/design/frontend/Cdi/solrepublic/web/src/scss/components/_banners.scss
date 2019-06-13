@@ -92,9 +92,15 @@
       }
       &.banner-text-left{
         float: left;
+        @media (max-width: $mobile){
+          float: none;
+        }
       }
       &.banner-text-right{
         float: right;
+        @media (max-width: $mobile){
+          float: none;
+        }
       }
       h1, h2, h3{
         font-family: Gilroy-Medium, Helvetica, Arial, sans-serif;
