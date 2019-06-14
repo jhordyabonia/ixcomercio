@@ -286,8 +286,11 @@ body.cms-terms-of-use, body.cms-privacy-policy{
           height: 43px;
           width: 43px;
           border: 1px solid #ccc;
-          margin: 0 0 3px;
+          margin: 0 5px 3px;
           border-radius: 50%;
+          &:hover{
+            outline: none!important;
+          }
         }
       }
     }
