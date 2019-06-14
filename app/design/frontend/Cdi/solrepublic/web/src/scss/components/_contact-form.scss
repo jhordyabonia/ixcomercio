@@ -35,6 +35,7 @@ form.contact{
       @media (min-width: $mobile){
         width: 100%;
         margin: 0 0 .5em;
+        text-align: left;
       }
     }
     label{
@@ -77,6 +78,9 @@ form.contact{
   }
   input.input-text, textarea{
     padding-top: 5px;
+    @media (min-width: $mobile){
+      margin-bottom: 10px;
+    }
   }
   button, input, select, textarea {
     vertical-align: middle;
