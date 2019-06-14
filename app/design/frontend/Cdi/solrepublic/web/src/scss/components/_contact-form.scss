@@ -12,4 +12,30 @@
 }
 form.contact{
   text-align: left;
+  fieldset {
+    margin: 2em 0;
+  }
+  .legend{
+    display: none;
+  }
+  .group-select {
+    .field-label, label{
+      float: left;
+      clear: left;
+      width: 175px;
+      text-align: right;
+      margin: 0 .5em .5em 0;
+    }
+    input, textarea{
+      float: left;
+      width: 250px;
+    }
+  }
+  input.input-text, textarea{
+    padding-top: 5px;
+  }
+  button, input, select, textarea {
+    vertical-align: middle;
+    color: #444;
+  }
 }
