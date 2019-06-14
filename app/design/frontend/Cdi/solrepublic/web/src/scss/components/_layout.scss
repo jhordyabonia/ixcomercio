@@ -253,13 +253,15 @@ body.cms-terms-of-use, body.cms-privacy-policy{
     }
     .price-box{
       width: 100%;
-      font-size: 21px;
-      line-height: 125%;
       font-family: 'Graphik-Light', Helvetica, arial, sans-serif;
       font-weight: 500;
       color: #636363;
       margin: 0 0 130px;
       padding: 0;
+      .price{
+        font-size: 21px;
+        line-height: 125%;
+      }
     }
   }
 }
