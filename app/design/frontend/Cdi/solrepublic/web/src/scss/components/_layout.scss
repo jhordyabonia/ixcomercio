@@ -156,6 +156,20 @@ h3.blktxt {
     &.short{
       max-height: 440px;
     }
+    .iPhone{
+      @media (max-width: $mobile){
+        display: none;
+      }
+    }
+    .textContain{
+      @media (max-width: $mobile){
+        width: 70%;
+        display: block;
+        padding: 60% 0 0;
+        margin: 0 auto 2%;
+        text-align: center;
+      } 
+    }
   }
   img.iPhone{
     width: auto;
