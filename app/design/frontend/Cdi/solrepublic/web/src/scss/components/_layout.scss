@@ -264,4 +264,32 @@ body.cms-terms-of-use, body.cms-privacy-policy{
       }
     }
   }
+  .product-options-wrapper{
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    .swatch-opt{
+      margin: 0;
+      .swatch-attribute-label{
+        float: left;
+        padding: 0 1em 0 0;
+        font-family: Graphik-Light, Helvetica, Arial, sans-serif;
+        color: #636363;
+        text-transform: capitalize;
+        display: block;
+        margin-bottom: 10px;
+      }
+      .swatch-attribute-options{
+        padding: 10px 0;
+        display: block;
+        .swatch-option{
+          height: 43px;
+          width: 43px;
+          border: 1px solid #ccc;
+          margin: 0 0 3px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
 }
