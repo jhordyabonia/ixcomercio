@@ -7,13 +7,11 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 
 	$(document).ajaxComplete(function() {
-	  	console.log("ajaxComplete");
 	});
 
 
 	jQuery(document).ready(function(){
-		console.log("ready");
-	// Hide Header on on scroll down
+		// Hide Header on on scroll down
 	    var didScroll;
 	    var lastScrollTop = 0;
 	    var delta = 5;
@@ -52,14 +50,8 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 	    }
 	});
 
-	
-	jQuery(document).load(function(){
-		console.log("load");
-	});
-
 
 	jQuery(window).on("scroll", function(){
-		console.log("scroll");
 		if(jQuery(window).scrollTop() > 300){
 			jQuery("#scroll-to-top").addClass("show");
 		}else{
