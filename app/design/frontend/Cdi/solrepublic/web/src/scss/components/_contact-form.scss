@@ -31,6 +31,11 @@ form.contact{
       float: left;
       width: 250px;
     }
+    textarea{
+      width: 100%;
+      max-width: 525px;
+      height: 150px;
+    }
   }
   .note {
     clear: left;
