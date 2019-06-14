@@ -18,6 +18,9 @@
 }
 form.contact{
   text-align: left;
+  @media (min-width: $mobile){
+    margin-bottom: 40px;
+  }
   fieldset {
     margin: 2em 0;
   }
@@ -57,6 +60,12 @@ form.contact{
     margin-left: 185px;
     font-size: .9em;
     line-height: 1.2em;
+    @media (min-width: $mobile){
+      width: 100%;
+      margin: 0;
+      font-style: italic;
+      margin-bottom: 30px;
+    }
   }
   .form-buttons {
     margin: 0;
