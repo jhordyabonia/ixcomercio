@@ -7,6 +7,12 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 
 	$(document).ajaxComplete(function() {
+		jQuery(".product-essential .swatch-attribute-options .swatch-option").hover(function(){
+			var labelColor = jQuery(this).attr("option-label");
+			jQuery(".swatch-attribute-selected-option").text(labelColor);
+		}, function(){
+			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-essential .swatch-attribute-options .swatch-option.selected").attr("option-label"));
+		});
 	});
 
 
@@ -48,14 +54,6 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 	        }
 	        lastScrollTop = st;
 	    }
-
-
-	    jQuery(".product-essential .swatch-attribute-options .swatch-option").hover(function(){
-			var labelColor = jQuery(this).attr("option-label");
-			jQuery(".swatch-attribute-selected-option").text(labelColor);
-		}, function(){
-			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-essential .swatch-attribute-options .swatch-option.selected").attr("option-label"));
-		});
 	});
 
 
