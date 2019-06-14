@@ -194,7 +194,9 @@ h3.blktxt {
   }
 }
 .HPsec7{
-  background-size: cover!important;
+  @media (max-width: $mobile){
+    background-size: cover!important;
+  }
 }
 a.appstoreBtn, a.playstoreBtn {
   display: inline-block;
