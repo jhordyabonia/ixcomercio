@@ -115,6 +115,9 @@
         }
         &.banner-text-vertical-middle{
           max-width: 610px;
+          @media (max-width: $mobile){
+            padding-top: 0;
+          }
         }
       }
       &.banner-text-left{
