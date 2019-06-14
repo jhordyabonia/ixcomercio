@@ -61,6 +61,7 @@
     @media (max-width: $mobile){
       background-position: center top!important;
       background-size: 100%!important;
+      min-height: auto;
     }
     .text-overlay-banner{
       padding: 10% 0;
