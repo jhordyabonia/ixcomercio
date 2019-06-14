@@ -24,12 +24,20 @@ form.contact{
       clear: left;
       width: 175px;
       text-align: right;
+      font-weight: normal;
       margin: 0 .5em .5em 0;
     }
     input, textarea{
       float: left;
       width: 250px;
     }
+  }
+  .note {
+    clear: left;
+    width: 410px;
+    margin-left: 185px;
+    font-size: .9em;
+    line-height: 1.2em;
   }
   input.input-text, textarea{
     padding-top: 5px;
