@@ -198,7 +198,7 @@ a.playstoreBtn {
 }
 body.catalog-product-view{
   .page-wrapper .page-main{
-
+    background: #e5e5e5;
   }
 }
 body.cms-terms-of-use, body.cms-privacy-policy{
@@ -228,4 +228,7 @@ body.cms-terms-of-use, body.cms-privacy-policy{
 }
 .page-title-wrapper{
   margin: 40px 0 0;
+}
+.product-essential {
+  padding: 3% 0;
 }
