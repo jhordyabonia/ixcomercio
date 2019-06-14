@@ -198,7 +198,6 @@ a.playstoreBtn {
 }
 body.catalog-product-view{
   .page-wrapper .page-main{
-    background: #e5e5e5;
   }
 }
 body.cms-terms-of-use, body.cms-privacy-policy{
@@ -231,4 +230,26 @@ body.cms-terms-of-use, body.cms-privacy-policy{
 }
 .product-essential {
   padding: 3% 0;
+  background: #e5e5e5;
+  .product-info_main{
+    padding-top: 10%;
+    .productpage_tagline{
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Gilroy-Medium', Helvetica, arial, sans-serif;
+      font-weight: 100;
+      color: #636363;
+      line-height: 1;
+      font-size: 30px;
+    }
+    .product.attribute.sku{
+      width: 100%;
+      color: #636363;
+      text-align: left;
+      padding: 0;
+      margin: 10px 0;
+      display: block;
+    }
+  }
 }
