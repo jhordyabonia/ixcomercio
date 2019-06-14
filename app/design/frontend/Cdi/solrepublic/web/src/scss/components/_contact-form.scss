@@ -33,7 +33,6 @@ form.contact{
     }
     textarea{
       width: 100%;
-      max-width: 525px;
       height: 150px;
     }
   }
@@ -43,6 +42,23 @@ form.contact{
     margin-left: 185px;
     font-size: .9em;
     line-height: 1.2em;
+  }
+  .form-buttons {
+    margin: 0;
+    width: 100%;
+    button.button {
+      height: 30px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      background-color: #000;
+      transition: background-color .3s linear;
+      line-height: 100%;
+      padding: 0 1rem;
+      border-radius: 0;
+      float: right;
+      margin-left: 7px;
+    }
   }
   input.input-text, textarea{
     padding-top: 5px;
