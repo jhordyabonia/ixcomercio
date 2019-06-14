@@ -233,6 +233,7 @@ body.cms-terms-of-use, body.cms-privacy-policy{
   background: #e5e5e5;
   .product-info_main{
     padding-top: 10%;
+    text-align: left;
     .productpage_tagline{
       width: 100%;
       margin: 0;
@@ -246,10 +247,19 @@ body.cms-terms-of-use, body.cms-privacy-policy{
     .product.attribute.sku{
       width: 100%;
       color: #636363;
-      text-align: left;
       padding: 0;
       margin: 10px 0;
       display: block;
+    }
+    .price-box{
+      width: 100%;
+      font-size: 21px;
+      line-height: 125%;
+      font-family: 'Graphik-Light', Helvetica, arial, sans-serif;
+      font-weight: 500;
+      color: #636363;
+      margin: 0 0 130px;
+      padding: 0;
     }
   }
 }
