@@ -7,16 +7,12 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 
 	$(document).ajaxComplete(function() {
-	  	jQuery(".product-options-wrapper .swatch-attribute.jam_color .swatch-attribute-options .swatch-option").hover(function(){
-			var labelColor = jQuery(this).attr("option-label");
-			jQuery(".swatch-attribute-selected-option").text(labelColor);
-		}, function(){
-			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-options-wrapper .swatch-attribute.jam_color .swatch-attribute-options .swatch-option.selected").attr("option-label"));
-		});
+	  	console.log("ajaxComplete");
 	});
 
 
 	jQuery(document).ready(function(){
+		console.log("ready");
 	// Hide Header on on scroll down
 	    var didScroll;
 	    var lastScrollTop = 0;
@@ -56,8 +52,14 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 	    }
 	});
 
+	
+	jQuery(document).load(function(){
+		console.log("load");
+	});
+
 
 	jQuery(window).on("scroll", function(){
+		console.log("scroll");
 		if(jQuery(window).scrollTop() > 300){
 			jQuery("#scroll-to-top").addClass("show");
 		}else{
