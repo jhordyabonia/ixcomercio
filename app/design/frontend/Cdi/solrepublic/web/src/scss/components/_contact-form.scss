@@ -8,6 +8,12 @@
   }
   .sidebar{
     text-align: left;
+    &.col-left{
+      float: left;
+    }
+    &.col-right{
+      float: right;
+    }
   }
 }
 form.contact{
@@ -72,5 +78,9 @@ form.contact{
 .contact-list {
   dt {
     font-weight: 700;
+    margin: 0;
+  }
+  dd{
+    margin: 0;
   }
 }
