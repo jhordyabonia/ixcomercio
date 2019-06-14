@@ -5,6 +5,11 @@
   &.frame{
     .container{
       max-width: 100% !important;
+      .row{
+        > div{
+          padding: 0;
+        }
+      }
     }
     .video-container {
       position: relative;
