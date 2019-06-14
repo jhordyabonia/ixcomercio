@@ -197,6 +197,9 @@ h3.blktxt {
   &.banner.banner-background{
     @media (max-width: $mobile){
       background-size: cover!important;
+      .text-block-banner .text-overlay-banner.banner-text-center.banner-text-vertical-middle{
+        padding: 30% 0;
+      }
     }
   }
 }
