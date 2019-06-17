@@ -22,7 +22,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			toggleMenu();
 		});
 
-		function toggleMenu(){
+		function toggleMenu(e){
 			e.preventDefault(); // prevent the default action
 	        e.stopPropagation(); // stop the click from bubbling
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
