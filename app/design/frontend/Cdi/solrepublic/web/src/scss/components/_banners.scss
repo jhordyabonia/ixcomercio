@@ -46,7 +46,7 @@
       .text-overlay-banner.banner-text-left{
         left: 17%;
         @media (max-width: $mobile){
-          left: 0;
+          left: 50%;
         }
       }
       .text-overlay-banner{
