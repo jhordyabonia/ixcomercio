@@ -27,11 +27,18 @@
             margin: auto;
             height: 57%;
             font-size: 24px;
+            text-align: center;
             &.banner-text-left{
               text-align: left;
+              @media (max-width: $mobile){
+                text-align: center;
+              }
             }
             &.banner-text-right{
               text-align: right; 
+              @media (max-width: $mobile){
+                text-align: center;
+              }
             }
             .caption-title, .caption-desc{
               width: 100%;
