@@ -13,10 +13,6 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 		}, function(){
 			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-essential .swatch-attribute-options .swatch-option.selected").attr("option-label"));
 		});
-	});
-
-
-	jQuery(document).ready(function(){
 
 		function menuToggle(){
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
@@ -25,6 +21,10 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 				jQuery('.SOLburger').addClass("is-clicked");
 			}
 		}
+	});
+
+
+	jQuery(document).ready(function(){
 
 		//AUX MENU SLIDE OUT
 	    jQuery('a.menuToggle').on('click',function(e) {
