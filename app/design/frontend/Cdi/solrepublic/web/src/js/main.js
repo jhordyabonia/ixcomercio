@@ -18,14 +18,18 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		jQuery(document).on('click','.SOLburger', function(e){
+		jQuery('.SOLburger').click(function(e){
+			toggleMenu();
 			console.log("click toggle");
-			if(jQuery(this).hasClass("is-clicked")){
-				jQuery(this).removeClass("is-clicked");
-			}else{
-				jQuery(this).addClass("is-clicked");
-			}
 		});
+
+		function toggleMenu(){
+			if(jQuery('.SOLburger').hasClass("is-clicked")){
+				jQuery('.SOLburger').removeClass("is-clicked");
+			}else{
+				jQuery('.SOLburger').addClass("is-clicked");
+			}
+		}
 
 		//AUX MENU SLIDE OUT
 	    jQuery('a.menuToggle').on('click',function(e) {
