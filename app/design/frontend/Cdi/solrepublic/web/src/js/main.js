@@ -17,11 +17,12 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 
 	jQuery(document).ready(function(){
-		jQuery('.SOLburger').click(function(){
+		jQuery('.SOLburger').click(function(e){
 			if(jQuery(this).hasClass("is-clicked")){
 				jQuery(this).removeClass('is-clicked');
 			}else{
-				jQuery(this).addClass('is-clicked');	
+				jQuery(this).addClass('is-clicked');
+				e.preventDefault();
 			}
 	    });
 
