@@ -37,6 +37,12 @@
   }
   &.main-category-banner{
     .text-block-banner {
+      @media (max-width: $mobile){
+        width: 100%;
+        height: auto;
+        min-height: 220px;
+        position: relative;
+      }
       .text-overlay-banner.banner-text-left{
         left: 17%;
         @media (max-width: $mobile){
@@ -45,7 +51,14 @@
       }
       .text-overlay-banner{
         @media (max-width: $mobile){
-          padding-top: 15%;
+          top: 50%;
+          left: 50%;
+          position: absolute;
+          width: 100%;
+          height: auto;
+          line-height: 100%;
+          transform: translate(-50%, -50%);
+          padding: 0;
           .caption-desc{
             display: none;
           }
@@ -56,6 +69,10 @@
           font-family: 'Gilroy-Medium', 'Helvetica', sans-serif;
           line-height: 110%;
           margin: 0;
+          @media (max-width: $mobile){
+            font-size: 42px;
+            text-align: center;
+          }
         }
         .caption-desc{
           font-size: 25px;  
