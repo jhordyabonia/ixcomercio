@@ -190,6 +190,11 @@
       &.bgSize100{
         background-size: 100% !important;
       }
+      &.bgSize100Mob{
+        @media (max-width: $mobile){
+          background-size: 100% !important;
+        }  
+      }
     }
     .text-block-banner .text-overlay-banner {
       @media (max-width: $mobile){
