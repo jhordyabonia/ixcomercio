@@ -17,6 +17,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 
 	jQuery(document).ready(function(){
+		/*
 		jQuery('.SOLburger').click(function(e){
 			if(jQuery(this).hasClass("is-clicked")){
 				jQuery(this).removeClass('is-clicked');
@@ -27,7 +28,6 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    });
 
 	    //AUX MENU SLIDE OUT
-	    /*
 	    jQuery('a.menuToggle').on('click',function(e) {
 	        e.preventDefault(); // prevent the default action
 	        e.stopPropagation(); // stop the click from bubbling
