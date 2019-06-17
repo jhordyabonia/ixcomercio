@@ -16,7 +16,8 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 		//AUX MENU SOL BURGER ICON SPIN
 	    jQuery('.SOLburger').click(function(){
-	    	jQuery('.cd-menu-icon').addClass('is-clicked');
+	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
+	    	console.log("click toogle 1");
 	    });
 
 	    //AUX MENU SLIDE OUT
@@ -33,6 +34,11 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 
 	jQuery(document).ready(function(){
+		jQuery('.SOLburger').click(function(){
+	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
+	    	console.log("click toogle 2");
+	    });
+
 		// Hide Header on on scroll down
 	    var didScroll;
 	    var lastScrollTop = 0;
