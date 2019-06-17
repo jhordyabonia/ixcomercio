@@ -93,17 +93,8 @@
           position: relative;
           top: 15px;
           left: 0;
-          .cd-menu-icon {
-            top: 13px;
-            left: 17px;
-            width: 35px;
-            height: 4px;
-            position: absolute;
-            display: inline-block;
-            transform: translateX(-50%) translateY(-50%);
-            background-color: #c2c2c2;
-            transition: background-color 0.3s;
-            &.is-clicked {
+          &.is-clicked {
+            .cd-menu-icon {
               background-color: rgba(255, 255, 255, 0);
               &:before, &:after {
                 background-color: #00abf2;
@@ -117,6 +108,17 @@
                 transform: rotate(225deg);
               }
             }
+          }
+          .cd-menu-icon {
+            top: 13px;
+            left: 17px;
+            width: 35px;
+            height: 4px;
+            position: absolute;
+            display: inline-block;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: #c2c2c2;
+            transition: background-color 0.3s;
             &:before, &:after {
               content: '';
               right: 0;
