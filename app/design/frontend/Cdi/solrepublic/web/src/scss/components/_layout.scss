@@ -153,6 +153,10 @@ h3.blktxt {
 .HPsec6 {
   background: url(../images/banners/sec6BG.jpg) center center no-repeat #000;
   background-size: cover;
+  @media (max-width: $mobile){
+    background: url(../images/banners/sec6BG-mobile.jpg) center center no-repeat #000;
+    background-size: cover;
+  }
   .secContain{
     max-width: 1140px;
     width: 100%;
