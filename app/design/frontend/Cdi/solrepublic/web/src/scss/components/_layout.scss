@@ -282,6 +282,10 @@ body.cms-terms-of-use, body.cms-privacy-policy{
   .product-info_main{
     padding-top: 10%;
     text-align: left;
+    @media (max-width: $mobile){
+      padding-top: 5%;
+      text-align: center;
+    }
     .productpage_tagline{
       width: 100%;
       margin: 0;
@@ -306,6 +310,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
       color: #636363;
       margin: 0 0 130px;
       padding: 0;
+      @media (max-width: $mobile){
+        margin: 0 0 40px;
+      }
       .price{
         font-size: 21px;
         line-height: 125%;
@@ -316,6 +323,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
     width: 100%;
     margin: 0;
     padding: 10px 0;
+    @media (max-width: $mobile){
+      text-align: center;
+    }
     .swatch-opt{
       margin: 0;
       .swatch-attribute-label{
@@ -326,6 +336,16 @@ body.cms-terms-of-use, body.cms-privacy-policy{
         text-transform: capitalize;
         display: block;
         margin-bottom: 10px;
+        @media (max-width: $mobile){
+          display: inline-block;
+          float: none;
+        }
+      }
+      .swatch-attribute-selected-option{
+        @media (max-width: $mobile){
+          display: inline-block;
+          float: none;
+        } 
       }
       .swatch-attribute-options{
         padding: 10px 0;
@@ -336,6 +356,10 @@ body.cms-terms-of-use, body.cms-privacy-policy{
           border: 1px solid #ccc;
           margin: 0 5px 3px;
           border-radius: 50%;
+          @media (max-width: $mobile){
+            display: inline-block;
+            float: none;
+          }
           &:hover{
             outline: none!important;
           }
