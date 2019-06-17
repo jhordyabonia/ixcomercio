@@ -221,8 +221,13 @@
           margin: 0 auto;
           &.bottomMob{
             @media (max-width: $mobile){
-              padding-top: 48%;
+              padding-top: 50%;
             }   
+          }
+        }
+        .bottomMob30{
+          @media (max-width: $mobile){
+            padding-top: 30%;
           }
         }
       }
