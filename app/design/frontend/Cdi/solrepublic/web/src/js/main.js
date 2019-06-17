@@ -18,7 +18,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		jQuery('.SOLburger').on("click", function(e){
+		jQuery('.SOLburger').bind("click", function(e){
 			if(jQuery(this).hasClass("is-clicked")){
 				jQuery(this).removeClass("is-clicked");
 			}else{
