@@ -23,7 +23,10 @@
         width: 100%;
         margin: 0 auto;
         position: relative;
-        display: flex;        
+        display: flex;
+        @media (max-width: $mobile){
+          display: block;
+        }
       }
       .productImageContain{
         padding: 0;
