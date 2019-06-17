@@ -20,10 +20,10 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 		jQuery('.SOLburger').click(function(e){
 			toggleMenu();
-			console.log("click toggle");
 		});
 
 		function toggleMenu(){
+			alert("click");
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
 				jQuery('.SOLburger').removeClass("is-clicked");
 			}else{
