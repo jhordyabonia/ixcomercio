@@ -69,6 +69,52 @@
           }
         }
       }
+      .quick-access{
+        a{
+          color: #fff;
+          text-transform: uppercase;
+          transition: color 125ms ease-in 0s;
+          .menuToggle {
+            cursor: pointer;
+          }
+        }
+        .SOLburger {
+          display: inline-block;
+          height: 40px;
+          width: 35px;
+          padding: 0;
+          overflow: hidden;
+          position: relative;
+          top: 0;
+          left: 0;
+          .cd-menu-icon {
+            top: 13px;
+            left: 17px;
+            width: 35px;
+            height: 4px;
+            position: absolute;
+            display: inline-block;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: #c2c2c2;
+            transition: background-color 0.3s;
+            &:before, &:after {
+              content: '';
+              right: 0;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              background-color: #c2c2c2;
+              transition: transform .3s, top .3s, background-color 0s;
+            }
+            &:before {
+              top: -10px;
+            }
+            &:after {
+              top: 10px;
+            }
+          }
+        }
+      }
     }
     .logo {
       margin: 0;
