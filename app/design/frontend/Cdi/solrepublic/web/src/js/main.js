@@ -18,7 +18,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		$(document).on('click','.SOLburger', function(e){
+		jQuery(document).on('click','.SOLburger', function(e){
+			console.log("click toggle");
 			if(jQuery(this).hasClass("is-clicked")){
 				jQuery(this).removeClass("is-clicked");
 			}else{
