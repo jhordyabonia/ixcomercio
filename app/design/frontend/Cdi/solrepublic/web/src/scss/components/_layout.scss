@@ -49,6 +49,9 @@ section.BSsec3 {
   min-width: 701px;
   margin: 0 auto;
   overflow: hidden;
+  @media (max-width: $mobile){
+    min-width: auto;
+  }
 }
 .flex-container {
   max-width: 840px;
