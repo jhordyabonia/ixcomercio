@@ -18,26 +18,27 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		jQuery('.SOLburger').one("click", function(e){
-			if(jQuery(this).hasClass("is-clicked")){
-				jQuery(this).removeClass("is-clicked");
-			}else{
-				jQuery(this).addClass("is-clicked");
-			}
-		});
+		setTimeout(function(){
+			jQuery('.SOLburger').on("click", function(e){
+				if(jQuery(this).hasClass("is-clicked")){
+					jQuery(this).removeClass("is-clicked");
+				}else{
+					jQuery(this).addClass("is-clicked");
+				}
+			});
 
-	    //AUX MENU SLIDE OUT
-	    /*
-	    jQuery('a.menuToggle').on('click',function(e) {
-	        e.preventDefault(); // prevent the default action
-	        e.stopPropagation(); // stop the click from bubbling
-	        if(jQuery('#sideMenu').css('right')=='0px'){
-	            jQuery('#sideMenu').animate({right: '-100%'}, 500);
-	        }else{
-	            jQuery('#sideMenu').animate({right:0}, 500);
-	        }
-	    });
-	    */
+			//AUX MENU SLIDE OUT
+		    jQuery('a.menuToggle').on('click',function(e) {
+		        e.preventDefault(); // prevent the default action
+		        e.stopPropagation(); // stop the click from bubbling
+		        if(jQuery('#sideMenu').css('right')=='0px'){
+		            jQuery('#sideMenu').animate({right: '-100%'}, 500);
+		        }else{
+		            jQuery('#sideMenu').animate({right:0}, 500);
+		        }
+		    });
+	    
+		}, 2000);
 
 		// Hide Header on on scroll down
 	    var didScroll;
