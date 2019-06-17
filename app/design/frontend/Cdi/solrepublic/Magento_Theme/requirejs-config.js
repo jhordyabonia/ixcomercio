@@ -14,9 +14,6 @@ var config = {
         'bootstrap': {
             'deps': ['jquery']
         },
-        'zoomJs': {
-          'deps': ['jquery']
-        },
         'mainJs': {
         	'deps': ['jquery']
         }
