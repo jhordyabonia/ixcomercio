@@ -27,6 +27,10 @@
         p{
           display: inline-block;
           margin-right: 50px;
+          @media (max-width: $mobile){
+            margin-right: 0;
+            display: block;
+          }
         }
         a{
           display: inline-block;
