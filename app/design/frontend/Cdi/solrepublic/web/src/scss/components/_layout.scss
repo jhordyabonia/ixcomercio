@@ -144,6 +144,11 @@ h3.blktxt {
 .HPsec4 {
   background-color: #ebebeb!important;
   color: #373737;
+  @media (max-width: $mobile){
+    &.banner .text-block-banner .text-overlay-banner{
+      text-align: center;
+    }
+  }
 }
 .HPsec6 {
   background: url(../images/banners/sec6BG.jpg) center center no-repeat #000;
