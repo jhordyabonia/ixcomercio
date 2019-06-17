@@ -32,6 +32,9 @@ section.BSsec2 {
 }
 section.BSsec3 {
   padding: 6% 0;
+  @media (max-width: $mobile){
+    padding: 0;
+  }
 }
 .secContain {
   max-width: 1140px;
