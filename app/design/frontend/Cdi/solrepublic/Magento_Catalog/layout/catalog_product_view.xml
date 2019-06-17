@@ -23,8 +23,8 @@
 		* Mueve elementos
 		-->
 		<!--media-->
-		<move element="product.info.main" destination="product.essential" as="product.info.main" before="-"/>
-        <move element="product.info.media" destination="product.essential" as="product.info.media" after="product.info.main"/>
+		<move element="product.info.media" destination="product.essential" as="product.info.media" before="-"/>
+		<move element="product.info.main" destination="product.essential" as="product.info.main" after="product.info.media"/>
 
         <!--main-->
 		<move element="product.info.sku" destination="product.info.main" as="product.info.sku" after="product.custom.name"/>
