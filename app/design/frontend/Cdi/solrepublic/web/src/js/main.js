@@ -54,6 +54,11 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 	        }
 	        lastScrollTop = st;
 	    }
+
+	    //AUX MENU SOL BURGER ICON SPIN
+	    jQuery('.SOLburger').click(function(){
+	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
+	    });
 	});
 
 
