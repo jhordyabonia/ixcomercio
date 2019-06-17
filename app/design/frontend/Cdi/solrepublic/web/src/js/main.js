@@ -24,6 +24,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	});
 
 
+	
 	jQuery(document).ready(function(){
 
 		//AUX MENU SLIDE OUT
@@ -36,8 +37,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	            jQuery('#sideMenu').animate({right:0}, 500);
 	        }
 	    });
-	    
-		
+
 
 		// Hide Header on on scroll down
 	    var didScroll;
