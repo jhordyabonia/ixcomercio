@@ -19,8 +19,12 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	jQuery(document).ready(function(){
 
 		jQuery('.SOLburger').on("click", function(e){
-			jQuery(this).toogleClass('is-clicked');
-	    });
+			if(jQuery(this).hasClass("is-clicked")){
+				jQuery(this).removeClass("is-clicked");
+			}else{
+				jQuery(this).addClass("is-clicked");
+			}
+		});
 
 	    //AUX MENU SLIDE OUT
 	    /*
