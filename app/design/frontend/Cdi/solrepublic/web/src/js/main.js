@@ -19,10 +19,6 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	jQuery(document).ready(function(){
 
 		jQuery('.SOLburger').click(function(e){
-			toggleMenu();
-		});
-
-		function toggleMenu(e){
 			e.preventDefault(); // prevent the default action
 	        e.stopPropagation(); // stop the click from bubbling
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
@@ -30,7 +26,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			}else{
 				jQuery('.SOLburger').addClass("is-clicked");
 			}
-		}
+		});
 
 		//AUX MENU SLIDE OUT
 	    jQuery('a.menuToggle').on('click',function(e) {
