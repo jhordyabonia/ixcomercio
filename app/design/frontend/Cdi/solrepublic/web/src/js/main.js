@@ -16,7 +16,7 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 
 		//AUX MENU SOL BURGER ICON SPIN
 	    jQuery('.SOLburger').click(function(){
-	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
+	    	jQuery('.cd-menu-icon').addClass('is-clicked');
 	    });
 
 	    //AUX MENU SLIDE OUT
