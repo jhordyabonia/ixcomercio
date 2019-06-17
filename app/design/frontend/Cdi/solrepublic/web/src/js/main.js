@@ -13,14 +13,17 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 		}, function(){
 			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-essential .swatch-attribute-options .swatch-option.selected").attr("option-label"));
 		});
+	});
 
-		//AUX MENU SOL BURGER ICON SPIN
-	    jQuery('.SOLburger').click(function(){
-	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
-	    	console.log("click toogle 1");
+
+	jQuery(document).ready(function(){
+		jQuery('.SOLburger').click(function(){
+	    	jQuery('.cd-menu-icon').addClass('clicked');
+	    	console.log("click toogle 2");
 	    });
 
 	    //AUX MENU SLIDE OUT
+	    /*
 	    jQuery('a.menuToggle').on('click',function(e) {
 	        e.preventDefault(); // prevent the default action
 	        e.stopPropagation(); // stop the click from bubbling
@@ -30,14 +33,7 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 	            jQuery('#sideMenu').animate({right:0}, 500);
 	        }
 	    });
-	});
-
-
-	jQuery(document).ready(function(){
-		jQuery('.SOLburger').click(function(){
-	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
-	    	console.log("click toogle 2");
-	    });
+	    */
 
 		// Hide Header on on scroll down
 	    var didScroll;
