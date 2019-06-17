@@ -55,9 +55,24 @@ require(['jquery', 'zoomJs', 'mainJs', 'domReady!'], function($) {
 	        lastScrollTop = st;
 	    }
 
-	    //AUX MENU SOL BURGER ICON SPIN
+	});
+	
+
+	jQuery(document).load(function(){
+		//AUX MENU SOL BURGER ICON SPIN
 	    jQuery('.SOLburger').click(function(){
 	    	jQuery('.cd-menu-icon').toggleClass('is-clicked');
+	    });
+
+	    //AUX MENU SLIDE OUT
+	    jQuery('a.menuToggle').on('click',function(e) {
+	        e.preventDefault(); // prevent the default action
+	        e.stopPropagation(); // stop the click from bubbling
+	        if(jQuery('#sideMenu').css('right')=='0px'){
+	            jQuery('#sideMenu').animate({right: '-100%'}, 500);
+	        }else{
+	            jQuery('#sideMenu').animate({right:0}, 500);
+	        }
 	    });
 	});
 
