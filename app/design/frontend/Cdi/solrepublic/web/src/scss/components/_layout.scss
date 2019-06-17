@@ -175,7 +175,7 @@ h3.blktxt {
     }
     .textContain{
       @media (max-width: $mobile){
-        width: 90%;
+        width: 76%;
         display: block;
         padding: 60% 0 0;
         margin: 0 auto 40px;
@@ -218,6 +218,9 @@ a.appstoreBtn, a.playstoreBtn {
   max-width: 131px;
   padding-top: 16%;
   transition: opacity 0.3s linear;
+  @media (max-width: $mobile){
+    max-width: 124px;
+  }
   &:hover{
     opacity: 0.75;
     transition: opacity 0.3s linear;
