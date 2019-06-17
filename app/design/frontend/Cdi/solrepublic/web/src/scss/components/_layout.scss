@@ -101,6 +101,9 @@ section.BSsec3 {
   .txtPad {
     text-align: left;
     padding: 30% 10% 0;
+    @media (max-width: $mobile){
+      padding: 6% 10% 10%;  
+    }
   }
 }
 .cms-page-view h2 {
