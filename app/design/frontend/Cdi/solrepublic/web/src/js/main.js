@@ -19,13 +19,13 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	jQuery(document).ready(function(){
 
 		jQuery('.SOLburger').click(function(e){
-			e.preventDefault(); // prevent the default action
-	        e.stopPropagation(); // stop the click from bubbling
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
 				jQuery('.SOLburger').removeClass("is-clicked");
 			}else{
 				jQuery('.SOLburger').addClass("is-clicked");
 			}
+			e.preventDefault(); // prevent the default action
+	        e.stopPropagation(); // stop the click from bubbling
 		});
 
 		//AUX MENU SLIDE OUT
