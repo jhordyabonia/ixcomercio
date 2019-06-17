@@ -122,6 +122,11 @@
           width: 40px;
           height: 40px;
           margin: -20px 0 0;
+          @media (max-width: $mobile){
+            width: 30px;
+            height: 30px;
+            margin: -15px 0 0;
+          }
           &.flex-next{
             background: url(../images/flexslider/direction-nav-next.png) no-repeat center;
             background-size: 100%;
