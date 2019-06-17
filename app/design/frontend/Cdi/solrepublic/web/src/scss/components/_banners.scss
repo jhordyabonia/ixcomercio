@@ -39,8 +39,17 @@
     .text-block-banner {
       .text-overlay-banner.banner-text-left{
         left: 17%;
+        @media (max-width: $mobile){
+          left: 0;
+        }
       }
       .text-overlay-banner{
+        @media (max-width: $mobile){
+          padding-top: 15%;
+          .caption-desc{
+            display: none;
+          }
+        }
         .caption-title{
           font-size: 60px;
           font-weight: bold;
