@@ -49,6 +49,7 @@ footer{
             text-transform: uppercase;
             font-family: 'flamacondensed-bold';
             a{
+              color: #000;
               border-bottom: 0;
               font-size: 14px;
               font-weight: 500;
@@ -61,6 +62,7 @@ footer{
               }
               &:hover{
                 color: #1e75b4;
+                text-decoration: none;
                 background-color: white;
               }
             }
