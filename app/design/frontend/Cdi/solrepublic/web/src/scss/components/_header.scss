@@ -175,6 +175,9 @@
     color: #c2c2c2;
     text-transform: uppercase;
     transition: all 0.3s ease;
+    &:hover{
+      color: #00a1c9;
+    }
   }
   ul {
     margin: 0 0;
@@ -226,6 +229,9 @@ a.menuToggle.SOLburger.inmenu {
           @media only screen and (min-width: $tablet){
             color: #c2c2c2;
             line-height: normal;
+            &:hover{
+              color: #00a1c9;
+            }
           }
         }
       }
