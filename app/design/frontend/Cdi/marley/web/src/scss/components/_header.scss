@@ -93,13 +93,14 @@ header{
         width: 100%;
         max-width: 100%;
       }
-      ul{
+      .nav-sections{
         width: 100%;
         float: left;
         position: relative;
         padding: 19.5px 0;
         margin: 0;
         li{
+          margin: 0;
           display: inline-block;
           float: none;
           @media only screen and (max-width: 959px){
@@ -114,6 +115,11 @@ header{
             text-transform: uppercase;
             font-weight: 500;
             padding: 0 10px;
+            @media only screen and (min-width: 768px){
+              color: black;
+              line-height: 30px;
+              padding: 0 10px;
+            }
             @media only screen and (max-width: 959px){
               font-size: 18px;
               line-height: 40px;
