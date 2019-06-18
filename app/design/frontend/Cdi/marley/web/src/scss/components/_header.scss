@@ -109,56 +109,57 @@ header{
           @media only screen and (min-width: 768px){
             background: none;
           }
-        }
-        ul{
-          padding: 0;
-          @media only screen and (min-width: 768px){
+          ul{
             padding: 0;
-          }
-        }
-        li{
-          margin: 0;
-          display: inline-block;
-          float: none;
-          @media only screen and (max-width: 959px){
-            width: auto;
-            display: block;
-          }
-          &.active{
-            @media only screen and (max-width: 768px){
-              a{
-                border: 0;
-              }
-            }
-          }
-          a{
-            color: black;
-            font-size: 15px;
-            line-height: 30px;
-            font-family: "flamacondensed-bold",Oswald,sans-serif;
-            text-transform: uppercase;
-            font-weight: 500;
-            padding: 0 10px;
             @media only screen and (min-width: 768px){
-              color: black;
-              line-height: 30px;
-              padding: 0 10px;
+              padding: 0;
             }
-            @media only screen and (max-width: 959px){
-              font-size: 18px;
-              line-height: 40px;
-            }
-            &:hover{
-              border-bottom: 0;
-              span{
-                border-bottom: 2px solid #393939;
-              }
-            }
-            span{
+            li{
+              margin: 0;
               display: inline-block;
-              white-space: nowrap;
-              position: relative;
-              border-bottom: 2px solid transparent;
+              float: none;
+              @media only screen and (max-width: 959px){
+                width: auto;
+                display: block;
+              }
+              &.active{
+                @media only screen and (max-width: 768px){
+                  a{
+                    border: 0;
+                  }
+                }
+              }
+              a{
+                color: black;
+                font-size: 15px;
+                line-height: 30px;
+                font-family: "flamacondensed-bold",Oswald,sans-serif;
+                text-transform: uppercase;
+                font-weight: 500;
+                padding: 0 10px;
+                @media only screen and (min-width: 768px){
+                  color: black;
+                  line-height: 30px;
+                  padding: 0 10px;
+                  border: 0;
+                }
+                @media only screen and (max-width: 959px){
+                  font-size: 18px;
+                  line-height: 40px;
+                }
+                &:hover{
+                  border-bottom: 0;
+                  span{
+                    border-bottom: 2px solid #393939;
+                  }
+                }
+                span{
+                  display: inline-block;
+                  white-space: nowrap;
+                  position: relative;
+                  border-bottom: 2px solid transparent;
+                }
+              }
             }
           }
         }
