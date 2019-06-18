@@ -10,18 +10,12 @@ function ($, Component) {
 		});
 
 
-		var buttonToggle = jQuery("#SOLBurgerButton");
-			buttonToggle.on('click', function(){
-				console.log("click 5");
-				if(jQuery('.SOLburger').hasClass("is-clicked")){
-					jQuery('.SOLburger').removeClass("is-clicked");
-				}else{
-					jQuery('.SOLburger').addClass("is-clicked");
-				}
-			});
+		jQuery("#SOLBurgerButton").on('click', function(){
+			jQuery('.SOLburger').toggleClass("is-clicked");
+		});
+
 
 		function menuToggle(){
-			console.log("click 4");
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
 				jQuery('.SOLburger').removeClass("is-clicked");
 			}else{
@@ -30,8 +24,7 @@ function ($, Component) {
 		}
 
 		//AUX MENU SLIDE OUT
-		/*
-	    jQuery('a.menuToggle').on('click',function(e) {
+		jQuery('a.menuToggle').on('click',function(e) {
 	        e.preventDefault(); // prevent the default action
 	        e.stopPropagation(); // stop the click from bubbling
 	        if(jQuery('#sideMenu').css('right')=='0px'){
@@ -40,8 +33,7 @@ function ($, Component) {
 	            jQuery('#sideMenu').animate({right:0}, 500);
 	        }
 	    });
-		*/
-
+		
 
 		// Hide Header on on scroll down
 	    var didScroll;
