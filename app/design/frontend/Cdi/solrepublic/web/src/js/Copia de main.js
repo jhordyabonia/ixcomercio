@@ -1,14 +1,22 @@
-define([
-    'jquery'
-],
-function ($, Component) {
-    'use strict';
-    $(document).ready(function(){
-		$('#scroll-to-top').click(function(){
-			$("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
-			return false;
-		});
+require(['jquery', 'mainJs', 'domReady!'], function($) {
+    
+	jQuery('#scroll-to-top').click(function(){
+		jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
+		return false;
+	});
 
+
+	$(document).ajaxComplete(function() {
+		jQuery(".product-essential .swatch-attribute-options .swatch-option").hover(function(){
+			var labelColor = jQuery(this).attr("option-label");
+			jQuery(".swatch-attribute-selected-option").text(labelColor);
+		}, function(){
+			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-essential .swatch-attribute-options .swatch-option.selected").attr("option-label"));
+		});		
+	});
+
+
+	jQuery(document).ready(function(){
 
 		var buttonToggle = jQuery("#SOLBurgerButton");
 			buttonToggle.on('click', function(){
@@ -41,7 +49,6 @@ function ($, Component) {
 	        }
 	    });
 		*/
-
 
 		// Hide Header on on scroll down
 	    var didScroll;
@@ -80,16 +87,7 @@ function ($, Component) {
 	        }
 	        lastScrollTop = st;
 	    }
-	});
-	
 
-	$(document).ajaxComplete(function() {
-		jQuery(".product-essential .swatch-attribute-options .swatch-option").hover(function(){
-			var labelColor = jQuery(this).attr("option-label");
-			jQuery(".swatch-attribute-selected-option").text(labelColor);
-		}, function(){
-			jQuery(".swatch-attribute-selected-option").text(jQuery(".product-essential .swatch-attribute-options .swatch-option.selected").attr("option-label"));
-		});		
 	});
 
 
@@ -101,6 +99,4 @@ function ($, Component) {
 		}
 		
 	});
-
-	return Component.extend({});
 });
