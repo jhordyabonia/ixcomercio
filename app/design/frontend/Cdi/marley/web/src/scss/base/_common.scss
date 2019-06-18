@@ -86,6 +86,12 @@ body {
     font-family: "flamacondensed-bold",Oswald,sans-serif;
   }
 }
+.page-main{
+  @media only screen and (min-width: 768px){
+    max-width: auto;
+    padding: 0;
+  }
+}
 .page-title{
   margin-bottom: 20px;
   h1, h2{
