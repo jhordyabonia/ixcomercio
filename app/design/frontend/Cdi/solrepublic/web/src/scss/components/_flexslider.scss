@@ -19,7 +19,7 @@
             max-width: 100%;
           }
           .text-overlay-banner{
-            left: 5%;
+            left: 50%;
             top: 17%;
             bottom: 27%;
             width: 90%;
@@ -29,6 +29,7 @@
             height: 57%;
             font-size: 24px;
             text-align: center;
+            transform: translate(-50%,0);
             &.banner-text-left{
               text-align: left;
               @media (max-width: $mobile){
