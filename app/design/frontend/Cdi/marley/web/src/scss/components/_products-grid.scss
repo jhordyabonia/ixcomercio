@@ -17,69 +17,6 @@
       width: 96%;
       max-width: 960px;
     }
-    .sorter{
-      float: left;
-      width: 100%;
-      line-height: 36px;
-      padding: 10px 0;
-      border-top: 1px solid #e5e5e5;
-      text-align: left;
-      @media only screen and (max-width: 768px){
-        text-align: center;
-      }
-      .amount{
-        margin: 0;
-        padding-right: 10px;
-        margin-right: 10px;
-        background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
-        display: inline-block;
-        @media only screen and (max-width: 650px){
-          display: none;
-        }
-      }
-      label{
-        margin: 0;
-      }
-      .sort-by{
-        margin-right: 10px;
-        padding-right: 3px;
-        background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
-        display: inline-block;
-        @media only screen and (max-width: 650px){
-          margin: 0;
-          background: none;
-        }
-        .category-asc, .category-desc{
-          width: 30px;
-          height: 30px;
-          color: #333;
-          font-size: 14px;
-          line-height: 30px;
-          text-align: center;
-          display: inline-block;
-          vertical-align: middle;
-          background-color: transparent;
-          transition: .5s all ease;
-          &:hover{
-            color: #1e75b4;
-            background-color: #333;
-          }
-        }
-        .ic-arrow-down:before {
-          content: "\e229";
-        }
-        .ic-arrow-up:before {
-          content: "\e227";
-        }
-      }
-      .limiter{
-        margin-right: 15px;
-        display: inline-block;
-        @media only screen and (max-width: 650px){
-          display: none;
-        }
-      }
-    }
   }
   #container-grid{
     min-height: auto!important;
@@ -188,6 +125,71 @@
           background: #000;
           color: white;
         }
+      }
+    }
+  }
+}
+.wrapper-product-sorter{
+  .sorter{
+    float: left;
+    width: 100%;
+    line-height: 36px;
+    padding: 10px 0;
+    border-top: 1px solid #e5e5e5;
+    text-align: left;
+    @media only screen and (max-width: 768px){
+      text-align: center;
+    }
+    .amount{
+      margin: 0;
+      padding-right: 10px;
+      margin-right: 10px;
+      background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
+      display: inline-block;
+      @media only screen and (max-width: 650px){
+        display: none;
+      }
+    }
+    label{
+      margin: 0;
+    }
+    .sort-by{
+      margin-right: 10px;
+      padding-right: 3px;
+      background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
+      display: inline-block;
+      @media only screen and (max-width: 650px){
+        margin: 0;
+        background: none;
+      }
+      .category-asc, .category-desc{
+        width: 30px;
+        height: 30px;
+        color: #333;
+        font-size: 14px;
+        line-height: 30px;
+        text-align: center;
+        display: inline-block;
+        vertical-align: middle;
+        background-color: transparent;
+        transition: .5s all ease;
+        &:hover{
+          color: #1e75b4;
+          background-color: #333;
+        }
+      }
+      .ic-arrow-down:before {
+        content: "\e229";
+      }
+      .ic-arrow-up:before {
+        content: "\e227";
+      }
+    }
+    .limiter{
+      margin-right: 15px;
+      display: inline-block;
+      @media only screen and (max-width: 650px){
+        display: none;
       }
     }
   }
