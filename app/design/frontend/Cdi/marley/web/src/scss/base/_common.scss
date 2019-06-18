@@ -91,6 +91,30 @@ body {
       padding: 0;
     }
   }
+  section{
+    width: 100%;
+    padding: 20px 0;
+    float: left;
+    &.section-main-slider{
+      padding-top: 0;
+    }
+    header{
+      h2{
+        margin: 0 0 40px;
+        font-size: 2rem;
+      }
+    }
+  }
+  .container {
+    width: 96%;
+    max-width: 960px;
+    @media only screen and (max-width: 959px) and (min-width: 768px){
+      max-width: 90%;
+    }
+  }
+  .container-fluid{
+    max-width: 1320px;
+  }
 }
 .page-title{
   margin-bottom: 20px;
@@ -139,30 +163,7 @@ table{
     }
   }
 }
-section{
-  width: 100%;
-  padding: 20px 0;
-  float: left;
-  &.section-main-slider{
-    padding-top: 0;
-  }
-  header{
-    h2{
-      margin: 0 0 40px;
-      font-size: 2rem;
-    }
-  }
-}
-.container {
-  width: 96%;
-  max-width: 960px;
-  @media only screen and (max-width: 959px) and (min-width: 768px){
-    max-width: 90%;
-  }
-}
-.container-fluid{
-  max-width: 1320px;
-}
+
 .pager-wrapper{
   width: 100%;
   margin: 0;
