@@ -1,19 +1,19 @@
 @font-face {
   font-family: 'flamacondensed-bold';
-  src: url('../../src/scss/fonts/flamacondensed-bold.eot');
-  src: url('../../src/scss/fonts/flamacondensed-bold.eot?#iefix') format('embedded-opentype'),
-    url('../../src/scss/fonts/flamacondensed-bold.woff2') format('woff2'),
-    url('../../src/scss/fonts/flamacondensed-bold.woff') format('woff'),
-    url('../../src/scss/fonts/flamacondensed-bold.ttf') format('ttf');
+  src: url('../fonts/flamacondensed-bold.eot');
+  src: url('../fonts/flamacondensed-bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/flamacondensed-bold.woff2') format('woff2'),
+    url('../fonts/flamacondensed-bold.woff') format('woff'),
+    url('../fonts/flamacondensed-bold.ttf') format('ttf');
   font-weight: bold;
 }
 @font-face {
   font-family: 'flamaCondensedmed';
-  src: url('../../src/scss/fonts/flamacondensed-medium.eot');
-  src: url('../../src/scss/fonts/flamacondensed-medium.eot?#iefix') format('embedded-opentype'),
-    url('../../src/scss/fonts/flamacondensed-medium.woff2') format('woff2'),
-    url('../../src/scss/fonts/flamacondensed-medium.woff') format('woff'),
-    url('../../src/scss/fonts/flamacondensed-medium.ttf') format('truetype');
+  src: url('../fonts/flamacondensed-medium.eot');
+  src: url('../fonts/flamacondensed-medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/flamacondensed-medium.woff2') format('woff2'),
+    url('../fonts/flamacondensed-medium.woff') format('woff'),
+    url('.. /fonts/flamacondensed-medium.ttf') format('truetype');
 }
 @font-face{
   font-family: revicons;
@@ -27,29 +27,29 @@
 }
 @font-face{
   font-family: 'NexusTypewriterOT';
-  src: url('../../src/scss/fonts/NexusTypewriterOT.eot');
-  src: url('../../src/scss/fonts/NexusTypewriterOT.eot?#iefix') format('embedded-opentype'),
-    url('../../src/scss/fonts/NexusTypewriterOT.woff2') format('woff2'),
-    url('../../src/scss/fonts/NexusTypewriterOT.woff') format('woff'),
-    url('../../src/scss/fonts/NexusTypewriterOT.ttf') format('truetype');
+  src: url('../fonts/NexusTypewriterOT.eot');
+  src: url('../fonts/NexusTypewriterOT.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/NexusTypewriterOT.woff2') format('woff2'),
+    url('../fonts/NexusTypewriterOT.woff') format('woff'),
+    url('../fonts/NexusTypewriterOT.ttf') format('truetype');
 }
 @font-face{
   font-family: 'ThemeIcons';
-  src: url('../../src/scss/fonts/ThemeIcons.eot?387osh');
-  src: url('../../src/scss/fonts/ThemeIcons.eot?#iefix387osh') format('embedded-opentype'),
-    url('../../src/scss/fonts/ThemeIcons.woff?387osh') format('woff'),
-    url('../../src/scss/fonts/ThemeIcons.ttf?387osh') format('truetype'),
-    url('../../src/scss/fonts/ThemeIcons.svg?387osh#ThemeIcons') format('svg');
+  src: url('../fonts/ThemeIcons.eot?387osh');
+  src: url('../fonts/ThemeIcons.eot?#iefix387osh') format('embedded-opentype'),
+    url('../fonts/ThemeIcons.woff?387osh') format('woff'),
+    url('../fonts/ThemeIcons.ttf?387osh') format('truetype'),
+    url('../fonts/ThemeIcons.svg?387osh#ThemeIcons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 @font-face{
   font-family: 'icomoon-atribut';
-  src: url('../../src/scss/fonts/atributos/icomoon.eot');
-  src: url('../../src/scss/fonts/atributos/icomoon.eot') format('embedded-opentype'),
-    url('../../src/scss/fonts/atributos/icomoon.ttf') format('truetype'),
-    url('../../src/scss/fonts/atributos/icomoon.woff') format('woff'),
-    url('../../src/scss/fonts/atributos/icomoon.svg') format('svg');
+  src: url('../fonts/atributos/icomoon.eot');
+  src: url('../fonts/atributos/icomoon.eot') format('embedded-opentype'),
+    url('../fonts/atributos/icomoon.ttf') format('truetype'),
+    url('../fonts/atributos/icomoon.woff') format('woff'),
+    url('../fonts/atributos/icomoon.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
