@@ -169,6 +169,7 @@
   border: 1px solid transparent;
   .sideMenuPad {
     padding: 70px 4% 2%;
+    text-align: left;
   }
   a {
     color: #c2c2c2;
@@ -205,9 +206,20 @@ a.menuToggle.SOLburger.inmenu {
 .sideMenuSearch, .sideMenuSocial {
   margin-bottom: 30px;
 }
-.sideMenuSocial h3 {
-  color: #c2c2c2;
-  font-size: 21px;
-  font-family: 'Gilroy-SemiBold', 'Helvetica', sans-serif;
-  margin-top: 10px;
+.sideMenuSocial {
+  h3 {
+    color: #c2c2c2;
+    font-size: 21px;
+    font-family: 'Gilroy-SemiBold', 'Helvetica', sans-serif;
+    margin-top: 10px;
+  }
+  .grid-item{
+    width: 16.667%;
+    float: left;
+    min-height: 1px;
+    padding-right: 20px;
+    img{
+      width: 26px;
+    }
+  }
 }
