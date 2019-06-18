@@ -18,8 +18,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		var buttonToggle = document.getElementsByClassName("SOLburger");
-			buttonToggle.addEventListener('click', function(){
+		var buttonToggle = jQuery(".SOLburger");
+			buttonToggle.on('click', function(){
 				console.log("click 5");
 				if(jQuery('.SOLburger').hasClass("is-clicked")){
 					jQuery('.SOLburger').removeClass("is-clicked");
