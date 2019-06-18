@@ -189,7 +189,7 @@
     }
   }
   .sideMenuNav {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
   }
   .grid {
     min-width: 100%;
@@ -222,8 +222,10 @@ a.menuToggle.SOLburger.inmenu {
         }
         a {
           color: #c2c2c2;
+          padding: 0;
           @media only screen and (min-width: $tablet){
             color: #c2c2c2;
+            line-height: normal;
           }
         }
       }
