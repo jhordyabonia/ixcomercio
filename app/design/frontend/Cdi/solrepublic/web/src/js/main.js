@@ -32,10 +32,6 @@ function ($, Component) {
 	    var delta = 5;
 	    var navbarHeight = jQuery('.page-header').outerHeight();
 
-	    jQuery(window).scroll(function(event){
-	        didScroll = true;
-	    });
-
 	    setInterval(function() {
 	        if (didScroll) {
 	            hasScrolled();
@@ -64,6 +60,11 @@ function ($, Component) {
 	        lastScrollTop = st;
 	    }
 	});
+
+
+	jQuery(window).scroll(function(event){
+        didScroll = true;
+    });
 
 
 	$(document).ajaxComplete(function() {
