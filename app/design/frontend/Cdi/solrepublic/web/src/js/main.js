@@ -86,5 +86,5 @@ function ($, Component) {
 		
 	});
 
-	return Component.extend({});
+	return Component;
 });
