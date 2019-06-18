@@ -19,7 +19,14 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	jQuery(document).ready(function(){
 
 		var buttonToggle = document.getElementsByClassName("SOLburger");
-			buttonToggle.addEventListener('click', menuToggle);
+			buttonToggle.addEventListener('click', function(){
+				console.log("click 5");
+				if(jQuery('.SOLburger').hasClass("is-clicked")){
+					jQuery('.SOLburger').removeClass("is-clicked");
+				}else{
+					jQuery('.SOLburger').addClass("is-clicked");
+				}
+			});
 
 		function menuToggle(){
 			console.log("click 4");
