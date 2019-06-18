@@ -18,7 +18,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		var buttonToggle = jQuery(".SOLburger");
+		var buttonToggle = jQuery("#SOLBurgerButton");
 			buttonToggle.on('click', function(){
 				console.log("click 5");
 				if(jQuery('.SOLburger').hasClass("is-clicked")){
