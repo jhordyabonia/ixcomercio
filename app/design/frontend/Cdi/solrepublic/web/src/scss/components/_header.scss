@@ -175,9 +175,6 @@
     color: #c2c2c2;
     text-transform: uppercase;
     transition: all 0.3s ease;
-    @media only screen and (min-width: $tablet){
-      color: #c2c2c2;
-    }
   }
   ul {
     margin: 0 0;
@@ -219,6 +216,12 @@ a.menuToggle.SOLburger.inmenu {
         padding: 0;
       }
       li{
+        a {
+          color: #c2c2c2;
+          @media only screen and (min-width: $tablet){
+            color: #c2c2c2;
+          }
+        }
       }
     }
   }
