@@ -12,7 +12,7 @@ function ($, Component) {
 
 		jQuery(".SOLburger").on('click', function(){
 			menuToggle();
-			jQuery(this).toggleClass("is-clicked");
+			jQuery(".SOLburger").toggleClass("is-clicked");
 		});
 
 
