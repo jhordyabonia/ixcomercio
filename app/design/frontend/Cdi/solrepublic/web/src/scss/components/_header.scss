@@ -216,6 +216,10 @@ a.menuToggle.SOLburger.inmenu {
         padding: 0;
       }
       li{
+        @media only screen and (min-width: $tablet){
+          display: block;
+          margin: 0;
+        }
         a {
           color: #c2c2c2;
           @media only screen and (min-width: $tablet){
