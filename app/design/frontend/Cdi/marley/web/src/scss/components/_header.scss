@@ -80,6 +80,11 @@ header{
           }
         }
       }
+      @media only screen and (max-width: $mobile){
+        .mobnav-trigger{
+          margin: 5px 0;
+        }
+      }
     }
     .wrapper-nav{
       text-align: right;
