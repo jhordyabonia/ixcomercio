@@ -14,28 +14,29 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 <a class="footer-bottom-link-1" href="/<?php echo $privacy;?>"><?php echo __('Privacy Policy')?></a>
 <a class="footer-bottom-link-2" href="/<?php echo $terms;?>"><?php echo __('Terms of Use')?></a>
 -->
-<div class="footer">
-    <div class="container">
-		<div class="footer-top row">
-			<div class="col-sm-3 col-12 footer-client">
-				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links1')->toHtml();?>
-            </div>
-			<div class="col-sm-3 col-12 footer-catalog">
-				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links2')->toHtml();?>
-            </div>
-			<div class="col-sm-3 col-12 footer-about">
-				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links3')->toHtml();?>
-            </div>
-			<div class="col-sm-3 col-12 footer-social">
-				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links4')->toHtml();?>
-            </div>
-		</div>
-		<div class="footer-bottom row">
-			<div class="footer-bottom-content">
-				<span>
-					<p><?= /* @escapeNotVerified */ $block->getCopyright() ?></p>
-				</span>
-			</div>
-		</div>
-	</div>
-</div>
+<footer>
+	<div class="footer-primary">
+	  <div class="container">
+	    <div class="row">
+	    	<div class="col-md-3">
+	        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links1')->toHtml();?>
+	      </div>
+	      <div class="col-md-3">
+	    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links2')->toHtml();?>
+	      </div>
+	      <div class="col-md-3">
+	    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links3')->toHtml();?>
+	      </div>
+	      <div class="col-md-3">
+	    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links4')->toHtml();?>
+	      </div>
+	    </div>
+	  </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copyright">
+      <?= /* @escapeNotVerified */ $block->getCopyright() ?>
+    </p>
+  </div>	
+</footer>
