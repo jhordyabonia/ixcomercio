@@ -10,9 +10,9 @@ function ($, Component) {
 		});
 
 
-		jQuery("#SOLBurgerButton").on('click', function(){
+		jQuery(".SOLburger").on('click', function(){
 			menuToggle();
-			jQuery('.SOLburger').toggleClass("is-clicked");
+			jQuery(this).toggleClass("is-clicked");
 		});
 
 
