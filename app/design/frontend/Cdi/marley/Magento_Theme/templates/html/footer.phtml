@@ -14,29 +14,28 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 <a class="footer-bottom-link-1" href="/<?php echo $privacy;?>"><?php echo __('Privacy Policy')?></a>
 <a class="footer-bottom-link-2" href="/<?php echo $terms;?>"><?php echo __('Terms of Use')?></a>
 -->
-<footer>
-	<div class="footer-primary">
-	  <div class="container">
-	    <div class="row">
-	    	<div class="col-md-3">
-	        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links1')->toHtml();?>
-	      </div>
-	      <div class="col-md-3">
-	    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links2')->toHtml();?>
-	      </div>
-	      <div class="col-md-3">
-	    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links3')->toHtml();?>
-	      </div>
-	      <div class="col-md-3">
-	    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links4')->toHtml();?>
-	      </div>
-	    </div>
-	  </div>
-  </div>
 
-  <div class="footer-bottom">
-    <p class="footer-copyright">
-      <?= /* @escapeNotVerified */ $block->getCopyright() ?>
-    </p>
-  </div>	
-</footer>
+<div class="footer-primary">
+  <div class="container">
+    <div class="row">
+    	<div class="col-md-3">
+        <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links1')->toHtml();?>
+      </div>
+      <div class="col-md-3">
+    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links2')->toHtml();?>
+      </div>
+      <div class="col-md-3">
+    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links3')->toHtml();?>
+      </div>
+      <div class="col-md-3">
+    		<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('marley_footer_links4')->toHtml();?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-bottom">
+  <p class="footer-copyright">
+    <?= /* @escapeNotVerified */ $block->getCopyright() ?>
+  </p>
+</div>
