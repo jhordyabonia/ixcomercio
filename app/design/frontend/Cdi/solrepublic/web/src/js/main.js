@@ -18,8 +18,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	jQuery(document).ready(function(){
 
-		var element = document.getElementsByClassName("SOLburger");
-			element.addEventListener('click', menuToggle);
+		var buttonToggle = document.getElementsByClassName("SOLburger");
+			buttonToggle.addEventListener('click', menuToggle);
 
 		function menuToggle(){
 			console.log("click 4");
