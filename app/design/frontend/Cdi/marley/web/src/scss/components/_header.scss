@@ -124,11 +124,11 @@ header{
             width: auto;
             display: block;
           }
-          @media only screen and (max-width: $mobile){
-            &.active{
+          &.active{
+            @media only screen and (max-width: 768px){
               a{
                 border: 0;
-              }    
+              }
             }
           }
           a{
