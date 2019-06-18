@@ -1,0 +1,124 @@
+.owl-carousel{
+  .owl-nav{
+    button{
+      top: 50%;
+      width: 50px;
+      height: 50px;
+      margin-top: -25px;
+      position: absolute;
+      &.owl-prev{
+        left: 25px;
+        &:before{
+          content: '\e824';
+        }
+      }
+      &.owl-next{
+        right: 25px;
+        &:before{
+          content: '\e825';
+        }
+      }
+      &:before, &:after{
+        color: #fff;
+        display: block;
+        font-family: revicons;
+        text-align: center;
+        line-height: 50px;
+        font-size: 40px;
+        transition: all .3s;
+      }
+      &:hover{
+        &:before{
+          opacity: .75;
+        }
+      }
+    }
+  }
+  .wrapper-text{
+    top: 50%;
+    left: 50%;
+    width: 650px;
+    margin-left: -325px;
+    position: absolute;
+    transform: translateY(-50%);
+    @media only screen and (max-width: 1400px){
+      width: 500px;
+      margin-left: -250px;
+    }
+    @media only screen and (max-width: 650px){
+      width: 90%;
+      left: 5%;
+      margin-left: 0;
+    }
+    &.align-right{
+      right: 6%;
+      left: inherit;
+      margin-left: 0;
+    }
+    &.align-left{
+      left: 6%;
+      margin-left: 0;
+    }
+    &.align-right, &.align-left{
+      @media only screen and (max-width: 959px){
+        left: 50%;
+        right: inherit;
+        margin-left: -250px;
+      }
+      @media only screen and (max-width: 650px){
+        left: 5%;
+        margin-left: 0;
+      }
+    }
+    h2, p, a{
+      width: 100%;
+      color: white;
+      display: inline-block;
+    }
+    h2{
+      font-size: 80px;
+      text-transform: uppercase;
+      @media only screen and (max-width: 1400px){
+        font-size: 60px;
+      }
+      @media only screen and (max-width: 959px){
+        font-size: 40px;
+      }
+      @media only screen and (max-width: 650px){
+        font-size: 28px;
+      }
+    }
+    p{
+      font-size: 28px;
+      font-family: 'NexusTypewriterOT';
+      font-style: normal;
+      @media only screen and (max-width: 1400px){
+        font-size: 20px;
+      }
+      @media only screen and (max-width: 959px){
+        font-size: 16px;
+      }
+      @media only screen and (max-width: 650px){
+        font-size: 14px;
+      }
+    }
+    a{
+      width: auto;
+      font-size: 18px;
+      letter-spacing: 1px;
+      padding: 15px 20px;
+      line-height: normal;
+      text-transform: uppercase;
+      font-family: "flamacondensed-bold",Oswald,sans-serif;
+      border: 1px solid white;
+      @media only screen and (max-width: 1400px){
+        font-size: 16px;
+        padding: 10px 15px;
+      }
+      &:hover{
+        background-color: white;
+        color: black;
+      }
+    }
+  }
+}

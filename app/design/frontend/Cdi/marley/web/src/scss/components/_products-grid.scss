@@ -1,0 +1,187 @@
+.product-grid{
+  li.item{
+    padding-bottom: 50px;
+    height: auto;
+    &:hover .sticker{
+      width: 65px;
+    }
+  }
+  .container-fluid{
+    @media only screen and (max-width: 1280px){
+      width: 96%;
+      max-width: 960px;
+    }
+    .sorter{
+      float: left;
+      width: 100%;
+      line-height: 36px;
+      padding: 10px 0;
+      border-top: 1px solid #e5e5e5;
+      text-align: left;
+      @media only screen and (max-width: 768px){
+        text-align: center;
+      }
+      .amount{
+        margin: 0;
+        padding-right: 10px;
+        margin-right: 10px;
+        background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
+        display: inline-block;
+        @media only screen and (max-width: 650px){
+          display: none;
+        }
+      }
+      label{
+        margin: 0;
+      }
+      .sort-by{
+        margin-right: 10px;
+        padding-right: 3px;
+        background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
+        display: inline-block;
+        @media only screen and (max-width: 650px){
+          margin: 0;
+          background: none;
+        }
+        .category-asc, .category-desc{
+          width: 30px;
+          height: 30px;
+          color: #333;
+          font-size: 14px;
+          line-height: 30px;
+          text-align: center;
+          display: inline-block;
+          vertical-align: middle;
+          background-color: transparent;
+          transition: .5s all ease;
+          &:hover{
+            color: #1e75b4;
+            background-color: #333;
+          }
+        }
+        .ic-arrow-down:before {
+          content: "\e229";
+        }
+        .ic-arrow-up:before {
+          content: "\e227";
+        }
+      }
+      .limiter{
+        margin-right: 15px;
+        display: inline-block;
+        @media only screen and (max-width: 650px){
+          display: none;
+        }
+      }
+    }
+  }
+  #container-grid{
+    min-height: auto!important;
+  }
+  .product-image-wrapper{
+    max-width: 180px;
+    margin: 0 auto 15px;
+    position: relative;
+    display: block;
+    img{
+      width: 100%;
+      background-color: white;
+      &.alt-img{
+        top: 0;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        transition: .5s all ease;
+      }
+    }
+    &:hover{
+      img.alt-img{
+        opacity: 1;
+      }
+    }
+    .sticker-wrapper{
+      top: 0;
+      right: 0;
+      position: absolute;
+      .sticker{
+        width: 60px;
+        color: #fff;
+        font-size: 1.17em;
+        line-height: 30px;
+        font-weight: bold;
+        background-color: #c73615;
+        transition: .3s all ease;
+        margin: 0 auto;
+        float: left;
+        &.sale{
+          display: none;
+        }
+      }
+    }
+  }
+  .product-name{
+    font-size: 22px;
+    text-transform: uppercase;
+    font-family: 'flamacondensed-bold';
+    text-overflow: ellipsis;
+    line-height: 25px;
+    overflow: inherit;
+    white-space: inherit;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  .atributo-familia{
+    color: #000;
+    font-size: 15px;
+    display: block;
+    text-transform: none;
+    font-family: NexusTypewriterOT;
+  }
+  .price-box{
+    font-size: 28px;
+    line-height: normal;
+    font-family: 'flamacondensed-bold';
+    text-align: center;
+    margin: 20px 0;
+    p{
+      display: inline-block;
+      margin-bottom: 0;
+      color: #000;
+      &.old-price {
+        color: #8e8e8e;
+        font-size: 18px;
+        margin-right: 5px;
+        text-decoration: line-through;
+      }
+      &.special-price{
+        font-size: 28px;
+        line-height: normal;
+        color: #c73615;
+        font-family: 'flamacondensed-bold';
+      }
+    }
+  }
+  .actions{
+    margin: 10px 0 0;
+    a{
+      &.btn-cart{
+        color: #000;
+        display: inline-block;
+        background: transparent;
+        margin: 0 auto;
+        border: 2px solid #000;
+        font-size: 20px;
+        line-height: 50px;
+        font-family: 'flamaCondensedmed',sans-serif;
+        text-transform: uppercase;
+        cursor: pointer;
+        padding: 0 25px;
+        transition: .3s all ease;
+        &:hover{
+          background: #000;
+          color: white;
+        }
+      }
+    }
+  }
+}

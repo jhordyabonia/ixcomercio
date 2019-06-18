@@ -4,10 +4,11 @@
 @import 'base/mixins';
 @import 'components/header';
 @import 'components/footer';
-@import 'components/flexslider';
+@import 'components/slider';
+@import 'components/calugas';
 @import 'components/hero-banner';
-@import 'components/banners';
-@import 'components/layout';
-@import 'components/category-product';
-@import 'components/product-detail';
-@import 'components/newsletter';
+@import 'components/products-grid';
+@import 'components/products-detail';
+@import 'components/basic-page';
+@import 'components/contact';
+@import 'components/landing-page';

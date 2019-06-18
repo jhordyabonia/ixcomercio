@@ -1,0 +1,19 @@
+.basic-page{
+  padding: 40px 0;
+  text-align: left;
+  p, ul, li{
+    font-family: NexusTypewriterOT;
+    font-size: 13px;
+  }
+  ul{
+    padding-left: 30px;
+    margin: 20px 0;
+  }
+  li{
+    margin: 10px 0;
+  }
+  dl, p, address, blockquote {
+    margin: 0 0 1em;
+    padding: 0;
+  }
+}
