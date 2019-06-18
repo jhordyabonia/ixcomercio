@@ -18,7 +18,6 @@ function ($, Component) {
 
 		function menuToggle(){
 			if(jQuery('.SOLburger').hasClass("is-clicked")){
-				jQuery('#sideMenu').hide();
 				jQuery('#sideMenu').animate({right: '-100%'}, 500);
 			}else{
 				jQuery('#sideMenu').show();
