@@ -72,19 +72,19 @@ body {
   @media only screen and (max-width: 959px){
     padding-top: 72px;
   }
-}
-ul, ol {
-  list-style: none;
-}
-a {
-  color: #333;
-  text-decoration: none;
-  &:hover{
-    text-decoration: none;
+  ul, ol {
+    list-style: none;
   }
-}
-h1,h2,h3{
-  font-family: "flamacondensed-bold",Oswald,sans-serif;
+  a {
+    color: #333;
+    text-decoration: none;
+    &:hover{
+      text-decoration: none;
+    }
+  }
+  h1,h2,h3{
+    font-family: "flamacondensed-bold",Oswald,sans-serif;
+  }
 }
 .page-title{
   margin-bottom: 20px;
