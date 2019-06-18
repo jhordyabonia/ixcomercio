@@ -84,62 +84,6 @@
             cursor: pointer;
           }
         }
-        .SOLburger {
-          display: inline-block;
-          height: 40px;
-          width: 35px;
-          padding: 0;
-          overflow: hidden;
-          position: relative;
-          top: 15px;
-          left: 0;
-          &.inmenu {
-            top: 20px;
-            left: 15px;
-          }
-          &.is-clicked {
-            .cd-menu-icon {
-              background-color: rgba(255, 255, 255, 0);
-              &:before, &:after {
-                background-color: #00abf2;
-              }
-              &:before{
-                top: 0;
-                transform: rotate(135deg);
-              }
-              &:after {
-                top: 0;
-                transform: rotate(225deg);
-              }
-            }
-          }
-          .cd-menu-icon {
-            top: 13px;
-            left: 17px;
-            width: 35px;
-            height: 4px;
-            position: absolute;
-            display: inline-block;
-            transform: translateX(-50%) translateY(-50%);
-            background-color: #c2c2c2;
-            transition: background-color 0.3s;
-            &:before, &:after {
-              content: '';
-              right: 0;
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              background-color: #c2c2c2;
-              transition: transform .3s, top .3s, background-color 0s;
-            }
-            &:before {
-              top: -10px;
-            }
-            &:after {
-              top: 10px;
-            }
-          }
-        }
       }
     }
     .logo {
@@ -151,6 +95,62 @@
         height: 55px;
         max-width: none;
       }
+    }
+  }
+}
+.SOLburger {
+  display: inline-block;
+  height: 40px;
+  width: 35px;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  top: 15px;
+  left: 0;
+  &.inmenu {
+    top: 20px;
+    left: 15px;
+  }
+  &.is-clicked {
+    .cd-menu-icon {
+      background-color: rgba(255, 255, 255, 0);
+      &:before, &:after {
+        background-color: #00abf2;
+      }
+      &:before{
+        top: 0;
+        transform: rotate(135deg);
+      }
+      &:after {
+        top: 0;
+        transform: rotate(225deg);
+      }
+    }
+  }
+  .cd-menu-icon {
+    top: 13px;
+    left: 17px;
+    width: 35px;
+    height: 4px;
+    position: absolute;
+    display: inline-block;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #c2c2c2;
+    transition: background-color 0.3s;
+    &:before, &:after {
+      content: '';
+      right: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-color: #c2c2c2;
+      transition: transform .3s, top .3s, background-color 0s;
+    }
+    &:before {
+      top: -10px;
+    }
+    &:after {
+      top: 10px;
     }
   }
 }
