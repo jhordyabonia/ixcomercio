@@ -1,4 +1,4 @@
-define([
+require([
     'jquery'
 ],
 function ($, Component) {
@@ -81,7 +81,7 @@ function ($, Component) {
 	        lastScrollTop = st;
 	    }
 	});
-	
+
 
 	$(document).ajaxComplete(function() {
 		jQuery(".product-essential .swatch-attribute-options .swatch-option").hover(function(){
