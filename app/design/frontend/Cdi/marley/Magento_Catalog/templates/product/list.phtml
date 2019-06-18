@@ -43,44 +43,46 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     $pos = $block->getPositioned();
     ?>
     <div class="container-fluid container products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
-        <ul class="products list items product-items row">
-            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
-            <?php foreach ($_productCollection as $_product): ?>
-            <li class="item product product-item col-sm-6 col-md-4 col-xl-3" style="opacity: 1;">
-				<div class="product-image-wrapper">
-					<?php
-					$baseImage = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'category_page_grid');//->getUrl();
-					$productImage = $block->getImage($_product, $imageDisplayArea);
-					if ($pos != null) {
-						$position = ' style="left:' . $productImage->getWidth() . 'px;'
-							. 'top:' . $productImage->getHeight() . 'px;"';
-					}
-					?>
-					<?php // Product Image ?>
-                    <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo product-image" tabindex="-1">
-                        <img src="<?php echo $baseImage->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
-                    </a>
-				</div>
-				<h2 class="product name product-item-name product-name">
-					<a class=""
-					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
-						<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
-					</a>
-				</h2>
-				<div class="atributo-familia">
-					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
-				</div>
-                <div class="actions">
-					<a class="button btn-cart"
-					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
-						<span>
-						<?= /* @escapeNotVerified */ __('View more') ?>
-						</span>
-					</a>
-				</div>
-            </li>
-            <?php endforeach; ?>
-        </ul>
+        <div class="row">
+            <ul class="products list items product-items">
+                <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                <?php foreach ($_productCollection as $_product): ?>
+                <li class="item product product-item col-sm-6 col-md-4 col-xl-3" style="opacity: 1;">
+    				<div class="product-image-wrapper">
+    					<?php
+    					$baseImage = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'category_page_grid');//->getUrl();
+    					$productImage = $block->getImage($_product, $imageDisplayArea);
+    					if ($pos != null) {
+    						$position = ' style="left:' . $productImage->getWidth() . 'px;'
+    							. 'top:' . $productImage->getHeight() . 'px;"';
+    					}
+    					?>
+    					<?php // Product Image ?>
+                        <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo product-image" tabindex="-1">
+                            <img src="<?php echo $baseImage->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
+                        </a>
+    				</div>
+    				<h2 class="product name product-item-name product-name">
+    					<a class=""
+    					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
+    						<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+    					</a>
+    				</h2>
+    				<div class="atributo-familia">
+    					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
+    				</div>
+                    <div class="actions">
+    					<a class="button btn-cart"
+    					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
+    						<span>
+    						<?= /* @escapeNotVerified */ __('View more') ?>
+    						</span>
+    					</a>
+    				</div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     </div>
     <?= $block->getToolbarHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
