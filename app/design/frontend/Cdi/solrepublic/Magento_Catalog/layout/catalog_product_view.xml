@@ -31,8 +31,7 @@
 		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
 
         <!--main-->
-        <move element="product.info.media" destination="product.info.main" as="product.info.media2" before="-"/>
-		<move element="product.info.sku" destination="product.info.main" as="product.info.sku" after="product.custom.name"/>
+        <move element="product.info.sku" destination="product.info.main" as="product.info.sku" after="product.custom.name"/>
 		<move element="product.price.final" destination="product.info.main" as="product.price.final" after="product.info.sku"/>
 		<!--Mueve el precio al bloque sticky-->		
 		
