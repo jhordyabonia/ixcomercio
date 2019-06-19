@@ -29,6 +29,9 @@ form.contact{
     display: none;
   }
   .group-select {
+    ul li > div{
+      margin-bottom: .5em;
+    }
     .field-label, label{
       float: left;
       clear: left;
