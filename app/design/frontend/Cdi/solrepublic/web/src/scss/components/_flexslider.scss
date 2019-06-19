@@ -16,7 +16,7 @@
         section{
           .container{
             padding: 0;
-            max-width: 100%;
+            max-width: 1400px;
           }
           .text-overlay-banner{
             left: 50%;
@@ -119,6 +119,12 @@
       }
     }
     .flex-direction-nav{
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      position: absolute;
+      max-width: 1400px;
+      transform: translate(-50%, 0);
       li{
         a{
           width: 40px;
