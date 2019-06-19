@@ -227,6 +227,9 @@ a.appstoreBtn, a.playstoreBtn {
   max-width: 131px;
   padding-top: 16%;
   transition: opacity 0.3s linear;
+  text-indent: 100%;
+  overflow: hidden;
+  height: 0;
   @media (max-width: $mobile){
     max-width: 124px;
   }
