@@ -30,6 +30,7 @@ form.contact{
   }
   .group-select {
     ul li > div{
+      float: left;
       margin-bottom: .5em;
     }
     .field-label, label{
@@ -48,6 +49,9 @@ form.contact{
     label{
       width: 100%;
       margin: 0;
+      &[for="comment"]{
+        text-align: left;
+      }
     }
     input, textarea{
       float: left;
