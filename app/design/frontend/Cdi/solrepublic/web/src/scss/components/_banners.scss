@@ -175,6 +175,9 @@
         text-transform: uppercase;
         line-height: 1;
         margin-bottom: .5em;
+        &.blktxt{
+          color: #8b8b8b;
+        }
       }
       p{
         margin-bottom: 1.5em;
