@@ -165,6 +165,7 @@ section.BSsec3{
               max-width: 340px;
               position: absolute;
               text-align: left;
+              transform: none;
               @media (max-width: $mobile){
                 top: 30%;
               }
