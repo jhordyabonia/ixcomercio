@@ -13,6 +13,9 @@
       padding: 0 20px;
       background: #ffffff;
       background: linear-gradient(to bottom, #ffffff 0%,#f7f7f7 100%);
+      @media (max-width: $desktop){
+        padding: 20px;
+      }
       &.even{
         .productImageContain{
           order: 1;
