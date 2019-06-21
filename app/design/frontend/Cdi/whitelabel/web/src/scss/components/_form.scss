@@ -1,0 +1,70 @@
+form{
+	.fieldset{
+		> .field:not(.choice){
+			> .label{
+				color: #000;
+				font-size: 100%;
+		    margin: 0 0 10px;
+		    @media only screen and (min-width: $tablet){
+		      width: 100%;
+		      text-align: left;
+		      padding: 0;
+		    }
+			}
+		}
+	}
+	.actions-toolbar{
+		.secondary{
+    	width: 100%;
+    	@media only screen and (min-width: $tablet){
+	      float: left;
+	      text-align: left;
+	    }
+	    .action.remind{
+    		margin: 0 0 30px;
+	    }
+    }
+	}
+}
+.column{
+	&:not(.sidebar-main) form.form, &:not(.sidebar-additional) form.form, form.form{
+		.actions-toolbar{
+			@media only screen and (min-width: $tablet){
+		    margin: 0;
+		  }
+		}
+	}
+}
+.login-container{
+	form .fieldset:after{
+		@media only screen and (min-width: $tablet){
+			margin-left: 0;
+		}
+	}
+}
+.customer-account-forgotpassword{
+	.form.password.forget{
+		text-align: left;
+		@media only screen and (min-width: $tablet){
+			width: 100%;
+			min-width: 100%;
+			.fieldset>.field:not(.choice)>.control{
+				width: 100%;
+			}
+		}
+		.field.captcha{
+			text-align: center;
+		}
+		.actions-toolbar{
+			text-align: center;
+			.primary{
+				@media only screen and (min-width: $tablet){
+					float: none;
+				}
+			}
+			.secondary{
+				text-align: center;
+			}
+		}
+	}
+}

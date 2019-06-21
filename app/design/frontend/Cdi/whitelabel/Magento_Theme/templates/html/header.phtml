@@ -30,6 +30,9 @@ $welcomeMessage = $block->getWelcome();
                     "components": {
                         "customer": {
                             "component": "Magento_Customer/js/view/customer"
+                        },
+                        "wishlist": {
+                            "component": "Magento_Wishlist/js/view/wishlist"
                         }
                     }
                 }
@@ -37,7 +40,7 @@ $welcomeMessage = $block->getWelcome();
         }
         </script>
 		<script type="text/javascript">
-            require(['bootstrap']);
+            require(['bootstrap', 'mainJs']);
         </script>
     <?php break; ?>
 

@@ -2,23 +2,64 @@
 	<body>
 		<!--parametriza el logo por defecto de la página-->
 		<referenceBlock name="logo">
-            <arguments>
-                <argument name="logo_file" xsi:type="string">images/logo.jpg</argument>
-                <argument name="logo_img_width" xsi:type="number">55</argument>
-                <argument name="logo_img_height" xsi:type="number">55</argument>
-            </arguments>
-        </referenceBlock>
+			<arguments>
+				<argument name="logo_file" xsi:type="string">images/logo.png</argument>
+				<argument name="logo_img_width" xsi:type="number">55</argument>
+				<argument name="logo_img_height" xsi:type="number">55</argument>
+			</arguments>
+		</referenceBlock>
 
-		<!--Elimina el carrito y el buscador de la cabecera-->
-		<referenceContainer name="header-wrapper">
-			<referenceBlock name="minicart" remove="true" />
-			<referenceBlock name="top.search" remove="true" />
+
+    	<!--Redeclara el header-->
+		<referenceContainer name="header.container">
+			<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="-" htmlTag="div" htmlClass="header-freeshipping">
+				<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
+			</container>
+
+    		<container name="header.wrapper" as="header_wrapper" after="header.row.container.toplinks" htmlTag="div" htmlClass="header-wrapper">
+    			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="container">
+					<container name="header.row" as="header_row" before="-" htmlTag="div" htmlClass="row">
+						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-md-2 col-xs-2" />
+						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-wrapper-nav col-md-10 hidden-xs">
+							<container name="header.wrapper.mainmenu" as="header_wrapper_mainmenu" htmlTag="div" htmlClass="wrapper-nav">
+							</container>
+						</container>
+						<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access">
+							<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
+						</container>
+					</container>
+				</container>
+			</container>
 		</referenceContainer>
-		
-		<!--Elimina breadcrumb-->
-		<referenceBlock name="breadcrumbs" remove="true" />
-		
+
+
+		<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.freeshipping" htmlTag="div" htmlClass="header-toplinks">
+			<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+		</container>
+
+		<container name="header.row.container.iconsearch" as="header_row_container_iconsearch" after="header.row.container.freeshipping" htmlTag="div" htmlClass="icon-search">
+			<block class="Magento\Framework\View\Element\Template" name="header.iconsearch.block" template="Magento_Theme::html/icon-search.phtml" cacheable="false"/>
+		</container>
+
+
+		<!--Mueve bloques al header-->
+		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
+		<move element="header.row.container.toplinks" destination="header.row.container.mainmenu" as="header.row.container.toplinks" before="-"/>
+		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" before="-"/>
+		<move element="header.row.container.iconsearch" destination="header.wrapper.mainmenu" as="search.icon" after="-"/>
+		<move element="store_language" destination="header.row.container.toplinks" as="store_language" before="-"/>
+		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
+		<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+
+
+		<referenceBlock name="store.settings" remove="true" />
+    <referenceBlock name="catalog.compare.sidebar" remove="true"/> 
+
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
+		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
+		<referenceContainer name="footer-container-custom">
+			<block class="Magento\Theme\Block\Html\Footer" name="footer" after="footer.top" template="Magento_Theme::html/footer.phtml"/>
+		</referenceContainer> 
     </body>
 </page>
