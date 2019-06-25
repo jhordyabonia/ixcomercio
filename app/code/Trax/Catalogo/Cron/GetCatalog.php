@@ -207,7 +207,7 @@ class GetCatalog {
             $cat_info = $rootCat->load($rootNodeId);
             //Se asocian campos
             $name=ucfirst($catalog->Category->Description);
-            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId);
+            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId);
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
@@ -337,7 +337,7 @@ class GetCatalog {
 
             //Se asocian campos
             $name=ucfirst($catalog->Description);
-            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId);
+            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId);
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
