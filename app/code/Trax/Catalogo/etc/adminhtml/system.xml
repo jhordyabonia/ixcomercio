@@ -1,25 +1,71 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-    <system>
-        <tab id="trax" translate="label" sortOrder="200">
-            <label>Trax</label>
+    <system>
+        <tab id="trax" translate="label" sortOrder="1">
+            <label>IWS</label>
         </tab>
-        <section id="trax" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="trax_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Trax</label>
+            <label>Configuración</label>
             <tab>trax</tab>
             <resource>Magento_Trax::config_catalogo</resource>
-            <group id="catalogo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
-                <label>General Configuration</label>
-                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enable</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Module Title</label>
-                    <comment>This text will be used later.</comment>
-                </field>
-            </group>
-        </section>
-    </system>
+            <group id="catalogo_retailer" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración General</label>
+                <field id="apikey" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api Key</label>
+                    <comment>La llave API proporcionada por Intcomex para la cuenta del cliente.</comment>
+                </field>
+                <field id="accesskey" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Access Key</label>
+                    <comment>La firma necesaria para autenticar al usuario que realiza la solicitud.</comment>
+                </field>
+                <field id="apuntar_a" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apuntar a</label>
+                    <source_model>Trax\Catalogo\Model\Config\Source\Entornos</source_model>
+                </field>
+                <field id="url_desarrollo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url Desarrollo</label>
+                    <comment>Url servicio en desarrollo.</comment>
+                </field>
+                <field id="url_produccion" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url Producción</label>
+                    <comment>Url servicio en producción.</comment>
+                </field>
+            </group>
+        </section>
+        <section id="trax_catalogo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Catalogo</label>
+            <tab>trax</tab>
+            <resource>Magento_Trax::config_catalogo</resource>
+            <group id="catalogo_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración IWS en Catálogo</label>
+                <field id="datos_iws" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Aceptar datos generales de IWS</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Indica si se aceptan los datos generales de los productos retornados por IWS.</comment>
+                </field>
+                <field id="datos_sales_iws" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Aceptar datos de precio e inventario de IWS</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Indica si se aceptan los datos de precio e inventario de los productos retornados por IWS.</comment>
+                </field>
+                <field id="datos_images_iws" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Aceptar datos de imágenes de IWS</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Indica si se aceptan las imagenes de los productos retornados por IWS.</comment>
+                </field>
+                <field id="categorias_iws" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Consultar en categorías</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Indica si se consulta IWS cada que se navegue a una categoría.</comment>
+                </field>
+                <field id="productos_iws" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Consultar en detalle de productos</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Indica si se consulta IWS cada que se entre al detalle de un producto.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
 </config>

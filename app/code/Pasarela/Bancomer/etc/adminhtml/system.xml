@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="bancomergateway" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bancomer</label>
+                <field id="tiempo_pago_pendiente" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Días de verificación de pago</label>
+                    <comment>Límite de días en que se verificará si un pago fue procesado.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
