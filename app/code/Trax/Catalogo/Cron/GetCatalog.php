@@ -189,7 +189,7 @@ class GetCatalog {
             
             $rootNodeId = $store->getRootCategoryId();
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
@@ -215,7 +215,7 @@ class GetCatalog {
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
                 if($categoriesAll->getSize()){
                     foreach ($categoriesAll as $key => $data) {     
                         //Se asocia categoria
@@ -319,7 +319,7 @@ class GetCatalog {
         foreach ($data as $key => $catalog) {
             //Se carga la categoria por atributo
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
             $existe = 0;
             //Se valida si la categoría existe
             if($categories->getSize()){
@@ -428,7 +428,7 @@ class GetCatalog {
         $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
         $categories = $categoryFactory->create()                              
             ->addAttributeToSelect('*')
-            ->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+            ->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
         
         foreach ($categories as $category){
             if(!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' &&$category->getIsActive()){
