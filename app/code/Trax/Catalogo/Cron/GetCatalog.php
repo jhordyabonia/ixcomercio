@@ -53,22 +53,22 @@ class GetCatalog {
         foreach ($websites as $key => $website) {
             //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $website->getCode());    
-            //Se conecta al servicio 
-            $serviceUrl = $this->getServiceUrl($configData, 1);
             //Se carga el servicio por curl
             if($configData['datos_iws']){
-                if($serviceUrl){
-                    $data = $this->loadIwsService($serviceUrl);
-                    if($data){                 
-                        foreach ($website->getGroups() as $group) {
-                            $stores = $group->getStores();
-                            foreach ($stores as $store) {
-                                echo "store name: ".$store->getCode()."<br/>";
+                if($serviceUrl){            
+                    foreach ($website->getGroups() as $group) {
+                        $stores = $group->getStores();
+                        foreach ($stores as $store) {
+                            echo "store name: ".$store->getCode()."<br/>";
+                            //Se conecta al servicio 
+                            $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
+                            $data = $this->loadIwsService($serviceUrl);
+                            if($data){     
                                 $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
+                            } else {
+                                $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                             }
                         }
-                    } else {
-                        $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                     }
                 } else {
                     $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$website->getDefaultStoreId());
@@ -127,12 +127,18 @@ class GetCatalog {
     * Si $type = 1 se obtiene la información general del catalogo
     * Si $type != 1 se obtiene el precio e inventario del catalogo
     */
-	public function getServiceUrl($configData, $type) 
+	public function getServiceUrl($configData, $type, $storeCode) 
 	{
+        $storeCode = explode("_", $storeCode);
         if($type == 1){
             $url = 'getcatalog';
         } else {
             $url = 'getcatalogsalesdata';
+        }
+        if($storeCode[count($storeCode)-1] == 'es'){
+            $locale = 'es';
+        } else {
+            $locale = 'en';
         }
         if($configData['apikey'] == ''){
             $serviceUrl = false;
@@ -140,7 +146,7 @@ class GetCatalog {
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].$url.'?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&includePriceData=false&includeInventoryData=false'; 
+            $serviceUrl = $configData['url'].$url.'?locale='.$locale.'&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&includePriceData=false&includeInventoryData=false'; 
         }
         return $serviceUrl;
     }
@@ -175,7 +181,6 @@ class GetCatalog {
     public function loadCatalogData($data, $websiteCode, $store, $storeId, $configData, $websiteId) 
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-        echo "store id: ".$storeId." wbsite id ".$websiteId; exit();   
         //Se recorre array        
         $allCategories = array();
         $allProducts = array();
@@ -211,7 +216,7 @@ class GetCatalog {
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories');
+                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->setStore($storeId);
                 if($categoriesAll->getSize()){
                     foreach ($categoriesAll as $key => $data) {     
                         //Se asocia categoria
