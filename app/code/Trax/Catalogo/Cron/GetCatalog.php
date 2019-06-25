@@ -168,7 +168,8 @@ class GetCatalog {
     //Carga la información del catalogo
     public function loadCatalogData($data, $websiteCode, $store, $storeId, $configData, $websiteId) 
     {
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
+        echo $storeId; exit();   
         //Se recorre array        
         $allCategories = array();
         $allProducts = array();
@@ -308,7 +309,7 @@ class GetCatalog {
         foreach ($data as $key => $catalog) {
             //Se carga la categoria por atributo
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId);
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->setStore($storeId);
             $existe = 0;
             //Se valida si la categoría existe
             if($categories->getSize()){
@@ -319,7 +320,6 @@ class GetCatalog {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
-                echo "no existe subcategoria";
             }
             /// Get Root Category
             $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
