@@ -169,7 +169,7 @@ class GetCatalog {
     public function loadCatalogData($data, $websiteCode, $store, $storeId, $configData, $websiteId) 
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-        echo $storeId; exit();   
+        echo "store id: ".$storeId." wbsite id ".$websiteId; exit();   
         //Se recorre array        
         $allCategories = array();
         $allProducts = array();
@@ -178,7 +178,7 @@ class GetCatalog {
             //Se carga la categoria por atributo
             
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId);
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->setStore($storeId);
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
