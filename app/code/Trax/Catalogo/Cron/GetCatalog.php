@@ -188,7 +188,7 @@ class GetCatalog {
             //Se carga la categoria por atributo
             
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->setStore($store);
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->setStoreId($storeId);
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
@@ -215,7 +215,7 @@ class GetCatalog {
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->setStore($store);
+                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->setStoreId($storeId);
                 if($categoriesAll->getSize()){
                     foreach ($categoriesAll as $key => $data) {     
                         //Se asocia categoria
@@ -319,7 +319,7 @@ class GetCatalog {
         foreach ($data as $key => $catalog) {
             //Se carga la categoria por atributo
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->setStore($store);
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->setStoreId($storeId);
             $existe = 0;
             //Se valida si la categoría existe
             if($categories->getSize()){
@@ -428,7 +428,7 @@ class GetCatalog {
         $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
         $categories = $categoryFactory->create()                              
             ->addAttributeToSelect('*')
-            ->setStore($store);
+            ->setStoreId($storeId);
         
         foreach ($categories as $category){
             if(!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' &&$category->getIsActive()){
@@ -454,7 +454,7 @@ class GetCatalog {
         $productFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
         $products = $productFactory->create()                              
             ->addAttributeToSelect('*')
-            ->setStore($store);
+            ->setStoreId($storeId);
         
         foreach ($products as $product){
             if(!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0){
