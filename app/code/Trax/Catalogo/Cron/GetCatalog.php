@@ -54,24 +54,23 @@ class GetCatalog {
             //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $website->getCode());    
             //Se carga el servicio por curl
-            if($configData['datos_iws']){
-                if($serviceUrl){            
-                    foreach ($website->getGroups() as $group) {
-                        $stores = $group->getStores();
-                        foreach ($stores as $store) {
-                            echo "store name: ".$store->getCode()."<br/>";
+            if($configData['datos_iws']){        
+                foreach ($website->getGroups() as $group) {
+                    $stores = $group->getStores();
+                    foreach ($stores as $store) {
+                        $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
+                        if($serviceUrl){ 
                             //Se conecta al servicio 
-                            $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
                             $data = $this->loadIwsService($serviceUrl);
                             if($data){     
                                 $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
                             } else {
                                 $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
-                            }
+                            }   
+                        } else {
+                            $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$store->getCode());
                         }
                     }
-                } else {
-                    $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$website->getDefaultStoreId());
                 }
             } else {
                 $this->logger->info('GetCatalog - El website '.$website->getCode().' con store '.$website->getCode().' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
