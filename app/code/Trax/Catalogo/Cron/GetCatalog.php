@@ -229,7 +229,7 @@ class GetCatalog {
                 } else {
                     $categoryTmp->setPath($rootCat->getPath());    
                     $categoryTmp->setParentId($rootCat->getId());        
-                    $this->logger->info('GetCatalog - No asigna parent: '.$data->getId());
+                    $this->logger->info('GetCatalog - No asigna parent: '.$rootCat->getId());
                 }
             }
             $categoryTmp->setIwsId($catalog->Category->CategoryId);
