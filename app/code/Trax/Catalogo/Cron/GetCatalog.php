@@ -187,8 +187,9 @@ class GetCatalog {
             $this->logger->info('GetCatalog - lee datos '.$websiteCode);
             //Se carga la categoria por atributo
             
+            $rootNodeId = $store->getRootCategoryId();
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->setStoreId($storeId);
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
@@ -201,7 +202,6 @@ class GetCatalog {
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
             }
-            $rootNodeId = $store->getRootCategoryId();
             /// Get Root Category
             $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
             $cat_info = $rootCat->load($rootNodeId);
@@ -215,7 +215,7 @@ class GetCatalog {
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->setStoreId($storeId);
+                $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
                 if($categoriesAll->getSize()){
                     foreach ($categoriesAll as $key => $data) {     
                         //Se asocia categoria
@@ -266,9 +266,9 @@ class GetCatalog {
                 $newArrayCategory[$key1] = $category;
             }
         }
-        $this->checkCategories($newArrayCategory, $storeId);
+        $this->checkCategories($newArrayCategory, $store->getRootCategoryId());
         //Se verifican productos no retornados en el servicio y se deshabilitan
-        $this->checkProducts($allProducts, $storeId);
+        $this->checkProducts($allProducts, $store->getRootCategoryId());
     }
 
     //Carga la información de precios e inventario del catalogo
@@ -319,7 +319,7 @@ class GetCatalog {
         foreach ($data as $key => $catalog) {
             //Se carga la categoria por atributo
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->setStoreId($storeId);
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
             $existe = 0;
             //Se valida si la categoría existe
             if($categories->getSize()){
@@ -421,14 +421,14 @@ class GetCatalog {
     }
 
     //Deshabilita las categorias no retornadas en el servicio
-    public function checkCategories($allCategories, $storeId) 
+    public function checkCategories($allCategories, $rootNodeId) 
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $appState = $objectManager->get('\Magento\Framework\App\State');
         $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
         $categories = $categoryFactory->create()                              
             ->addAttributeToSelect('*')
-            ->setStoreId($storeId);
+            ->->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
         
         foreach ($categories as $category){
             if(!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' &&$category->getIsActive()){
@@ -447,14 +447,16 @@ class GetCatalog {
     }
 
     //Deshabilita los productos
-    public function checkProducts($allProducts, $storeId) 
+    public function checkProducts($allProducts, $rootNodeId) 
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $appState = $objectManager->get('\Magento\Framework\App\State');
+        $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
+        $categories = $categoryFactory->create() ->load($rootNodeId);
         $productFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
         $products = $productFactory->create()                              
             ->addAttributeToSelect('*')
-            ->setStoreId($storeId);
+            ->addCategoryFilter($categories);
         
         foreach ($products as $product){
             if(!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0){
