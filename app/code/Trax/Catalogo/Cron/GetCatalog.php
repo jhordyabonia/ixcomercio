@@ -59,8 +59,14 @@ class GetCatalog {
             if($configData['datos_iws']){
                 if($serviceUrl){
                     $data = $this->loadIwsService($serviceUrl);
-                    if($data){                    
-                        $this->loadCatalogData($data, $website->getCode(), $website->getDefaultStore(), $website->getDefaultStoreId(), $configData, $website->getId());
+                    if($data){                 
+                        foreach ($website->getGroups() as $group) {
+                            $stores = $group->getStores();
+                            foreach ($stores as $store) {
+                                $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
+                                echo "store name: ".$store->getName()."<br/>";
+                            }
+                        }
                     } else {
                         $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                     }
