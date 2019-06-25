@@ -63,7 +63,7 @@ class GetCatalog {
                         foreach ($website->getGroups() as $group) {
                             $stores = $group->getStores();
                             foreach ($stores as $store) {
-                                echo "store name: ".$store->getName()."<br/>";
+                                echo "store name: ".$store->getCode()."<br/>";
                                 $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
                             }
                         }
