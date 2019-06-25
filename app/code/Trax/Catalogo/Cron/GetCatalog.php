@@ -207,7 +207,7 @@ class GetCatalog {
             $cat_info = $rootCat->load($rootNodeId);
             //Se asocian campos
             $name=ucfirst($catalog->Category->Description);
-            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId);
+            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId);
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
@@ -337,7 +337,7 @@ class GetCatalog {
 
             //Se asocian campos
             $name=ucfirst($catalog->Description);
-            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId);
+            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId);
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
@@ -372,7 +372,7 @@ class GetCatalog {
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setSku($catalog->Sku); // Set your sku here
         } 
-        $url=strtolower($catalog->Description.'-'.$catalog->Sku);
+        $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId);
         $cleanurl = html_entity_decode(strip_tags($url));
         $product->setUrlKey($cleanurl);
         $iwsDescription = explode("- ", $catalog->Description);
