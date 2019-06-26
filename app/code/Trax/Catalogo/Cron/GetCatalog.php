@@ -425,7 +425,9 @@ class GetCatalog {
     public function checkCategories($allCategories, $rootNodeId, $storeId) 
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
-        $appState = $objectManager->get('\Magento\Framework\App\State');
+        $appState = $objectManager->get('\Magento\Framework\App\State');        
+        $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
+        $cat_info = $rootCat->load($rootNodeId);
         $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
         $categories = $categoryFactory->create()                              
             ->addAttributeToSelect('*')
