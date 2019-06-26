@@ -267,9 +267,9 @@ class GetCatalog {
                 $newArrayCategory[$key1] = $category;
             }
         }
-        $this->checkCategories($newArrayCategory, $store->getRootCategoryId());
+        $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
-        $this->checkProducts($allProducts, $store->getRootCategoryId());
+        $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId);
     }
 
     //Carga la información de precios e inventario del catalogo
@@ -422,14 +422,14 @@ class GetCatalog {
     }
 
     //Deshabilita las categorias no retornadas en el servicio
-    public function checkCategories($allCategories, $rootNodeId) 
+    public function checkCategories($allCategories, $rootNodeId, $storeId) 
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $appState = $objectManager->get('\Magento\Framework\App\State');
         $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
         $categories = $categoryFactory->create()                              
             ->addAttributeToSelect('*')
-            ->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+            ->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
         
         foreach ($categories as $category){
             if(!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' &&$category->getIsActive()){
@@ -448,7 +448,7 @@ class GetCatalog {
     }
 
     //Deshabilita los productos
-    public function checkProducts($allProducts, $rootNodeId) 
+    public function checkProducts($allProducts, $rootNodeId, $storeId) 
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $appState = $objectManager->get('\Magento\Framework\App\State');
@@ -461,7 +461,7 @@ class GetCatalog {
             if(!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0){
                 $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                 $products = $productFactoryData->create();
-                $productTmp = $products->loadByAttribute('sku', $product->getSku());                
+                $productTmp = $products->setStoreId($storeId)->loadByAttribute('sku', $product->getSku());                
                 $productTmp->setStatus(0); // Status on product enabled/ disabled 1/0
                 try{
                     $productTmp->save();            
