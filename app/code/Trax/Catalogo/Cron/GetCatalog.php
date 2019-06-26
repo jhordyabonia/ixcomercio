@@ -84,7 +84,7 @@ class GetCatalog {
     public function loadCatalogSales($configData, $websiteCode, $store, $storeId) 
     {
         if($configData['datos_sales_iws']){
-            $serviceUrl = $this->getServiceUrl($configData, 2);
+            $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
             if($serviceUrl){
                 $data = $this->loadIwsService($serviceUrl);
                 if($data){                    
