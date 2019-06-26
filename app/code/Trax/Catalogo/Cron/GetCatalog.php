@@ -454,10 +454,8 @@ class GetCatalog {
         $appState = $objectManager->get('\Magento\Framework\App\State');
         $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
         $categories = $categoryFactory->create() ->load($rootNodeId);
-        $productFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
-        $products = $productFactory->create()                              
-            ->addAttributeToSelect('*')
-            ->addCategoryFilter($categories);
+        $products = $categories->getProductCollection()
+                         ->addAttributeToSelect('*');
         
         foreach ($products as $product){
             if(!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0){
