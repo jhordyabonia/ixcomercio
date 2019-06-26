@@ -188,9 +188,12 @@ class GetCatalog {
             //Se carga la categoria por atributo
             
             $rootNodeId = $store->getRootCategoryId();
+            /// Get Root Category
+            $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
+            $cat_info = $rootCat->load($rootNodeId);
             echo "root category: ".$rootNodeId."<br>";
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('parent_id',array('in' => array($rootNodeId)));
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
@@ -203,9 +206,6 @@ class GetCatalog {
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
             }
-            /// Get Root Category
-            $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
-            $cat_info = $rootCat->load($rootNodeId);
             //Se asocian campos
             $name=ucfirst($catalog->Category->Description);
             $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
