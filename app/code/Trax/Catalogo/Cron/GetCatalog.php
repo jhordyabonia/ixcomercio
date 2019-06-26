@@ -188,8 +188,9 @@ class GetCatalog {
             //Se carga la categoria por atributo
             
             $rootNodeId = $store->getRootCategoryId();
+            echo "root category: ".$rootNodeId."<br>";
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('parent_id',array('in' => array($rootNodeId)));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
@@ -207,7 +208,7 @@ class GetCatalog {
             $cat_info = $rootCat->load($rootNodeId);
             //Se asocian campos
             $name=ucfirst($catalog->Category->Description);
-            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId);
+            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
@@ -337,7 +338,7 @@ class GetCatalog {
 
             //Se asocian campos
             $name=ucfirst($catalog->Description);
-            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId);
+            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
