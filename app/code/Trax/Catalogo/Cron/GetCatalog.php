@@ -454,16 +454,16 @@ class GetCatalog {
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $appState = $objectManager->get('\Magento\Framework\App\State');
-        $categoryFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-        $categories = $categoryFactory->create() ->load($rootNodeId);
-        $products = $categories->getProductCollection()
-                         ->addAttributeToSelect('*');
+        $productFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+        $products = $productFactory->create()                              
+            ->addAttributeToSelect('*')
+            ->addStoreFilter($storeId);
         
         foreach ($products as $product){
             if(!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0){
                 $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                 $products = $productFactoryData->create();
-                $productTmp = $products->setStoreId($storeId)->loadByAttribute('sku', $product->getSku());                
+                $productTmp = $products->setStoreId($storeId)->load($product->getId());                
                 $productTmp->setStatus(0); // Status on product enabled/ disabled 1/0
                 try{
                     $productTmp->save();            
