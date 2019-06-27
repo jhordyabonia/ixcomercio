@@ -387,7 +387,7 @@ class GetCatalog {
                 $categoryIds
             )
         );    
-        $websiteId = array_unique(
+        $websiteIds = array_unique(
             array_merge(
                 $product->getWebsiteIds(),
                 array($websiteId)
@@ -397,7 +397,7 @@ class GetCatalog {
         $product->setName($name); // Name of Product        
         $product->setDescription($description); // Description of Product
         $product->setAttributeSetId(4); // Attribute set id
-        $product->setWebsiteIds(array($websiteId));
+        $product->setWebsiteIds($websiteIds);
         $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
         $product->setStatus(1); // Status on product enabled/ disabled 1/0
         $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
