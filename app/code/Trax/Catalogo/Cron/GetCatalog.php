@@ -60,7 +60,7 @@ class GetCatalog {
                     $stores = $group->getStores();
                     foreach ($stores as $store) {
                         $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
-                        if($serviceUrl && array_key_exists($store->getId(), $storeArray)){ 
+                        if($serviceUrl && !array_key_exists($store->getId(), $storeArray)){ 
                             //Se conecta al servicio 
                             $data = $this->loadIwsService($serviceUrl);
                             if($data){     
