@@ -249,6 +249,10 @@ class GetCatalog {
                 }
                 //Se valida producto y se asocia a categoria
                 $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId, $arrayCategories);
+                //Se asocian categorias a productos
+                if($product_id){
+                    $allProducts[$product_id] = $product_id;
+                }
                 array_push($allCategories, $arrayCategories); 
             } catch (Exception $e){
                 $this->logger->info('GetCatalog - Se ha producido un error al guardar la categoria '.$categoryTmp->getId().'. Error: '.$e->getMessage());
