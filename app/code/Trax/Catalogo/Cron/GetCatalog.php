@@ -50,6 +50,7 @@ class GetCatalog {
         
         //Se obtienen todos los websites 
         $websites = $storeManager->getWebsites();
+        $storeArray = array();
         foreach ($websites as $key => $website) {
             //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $website->getCode());    
@@ -59,7 +60,7 @@ class GetCatalog {
                     $stores = $group->getStores();
                     foreach ($stores as $store) {
                         $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
-                        if($serviceUrl){ 
+                        if($serviceUrl && array_key_exists($store->getId(), $storeArray)){ 
                             //Se conecta al servicio 
                             $data = $this->loadIwsService($serviceUrl);
                             if($data){     
@@ -70,6 +71,7 @@ class GetCatalog {
                         } else {
                             $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$store->getCode());
                         }
+                        $storeArray[$store->getId()] = $store->getId();
                     }
                 }
             } else {
@@ -275,7 +277,7 @@ class GetCatalog {
             $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
             $products = $productFactory->create();
             //Se carga producto por SKU
-            $product = $products->loadByAttribute('sku', $catalog->Sku);            
+            $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);            
             if(!$product || $product->getStatus()!=1){
                 $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. El producto no existe');
             } else {
