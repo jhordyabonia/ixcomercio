@@ -207,14 +207,14 @@ class GetCatalog {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
+                $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
+                $cleanurl = html_entity_decode(strip_tags($url));
+                $categoryTmp->setUrlKey($cleanurl);
             }
             //Se asocian campos
             $name=ucfirst($catalog->Category->Description);
-            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
-            $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
-            $categoryTmp->setUrlKey($cleanurl);
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
@@ -264,7 +264,7 @@ class GetCatalog {
         }
         $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
-        $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId);
+        $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
     }
 
     //Carga la información de precios e inventario del catalogo
@@ -367,10 +367,10 @@ class GetCatalog {
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
+            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId);
+            $cleanurl = html_entity_decode(strip_tags($url));
+            $product->setUrlKey($cleanurl);
         } 
-        $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId);
-        $cleanurl = html_entity_decode(strip_tags($url));
-        $product->setUrlKey($cleanurl);
         $iwsDescription = explode("- ", $catalog->Description);
         $name = $iwsDescription[0];
         $description = "";
@@ -421,7 +421,7 @@ class GetCatalog {
         try{
             $product->save();
             $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
-            return $product->getId();
+            return $product->getSku();
         } catch (Exception $e){
             $this->logger->info('GetCatalog - Se ha producido un error al guardar la subcategoria '.$categoryTmp->getId().'. Error: '.$e->getMessage());
             return false;
@@ -457,7 +457,7 @@ class GetCatalog {
     }
 
     //Deshabilita los productos
-    public function checkProducts($allProducts, $rootNodeId, $storeId) 
+    public function checkProducts($allProducts, $rootNodeId, $storeId, $allCategories) 
     {   
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $appState = $objectManager->get('\Magento\Framework\App\State');
