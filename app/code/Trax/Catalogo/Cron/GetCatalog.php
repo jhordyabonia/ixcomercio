@@ -390,7 +390,7 @@ class GetCatalog {
         $websiteId = array_unique(
             array_merge(
                 $product->getWebsiteIds(),
-                $websiteId
+                array($websiteId)
             )
         );
         $product->setCategoryIds($categoryIds);
