@@ -1,16 +1,40 @@
 form{
+	.label{
+		color: #000;
+	}
 	.fieldset{
-		> .field:not(.choice){
-			> .label{
-				color: #000;
-				font-size: 100%;
-		    margin: 0 0 10px;
-		    @media only screen and (min-width: $tablet){
-		      width: 100%;
-		      text-align: left;
-		      padding: 0;
-		    }
+		> .field{
+			&:not(.choice){
+				> .label{
+					color: #000;
+					font-size: 100%;
+			    margin: 0 0 10px;
+			    @media only screen and (min-width: $tablet){
+			      width: 100%;
+			      text-align: left;
+			      padding: 0;
+			    }
+				}
 			}
+			&.choice{
+				&:before{
+					display: none;
+				}
+				input{
+					&[type=checkbox]{
+						display: inline-block;
+					}
+				}
+				label{
+					color: #000;
+					display: inline-block;
+				}
+			}
+		}
+		>.legend{
+			@media only screen and (min-width: $tablet){
+	      margin-left: 0;
+	    }
 		}
 	}
 	.actions-toolbar{
@@ -42,8 +66,8 @@ form{
 		}
 	}
 }
-.customer-account-forgotpassword{
-	.form.password.forget{
+.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create{
+	.form.password.forget, .form.send.confirmation, .form.create.account{
 		text-align: left;
 		@media only screen and (min-width: $tablet){
 			width: 100%;
@@ -66,5 +90,18 @@ form{
 				text-align: center;
 			}
 		}
+	}
+}
+.account{
+	.column.main{
+		.form{
+			text-align: left;
+		}
+	}
+	.box-upload{
+		margin: 20px 0;
+    padding: 20px;
+    background: #e8e8e8;
+    width: 100%;
 	}
 }

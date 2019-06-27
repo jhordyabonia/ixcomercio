@@ -1,4 +1,5 @@
 .page-wrapper {
+  min-height: auto;
   [data-content-type='row'][data-appearance='contained']{
     max-width: 100%;
     @media only screen and (min-width: $tablet){

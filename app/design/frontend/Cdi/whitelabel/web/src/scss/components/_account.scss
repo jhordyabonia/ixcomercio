@@ -1,0 +1,23 @@
+.account.customer-account-index{
+  .column.main{
+    .block{
+      text-align: left;
+      .block-title{
+        border-bottom: 1px solid #e8e8e8;
+        padding-bottom: 12px;
+        strong{
+          font-weight: 400;
+        }
+      }
+      .block-content{
+        .box-title{
+          color: $redcolor;
+        }
+      }
+      .action{
+        text-decoration: underline;
+        margin-right: 20px;
+      }
+    }
+  }
+}
