@@ -246,14 +246,7 @@ class GetCatalog {
                     $arrayCategories = $this->loadSubcategoriesData($catalog->Category->Subcategories, $websiteCode, $store, $storeId, $categoryTmp->getId(), $arrayCategories);
                 }
                 //Se valida producto y se asocia a categoria
-                $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId);
-                //Se asocian categorias a productos
-                if($product_id){
-                    $CategoryLinkRepository = $objectManager->get('\Magento\Catalog\Api\CategoryLinkManagementInterface');
-                    $CategoryLinkRepository->assignProductToCategories($product_id, $arrayCategories);
-                    $this->logger->info('GetCatalog - Se asocia producto a categoria. SKU: '.$product_id);
-                    $allProducts[$product_id] = $product_id;
-                }
+                $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId, $arrayCategories);
                 array_push($allCategories, $arrayCategories); 
             } catch (Exception $e){
                 $this->logger->info('GetCatalog - Se ha producido un error al guardar la categoria '.$categoryTmp->getId().'. Error: '.$e->getMessage());
@@ -364,14 +357,14 @@ class GetCatalog {
     }
 
     //Carga la información de los productos
-    public function loadProductsData($catalog, $objectManager, $storeId, $websiteId) 
+    public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds) 
     {        
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
-        $product = $products->loadByAttribute('sku', $catalog->Sku);
+        $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
-            $product->setSku($catalog->Sku); // Set your sku here
+            $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
         } 
         $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId);
         $cleanurl = html_entity_decode(strip_tags($url));
@@ -388,10 +381,22 @@ class GetCatalog {
                 $description .= $iwsDescription[$i];
             }
         }        
+        $categoryIds = array_unique(
+            array_merge(
+                $product->getCategoryIds(),
+                $categoryIds
+            )
+        );    
+        $websiteId = array_unique(
+            array_merge(
+                $product->getWebsiteIds(),
+                $websiteId
+            )
+        );
+        $product->setCategoryIds($categoryIds);
         $product->setName($name); // Name of Product        
         $product->setDescription($description); // Description of Product
         $product->setAttributeSetId(4); // Attribute set id
-        $product->setStoreId($storeId);
         $product->setWebsiteIds(array($websiteId));
         $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
         $product->setStatus(1); // Status on product enabled/ disabled 1/0
@@ -414,7 +419,7 @@ class GetCatalog {
         try{
             $product->save();
             $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
-            return $product->getSku();
+            return $product->getId();
         } catch (Exception $e){
             $this->logger->info('GetCatalog - Se ha producido un error al guardar la subcategoria '.$categoryTmp->getId().'. Error: '.$e->getMessage());
             return false;
