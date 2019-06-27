@@ -207,7 +207,7 @@ class GetCatalog {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
-                $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
+                $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
                 $cleanurl = html_entity_decode(strip_tags($url));
                 $categoryTmp->setUrlKey($cleanurl);
             }
@@ -333,7 +333,7 @@ class GetCatalog {
 
             //Se asocian campos
             $name=ucfirst($catalog->Description);
-            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key);
+            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
@@ -367,7 +367,7 @@ class GetCatalog {
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId);
+            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.rand(0,1000));
             $cleanurl = html_entity_decode(strip_tags($url));
             $product->setUrlKey($cleanurl);
         } 
