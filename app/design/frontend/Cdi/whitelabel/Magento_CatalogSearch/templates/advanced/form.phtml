@@ -17,7 +17,7 @@
 <?php $maxQueryLength = $this->helper('Magento\CatalogSearch\Helper\Data')->getMaxQueryLength();?>
 <div class="container">
   <div class="row">
-    <form class="form search advanced" action="<?= /* @escapeNotVerified */ $block->getSearchPostUrl() ?>" method="get" id="form-validate">
+    <form class="form search advanced col-md-6 col-md-offset-3" action="<?= /* @escapeNotVerified */ $block->getSearchPostUrl() ?>" method="get" id="form-validate">
     <fieldset class="fieldset">
         <legend class="legend"><span><?= /* @escapeNotVerified */ __('Search Settings') ?></span></legend><br />
         <?php foreach ($block->getSearchableAttributes() as $_attribute): ?>
