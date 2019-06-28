@@ -61,6 +61,7 @@ class GetCatalog {
                     foreach ($stores as $store) {
                         $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
                         if($serviceUrl && !array_key_exists($store->getId(), $storeArray)){ 
+                            echo "store id: ".$store->getId().", code: ".$store->getCode()." - ";
                             //Se conecta al servicio 
                             $data = $this->loadIwsService($serviceUrl);
                             if($data){     
@@ -68,10 +69,10 @@ class GetCatalog {
                             } else {
                                 $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                             }   
+                            $storeArray[$store->getId()] = $store->getId();
                         } else {
                             $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$store->getCode());
                         }
-                        $storeArray[$store->getId()] = $store->getId();
                     }
                 }
             } else {
@@ -193,7 +194,6 @@ class GetCatalog {
             /// Get Root Category
             $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
             $cat_info = $rootCat->load($rootNodeId);
-            echo "root category: ".$rootNodeId."<br>";
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
             $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
             //Se valida si la categoría existe
