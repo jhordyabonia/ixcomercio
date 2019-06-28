@@ -207,11 +207,11 @@ class GetCatalog {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
-                $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
-                $cleanurl = html_entity_decode(strip_tags($url));
-                $categoryTmp->setUrlKey($cleanurl);
             }
             //Se asocian campos
+            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
+            $cleanurl = html_entity_decode(strip_tags($url));
+            $categoryTmp->setUrlKey($cleanurl);
             $name=ucfirst($catalog->Category->Description);
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
@@ -371,10 +371,10 @@ class GetCatalog {
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.rand(0,1000));
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $product->setUrlKey($cleanurl);
         } 
+        $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.rand(0,1000));
+        $cleanurl = html_entity_decode(strip_tags($url));
+        $product->setUrlKey($cleanurl);
         $iwsDescription = explode("- ", $catalog->Description);
         $name = $iwsDescription[0];
         $description = "";
