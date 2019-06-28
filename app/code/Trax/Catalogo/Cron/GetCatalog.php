@@ -44,7 +44,7 @@ class GetCatalog {
     public function execute() 
     {
         //Se declaran variables de la tierra
-		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE;
+		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         
@@ -52,13 +52,13 @@ class GetCatalog {
         $websites = $storeManager->getWebsites();
         $storeArray = array();
         foreach ($websites as $key => $website) {
-            //Se obtienen parametros de configuración por Store
-            $configData = $this->getConfigParams($storeScope, $website->getCode());    
-            //Se carga el servicio por curl
-            if($configData['datos_iws']){        
-                foreach ($website->getGroups() as $group) {
-                    $stores = $group->getStores();
-                    foreach ($stores as $store) {
+            foreach ($website->getGroups() as $group) {
+                $stores = $group->getStores();
+                foreach ($stores as $store) {
+                    //Se obtienen parametros de configuración por Store
+                    $configData = $this->getConfigParams($storeScope, $store->getCode());    
+                    //Se carga el servicio por curl
+                    if($configData['datos_iws']){   
                         $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
                         if($serviceUrl && !array_key_exists($store->getId(), $storeArray)){ 
                             echo "store id: ".$store->getId().", code: ".$store->getCode()." - ";
@@ -72,12 +72,12 @@ class GetCatalog {
                             $storeArray[$store->getId()] = $store->getId();
                         } else {
                             $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$store->getCode());
-                        }
+                        }     
+                    } else {
+                        $this->logger->info('GetCatalog - El website '.$website->getCode().' con store '.$website->getCode().' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
+                        $this->loadCatalogSales($configData, $website->getCode(), $website->getDefaultStore(), $website->getDefaultStoreId());
                     }
                 }
-            } else {
-                $this->logger->info('GetCatalog - El website '.$website->getCode().' con store '.$website->getCode().' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
-                $this->loadCatalogSales($configData, $website->getCode(), $website->getDefaultStore(), $website->getDefaultStoreId());
             }
         }
 
