@@ -34,7 +34,7 @@
       }
     }
   }
-  .wrapper-text{
+  .text-block-banner .text-overlay-banner{
     top: 50%;
     left: 50%;
     width: 650px;
@@ -50,16 +50,16 @@
       left: 5%;
       margin-left: 0;
     }
-    &.align-right{
+    &.banner-text-right{
       right: 6%;
       left: inherit;
       margin-left: 0;
     }
-    &.align-left{
+    &.banner-text-left{
       left: 6%;
       margin-left: 0;
     }
-    &.align-right, &.align-left{
+    &.banner-text-right, &.banner-text-left{
       @media only screen and (max-width: 959px){
         left: 50%;
         right: inherit;
