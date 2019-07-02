@@ -163,7 +163,9 @@ table{
     }
   }
 }
-
+[data-content-type='row'][data-appearance='contained'] [data-element='inner']{
+  padding: 0;
+}
 .pager-wrapper{
   width: 100%;
   margin: 0;
