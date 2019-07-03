@@ -9,20 +9,20 @@
       padding: 0;
     }
   }
-  .owl-nav{
-    button{
+  .owl-nav, .flex-direction-nav{
+    button, li{
       top: 50%;
       width: 50px;
       height: 50px;
       margin-top: -25px;
       position: absolute;
-      &.owl-prev{
+      &.owl-prev, &.flex-nav-prev{
         left: 25px;
         &:before{
           content: '\e824';
         }
       }
-      &.owl-next{
+      &.owl-next, &.flex-nav-next{
         right: 25px;
         &:before{
           content: '\e825';
