@@ -1,0 +1,167 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/** @var \Magento\Contact\Block\ContactForm $block */
+?>
+<section class="contact-page">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="/assets/img/media/contacto.jpg" alt="" title="">
+      </div>
+      <div class="col-md-6">
+        <div class="page-title">
+          <h1>Contáctenos</h1>
+        </div>
+        <form action="" id="contactForm" method="post">
+          <div class="fieldset">
+            <h2 class="legend">Información de Contacto</h2>
+            <ul class="form-list">
+              <li class="fields">
+                <div class="field">
+                  <label for="name" class="required">Nombre</label>
+                  <div class="input-box">
+                    <input name="name" id="name" title="Nombre" value="" class="input-text required-entry" type="text">
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="email" class="required">Correo electrónico</label>
+                  <div class="input-box">
+                    <input name="email" id="email" title="Correo electrónico" value="" class="input-text required-entry validate-email" type="email">
+                  </div>
+                </div>
+              </li>
+              <li>
+                <label for="telephone">Teléfono</label>
+                <div class="input-box">
+                  <input name="telephone" id="telephone" title="Teléfono" value="" class="input-text" type="number">
+                </div>
+              </li>
+              <li class="wide">
+                <label for="comment" class="required">Comentario</label>
+                <div class="input-box">
+                <textarea name="comment" id="comment" title="Comentario" class="required-entry" cols="5" rows="3"></textarea>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="buttons-set">
+            <p class="required">* Campos Requeridos</p>
+            <button type="submit" title="Enviar" class="button"><span><span>Enviar</span></span></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!--
+<div class="container">
+    <div class="row">
+        <form 
+        class="form contact col-sm-8"
+        action="<?= $block->escapeUrl($block->getFormAction()) ?>"
+        id="contactForm"
+        method="post">
+        <p><?= $block->escapeHtml(__('For comments, feedback, or help with your product, contact us using the form below.')) ?></p>
+        <fieldset class="group-select">
+            <h4 class="legend"><?= $block->escapeHtml(__('Email JAM')) ?></h4>
+            <ul>
+                <li>
+                    <div class="input-box">
+                        <div class="field-label"><label for="firstname"><?= $block->escapeHtml(__('First Name')) ?> <span class="required">*</span></label></div>
+                        <input name="firstname" id="firstname" title="<?= $block->escapeHtmlAttr(__('First Name')) ?>" maxlength="20" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div>
+                    <div class="input-box">
+                        <div class="field-label"><label for="lastname"><?= $block->escapeHtml(__('Last Name')) ?> <span class="required">*</span></label></div>
+                        <input name="lastname" id="lastname" title="<?= $block->escapeHtmlAttr(__('Last Name')) ?>" maxlength="20" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div><div class="clear"></div>
+
+                    <div class="input-box">
+                        <div class="field-label"><label for="email"><?= $block->escapeHtml(__('E-mail')) ?> <span class="required">*</span></label></div>
+                        <input name="email" id="email" title="<?= $block->escapeHtmlAttr(__('E-mail')) ?>" maxlength="60" value="" class="required-entry input-text validate-email" type="text" data-validate="{required:true}">
+                    </div><div class="clear"></div>
+
+                    <div class="input-box">
+                        <div class="field-label"><label for="address1"><?= $block->escapeHtml(__('Address')) ?> <span class="required">*</span></label></div>
+                        <input name="address1" id="address1" title="<?= $block->escapeHtmlAttr(__('Address')) ?>" maxlength="40" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div><div class="clear"></div>
+                    <div class="input-box">
+                        <div class="field-label" style="color: #fff;"><label for="address2"><?= $block->escapeHtml(__('Address2')) ?></label></div>
+                        <input name="address2" id="address2" maxlength="40" value="" class="input-text" type="text">
+                    </div><div class="clear"></div>
+
+                    <div class="input-box">
+                        <div class="field-label"><label for="city"><?= $block->escapeHtml(__('City')) ?> <span class="required">*</span></label></div>
+                        <input name="city" id="city" title="<?= $block->escapeHtmlAttr(__('City')) ?>" maxlength="25" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div>
+                    <div class="input-box">
+                        <div class="field-label"><label for="state"><?= $block->escapeHtml(__('State/Province')) ?> <span class="required">*</span></label></div>
+                        <input name="state" id="state" title="<?= $block->escapeHtmlAttr(__('State/Province')) ?>" maxlength="25" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div><div class="clear"></div>
+
+                    <div class="input-box">
+                        <div class="field-label"><label for="zip"><?= $block->escapeHtml(__('Postal Code')) ?> <span class="required">*</span></label></div>
+                        <input name="zip" id="zip" title="<?= $block->escapeHtmlAttr(__('Postal Code')) ?>" maxlength="10" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div>
+                    <div class="input-box">
+                        <div class="field-label"><label for="country"><?= $block->escapeHtml(__('Country')) ?> <span class="required">*</span></label></div>
+                        <input name="country" id="country" title="<?= $block->escapeHtmlAttr(__('Country')) ?>" maxlength="25" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div><div class="clear"></div>
+
+                    <div class="input-box">
+                        <div class="field-label"><label for="telephone"><?= $block->escapeHtml(__('Telephone')) ?> <span class="required">*</span></label></div>
+                        <input name="telephone" id="telephone" title="<?= $block->escapeHtmlAttr(__('Telephone')) ?>" maxlength="20" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                    </div><div class="clear"></div>
+
+                    <div class="input-box">
+                        <div class="field-label"><label for="product"><?= $block->escapeHtml(__('Product or Model')) ?></label></div>
+                        <input name="product" id="product" title="<?= $block->escapeHtmlAttr(__('Product or Model')) ?>" value="" class="input-text" type="text">
+                    </div>
+                    <div class="input-box">
+                        <p class="note">
+                            <b><?php echo __('Note:')?></b> <?php echo __('For all product-related questions, please include your Model Number or specific product name so that we can help you better.')?>
+                        </div><div class="clear"></div>
+
+                        <div class="input-box">
+                            <label for="comment"><?= $block->escapeHtml(__('Comment / Question')) ?></label>
+                            <textarea name="comment" id="comment" title="<?= $block->escapeHtmlAttr(__('Comment')) ?>" class="input-text" cols="50" rows="5"></textarea>
+                        </div>
+                    </li>
+                </ul>
+            </fieldset>
+            <div class="buttons-set form-buttons btn-only">
+                <input type="text" name="hideit" id="hideit" value="" style="display:none !important;">
+                <button type="submit" class="button" title="<?= $block->escapeHtmlAttr(__('Send E-mail')) ?>">
+                    <span><?= $block->escapeHtml(__('Send E-mail')) ?></span>
+                </button>
+            </div>
+        </form>
+        
+        <script type="text/javascript">
+            var contactForm = new VarienForm('contactForm', true);
+        </script>
+
+        <div class="col-right sidebar col-md-3 col-sm-4 col-xs-12">
+            <dl class="contact-list">
+                <dt><?= $block->escapeHtml(__('SOL REPUBLIC USA Headquarters')) ?></dt>
+                <dd><?= $block->escapeHtml(__('3000 Pontiac Trail')) ?></dd>
+                <dd><?= $block->escapeHtml(__('Attn: Dept. 168')) ?></dd>
+                <dd><?= $block->escapeHtml(__('Commerce Township, MI 48390')) ?></dd>
+                <dd><?= $block->escapeHtml(__('248.863.3000')) ?></dd>
+                <br>
+                <dt><?= $block->escapeHtml(__('SOL REPUBLIC USA Customer Support')) ?></dt>
+                <dd><?= $block->escapeHtml(__('1.877.400.0310')) ?></dd>
+                <dd>
+                    <?= $block->escapeHtml(__('8:30am to 7:00pm, Eastern')) ?><br>
+                    <?= $block->escapeHtml(__('Monday through Friday')) ?></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+
+-->
