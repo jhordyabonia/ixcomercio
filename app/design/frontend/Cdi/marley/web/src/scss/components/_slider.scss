@@ -80,12 +80,12 @@
         margin-left: 0;
       }
     }
-    h2, p, a{
+    h2, p, a, .caption-title{
       width: 100%;
       color: white;
       display: inline-block;
     }
-    h2{
+    h2, .caption-title{
       font-size: 80px;
       text-transform: uppercase;
       @media only screen and (max-width: 1400px){
