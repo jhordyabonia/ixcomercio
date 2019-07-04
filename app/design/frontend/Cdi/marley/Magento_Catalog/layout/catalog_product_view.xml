@@ -4,7 +4,14 @@
 		<!--Agrega cabecera sticky para producto-->
 		<referenceContainer name="content">
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
-			<container name="product.essential" htmlTag="div" htmlClass="product-essential container" before="-" />
+			<container name="product.essential" htmlTag="div" htmlClass="product-view" before="-">
+				<container name="product.essential.contproduct" htmlTag="div" htmlClass="cont-product" before="-">
+					<container name="product.essential.container" htmlTag="div" htmlClass="container" before="-">
+						<container name="product.essential.container.row" htmlTag="div" htmlClass="row" before="-">
+						</container>
+					</container>
+				</container>
+			</container>
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-5 col-xs-12 pull-right">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
@@ -16,8 +23,8 @@
 		* Mueve elementos
 		-->
 		<!--media-->
-		<move element="product.info.main" destination="product.essential" as="product.info.main" before="-"/>
-        <move element="product.info.media" destination="product.essential" as="product.info.media" after="product.info.main"/>
+		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" before="-"/>
+        <move element="product.info.media" destination="product.essential.container.row" as="product.info.media" after="product.info.main"/>
 
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
