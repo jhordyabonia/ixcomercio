@@ -194,17 +194,26 @@
       .sort-asc, .sort-desc{
         width: 30px;
         height: 30px;
-        color: #333;
-        font-size: 14px;
-        line-height: 30px;
         text-align: center;
         display: inline-block;
         vertical-align: middle;
         background-color: transparent;
         transition: .5s all ease;
         &:hover{
-          color: #1e75b4;
           background-color: #333;
+          &:before{
+            color: #1e75b4;
+          }
+        }
+        &:before{
+          color: #333;
+          font-size: 14px;
+          line-height: 30px;
+          font-family: ThemeIcons;
+          font-style: normal;
+          font-weight: normal;
+          font-variant: normal;
+          text-transform: none;
         }
       }
       .sort-desc:before {
