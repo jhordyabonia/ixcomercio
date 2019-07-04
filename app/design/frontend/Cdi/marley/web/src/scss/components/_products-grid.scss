@@ -9,9 +9,17 @@
     .column.main{
       padding: 0 15px;
       max-width: 1320px;
+      margin: 0 auto;
       @media only screen and (max-width: 1280px){
         width: 96%;
         max-width: 960px;
+      }
+      li.item{
+        padding-bottom: 50px;
+        height: auto;
+        &:hover .sticker{
+          width: 65px;
+        }
       }
     }
   }
@@ -28,12 +36,6 @@
     height: auto;
     &:hover .sticker{
       width: 65px;
-    }
-  }
-  .container-fluid{
-    @media only screen and (max-width: 1280px){
-      width: 96%;
-      max-width: 960px;
     }
   }
   #container-grid{
