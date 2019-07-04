@@ -191,7 +191,7 @@
         margin: 0;
         background: none;
       }
-      .category-asc, .category-desc{
+      .sort-asc, .sort-desc{
         width: 30px;
         height: 30px;
         color: #333;
@@ -207,10 +207,10 @@
           background-color: #333;
         }
       }
-      .ic-arrow-down:before {
+      .sort-desc:before {
         content: "\e229";
       }
-      .ic-arrow-up:before {
+      .sort-asc:before {
         content: "\e227";
       }
     }
