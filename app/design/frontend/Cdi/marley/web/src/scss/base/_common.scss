@@ -63,62 +63,62 @@
 }
 html {
   font-size: 16px !important;
-}
-body {
-  color: #333;
-  font-size: 12px;
-  background-color: white;
-  text-align: center;
-  @media only screen and (max-width: 959px){
-    padding-top: 72px;
-  }
-  ul, ol {
-    list-style: none;
-  }
-  a {
+  body {
     color: #333;
-    text-decoration: none;
-    &:hover{
-      color: #0056b3;
-      text-decoration: none;
+    font-size: 12px;
+    background-color: white;
+    text-align: center;
+    @media only screen and (max-width: 959px){
+      padding-top: 72px;
     }
-    &:visited{
+    ul, ol {
+      list-style: none;
+    }
+    a {
       color: #333;
       text-decoration: none;
-    }
-  }
-  h1,h2,h3{
-    font-family: "flamacondensed-bold",Oswald,sans-serif;
-  }
-  .page-main{
-    @media only screen and (min-width: 768px){
-      max-width: 100%;
-      padding: 0;
-    }
-  }
-  section{
-    width: 100%;
-    padding: 20px 0;
-    float: left;
-    &.section-main-slider{
-      padding-top: 0;
-    }
-    header{
-      h2{
-        margin: 0 0 40px;
-        font-size: 2rem;
+      &:hover{
+        color: #0056b3;
+        text-decoration: none;
+      }
+      &:visited{
+        color: #333;
+        text-decoration: none;
       }
     }
-  }
-  .container {
-    width: 96%;
-    max-width: 960px;
-    @media only screen and (max-width: 959px) and (min-width: 768px){
-      max-width: 90%;
+    h1,h2,h3{
+      font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
-  }
-  .container-fluid{
-    max-width: 1320px;
+    .page-main{
+      @media only screen and (min-width: 768px){
+        max-width: 100%;
+        padding: 0;
+      }
+    }
+    section{
+      width: 100%;
+      padding: 20px 0;
+      float: left;
+      &.section-main-slider{
+        padding-top: 0;
+      }
+      header{
+        h2{
+          margin: 0 0 40px;
+          font-size: 2rem;
+        }
+      }
+    }
+    .container {
+      width: 96%;
+      max-width: 960px;
+      @media only screen and (max-width: 959px) and (min-width: 768px){
+        max-width: 90%;
+      }
+    }
+    .container-fluid{
+      max-width: 1320px;
+    }
   }
 }
 .page-title{

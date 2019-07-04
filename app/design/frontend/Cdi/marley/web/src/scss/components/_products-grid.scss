@@ -151,7 +151,7 @@
   }
 }
 .wrapper-product-sorter{
-  .sorter{
+  > .sorter{
     float: left;
     width: 100%;
     line-height: 36px;
@@ -163,21 +163,24 @@
     }
     .toolbar-amount{
       font-weight: bolder;
+      line-height: 36px;
       margin: 0;
       padding: 0 10px 0 0;
       margin-right: 10px;
       background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
       display: inline-block;
+      float: none;
       @media only screen and (max-width: 650px){
         display: none;
       }
     }
     label{
       margin: 0;
+      font-weight: 400;
     }
     .toolbar-sorter{
       margin-right: 10px;
-      padding-right: 3px;
+      padding: 0 3px 0 0;
       background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
       display: inline-block;
       @media only screen and (max-width: 650px){
