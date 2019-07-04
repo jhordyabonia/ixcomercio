@@ -119,6 +119,26 @@ html {
     .container-fluid{
       max-width: 1320px;
     }
+    select {
+      height: 36px;
+      padding: 8px;
+      text-overflow: ellipsis;
+      font: 12px/15px 'flamaCondensedmed',sans-serif;
+      transition: .5s all ease;
+      &:hover{
+        border-color: #aaa;
+        color: #333;
+        outline: none;
+      }
+    }
+    input.input-text, select, textarea {
+      background: #fff;
+      border: 1px solid #ddd;
+      color: #888;
+      box-sizing: border-box;
+      border-radius: 0;
+      box-shadow: none;
+    }
   }
 }
 .page-title{
@@ -222,26 +242,6 @@ table{
       }
     }
   }
-}
-select {
-  height: 36px;
-  padding: 8px;
-  text-overflow: ellipsis;
-  font: 12px/15px 'flamaCondensedmed',sans-serif;
-  transition: .5s all ease;
-  &:hover{
-    border-color: #aaa;
-    color: #333;
-    outline: none;
-  }
-}
-input.input-text, select, textarea {
-  background: #fff;
-  border: 1px solid #ddd;
-  color: #888;
-  box-sizing: border-box;
-  border-radius: 0;
-  box-shadow: none;
 }
 .ic {
   display: inline-block;
