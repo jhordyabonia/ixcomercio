@@ -175,14 +175,18 @@
       }
     }
     label{
-      margin: 0;
+      color: #333;
       font-weight: 400;
+      font-size: 100%;
+      padding: 0;
+      margin: 0;
     }
     .toolbar-sorter{
       margin-right: 10px;
       padding: 0 3px 0 0;
       background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
       display: inline-block;
+      float: none;
       @media only screen and (max-width: 650px){
         margin: 0;
         background: none;
