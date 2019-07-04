@@ -164,7 +164,7 @@
     .toolbar-amount{
       font-weight: bolder;
       margin: 0;
-      padding-right: 10px;
+      padding: 0 10px 0 0;
       margin-right: 10px;
       background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
       display: inline-block;
@@ -175,7 +175,7 @@
     label{
       margin: 0;
     }
-    .sort-by{
+    .toolbar-sorter{
       margin-right: 10px;
       padding-right: 3px;
       background: url(https://d1xmwvh7zjeiw0.cloudfront.net/skin/frontend/tekpro/default/images/img/link-separator.png) right center no-repeat;
