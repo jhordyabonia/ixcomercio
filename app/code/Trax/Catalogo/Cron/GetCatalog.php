@@ -29,10 +29,15 @@ class GetCatalog {
 
     protected  $productRepository;     
 
-    public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository) {
+    public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory) {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->_indexerFactory = $indexerFactory;
+        $this->_indexerCollectionFactory = $indexerCollectionFactory;
     }
 
 /**
@@ -70,6 +75,10 @@ class GetCatalog {
                                 $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                             }   
                             $storeArray[$store->getId()] = $store->getId();
+                            //Se reindexa                            
+                            $this->reindexData();
+                            //Se limpia cache
+                            $this->cleanCache();
                         } else {
                             $this->logger->info('GetCatalog - No se genero url del servicio en el website: '.$website->getCode().' con store '.$store->getCode());
                         }     
@@ -79,27 +88,6 @@ class GetCatalog {
                     }
                 }
             }
-        }
-
-    }
-
-    //Se genera metodo para consultar servicio de get catalog sales data
-    public function loadCatalogSales($configData, $websiteCode, $store, $storeId) 
-    {
-        if($configData['datos_sales_iws']){
-            $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
-            if($serviceUrl){
-                $data = $this->loadIwsService($serviceUrl);
-                if($data){                    
-                    $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId);
-                } else {
-                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
-                }
-            } else {
-                $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS');
-            }
-        } else {
-            $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS para obtener precios e inventario de los productos');
         }
 
     }
@@ -176,6 +164,52 @@ class GetCatalog {
             return json_decode($resp);
         }
         return false;
+
+    }
+
+    //Reindexa los productos despues de consultar el catalogo de un store view
+	public function reindexData() 
+	{
+        $indexerCollection = $this->_indexerCollectionFactory->create();
+        $ids = $indexerCollection->getAllIds();
+        foreach ($ids as $id) {
+            $idx = $this->_indexerFactory->create()->load($id);
+            $idx->reindexAll($id);
+        } // this reindexes all
+        $this->logger->info('GetCatalog - Se reindexa');
+    }
+
+    //Limpia cache despues de consultar el catalogo de un store view
+	public function cleanCache() 
+	{
+        $types = array('config','collections','eav','full_page','translate');
+        foreach ($types as $type) {
+            $this->_cacheTypeList->cleanType($type);
+        }
+        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->getBackend()->clean();
+        }
+        $this->logger->info('GetCatalog - Se limpia cache');
+    }
+
+    //Se genera metodo para consultar servicio de get catalog sales data
+    public function loadCatalogSales($configData, $websiteCode, $store, $storeId) 
+    {
+        if($configData['datos_sales_iws']){
+            $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
+            if($serviceUrl){
+                $data = $this->loadIwsService($serviceUrl);
+                if($data){                    
+                    $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId);
+                } else {
+                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
+                }
+            } else {
+                $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS');
+            }
+        } else {
+            $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS para obtener precios e inventario de los productos');
+        }
 
     }
 
