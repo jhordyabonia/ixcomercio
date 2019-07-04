@@ -9,6 +9,12 @@
     width: 100%;
     max-width: 100%;
     padding: 0;
+    .row{
+      margin: 0;
+      .col-md-12{
+        padding: 0;
+      }
+    }
   }
   .text-block-banner{
     float: left;
@@ -24,6 +30,7 @@
     max-width: 1320px;
     position: absolute;
     transform: translate(-50%, -50%);
+    padding: 0 15px;
     @media only screen and (max-width: 650px){
       position: relative;
       margin: 20px 0;
