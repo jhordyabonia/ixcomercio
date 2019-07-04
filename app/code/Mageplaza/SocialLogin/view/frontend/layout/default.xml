@@ -92,5 +92,6 @@
                 </argument>
             </arguments>
         </referenceBlock>
+        <referenceBlock name="header_customer_form_login" remove="true"/>
     </body>
 </page>
