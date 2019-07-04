@@ -8,12 +8,16 @@
   .container{
     width: 100%;
     max-width: 100%;
+    padding: 0;
+  }
+  .text-block-banner{
+    float: left;
   }
   img{
     width: 100%;
     float: left;
   }
-  .container-fluid{
+  .text-overlay-banner{
     top: 50%;
     left: 50%;
     position: absolute;
