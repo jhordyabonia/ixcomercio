@@ -1,6 +1,11 @@
-.page-products .columns{
-  float: left;
-  width: 100%;
+.page-products {
+  .page-main{
+    padding: 0;
+  }
+  .columns{
+    float: left;
+    width: 100%;
+  }
 }
 .products-grid{
   width: 100%;
