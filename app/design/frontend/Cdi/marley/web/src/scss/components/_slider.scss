@@ -18,8 +18,22 @@
       position: absolute;
       &.owl-prev, &.flex-nav-prev{
         left: 25px;
-        a:before{
-          content: '\e824';
+        a{
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          opacity: 1!important;
+          background: none;
+          position: relative;
+          text-indent: 100%;
+          line-height: 200px;
+          overflow: hidden;
+          &:before{
+            content: '\e824';
+          }
         }
       }
       &.owl-next, &.flex-nav-next{
@@ -29,6 +43,8 @@
         }
       }
       a:before, a:after{
+        top: 0;
+        left: 0;
         color: #fff;
         display: block;
         font-family: revicons;
@@ -36,6 +52,7 @@
         line-height: 50px;
         font-size: 40px;
         transition: all .3s;
+        position: absolute;
       }
       &:hover{
         a:before{
