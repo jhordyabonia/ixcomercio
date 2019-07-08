@@ -3,6 +3,7 @@
     <default>
         <payment>
             <bancomergateway>
+                <title>Pagos</title>
                 <tiempo_pago_pendiente></tiempo_pago_pendiente>
             </bancomergateway>
         </payment>
