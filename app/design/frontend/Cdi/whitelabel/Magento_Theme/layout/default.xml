@@ -53,7 +53,7 @@
 
 
 		<referenceBlock name="store.settings" remove="true" />
-    <referenceBlock name="catalog.compare.sidebar" remove="true"/> 
+    <referenceBlock name="catalog.compare.sidebar" remove="true"/>
 
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
