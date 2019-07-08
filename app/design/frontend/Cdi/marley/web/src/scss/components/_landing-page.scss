@@ -4,6 +4,8 @@
       padding: 0;
     }
   }
+}
+.landing-page{
   .magestore-bannerslider-standard{
     @media only screen and (max-width: $tablet){
       width: 100%;
@@ -181,7 +183,6 @@
     }
   }
 }
-
 .aboutUsBlock{
   text-align: center;
   background: #eee;
