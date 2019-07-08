@@ -31,8 +31,14 @@
           }
         }
         .text-overlay-banner{
-          z-index: 9;
+          top: 0;
+          left: 0;
+          width: 100%;
+          max-width: 100%;
           text-align: left;
+          transform: translateY(0);
+          padding: 0;
+          z-index: 9;
           opacity: 0;
           .caption-title{
             width: 100%;
@@ -68,10 +74,10 @@
           }
         }
       }
-    }
-    .owl-item.active{
-      .caption{
-        opacity: 1;
+      &.flex-active-slide{
+        .caption-title{
+          opacity: 1;
+        }
       }
     }
   }
