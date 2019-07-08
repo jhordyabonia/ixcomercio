@@ -9,6 +9,9 @@
     .flexslider{
       border-radius: 0;
       box-shadow: none;
+      .container{
+        max-width: 90%!important;
+      }
     }
     .slides > li{
       position: relative;
@@ -44,6 +47,9 @@
           padding: 0;
           z-index: 9;
           opacity: 0;
+          @media only screen and (max-width: 959px){
+            margin: 0;
+          }
           .caption-title{
             width: 100%;
             max-width: 412px;
