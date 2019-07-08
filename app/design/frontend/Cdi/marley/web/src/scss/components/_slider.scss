@@ -19,6 +19,21 @@
       &.owl-prev, &.flex-nav-prev{
         left: 25px;
         a{
+          &:before{
+            content: '\e824';
+          }
+        }
+      }
+      &.owl-next, &.flex-nav-next{
+        right: 25px;
+        a{
+          &:before{
+            content: '\e825';
+          }
+        }
+      }
+      &.owl-prev, &.flex-nav-prev, &.owl-next, &.flex-nav-next{
+        a{
           top: 0;
           left: 0;
           right: 0;
@@ -31,15 +46,6 @@
           text-indent: 100%;
           line-height: 200px;
           overflow: hidden;
-          &:before{
-            content: '\e824';
-          }
-        }
-      }
-      &.owl-next, &.flex-nav-next{
-        right: 25px;
-        a:before{
-          content: '\e825';
         }
       }
       a:before, a:after{
