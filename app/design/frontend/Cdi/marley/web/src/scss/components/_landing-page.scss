@@ -5,7 +5,11 @@
     }
   }
   .magestore-bannerslide-flex-slider{
-    margin: 0;
+    margin: 0 !important;
+    .flexslider{
+      border-radius: 0;
+      box-shadow: none;
+    }
     .slides > li{
       position: relative;
       .banner.banner-background{
@@ -75,10 +79,13 @@
         }
       }
       &.flex-active-slide{
-        .text-overlay-banner{
+        .banner.banner-background .text-overlay-banner{
           opacity: 1;
         }
       }
+    }
+    .flex-control-nav, .flex-direction-nav{
+      display: none;
     }
   }
   .banner-hero{
