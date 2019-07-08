@@ -89,6 +89,10 @@
             letter-spacing: 0px;
             min-height: 101px;
             max-height: 101px;
+            @media only screen and (max-width: $mobile){
+              font-size: 20px;
+              line-height: 24px;
+            }
           }
         }
       }
