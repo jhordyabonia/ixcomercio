@@ -193,9 +193,13 @@ table{
     }
   }
 }
-[data-content-type='row'][data-appearance='contained'] [data-element='inner']{
-  padding: 0!important;
-  margin: 0!important;
+[data-content-type='row'][data-appearance='contained'] {
+  width: 100%;
+  float: left;
+  [data-element='inner']{
+    padding: 0!important;
+    margin: 0!important;
+  }
 }
 .pager-wrapper{
   width: 100%;

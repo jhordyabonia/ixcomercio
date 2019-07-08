@@ -1,4 +1,9 @@
 .cms-proyecto{
+  .page-main{
+    @media only screen and (max-width: $tablet){
+      padding: 0;
+    }
+  }
   .owl-carousel{
     .item{
       position: relative;
