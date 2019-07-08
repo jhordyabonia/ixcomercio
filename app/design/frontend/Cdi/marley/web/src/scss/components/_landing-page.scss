@@ -77,6 +77,11 @@
   .banner-hero{
     margin-bottom: 20px;
   }
+  .banner.frame{
+    .container{
+      max-width: 960px!important;
+    }
+  }
   .video-container{
     iframe{
       @media only screen and (max-width: 480px){
