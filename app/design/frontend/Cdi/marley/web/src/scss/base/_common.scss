@@ -89,6 +89,11 @@ html {
     h1,h2,h3{
       font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
+    .columns {
+      .column.main{
+        padding: 0;
+      }
+    }
     .page-main{
       @media only screen and (min-width: 768px){
         max-width: 100%;
@@ -190,6 +195,7 @@ table{
 }
 [data-content-type='row'][data-appearance='contained'] [data-element='inner']{
   padding: 0!important;
+  margin: 0!important;
 }
 .pager-wrapper{
   width: 100%;
