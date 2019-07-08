@@ -195,6 +195,7 @@ table{
 }
 [data-content-type='row'][data-appearance='contained'] {
   width: 100%;
+  max-width: 100%!important;
   float: left;
   [data-element='inner']{
     padding: 0!important;
