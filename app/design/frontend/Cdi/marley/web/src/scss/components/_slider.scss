@@ -18,17 +18,17 @@
       position: absolute;
       &.owl-prev, &.flex-nav-prev{
         left: 25px;
-        &:before{
+        a:before{
           content: '\e824';
         }
       }
       &.owl-next, &.flex-nav-next{
         right: 25px;
-        &:before{
+        a:before{
           content: '\e825';
         }
       }
-      &:before, &:after{
+      a:before, a:after{
         color: #fff;
         display: block;
         font-family: revicons;
@@ -38,7 +38,7 @@
         transition: all .3s;
       }
       &:hover{
-        &:before{
+        a:before{
           opacity: .75;
         }
       }
