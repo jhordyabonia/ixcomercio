@@ -32,8 +32,12 @@ $images = $block->getImages();
 								<label><span><?php echo __('Image')?></span></label>
 							</div>
 							<select class="admin__control-select" name="image">
-								<?php foreach($images as $path => $label){ ?>
-									<option <?php echo (isset($field['image']) && $field['image'] == $path) ? 'selected="selected"' : ''?> value="<?php echo $path;?>"><?php echo $label;?></option>
+								<?php foreach($images as $site => $ops){ ?>
+									<optgroup label="<?php echo $site;?>">
+									<?php foreach($ops as $path => $label){ ?>
+										<option <?php echo (isset($field['image']) && $field['image'] == $path) ? 'selected="selected"' : ''?> value="<?php echo $path;?>"><?php echo $label;?></option>
+									<?php } ?>
+									</optgroup>
 								<?php } ?>
 							</select>
 						</div>

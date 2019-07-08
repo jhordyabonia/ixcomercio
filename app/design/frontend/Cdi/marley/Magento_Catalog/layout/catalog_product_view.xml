@@ -12,6 +12,7 @@
 					</container>
 				</container>
 			</container>
+			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product.essential" />
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-md-6">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>

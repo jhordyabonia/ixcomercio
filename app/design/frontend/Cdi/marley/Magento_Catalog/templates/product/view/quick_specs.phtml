@@ -1,0 +1,30 @@
+<?php 
+$_helper = $this->helper('Magento\Catalog\Helper\Output'); 
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$_product = $block->getProduct(); 
+$atts = $_product->getProductAttributes();
+$fields = array();
+if($atts){
+	$fields = $_helperCdi->getAttributeArrayFromJson($atts);
+}
+?>
+<section class="product-characteristics">
+	<div class="container">
+		<div class="row">
+		<?php if(count($fields)){ ?>
+			<h2><?php echo __('Features')?></h2>
+			<?php $colsm = $_helperCdi->getColumnsBt(count($fields));?>
+			<ul class="feature-icons">
+			<?php foreach($fields as $field){ ?>
+				<li>
+					<img src="<?php echo $this->getViewFileUrl("images/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
+					<?php if(isset($field['title'])){ ?>
+						<h5><?php echo $field['title'];?></h5>
+					<?php } ?>
+				</li>
+			<?php } ?>
+			</ul>
+		<?php } ?>
+		</div>
+	</div>
+</section>
