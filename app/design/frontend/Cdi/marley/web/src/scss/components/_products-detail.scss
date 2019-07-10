@@ -128,6 +128,15 @@
         }
       }
     }
+    .MagicToolboxContainer{
+      .MagicToolboxSelectorsContainer{
+        a{
+          img{
+            box-shadow: none;
+          }
+        }
+      }
+    }
   }
   .product-info_main{
     text-align: left;
@@ -234,7 +243,7 @@
       font-size: 28px;
     }
   }
-  ul.icon-atribut{
+  ul.feature-icons{
     width: 100%;
     text-align: center;
     padding-top: 7%;

@@ -1,0 +1,215 @@
+.cms-page-view{
+  .page-main{
+    @media only screen and (max-width: $tablet){
+      padding: 0;
+    }
+  }
+}
+.landing-page{
+  .magestore-bannerslider-standard{
+    @media only screen and (max-width: $tablet){
+      width: 100%;
+    }
+  }
+  .magestore-bannerslide-flex-slider{
+    margin: 0 !important;
+    .flexslider{
+      border-radius: 0;
+      box-shadow: none;
+      .container{
+        max-width: 90%!important;
+      }
+    }
+    .slides > li{
+      position: relative;
+      .banner.banner-background{
+        width: 100%;
+        height: 340px;
+        background-color: rgba(0, 0, 0, 0);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        visibility: inherit;
+        padding: 30px 0;
+        z-index: 20;
+        opacity: 1;
+        @media only screen and (max-width: $mobile){
+          height: 300px;
+          background-size: cover!important;
+        }
+        .icon{
+          display: block;
+          max-width: 50px;
+          margin: 0;
+          @media only screen and (max-width: 480px){
+            max-width: 35px;
+          }
+        }
+        .text-overlay-banner{
+          top: 0;
+          left: 0;
+          width: 100%;
+          max-width: 100%;
+          text-align: left;
+          transform: translateY(0);
+          padding: 0;
+          z-index: 9;
+          opacity: 0;
+          @media only screen and (max-width: 959px){
+            margin: 0;
+          }
+          .caption-title{
+            width: 100%;
+            max-width: 412px;
+            white-space: normal;
+            font-size: 55px;
+            line-height: 50px;
+            font-weight: 700;
+            color: #fff;
+            font-family: flamaCondensedmed;
+            visibility: inherit;
+            max-height: 193px;
+            transition: 2000ms;
+            margin: 20px 0;
+            @media only screen and (max-width: 480px){
+              font-size: 44px;
+              line-height: 40px;
+            }
+          }
+          p{
+            width: 100%;
+            max-width: 510px;
+            white-space: normal;
+            font-size: 26px;
+            line-height: 30px;
+            font-weight: 400;
+            color: #fff;
+            font-family: NexusTypewriterOT;
+            visibility: inherit;
+            letter-spacing: 0px;
+            min-height: 101px;
+            max-height: 101px;
+            @media only screen and (max-width: $mobile){
+              font-size: 20px;
+              line-height: 24px;
+            }
+          }
+        }
+      }
+      &.flex-active-slide{
+        .banner.banner-background .text-overlay-banner{
+          opacity: 1;
+        }
+      }
+    }
+    .flex-control-nav, .flex-direction-nav{
+      display: none;
+    }
+  }
+  .banner-hero{
+    margin-bottom: 20px;
+  }
+  .banner.frame{
+    .container{
+      max-width: 960px!important;
+    }
+  }
+  .video-container{
+    iframe{
+      @media only screen and (max-width: 480px){
+        height: 200px;
+      }
+    }
+  }
+  .wrapper-text-box{
+    text-align: left;
+    padding: 20px 0;
+    .text-box{
+      border: 1px solid #000;
+      padding: 40px;
+      text-align: center;
+    }
+  }
+  .nexusHeading{
+    font-family: NexusTypewriterOT;
+    font-style: normal;
+    font-size: 30px;
+    line-height: 125%;
+    margin-bottom: .5em;
+  }
+  .nexusSubheading{
+    font-family: NexusTypewriterOT;
+    font-style: normal;
+    font-size: 17px;
+    line-height: 150%;
+    margin-bottom: 1em;
+  }
+  .flamaSuperheading{
+    font-family: "flamaCondensedmed";
+    font-size: 60px;
+    text-transform: uppercase;
+    line-height: .85;
+    margin: 40px 0 10px;
+  }
+  .productBlock{
+    width: 100%;
+    background: #313131;
+    float: left;
+    .featuredProd{
+      position: relative;
+      display: inline-block;
+      width: 33%;
+      cursor: pointer;
+      .prodName{
+        position: absolute;
+        top: 90px;
+        width: 100%;
+        z-index: 1;
+        h4{
+          color: #fff;
+          text-align: center;
+          font-family: "flamaCondensedmed";
+          font-size: 24px;
+          text-transform: uppercase;
+          line-height: .85;
+        }
+      }
+      img{
+        width: 100%;
+        position: relative;
+        transition: opacity 0.5s linear;
+        z-index: 2;
+        &:hover{
+          background-color: #58595b;
+          opacity: .25;
+        }
+      }
+    }
+  }
+}
+.aboutUsBlock{
+  text-align: center;
+  background: #eee;
+  padding: 35px 0;
+  .iconContainer{
+    height: 50px;
+    white-space: nowrap;
+  }
+  .flamaSubheading{
+    font-family: "flamaCondensedmed";
+    text-transform: uppercase;
+    line-height: .85;
+    font-size: 24px;
+    margin: 14px 0;
+  }
+  p{
+    width: 50%;
+    margin: 0 auto;
+  }
+}
+
+@media only screen and (max-width: 650px){
+  .hide-on-mobile {
+    display: none;
+  }
+}
