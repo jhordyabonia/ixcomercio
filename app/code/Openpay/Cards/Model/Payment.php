@@ -389,7 +389,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $charge = $this->makeOpenpayCharge($customer_data, $charge_request, $token, $device_session_id, $save_cc, $openpay_cc);   
             
             $payment->setTransactionId($charge->id);  
-            $payment->setCcLast4(substr($openpay_cc, -4));
+            $payment->setCcLast4(substr($charge->card_number, -4));
             $payment->setCcType($this->getCCBrandCode($charge->brand));
             $payment->setCcExpMonth($charge->expiration_month);
             $payment->setCcExpYear($charge->expiration_year);
