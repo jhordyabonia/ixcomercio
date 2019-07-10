@@ -387,8 +387,9 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         try {                           
             // Realiza la transacción en Openpay
             $charge = $this->makeOpenpayCharge($customer_data, $charge_request, $token, $device_session_id, $save_cc, $openpay_cc);   
-            $test = json_encode($charge);
-        $this->logger->debug('#processCapture', $test); 
+            $this->logger->debug('#processCapture', $charge); 
+            
+        $this->logger->debug('#processCapture', json_encode($charge)); 
             $payment->setTransactionId($charge->id);  
             $payment->setCcLast4(substr($charge->card_number, -4));
             $payment->setCcType($this->getCCBrandCode($charge->brand));
