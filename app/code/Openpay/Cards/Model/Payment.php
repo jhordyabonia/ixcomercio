@@ -390,9 +390,9 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             
             $payment->setTransactionId($charge->id);  
             $payment->setCcLast4(substr($openpay_cc, -4));
-            $payment->setCcType($this->getCCBrandCode($charge->card->brand));
-            $payment->setCcExpMonth($charge->card->expiration_month);
-            $payment->setCcExpYear($charge->card->expiration_year);
+            $payment->setCcType($this->getCCBrandCode($charge->brand));
+            $payment->setCcExpMonth($charge->expiration_month);
+            $payment->setCcExpYear($charge->expiration_year);
                                                                                     
             if ($this->charge_type == '3d') {            
                 $payment->setIsTransactionPending(true);                
