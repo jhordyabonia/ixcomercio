@@ -253,7 +253,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         $this->logger->debug('#authorize', array('$order_id' => $order->getIncrementId(), '$status' => $order->getStatus(), '$amount' => $amount));                    
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
         $payment->setIsTransactionClosed(false);
-        $payment->setSkipOrderProcessing(true);
+        $payment->setSkipOrderProcessing(false);
         $this->processCapture($payment, $amount);
         return $this;
     }
