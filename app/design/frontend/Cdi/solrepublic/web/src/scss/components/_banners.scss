@@ -167,6 +167,12 @@
           left: 50%;
           transform: translate(-50%);
         }
+        &.banner-text-vertical-top{
+          position: absolute;
+          top: 5%;
+          left: 50%;
+          transform: translate(-50%);
+        }
         &.banner-text-vertical-middle{
           max-width: 610px;
           @media (max-width: $mobile){
@@ -179,11 +185,43 @@
         @media (max-width: $mobile){
           float: none;
         }
+        &.banner-text-vertical-bottom{
+          position: absolute;
+          bottom: 5%;
+          left: 0;
+        }
+        &.banner-text-vertical-top{
+          position: absolute;
+          top: 5%;
+          left: 0;
+        }
+        &.banner-text-vertical-middle{
+          max-width: 610px;
+          @media (max-width: $mobile){
+            padding-top: 0;
+          }
+        }
       }
       &.banner-text-right{
         float: right;
         @media (max-width: $mobile){
           float: none;
+        }
+        &.banner-text-vertical-bottom{
+          position: absolute;
+          bottom: 5%;
+          right: 0;
+        }
+        &.banner-text-vertical-top{
+          position: absolute;
+          top: 5%;
+          right: 0;
+        }
+        &.banner-text-vertical-middle{
+          max-width: 610px;
+          @media (max-width: $mobile){
+            padding-top: 0;
+          }
         }
       }
       h1, h2, h3{
