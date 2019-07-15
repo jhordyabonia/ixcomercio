@@ -57,6 +57,45 @@
       }
     }
   }
+  &.topBuyNow{
+    .text-block-banner {
+      .text-overlay-banner{
+        max-width: 100%;
+        .caption-title{
+          color: #fff;
+          font-size: 55px;
+          font-weight: normal;
+          letter-spacing: 4px;
+          font-family: 'Sevigne-Regular', Arial, Helvetica, sans-serif;
+          text-transform: uppercase;
+          margin-bottom: .5%;
+        }
+        .caption-desc{
+          color: #cfcfcf;
+          font-size: 24px;
+          font-weight: normal;
+          font-family: 'Graphik-Regular', 'Helvetica', sans-serif;
+          text-transform: none;
+          margin-bottom: 3.5%;
+        }
+        .banner-button{
+          width: 200px;
+          padding: 10px 0;
+          background: transparent;
+          border: 2px solid #00aeef;
+          display: inline-block;
+          font-size: 16px;
+          text-transform: uppercase;
+          text-align: center;
+          margin: 0 auto 0;
+          &:hover{
+            color: #fff;
+            background: #00aeef;
+          }
+        }
+      } 
+    }
+  }
   &.main-category-banner{
     .text-block-banner {
       @media (max-width: $mobile){
@@ -183,7 +222,7 @@
             left: 0;
             max-width: 610px;
             position: absolute;
-            transform: translate(-50%, 0);
+            transform: translate(0, -50%);
             @media (max-width: $mobile){
               padding-top: 0;
             }
