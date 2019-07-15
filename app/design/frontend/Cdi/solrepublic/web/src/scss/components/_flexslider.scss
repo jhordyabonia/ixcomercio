@@ -40,6 +40,15 @@
               text-align: right; 
               @media (max-width: $mobile){
                 text-align: center;
+                .caption-title, .caption-desc{
+                  display: block;
+                }
+              }
+              .caption-title{
+                display: inline-block;
+              }
+              .caption-desc{
+                display: initial;
               }
             }
             .caption-title, .caption-desc{
