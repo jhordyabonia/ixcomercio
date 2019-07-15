@@ -174,7 +174,11 @@
           transform: translate(-50%);
         }
         &.banner-text-vertical-middle{
+          top: 50%;
+          left: 50%;
           max-width: 610px;
+          position: absolute;
+          transform: translate(-50%, -50%);
           @media (max-width: $mobile){
             padding-top: 0;
           }
@@ -196,7 +200,11 @@
           left: 0;
         }
         &.banner-text-vertical-middle{
+          top: 50%;
+          left: 0;
           max-width: 610px;
+          position: absolute;
+          transform: translate(-50%, 0);
           @media (max-width: $mobile){
             padding-top: 0;
           }
@@ -218,7 +226,11 @@
           right: 0;
         }
         &.banner-text-vertical-middle{
+          top: 50%;
+          right: 0;
           max-width: 610px;
+          position: absolute;
+          transform: translate(0, -50%);
           @media (max-width: $mobile){
             padding-top: 0;
           }
