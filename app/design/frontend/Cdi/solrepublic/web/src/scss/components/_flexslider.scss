@@ -51,6 +51,15 @@
                 display: initial;
               }
             }
+            &.banner-text-center{
+              text-align: center; 
+              .caption-title{
+                margin: 4% auto 0;
+              }
+              .caption-desc{
+                margin: 0 auto;
+              }
+            }
             .caption-title, .caption-desc{
               width: 100%;
               max-width: 560px;
