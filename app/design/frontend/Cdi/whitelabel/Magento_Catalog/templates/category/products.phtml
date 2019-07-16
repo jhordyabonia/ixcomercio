@@ -17,7 +17,7 @@
 <?php
     $_category  = $block->getCurrentCategory();
 ?>
-<?php if ((!$block->isContentMode() || $block->isMixedMode()) && count((array)$_category->getChildrenCategories()) ): ?>
+<?php if ((!$block->isContentMode() || $block->isMixedMode()) && count((array)$_category->getChildrenCategories()) ): echo count((array)$_category->getChildrenCategories());?>
     <?= $block->getProductListHtml() ?>
 <?php else: ?>
     entra
