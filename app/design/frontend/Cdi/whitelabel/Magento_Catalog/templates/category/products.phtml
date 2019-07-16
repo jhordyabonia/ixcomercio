@@ -42,10 +42,10 @@
                             /* @escapeNotVerified */ echo $_imgHtml;
                         }
                     ?>
-                    <div class="category-data">
+                    <a href="<?php echo $category->getUrl() ?>"><div class="category-data">
                         <h2><?php echo $category->getName(); ?></h2>
                         <p><?php echo $_helper->categoryAttribute($category, $category->getDescription(), 'description'); ?></p>
-                    </div>
+                    </div></a>
                 </div>
             <?php endforeach; ?>
         </div>
