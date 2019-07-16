@@ -39,8 +39,16 @@
         </referenceBlock>
         
         <!-- Move account navigation links -->
-        <move element="customer-account-navigation-account-edit-link" destination="customer_account_navigation" after="customer-account-navigation-account-link" />
-        <move element="customer-account-navigation-address-link" destination="customer_account_navigation" after="customer-account-navigation-account-edit-link" />
+        <referenceBlock name="customer-account-navigation-account-edit-link">
+            <arguments>
+                <argument name="sortOrder" xsi:type="number">240</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="customer-account-navigation-address-link">
+            <arguments>
+                <argument name="sortOrder" xsi:type="number">230</argument>
+            </arguments>
+        </referenceBlock>
 
         <!-- Remove unwanted account navigation links -->
         <!-- Store credit -->
