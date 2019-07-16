@@ -358,13 +358,21 @@
         }
       }
       &.banner-text-center{
-        &.banner-text-vertical-top{
-          padding: 3% 0 55rem;
+        &.banner-text-vertical-top, &.banner-text-vertical-bottom{
           width: 100%;
           max-width: 600px;
           margin: 0 auto;
+        }
+        &.banner-text-vertical-top{
+          padding: 3% 0 55rem;
           @media (max-width: $mobile){
             padding: 10% 0 60%;
+          }
+        }
+        &.banner-text-vertical-bottom{
+          padding: 55rem 0 3%;
+          @media (max-width: $mobile){
+            padding: 60% 0 10%;
           }
         }
       }
