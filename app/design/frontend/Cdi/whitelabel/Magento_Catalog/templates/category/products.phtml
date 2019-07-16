@@ -40,7 +40,7 @@
                     ?>
                     <div class="category-data">
                         <h2><?php echo $category->getName(); ?></h2>
-                        <p><?php echo $_helper->categoryAttribute($category, $_description, 'description'); ?></p>
+                        <p><?php echo $_helper->categoryAttribute($category, $category->getDescription(), 'description'); ?></p>
                     </div>
                 <?php endforeach; ?>
             </div>
