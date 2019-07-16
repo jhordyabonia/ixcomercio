@@ -16,8 +16,12 @@
 ?>
 <?php
     $_category  = $block->getCurrentCategory();
+    $count = 0;
+    foreach ($_category->getChildrenCategories() as $key => $_subcategoryData):
+        $count++;
+    endforeach;
 ?>
-<?php if ((!$block->isContentMode() || $block->isMixedMode()) && count((array)$_category->getChildrenCategories()) ): echo count((array)$_category->getChildrenCategories());?>
+<?php if ((!$block->isContentMode() || $block->isMixedMode()) && $count == 0 ): ?>
     <?= $block->getProductListHtml() ?>
 <?php else: ?>
     entra
