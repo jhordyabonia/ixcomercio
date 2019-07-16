@@ -17,7 +17,7 @@
 <?php
     $_category  = $block->getCurrentCategory();
 ?>
-<?php if ((!$block->isContentMode() || $block->isMixedMode()) && !$_category->getChildrenCategories() ): ?>
+<?php if ((!$block->isContentMode() || $block->isMixedMode()) && count($_category->getChildrenCategories()==0) ): ?>
     <?= $block->getProductListHtml() ?>
 <?php else: ?>
     <?php
@@ -28,7 +28,7 @@
     <section class="category-image">
         <div class="row">
             <?php foreach ($_subcategory as $key => $subcategory): ?>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                     <?php
                         $category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcategory->getId());
                         $_imgHtml   = '';
