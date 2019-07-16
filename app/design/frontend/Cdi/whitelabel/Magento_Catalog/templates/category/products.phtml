@@ -24,7 +24,6 @@
 <?php if ((!$block->isContentMode() || $block->isMixedMode()) && $count == 0 ): ?>
     <?= $block->getProductListHtml() ?>
 <?php else: ?>
-    entra
     <?php
         $_subcategory  = $_category->getChildrenCategories();
         $_helper    = $this->helper('Magento\Catalog\Helper\Output');
