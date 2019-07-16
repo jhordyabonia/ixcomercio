@@ -58,11 +58,22 @@
         <referenceBlock name="customer-account-navigation-wish-list-link" remove="true"/> -->
         <!-- Gift card link -->
         <referenceBlock name="customer-account-navigation-gift-card-link" remove="true"/>
-        <!-- Order by SKU
-        <referenceBlock name="customer-account-navigation-checkout-sku-link" remove="true"/> -->
+        <!-- Order by SKU -->
+        <referenceBlock name="customer-account-navigation-checkout-sku-link" remove="true"/>
         <!-- Gift registry -->
         <referenceBlock name="customer-account-navigation-giftregistry-link" remove="true"/>
         <!-- Reward points -->
         <referenceBlock name="customer-account-navigation-reward-link" remove="true"/>
+        <!-- Invitations -->
+        <referenceBlock name="customer-account-navigation-magento-invitation-link-container" remove="true"/>
+        
+        <!-- Move account navigation links -->
+        <move element="customer-account-navigation-account-edit-link" destination="customer_account_navigation" after="customer-account-navigation-account-link" />
+        <move element="customer-account-navigation-address-link" destination="customer_account_navigation" after="" />
+        <move element="customer-account-navigation-wish-list-link" destination="customer_account_navigation" after="customer-account-navigation-account-edit-link" />
+        <move element="customer-account-navigation-orders-link" destination="customer_account_navigation" after="customer-account-navigation-wish-list-link" />
+        <move element="customer-account-navigation-downloadable-products-link" destination="customer_account_navigation" after="customer-account-navigation-orders-link" />
+        <move element="customer-account-navigation-newsletter-subscriptions-link" destination="customer_account_navigation" after="customer-account-navigation-product-reviews-link" />
+        <move element="" destination="customer_account_navigation" after="customer-account-navigation-newsletter-subscriptions-link" />
     </body>
 </page>
