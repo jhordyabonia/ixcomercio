@@ -12,6 +12,9 @@
  * @var $block \Magento\Catalog\Block\Navigation
  */
 ?>
+<?php
+    $_category  = $block->getCurrentCategory();
+?>
 <?php if (!$block->getCategory() || $_category->getChildrenCategories()) {
     return;
 } ?>
