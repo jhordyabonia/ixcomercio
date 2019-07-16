@@ -21,7 +21,7 @@
     <?= $block->getProductListHtml() ?>
 <?php else: ?>
     <?php
-        $_subcategory  = $block->getChildrenCategories();
+        $_subcategory  = $_category->getChildrenCategories();
         $_helper    = $this->helper('Magento\Catalog\Helper\Output');
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     ?>
