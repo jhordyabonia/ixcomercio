@@ -30,24 +30,26 @@
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     ?>
     <section class="category-image">
-        <div class="row">
-            <?php foreach ($_subcategory as $key => $subcategory): ?>
-                <div class="col-sm-6">
-                    <?php
-                        $category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcategory->getId());
-                        $_imgHtml   = '';
-                        if ($_imgUrl = $category->getImageUrl()) {
-                            $_imgHtml = '<div class="category-image"><img src="' . $_imgUrl . '" alt="' . $block->escapeHtml($category->getName()) . '" title="' . $block->escapeHtml($category->getName()) . '" class="image" /></div>';
-                            $_imgHtml = $_helper->categoryAttribute($category, $_imgHtml, 'image');
-                            /* @escapeNotVerified */ echo $_imgHtml;
-                        }
-                    ?>
-                    <a href="<?php echo $category->getUrl() ?>"><div class="category-data">
-                        <h2><?php echo $category->getName(); ?></h2>
-                        <p><?php echo $_helper->categoryAttribute($category, $category->getDescription(), 'description'); ?></p>
-                    </div></a>
-                </div>
-            <?php endforeach; ?>
+        <div class="container">
+            <div class="row">
+                <?php foreach ($_subcategory as $key => $subcategory): ?>
+                    <div class="col-sm-6">
+                        <?php
+                            $category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcategory->getId());
+                            $_imgHtml   = '';
+                            if ($_imgUrl = $category->getImageUrl()) {
+                                $_imgHtml = '<div class="category-image"><img src="' . $_imgUrl . '" alt="' . $block->escapeHtml($category->getName()) . '" title="' . $block->escapeHtml($category->getName()) . '" class="image" /></div>';
+                                $_imgHtml = $_helper->categoryAttribute($category, $_imgHtml, 'image');
+                                /* @escapeNotVerified */ echo $_imgHtml;
+                            }
+                        ?>
+                        <a href="<?php echo $category->getUrl() ?>"><div class="category-data">
+                            <h2><?php echo $category->getName(); ?></h2>
+                            <p><?php echo $_helper->categoryAttribute($category, $category->getDescription(), 'description'); ?></p>
+                        </div></a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </section>
 <?php endif; ?>
