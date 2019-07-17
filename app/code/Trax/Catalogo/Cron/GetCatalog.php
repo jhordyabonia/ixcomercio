@@ -269,6 +269,10 @@ class GetCatalog {
                     $this->logger->info('GetCatalog - No asigna parent: '.$rootCat->getId());
                 }
             }
+            if($catalog->Category->Subcategories && count($catalog->Category->Subcategories)>0){
+                $categoryTmp->setIsAnchor(0);
+                $categoryTmp->setCustomLayoutUpdate('1column');
+            }
             $categoryTmp->setIwsId($catalog->Category->CategoryId);
             $categoryTmp->setStoreId($storeId);
             try{
