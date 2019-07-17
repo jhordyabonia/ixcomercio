@@ -21,10 +21,18 @@
   }
 }
 .page-title-wrapper{
+  margin: 40px 0 20px;
   .page-title{
     color: #000;
-    font-size: 32px;
-    margin: 40px 0 60px;
+    margin: 0;
+  }
+}
+.category-description{
+  p{
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 480px;
+    margin: 0 auto;
   }
 }
 section{
