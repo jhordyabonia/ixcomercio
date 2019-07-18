@@ -38,16 +38,17 @@
                             $category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcategory->getId());
                             $_imgHtml   = '';
                             if ($_imgUrl = $category->getImageUrl()) {
+                                $_img = '<img src="' . $_imgUrl . '" alt="' . $block->escapeHtml($category->getName()) . '" title="' . $block->escapeHtml($category->getName()) . '" class="image" />';
+                                $_img = $_helper->categoryAttribute($category, $_img, 'image');
+
                                 $_imgHtml = '<div class="category-image">
                                     <a href="'.$category->getUrl().'">
                                         <div class="category-data">
                                         <h2>'.$category->getName().'</h2>
                                         <p>'.$_helper->categoryAttribute($category, $category->getDescription(), "description").'</p>
                                         </div>
-                                    </a>
+                                    </a>'.$_img.'</div>';
 
-                                <img src="' . $_imgUrl . '" alt="' . $block->escapeHtml($category->getName()) . '" title="' . $block->escapeHtml($category->getName()) . '" class="image" /></div>';
-                                /*$_imgHtml = $_helper->categoryAttribute($category, $_imgHtml, 'image');
                                 /* @escapeNotVerified */ echo $_imgHtml;
                             }else{
                                 ?>
