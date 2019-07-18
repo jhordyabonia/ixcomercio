@@ -98,7 +98,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         if($data){     
             $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId());
         } else {
-            if($configData['catalogo_reintentos']<=$attempts){
+            if($configData['catalogo_reintentos']>=$attempts){
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                 $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);

@@ -152,7 +152,7 @@ class GetCatalog {
         if($data){     
             $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
-            if($configData['catalogo_reintentos']<=$attempts){
+            if($configData['catalogo_reintentos']>=$attempts){
                 $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetCatalog - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                 $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
@@ -241,7 +241,7 @@ class GetCatalog {
         if($data){                    
             $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId);
         } else {
-            if($configData['catalogo_reintentos']<=$attempts){
+            if($configData['catalogo_reintentos']>=$attempts){
                 $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                 $this->beginCatalogSalesLoad($configData, $store, $serviceUrl, $website, $attempts+1);
