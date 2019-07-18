@@ -23,6 +23,8 @@ class GetCatalog {
     const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
 
     const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+    
+    private $helper;
 	
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -34,7 +36,7 @@ class GetCatalog {
     protected  $productRepository;     
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
@@ -42,6 +44,7 @@ class GetCatalog {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
+        $this->helper = $email;
     }
 
 /**
@@ -155,7 +158,9 @@ class GetCatalog {
                 $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
             } else{
                 $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl);
+                $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                $message = "Se han superado los ".$configData['catalogo_reintentos']." intentos de conexión al servicio: ".$serviceUrl;
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $message, $store->getId());
             }
         }   
 
@@ -242,7 +247,9 @@ class GetCatalog {
                 $this->beginCatalogSalesLoad($configData, $store, $serviceUrl, $website, $attempts+1);
             } else{
                 $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl);
+                $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                $message = "Se han superado los ".$configData['catalogo_reintentos']." intentos de conexión al servicio: ".$serviceUrl;
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $message, $store->getId());
             }
         } 
     }

@@ -1,0 +1,14 @@
+<!--@subject Error conexión Trax  @-->
+<!--@vars {
+"var this.getUrl($store, 'admin')":"Warehouse Account URL",
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+
+{{template config_path="design/email/header_template"}} <!-- pathe of template header-->
+
+<!-- you can Modify content of template according to your requirement-->
+{{var message|raw}}
+
+{{template config_path="design/email/footer_template"}} <!--footer of template-->
+            
