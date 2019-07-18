@@ -2,6 +2,10 @@
   .category-list{
     .category-image{
       position: relative;
+      .category-data{
+        color: #fff;
+        position: absolute;
+      }
     }
   }
 }

@@ -42,12 +42,12 @@
                                 $_img = $_helper->categoryAttribute($category, $_img, 'image');
 
                                 $_imgHtml = '<div class="category-image">
-                                    <a href="'.$category->getUrl().'">
-                                        <div class="category-data">
-                                        <h2>'.$category->getName().'</h2>
+                                    <div class="category-data">
+                                        <a href="'.$category->getUrl().'">
+                                            <h2>'.$category->getName().'</h2>
+                                        </a>
                                         <p>'.$_helper->categoryAttribute($category, $category->getDescription(), "description").'</p>
-                                        </div>
-                                    </a>'.$_img.'</div>';
+                                    </div>'.$_img.'</div>';
 
                                 /* @escapeNotVerified */ echo $_imgHtml;
                             }else{
