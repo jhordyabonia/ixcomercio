@@ -61,7 +61,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 			$serviceUrl = $this->getServiceUrl($configData, $sku);
             //Se carga el servicio por curl
             if($configData['datos_iws']){
-                $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, 0);
+                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0);
             }
 		}
 	}
@@ -91,7 +91,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
     }
 
     //Función recursiva para intentos de conexión
-    public function beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts) 
+    public function beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts) 
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
@@ -101,7 +101,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             if($configData['catalogo_reintentos']<=$attempts){
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
+                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);
             } else{
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl);

@@ -23,6 +23,10 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
     const DATOS_IMAGES_TRAX = 'trax_catalogo/catalogo_general/datos_images_iws';
 
     const DATOS_CATEGORIAS_TRAX = 'trax_catalogo/catalogo_general/categorias_iws';
+
+    const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
+
+    const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
 	
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -58,13 +62,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
             //Se carga el servicio por curl
             if($configData['datos_iws']){
                 if($serviceUrl){
-                    $data = $this->loadIwsService($serviceUrl);
-                    if($data){      
-                        $this->loadCatalogData($data, $objectManager, $storeManager->getStore()->getStoreId());
-                        $this->logger->info('GetProducts - Se actualiza información de todos los productos');
-                    } else {
-                        $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
-                    }
+                    $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
                 } else {
                     $this->logger->info('GetProducts - No se genero url del servicio en el website: '.$website->getCode().' con store '.$website->getDefaultStoreId());
                 }
@@ -90,6 +88,8 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         $configData['datos_sales_iws'] = $this->scopeConfig->getValue(self::DATOS_SALES_TRAX, $storeScope, $websiteCode);
         $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);
         $configData['categorias_iws'] = $this->scopeConfig->getValue(self::DATOS_CATEGORIAS_TRAX, $storeScope, $websiteCode);
+        $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
+        $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -128,6 +128,35 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
             $serviceUrl = $configData['url'].'getproducts?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&skusList='.$skuList.'&includePriceData=true&includeInventoryData=true'; 
         }
         return $serviceUrl;
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts) 
+    {
+        $data = $this->loadIwsService($serviceUrl);
+        if($data){      
+        } else {
+            $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
+        }
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl);
+        if($data){     
+            $this->loadCatalogData($data, $objectManager, $storeManager->getStore()->getStoreId());
+            //Se reindexa                            
+            $this->reindexData();
+            //Se limpia cache
+            $this->cleanCache();
+            $this->logger->info('GetProducts - Se actualiza información de todos los productos');
+        } else {
+            if($configData['catalogo_reintentos']<=$attempts){
+                $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
+                $this->logger->info('GetProducts - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);
+            } else{
+                $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
+                $this->logger->info('GetProducts - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl);
+            }
+        }  
     }
 
 	public function loadIwsService($serviceUrl) 
@@ -208,10 +237,48 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                     'qty' => $catalog->InStock
                 )
             );
-            $product->save();
-			$this->logger->info('GetProducts - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
+            //Set product dimensions
+            if(isset($catalog->Freight)){
+                if(isset($catalog->Freight->Package)){
+                    $product->setWeight($catalog->Freight->Package->Weight);
+                    $product->setLength($catalog->Freight->Package->Length);
+                    $product->setWidth($catalog->Freight->Package->Width);
+                    $product->setHeight($catalog->Freight->Package->Height);
+                }
+            }
+            try{
+                $product->save();
+                $this->logger->info('GetProducts - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
+            } catch (Exception $e){
+                $this->logger->info('GetProducts - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
+            }
         } else {
 			$this->logger->info('GetProducts - No se encontro producto en magento asociado al sku: '.$catalog->Sku);
 		}
+    }
+
+    //Reindexa los productos despues de consultar el catalogo de un store view
+	public function reindexData() 
+	{
+        $indexerCollection = $this->_indexerCollectionFactory->create();
+        $ids = $indexerCollection->getAllIds();
+        foreach ($ids as $id) {
+            $idx = $this->_indexerFactory->create()->load($id);
+            $idx->reindexAll($id);
+        } // this reindexes all
+        $this->logger->info('GetCatalog - Se reindexa');
+    }
+
+    //Limpia cache despues de consultar el catalogo de un store view
+	public function cleanCache() 
+	{
+        $types = array('config','collections','eav','full_page','translate');
+        foreach ($types as $type) {
+            $this->_cacheTypeList->cleanType($type);
+        }
+        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->getBackend()->clean();
+        }
+        $this->logger->info('GetCatalog - Se limpia cache');
     }
 }
