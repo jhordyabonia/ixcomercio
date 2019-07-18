@@ -53,15 +53,15 @@ class Email extends AbstractHelper
      * Return store configuration value of your template field that which id you set for template
      *
      * @param string $path
-     * @param int $storeId
+     * @param int $storeid
      * @return mixed
      */
-    private function getConfigValue($path, $storeId)
+    private function getConfigValue($path, $storeid)
     {
         return $this->scopeConfig->getValue(
             $path,
             ScopeInterface::SCOPE_STORE,
-            $storeId
+            $storeid
         );
     }
 
@@ -82,7 +82,7 @@ class Email extends AbstractHelper
      * @return $this
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function generateTemplate($variable, $receiverInfo, $templateId, $storeId)
+    public function generateTemplate($variable, $receiverInfo, $templateId, $storeid)
     {
         $this->transportBuilder->setTemplateIdentifier($templateId)
             ->setTemplateOptions(
