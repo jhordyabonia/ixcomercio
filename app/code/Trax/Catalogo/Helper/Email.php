@@ -130,7 +130,7 @@ class Email extends AbstractHelper
         $variable = [];
         $variable['message'] = $message;
 
-        $templateId = $this->getConfigValue(self::XML_PATH_EMAIL_TEMPLATE_FIELD, $storeid);
+        $templateId = "trax_catalogo_catalogo_general_template_notification";
         $this->inlineTranslation->suspend();
         $this->generateTemplate($variable, $receiverInfo, $templateId, $storeid);
         $transport = $this->transportBuilder->getTransport();

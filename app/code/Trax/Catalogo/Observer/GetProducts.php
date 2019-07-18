@@ -148,7 +148,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
             $this->cleanCache();
             $this->logger->info('GetProducts - Se actualiza información de todos los productos');
         } else {
-            if($configData['catalogo_reintentos']>=$attempts){
+            if($configData['catalogo_reintentos']>$attempts){
                 $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetProducts - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                 $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);

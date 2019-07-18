@@ -17,7 +17,6 @@
                 <productos_iws>1</productos_iws>
                 <catalogo_reintentos>1</catalogo_reintentos>
                 <catalogo_correo>example@example.com</catalogo_correo>
-                <template_notification></template_notification>
             </catalogo_general>
         </trax_general>
     </default>
