@@ -27,6 +27,8 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
     const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
 
     const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+    
+    private $helper;
 	
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -40,11 +42,12 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(LoggerInterface $logger,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email
     )
     {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
+        $this->helper = $email;
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
@@ -105,8 +108,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             } else{
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $message = "Se han superado los ".$configData['catalogo_reintentos']." intentos de conexión al servicio: ".$serviceUrl;
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $message, $storeManager->getStore()->getStoreId());
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $store->getId());
             }
         }   
 
