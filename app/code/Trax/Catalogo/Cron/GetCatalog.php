@@ -460,6 +460,15 @@ class GetCatalog {
                 $product->setTypeId('downloadable');
                 break;
         } // type of product (simple/virtual/downloadable/configurable)
+        //Set product dimensions
+        if(isset($catalog->Freight)){
+            if(isset($catalog->Freight->Package)){
+                $product->setWeight($catalog->Freight->Package->Weight);
+                $product->setLength($catalog->Freight->Package->Length);
+                $product->setWidth($catalog->Freight->Package->Width);
+                $product->setHeight($catalog->Freight->Package->Height);
+            }
+        }
         try{
             $product->save();
             $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
