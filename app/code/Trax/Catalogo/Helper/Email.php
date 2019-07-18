@@ -82,7 +82,7 @@ class Email extends AbstractHelper
      * @return $this
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function generateTemplate($variable, $receiverInfo, $templateId, $storeid)
+    public function generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid)
     {
         $this->transportBuilder->setTemplateIdentifier($templateId)
             ->setTemplateOptions(
@@ -92,7 +92,7 @@ class Email extends AbstractHelper
                 ]
             )
             ->setTemplateVars($variable)
-            ->setFrom($this->emailSender())
+            ->setFrom($senderInfo)
             ->addTo($receiverInfo['email'], $receiverInfo['name']);
 
         return $this;
@@ -125,14 +125,20 @@ class Email extends AbstractHelper
             'name' => $name,
             'email' => $email
         ];
+        
+        /* Sender Detail  */
+        $senderInfo = [
+            'name' => 'Whitelabel Store',
+            'email' => 'sender@addess.com',
+        ];
 
         /* Assign values for your template variables  */
         $variable = [];
-        $variable['message'] = $message;
+        $variable['messageData'] = $message;
 
         $templateId = "trax_catalogo_catalogo_general_template_notification";
         $this->inlineTranslation->suspend();
-        $this->generateTemplate($variable, $receiverInfo, $templateId, $storeid);
+        $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
         $transport = $this->transportBuilder->getTransport();
         $transport->sendMessage();
         $this->inlineTranslation->resume();
