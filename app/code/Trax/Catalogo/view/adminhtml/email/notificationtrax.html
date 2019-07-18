@@ -5,10 +5,10 @@
 "var customer.name":"Customer Name"
 } @-->
 
-{{template config_path="design/email/header_template"}} <!-- pathe of template header-->
 
 <!-- you can Modify content of template according to your requirement-->
-{{var messageData|raw}}
+<div>
+    No se ha logrado establecer conexión con la url {{var serviceUrl|raw}}. Número de intentos: {{var catalogo_reintentos|raw}}
+</div>
 
-{{template config_path="design/email/footer_template"}} <!--footer of template-->
             
