@@ -9,7 +9,6 @@
         height: 100%;
         color: #fff;
         position: absolute;
-        background: rgba(black,0);
         a{
           top: 50%;
           left: 10%;
@@ -27,12 +26,13 @@
           height: 100%;
           position: absolute;
           background: rgba(black,.3);
-          transition: .5 all ease;
+          transition: .5s all ease;
+          opacity: 0;
           z-index: 1;
         }
         &:hover{
           &:before{
-            background: rgba(black,0);
+            opacity: 1;
           }
         }
       }
