@@ -218,7 +218,7 @@ class GetCatalog {
         if($configData['datos_sales_iws']){
             $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
             if($serviceUrl){
-                $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $storeId, 0);
+                $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, 0);
             } else {
                 $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS');
             }
@@ -229,7 +229,7 @@ class GetCatalog {
     }
 
     //Función recursiva para intentos de conexión
-    public function beginCatalogSalesLoad($configData, $websiteCode, $store, $storeId, $attempts) 
+    public function beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts) 
     {
         //Se conecta al servicio
         $data = $this->loadIwsService($serviceUrl);
