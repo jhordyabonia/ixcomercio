@@ -44,7 +44,7 @@
                     <label>Reintentos de conexión</label>
                     <comment>Número de reintentos de conexión en servicio.</comment>
                 </field>
-                <field id="catalogo_correo" translate="label" type="email" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="catalogo_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Correo Electrónico</label>
                     <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
                 </field>
