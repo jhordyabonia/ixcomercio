@@ -132,7 +132,7 @@ class Email extends AbstractHelper
 
         $templateId = $this->getConfigValue(self::XML_PATH_EMAIL_TEMPLATE_FIELD, $storeid);
         $this->inlineTranslation->suspend();
-        $this->generateTemplate($variable, $receiverInfo, $templateId);
+        $this->generateTemplate($variable, $receiverInfo, $templateId, $storeid);
         $transport = $this->transportBuilder->getTransport();
         $transport->sendMessage();
         $this->inlineTranslation->resume();

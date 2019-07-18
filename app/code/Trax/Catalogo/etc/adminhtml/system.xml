@@ -48,7 +48,7 @@
                     <label>Correo Electrónico</label>
                     <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
                 </field>
-                <field id="template_notification" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="template_notification" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Template correo</label>
                     <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
                 </field>
