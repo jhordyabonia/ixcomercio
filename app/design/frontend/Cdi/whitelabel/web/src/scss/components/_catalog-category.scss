@@ -9,8 +9,7 @@
         height: 100%;
         color: #fff;
         position: absolute;
-        background: rgba(black,.3);
-        z-index: 2;
+        background: rgba(black,0);
         a{
           top: 50%;
           left: 10%;
@@ -18,11 +17,23 @@
           position: absolute;
           transform: translate(0, -50%);
           color: #fff;
+          z-index: 2;
         }
-      }
-      &:hover{
-        .category-data{
-          background: rgba(black,0);
+        &:before{
+          top: 0;
+          left: 0;
+          content: '';
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          background: rgba(black,.3);
+          transition: .5 all ease;
+          z-index: 1;
+        }
+        &:hover{
+          &:before{
+            background: rgba(black,0);
+          }
         }
       }
     }
