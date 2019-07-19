@@ -6,4 +6,10 @@
     <event name="catalog_controller_product_view">
         <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetProduct" />
     </event>
+    <event name="catalog_controller_product_view">
+        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetCartProducts" />
+    </event>
+    <event name="catalog_controller_product_view">
+        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetCheckoutProducts" />
+    </event>
 </config>

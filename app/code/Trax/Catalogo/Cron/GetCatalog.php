@@ -19,6 +19,12 @@ class GetCatalog {
     const DATOS_SALES_TRAX = 'trax_catalogo/catalogo_general/datos_sales_iws';
 
     const DATOS_IMAGES_TRAX = 'trax_catalogo/catalogo_general/datos_images_iws';
+
+    const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
+
+    const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+    
+    private $helper;
 	
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -30,7 +36,7 @@ class GetCatalog {
     protected  $productRepository;     
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
@@ -38,6 +44,7 @@ class GetCatalog {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
+        $this->helper = $email;
     }
 
 /**
@@ -63,17 +70,11 @@ class GetCatalog {
                     //Se obtienen parametros de configuración por Store
                     $configData = $this->getConfigParams($storeScope, $store->getCode());    
                     //Se carga el servicio por curl
-                    if($configData['datos_iws']){   
+                    if($configData['datos_iws']){  
                         $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
                         if($serviceUrl && !array_key_exists($store->getId(), $storeArray)){ 
                             echo "store id: ".$store->getId().", code: ".$store->getCode()." - ";
-                            //Se conecta al servicio 
-                            $data = $this->loadIwsService($serviceUrl);
-                            if($data){     
-                                $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
-                            } else {
-                                $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
-                            }   
+                            $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, 0); 
                             $storeArray[$store->getId()] = $store->getId();
                             //Se reindexa                            
                             $this->reindexData();
@@ -109,6 +110,8 @@ class GetCatalog {
         $configData['datos_iws'] = $this->scopeConfig->getValue(self::DATOS_TRAX, $storeScope, $websiteCode);
         $configData['datos_sales_iws'] = $this->scopeConfig->getValue(self::DATOS_SALES_TRAX, $storeScope, $websiteCode);
         $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);
+        $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
+        $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -139,6 +142,27 @@ class GetCatalog {
             $serviceUrl = $configData['url'].$url.'?locale='.$locale.'&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&includePriceData=false&includeInventoryData=false'; 
         }
         return $serviceUrl;
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts) 
+    {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl);
+        if($data){     
+            $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
+        } else {
+            if($configData['catalogo_reintentos']>$attempts){
+                $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
+                $this->logger->info('GetCatalog - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
+            } else{
+                $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
+                $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $store->getId());
+            }
+        }   
+
     }
 
     //Carga el servicio de IWS por Curl
@@ -198,12 +222,7 @@ class GetCatalog {
         if($configData['datos_sales_iws']){
             $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
             if($serviceUrl){
-                $data = $this->loadIwsService($serviceUrl);
-                if($data){                    
-                    $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId);
-                } else {
-                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
-                }
+                $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, 0);
             } else {
                 $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS');
             }
@@ -211,6 +230,26 @@ class GetCatalog {
             $this->logger->info('GetCatalogSalesData - El website '.$websiteCode.' con store '.$storeId.' no tiene habilitada la conexión con IWS para obtener precios e inventario de los productos');
         }
 
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts) 
+    {
+        //Se conecta al servicio
+        $data = $this->loadIwsService($serviceUrl);
+        if($data){                    
+            $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId);
+        } else {
+            if($configData['catalogo_reintentos']>$attempts){
+                $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
+                $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginCatalogSalesLoad($configData, $store, $serviceUrl, $website, $attempts+1);
+            } else{
+                $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
+                $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $store->getId());
+            }
+        } 
     }
 
     //Carga la información del catalogo
