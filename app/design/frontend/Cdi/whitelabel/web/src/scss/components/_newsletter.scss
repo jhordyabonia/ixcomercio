@@ -14,7 +14,12 @@ section{
       margin: 20px auto 0;
       form{
         .field.newsletter{
+          width: 400px;
+          float: left;
           .control{
+            label{
+              width: 100%;
+            }
             &:before{
               line-height: 46px;
             }
@@ -25,11 +30,17 @@ section{
             border-radius: 5px 0 0 5px;
           }
         }
-        .action{
-          height: 46px;
-          text-transform: uppercase;
-          border-radius: 0 5px 5px 0;
-          background: #0b6270;
+        .actions{
+          width: 120px;
+          display: inline-block;
+          .action{
+            width: 100%;
+            height: 46px;
+            position: relative;
+            text-transform: uppercase;
+            border-radius: 0 5px 5px 0;
+            background: #0b6270;
+          }
         }
       }
     }
