@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="trax_ordenes" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Ordenes</label>
+            <tab>trax</tab>
+            <resource>Magento_Trax::config_catalogo</resource>
+            <group id="ordenes_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración IWS en Ordenes</label>
+                <field id="catalogo_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reintentos de conexión</label>
+                    <comment>Número de reintentos de conexión en servicio.</comment>
+                </field>
+                <field id="catalogo_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Correo Electrónico</label>
+                    <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
