@@ -14,30 +14,25 @@ class Images
     
     public static function getAvailableImages()
     {
-        return [
-			'Jam' => [
-				'water.png' => __('Water'),
-				'time.png' => __('Time'),
-				'location.png' => __('Range'),
-				'cable.png' => __('Cable'),
-				'handsfree.png' => __('Hands Free'),
-				'pairing.png' => __('Pairing'),
-				'speakerphone.png' => __('Speaker Phone'),
-				'anc.png' => __('ANC'),
-				'convenientControls.png' => __('Convenient controls'),
-				'CordManagement.png' => __('Cord Management'),
-				'OnEarDesign.png' => __('On Ear Design'),
-				'StickyPad.png' => __('Sticky Pad'),
-				'TrulyWireless.png' => __('Truly Wireless'),			
-			],
-			'Marley' => [
-				'aluminium.PNG' => 'Aluminium',
-				'organic_cotton.PNG' => 'Organic cotton',
-				'recycead_plastic.PNG' => 'Recycead plastic',
-				'redwind.PNG' => 'Redwind fabric',
-				'regrind.PNG' => 'Regrind',
-				'wood_fiber.PNG' => 'Wood fiber',
-			]
-        ];
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$directory = $objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
+		$dirs = array(
+			'jam' => "{$directory->getRoot()}/app/design/frontend/Cdi/custom/web/images/attributes/",
+			'sol' => "{$directory->getRoot()}/app/design/frontend/Cdi/solrepublic/web/images/attributes/",
+			'marley' => "{$directory->getRoot()}/app/design/frontend/Cdi/marley/web/images/attributes/",
+		);
+		
+		$images = array();
+		
+		foreach($dirs as $site => $dir){
+			$ficheros  = scandir($dir);
+			$images[$site] = array();
+			foreach($ficheros as $image){
+				if($image == '.' || $image == '..') continue;
+				$name = explode('.', $image);
+				$images[$site][$image] = $name[0];
+			}
+		}
+		return $images;
     }
 }
