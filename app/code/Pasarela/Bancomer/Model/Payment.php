@@ -70,7 +70,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
      */
     protected $customerSession;    
     
-    protected $openpayCustomerFactory;
+    protected $bancomerCustomerFactory;
 
 
     /**
@@ -105,7 +105,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             \Psr\Log\LoggerInterface $logger_interface,            
             Customer $customerModel,
             CustomerSession $customerSession,            
-            \Pasarela\Bancomer\Model\OpenpayCustomerFactory $openpayCustomerFactory,
+            \Pasarela\Bancomer\Model\BancomerCustomerFactory $bancomerCustomerFactory,
             array $data = array()            
     ) {
         
@@ -115,7 +115,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                     
         $this->customerModel = $customerModel;
         $this->customerSession = $customerSession;
-        $this->openpayCustomerFactory = $openpayCustomerFactory;
+        $this->bancomerCustomerFactory = $bancomerCustomerFactory;
         
         $this->_storeManager = $storeManager;
         $this->logger = $logger_interface;
@@ -401,8 +401,8 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 $this->logger->debug('3d_direct', array('redirect_url' => $charge->payment_method->url, 'openpay_id' => $charge->id, 'openpay_status' => $charge->status));
             }
             
-            $openpayCustomerFactory = $this->customerSession->isLoggedIn() ? $this->hasOpenpayAccount($this->customerSession->getCustomer()->getId()) : null;
-            $openpay_customer_id = $openpayCustomerFactory ? $openpayCustomerFactory->openpay_id : null;
+            $bancomerCustomerFactory = $this->customerSession->isLoggedIn() ? $this->hasOpenpayAccount($this->customerSession->getCustomer()->getId()) : null;
+            $openpay_customer_id = $bancomerCustomerFactory ? $bancomerCustomerFactory->openpay_id : null;
             
             // Registra el ID de la transacción de Openpay
             $order->setExtOrderId($charge->id);   
@@ -422,10 +422,10 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 $charge_request['redirect_url'] = $base_url.'openpay/payment/success';
                                 
                 $charge = $this->makeOpenpayCharge($customer_data, $charge_request, $token, $device_session_id, $save_cc, $openpay_cc);
-                $openpayCustomerFactory = $this->customerSession->isLoggedIn() ? $this->hasOpenpayAccount($this->customerSession->getCustomer()->getId()) : null;
+                $bancomerCustomerFactory = $this->customerSession->isLoggedIn() ? $this->hasOpenpayAccount($this->customerSession->getCustomer()->getId()) : null;
                                 
                 $order->setExtOrderId($charge->id);
-                $order->setExtCustomerId($openpayCustomerFactory->openpay_id);
+                $order->setExtCustomerId($bancomerCustomerFactory->openpay_id);
                 $order->save();
                 
                 $payment->setTransactionId($charge->id);      
@@ -517,7 +517,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
     
     private function hasOpenpayAccount($customer_id) {        
         try {
-            $openpay_customer_local = $this->openpayCustomerFactory->create();
+            $openpay_customer_local = $this->bancomerCustomerFactory->create();
             $response = $openpay_customer_local->fetchOneBy('customer_id', $customer_id);
             return $response;
         } catch (\Exception $e) {
@@ -541,7 +541,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 ];
 
                 // Se guarda en BD la relación
-                $openpay_customer_local = $this->openpayCustomerFactory->create();
+                $openpay_customer_local = $this->bancomerCustomerFactory->create();
                 $openpay_customer_local->addData($data)->save();                    
             } else {
                 $openpay_customer = $this->getOpenpayCustomer($has_openpay_account->openpay_id);
