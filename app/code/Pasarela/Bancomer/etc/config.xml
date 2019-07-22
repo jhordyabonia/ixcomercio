@@ -3,11 +3,17 @@
     <default>
         <payment>
             <pasarela_bancomer>
-                <apikey></apikey>
-                <accesskey></accesskey>
-                <apuntar_a>0</apuntar_a>
-                <url_desarrollo>https://intcomex-test.apigee.net/v1/</url_desarrollo>
-                <url_produccion>https://intcomex-prod.apigee.net/v1/</url_produccion>
+                <active>0</active>
+                <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
+                <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
+                <is_sandbox>1</is_sandbox>
+                <title>Multipagos Avanzados</title>
+                <sandbox_merchant_id></sandbox_merchant_id>
+                <sandbox_sk></sandbox_sk>
+                <sandbox_pk></sandbox_pk>
+                <live_merchant_id></live_merchant_id>
+                <live_sk></live_sk>
+                <live_pk></live_pk>
             </pasarela_bancomer>
         </payment>
     </default>
