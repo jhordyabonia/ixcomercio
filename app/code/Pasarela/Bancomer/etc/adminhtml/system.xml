@@ -13,14 +13,14 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="bancomer_multipagos" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="pasarela_bancomer" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Bancomer Multipagos</label>
                 <comment>
                     <![CDATA[<a href="https://sand-portal.ecommercebbva.com/login" target="_blank">Clic aquí para registrar una cuenta sandbox con Bancomer</a>]]>
                 </comment>
                 <comment>
                     <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para inicar sesión en Bancomer Producción</a>]]>
-                </comment>          
+                </comment>           
             </group>
         </section>
     </system>

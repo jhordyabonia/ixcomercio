@@ -13,12 +13,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <bancomer_multipagos>
+            <pasarela_bancomer>
                 <active>0</active>                   
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>                      
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>                       
                 <title>Multipagos</title>
-            </bancomer_multipagos>
+            </pasarela_bancomer>
         </payment>
     </default>
 </config>
