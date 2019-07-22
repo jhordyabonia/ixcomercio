@@ -1,28 +1,32 @@
-<?xml version="1.0"?>
-<!--
-/**
- * Pasarela_Bancomer admin configuration
- *
- * @category    Bancomer
- * @package     Pasarela_Bancomer
- * @author      Valentina Aguirrre
- * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
- */
--->
+<?xml version="1.0" encoding="UTF-8"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
+        <tab id="trax" translate="label" sortOrder="1">
+            <label>IWS</label>
+        </tab>
         <section id="payment">
-            <group id="pasarela_bancomer" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Bancomer Multipagos</label>
-                <comment>
-                    <![CDATA[<a href="https://sand-portal.ecommercebbva.com/login" target="_blank">Clic aquí para registrar una cuenta sandbox con Bancomer</a>]]>
-                </comment>
-                <comment>
-                    <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para inicar sesión en Bancomer Producción</a>]]>
-                </comment>
-                <field id="url_sandbox_bancomer" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Url Sandbox</label>
-                </field>           
+            <group id="pasarela_bancomer" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración General</label>
+                <field id="apikey" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api Key</label>
+                    <comment>La llave API proporcionada por Intcomex para la cuenta del cliente.</comment>
+                </field>
+                <field id="accesskey" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Access Key</label>
+                    <comment>La firma necesaria para autenticar al usuario que realiza la solicitud.</comment>
+                </field>
+                <field id="apuntar_a" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apuntar a</label>
+                    <source_model>Trax\Catalogo\Model\Config\Source\Entornos</source_model>
+                </field>
+                <field id="url_desarrollo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url Desarrollo</label>
+                    <comment>Url servicio en desarrollo.</comment>
+                </field>
+                <field id="url_produccion" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url Producción</label>
+                    <comment>Url servicio en producción.</comment>
+                </field>
             </group>
         </section>
     </system>

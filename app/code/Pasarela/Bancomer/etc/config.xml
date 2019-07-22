@@ -1,20 +1,13 @@
 <?xml version="1.0"?>
-<!--
-/**
- * Pasarela_Bancomer default configuration
- *
- * @category    Bancomer
- * @package     Pasarela_Bancomer
- * @author      Federico Balderas
- * @copyright   Bancomer (http://openpay.mx)
- * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
- */
--->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
             <pasarela_bancomer>
-                <active>0</active>           
+                <apikey></apikey>
+                <accesskey></accesskey>
+                <apuntar_a>0</apuntar_a>
+                <url_desarrollo>https://intcomex-test.apigee.net/v1/</url_desarrollo>
+                <url_produccion>https://intcomex-prod.apigee.net/v1/</url_produccion>
             </pasarela_bancomer>
         </payment>
     </default>
