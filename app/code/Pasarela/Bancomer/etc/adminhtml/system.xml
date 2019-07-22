@@ -1,13 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
+<!--
+/**
+ * Pasarela_Bancomer admin configuration
+ *
+ * @category    Bancomer
+ * @package     Pasarela_Bancomer
+ * @author      Federico Balderas
+ * @copyright   Bancomer (http://openpay.mx)
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="bancomergateway" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Bancomer</label>
-                <field id="tiempo_pago_pendiente" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Días de verificación de pago</label>
-                    <comment>Límite de días en que se verificará si un pago fue procesado.</comment>
+            <group id="bancomer_multipagos" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Bancomer Multipagos</label>
+                <comment>
+                    <![CDATA[<a href="https://sand-portal.ecommercebbva.com/login" target="_blank">Clic aquí para registrar una cuenta sandbox con Bancomer</a>]]>
+                </comment>
+                <comment>
+                    <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para inicar sesión en Bancomer Producción</a>]]>
+                </comment>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Habilitar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="is_sandbox" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Título</label>
+                </field>
+                <field id="sandbox_merchant_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox Merchant ID</label>                    
+                </field>
+                <field id="sandbox_sk" translate="label" type="obscure" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sandbox Llave Secreta</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="sandbox_pk" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox Llave Pública</label>                    
+                </field>
+                <field id="live_merchant_id" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Producción Merchant ID</label>                    
+                </field>
+                <field id="live_sk" translate="label" type="obscure" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Producción Llave Secreta</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="live_pk" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Producción Llave Pública</label>                    
+                </field>                  
             </group>
         </section>
     </system>

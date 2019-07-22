@@ -52,21 +52,19 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
-		if(isset($_GET["variable"]) && $_GET["variable"]=='show'){
-			$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-			$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
-			$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-			//Se obtienen parametros de configuración por Store
-			$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-			//Se obtiene lista de sku
-			$sku = $this->getSku($observer->getEvent());
-			//Se obtiene url del servicio
-			$serviceUrl = $this->getServiceUrl($configData, $sku);
-            //Se carga el servicio por curl
-            if($configData['datos_iws']){
-                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0);
-            }
-		}
+		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+		//Se obtienen parametros de configuración por Store
+		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+		//Se obtiene lista de sku
+		$sku = $this->getSku($observer->getEvent());
+		//Se obtiene url del servicio
+		$serviceUrl = $this->getServiceUrl($configData, $sku);
+        //Se carga el servicio por curl
+        if($configData['datos_iws']){
+            $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0);
+        }
 	}
 
     //Obtiene los parámetros de configuración desde el cms
