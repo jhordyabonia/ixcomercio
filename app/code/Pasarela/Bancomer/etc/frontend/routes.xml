@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Bancomer_Stores routes definition
+ * Pasarela_Bancomer routes definition
  *
  * @category    Bancomer
- * @package     Bancomer_Stores
- * @author      Federico Balderas
- * @copyright   Bancomer (http://bancomer.mx)
+ * @package     Pasarela_Bancomer
+ * @author      Valentina Aguirre
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 -->

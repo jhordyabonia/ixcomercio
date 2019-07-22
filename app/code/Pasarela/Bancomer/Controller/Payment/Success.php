@@ -2,8 +2,7 @@
 /** 
  * @category    Payments
  * @package     Pasarela_Bancomer
- * @author      Federico Balderas
- * @copyright   Bancomer (http://openpay.mx)
+ * @author      Valentina Aguirre
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 

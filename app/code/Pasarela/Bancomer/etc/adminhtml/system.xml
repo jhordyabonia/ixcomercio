@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Pasarela_Bancomer routes definition
+ *
+ * @category    Bancomer
+ * @package     Pasarela_Bancomer
+ * @author      Valentina Aguirre
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <tab id="trax" translate="label" sortOrder="1">
