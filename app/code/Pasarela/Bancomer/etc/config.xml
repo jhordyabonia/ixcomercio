@@ -25,6 +25,7 @@
                 <live_merchant_id></live_merchant_id>
                 <live_sk></live_sk>
                 <live_pk></live_pk>
+                <can_use_checkout>1</can_use_checkout> 
             </pasarela_bancomer>
         </payment>
     </default>
