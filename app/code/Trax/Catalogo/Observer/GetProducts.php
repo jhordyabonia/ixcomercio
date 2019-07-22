@@ -1,6 +1,6 @@
 <?php
 
-namespace Trax\Ordenes\Observer;
+namespace Trax\Catalogo\Observer;
 use \Psr\Log\LoggerInterface;
 
 class GetProducts implements \Magento\Framework\Event\ObserverInterface
@@ -42,7 +42,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(LoggerInterface $logger,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Ordenes\Helper\Email $email
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email
     )
     {
         $this->logger = $logger;
