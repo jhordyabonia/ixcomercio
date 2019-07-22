@@ -49,7 +49,7 @@ define(
             },
 
             getCode: function() {
-                return 'bancomer_multipagos';
+                return 'pasarela_bancomer';
             },
 
             isActive: function() {
@@ -66,15 +66,15 @@ define(
                     $('#save_cc').prop('checked', false);                
                     $('#save_cc').prop('disabled', true);                 
                     
-                    $('#bancomer_multipagos_cc_number').val("");                                     
-                    $("#bancomer_multipagos_expiration").val("").change();
-                    $("#bancomer_multipagos_expiration_yr").val("").change();
-                    $('#bancomer_multipagos_cc_cid').val("");                                                         
+                    $('#pasarela_bancomer_cc_number').val("");                                     
+                    $("#pasarela_bancomer_expiration").val("").change();
+                    $("#pasarela_bancomer_expiration_yr").val("").change();
+                    $('#pasarela_bancomer_cc_cid').val("");                                                         
                     
                     $('#save_cc_fieldset').hide();                    
-                    $('#payment_form_bancomer_multipagos').hide();
+                    $('#payment_form_pasarela_bancomer').hide();
                 } else {                    
-                    $('#payment_form_bancomer_multipagos').show();
+                    $('#payment_form_pasarela_bancomer').show();
                     $('#save_cc_fieldset').show();
                     $('#save_cc').prop('disabled', false);
                 }
@@ -130,12 +130,12 @@ define(
                 if ($form.validation() && $form.validation('isValid')) {
                     this.messageContainer.clear();                                        
 
-                    var year_full = $('#bancomer_multipagos_expiration_yr').val();
+                    var year_full = $('#pasarela_bancomer_expiration_yr').val();
                     var holder_name = this.getCustomerFullName();
-                    var card = $('#bancomer_multipagos_cc_number').val();
-                    var cvc = $('#bancomer_multipagos_cc_cid').val();
+                    var card = $('#pasarela_bancomer_cc_number').val();
+                    var cvc = $('#pasarela_bancomer_cc_cid').val();
                     var year = year_full.toString().substring(2, 4);
-                    var month = $('#bancomer_multipagos_expiration').val();
+                    var month = $('#pasarela_bancomer_expiration').val();
 
                     var data = {
                         holder_name: holder_name,
@@ -184,7 +184,7 @@ define(
              */
             getData: function () {                
                 return {
-                    'method': "bancomer_multipagos",
+                    'method': "pasarela_bancomer",
                     'additional_data': {
                         'cc_cid': this.creditCardVerificationNumber(),
                         'cc_type': this.creditCardType(),

@@ -14,14 +14,14 @@
     <virtualType name="Pasarela\Bancomer\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="bancomer_multipagos" xsi:type="const">Pasarela\Bancomer\Model\Payment::CODE</item>
+                <item name="pasarela_bancomer" xsi:type="const">Pasarela\Bancomer\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>    
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="bancomer_multipagos_config_provider" xsi:type="object">Pasarela\Bancomer\Model\BancomerConfigProvider</item>
+                <item name="pasarela_bancomer_config_provider" xsi:type="object">Pasarela\Bancomer\Model\BancomerConfigProvider</item>
             </argument>
         </arguments>
     </type>

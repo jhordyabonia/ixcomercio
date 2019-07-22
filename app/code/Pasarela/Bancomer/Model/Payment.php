@@ -29,7 +29,7 @@ use Magento\Customer\Model\Session as CustomerSession;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
 
-    const CODE = 'bancomer_multipagos';
+    const CODE = 'pasarela_bancomer';
 
     protected $_code = self::CODE;
     protected $_isGateway = true;

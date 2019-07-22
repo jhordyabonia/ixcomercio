@@ -16,7 +16,7 @@ class BancomerConfigProvider implements ConfigProviderInterface
      * @var string[]
      */
     protected $methodCodes = [
-        'bancomer_multipagos',        
+        'pasarela_bancomer',        
     ];
 
     /**

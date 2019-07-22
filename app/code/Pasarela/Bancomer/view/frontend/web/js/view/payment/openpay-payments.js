@@ -20,7 +20,7 @@ define(
         'use strict';
         rendererList.push(            
             {
-                type: 'bancomer_multipagos',
+                type: 'pasarela_bancomer',
                 component: 'Pasarela_Bancomer/js/view/payment/method-renderer/cc-form'
             }
         );

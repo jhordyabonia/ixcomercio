@@ -46,7 +46,7 @@ class AfterPlaceOrder implements ObserverInterface
         $orderId = $observer->getEvent()->getOrderIds();
         $order = $this->order->load($orderId[0]);                
                         
-        if ($order->getPayment()->getMethod() != 'bancomer_multipagos') {
+        if ($order->getPayment()->getMethod() != 'pasarela_bancomer') {
             return $this;
         }        
         
