@@ -8,9 +8,9 @@
             <group id="pasarela_bancomer" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Bancomer Multipagos</label>
                 <comment>
-                    <![CDATA[<a href="https://sand-portal.ecommercebbva.com/login" target="_blank">Clic aquí para registrar una cuenta sandbox con Bancomer</a>]]>
+                    <![CDATA[<a href="https://sand-portal.ecommercebbva.com/login" target="_blank">Clic aquí para registrar una cuenta sandbox con Bancomer</a><br><a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para iniciar sesión en producción</a>]]>
                 </comment>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Habilitar</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
