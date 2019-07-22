@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <trax_general>
+            <ordenes_general>
+                <ordenes_reintentos>1</ordenes_reintentos>
+                <ordenes_correo>example@example.com</catalogo_correo>
+            </ordenes_general>
+        </trax_general>
+    </default>
+</config>

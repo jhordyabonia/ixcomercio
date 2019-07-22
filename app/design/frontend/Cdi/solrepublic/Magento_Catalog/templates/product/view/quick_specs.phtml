@@ -1,0 +1,36 @@
+<?php 
+$_helper = $this->helper('Magento\Catalog\Helper\Output'); 
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$_product = $block->getProduct(); 
+$atts = $_product->getProductAttributes();
+$fields = array();
+if($atts){
+	$fields = $_helperCdi->getAttributeArrayFromJson($atts);
+}
+?>
+<section class="product-specs fullwidth" style="background: #F6F6F6;" id="product-specs">
+	<h3><?php echo __('Quick Specs')?></h3>
+	<div class="container">
+		<?php if(count($fields)){ ?>
+			<div class="row">
+				<ul class="feature-icons">
+				<?php foreach($fields as $field){ ?>
+					<li>
+						<img src="<?php echo $this->getViewFileUrl("images/attributes/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
+						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
+							<div class="callout-text">
+								<?php if(isset($field['title'])){ ?>
+									<b><?php echo $field['title'];?></b>
+								<?php } ?>
+								<?php if(isset($field['desc'])){ ?>
+									<p><?php echo $field['desc'];?></p>
+								<?php } ?>
+							</div>
+						<?php } ?>
+					</li>
+				<?php } ?>
+				</ul>
+			</div>
+		<?php } ?>
+	</div>
+</section>

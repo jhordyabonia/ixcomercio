@@ -6,10 +6,13 @@
     <event name="catalog_controller_product_view">
         <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetProduct" />
     </event>
-    <event name="catalog_controller_product_view">
+    <event name="checkout_cart_add_product_complete">
         <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetCartProducts" />
     </event>
-    <event name="catalog_controller_product_view">
-        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetCheckoutProducts" />
+    <event name="checkout_cart_update_item_complete">
+        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetCartProducts" />
+    </event>
+    <event name="checkout_submit_before">
+        <observer name="retailer_catalog" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
     </event>
 </config>
