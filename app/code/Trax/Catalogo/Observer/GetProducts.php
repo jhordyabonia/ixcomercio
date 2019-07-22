@@ -1,6 +1,6 @@
 <?php
 
-namespace Trax\Ordenes\Observer;
+namespace Trax\Catalogo\Observer;
 use \Psr\Log\LoggerInterface;
 
 class GetProducts implements \Magento\Framework\Event\ObserverInterface
