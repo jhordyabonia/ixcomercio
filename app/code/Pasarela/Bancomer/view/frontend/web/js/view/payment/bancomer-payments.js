@@ -21,7 +21,7 @@ define(
         rendererList.push(            
             {
                 type: 'pasarela_bancomer',
-                component: 'Pasarela_Bancomer/js/view/payment/method-renderer/cc-form'
+                component: 'Pasarela_Bancomer/js/view/payment/method-renderer/bancomer-form'
             }
         );
         /** Add view logic here if needed */
