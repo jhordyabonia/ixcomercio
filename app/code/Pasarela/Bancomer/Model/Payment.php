@@ -102,7 +102,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             ModuleListInterface $moduleList, 
             TimezoneInterface $localeDate, 
             CountryFactory $countryFactory, 
-            \Bancomer $openpay,             
+            \Openpay $openpay,             
             \Psr\Log\LoggerInterface $logger_interface,            
             Customer $customerModel,
             CustomerSession $customerSession,            
