@@ -14,10 +14,7 @@
     <default>
         <payment>
             <pasarela_bancomer>
-                <active>0</active>                   
-                <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>                      
-                <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>                       
-                <title>Multipagos</title>
+                <active>0</active>           
             </pasarela_bancomer>
         </payment>
     </default>
