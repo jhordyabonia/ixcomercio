@@ -22,9 +22,18 @@ define(
             defaults: {
                 template: 'Pasarela_Bancomer/payment/bancomer-form'
             },
-            getMailingAddress: function () {
-                return window.checkoutConfig.payment.checkmo.mailingAddress;
+ 
+            context: function() {
+                return this;
             },
+
+            getCode: function() {
+                return 'pasarela_bancomer';
+            },
+ 
+            isActive: function() {
+                return true;
+            }
         });
     }
 );

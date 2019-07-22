@@ -49,8 +49,5 @@
                 </argument>
             </arguments>
         </referenceBlock>
-        <referenceContainer name="before.body.end">
-            <block class="Magento\Framework\View\Element\Template" name="loadBootstrap" template="Pasarela_Bancomer::load_bootstrap.phtml"/>
-        </referenceContainer>
     </body>
 </page>
