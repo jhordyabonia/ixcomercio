@@ -15,24 +15,9 @@ define(
     function (Component, $, quote, customer) {
         'use strict';
 
-        var customerData = null; 
-        var total = window.checkoutConfig.payment.total;     
-        
         return Component.extend({
             defaults: {
                 template: 'Pasarela_Bancomer/payment/bancomer-form'
-            },
- 
-            context: function() {
-                return this;
-            },
-
-            getCode: function() {
-                return 'pasarela_bancomer';
-            },
- 
-            isActive: function() {
-                return true;
             }
         });
     }
