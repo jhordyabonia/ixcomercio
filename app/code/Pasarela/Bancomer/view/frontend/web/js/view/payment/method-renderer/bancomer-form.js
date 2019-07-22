@@ -18,6 +18,18 @@ define(
         return Component.extend({
             defaults: {
                 template: 'Pasarela_Bancomer/payment/bancomer-form'
+            },
+
+            context: function() {
+                return this;
+            },
+
+            getCode: function() {
+                return 'pasarela_bancomer';
+            },
+
+            isActive: function() {
+                return true;
             }
         });
     }

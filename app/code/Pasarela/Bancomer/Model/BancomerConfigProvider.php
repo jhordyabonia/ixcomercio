@@ -55,59 +55,13 @@ class BancomerConfigProvider implements ConfigProviderInterface
                 $protocol = $this->hostSecure() === true ? 'https://' : 'http://';
                 
                 $config['payment']['bancomer_credentials'] = array("merchant_id" => $this->payment->getMerchantId(), "public_key" => $this->payment->getPublicKey(), "is_sandbox"  => $this->payment->isSandbox());                 
-                $config['payment']['months_interest_free'] = $this->payment->getMonthsInterestFree();
-                $config['payment']['use_card_points'] = $this->payment->useCardPoints();
                 $config['payment']['total'] = $this->cart->getQuote()->getGrandTotal();
-                $config['payment']['can_save_cc'] = $this->payment->canSaveCC();
-                $config['payment']['cc_list'] = $this->payment->getCreditCardList();
                 $config['payment']['is_logged_in'] = $this->payment->isLoggedIn();
                                 
-                $config['payment']['ccform']["availableTypes"][$code] = array("AE" => "American Express", "VI" => "Visa", "MC" => "MasterCard"); 
-                $config['payment']['ccform']["hasVerification"][$code] = true;
-                $config['payment']['ccform']["hasSsCardType"][$code] = false;
-                $config['payment']['ccform']["months"][$code] = $this->getMonths();
-                $config['payment']['ccform']["years"][$code] = $this->getYears();
-                $config['payment']['ccform']["cvvImageUrl"][$code] = $protocol.$_SERVER['SERVER_NAME']."/pub/static/frontend/Magento/luma/es_MX/Magento_Checkout/cvv.png";
-                $config['payment']['ccform']["ssStartYears"][$code] = $this->getStartYears();
             }
         }
                 
         return $config;
-    }
-    
-    public function getMonths(){
-        return array(
-            "1" => "01 - Enero",
-            "2" => "02 - Febrero",
-            "3" => "03 - Marzo",
-            "4" => "04 - Abril",
-            "5" => "05 - Mayo",
-            "6" => "06 - Junio",
-            "7" => "07 - Julio",
-            "8" => "08 - Agosto",
-            "9" => "09 - Septiembre",
-            "10"=> "10 - Octubre",
-            "11"=> "11 - Noviembre",
-            "12"=> "12 - Diciembre"
-        );
-    }
-    
-    public function getYears(){
-        $years = array();
-        for($i=0; $i<=10; $i++){
-            $year = (string)($i+date('Y'));
-            $years[$year] = $year;
-        }
-        return $years;
-    }
-    
-    public function getStartYears(){
-        $years = array();
-        for($i=5; $i>=0; $i--){
-            $year = (string)(date('Y')-$i);
-            $years[$year] = $year;
-        }
-        return $years;
     }
     
     public function hostSecure() {
