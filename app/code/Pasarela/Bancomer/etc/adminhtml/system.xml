@@ -20,7 +20,11 @@
                 </comment>
                 <comment>
                     <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para inicar sesión en Bancomer Producción</a>]]>
-                </comment>           
+                </comment>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Habilitar</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>          
             </group>
         </section>
     </system>
