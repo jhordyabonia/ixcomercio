@@ -54,6 +54,9 @@ header{
           box-shadow: none;
           text-align: right;
           float: right;
+          @media only screen and (max-width: $desktop){
+            right: 15px;
+          }
           .switcher-language{
             float: left;
             line-height: 22px;
@@ -97,6 +100,9 @@ header{
           width: 100%;
           float: right;
           text-align: right;
+          @media only screen and (max-width: $desktop){
+            left: 15px;
+          }
           .nav-sections{
             width: auto;
             background: none;
@@ -143,6 +149,11 @@ header{
                 opacity: 1;
               }
             }
+          }
+        }
+        .header-toplinks, .wrapper-nav{
+          @media only screen and (max-width: $desktop){
+            position: absolute;
           }
         }
       }
