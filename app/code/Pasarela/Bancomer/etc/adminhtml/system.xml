@@ -5,8 +5,7 @@
  *
  * @category    Bancomer
  * @package     Pasarela_Bancomer
- * @author      Federico Balderas
- * @copyright   Bancomer (http://openpay.mx)
+ * @author      Valentina Aguirrre
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 -->
@@ -21,10 +20,10 @@
                 <comment>
                     <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para inicar sesión en Bancomer Producción</a>]]>
                 </comment>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Habilitar</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>         
+                <field id="is_sandbox" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox</label>
+                    <source_model>Pasarela\Bancomer\Model\Config\Source\Entornos</source_model>
+                </field>
             </group>
         </section>
     </system>
