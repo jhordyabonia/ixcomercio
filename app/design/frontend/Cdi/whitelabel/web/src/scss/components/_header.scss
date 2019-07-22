@@ -47,6 +47,11 @@ header{
       }
       .header-wrapper-nav{
         line-height: normal;
+        @media only screen and (max-width: $desktop){
+          left: 0;
+          width: 100%;
+          position: absolute;
+        }
         .header-toplinks{
           width: auto;
           border: 0;
@@ -102,6 +107,9 @@ header{
           text-align: right;
           @media only screen and (max-width: $desktop){
             left: 15px;
+            .nav-sections{
+              display: none;
+            }
           }
           .nav-sections{
             width: auto;
@@ -153,6 +161,8 @@ header{
         }
         .header-toplinks, .wrapper-nav{
           @media only screen and (max-width: $desktop){
+            width: auto;
+            max-width: 35%;
             position: absolute;
           }
         }
