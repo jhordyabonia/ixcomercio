@@ -14,7 +14,7 @@
         <payment>
             <pasarela_bancomer>
                 <active>0</active>
-                <model>Pasarela\Bancomer\Model\Payment</model>         
+                <model>PasarelaVendor\Bancomer\Model\Payment</model>         
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
                 <is_sandbox>1</is_sandbox>
