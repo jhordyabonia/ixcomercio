@@ -18,30 +18,9 @@ define(
     ],
     function (Component, $, quote, customer) {
         'use strict';
-
-        //console.log(window.checkoutConfig.customerData);
-        //console.log(customer.customerData);
-        //console.log(quote.billingAddress._latestValue);
+        
         var customerData = null; 
-        var total = window.checkoutConfig.payment.total;        
-        
-        $(document).on("change", "#interest_free", function() {        
-            var monthly_payment = 0;
-            var months = parseInt($(this).val());     
-
-            if (months > 1) {
-                $("#total-monthly-payment").css("display", "inline");
-            } else {
-                $("#total-monthly-payment").css("display", "none");
-            }
-
-            monthly_payment = total/months;
-            monthly_payment = monthly_payment.toFixed(2);            
-            
-            $("#monthly-payment").text(monthly_payment);
-        });            
-        
-        //$("body").append('<div class="modal fade" role="dialog" id="card-points-dialog"> <div class="modal-dialog modal-sm"> <div class="modal-content"> <div class="modal-header"> <h4 class="modal-title">Pagar con Puntos</h4> </div> <div class="modal-body"> <p>¿Desea usar los puntos de su tarjeta para realizar este pago?</p> </div> <div class="modal-footer"> <button type="button" class="btn btn-success" data-dismiss="modal" id="points-yes-button">Si</button> <button type="button" class="btn btn-default" data-dismiss="modal" id="points-no-button">No</button> </div> </div> </div></div>');
+        var total = window.checkoutConfig.payment.total;     
         
         return Component.extend({
             defaults: {
@@ -60,25 +39,6 @@ define(
                 console.log('isLoggedIn()', window.checkoutConfig.payment.is_logged_in);
                 return window.checkoutConfig.payment.is_logged_in;
             },       
-            
-            /**
-             * Prepare and process payment information
-             */
-            preparePayment: function () {
-                var self = this;
-                var $form = $('#' + this.getCode() + '-form');
-                
-                var isSandbox = window.checkoutConfig.payment.bancomer_credentials.is_sandbox === "0" ? false : true;
-                var useCardPoints = window.checkoutConfig.payment.use_card_points === "0" ? false : true;
-                OpenPay.setId(window.checkoutConfig.payment.bancomer_credentials.merchant_id);
-                OpenPay.setApiKey(window.checkoutConfig.payment.bancomer_credentials.public_key);
-                OpenPay.setSandboxMode(isSandbox);                    
-
-                //antifraudes
-                OpenPay.deviceData.setup(this.getCode() + '-form', "device_session_id");
-                
-                console.log('#bancomer_cc', $('#bancomer_cc').val());
-            },
             /**
              * @override
              */
