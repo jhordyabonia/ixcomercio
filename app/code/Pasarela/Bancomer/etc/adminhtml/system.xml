@@ -20,36 +20,7 @@
                 </comment>
                 <comment>
                     <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para inicar sesión en Bancomer Producción</a>]]>
-                </comment>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
-                    <label>Habilitar</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="is_sandbox" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sandbox</label>
-                    <source_model>Pasarela\Bancomer\Model\Config\Source\Entornos</source_model>
-                </field>
-                <field id="url_sandbox_bancomer" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Url Sandbox</label>
-                </field>
-                <field id="url_produccion_bancomer" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Url Producción</label>
-                </field>
-                <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Título</label>
-                </field>
-                <field id="sandbox_merchant_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sandbox Merchant ID</label>                    
-                </field>
-                <field id="sandbox_pk" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sandbox Llave Pública</label>                    
-                </field>
-                <field id="live_merchant_id" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Producción Merchant ID</label>                    
-                </field>
-                <field id="live_pk" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Producción Llave Pública</label>                    
-                </field>                  
+                </comment>          
             </group>
         </section>
     </system>
