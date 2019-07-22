@@ -30,7 +30,7 @@
                 <field id="sandbox_merchant_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sandbox Merchant ID</label>                    
                 </field>
-                <field id="sandbox_sk" translate="label" type="obscure" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="sandbox_sk" translate="label" type="obscure" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sandbox Llave Secreta</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
