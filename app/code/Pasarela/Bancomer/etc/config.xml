@@ -18,8 +18,6 @@
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>                      
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>                       
                 <title>Multipagos</title>
-                <sandbox_sk backend_model="Magento\Config\Model\Config\Backend\Encrypted" />                
-                <live_sk backend_model="Magento\Config\Model\Config\Backend\Encrypted" />  
             </bancomer_multipagos>
         </payment>
     </default>
