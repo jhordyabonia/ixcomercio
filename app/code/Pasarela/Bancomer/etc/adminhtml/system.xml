@@ -10,9 +10,6 @@
                 <comment>
                     <![CDATA[<a href="https://sand-portal.ecommercebbva.com/login" target="_blank">Clic aquí para registrar una cuenta sandbox con Bancomer</a>]]>
                 </comment>
-                <comment>
-                    <![CDATA[<a href="https://portal.ecommercebbva.com/login" target="_blank">Clic aquí para iniciar sesión en producción</a>]]>
-                </comment>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Habilitar</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -21,6 +18,35 @@
                     <label>Sandbox</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="url_sandbox_bancomer" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>URL Sandbox</label>
+                </field>
+                <field id="url_produccion_bancomer" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>URL Producción</label>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Título</label>
+                </field>
+                <field id="sandbox_merchant_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox Merchant ID</label>                    
+                </field>
+                <field id="sandbox_sk" translate="label" type="obscure" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sandbox Llave Secreta</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="sandbox_pk" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox Llave Pública</label>                    
+                </field>
+                <field id="live_merchant_id" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Producción Merchant ID</label>                    
+                </field>
+                <field id="live_sk" translate="label" type="obscure" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Producción Llave Secreta</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="live_pk" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Producción Llave Pública</label>                    
+                </field>   
             </group>
         </section>
     </system>
