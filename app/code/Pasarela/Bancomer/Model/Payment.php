@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Openpay_Cards payment method model
+ * Pasarela_Bancomer payment method model
  *
- * @category    Openpay
- * @package     Openpay_Cards
+ * @category    Pasarela
+ * @package     Pasarela_Bancomer
  * @author      Federico Balderas
- * @copyright   Openpay (http://openpay.mx)
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Openpay\Cards\Model;
+namespace Pasarela\Bancomer\Model;
 
 use Magento\Framework\Model\Context;
 use Magento\Framework\Registry;
@@ -106,7 +105,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             \Psr\Log\LoggerInterface $logger_interface,            
             Customer $customerModel,
             CustomerSession $customerSession,            
-            \Openpay\Cards\Model\OpenpayCustomerFactory $openpayCustomerFactory,
+            \Pasarela\Bancomer\Model\OpenpayCustomerFactory $openpayCustomerFactory,
             array $data = array()            
     ) {
         
