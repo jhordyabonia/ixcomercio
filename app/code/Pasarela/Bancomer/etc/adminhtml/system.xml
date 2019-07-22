@@ -27,7 +27,7 @@
                 </field>
                 <field id="is_sandbox" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sandbox</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <source_model>Pasarela\Bancomer\Model\Config\Source\Entornos</source_model>
                 </field>
                 <field id="url_sandbox_bancomer" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Url Sandbox</label>
