@@ -17,18 +17,6 @@ define([
             defaults: {
                 template: 'Pasarela_Bancomer/payment/bancomer'
             },
-
-            context: function() {
-                return this;
-            },
-
-            getCode: function() {
-                return 'pasarela_bancomer';
-            },
-
-            isActive: function() {
-                return true;
-            }
         });
     }
 );
