@@ -171,11 +171,6 @@ class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
             );
             $state = \Magento\Sales\Model\Order::STATE_NEW;
             $order->setState($state)->setStatus($state);
-
-            //Conectarse con IWS
-            $iwsResponse = $this->loadPlaceOrderService($order);
-            $order->setExtOrderId($iwsResponse->OrderNumber);
-            $this->logger->info('PlaceOrder - Intcomex order number'.$iwsResponse->OrderNumber);
             
         } catch (\Exception $e) {
             $this->debugData(['exception' => $e->getMessage()]);
