@@ -7,6 +7,7 @@ if($bannerClass){
 	$isFullWidth = strpos($bannerClass, 'fullwidth');
 	$isFullWidth = ($isFullWidth !== false);
 }
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 ?>
 <section id="banner-image-<?php echo $banner->getId();?>" class="<?php echo $banner->getBannerClass();?> <?php echo ($isFullWidth) ? 'banner-background' : '';?>">
 	<div class="container">
@@ -35,7 +36,10 @@ if($bannerClass){
 									<h1 class="caption-title"><?php echo $banner->getTitle();?></h1>
 								<?php } ?>
 								<?php if($banner->getCaption()){ ?>
-									<div class="caption-desc"><?php echo $banner->getCaption();?></div>
+									<div class="caption-desc">
+									desc
+										<?php echo $objectManager->get('\Magento\Cms\Model\Template\FilterProvider')->getBlockFilter()->filter($banner->getCaption());?>
+									</div>
 								<?php } ?>
 								<?php if($banner->getButtontext()){ ?>
 									<a class="banner-button" href="<?php echo $banner->getClickUrl(); ?>" target="<?php echo $this->getTargetValue()?>">
