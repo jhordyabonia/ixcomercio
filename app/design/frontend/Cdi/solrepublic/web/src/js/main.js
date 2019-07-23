@@ -10,6 +10,28 @@ function ($, Component) {
 		});
 
 
+		$(".gotoscroll .banner-button").click(function(e){
+			e.preventDefault();
+			div = jQuery(this).closest('section.banner');
+			var classList = div.attr('class').split(/\s+/);
+			query = '';
+			$.each(classList, function(index, item){
+				if(item.match("^class-")){
+					query = item.replace("class-", '.');
+					
+				}else if(item.match("^id-")){
+					query = item.replace("id-", '#');
+				}
+				if(query != ''){
+					console.log(query);
+					jQuery('html,body').animate({
+						scrollTop: jQuery(query).offset().top - jQuery('header.page-header').outerHeight()
+					}, 'slow');
+				}
+			});
+		});
+
+
 		jQuery(".SOLburger").on('click', function(){
 			menuToggle();
 			jQuery(".SOLburger").toggleClass("is-clicked");
@@ -27,7 +49,7 @@ function ($, Component) {
 		
 
 		// Hide Header on on scroll down
-	    var didScroll;
+	    var didScroll = false;
 	    var lastScrollTop = 0;
 	    var delta = 5;
 	    var navbarHeight = jQuery('.page-header').outerHeight();

@@ -37,7 +37,6 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 								<?php } ?>
 								<?php if($banner->getCaption()){ ?>
 									<div class="caption-desc">
-									desc
 										<?php echo $objectManager->get('\Magento\Cms\Model\Template\FilterProvider')->getBlockFilter()->filter($banner->getCaption());?>
 									</div>
 								<?php } ?>
