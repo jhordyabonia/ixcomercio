@@ -47,7 +47,6 @@ class AfterPlaceOrder implements ObserverInterface
     protected $scopeConfig;
 
     public function __construct(
-        Config $config, 
         \Magento\Sales\Model\Order $order,        
         \Magento\Framework\App\Response\RedirectInterface $redirect,
         \Magento\Framework\App\ActionFlag $actionFlag,
@@ -55,7 +54,6 @@ class AfterPlaceOrder implements ObserverInterface
         \Magento\Framework\App\ResponseInterface $response,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-        $this->config = $config;
         $this->order = $order;        
         $this->logger = $logger_interface;
         

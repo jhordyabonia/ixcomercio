@@ -10,7 +10,6 @@ namespace Pasarela\Bancomer\Controller\Payment;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
-use Pasarela\Bancomer\Model\Payment as BancomerPayment;
 
 /**
  * Webhook class  
@@ -42,7 +41,6 @@ class Success extends \Magento\Framework\App\Action\Action
             Context $context, 
             PageFactory $resultPageFactory, 
             \Magento\Framework\App\Request\Http $request, 
-            BancomerPayment $payment,
             \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
             \Magento\Checkout\Model\Session $checkoutSession,
             \Psr\Log\LoggerInterface $logger_interface,
@@ -52,7 +50,6 @@ class Success extends \Magento\Framework\App\Action\Action
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
         $this->request = $request;
-        $this->payment = $payment;
         $this->checkoutSession = $checkoutSession;
         $this->orderRepository = $orderRepository;
         $this->logger = $logger_interface;        
