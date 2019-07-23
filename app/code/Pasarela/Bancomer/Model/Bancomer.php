@@ -147,147 +147,13 @@ class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
                 'due_date' => $due_date,
                 'customer' => $customer_data
             );
-
-//            $openpay = \Openpay::getInstance($this->merchant_id, $this->sk);
-//            \Openpay::setSandboxMode($this->is_sandbox);
-            $openpay = $this->getOpenpayInstance();
-            
-            $charge = $openpay->charges->create($charge_request);
-            $payment->setTransactionId($charge->id);
-
-            $state = \Magento\Sales\Model\Order::STATE_NEW;
-            $order->setState($state)->setStatus($state);
-            $order->setExtOrderId($charge->id);
-
-            $pdf_url = $this->pdf_url_base.'/'.$this->merchant_id.'/'.$charge->payment_method->reference;
-            $_SESSION['pdf_url'] = $pdf_url;            
-            $_SESSION['show_map'] = $this->show_map;
-                        
-//            $pdf_file = $this->handlePdf($pdf_url, $order->getIncrementId());
-//            $this->sendEmail($pdf_file, $order);
             
         } catch (\Exception $e) {
             $this->debugData(['exception' => $e->getMessage()]);
             $this->_logger->error(__( $e->getMessage()));
             throw new \Magento\Framework\Validator\Exception(__($this->error($e)));
         }
-
-        $payment->setSkipOrderProcessing(true);
         return $this;
-    }
-    
-    public function sendEmail($pdf_file, $order) {
-        $email = $this->scope_config->getValue('trans_email/ident_general/email', ScopeInterface::SCOPE_STORE);
-        $name  = $this->scope_config->getValue('trans_email/ident_general/name', ScopeInterface::SCOPE_STORE);
-        $pdf = file_get_contents($pdf_file);        
-        $from = array('email' => $email, 'name' => $name);
-        $to = $order->getCustomerEmail();
-        $template_vars = array(
-            'title' => 'Tu recibo de pago | Orden #'.$order->getIncrementId()
-        );
-        
-        $this->logger->debug('#sendEmail', array('$pdf_path' => $pdf_file, '$from' => $from, '$to' => $to));                    
-        
-        try {            
-            $this->_transportBuilder
-                ->setTemplateIdentifier('openpay_pdf_template')
-                ->setTemplateOptions(['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->_storeManager->getStore()->getId()])
-                ->setTemplateVars($template_vars)
-                ->addAttachment($pdf, 'recibo_pago.pdf', 'application/octet-stream')
-                ->setFrom($from)
-                ->addTo($to)
-                ->getTransport()
-                ->sendMessage();
-            return;
-        } catch (MailException $me) {            
-            $this->logger->error('#MailException', array('msg' => $me->getMessage()));                    
-            throw new \Magento\Framework\Exception\LocalizedException(__($me->getMessage()));
-        } catch (\Exception $e) {            
-            $this->logger->error('#Exception', array('msg' => $e->getMessage()));                    
-            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
-        }
-    }    
-    
-    private function handlePdf($url, $order_id) {
-        $pdfContent = file_get_contents($url);
-        $filePath = "/openpay/attachments/";
-        $pdfPath = $this->_directoryList->getPath('media') . $filePath;
-        $ioAdapter = $this->_file;
-        
-        if (!is_dir($pdfPath)) {            
-            $ioAdapter->mkdir($pdfPath, 0775);
-        }
-
-        $fileName = "payment_receipt_".$order_id.".pdf";
-        $ioAdapter->open(array('path' => $pdfPath));
-        $ioAdapter->write($fileName, $pdfContent, 0666);
-
-        return $pdfPath.$fileName;
-    }
-    
-    /**
-     * Availability for currency
-     *
-     * @param string $currencyCode
-     * @return bool
-     */
-    public function canUseForCurrency($currencyCode) {
-        if (!in_array($currencyCode, $this->supported_currency_codes)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Get $sk property
-     * 
-     * @return string
-     */
-    public function getSecretKey() {
-        return $this->sk;
-    }
-
-    /**
-     * Get $merchant_id property
-     * 
-     * @return string
-     */
-    public function getMerchantId() {
-        return $this->merchat_id;
-    }
-
-    /**
-     * Get $is_sandbox property
-     * 
-     * @return boolean
-     */
-    public function isSandbox() {
-        return $this->is_sandbox;
-    }
-
-    /**
-     * @param Exception $e
-     * @return string
-     */
-    public function error($e) {
-
-        /* 6001 el webhook ya existe */
-        switch ($e->getErrorCode()) {
-            case '1000':
-            case '1004':
-            case '1005':
-                $msg = 'Servicio no disponible.';
-                break;
-            case '6001':
-                $msg = 'El webhook ya existe, has caso omiso de este mensaje.';
-            case '6002':
-                $msg = 'El webhook no pudo ser verificado, revisa la URL.';
-            default: /* Demás errores 400 */
-                $msg = 'La petición no pudo ser procesada.';
-                break;
-        }
-
-        return 'ERROR '.$e->getErrorCode().'. '.$msg;
     }
 
     /**
@@ -299,42 +165,6 @@ class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
             return true;
         }
         return false;
-    }
-
-    /**
-     * Create webhook
-     * @return mixed
-     */
-    public function createWebhook() {
-        $protocol = $this->hostSecure() === true ? 'https://' : 'http://';
-        $uri = $_SERVER['HTTP_HOST']."/openpay/index/webhook";
-        $webhook_data = array(
-            'url' => $protocol.$uri,
-            'event_types' => array(
-                'verification',
-                'charge.succeeded',
-                'charge.created',
-                'charge.cancelled',
-                'charge.failed',
-                'payout.created',
-                'payout.succeeded',
-                'payout.failed',
-                'spei.received',
-                'chargeback.created',
-                'chargeback.rejected',
-                'chargeback.accepted'
-            )
-        );
-
-        $openpay = \Openpay::getInstance($this->merchant_id, $this->sk);
-        \Openpay::setSandboxMode($this->is_sandbox);
-
-        try {
-            $webhook = $openpay->webhooks->add($webhook_data);
-            return $webhook;
-        } catch (Exception $e) {
-            return $this->error($e);
-        }
     }
     
     /*
@@ -349,12 +179,6 @@ class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
         }
         
         return $is_secure;
-    }
-
-    public function getOpenpayInstance() {
-        $openpay = \Openpay::getInstance($this->merchant_id, $this->sk);
-        \Openpay::setSandboxMode($this->is_sandbox);        
-        return $openpay;
     }
 
 }

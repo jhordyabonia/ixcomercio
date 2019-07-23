@@ -84,7 +84,7 @@ class AfterPlaceOrder implements ObserverInterface
         '<form id="bancomermultipagos-form" method="post" action="'.$configData['url'].'">
             <input type="hidden" name="mp_account" value="'.$configData['merchant_id'].'">
             <input type="hidden" name="mp_order" value="'.$orderId[0].'">
-            <input type="hidden" name="mp_reference" value="'.$orderId[0].'">
+            <input type="hidden" name="mp_reference" value="'.$order->getIncrementId().'">
             <input type="hidden" name="mp_product" value="1">
             <input type="hidden" name="mp_node" value="0">
             <input type="hidden" name="mp_concept" value="2">
@@ -92,7 +92,7 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_currency" value="1"><br>
             <input type="hidden" name="mp_urlsuccess" value="'.$storeManager->getStore()->getBaseUrl().'payment/success">
             <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'payment/error">
-            <input type="hidden" name="mp_signature" value="'.hash('sha256', $orderId[0].$orderId[0].$order->getGrandTotal().'.00').'">
+            <input type="hidden" name="mp_signature" value="'.hash('sha256', $orderId[0].$order->getIncrementId().$order->getGrandTotal().'.00').'">
         </form>
         <script type="text/javascript">
             document.getElementById("bancomermultipagos-form").submit();
