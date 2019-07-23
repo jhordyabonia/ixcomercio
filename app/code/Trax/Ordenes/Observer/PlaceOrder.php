@@ -12,11 +12,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
 
-	const ENVIROMENT = 'trax_catalogo/catalogo_retailer/apuntar_a';
+	const ENVIROMENT = 'trax_general/catalogo_retailer/apuntar_a';
 
-	const URL_DESARROLLO = 'trax_catalogo/catalogo_retailer/url_desarrollo';
+	const URL_DESARROLLO = 'trax_general/catalogo_retailer/url_desarrollo';
 
-	const URL_PRODUCCION = 'trax_catalogo/catalogo_retailer/url_produccion';
+	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
     const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
 
@@ -194,7 +194,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             CURLOPT_URL => $serviceUrl,
             CURLOPT_POSTFIELDS => $payload
         ));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen($payload))
         );
