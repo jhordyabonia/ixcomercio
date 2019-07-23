@@ -105,7 +105,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&tag=&customerOrderNumber'.$orderIncrementId.'&generateTokens=false'; 
+            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&tag=&customerOrderNumber='.$orderIncrementId.'&generateTokens=false'; 
         }
         return $serviceUrl;
     }
