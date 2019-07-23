@@ -10,6 +10,8 @@
 
 namespace Pasarela\Bancomer\Model;
 
+use Magento\Store\Model\ScopeInterface;
+
 class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const CODE = 'pasarela_bancomer';
