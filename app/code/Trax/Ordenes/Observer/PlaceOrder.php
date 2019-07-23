@@ -43,6 +43,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
+        $this->order = $order;     
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
