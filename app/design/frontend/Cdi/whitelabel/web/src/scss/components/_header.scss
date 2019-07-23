@@ -68,6 +68,9 @@ header{
           .switcher-language{
             float: left;
             line-height: 22px;
+            @media only screen and (max-width: $desktop){
+              font-size: 16px;
+            }
           }
           .custom-top-links{
             padding: 0 15px;
@@ -79,11 +82,18 @@ header{
               color: #111;
               line-height: 22px;
               float: left;
+              @media only screen and (max-width: $desktop){
+                font-size: 16px;
+              }
               span{
                 width: 20px;
                 height: 20px;
                 float: right;
                 margin-left: 10px;
+                @media only screen and (max-width: $desktop){
+                  width: 22px;
+                  height: 22px;
+                }
                 &.sign-in-icon{
                   background: url(../images/icons/sign-in.png) no-repeat center;
                   background-size: 100%;
@@ -98,6 +108,10 @@ header{
               height: 20px;
               background: url(../images/icons/minicart.png) no-repeat center;
               background-size: 100%;
+              @media only screen and (max-width: $desktop){
+                width: 22px;
+                height: 22px;
+              }
               &:before{
                 display: none;
               }
@@ -148,8 +162,8 @@ header{
               display: inline-block;
             }
             a{
-              width: 35px;
-              height: 35px;
+              width: 30px;
+              height: 30px;
               cursor: pointer;
               overflow: hidden;
               position: relative;
@@ -178,10 +192,10 @@ header{
                   border-radius: 1px;
                 }
                 &:before{
-                  top: -10px;
+                  top: -9px;
                 }
                 &:after{
-                  top: 10px;
+                  top: 9px;
                 }
               }
             }
