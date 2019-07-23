@@ -78,7 +78,7 @@ class AfterPlaceOrder implements ObserverInterface
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         
-        $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus(), 'ext_order_id' => $order->getExtOrderId()));            
+        $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus(), 'accion' => "Se redirecciona usuario a pasarela"));            
 
         echo 
         '<form id="bancomermultipagos-form" method="post" action="'.$configData['url'].'">
