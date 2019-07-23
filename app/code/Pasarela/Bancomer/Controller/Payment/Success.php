@@ -67,6 +67,7 @@ class Success extends \Magento\Framework\App\Action\Action
     public function execute() {                
         try {                        
             echo "success";
+            exit();
             
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
