@@ -104,7 +104,7 @@ class AfterPlaceOrder implements ObserverInterface
     {
         $enviroment = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
         //Se valida entorno para obtener url del servicio
-        if($enviroment == '0'){
+        if($enviroment == '1'){
             $configData['url'] = $this->scopeConfig->getValue(self::URL_SANDBOX, $storeScope, $websiteCode);
             $configData['merchant_id'] = $this->scopeConfig->getValue(self::SANDBOX_MERCHANT_ID, $storeScope, $websiteCode);
             $configData['secret_key'] = $this->scopeConfig->getValue(self::SANDBOX_LLAVE_SECRETA, $storeScope, $websiteCode);
