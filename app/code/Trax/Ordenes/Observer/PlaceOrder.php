@@ -33,8 +33,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
      * AdminFailed constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(LoggerInterface $logger,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email
+    public function __construct(
+        \Magento\Sales\Model\Order $order,
+        LoggerInterface $logger,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Trax\Catalogo\Helper\Email $email
     )
     {
         $this->logger = $logger;
@@ -56,6 +59,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 		$serviceUrl = $this->getServiceUrl($configData, $order->getIncrementId());
         //Se carga el servicio por curl
         $data = $this->loadIwsService($serviceUrl, $order);
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        exit();
 	}
 
     //Obtiene los parámetros de configuración desde el cms
