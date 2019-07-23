@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Pasarela_Bancomer default payment configuration
+ *
+ * @category    Bancomer
+ * @package     Pasarela_Bancomer
+ * @author      Valentina Aguirre
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="checkout_controller_success_action" instance="Pasarela\Bancomer\Observer\AfterPlaceOrder"  />
+    </event>
+</config>
