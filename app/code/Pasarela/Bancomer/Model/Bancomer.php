@@ -147,12 +147,16 @@ class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
                 'due_date' => $due_date,
                 'customer' => $customer_data
             );
+            $state = \Magento\Sales\Model\Order::STATE_NEW;
+            $order->setState($state)->setStatus($state);
             
         } catch (\Exception $e) {
             $this->debugData(['exception' => $e->getMessage()]);
             $this->_logger->error(__( $e->getMessage()));
             throw new \Magento\Framework\Validator\Exception(__($this->error($e)));
         }
+
+        $payment->setSkipOrderProcessing(true);
         return $this;
     }
 
