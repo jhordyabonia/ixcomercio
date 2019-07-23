@@ -151,10 +151,11 @@ header{
               overflow: hidden;
               position: relative;
               transition: color 125ms ease-in 0s;
+              display: inline-block;
               .cd-menu-icon{
-                top: 13px;
+                top: 50%;
                 left: 17px;
-                width: 35px;
+                width: 100%;
                 height: 4px;
                 position: absolute;
                 display: inline-block;
@@ -162,7 +163,7 @@ header{
                 transition: background-color 0.3s;
                 -webkit-transform: translateX(-50%) translateY(-50%);
                 transform: translateX(-50%) translateY(-50%);
-                &:after, &:befero{
+                &:after, &:before{
                   content: '';
                   right: 0;
                   width: 100%;
@@ -171,7 +172,7 @@ header{
                   background-color: #c2c2c2;
                   transition: transform .3s, top .3s, background-color 0s, -webkit-transform .3s;
                 }
-                &:befero{
+                &:before{
                   top: -10px;
                 }
                 &:after{
