@@ -16,7 +16,7 @@
                 <title>Multipagos Avanzados</title>
                 <model>Pasarela\Bancomer\Model\Bancomer</model>
                 <active>1</active>
-                <cctypes>AE,VI,MC,DI</cctypes>      
+                <payment_action>order</payment_action> 
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
                 <is_sandbox>1</is_sandbox>
