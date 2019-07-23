@@ -8,7 +8,7 @@ function ($, Component) {
 			$("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
 			return false;
 		});
-		
+
 
 		$(".gotoscroll .banner-button").click(function(e){
 			e.preventDefault();
@@ -49,7 +49,7 @@ function ($, Component) {
 		
 
 		// Hide Header on on scroll down
-	    var didScroll;
+	    var didScroll = false;
 	    var lastScrollTop = 0;
 	    var delta = 5;
 	    var navbarHeight = jQuery('.page-header').outerHeight();
