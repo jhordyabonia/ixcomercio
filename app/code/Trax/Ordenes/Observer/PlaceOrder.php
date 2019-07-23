@@ -16,17 +16,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_catalogo/catalogo_general/url_produccion';
 
-    const DATOS_TRAX = 'trax_catalogo/catalogo_general/datos_iws';
+    const ORDENES_REINTENTOS = 'trax_catalogo/catalogo_general/ordenes_reintentos';
 
-    const DATOS_SALES_TRAX = 'trax_catalogo/catalogo_general/datos_sales_iws';
-
-    const DATOS_IMAGES_TRAX = 'trax_catalogo/catalogo_general/datos_images_iws';
-
-    const DATOS_PRODUCTOS_TRAX = 'trax_catalogo/catalogo_general/productos_iws';
-
-    const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
-
-    const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+    const ORDENES_CORREO = 'trax_catalogo/catalogo_general/ordenes_correo';
     
     private $helper;
 	
@@ -41,32 +33,37 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
      * AdminFailed constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
-    public function __construct(LoggerInterface $logger,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email
+    public function __construct(
+        \Magento\Sales\Model\Order $order,
+        LoggerInterface $logger,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Trax\Catalogo\Helper\Email $email
     )
     {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
+        $this->order = $order;     
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
-		if(isset($_GET["variable"]) && $_GET["variable"]=='show'){
-			$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-			$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
-			$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-			//Se obtienen parametros de configuración por Store
-			$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-			//Se obtiene lista de sku
-			$sku = $this->getSku($observer->getEvent());
-			//Se obtiene url del servicio
-			$serviceUrl = $this->getServiceUrl($configData, $sku);
-            //Se carga el servicio por curl
-            if($configData['datos_iws']){
-                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0);
-            }
-		}
+		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+		//Se obtienen parametros de configuración por Store
+		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+		//Se obtiene lista de sku
+        $orderId = $observer->getEvent()->getOrderIds();
+        $order = $this->order->load($orderId[0]);      
+		//Se obtiene url del servicio
+		$serviceUrl = $this->getServiceUrl($configData, $order->getIncrementId());
+        //Se carga el servicio por curl
+        $data = $this->loadIwsService($serviceUrl, $order);
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        exit();
 	}
 
     //Obtiene los parámetros de configuración desde el cms
@@ -83,44 +80,14 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
-        $configData['datos_iws'] = $this->scopeConfig->getValue(self::DATOS_TRAX, $storeScope, $websiteCode);
-        $configData['datos_sales_iws'] = $this->scopeConfig->getValue(self::DATOS_SALES_TRAX, $storeScope, $websiteCode);
-        $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);
-        $configData['productos_iws'] = $this->scopeConfig->getValue(self::DATOS_PRODUCTOS_TRAX, $storeScope, $websiteCode);
-        $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
-        $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
+        $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
+        $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
-
-    //Función recursiva para intentos de conexión
-    public function beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts) 
-    {
-        //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl);
-        if($data){     
-            $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId());
-        } else {
-            if($configData['catalogo_reintentos']>$attempts){
-                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('PlaceOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);
-            } else{
-                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $storeManager->getStore()->getStoreId());
-            }
-        }   
-
-    }
-
-	public function getSku($event) 
-	{
-		$product = $event->getData('product');
-        return $product->getSku();
-    }
-
-	public function getServiceUrl($configData, $sku) 
+ 
+    //Obtiene url de conexión del servicio
+	public function getServiceUrl($configData, $orderIncrementId) 
 	{
         if($configData['apikey'] == ''){
             $serviceUrl = false;
@@ -128,18 +95,93 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'PlaceOrder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&sku='.$sku.'&includePriceData=true&includeInventoryData=true'; 
+            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&tag=&customerOrderNumber='.$orderIncrementId.'&generateTokens=false'; 
         }
         return $serviceUrl;
     }
 
-	public function loadIwsService($serviceUrl) 
+	public function loadIwsService($serviceUrl, $order, $storeCode) 
 	{        
+        $billing = $order->getBillingAddress();
+        $shipping = $order->getShippingAddress();
+        $orderItems = $order->getAllItems();
+        $items = array();
+        foreach ($orderItems as $key => $dataItem) {
+            $tempItem['Sku'] = $dataItem->getSku();
+            $tempItem['Quantity'] = $dataItem->getQtyOrdered();
+            $tempItem['Price'] = $dataItem->getPrice();
+            $tempItem['Discount'] = '';
+            $tempItem['CouponCode'] = '';
+            $tempItem['StoreItemId'] = $dataItem->getId();
+            $items[] = $tempItem;
+        }
+        $payload = array(
+            'StoreOrder' => array(
+                'StoreId' => $storeCode,
+                'StoreOrderNumber' => $order->getIncrementId(),
+                'Customer' => array(
+                    'FirstName' => $billing->getFirstname(),
+                    'LastName' => $billing->getLastname(),
+                    'Email' => $billing->getCustomerEmail(),
+                    'Cellphone' => $billing->getTelephone(),
+                    'DocumentId' => '1040505',
+                ),
+                'Billing' => array(
+                    'FirstName' => $billing->getFirstname(),
+                    'LastName' => $billing->getLastname(),
+                    'Email' => $billing->getCustomerEmail(),
+                    'DocumentId' => '1040505',
+                    'Cellphone' => $billing->getTelephone(),
+                    'LandLinePhone' => '',
+                    'OtherPhone' => '',
+                    'Address' => $billing->getStreetLine(1),
+                    'SuiteNumber' => '',
+                    'ComplexName' => '',
+                    'LocalizationReference' => '',
+                    'State' => $billing->getRegion(),
+                    'City' => $billing->getCity(),
+                    'Neighborhood' => '',
+                    'CountryId' => $billing->getCountryId(),
+                ),
+                'Shipping' => array(
+                    'FirstName' => $shipping->getFirstname(),
+                    'LastName' => $shipping->getLastname(),
+                    'Email' => $shipping->getCustomerEmail(),
+                    'DocumentId' => '1040505',
+                    'Cellphone' => $shipping->getTelephone(),
+                    'LandLinePhone' => '',
+                    'OtherPhone' => '',
+                    'Address' => $shipping->getStreetLine(1),
+                    'SuiteNumber' => '',
+                    'ComplexName' => '',
+                    'LocalizationReference' => '',
+                    'State' => $shipping->getRegion(),
+                    'City' => $shipping->getCity(),
+                    'Neighborhood' => '',
+                    'CountryId' => $shipping->getCountryId(),
+                ),
+                'DeliveryType' => $order->getShippingMethod(),
+            ),
+            'CouponCodes' => array(),
+            'TaxRegistrationNumber' => "64251 2 357348 DV41",
+            'InvoiceRequested' => true,
+            'ReceiveInvoiceByMail' => true,
+            'Shipments' => array(
+                'FreightService' => 'mienvio',
+                'FreightShipmentId' => '123456789',
+                'ServiceType' => $order->getShippingMethod(),
+                'CarrierId' => '29491',
+                'Amount' => $order->getShippingAmount(),
+                'FreightCost' => $order->getShippingAmount(),
+            ),
+            'Items' => $items
+        );
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $serviceUrl
+            CURLOPT_URL => $serviceUrl,
+            CURLOPT_POSTFIELDS => $payload
         ));
         // Send the request & save response to $resp
         $resp = curl_exec($curl);
@@ -155,99 +197,5 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         return false;
 
-    }
-
-	public function loadProductsData($catalog, $objectManager, $storeId) 
-	{        
-        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
-        $products = $productFactory->create();
-        $product = $products->loadByAttribute('sku', $catalog->Sku);
-        if($product){
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku);
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $product->setUrlKey($cleanurl);
-            $product->setName($catalog->Description); // Name of Product
-            $product->setAttributeSetId(4); // Attribute set id
-            $product->setStatus(1); // Status on product enabled/ disabled 1/0
-            $product->setStoreId($storeId);
-            $product->setWeight(10); // weight of product
-            $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-            $product->setTaxClassId(0); // Tax class id
-            switch($catalog->Type){
-                case 'Physical':
-                    $product->setTypeId('simple');
-                    break;
-                case 'License':
-                    $product->setTypeId('virtual');
-                    break;
-                case 'Warranty':
-                    $product->setTypeId('configurable');
-                    break;
-                case 'Downloadable':
-                    $product->setTypeId('downloadable');
-                    break;
-            } // type of product (simple/virtual/downloadable/configurable)
-            $product->setPrice($catalog->Price->UnitPrice);
-            if($catalog->InStock == 0){
-                $stock = 0;
-            } else {
-                $stock = 1;
-            }
-            $product->setStockData(
-                array(
-                    'use_config_manage_stock' => 0,
-                    'manage_stock' => 1,
-                    'is_in_stock' => $stock,
-                    'min_sale_qty' => 1,
-                    'qty' => $catalog->InStock
-                )
-            );
-            //Set product dimensions
-            if(isset($catalog->Freight)){
-                if(isset($catalog->Freight->Package)){
-                    $product->setWeight($catalog->Freight->Package->Weight);
-                    $product->setLength($catalog->Freight->Package->Length);
-                    $product->setWidth($catalog->Freight->Package->Width);
-                    $product->setHeight($catalog->Freight->Package->Height);
-                }
-            }
-            try{
-                $product->save();
-                $this->logger->info('PlaceOrder - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
-                //Se reindexa                            
-                $this->reindexData();
-                //Se limpia cache
-                $this->cleanCache();
-            } catch (Exception $e){
-                $this->logger->info('PlaceOrder - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
-            }
-        } else {
-			$this->logger->info('PlaceOrder - No se encontro producto en magento asociado al sku: '.$catalog->Sku);
-		}
-    }
-
-    //Reindexa los productos despues de consultar el catalogo de un store view
-	public function reindexData() 
-	{
-        $indexerCollection = $this->_indexerCollectionFactory->create();
-        $ids = $indexerCollection->getAllIds();
-        foreach ($ids as $id) {
-            $idx = $this->_indexerFactory->create()->load($id);
-            $idx->reindexAll($id);
-        } // this reindexes all
-        $this->logger->info('GetCatalog - Se reindexa');
-    }
-
-    //Limpia cache despues de consultar el catalogo de un store view
-	public function cleanCache() 
-	{
-        $types = array('config','collections','eav','full_page','translate');
-        foreach ($types as $type) {
-            $this->_cacheTypeList->cleanType($type);
-        }
-        foreach ($this->_cacheFrontendPool as $cacheFrontend) {
-            $cacheFrontend->getBackend()->clean();
-        }
-        $this->logger->info('GetCatalog - Se limpia cache');
     }
 }
