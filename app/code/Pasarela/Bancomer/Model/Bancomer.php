@@ -58,19 +58,20 @@ class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
      * @param array $data
      */
     public function __construct(
-            \Magento\Framework\Model\Context $context,
-            \Magento\Framework\Registry $registry, 
-            \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
-            \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory, 
-            \Magento\Payment\Helper\Data $paymentData, 
-            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, 
-            \Magento\Payment\Model\Method\Logger $logger,             
-            \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
-            \Magento\Store\Model\StoreManagerInterface $storeManager,
-            \Psr\Log\LoggerInterface $logger_interface,
-            \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
-            \Magento\Framework\Filesystem\Io\File $file,
-            array $data = []            
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry, 
+        \Magento\Framework\Api\ExtensionAttributesFactory $extensionFactory,
+        \Magento\Framework\Api\AttributeValueFactory $customAttributeFactory, 
+        \Magento\Payment\Helper\Data $paymentData, 
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, 
+        \Magento\Payment\Model\Method\Logger $logger,             
+        \Pasarela\Bancomer\Mail\Template\TransportBuilder $transportBuilder,
+        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Psr\Log\LoggerInterface $logger_interface,
+        \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+        \Magento\Framework\Filesystem\Io\File $file,
+        array $data = []          
     ) {
         parent::__construct(
             $context,
