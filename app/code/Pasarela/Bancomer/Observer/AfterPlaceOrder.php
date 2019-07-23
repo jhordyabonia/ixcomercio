@@ -93,8 +93,8 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_concept" value="2">
             <input type="hidden" name="mp_amount" value="'.$order->getGrandTotal().'.00"><br>
             <input type="hidden" name="mp_currency" value="1"><br>
-            URL Pago exitoso:<input type="hidden" name="mp_urlsuccess" value=" "><br>
-            URL Pago no exitoso:<input type="hidden" name="mp_urlfailure" value=" ">
+            <input type="hidden" name="mp_urlsuccess" value=" "><br>
+            <input type="hidden" name="mp_urlfailure" value=" ">
         </form>
         <script type="text/javascript">
             document.getElementById("bancomermultipagos-form").submit();
