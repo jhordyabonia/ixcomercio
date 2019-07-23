@@ -1,6 +1,8 @@
 <?php
-
 namespace Trax\Ordenes\Observer;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 use \Psr\Log\LoggerInterface;
 
 class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
