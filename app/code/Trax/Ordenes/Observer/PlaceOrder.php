@@ -156,7 +156,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 'Shipping' => array(
                     'FirstName' => $shipping->getFirstname(),
                     'LastName' => $shipping->getLastname(),
-                    'Email' => $shipping->getCustomerEmail(),
+                    'Email' => $shipping->getEmail(),
                     'DocumentId' => '1040505',
                     'Cellphone' => $shipping->getTelephone(),
                     'LandLinePhone' => '',
