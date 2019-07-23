@@ -16,8 +16,7 @@ class Bancomer extends \Magento\Payment\Model\Method\Cc
 
     protected $_code = self::CODE;
 
-    protected $_canAuthorize = true;
-    protected $_canCapture = true;
+    protected $_isOffline = true;
     /**
      * Authorize payment abstract method
      *
