@@ -138,6 +138,48 @@ header{
               }
             }
           }
+          .quick-access{
+            vertical-align: middle;
+            display: none;
+            @media only screen and (max-width: $desktop){
+              display: inline-block;
+            }
+            a{
+              width: 35px;
+              height: 35px;
+              cursor: pointer;
+              overflow: hidden;
+              position: relative;
+              transition: color 125ms ease-in 0s;
+              .cd-menu-icon{
+                top: 13px;
+                left: 17px;
+                width: 35px;
+                height: 4px;
+                position: absolute;
+                display: inline-block;
+                background-color: #000;
+                transition: background-color 0.3s;
+                -webkit-transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%) translateY(-50%);
+                &:after, &:befero{
+                  content: '';
+                  right: 0;
+                  width: 100%;
+                  height: 100%;
+                  position: absolute;
+                  background-color: #c2c2c2;
+                  transition: transform .3s, top .3s, background-color 0s, -webkit-transform .3s;
+                }
+                &:befero{
+                  top: -10px;
+                }
+                &:after{
+                  top: 10px;
+                }
+              }
+            }
+          }
           .icon-search{
             width: auto;
             display: inline-block;
