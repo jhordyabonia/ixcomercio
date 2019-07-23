@@ -10,11 +10,11 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
 
-	const ENVIROMENT = 'trax_catalogo/catalogo_general/apuntar_a';
+	const ENVIROMENT = 'trax_general/catalogo_retailer/apuntar_a';
 
-	const URL_DESARROLLO = 'trax_catalogo/catalogo_general/url_desarrollo';
+	const URL_DESARROLLO = 'trax_general/catalogo_retailer/url_desarrollo';
 
-	const URL_PRODUCCION = 'trax_catalogo/catalogo_general/url_produccion';
+	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
     const DATOS_TRAX = 'trax_catalogo/catalogo_general/datos_iws';
 

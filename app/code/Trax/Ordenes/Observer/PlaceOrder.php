@@ -12,15 +12,15 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
 
-	const ENVIROMENT = 'trax_catalogo/catalogo_general/apuntar_a';
+	const ENVIROMENT = 'trax_general/catalogo_retailer/apuntar_a';
 
-	const URL_DESARROLLO = 'trax_catalogo/catalogo_general/url_desarrollo';
+	const URL_DESARROLLO = 'trax_general/catalogo_retailer/url_desarrollo';
 
-	const URL_PRODUCCION = 'trax_catalogo/catalogo_general/url_produccion';
+	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
-    const ORDENES_REINTENTOS = 'trax_catalogo/catalogo_general/ordenes_reintentos';
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
 
-    const ORDENES_CORREO = 'trax_catalogo/catalogo_general/ordenes_correo';
+    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
     
     private $helper;
 	
@@ -105,7 +105,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&tag=&customerOrderNumber='.$orderIncrementId.'&generateTokens=false'; 
+            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&tag=&customerOrderNumber'.$orderIncrementId.'&generateTokens=false'; 
         }
         return $serviceUrl;
     }
@@ -127,19 +127,19 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $payload = array(
             'StoreOrder' => array(
-                'StoreId' => $storeCode,
+                'StoreId' => 'houseofmarley',
                 'StoreOrderNumber' => $order->getIncrementId(),
                 'Customer' => array(
                     'FirstName' => $billing->getFirstname(),
                     'LastName' => $billing->getLastname(),
-                    'Email' => $billing->getCustomerEmail(),
+                    'Email' => $billing->getEmail(),
                     'Cellphone' => $billing->getTelephone(),
                     'DocumentId' => '1040505',
                 ),
                 'Billing' => array(
                     'FirstName' => $billing->getFirstname(),
                     'LastName' => $billing->getLastname(),
-                    'Email' => $billing->getCustomerEmail(),
+                    'Email' => $billing->getEmail(),
                     'DocumentId' => '1040505',
                     'Cellphone' => $billing->getTelephone(),
                     'LandLinePhone' => '',
@@ -156,7 +156,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 'Shipping' => array(
                     'FirstName' => $shipping->getFirstname(),
                     'LastName' => $shipping->getLastname(),
-                    'Email' => $shipping->getCustomerEmail(),
+                    'Email' => $shipping->getEmail(),
                     'DocumentId' => '1040505',
                     'Cellphone' => $shipping->getTelephone(),
                     'LandLinePhone' => '',
@@ -194,7 +194,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             CURLOPT_URL => $serviceUrl,
             CURLOPT_POSTFIELDS => $payload
         ));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Content-Length: ' . strlen($payload))
         );
@@ -204,6 +204,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
+        $this->logger->info('PlaceOrder - payload: '.$payload);
         $this->logger->info('PlaceOrder - status code: '.$status_code);
         $this->logger->info('PlaceOrder - '.$serviceUrl);
         $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
