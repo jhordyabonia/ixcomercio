@@ -13,12 +13,14 @@
     <default>
         <payment>
             <pasarela_bancomer>
-                <active>0</active>
-                <model>Pasarela\Bancomer\Model\Payment</model>         
+                <title>Multipagos Avanzados</title>
+                <model>Pasarela\Bancomer\Model\Bancomer</model>
+                <active>1</active>
+                <order_status>pending_payment</order_status>
+                <payment_action>order</payment_action> 
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
                 <is_sandbox>1</is_sandbox>
-                <title>Multipagos Avanzados</title>
                 <sandbox_merchant_id></sandbox_merchant_id>
                 <sandbox_sk></sandbox_sk>
                 <sandbox_pk></sandbox_pk>
@@ -29,3 +31,4 @@
         </payment>
     </default>
 </config>
+

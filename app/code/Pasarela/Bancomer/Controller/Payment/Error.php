@@ -14,7 +14,7 @@ use Magento\Framework\View\Result\PageFactory;
 /**
  * Webhook class  
  */
-class Success extends \Magento\Framework\App\Action\Action
+class Error extends \Magento\Framework\App\Action\Action
 {
 
     protected $resultPageFactory;
@@ -66,7 +66,7 @@ class Success extends \Magento\Framework\App\Action\Action
      */
     public function execute() {                
         try {                        
-            echo "success";
+            echo "error";
             exit();
             
         } catch (\Exception $e) {

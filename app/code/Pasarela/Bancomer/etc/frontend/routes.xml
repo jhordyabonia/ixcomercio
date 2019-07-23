@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <!--
 /**
- * Pasarela_Bancomer routes definition
+ * Pasarela_Bancomer default payment configuration
  *
  * @category    Bancomer
  * @package     Pasarela_Bancomer
@@ -11,8 +11,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
-        <route id="pasarela" frontName="pasarela">
-            <module name="Pasarela_Bancomer" />
+        <route frontName="bancomer" id="bancomer">
+            <module name="Pasarela_Bancomer"/>
         </route>
     </router>
 </config>
