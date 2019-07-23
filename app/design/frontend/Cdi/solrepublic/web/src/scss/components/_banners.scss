@@ -143,6 +143,38 @@
       }
     }
   }
+  &.class-product-essential{
+    .text-block-banner{
+      .text-overlay-banner{
+        max-width: 550px;
+        .caption-title{
+          font-family: 'Gilroy-bold', Arial, Helvetica, sans-serif;
+          color: #373737;
+          font-size: 50px;
+          line-height: 1;
+        }
+        .caption-desc{
+          font-size: 18px;
+          line-height: 1.75;
+          color: #373737;
+          font-family: 'Graphik-Regular', 'Helvetica', sans-serif;
+        }
+        .banner-button{
+          margin: 0 auto;
+          width: auto;
+          border: 2px solid #373737;
+          color: #fff;
+          background: #373737;
+          padding: 10px 20px;
+          font-size: 16px;
+          &:hover{
+            color: #373737;
+            background: #fff;
+          }
+        }
+      }
+    }
+  }
   &.banner-background{
     min-height: 300px;
     @media (max-width: $mobile){

@@ -8,6 +8,28 @@ function ($, Component) {
 			$("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
 			return false;
 		});
+		
+
+		$(".gotoscroll .banner-button").click(function(e){
+			e.preventDefault();
+			div = jQuery(this).closest('section.banner');
+			var classList = div.attr('class').split(/\s+/);
+			query = '';
+			$.each(classList, function(index, item){
+				if(item.match("^class-")){
+					query = item.replace("class-", '.');
+					
+				}else if(item.match("^id-")){
+					query = item.replace("id-", '#');
+				}
+				if(query != ''){
+					console.log(query);
+					jQuery('html,body').animate({
+						scrollTop: jQuery(query).offset().top - jQuery('header.page-header').outerHeight()
+					}, 'slow');
+				}
+			});
+		});
 
 
 		jQuery(".SOLburger").on('click', function(){
