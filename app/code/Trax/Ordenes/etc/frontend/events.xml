@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="checkout_controller_success_action" instance="Trax\Ordenes\Observer\PlaceOrder"  />
+    </event>
     <!--<event name="sales_order_payment_capture">
         <observer name="place_order" instance="Trax\Ordenes\Observer\PlaceOrder" />
     </event>-->

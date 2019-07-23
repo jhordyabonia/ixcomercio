@@ -77,7 +77,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         return $configData;
 
     }
-
+ 
+    //Obtiene url de conexión del servicio
 	public function getServiceUrl($configData, $orderIncrementId) 
 	{
         if($configData['apikey'] == ''){
@@ -91,21 +92,88 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         return $serviceUrl;
     }
 
-	public function loadIwsService($serviceUrl, $order) 
+	public function loadIwsService($serviceUrl, $order, $storeCode) 
 	{        
-        $data = array(
+        $billing = $order->getBillingAddress();
+        $shipping = $order->getShippingAddress();
+        $orderItems = $order->getAllItems();
+        $items = array();
+        foreach ($orderItems as $key => $dataItem) {
+            $tempItem['Sku'] = $dataItem->getSku();
+            $tempItem['Quantity'] = $dataItem->getQtyOrdered();
+            $tempItem['Price'] = $dataItem->getPrice();
+            $tempItem['Discount'] = '';
+            $tempItem['CouponCode'] = '';
+            $tempItem['StoreItemId'] = $dataItem->getId();
+            $items[] = $tempItem;
+        }
+        $payload = array(
             'StoreOrder' => array(
-                'StoreId' => '',
+                'StoreId' => $storeCode,
                 'StoreOrderNumber' => $order->getIncrementId(),
-                'Customer' => 
+                'Customer' => array(
+                    'FirstName' => $billing->getFirstname(),
+                    'LastName' => $billing->getLastname(),
+                    'Email' => $billing->getCustomerEmail(),
+                    'Cellphone' => $billing->getTelephone(),
+                    'DocumentId' => '1040505',
+                ),
+                'Billing' => array(
+                    'FirstName' => $billing->getFirstname(),
+                    'LastName' => $billing->getLastname(),
+                    'Email' => $billing->getCustomerEmail(),
+                    'DocumentId' => '1040505',
+                    'Cellphone' => $billing->getTelephone(),
+                    'LandLinePhone' => '',
+                    'OtherPhone' => '',
+                    'Address' => $billing->getStreetLine(1),
+                    'SuiteNumber' => '',
+                    'ComplexName' => '',
+                    'LocalizationReference' => '',
+                    'State' => $billing->getRegion(),
+                    'City' => $billing->getCity(),
+                    'Neighborhood' => '',
+                    'CountryId' => $billing->getCountryId(),
+                ),
+                'Shipping' => array(
+                    'FirstName' => $shipping->getFirstname(),
+                    'LastName' => $shipping->getLastname(),
+                    'Email' => $shipping->getCustomerEmail(),
+                    'DocumentId' => '1040505',
+                    'Cellphone' => $shipping->getTelephone(),
+                    'LandLinePhone' => '',
+                    'OtherPhone' => '',
+                    'Address' => $shipping->getStreetLine(1),
+                    'SuiteNumber' => '',
+                    'ComplexName' => '',
+                    'LocalizationReference' => '',
+                    'State' => $shipping->getRegion(),
+                    'City' => $shipping->getCity(),
+                    'Neighborhood' => '',
+                    'CountryId' => $shipping->getCountryId(),
+                ),
+                'DeliveryType' => $order->getShippingMethod(),
             ),
-            'OrderNumber' => $order->getIncrementId(),
+            'CouponCodes' => array(),
+            'TaxRegistrationNumber' => "64251 2 357348 DV41",
+            'InvoiceRequested' => true,
+            'ReceiveInvoiceByMail' => true,
+            'Shipments' => array(
+                'FreightService' => 'mienvio',
+                'FreightShipmentId' => '123456789',
+                'ServiceType' => $order->getShippingMethod(),
+                'CarrierId' => '29491',
+                'Amount' => $order->getShippingAmount(),
+                'FreightCost' => $order->getShippingAmount(),
+            ),
+            'Items' => $items
         );
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $serviceUrl
+            CURLOPT_URL => $serviceUrl,
+            CURLOPT_POSTFIELDS => $payload
         ));
         // Send the request & save response to $resp
         $resp = curl_exec($curl);
