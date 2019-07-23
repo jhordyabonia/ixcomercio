@@ -78,7 +78,7 @@ class AfterPlaceOrder implements ObserverInterface
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         
-        $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus(), 'ext_order_id' => $order->getExtOrderId());            
+        $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus(), 'ext_order_id' => $order->getExtOrderId()));            
 
         echo 
         '<form id="bancomermultipagos-form" method="post" action="'.$configData['url'].'">
@@ -90,8 +90,9 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_concept" value="2">
             <input type="hidden" name="mp_amount" value="'.$order->getGrandTotal().'.00"><br>
             <input type="hidden" name="mp_currency" value="1"><br>
-            <input type="hidden" name="mp_urlsuccess" value=" "><br>
-            <input type="hidden" name="mp_urlfailure" value=" ">
+            <input type="hidden" name="mp_urlsuccess" value="'.$storeManager->getStore()->getBaseUrl().'payment/success">
+            <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'payment/error">
+            <input type="hidden" name="mp_signature" value="'.hash('sha256', $orderId[0].$orderId[0].$order->getGrandTotal().'.00').'">
         </form>
         <script type="text/javascript">
             document.getElementById("bancomermultipagos-form").submit();
@@ -114,6 +115,7 @@ class AfterPlaceOrder implements ObserverInterface
             $configData['secret_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_SECRETA, $storeScope, $websiteCode);
             $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         }
+            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         return $configData;
 
     }
