@@ -18,6 +18,7 @@
                 <active>1</active>
                 <order_status>pending_payment</order_status>
                 <payment_action>true</payment_action> 
+                <instructions>Instruction.</instructions>
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
                 <is_sandbox>1</is_sandbox>

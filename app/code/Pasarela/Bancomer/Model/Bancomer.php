@@ -12,9 +12,17 @@ namespace Pasarela\Bancomer\Model;
 
 class Bancomer extends \Magento\Payment\Model\Method\AbstractMethod
 {
-    const CODE = 'pasarela_bancomer';
+    /**
+    * Payment code
+    *
+    * @var string
+    */
+    protected $_code = 'pasarela_bancomer';
 
-    protected $_code = self::CODE;
-
+    /**
+    * Availability option
+    *
+    * @var bool
+    */
     protected $_isOffline = true;
 }
