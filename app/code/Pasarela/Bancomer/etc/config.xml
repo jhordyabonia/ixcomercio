@@ -16,6 +16,7 @@
                 <title>Multipagos Avanzados</title>
                 <model>Pasarela\Bancomer\Model\Bancomer</model>
                 <active>1</active>
+                <order_status>pending_payment</order_status>
                 <payment_action>order</payment_action> 
                 <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
                 <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
