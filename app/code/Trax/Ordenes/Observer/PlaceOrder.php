@@ -51,18 +51,26 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-		//Se obtienen parametros de configuración por Store
+        //Se obtienen parametros de configuración por Store
+        
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+        $this->logger->info('PlaceOrder - Se obtienen parámetros de configuración');
 		//Se obtiene lista de sku
         $orderId = $observer->getEvent()->getOrderIds();
         $order = $this->order->load($orderId[0]);      
+        $this->logger->info('PlaceOrder - Se inicia llamado para la orden magento '.$order->getIncrementId());
 		//Se obtiene url del servicio
 		$serviceUrl = $this->getServiceUrl($configData, $order->getIncrementId());
         //Se carga el servicio por curl
-        $data = $this->loadIwsService($serviceUrl, $order);
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
+        $this->logger->info('PlaceOrder - url '.$serviceUrl);
+        try{
+            $data = $this->loadIwsService($serviceUrl, $order);
+            echo "<pre>";
+            print_r($data);
+            echo "</pre>";
+        } catch(Exception $e){
+            echo $e->getMessage();
+        }
         exit();
 	}
 
@@ -189,9 +197,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
-        $this->logger->info('PlaceOrder- status code: '.$status_code);
-        $this->logger->info('PlaceOrder- '.$serviceUrl);
-        $this->logger->info('PlaceOrder- curl errors: '.$curl_errors);
+        $this->logger->info('PlaceOrder - status code: '.$status_code);
+        $this->logger->info('PlaceOrder - '.$serviceUrl);
+        $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
         if ($status_code == '200'){
             return json_decode($resp);
         }
