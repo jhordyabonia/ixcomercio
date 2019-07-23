@@ -105,7 +105,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
+            $serviceUrl = $configData['url'].'placeorder?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&tag=&customerOrderNumber'.$orderIncrementId.'&generateTokens=false'; 
         }
         return $serviceUrl;
     }
@@ -127,19 +127,19 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $payload = array(
             'StoreOrder' => array(
-                'StoreId' => $storeCode,
+                'StoreId' => 'houseofmarley',
                 'StoreOrderNumber' => $order->getIncrementId(),
                 'Customer' => array(
                     'FirstName' => $billing->getFirstname(),
                     'LastName' => $billing->getLastname(),
-                    'Email' => $billing->getCustomerEmail(),
+                    'Email' => $billing->getEmail(),
                     'Cellphone' => $billing->getTelephone(),
                     'DocumentId' => '1040505',
                 ),
                 'Billing' => array(
                     'FirstName' => $billing->getFirstname(),
                     'LastName' => $billing->getLastname(),
-                    'Email' => $billing->getCustomerEmail(),
+                    'Email' => $billing->getEmail(),
                     'DocumentId' => '1040505',
                     'Cellphone' => $billing->getTelephone(),
                     'LandLinePhone' => '',
