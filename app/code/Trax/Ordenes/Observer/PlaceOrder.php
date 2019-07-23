@@ -186,6 +186,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             ),
             'Items' => $items
         );
+        $payload = json_encode($payload);
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
@@ -193,6 +194,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             CURLOPT_URL => $serviceUrl,
             CURLOPT_POSTFIELDS => $payload
         ));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload))
+        );
         // Send the request & save response to $resp
         $resp = curl_exec($curl);
         // Close request to clear up some resources
