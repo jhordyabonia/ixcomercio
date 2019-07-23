@@ -10,7 +10,6 @@ namespace Pasarela\Bancomer\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Pasarela\Bancomer\Model\Payment as Config;
 use Magento\Framework\DataObject;
 
 class AfterPlaceOrder implements ObserverInterface
