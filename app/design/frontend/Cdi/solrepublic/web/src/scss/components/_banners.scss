@@ -16,6 +16,13 @@
       padding: 15% 0;
     }
   }
+  &.wygIcon {
+    min-height: 71px;
+    overflow: auto;
+    font-size: 24px;
+    color: #636363;
+    text-transform: uppercase;
+  }
   &.frame{
     .container{
       max-width: 100% !important;
