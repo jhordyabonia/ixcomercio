@@ -118,7 +118,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $items = array();
         foreach ($orderItems as $key => $dataItem) {
             $tempItem['Sku'] = $dataItem->getSku();
-            $tempItem['Quantity'] = $dataItem->getQtyOrdered();
+            $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
             $tempItem['Price'] = $dataItem->getPrice();
             $tempItem['Discount'] = '';
             $tempItem['CouponCode'] = '';
