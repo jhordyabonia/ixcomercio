@@ -12,9 +12,9 @@ function ($, Component) {
 
 		$(".gotoscroll .banner-button").click(function(e){
 			e.preventDefault();
-			div = jQuery(this).closest('section.banner');
+			var div = jQuery(this).closest('section.banner');
 			var classList = div.attr('class').split(/\s+/);
-			query = '';
+			var query = '';
 			$.each(classList, function(index, item){
 				if(item.match("^class-")){
 					query = item.replace("class-", '.');
@@ -49,7 +49,7 @@ function ($, Component) {
 		
 
 		// Hide Header on on scroll down
-	    var didScroll = false;
+	    var didScroll;
 	    var lastScrollTop = 0;
 	    var delta = 5;
 	    var navbarHeight = jQuery('.page-header').outerHeight();
