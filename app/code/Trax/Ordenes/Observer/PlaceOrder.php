@@ -176,14 +176,16 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'TaxRegistrationNumber' => "64251 2 357348 DV41",
             'InvoiceRequested' => true,
             'ReceiveInvoiceByMail' => true,
-            'Shipments' => [array(
-                'FreightService' => 'mienvio',
-                'FreightShipmentId' => '123456789',
-                'ServiceType' => $order->getShippingMethod(),
-                'CarrierId' => 'CLL3',
-                'Amount' => $order->getShippingAmount(),
-                'FreightCost' => $order->getShippingAmount(),
-            )],
+            'Shipments' => array(
+                array(
+                    'FreightService' => 'mienvio',
+                    'FreightShipmentId' => '123456789',
+                    'ServiceType' => $order->getShippingMethod(),
+                    'CarrierId' => 'CLL3',
+                    'Amount' => $order->getShippingAmount(),
+                    'FreightCost' => $order->getShippingAmount(),
+                )
+            ),
             'Items' => $items
         );
         $payload = json_encode($payload);
