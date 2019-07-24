@@ -179,8 +179,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'Shipments' => array(
                 array(
                     'FreightService' => 'mienvio',
-                    'FreightShipmentId' => '123456789',
-                    'ServiceType' => $order->getShippingMethod(),
+                    'FreightShipmentId' => '12837612378',
+                    'ServiceType' => 'express',
                     'CarrierId' => 'CLL3',
                     'Amount' => $order->getShippingAmount(),
                     'FreightCost' => $order->getShippingAmount(),
