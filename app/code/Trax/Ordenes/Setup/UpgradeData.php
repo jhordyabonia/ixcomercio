@@ -10,6 +10,7 @@
 namespace Trax\Ordenes\Setup;
 
 use Magento\Eav\Model\Config;
+use Magento\Eav\Setup\EavSetup; 
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\UpgradeDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
@@ -26,7 +27,7 @@ class UpgradeData implements UpgradeDataInterface
      /**
      * @var EavSetupFactory
      */
-    private $_eavSetupFactory;
+    private $eavSetupFactory;
 
     /**
      * @var AttributeSetFactory
@@ -44,7 +45,7 @@ class UpgradeData implements UpgradeDataInterface
         AttributeSetFactory $attributeSetFactory
     ) {
         $this->eavConfig            = $eavConfig;
-        $this->_eavSetupFactory     = $eavSetupFactory;
+        $this->eavSetupFactory = $eavSetupFactory;
         $this->attributeSetFactory  = $attributeSetFactory;
     }
 
