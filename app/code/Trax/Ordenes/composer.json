@@ -1,0 +1,30 @@
+{
+    "name": "trax/module-ordenes",
+    "description": "Registrar ordenes en Trax",
+    "type": "magento2-module",
+    "version": "1.0.2",
+    "authors": [
+        {
+            "name": "CDI - Ariadna",
+            "email": "valentina.aguirre@ariadnacg.com",
+            "homepage": "https://www.cdi-interactive.com/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0|~7.*",
+        "magento/framework": "100.0.*"
+    },
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Trax\\Ordenes\\": ""
+        }
+    }
+}
