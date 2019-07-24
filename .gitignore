@@ -131,7 +131,8 @@ pub/
 setup/
 update/
 var/
-!/app/code/*
+!/app/code/*/*/composer.json
+!/app/code/*/*/Setup/*
 
 index.php
 old.*
