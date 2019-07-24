@@ -30,7 +30,6 @@ function ($, Component) {
 					query = item.replace("id-", '#');
 				}
 				if(query != ''){
-					console.log(query);
 					jQuery('html,body').animate({
 						scrollTop: jQuery(query).offset().top - jQuery('header.page-header').outerHeight()
 					}, 'slow');
