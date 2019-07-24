@@ -15,7 +15,7 @@ if($atts){
 			<div class="row">
 				<ul class="feature-icons">
 				<?php foreach($fields as $field){ ?>
-					<li>
+					<li class="col-md-6">
 						<img src="<?php echo $this->getViewFileUrl("images/attributes/{$field['image']}"); ?>" alt="<?php echo (isset($field['$field'])) ? $field['$field'] : '';?>" />
 						<?php if(isset($field['title']) || isset($field['desc'])){ ?>
 							<div class="callout-text">
