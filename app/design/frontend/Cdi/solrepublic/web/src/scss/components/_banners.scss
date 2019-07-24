@@ -412,6 +412,11 @@
             padding-top: 30%;
           }
         }
+        table{
+          width: 100%;
+          display: block;
+          text-align: left;
+        }
       }
       &.banner-text-center{
         &.banner-text-vertical-top, &.banner-text-vertical-bottom{
