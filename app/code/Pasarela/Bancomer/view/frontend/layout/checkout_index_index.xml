@@ -23,7 +23,7 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="llamacoin" xsi:type="array">
+                                                                <item name="offline-bancomer" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Pasarela_Bancomer/js/view/payment/bancomer</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="pasarela_bancomer" xsi:type="array">

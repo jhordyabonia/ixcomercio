@@ -49,8 +49,11 @@ header{
         line-height: normal;
         @media only screen and (max-width: $desktop){
           left: 0;
+          top: 0;
           width: 100%;
+          height: 100%;
           position: absolute;
+          z-index: 1;
         }
         .header-toplinks{
           width: auto;
@@ -65,6 +68,9 @@ header{
           .switcher-language{
             float: left;
             line-height: 22px;
+            @media only screen and (max-width: $desktop){
+              font-size: 16px;
+            }
           }
           .custom-top-links{
             padding: 0 15px;
@@ -76,11 +82,18 @@ header{
               color: #111;
               line-height: 22px;
               float: left;
+              @media only screen and (max-width: $desktop){
+                font-size: 16px;
+              }
               span{
                 width: 20px;
                 height: 20px;
                 float: right;
                 margin-left: 10px;
+                @media only screen and (max-width: $desktop){
+                  width: 22px;
+                  height: 22px;
+                }
                 &.sign-in-icon{
                   background: url(../images/icons/sign-in.png) no-repeat center;
                   background-size: 100%;
@@ -95,6 +108,10 @@ header{
               height: 20px;
               background: url(../images/icons/minicart.png) no-repeat center;
               background-size: 100%;
+              @media only screen and (max-width: $desktop){
+                width: 22px;
+                height: 22px;
+              }
               &:before{
                 display: none;
               }
@@ -107,9 +124,6 @@ header{
           text-align: right;
           @media only screen and (max-width: $desktop){
             left: 15px;
-            .nav-sections{
-              display: none;
-            }
           }
           .nav-sections{
             width: auto;
@@ -118,6 +132,11 @@ header{
             display: inline-block;
             vertical-align: middle;
             margin: 0;
+            .nav-sections-items{
+              @media only screen and (max-width: $desktop){
+                display: none;
+              }
+            }
             .navigation{
               background: none;
               ul.ui-menu{
@@ -132,6 +151,51 @@ header{
                       color: $redcolor;
                     }
                   }
+                }
+              }
+            }
+          }
+          .quick-access{
+            vertical-align: middle;
+            display: none;
+            @media only screen and (max-width: $desktop){
+              display: inline-block;
+            }
+            a{
+              width: 30px;
+              height: 30px;
+              cursor: pointer;
+              overflow: hidden;
+              position: relative;
+              transition: color 125ms ease-in 0s;
+              display: inline-block;
+              .cd-menu-icon{
+                top: 50%;
+                left: 17px;
+                width: 100%;
+                height: 3px;
+                position: absolute;
+                display: inline-block;
+                background-color: #000;
+                transition: background-color 0.3s;
+                -webkit-transform: translateX(-50%) translateY(-50%);
+                transform: translateX(-50%) translateY(-50%);
+                border-radius: 1px;
+                &:after, &:before{
+                  content: '';
+                  right: 0;
+                  width: 100%;
+                  height: 100%;
+                  position: absolute;
+                  background-color: #000;
+                  transition: transform .3s, top .3s, background-color 0s, -webkit-transform .3s;
+                  border-radius: 1px;
+                }
+                &:before{
+                  top: -9px;
+                }
+                &:after{
+                  top: 9px;
                 }
               }
             }
@@ -161,9 +225,11 @@ header{
         }
         .header-toplinks, .wrapper-nav{
           @media only screen and (max-width: $desktop){
+            top: 50%;
             width: auto;
             max-width: 35%;
             position: absolute;
+            transform: translate(0, -50%);
           }
         }
       }

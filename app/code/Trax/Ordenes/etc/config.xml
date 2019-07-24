@@ -4,7 +4,7 @@
         <trax_general>
             <ordenes_general>
                 <ordenes_reintentos>1</ordenes_reintentos>
-                <ordenes_correo>example@example.com</catalogo_correo>
+                <ordenes_correo>example@example.com</ordenes_correo>
             </ordenes_general>
         </trax_general>
     </default>

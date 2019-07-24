@@ -33,6 +33,10 @@
 		</referenceContainer>
 
 
+		<container name="header.icon.menu" as="header_icon_menu" after="header.row.container.freeshipping" htmlTag="div" htmlClass="quick-access">
+			<block class="Magento\Framework\View\Element\Template" name="header.iconmenu.block" template="Magento_Theme::html/icon-menu.phtml" cacheable="false"/>
+		</container>
+
 		<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.freeshipping" htmlTag="div" htmlClass="header-toplinks">
 			<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 		</container>
@@ -45,7 +49,8 @@
 		<!--Mueve bloques al header-->
 		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
 		<move element="header.row.container.toplinks" destination="header.row.container.mainmenu" as="header.row.container.toplinks" before="-"/>
-		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" before="-"/>
+		<move element="header.icon.menu" destination="header.wrapper.mainmenu" as="menu.icon" before="-"/>
+		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" after="header.icon.menu"/>
 		<move element="header.row.container.iconsearch" destination="header.wrapper.mainmenu" as="search.icon" after="-"/>
 		<move element="store_language" destination="header.row.container.toplinks" as="store_language" before="-"/>
 		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
@@ -53,7 +58,7 @@
 
 
 		<referenceBlock name="store.settings" remove="true" />
-    <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+    	<referenceBlock name="catalog.compare.sidebar" remove="true"/>
 
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />

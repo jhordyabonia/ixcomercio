@@ -1,13 +1,32 @@
 <?xml version="1.0"?>
-
+<!--
+/**
+ * Pasarela_Bancomer default payment configuration
+ *
+ * @category    Bancomer
+ * @package     Pasarela_Bancomer
+ * @author      Valentina Aguirre
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
             <pasarela_bancomer>
-                <title>Llama Coin</title>
+                <title>Multipagos Avanzados</title>
                 <model>Pasarela\Bancomer\Model\Bancomer</model>
                 <active>1</active>
-                <cctypes>AE,VI,MC,DI</cctypes>
+                <order_status>pending_payment</order_status>
+                <payment_action>order</payment_action> 
+                <url_sandbox_bancomer>https://sand-api.ecommercebbva.com/v1/</url_sandbox_bancomer>
+                <url_produccion_bancomer>https://api.ecommercebbva.com/v1/</url_produccion_bancomer>
+                <is_sandbox>1</is_sandbox>
+                <sandbox_merchant_id></sandbox_merchant_id>
+                <sandbox_sk></sandbox_sk>
+                <sandbox_pk></sandbox_pk>
+                <live_merchant_id></live_merchant_id>
+                <live_sk></live_sk>
+                <live_pk></live_pk>
             </pasarela_bancomer>
         </payment>
     </default>
