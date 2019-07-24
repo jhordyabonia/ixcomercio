@@ -117,8 +117,8 @@ LICENSE_EE.txt
 README_EE.md
 auth.json.sample
 bin/
-./composer.json
-./composer.lock
+composer.json
+composer.lock
 estaticas/
 generated/
 grunt-config.json.sample
@@ -128,9 +128,10 @@ package.json.sample
 php.ini.sample
 phpserver/
 pub/
-./setup/
-./update/
+setup/
+update/
 var/
+!/app/code/*
 
 index.php
 old.*
