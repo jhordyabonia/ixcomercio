@@ -41,7 +41,7 @@ section.BSsec3 {
 }
 section.product-specs{
   padding: 6% 0;
-  .h3{
+  h3{
     margin-bottom: 8%;
   }
   .feature-icons{
@@ -51,6 +51,7 @@ section.product-specs{
     margin: 0 auto;
     li{
       text-align: left;
+      padding-bottom: 6%;
       img{
         width: 80px;
         display: inline-block;
