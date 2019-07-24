@@ -16,7 +16,7 @@ use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
 
-class UpgradeData implements InstallDataInterface
+class UpgradeData implements UpgradeDataInterface
 {
     /**
      * @var Config
