@@ -3,6 +3,13 @@ require([
 ],
 function ($, Component) {
     'use strict';
+
+    // Scroll down variables
+    var didScroll;
+    var lastScrollTop = 0;
+    var delta = 5;
+    var navbarHeight = jQuery('.page-header').outerHeight();
+
     $(document).ready(function(){
 		$('#scroll-to-top').click(function(){
 			$("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
@@ -49,11 +56,6 @@ function ($, Component) {
 		
 
 		// Hide Header on on scroll down
-	    var didScroll;
-	    var lastScrollTop = 0;
-	    var delta = 5;
-	    var navbarHeight = jQuery('.page-header').outerHeight();
-
 	    setInterval(function() {
 	        if (didScroll) {
 	            hasScrolled();
