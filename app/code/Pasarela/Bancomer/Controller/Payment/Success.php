@@ -65,7 +65,49 @@ class Success extends \Magento\Framework\App\Action\Action
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {                
-        try {                        
+        try {               
+            /*$mp_order = $_POST['mp_order'];
+            $mp_reference = $_POST['mp_reference'];
+            $mp_amount = $_POST['mp_amount'];
+            $mp_response = $_POST['mp_response'];
+            $mp_authorization = $_POST['mp_authorization'];
+            $mp_paymentMethod = $_POST['mp_paymentMethod'];
+            $mp_cardType = $_POST['mp_cardType'];
+            $mp_response = $_POST['mp_response'];
+            $mp_date = $_POST['mp_date'];
+            $mp_paymentMethodCode = $_POST['mp_paymentMethodCode'];
+            $mp_signature = $_POST['mp_signature'];
+            $mp_bankname = $_POST['mp_bankname'];
+            $mp_bankcode = $_POST['mp_bankcode'];
+            $mp_pan = $_POST['mp_pan'];
+            $mp_saleid = $_POST['mp_saleid'];
+            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
+            $mp_order = "47";
+            $mp_reference = "2000000078";
+            $mp_amount = "133070,89";
+            $mp_paymentMethod = "TDX";
+            $mp_cardType = "credito";
+            $mp_response = "0";
+            $mp_responsemsg = "Transacción autorizada";
+            $mp_authorization = "abc123";
+            $mp_date = "2019-07-25 16:15:15";
+            $mp_paymentMethodCode = "123";
+            $mp_bankname = "Marvel Bank";
+            $mp_bankcode = "BANXICO";
+            $mp_saleid = "1";
+            $mp_pan = "12345678";
+            $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            if($mp_signature == $mp_signature1){
+                echo 'mp_order: '.$mp_order.'<br>mp_reference: '.$mp_reference.'<br>mp_amount: '.$mp_amount.'<br>mp_paymentMethod: '.$mp_paymentMethod.'<br>mp_cardType: '.$mp_cardType.'<br>mp_response: '.$mp_response.'<
+                br>mp_responsemsg: '.$mp_responsemsg.'<br>mp_authorization: '.$mp_authorization.'<br>mp_date: '.$mp_date.'<br>mp_paymentMethodCode: '.$mp_paymentMethodCode.'<br>mp_bankname: '.$mp_bankname.'<br>mp_bankcode: '.$mp_bankcode.'<br>mp_saleid: '.$mp_saleid.'<br>mp_pan: '.$mp_pan.'<br>mp_signature: '.$mp_signature. '<br>mp_signature1: '.$mp_signature1;
+                //TODO: Actualizar datos en base de datos
+                //TODO: Cambiar estado de orden y actualizar información de pago
+                //TODO: Llamar método registerPayment
+                //TODO: Actualizar datos en base de datos con respuesta de IWS
+            } else{
+                echo "error";
+            }
             echo "success";
             exit();
             

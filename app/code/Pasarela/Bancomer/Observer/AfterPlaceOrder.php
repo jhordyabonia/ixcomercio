@@ -78,21 +78,25 @@ class AfterPlaceOrder implements ObserverInterface
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         
-        $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus()));            
+        $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus()));           
+        $billing = $order->getBillingAddress(); 
 
         echo 
         '<form id="bancomermultipagos-form" method="post" action="'.$configData['url'].'">
             <input type="hidden" name="mp_account" value="'.$configData['merchant_id'].'">
+            <input type="hidden" name="mp_product" value="1">
             <input type="hidden" name="mp_order" value="'.$orderId[0].'">
             <input type="hidden" name="mp_reference" value="'.$order->getIncrementId().'">
-            <input type="hidden" name="mp_product" value="1">
             <input type="hidden" name="mp_node" value="0">
             <input type="hidden" name="mp_concept" value="2">
-            <input type="hidden" name="mp_amount" value="'.$order->getGrandTotal().'.00"><br>
-            <input type="hidden" name="mp_currency" value="1"><br>
+            <input type="hidden" name="mp_amount" value="'.$order->getGrandTotal().'.00">
+            <input type="hidden" name="mp_customername" value="'.$billing->getFirstname().' '.$billing->getLastname().'">
+            <input type="hidden" name="mp_email" value="'.$billing->getEmail().'">
+            <input type="hidden" name="mp_phone" value="'.$billing->getTelephone().'">
+            <input type="hidden" name="mp_currency" value="1">
+            <input type="hidden" name="mp_signature" value="'.hash('sha256', $orderId[0].$order->getIncrementId().$order->getGrandTotal().'.00').'">
             <input type="hidden" name="mp_urlsuccess" value="'.$storeManager->getStore()->getBaseUrl().'payment/success">
             <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'payment/error">
-            <input type="hidden" name="mp_signature" value="'.hash('sha256', $orderId[0].$order->getIncrementId().$order->getGrandTotal().'.00').'">
         </form>
         <script type="text/javascript">
             document.getElementById("bancomermultipagos-form").submit();
