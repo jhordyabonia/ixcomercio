@@ -225,6 +225,9 @@ a.menuToggle.SOLburger.inmenu {
         @media only screen and (min-width: $tablet){
           display: block;
           margin: 0;
+          &.category-item{
+            display: none;
+          }
         }
         a {
           color: #c2c2c2;
