@@ -249,6 +249,11 @@ a.menuToggle.SOLburger.inmenu {
         }
       }
     }
+    .level0.active > a:not(.ui-state-active), .level0.has-active > a:not(.ui-state-active){
+      @media only screen and (max-width: $tablet){
+        border: 0;
+      }
+    }
   }
 }
 .sideMenuSearch, .sideMenuSocial {
