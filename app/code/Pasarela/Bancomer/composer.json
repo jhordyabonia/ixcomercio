@@ -2,7 +2,7 @@
     "name": "pasarela/bancomer",
     "description": "Método de pago para conectarase a multipagos avanzado en Magento 2.",
     "type": "magento2-module",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "autoload": {
         "files": [ "registration.php" ],
         "psr-4": {
