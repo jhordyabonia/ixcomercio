@@ -3,7 +3,11 @@ namespace Trax\Ordenes\Observer;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 use \Psr\Log\LoggerInterface;
+use Trax\Ordenes\Model\IwsOrderFactory;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\Action\Context;
 
 class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 {
@@ -39,13 +43,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Magento\Sales\Model\Order $order,
         LoggerInterface $logger,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Trax\Catalogo\Helper\Email $email
+        \Trax\Catalogo\Helper\Email $email,
+        \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
+        \Magento\Framework\Controller\ResultFactory $result
     )
     {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->order = $order;     
+        $this->_iwsOrder = $iwsOrder;
+        $this->resultRedirect = $result;
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
@@ -67,6 +75,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
             $data = $this->loadIwsService($serviceUrl, $order, $storeManager->getStore()->getCode());
+            //Mapear orden de magento con IWS en tabla custom
+            $this->saveIwsOrder($data->OrderNumber, $orderId, $order->getIncrementId());
             echo "<pre>";
             print_r($data);
             echo "</pre>";
@@ -216,4 +226,21 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         return false;
 
     }
+
+    //Se guarda información de IWS en tabla custom
+    public function saveIwsOrder($orderNumber, $orderId, $orderIncrementId) 
+    {
+		$model = $this->_iwsOrder->create();
+		$model->addData([
+			"order_id" => $orderId,
+			"order_increment_id" => $orderIncrementId,
+			"iws_order" => $orderNumber,
+			]);
+        $saveData = $model->save();
+        if($saveData){
+            $this->logger->info('PlaceOrder - Se inserto la orden de IWS: '.$orderNumber);
+        } else {
+            $this->logger->info('PlaceOrder - Se produjo un error al guardar la orden de IWS: '.$orderNumber);
+        }
+	}
 }
