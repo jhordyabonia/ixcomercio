@@ -54,6 +54,9 @@
         padding-top: 25px;
         max-width: 640px;
         margin: 6% auto;
+        @media (max-width: $mobile){
+          padding-bottom: 60.25%;
+        }
         iframe {
           position: absolute;
           top: 0;
@@ -315,6 +318,7 @@
       color: #fff;
       font-size: 18px;
       text-align: left;
+      word-break: break-word;
       @media (max-width: $mobile){
         width: 100%;
         padding-top: 70%;
