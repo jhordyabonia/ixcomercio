@@ -69,8 +69,8 @@ section.product-specs{
     }
   }
 }
-.navigation{
-  @media (min-width: $tablet){
+nav.navigation{
+  @media (max-width: $tablet){
     background: none;
   }
 }
