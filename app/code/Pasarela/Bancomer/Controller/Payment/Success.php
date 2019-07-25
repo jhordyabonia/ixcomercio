@@ -99,12 +99,16 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             if($mp_signature == $mp_signature1){
-                echo 'mp_order: '.$mp_order.'<br>mp_reference: '.$mp_reference.'<br>mp_amount: '.$mp_amount.'<br>mp_paymentMethod: '.$mp_paymentMethod.'<br>mp_cardType: '.$mp_cardType.'<br>mp_response: '.$mp_response.'<
-                br>mp_responsemsg: '.$mp_responsemsg.'<br>mp_authorization: '.$mp_authorization.'<br>mp_date: '.$mp_date.'<br>mp_paymentMethodCode: '.$mp_paymentMethodCode.'<br>mp_bankname: '.$mp_bankname.'<br>mp_bankcode: '.$mp_bankcode.'<br>mp_saleid: '.$mp_saleid.'<br>mp_pan: '.$mp_pan.'<br>mp_signature: '.$mp_signature. '<br>mp_signature1: '.$mp_signature1;
-                //TODO: Actualizar datos en base de datos
-                //TODO: Cambiar estado de orden y actualizar información de pago
-                //TODO: Llamar método registerPayment
-                //TODO: Actualizar datos en base de datos con respuesta de IWS
+                if($mp_response=='00'){
+                    echo 'mp_order: '.$mp_order.'<br>mp_reference: '.$mp_reference.'<br>mp_amount: '.$mp_amount.'<br>mp_paymentMethod: '.$mp_paymentMethod.'<br>mp_cardType: '.$mp_cardType.'<br>mp_response: '.$mp_response.'<br>mp_responsemsg: '.$mp_responsemsg.'<br>mp_authorization: '.$mp_authorization.'<br>mp_date: '.$mp_date.'<br>mp_paymentMethodCode: '.$mp_paymentMethodCode.'<br>mp_bankname: '.$mp_bankname.'<br>mp_bankcode: '.$mp_bankcode.'<br>mp_saleid: '.$mp_saleid.'<br>mp_pan: '.$mp_pan.'<br>mp_signature: '.$mp_signature. '<br>mp_signature1: '.$mp_signature1;
+                    //TODO: Actualizar datos en base de datos
+                    //TODO: Cambiar estado de orden y actualizar información de pago
+                    //TODO: Llamar método registerPayment
+                    //TODO: Actualizar datos en base de datos con respuesta de IWS
+                } 
+                if($mp_response != '0'){
+                    //TODO: Cancelar orden
+                } 
             } else{
                 echo "error";
             }
@@ -117,5 +121,26 @@ class Success extends \Magento\Framework\App\Action\Action
         }
         
         return $this->resultRedirectFactory->create()->setPath('checkout/cart'); 
+    }
+
+    //Verifica si el código de la transacción es valido
+    public function checkResponse($storeScope, $websiteCode) 
+    {
+        $enviroment = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        //Se valida entorno para obtener url del servicio
+        if($enviroment == '1'){
+            $configData['url'] = $this->scopeConfig->getValue(self::URL_SANDBOX, $storeScope, $websiteCode);
+            $configData['merchant_id'] = $this->scopeConfig->getValue(self::SANDBOX_MERCHANT_ID, $storeScope, $websiteCode);
+            $configData['secret_key'] = $this->scopeConfig->getValue(self::SANDBOX_LLAVE_SECRETA, $storeScope, $websiteCode);
+            $configData['public_key'] = $this->scopeConfig->getValue(self::SANDBOX_LLAVE_PUBLICA, $storeScope, $websiteCode);
+        } else{
+            $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
+            $configData['merchant_id'] = $this->scopeConfig->getValue(self::PRODUCCION_MERCHANT_ID, $storeScope, $websiteCode);
+            $configData['secret_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_SECRETA, $storeScope, $websiteCode);
+            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
+        }
+            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
+        return $configData;
+
     }
 }
