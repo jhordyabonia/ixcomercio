@@ -189,8 +189,15 @@
       line-height: 2.25;
       border-top: none;
       @media only screen and (max-width: $tablet){
-        margin: 0;
-        border-top: none;
+        &.level0{
+          margin: 0;
+          border-top: none;
+          font-size: 2rem;
+          &:last-child{
+            border-bottom: 0;
+            margin-bottom: 20px;
+          }
+        }
       }
     }
   }
