@@ -52,7 +52,7 @@ class UpgradeData implements UpgradeDataInterface
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context){
         $setup->startSetup();
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);		
-		if(version_compare($context->getVersion(), '1.0.1', '<')){
+		if(version_compare($context->getVersion(), '1.0.2', '<')){
             $conn = $setup->getConnection();
             $tableName = $setup->getTable('bancomer_transacciones');
             if($conn->isTableExists($tableName) != true){
@@ -119,7 +119,7 @@ class UpgradeData implements UpgradeDataInterface
                         )
                         ->addColumn(
                             'sale_id',
-                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
                             ['nullbale'=>true,'default'=>'']
                         )
