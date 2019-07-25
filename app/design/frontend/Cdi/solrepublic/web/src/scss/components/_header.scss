@@ -37,7 +37,10 @@
                 height: 55px;
                 margin: 0 1.25%;
                 padding: 0 1.25%;
-                display: inline-block;
+                display: none;
+                &.category-item{
+                  display: inline-block;
+                }
                 &.active{
                   a.level-top{
                     @media (min-width: $tablet){
