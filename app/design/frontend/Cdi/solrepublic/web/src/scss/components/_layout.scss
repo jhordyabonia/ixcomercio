@@ -69,6 +69,11 @@ section.product-specs{
     }
   }
 }
+nav.navigation{
+  @media (max-width: $tablet){
+    background: none;
+  }
+}
 .secContain {
   max-width: 1140px;
   width: 100%;
