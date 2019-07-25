@@ -1,2 +1,7 @@
 <?php $_product = $block->getProduct(); ?>
-<h3 class="productpage_tagline"><?= $block->escapeHtml($_product->getName()) ?></h3>
+<h3 class="productpage_tagline">
+	<?php if($_product->getShortDescription()){ ?>
+		<?= $_product->getShortDescription() ?></h3>
+	<?php }else{ ?>
+		<?= $block->escapeHtml($_product->getName()) ?></h3>
+	<?php } ?>

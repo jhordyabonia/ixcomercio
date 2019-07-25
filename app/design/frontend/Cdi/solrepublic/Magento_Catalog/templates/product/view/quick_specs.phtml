@@ -8,10 +8,10 @@ if($atts){
 	$fields = $_helperCdi->getAttributeArrayFromJson($atts);
 }
 ?>
-<section class="product-specs fullwidth dkgryBG" id="product-specs">
-	<div class="container">
-		<h3><?php echo __('Quick Specs')?></h3>
-		<?php if(count($fields)){ ?>
+<?php if(count($fields)){ ?>
+	<section class="product-specs fullwidth dkgryBG" id="product-specs">
+		<div class="container">
+			<h3><?php echo __('What You Get')?></h3>
 			<div class="row">
 				<ul class="feature-icons">
 				<?php foreach($fields as $field){ ?>
@@ -31,6 +31,6 @@ if($atts){
 				<?php } ?>
 				</ul>
 			</div>
-		<?php } ?>
-	</div>
-</section>
+		</div>
+	</section>
+<?php } ?>

@@ -6,8 +6,7 @@
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
 			<container name="product.essential" htmlTag="div" htmlClass="product-essential" after="-">
 				<container name="product.essential.container" htmlTag="div" htmlClass="container" before="-">
-					<container name="product.essential.container.row" htmlTag="div" htmlClass="row" before="-" />
-					<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="-" />
+					<container name="product.essential.container.row" htmlTag="div" htmlClass="row" after="-" />
 				</container>
 			</container>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-7 col-xs-12"/>
