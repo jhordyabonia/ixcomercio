@@ -374,6 +374,12 @@
         }  
       }
     }
+    &.gotoscroll .text-block-banner .text-overlay-banner .caption-desc{
+      font-size: 18px;
+      line-height: 1.75;
+      color: #373737;
+      font-family: 'Graphik-Regular', 'Helvetica', sans-serif;
+    }
     .text-block-banner .text-overlay-banner {
       @media (max-width: $mobile){
         text-align: center;
