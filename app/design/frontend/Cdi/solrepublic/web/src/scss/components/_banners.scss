@@ -1,5 +1,5 @@
 .banner{
-  &.HPsec2{
+  &.HPsec2:not(.banner-background){
     @media (max-width: $mobile){
       padding: 20px 0;
       .text-block-banner .text-overlay-banner.banner-text-center.banner-text-vertical-bottom{
