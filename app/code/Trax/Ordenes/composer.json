@@ -2,7 +2,7 @@
     "name": "trax/module-ordenes",
     "description": "Registrar ordenes en Trax",
     "type": "magento2-module",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "authors": [
         {
             "name": "CDI - Ariadna",

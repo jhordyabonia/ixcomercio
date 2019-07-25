@@ -150,7 +150,7 @@ class UpgradeData implements UpgradeDataInterface
                          ->setOption('charset','utf8');
                 $conn->createTable($table);
             }
-		}
+		}	
         $setup->endSetup();
     }
 }

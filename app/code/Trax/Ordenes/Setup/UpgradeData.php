@@ -73,7 +73,40 @@ class UpgradeData implements UpgradeDataInterface
                 ['adminhtml_customer_address','customer_address_edit','customer_register_address']
             );
             $customAttribute->save();
-		}
+		}	
+		if(version_compare($context->getVersion(), '1.0.3', '<')){
+            $conn = $setup->getConnection();
+            $tableName = $setup->getTable('iws_order');
+            if($conn->isTableExists($tableName) != true){
+                $table = $conn->newTable($tableName)
+                        ->addColumn(
+                             'id',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            null,
+                            ['identity'=>true,'unsigned'=>true,'nullable'=>false,'primary'=>true]
+                        )
+                        ->addColumn(
+                            'order_id',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
+                        )
+                        ->addColumn(
+                            'order_increment_id',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullbale'=>false,'default'=>'']
+                        )
+                        ->addColumn(
+                            'iws_order',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            '2M',
+                            ['nullbale'=>false,'default'=>'']
+                        )
+                         ->setOption('charset','utf8');
+                $conn->createTable($table);
+            }
+		}	
         $setup->endSetup();
     }
 }
