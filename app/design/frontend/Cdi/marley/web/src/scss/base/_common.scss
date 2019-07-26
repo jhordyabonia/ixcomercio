@@ -71,6 +71,9 @@ html {
     @media only screen and (max-width: 959px){
       padding-top: 72px;
     }
+    @media only screen and (max-width: $mobile){
+      padding-top: 62px;
+    }
     ul, ol {
       list-style: none;
     }

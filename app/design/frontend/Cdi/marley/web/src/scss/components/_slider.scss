@@ -1,4 +1,7 @@
 .owl-carousel, .main-slider .magestore-bannerslider-standard{
+  @media only screen and (max-width: $tablet){
+    width: 100%;
+  }
   section{
     padding: 0;
   }
