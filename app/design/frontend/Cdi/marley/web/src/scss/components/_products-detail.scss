@@ -275,6 +275,38 @@
 .product-tabs{
   width: 100%;
   float: left;
+  .tab-card{
+    .data.item.title{
+      a {
+        color: #333;
+        font-size: 1.34em;
+        line-height: 3em;
+        background-color: #f5f5f5;
+        font-family: 'flamacondensed-bold';
+      }
+      &.active{
+        a{
+          color: #009b67;
+          margin-bottom: -1px;
+          background-color: #fff;
+          border-color: #e5e5e5;
+          border-bottom: 1px solid transparent;
+          padding-top: 4px;
+          margin-top: -4px;
+          &:hover{
+            background-color: #fff;
+          }
+        }
+      }
+      &:hover{
+        a{
+          background-color: #eee;
+        }
+      }
+    }
+  }
+
+
   .card-header{
     padding: 0;
     background: none;
