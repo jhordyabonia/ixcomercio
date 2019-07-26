@@ -208,6 +208,14 @@
     width: 50%;
     margin: 0 auto;
   }
+  .row > div {
+    @media only screen and (max-width: 650px){
+      margin-bottom: 30px;
+      &:last-child{
+        margin: 0;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 650px){
