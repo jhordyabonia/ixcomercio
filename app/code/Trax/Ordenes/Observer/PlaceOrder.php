@@ -128,7 +128,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             if($configData['ordenes_reintentos']>$attempts){
                 $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('PlaceOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
