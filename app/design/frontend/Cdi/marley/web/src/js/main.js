@@ -10,6 +10,16 @@ function ($, Component) {
       $( "html, body" ).animate({scrollTop:0}, 500, 'swing');
     });
 
+    $("header.header-primary-container .mobnav-trigger-wrapper .mobnav-trigger").click(function(){
+      if($(this).hasClass("open")){
+        $(this).removeClass("open");
+        $("header.header-primary-container .wrapper-nav").slideUp();
+      }else{
+        $(this).addClass("open");
+        $("header.header-primary-container .wrapper-nav").slideDown();
+      }
+    });
+
   });
 
 
