@@ -122,6 +122,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
             $this->saveIwsOrder($data->OrderNumber, $order->getId(), $order->getIncrementId());
+            $this->addOrderComment($order->getId(), $data->OrderNumber);
         } else {
             if($configData['ordenes_reintentos']>$attempts){
                 $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
@@ -265,4 +266,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         );
         return json_encode($payload);
     }
+
+    //Se añade comentario interno a orden
+    public function saveIwsOrder($orderId, $iwsOrder) 
+    {
+		try {
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
+            $order->addStatusHistoryComment('Se genero orden interna en IWS. Orden Interna IWS #'.$iwsOrder);
+            $order->save();
+        } catch (\Exception $e) {
+            $this->logger->info('PlaceOrder - Error al guardar comentario en orden con ID: '.$orderId);
+        }
+	}
 }
