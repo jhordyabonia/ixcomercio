@@ -12,9 +12,6 @@
 					</container>
 				</container>
 			</container>
-
-			<container name="product.name.mobile" as="product_name_mobile" before="-" htmlTag="div" htmlClass="wrapper-title-product-mobile" />
-
 			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product.essential" />
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-md-6">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
@@ -23,14 +20,11 @@
 		</referenceContainer>
 		<referenceBlock name="product.info.sku" remove="true" />
 		
-
 		<!--
 		* Mueve elementos
 		-->
-		<!--title product mobile-->
-		<move element="product.name.mobile" destination="product.essential.container.row" as="product.title.mobile" before="-"/>
 		<!--media-->
-		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" after="product.name.mobile"/>
+		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
 		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
 
         <!--main-->
