@@ -21,13 +21,16 @@ function ($, Component) {
       }
     });
 
-    //Accordeon mobile
-    $(".product-tabs .tab-content .tab-pane .card-title").click(function(){
-      if($(this).parent().hasClass("active")){
-        $(this).parent().removeClass("show active");
+    //Footer mobile
+    $("footer .footer-primary .row>div h3").click(function(){
+      if($(this).hasClass("open")){
+        $(this).removeClass("open");
+        $(this).parent().find("ul").slideUp();
       }else{
-        $(".product-tabs .tab-content .tab-pane").removeClass("show active");
-        $(this).parent().addClass("show active");
+        $("footer .footer-primary .row > div h3").removeClass("open");
+        $("footer .footer-primary .row > div ul").slideUp();
+        $(this).addClass("open");
+        $(this).parent().find("ul").slideDown();
       }
     });
 
