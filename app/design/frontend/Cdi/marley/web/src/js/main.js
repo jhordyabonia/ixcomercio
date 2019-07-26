@@ -38,6 +38,7 @@ function ($, Component) {
     if(jQuery(".hero-banner")){
       var textHeroBanner = jQuery(".hero-banner .text-overlay-banner");
       jQuery(".hero-banner .text-block-banner").prepend(textHeroBanner);
+      jQuery(textHeroBanner).addClass("show");
     }
 
   });

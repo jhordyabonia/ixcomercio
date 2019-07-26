@@ -36,6 +36,10 @@
       left: 0;
       top: 0;
       float: left;
+      display: none;
+      &.show{
+        display: block;
+      }
     }
     h1, p{
       display: block;
