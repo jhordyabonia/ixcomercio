@@ -275,17 +275,17 @@
 .product-tabs{
   width: 100%;
   float: left;
-  .tab-card{
-    .data.item.title{
-      a {
+  .product.data.items{
+    >.item.title{
+      >.switch {
         color: #333;
         font-size: 1.34em;
         line-height: 3em;
         background-color: #f5f5f5;
         font-family: 'flamacondensed-bold';
       }
-      &.active{
-        a{
+      &.active {
+        >.switch {
           color: #009b67;
           margin-bottom: -1px;
           background-color: #fff;
@@ -293,13 +293,13 @@
           border-bottom: 1px solid transparent;
           padding-top: 4px;
           margin-top: -4px;
-          &:hover{
+          &:hover {
             background-color: #fff;
           }
         }
       }
-      &:hover{
-        a{
+      &:hover {
+        >.switch {
           background-color: #eee;
         }
       }
