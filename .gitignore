@@ -122,7 +122,7 @@ composer.lock
 estaticas/
 generated/
 grunt-config.json.sample
-lib/
+/lib/
 nginx.conf.sample
 package.json.sample
 php.ini.sample
