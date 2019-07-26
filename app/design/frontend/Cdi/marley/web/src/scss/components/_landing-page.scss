@@ -116,6 +116,8 @@
   }
   .video-container{
     iframe{
+      width: 100%;
+      height: 480px;
       @media only screen and (max-width: 480px){
         height: 200px;
       }
