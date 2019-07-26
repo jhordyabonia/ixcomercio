@@ -151,6 +151,10 @@
   }
 }
 .wrapper-product-sorter{
+  display: none;
+  &:eq(0){
+    display: block;
+  }
   > .sorter{
     width: 100%;
     text-align: left;
