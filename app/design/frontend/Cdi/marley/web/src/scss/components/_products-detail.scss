@@ -292,6 +292,9 @@
         border-top-right-radius: .25rem;
         @media only screen and (min-width: $tablet){
           color: #333;
+          &:visited{
+            color: #333;
+          }
         }
       }
       &.active {
@@ -301,6 +304,7 @@
           background-color: #fff;
           border-color: #e5e5e5;
           border-bottom: 1px solid transparent;
+          padding-bottom: 0;
           padding-top: 4px;
           margin-top: -4px;
           &:hover {
@@ -314,50 +318,15 @@
         }
       }
     }
-  }
-
-
-  .card-header{
-    padding: 0;
-    background: none;
-    border: 0;
-    @media only screen and (max-width: 1024px){
-      display: none;
-    }
-    .card-header-tabs{
-      margin: 0;
-      border-bottom: 1px solid #dee2e6;
-      .nav-link{
-        padding: 0 10px;
-      }
-      .nav-item{
-        float: left;
-        margin: 0 0 -1px;
-        a {
-          color: #333;
-          font-size: 1.34em;
-          line-height: 3em;
-          background-color: #f5f5f5;
-          font-family: 'flamacondensed-bold';
-          &.active{
-            color: #009b67;
-            margin-bottom: -1px;
-            background-color: #fff;
-            border-color: #e5e5e5;
-            border-bottom: 1px solid transparent;
-            padding-top: 4px;
-            margin-top: -4px;
-            &:hover{
-              background-color: #fff;
-            }
-          }
-          &:hover{
-            background-color: #eee;
-          }
-        }
+    >.item.content{
+      @media only screen and (min-width: $tablet){
+        text-align: left;
+        margin-top: 49px;
+        padding: 20px 0;
       }
     }
   }
+
   .tab-content{
     .tab-pane{
       padding: 15px 0;
