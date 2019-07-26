@@ -268,7 +268,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     }
 
     //Se añade comentario interno a orden
-    public function saveIwsOrder($orderId, $iwsOrder) 
+    public function addOrderComment($orderId, $iwsOrder) 
     {
 		try {
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
