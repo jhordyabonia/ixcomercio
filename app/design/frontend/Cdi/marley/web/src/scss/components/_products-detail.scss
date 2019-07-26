@@ -132,7 +132,9 @@
       .MagicToolboxSelectorsContainer{
         a{
           img{
+            max-width: 63px;
             box-shadow: none;
+            filter: brightness(100%) !important;
           }
         }
       }
@@ -152,9 +154,6 @@
       line-height: 50px;
       margin: 0 0 10px;
       display: block;
-      @media only screen and (max-width: 768px){
-        display: none;
-      }
     }
     .product-attribute{
       font-family: 'NexusTypewriterOT';
