@@ -107,6 +107,7 @@ header{
         background: none;
         margin: 0;
         .navigation{
+          background: none;
           @media only screen and (min-width: 768px){
             background: none;
           }
@@ -119,6 +120,9 @@ header{
               margin: 0;
               display: inline-block;
               float: none;
+              &.level0{
+                border: 0;
+              }
               @media only screen and (max-width: 959px){
                 width: auto;
                 display: block;
