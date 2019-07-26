@@ -151,9 +151,8 @@
   }
 }
 .wrapper-product-sorter{
-  display: none;
-  &:eq(0){
-    display: block;
+  &:last-child{
+    display: none!important;
   }
   > .sorter{
     width: 100%;
