@@ -130,7 +130,7 @@ pub/
 /update/
 var/
 !/app/code/*/*/composer.json
-!/app/lib/internal
+!/app/lib/internal/*
 
 index.php
 old.*
