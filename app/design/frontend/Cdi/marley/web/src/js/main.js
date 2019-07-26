@@ -10,6 +10,7 @@ function ($, Component) {
       $( "html, body" ).animate({scrollTop:0}, 500, 'swing');
     });
 
+    //Menu mobile
     $("header.header-primary-container .mobnav-trigger-wrapper .mobnav-trigger").click(function(){
       if($(this).hasClass("open")){
         $(this).removeClass("open");
@@ -17,6 +18,16 @@ function ($, Component) {
       }else{
         $(this).addClass("open");
         $("header.header-primary-container .wrapper-nav").slideDown();
+      }
+    });
+
+    //Accordeon mobile
+    $(".product-tabs .tab-content .tab-pane .card-title").click(function(){
+      if($(this).parent().hasClass("active")){
+        $(this).parent().removeClass("show active");
+      }else{
+        $(".product-tabs .tab-content .tab-pane").removeClass("show active");
+        $(this).parent().addClass("show active");
       }
     });
 
