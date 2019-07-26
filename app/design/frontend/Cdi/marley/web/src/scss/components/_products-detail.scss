@@ -277,12 +277,22 @@
   float: left;
   .product.data.items{
     >.item.title{
+      float: left;
+      margin: 0 0 -1px;
       >.switch {
         color: #333;
         font-size: 1.34em;
         line-height: 3em;
         background-color: #f5f5f5;
         font-family: 'flamacondensed-bold';
+        height: auto;
+        padding: 0 10px;
+        border: 1px solid transparent;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        @media only screen and (min-width: $tablet){
+          color: #333;
+        }
       }
       &.active {
         >.switch {
