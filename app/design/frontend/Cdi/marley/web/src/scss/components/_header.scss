@@ -89,6 +89,9 @@ header{
     .wrapper-nav{
       text-align: right;
       display: inline-block;
+      @media only screen and (max-width: $mobile){
+        top: 62px;
+      }
       @media only screen and (max-width: 959px){
         left: 0;
         top: 72px;
