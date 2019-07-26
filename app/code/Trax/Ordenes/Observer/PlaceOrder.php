@@ -74,7 +74,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $this->beginPlaceOrder($configData, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+            $payload = $this->loadPayloadService($order);
+            $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
         } catch(Exception $e){
             echo $e->getMessage();
         }
@@ -116,29 +117,77 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     }
 
     //Función recursiva para intentos de conexión
-    public function beginPlaceOrder($configData, $serviceUrl, $order, $storeCode, $attempts) 
+    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) 
     {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $order, $storeCode);
+        $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->saveIwsOrder($data->OrderNumber, $orderId[0], $order->getIncrementId());
+            $this->saveIwsOrder($data->OrderNumber, $order->getId(), $order->getIncrementId());
         } else {
             if($configData['ordenes_reintentos']>$attempts){
                 $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('PlaceOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginCatalogLoad($configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
-                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $store->getId());
+                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $store->getId());
             }
         }   
 
     }
 
     //Se carga servicio por CURL
-	public function loadIwsService($serviceUrl, $order, $storeCode) 
+	public function loadIwsService($serviceUrl, $payload, $storeCode) 
+	{        
+        $curl = curl_init();
+        // Set some options - we are passing in a useragent too here
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $serviceUrl,
+            CURLOPT_POSTFIELDS => $payload
+        ));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload))
+        );
+        // Send the request & save response to $resp
+        $resp = curl_exec($curl);
+        // Close request to clear up some resources
+        $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curl_errors = curl_error($curl);
+        curl_close($curl);    
+        $this->logger->info('PlaceOrder - payload: '.$payload);
+        $this->logger->info('PlaceOrder - status code: '.$status_code);
+        $this->logger->info('PlaceOrder - '.$serviceUrl);
+        $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
+        if ($status_code == '200'){
+            return json_decode($resp);
+        }
+        return false;
+
+    }
+
+    //Se guarda información de IWS en tabla custom
+    public function saveIwsOrder($orderNumber, $orderId, $orderIncrementId) 
+    {
+		$model = $this->_iwsOrder->create();
+		$model->addData([
+			"order_id" => $orderId,
+			"order_increment_id" => $orderIncrementId,
+			"iws_order" => $orderNumber,
+			]);
+        $saveData = $model->save();
+        if($saveData){
+            $this->logger->info('PlaceOrder - Se inserto la orden de IWS: '.$orderNumber);
+        } else {
+            $this->logger->info('PlaceOrder - Se produjo un error al guardar la orden de IWS: '.$orderNumber);
+        }
+	}
+
+    //Laod Payload request
+	public function loadPayloadService($order) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
@@ -216,49 +265,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             ),
             'Items' => $items
         );
-        $payload = json_encode($payload);
-        $curl = curl_init();
-        // Set some options - we are passing in a useragent too here
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $serviceUrl,
-            CURLOPT_POSTFIELDS => $payload
-        ));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($payload))
-        );
-        // Send the request & save response to $resp
-        $resp = curl_exec($curl);
-        // Close request to clear up some resources
-        $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $curl_errors = curl_error($curl);
-        curl_close($curl);    
-        $this->logger->info('PlaceOrder - payload: '.$payload);
-        $this->logger->info('PlaceOrder - status code: '.$status_code);
-        $this->logger->info('PlaceOrder - '.$serviceUrl);
-        $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
-        if ($status_code == '200'){
-            return json_decode($resp);
-        }
-        return false;
-
+        return json_encode($payload);
     }
-
-    //Se guarda información de IWS en tabla custom
-    public function saveIwsOrder($orderNumber, $orderId, $orderIncrementId) 
-    {
-		$model = $this->_iwsOrder->create();
-		$model->addData([
-			"order_id" => $orderId,
-			"order_increment_id" => $orderIncrementId,
-			"iws_order" => $orderNumber,
-			]);
-        $saveData = $model->save();
-        if($saveData){
-            $this->logger->info('PlaceOrder - Se inserto la orden de IWS: '.$orderNumber);
-        } else {
-            $this->logger->info('PlaceOrder - Se produjo un error al guardar la orden de IWS: '.$orderNumber);
-        }
-	}
 }

@@ -117,7 +117,7 @@ class Email extends AbstractHelper
      * @throws \Magento\Framework\Exception\MailException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function notify($name, $email, $catalogo_reintentos, $serviceUrl, $storeid)
+    public function notify($name, $email, $reintentos, $serviceUrl, $payload, $storeid)
     {
 
         /* Receiver Detail */
@@ -134,8 +134,9 @@ class Email extends AbstractHelper
 
         /* Assign values for your template variables  */
         $variable = [];
-        $variable['catalogo_reintentos'] = $catalogo_reintentos;
+        $variable['reintentos'] = $reintentos;
         $variable['serviceUrl'] = $serviceUrl;
+        $variable['payload'] = $payload;
 
         $templateId = "trax_catalogo_catalogo_general_template_notification";
         $this->inlineTranslation->suspend();

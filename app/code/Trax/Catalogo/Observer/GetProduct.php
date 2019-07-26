@@ -106,7 +106,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             } else{
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $storeManager->getStore()->getStoreId());
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeManager->getStore()->getStoreId());
             }
         }   
 
