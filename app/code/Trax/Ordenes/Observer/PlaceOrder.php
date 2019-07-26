@@ -74,12 +74,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $data = $this->loadIwsService($serviceUrl, $order, $storeManager->getStore()->getCode());
-            //Mapear orden de magento con IWS en tabla custom
-            //$this->saveIwsOrder($data->OrderNumber, $orderId[0], $order->getIncrementId());
-            echo "<pre>";
-            print_r($data);
-            echo "</pre>";
+            $this->beginPlaceOrder($configData, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
         } catch(Exception $e){
             echo $e->getMessage();
         }
@@ -120,6 +115,29 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         return $serviceUrl;
     }
 
+    //Función recursiva para intentos de conexión
+    public function beginPlaceOrder($configData, $serviceUrl, $order, $storeCode, $attempts) 
+    {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl, $order, $storeCode);
+        if($data){     
+            //Mapear orden de magento con IWS en tabla custom
+            $this->saveIwsOrder($data->OrderNumber, $orderId[0], $order->getIncrementId());
+        } else {
+            if($configData['ordenes_reintentos']>$attempts){
+                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('PlaceOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginCatalogLoad($configData, $serviceUrl, $order, $storeCode, $attempts+1);
+            } else{
+                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
+                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $store->getId());
+            }
+        }   
+
+    }
+
+    //Se carga servicio por CURL
 	public function loadIwsService($serviceUrl, $order, $storeCode) 
 	{        
         $billing = $order->getBillingAddress();
