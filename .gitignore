@@ -132,6 +132,7 @@ pub/
 /update/
 var/
 !/app/code/*/*/composer.json
+!/app/lib
 
 index.php
 old.*
