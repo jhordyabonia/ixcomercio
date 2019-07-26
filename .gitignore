@@ -117,12 +117,10 @@ LICENSE_EE.txt
 README_EE.md
 auth.json.sample
 bin/
-composer.json
-composer.lock
 estaticas/
 generated/
 grunt-config.json.sample
-/lib/
+lib/
 nginx.conf.sample
 package.json.sample
 php.ini.sample
@@ -132,7 +130,7 @@ pub/
 /update/
 var/
 !/app/code/*/*/composer.json
-!/app/lib
+!/app/lib/internal
 
 index.php
 old.*
