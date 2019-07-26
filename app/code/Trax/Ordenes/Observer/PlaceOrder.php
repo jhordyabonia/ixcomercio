@@ -77,9 +77,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $payload = $this->loadPayloadService($order);
             $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
         } catch(Exception $e){
-            echo $e->getMessage();
+            $this->logger->info('PlaceOrder - Se ha producido un error: '.$e->getMessage());
         }
-        exit();
 	}
 
     //Obtiene los parámetros de configuración desde el cms
@@ -117,8 +116,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     }
 
     //Función recursiva para intentos de conexión
-    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) 
-    {
+    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
         if($data){     
