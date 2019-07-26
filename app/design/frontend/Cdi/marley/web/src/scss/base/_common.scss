@@ -95,9 +95,9 @@ html {
       }
     }
     .page-main{
+      padding: 0;
       @media only screen and (min-width: 768px){
         max-width: 100%;
-        padding: 0;
       }
     }
     section{
