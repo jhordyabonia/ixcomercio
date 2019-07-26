@@ -76,7 +76,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         try{
             $data = $this->loadIwsService($serviceUrl, $order, $storeManager->getStore()->getCode());
             //Mapear orden de magento con IWS en tabla custom
-            $this->saveIwsOrder($data->OrderNumber, $orderId, $order->getIncrementId());
+            $this->saveIwsOrder($data->OrderNumber, $orderId[0], $order->getIncrementId());
             echo "<pre>";
             print_r($data);
             echo "</pre>";
