@@ -14,15 +14,12 @@
 			<referenceBlock name="category.image" remove="true" />
 			<referenceBlock name="category.description" remove="true" />
 			<!--<referenceBlock name="category.cms" remove="true" />-->
-			<!--Agrega bloques personalizados de categoría-->
+			<!--Agrega bloques personalizados de categoría
 			<block class="Magento\Catalog\Block\Product\ListProduct" name="category.prods" template="Magento_Catalog::category/products_customview.phtml"/>
+			-->
 			
 		</referenceContainer>
 		<!--
-		<referenceContainer name="content">	
-			<referenceBlock name="category.product.addto" remove="true" />
-		</referenceContainer>
-		<referenceBlock name="category.product.addto" remove="true" />
 		-->
 		<move element="category.cms" destination="content" as="category.cms" before="-"/>
     </body>

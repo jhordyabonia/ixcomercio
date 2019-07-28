@@ -1,21 +1,49 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 use Magento\Framework\App\Action\Action;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ */
+?>
+<?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$imageDisplayArea = 'category_page_list';
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
 <?php else: ?>
-	<?= $block->getToolbarHtml() ?>
+	<div style="display:none">
+    <?= $block->getToolbarHtml() ?>
     <?= $block->getAdditionalHtml() ?>
-	<?php
-	/**
+	</div>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $imageDisplayArea = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $imageDisplayArea = 'category_page_list';
+        $showDescription = true;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
      * Position for actions regarding image size changing in vde if needed
      */
     $pos = $block->getPositioned();
     ?>
-	<div class="category-products">
+    <div class="category-products">
 		<div class="container products-list" id="products-list">
 			<?php $count = 0;?>
 			<?php foreach ($_productCollection as $_product): ?>
@@ -58,4 +86,18 @@ $imageDisplayArea = 'category_page_list';
 			<?php endforeach; ?>
 		</div>
 	</div>
+    <div style="display:none">
+	<?= $block->getToolbarHtml() ?>
+	</div>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {
+                    "product_sku": "<?= /* @NoEscape */ $_product->getSku() ?>"
+                }
+            }
+        }
+        </script>
+    <?php endif; ?>
 <?php endif; ?>
