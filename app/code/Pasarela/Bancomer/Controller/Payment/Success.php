@@ -48,6 +48,7 @@ class Success extends \Magento\Framework\App\Action\Action
     protected $logger;
     protected $_invoiceService;
     protected $transactionBuilder;
+    protected $_iwsOrder;
     
     /**
      * 
@@ -77,7 +78,7 @@ class Success extends \Magento\Framework\App\Action\Action
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Catalogo\Helper\Email $email,
-            \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder
+            \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
