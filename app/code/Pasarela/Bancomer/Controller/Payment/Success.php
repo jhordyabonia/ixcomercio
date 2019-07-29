@@ -184,7 +184,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $order = $this->orderRepository->get((int)$mp_order);
             $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
             $order->setState($status)->setStatus($status);
-            $order->setTotalPaid($mp_amount);  
+            $order->setTotalPaid((float)$mp_amount);  
             $order->addStatusHistoryComment("Pago recibido exitosamente")->setIsCustomerNotified(true);            
             $order->save();        
     
