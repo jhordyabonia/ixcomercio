@@ -240,8 +240,13 @@ class Success extends \Magento\Framework\App\Action\Action
             $this->logger->info('RegisterPayment - url '.$serviceUrl);
             if($serviceUrl){
                 try{
-                    $payload = $this->loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan);
-                    $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+                    $payload = $this->loadPayloadService($mp_order, $mp_amount, $mp_bankname, 
+                    $mp_authorization, $mp_pan);
+                    if($payload){
+                        $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+                    } else{
+                        $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                    }
                 } catch(Exception $e){
                     $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
                 }
@@ -346,24 +351,26 @@ class Success extends \Magento\Framework\App\Action\Action
     //Laod Payload request
 	public function loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan) 
 	{   
-        $this->logger->info('RegisterPayment - se carga payload');
         //Load IWS Order id
         $iwsOrder = $this->loadIwsOrder($mp_order);
-        $this->logger->info('RegisterPayment - iwsOrder: '.$iwsOrder);
-        $payments = array();
-        $tempPayment['Amount'] = $mp_amount;
-        $tempPayment['Authorization'] = $mp_authorization;
-        $tempPayment['BankName'] = $mp_bankname;
-        $tempPayment['BankAccount'] = $mp_pan;
-        $tempPayment['PaymentTypeId'] = 'ECG3';
-        $tempPayment['Partial'] = false;
-        $payments[] = $tempPayment;
-        $payload = array(
-            'OrderNumber' => $iwsOrder,
-            'Payments' => $payments
-        );
-        $this->logger->info('RegisterPayment - payload: '.json_encode($payload));
-        return json_encode($payload);
+        if($iwsOrder){
+            $this->logger->info('RegisterPayment - iwsOrder: '.$iwsOrder);
+            $payments = array();
+            $tempPayment['Amount'] = $mp_amount;
+            $tempPayment['Authorization'] = $mp_authorization;
+            $tempPayment['BankName'] = $mp_bankname;
+            $tempPayment['BankAccount'] = $mp_pan;
+            $tempPayment['PaymentTypeId'] = 'ECG3';
+            $tempPayment['Partial'] = false;
+            $payments[] = $tempPayment;
+            $payload = array(
+                'OrderNumber' => $iwsOrder,
+                'Payments' => $payments
+            );
+            $this->logger->info('RegisterPayment - payload: '.json_encode($payload));
+            return json_encode($payload);
+        }
+        return false;
     }
 
     //Load IWS ORder for custom model
@@ -372,12 +379,10 @@ class Success extends \Magento\Framework\App\Action\Action
         $orders = $this->_iwsOrder->create();
         $orders->getResource()
             ->load($orders, $mp_order, 'order_id');
-        $this->logger->info('RegisterPayment - carga modelo especifico por datos: '.$orders->getId());
-        // Load all data of collection
-        echo "<pre>";
-        print_r($orders);
-        echo "</pre>";
-        exit();
+        if($orders->getId()){
+            return $orders->getIwsOrder();
+        }
+        return false;
 
     }
 
