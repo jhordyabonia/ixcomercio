@@ -60,6 +60,8 @@ class Success extends \Magento\Framework\App\Action\Action
      * @param \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder
      * @param \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones
      * @param \Magento\Framework\Controller\ResultFactory $result
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Trax\Catalogo\Helper\Email $email
      */
     public function __construct(
             Context $context, 
