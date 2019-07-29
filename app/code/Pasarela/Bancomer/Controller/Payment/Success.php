@@ -220,8 +220,8 @@ class Success extends \Magento\Framework\App\Action\Action
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
-        $this->logger->debug('#SUCCESS', array('redirect' => 'checkout/onepage/success'));
         exit();
+        $this->logger->debug('#SUCCESS', array('redirect' => 'checkout/onepage/success'));
         return $this->resultRedirectFactory->create()->setPath('checkout/onepage/success');
     }
 
