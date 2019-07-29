@@ -301,6 +301,9 @@ class Success extends \Magento\Framework\App\Action\Action
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload);
         if($data){     
+            echo "<pre>";
+            print_r($data);
+            echo "</pre>";
             //Mapear orden de magento con IWS en tabla custom
             $this->addOrderComment($mp_order, $data->PaymentId);
         } else {
