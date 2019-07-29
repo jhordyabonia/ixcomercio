@@ -26,18 +26,19 @@ class Success extends \Magento\Framework\App\Action\Action
     protected $logger;
     protected $_invoiceService;
     protected $transactionBuilder;
-    protected $_bancomerTransacciones;
     
     /**
      * 
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param \Magento\Framework\App\Request\Http $request
-     * @param BancomerPayment $payment
      * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Psr\Log\LoggerInterface $logger_interface
      * @param \Magento\Sales\Model\Service\InvoiceService $invoiceService
+     * @param \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder
+     * @param \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones
+     * @param \Magento\Framework\Controller\ResultFactory $result
      */
     public function __construct(
             Context $context, 
@@ -48,7 +49,8 @@ class Success extends \Magento\Framework\App\Action\Action
             \Psr\Log\LoggerInterface $logger_interface,
             \Magento\Sales\Model\Service\InvoiceService $invoiceService,
             \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
-            \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones
+            \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones,
+            \Magento\Framework\Controller\ResultFactory $result
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -59,6 +61,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
         $this->_bancomerTransacciones = $bancomerTransacciones;
+        $this->resultRedirect = $result;
     }
 
     /**
