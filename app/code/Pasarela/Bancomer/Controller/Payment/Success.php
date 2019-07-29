@@ -143,7 +143,7 @@ class Success extends \Magento\Framework\App\Action\Action
                     $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
                     $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization);
-                    return $this->_pageFactory->create();
+                    return $this->_resultPageFactory->create();
                 } 
                 if($mp_response != '0'){
                     //TODO: Cancelar orden
