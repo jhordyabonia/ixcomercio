@@ -11,6 +11,7 @@ namespace Pasarela\Bancomer\Controller\Payment;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Controller\ResultFactory;
+use Trax\Ordenes\Model\IwsOrderFactory;
 
 /**
  * Webhook class  
@@ -75,7 +76,8 @@ class Success extends \Magento\Framework\App\Action\Action
             \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones,
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-            \Trax\Catalogo\Helper\Email $email
+            \Trax\Catalogo\Helper\Email $email,
+            \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -89,6 +91,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->resultRedirect = $result;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
+        $this->_iwsOrder = $iwsOrder;
     }
 
     /**
@@ -365,11 +368,12 @@ class Success extends \Magento\Framework\App\Action\Action
     //Load IWS ORder for custom model
     public function loadIwsOrder($mp_order)
     {
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-        $orderCollection = $objectManager->get('\Trax\Ordenes\Model\IwsOrder');
-        $orders = $orderCollection->load($mp_order, 'order_id');
+        $orderCollection = $this->_iwsOrder->create();
+        $orders = $orderCollection->load($mp_order, 'order_id');  
+        $ordersCollection = $orders->getCollection();
+        // Load all data of collection
         echo "<pre>";
-        print_r($orders);
+        print_r($ordersCollection->getData());
         echo "</pre>";
         exit();
     }
