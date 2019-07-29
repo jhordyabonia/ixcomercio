@@ -143,22 +143,18 @@ class Success extends \Magento\Framework\App\Action\Action
                     $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
                     $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization);
+                    return $this->_pageFactory->create();
                 } 
                 if($mp_response != '0'){
                     //TODO: Cancelar orden
                 } 
             } else{
                 echo "error";
-            }
-            echo "success";
-            exit();
-            
+            }            
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
             //throw new \Magento\Framework\Validator\Exception(__($e->getMessage()));
         }
-        exit();
-        return $this->resultRedirectFactory->create()->setPath('checkout/cart'); 
     }
 
     //Verifica si el código de la transacción es valido
@@ -257,9 +253,6 @@ class Success extends \Magento\Framework\App\Action\Action
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
-        exit();
-        $this->logger->debug('#SUCCESS', array('redirect' => 'checkout/onepage/success'));
-        return $this->resultRedirectFactory->create()->setPath('checkout/onepage/success');
     }
 
     //Obtiene los parámetros de configuración desde el cms
