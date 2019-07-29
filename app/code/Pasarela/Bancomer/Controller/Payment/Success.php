@@ -369,10 +369,8 @@ class Success extends \Magento\Framework\App\Action\Action
     //Load IWS ORder for custom model
     public function loadIwsOrder($mp_order)
     {
-        $this->logger->info('RegisterPayment - entra a función');
-        $orderCollection = $this->_iwsOrder->create();
-        $this->logger->info('RegisterPayment - carga modelo');
-        $orders = $orderCollection->getCollection()->addFieldToFilter('order_id', $mp_order);  
+        $this->logger->info('RegisterPayment - entra a función '.$mp_order);
+        $orders = $this->_iwsOrder->create()->getCollection()->addFieldToFilter('order_id', $mp_order);  
         $this->logger->info('RegisterPayment - carga modelo especifico por datos: '.$mp_order);
         // Load all data of collection
         echo "<pre>";
