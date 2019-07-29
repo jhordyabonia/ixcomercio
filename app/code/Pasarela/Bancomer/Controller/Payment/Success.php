@@ -371,7 +371,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->logger->info('RegisterPayment - entra a función');
         $orderCollection = $this->_iwsOrder->create();
         $this->logger->info('RegisterPayment - carga modelo');
-        $orders = $orderCollection->getCollection()->addFieldToFilter($mp_order, 'order_id');  
+        $orders = $orderCollection->getCollection()->addFieldToFilter('order_id', $mp_order);  
         $this->logger->info('RegisterPayment - carga modelo especifico por datos: '.$mp_order);
         // Load all data of collection
         echo "<pre>";
