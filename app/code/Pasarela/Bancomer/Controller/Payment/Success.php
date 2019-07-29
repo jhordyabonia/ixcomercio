@@ -363,7 +363,7 @@ class Success extends \Magento\Framework\App\Action\Action
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
         $orderCollection = $objectManager->get('\Trax\Ordenes\Model\IwsOrder');
-        $orders = $orderCollection->create()->addFieldToFilter('order_id', $mp_order);
+        $orders = $orderCollection->getCollection()->addFieldToFilter('order_id', $mp_order);
         return $orders->getFirstItem()->getIwsOrder();
     }
 
