@@ -10,6 +10,8 @@ namespace Pasarela\Bancomer\Controller\Payment;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
+use Pasarela\Bancomer\Model\BancomerTransaccionesFactory;
+use Magento\Framework\Controller\ResultFactory;
 
 /**
  * Webhook class  
@@ -45,7 +47,8 @@ class Success extends \Magento\Framework\App\Action\Action
             \Magento\Checkout\Model\Session $checkoutSession,
             \Psr\Log\LoggerInterface $logger_interface,
             \Magento\Sales\Model\Service\InvoiceService $invoiceService,
-            \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder
+            \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
+            \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -55,6 +58,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->logger = $logger_interface;        
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
+        $this->_bancomerTransacciones = $bancomerTransacciones;
     }
 
     /**
@@ -102,6 +106,7 @@ class Success extends \Magento\Framework\App\Action\Action
                 if($mp_response=='00'){
                     echo 'mp_order: '.$mp_order.'<br>mp_reference: '.$mp_reference.'<br>mp_amount: '.$mp_amount.'<br>mp_paymentMethod: '.$mp_paymentMethod.'<br>mp_cardType: '.$mp_cardType.'<br>mp_response: '.$mp_response.'<br>mp_responsemsg: '.$mp_responsemsg.'<br>mp_authorization: '.$mp_authorization.'<br>mp_date: '.$mp_date.'<br>mp_paymentMethodCode: '.$mp_paymentMethodCode.'<br>mp_bankname: '.$mp_bankname.'<br>mp_bankcode: '.$mp_bankcode.'<br>mp_saleid: '.$mp_saleid.'<br>mp_pan: '.$mp_pan.'<br>mp_signature: '.$mp_signature. '<br>mp_signature1: '.$mp_signature1;
                     //TODO: Actualizar datos en base de datos
+                    $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago
                     //TODO: Llamar método registerPayment
                     //TODO: Actualizar datos en base de datos con respuesta de IWS
@@ -143,4 +148,31 @@ class Success extends \Magento\Framework\App\Action\Action
         return $configData;
 
     }
+
+    //Se guarda información de Pago en tabla custom
+    public function saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan) 
+    {
+		$model = $this->_bancomerTransacciones->create();
+		$model->addData([
+			"order_id" => $mp_order,
+			"reference" => $mp_reference,
+			"payment_method" => $mp_paymentMethod,
+			"payment_method_code" => $mp_paymentMethodCode,
+			"card_type" => $mp_cardType,
+			"bank_name" => $mp_bankname,
+			"bank_account" => $mp_pan,
+			"bank_code" => $mp_bankcode,
+			"sale_id" => $mp_saleid,
+			"response" => $mp_response,
+			"response_msg" => $mp_responsemsg,
+			"authorization" => $mp_authorization,
+			"date" => $mp_date
+			]);
+        $saveData = $model->save();
+        if($saveData){
+            $this->logger->info('RegisterPayment - Se inserto información de pago de la orden: '.$mp_reference);
+        } else {
+            $this->logger->info('RegisterPayment - Se produjo un error al guardar la información de pago de la orden: '.$mp_reference);
+        }
+	}
 }
