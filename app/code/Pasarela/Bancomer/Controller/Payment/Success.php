@@ -301,11 +301,8 @@ class Success extends \Magento\Framework\App\Action\Action
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload);
         if($data){     
-            echo "<pre>";
-            print_r($data);
-            echo "</pre>";
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, $data->PaymentId);
+            $this->addOrderComment($mp_order, $data[0]->PaymentId);
         } else {
             if($configData['ordenes_reintentos']>$attempts){
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
