@@ -365,7 +365,7 @@ class Success extends \Magento\Framework\App\Action\Action
     //Load IWS ORder for custom model
     public function loadIwsOrder($mp_order)
     {
-        $orders = $this->_bancomerTransacciones->create()->addFieldToFilter('order_id', $mp_order);
+        $orders = $this->_bancomerTransacciones->create()->load($mp_order, 'order_id');
         echo "<pre>";
         print_r($orders);
         echo "</pre>";
