@@ -138,12 +138,17 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             if($mp_signature == $mp_signature1){
                 if($mp_response=='00'){
-                    echo 'mp_order: '.$mp_order.'<br>mp_reference: '.$mp_reference.'<br>mp_amount: '.$mp_amount.'<br>mp_paymentMethod: '.$mp_paymentMethod.'<br>mp_cardType: '.$mp_cardType.'<br>mp_response: '.$mp_response.'<br>mp_responsemsg: '.$mp_responsemsg.'<br>mp_authorization: '.$mp_authorization.'<br>mp_date: '.$mp_date.'<br>mp_paymentMethodCode: '.$mp_paymentMethodCode.'<br>mp_bankname: '.$mp_bankname.'<br>mp_bankcode: '.$mp_bankcode.'<br>mp_saleid: '.$mp_saleid.'<br>mp_pan: '.$mp_pan.'<br>mp_signature: '.$mp_signature. '<br>mp_signature1: '.$mp_signature1;
                     //TODO: Actualizar datos en base de datos
                     $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
                     $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization);
-                    return $this->resultPageFactory->create();
+                    $resultPage = $this->resultPageFactory->create();
+                    $resultPage->getLayout()->initMessages();
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setReference($mp_reference);
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setAmount($mp_amount);
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setPaymentMethod($mp_paymentMethod);
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setResponse($mp_responsemsg);
+                    return $resultPage;
                 } 
                 if($mp_response != '0'){
                     //TODO: Cancelar orden

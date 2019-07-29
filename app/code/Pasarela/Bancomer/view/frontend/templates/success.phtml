@@ -1,7 +1,18 @@
-<?php
-
-/**
- * @var \Pasarela\Bancomer\Block\Success $block
- */
-
-echo $block->success();
+<table>
+    <tr>
+        <td>Orden #</td>
+        <td><?php echo $this->getReference() ?></td>
+    </tr>
+    <tr>
+        <td>Valor</td>
+        <td><?php echo $this->getAmount() ?></td>
+    </tr>
+    <tr>
+        <td>Método de pago</td>
+        <td><?php echo $this->getPaymentMethod() ?></td>
+    </tr>
+    <tr>
+        <td>Estado</td>
+        <td><?php echo $this->getResponse() ?></td>
+    </tr>
+</table>
