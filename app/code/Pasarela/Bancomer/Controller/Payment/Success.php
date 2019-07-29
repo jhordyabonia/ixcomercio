@@ -10,7 +10,6 @@ namespace Pasarela\Bancomer\Controller\Payment;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
-use Pasarela\Bancomer\Model\BancomerTransaccionesFactory;
 use Magento\Framework\Controller\ResultFactory;
 
 /**
@@ -27,6 +26,7 @@ class Success extends \Magento\Framework\App\Action\Action
     protected $logger;
     protected $_invoiceService;
     protected $transactionBuilder;
+    protected $_bancomerTransacciones;
     
     /**
      * 
