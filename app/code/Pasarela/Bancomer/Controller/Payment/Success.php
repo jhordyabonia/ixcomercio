@@ -111,7 +111,7 @@ class Success extends \Magento\Framework\App\Action\Action
                     //TODO: Actualizar datos en base de datos
                     $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
-                    $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan, $mp_response, $mp_responsemsg, $mp_authorization);
+                    $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization);
                 } 
                 if($mp_response != '0'){
                     //TODO: Cancelar orden
@@ -179,9 +179,10 @@ class Success extends \Magento\Framework\App\Action\Action
     }
     
     //Se cambia estado de la orden y se genera factura
-    public function changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan, $mp_response, $mp_responsemsg, $mp_authorization){   
+    public function changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization){   
         try {
-            $order = $this->orderRepository->get($mp_order);
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($mp_order);
             $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
             $order->setState($status)->setStatus($status);
             $order->setTotalPaid($mp_amount);  
@@ -221,6 +222,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
         $this->logger->debug('#SUCCESS', array('redirect' => 'checkout/onepage/success'));
+        exit();
         return $this->resultRedirectFactory->create()->setPath('checkout/onepage/success');
     }
 
