@@ -233,6 +233,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode()); 
             $this->logger->info('RegisterPayment - Se obtienen parámetros de configuración');
             $serviceUrl = $this->getServiceUrl($configData);   
+            $this->logger->info('RegisterPayment - url '.$serviceUrl);
             if($serviceUrl){
                 try{
                     $payload = $this->loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan);
