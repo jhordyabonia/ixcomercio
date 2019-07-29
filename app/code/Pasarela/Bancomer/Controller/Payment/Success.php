@@ -18,6 +18,27 @@ use Magento\Framework\Controller\ResultFactory;
 class Success extends \Magento\Framework\App\Action\Action
 {
 
+    const API_KEY = 'trax_general/catalogo_retailer/apikey';
+
+	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
+
+	const ENVIROMENT = 'trax_general/catalogo_retailer/apuntar_a';
+
+	const URL_DESARROLLO = 'trax_general/catalogo_retailer/url_desarrollo';
+
+	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
+
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
+
+    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
+    
+    private $helper;
+	
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
     protected $resultPageFactory;
     protected $request;
     protected $payment;
@@ -50,7 +71,9 @@ class Success extends \Magento\Framework\App\Action\Action
             \Magento\Sales\Model\Service\InvoiceService $invoiceService,
             \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
             \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones,
-            \Magento\Framework\Controller\ResultFactory $result
+            \Magento\Framework\Controller\ResultFactory $result,
+            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+            \Trax\Catalogo\Helper\Email $email
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -62,6 +85,8 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->transactionBuilder = $transactionBuilder;
         $this->_bancomerTransacciones = $bancomerTransacciones;
         $this->resultRedirect = $result;
+        $this->scopeConfig = $scopeConfig;
+        $this->helper = $email;
     }
 
     /**
