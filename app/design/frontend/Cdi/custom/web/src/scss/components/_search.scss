@@ -1,15 +1,17 @@
-.block-search{
-  display: block;
-  position: absolute;
-  top: 0px;
-  left: 0;
-  width: 25%;
-  height: 50px;
-  padding: 0;
-  .block-content{
-    form{
-      .nested{
-        display: none;
+header{
+  .block-search{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 25%;
+    height: 50px;
+    padding: 0;
+    .block-content{
+      form{
+        .nested{
+          display: none;
+        }
       }
     }
   }
