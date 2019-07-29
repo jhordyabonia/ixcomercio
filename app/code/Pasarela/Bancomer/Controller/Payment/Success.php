@@ -181,8 +181,7 @@ class Success extends \Magento\Framework\App\Action\Action
     //Se cambia estado de la orden y se genera factura
     public function changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization){   
         try {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($mp_order);
+            $order = $this->orderRepository->get((int)$mp_order);
             $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
             $order->setState($status)->setStatus($status);
             $order->setTotalPaid($mp_amount);  
