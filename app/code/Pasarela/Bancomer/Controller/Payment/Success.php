@@ -291,7 +291,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'registerPayments?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
+            $serviceUrl = $configData['url'].'registerpayments?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
         }
         return $serviceUrl;
     }
