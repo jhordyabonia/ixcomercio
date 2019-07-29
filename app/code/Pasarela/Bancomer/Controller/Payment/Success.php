@@ -126,7 +126,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
             //throw new \Magento\Framework\Validator\Exception(__($e->getMessage()));
         }
-        
+        exit();
         return $this->resultRedirectFactory->create()->setPath('checkout/cart'); 
     }
 
