@@ -311,6 +311,7 @@ class Success extends \Magento\Framework\App\Action\Action
     //Se carga servicio por CURL
 	public function loadIwsService($serviceUrl, $payload) 
 	{        
+        $this->logger->info('RegisterPayment - payload: '.$payload);
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
@@ -328,7 +329,6 @@ class Success extends \Magento\Framework\App\Action\Action
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
-        $this->logger->info('RegisterPayment - payload: '.$payload);
         $this->logger->info('RegisterPayment - status code: '.$status_code);
         $this->logger->info('RegisterPayment - '.$serviceUrl);
         $this->logger->info('RegisterPayment - curl errors: '.$curl_errors);
