@@ -368,7 +368,10 @@ class Success extends \Magento\Framework\App\Action\Action
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
         $orderCollection = $objectManager->get('\Trax\Ordenes\Model\IwsOrder');
         $orders = $orderCollection->getCollection()->addFieldToFilter('order_id', $mp_order);
-        return $orders->getFirstItem()->getIwsOrder();
+        echo "<pre>";
+        print_r($orders);
+        echo "</pre>";
+        exit();
     }
 
     //Se añade comentario interno a orden
