@@ -12,12 +12,12 @@
 		<move element="navigation.sections" destination="header.container" as="navigation.sections" after="-"/>
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
-			<referenceBlock name="header.panel.wrapper" remove="true" />
+			<referenceBlock name="header.panel.wrapper" remove="false" />
 		</referenceContainer>
 		<!--Elimina el carrito y el buscador de la cabecera-->
 		<referenceContainer name="header-wrapper">
 			<referenceBlock name="minicart" remove="true" />
-			<referenceBlock name="top.search" remove="true" />
+			<referenceBlock name="top.search" remove="false" />
 		</referenceContainer>
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
