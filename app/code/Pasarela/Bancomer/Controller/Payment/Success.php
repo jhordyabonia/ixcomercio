@@ -365,7 +365,9 @@ class Success extends \Magento\Framework\App\Action\Action
     //Load IWS ORder for custom model
     public function loadIwsOrder($mp_order)
     {
-        $orders = $this->_bancomerTransacciones->create()->load($mp_order, 'order_id');
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
+        $orderCollection = $objectManager->get('\Trax\Ordenes\Model\IwsOrder');
+        $orders = $orderCollection->load($mp_order, 'order_id');
         echo "<pre>";
         print_r($orders);
         echo "</pre>";
