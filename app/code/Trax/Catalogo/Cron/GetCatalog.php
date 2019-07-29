@@ -159,7 +159,7 @@ class GetCatalog {
             } else{
                 $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $store->getId());
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
             }
         }   
 
@@ -243,11 +243,11 @@ class GetCatalog {
             if($configData['catalogo_reintentos']>$attempts){
                 $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogSalesLoad($configData, $store, $serviceUrl, $website, $attempts+1);
+                $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts+1);
             } else{
                 $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
                 $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, $store->getId());
+                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
             }
         } 
     }
@@ -513,7 +513,7 @@ class GetCatalog {
             $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
             return $product->getSku();
         } catch (Exception $e){
-            $this->logger->info('GetCatalog - Se ha producido un error al guardar la subcategoria '.$categoryTmp->getId().'. Error: '.$e->getMessage());
+            $this->logger->info('GetCatalog - Se ha producido un error al guardar el producto con sku '.$catalog->Sku.'. Error: '.$e->getMessage());
             return false;
         }
     }
