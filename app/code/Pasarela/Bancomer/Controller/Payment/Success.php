@@ -366,7 +366,7 @@ class Success extends \Magento\Framework\App\Action\Action
     public function loadIwsOrder($mp_order)
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-        $orderCollection = $objectManager->get('\Trax\Ordenes\Model\IwsOrder');
+        $orderCollection = $objectManager->create('\Trax\Ordenes\Model\IwsOrder');
         $orders = $orderCollection->getCollection()->addFieldToFilter('order_id', $mp_order);
         echo "<pre>";
         print_r($orders);
