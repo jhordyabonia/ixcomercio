@@ -1,3 +1,7 @@
+<?php if($this->getTitle()=="Error"){ ?>
+    <p><?php echo __('Se ha producido un error por favor contacte al administrador del sitio') ?></p>
+<?php } else{ ?>
+<h1><?php echo $this->getTitle() ?></h1>
 <table>
     <tr>
         <td>Orden #</td>
@@ -16,3 +20,4 @@
         <td><?php echo $this->getResponse() ?></td>
     </tr>
 </table>
+<?php } ?>

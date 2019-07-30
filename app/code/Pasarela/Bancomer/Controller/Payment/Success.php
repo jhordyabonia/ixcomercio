@@ -136,30 +136,34 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_pan = "12345678";
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $resultPage = $this->resultPageFactory->create();
+            $resultPage->getLayout()->initMessages();
             if($mp_signature == $mp_signature1){
                 if($mp_response=='00'){
                     //TODO: Actualizar datos en base de datos
                     $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
                     $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization);
-                    $resultPage = $this->resultPageFactory->create();
-                    $resultPage->getLayout()->initMessages();
-                    $resultPage->getLayout()->getBlock('bancomer_success')->setReference($mp_reference);
-                    $resultPage->getLayout()->getBlock('bancomer_success')->setAmount($mp_amount);
-                    $resultPage->getLayout()->getBlock('bancomer_success')->setPaymentMethod($mp_paymentMethod);
-                    $resultPage->getLayout()->getBlock('bancomer_success')->setResponse($mp_responsemsg);
-                    return $resultPage;
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Exitosa");
                 } 
                 if($mp_response != '0'){
                     //TODO: Cancelar orden
+                    $this->cancelOrder($mp_order);
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");
                 } 
             } else{
-                echo "error";
+                $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");
             }            
+            $resultPage->getLayout()->getBlock('bancomer_success')->setOrder($mp_order);
+            $resultPage->getLayout()->getBlock('bancomer_success')->setReference($mp_reference);
+            $resultPage->getLayout()->getBlock('bancomer_success')->setAmount($mp_amount);
+            $resultPage->getLayout()->getBlock('bancomer_success')->setPaymentMethod($mp_paymentMethod);
+            $resultPage->getLayout()->getBlock('bancomer_success')->setResponse($mp_responsemsg);
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-            //throw new \Magento\Framework\Validator\Exception(__($e->getMessage()));
+            $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Error");
         }
+        return $resultPage;
     }
 
     //Verifica si el código de la transacción es valido
@@ -255,6 +259,17 @@ class Success extends \Magento\Framework\App\Action\Action
             } else{
                 $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
             }
+        } catch(Exception $e){
+            $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
+        }
+    }
+    
+    //Se cambia estado de la orden y se cancela
+    public function cancelOrder($mp_order){   
+        try {
+            $order = $this->orderRepository->get((int)$mp_order);           
+            $order->cancel();   
+            $this->logger->info('RegisterPayment - Se cancela orden');     
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
