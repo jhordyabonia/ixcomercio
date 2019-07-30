@@ -29,9 +29,9 @@ class Success extends \Magento\Framework\App\Action\Action
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
-    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/pagos_reintentos';
 
-    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
+    const ORDENES_CORREO = 'trax_general/ordenes_general/pagos_correo';
     
     private $helper;
 	
@@ -292,8 +292,8 @@ class Success extends \Magento\Framework\App\Action\Action
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
-        $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
-        $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
+        $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
+        $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -320,14 +320,14 @@ class Success extends \Magento\Framework\App\Action\Action
             //Mapear orden de magento con IWS en tabla custom
             $this->addOrderComment($mp_order, $data[0]->PaymentId);
         } else {
-            if($configData['ordenes_reintentos']>$attempts){
+            if($configData['pagos_reintentos']>$attempts){
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
                 $this->logger->info('RegisterPayment - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                 $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
-                $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
-                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeCode);
+                $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
+                $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
             }
         }   
 
