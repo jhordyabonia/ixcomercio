@@ -96,8 +96,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private function processFullAddress($fullStreet)
     {
         $response = [
-            'street' => '',
-            'suburb' => ''
+            'street' => '.',
+            'suburb' => '.'
         ];
 
         if ($fullStreet != null && $fullStreet != "") {
