@@ -267,9 +267,12 @@ class Success extends \Magento\Framework\App\Action\Action
     //Se cambia estado de la orden y se cancela
     public function cancelOrder($mp_order){   
         try {
-            $order = $this->orderRepository->get((int)$mp_order);           
-            $order->cancel();   
-            $this->logger->info('RegisterPayment - Se cancela orden');     
+            $order = $this->orderRepository->get((int)$mp_order);
+            $status = \Magento\Sales\Model\Order::STATE_CANCELED;
+            $order->setState($status)->setStatus($status);
+            $order->addStatusHistoryComment("No se ha recibido el pago")->setIsCustomerNotified(true);            
+            $order->save();    
+            $this->logger->info('RegisterPayment - Se cancela orden'); 
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
