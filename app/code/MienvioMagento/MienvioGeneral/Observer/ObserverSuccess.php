@@ -41,23 +41,22 @@ class ObserverSuccess implements ObserverInterface
         $order = $observer->getData('order');
         $shippingMethodObject = $order->getShippingMethod(true);
         $shipping_id = $shippingMethodObject->getMethod();
-        $shippingTitle = $shippingMethodObject->getMethodTitle();
-        $carrierTitle = $shippingMethodObject->getCarrierTitle();
 
         if ($shippingMethodObject->getCarrierCode() != $this->_code) {
             return $this;
         }
 
+        if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
+            return $this;
+        }
+
         // Logic to save orders in mienvio api
         try {
-            $this->_logger->info("Shipment update", ["start" => 'start']);
             $baseUrl =  $this->_mienvioHelper->getEnvironment();
             $apiKey = $this->_mienvioHelper->getMienvioApi();
             $getPackagesUrl = $baseUrl . 'api/packages';
             $createAddressUrl = $baseUrl . 'api/addresses';
             $createShipmentUrl = $baseUrl . 'api/shipments';
-            $updateQuoteUrl = $baseUrl . 'api/quotes/%quote_id%';
-            $createQuoteUrl     = $baseUrl . 'api/quotes';
 
             $order = $observer->getEvent()->getOrder();
             $order->setMienvioCarriers($shipping_id);
@@ -75,6 +74,9 @@ class ObserverSuccess implements ObserverInterface
             if ($shippingAddress === null) {
                 return $this;
             }
+
+            $this->_logger->info("Shipping address", ["data" => $shippingAddress->getData()]);
+            $this->_logger->info("order", ["order" => $order->getData()]);
 
             $customerName= $shippingAddress->getName();
             $customermail= $shippingAddress->getEmail();
@@ -107,6 +109,7 @@ class ObserverSuccess implements ObserverInterface
                 $countryId
             );
 
+
             $this->_logger->info("Addresses data", ["to" => $toData, "from" => $fromData]);
 
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
@@ -120,38 +123,7 @@ class ObserverSuccess implements ObserverInterface
             $addressToResp = json_decode($this->_curl->getBody());
             $addressToId = $addressToResp->{'address'}->{'object_id'};
 
-
-            if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
-                $this->_logger->info("Shipment update",
-                ["addressFromId" => $addressFromId,
-                "addressToId" => $addressToId,
-                "shippingTitle" => $shippingTitle,
-                "shipping_id" => $shipping_id,
-                "carrierTitle" => $carrierTitle
-                ]);
-
-                $shippingIdArr = explode('-', $shipping_id);
-                $courier = $shippingIdArr[0];
-                $serviceLevel = $shippingIdArr[1];
-
-                $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllItems());
-                $quote = $this->quoteShipmentViaQuoteEndpoint(
-                    $itemsMeasures['items'],
-                    $addressFromId,
-                    $addressToId,
-                    $createQuoteUrl,
-                    $quoteId,
-                    $serviceLevel
-                );
-
-                $adaptedUpdateQuoteUrl = str_replace('%quote_id%', $shipping_id, $updateQuoteUrl);
-                $this->_logger->info("Shipment update 2", ["url" => $adaptedUpdateQuoteUrl]);
-                $this->_curl->post($adaptedUpdateQuoteUrl, json_encode($requestData));
-                $quoteResponse = json_decode($this->_curl->getBody());
-                $this->_logger->info("Shipment update 3", ["response" => $quoteResponse]);
-
-                return $this;
-            }
+            $this->_logger->info("responses", ["to" => $addressToId, "from" => $addressFromId]);
 
             /* Measures */
             $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllItems());
@@ -223,93 +195,56 @@ class ObserverSuccess implements ObserverInterface
     }
 
     /**
-     * Quotes shipment using the quote endpoint
-     *
-     * @param  array $items
-     * @param  integer $addressFromId
-     * @param  integer $addressToId
-     * @param  string $createQuoteUrl
-     * @param  string $quoteId
-     * @param  string $serviceLevel
-     * @return string
-     */
-    private function quoteShipmentViaQuoteEndpoint($items, $addressFromId, $addressToId, $createQuoteUrl, $quoteId, $serviceLevel)
-    {
-        $quoteReqData = [
-            'items'         => $items,
-            'address_from'  => $addressFromId,
-            'address_to'    => $addressToId,
-            'object_purpose' => 'PURCHASE',
-            'servicelevel'  => $serviceLevel,
-            'order_id'      => $quoteId
-        ];
-
-        $this->_curl->post($createQuoteUrl, json_encode($quoteReqData));
-        $quoteResponse = json_decode($this->_curl->getBody());
-        $this->_logger->info('quote request', ["quoteReqData" => $quoteReqData, "quote_response" => $quoteResponse]);
-
-        return [[
-            'courier'      => $quoteResponse->{'courier'},
-            'servicelevel' => $quoteResponse->{'servicelevel'},
-            'id'           => $quoteResponse->{'id'},
-            'cost'         => $quoteResponse->{'cost'}
-        ]];
-    }
-
-    /**
      * Retrieves total measures of given items
      *
      * @param  Items $items
      * @return
      */
-     private function getOrderDefaultMeasures($items)
-     {
-         $packageVolWeight = 0;
-         $orderLength = 0;
-         $orderWidth = 0;
-         $orderHeight = 0;
-         $orderDescription = '';
-         $itemsArr = [];
+    private function getOrderDefaultMeasures($items)
+    {
+        $packageVolWeight = 0;
+        $orderLength = 0;
+        $orderWidth = 0;
+        $orderHeight = 0;
+        $orderDescription = '';
 
-         foreach ($items as $item) {
-             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-             $productName = $item->getName();
-             $orderDescription .= $productName . ' ';
-             $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+        foreach ($items as $item) {
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $productName = $item->getName();
+            $orderDescription .= $productName . ' ';
+            $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
 
-             $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
-             $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
-             $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
-             $weight = $this->convertWeight($product->getData('weight'));
+            $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+            $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+            $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+            $weight = $this->convertWeight($product->getData('weight'));
 
-             $orderLength += $length;
-             $orderWidth  += $width;
-             $orderHeight += $height;
+            $orderLength += $length;
+            $orderWidth  += $width;
+            $orderHeight += $height;
 
-             $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
-             $packageVolWeight += $volWeight;
-             $itemsArr[] = [
-                 'id' => 1,// $item->getId(),
-                 'name' => $productName,
-                 'length' => $length,
-                 'width' => $width,
-                 'height' => $height,
-                 'weight' => $weight,
-                 'volWeight' => $volWeight,
-                 'qty' => 1,//$item->getQty(),
-                 'declared_value' => $item->getprice(),
-             ];
-         }
+            $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+            $packageVolWeight += $volWeight;
 
-         return [
-             'vol_weight'  => $packageVolWeight,
-             'length'      => $orderLength,
-             'width'       => $orderWidth,
-             'height'      => $orderHeight,
-             'description' => $orderDescription,
-             'items'       => $itemsArr
-         ];
-     }
+            $this->_logger->debug('product',[
+                'id' => $item->getId(),
+                'name' => $productName,
+                'length' => $length,
+                'width' => $width,
+                'height' => $height,
+                'weight' => $weight,
+                'volWeight' => $volWeight
+            ]);
+        }
+
+        return [
+            'vol_weight'  => $packageVolWeight,
+            'length'      => $orderLength,
+            'width'       => $orderWidth,
+            'height'      => $orderHeight,
+            'description' => $orderDescription
+        ];
+    }
 
     /**
      * Retrieve user packages
