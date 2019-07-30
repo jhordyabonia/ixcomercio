@@ -9,11 +9,27 @@
             <group id="ordenes_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuración IWS en Ordenes</label>
                 <field id="catalogo_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Reintentos de conexión</label>
+                    <label>Reintentos de conexión PlaceOrder</label>
                     <comment>Número de reintentos de conexión en servicio.</comment>
                 </field>
                 <field id="catalogo_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Correo Electrónico</label>
+                    <label>Correo Electrónico PlaceOrder</label>
+                    <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
+                </field>
+                <field id="pagos_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reintentos de conexión RegisterPayments</label>
+                    <comment>Número de reintentos de conexión en servicio.</comment>
+                </field>
+                <field id="pagos_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Correo Electrónico RegisterPayments</label>
+                    <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
+                </field>
+                <field id="inventario_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reintentos de conexión ReleaseOrder</label>
+                    <comment>Número de reintentos de conexión en servicio.</comment>
+                </field>
+                <field id="inventario_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Correo Electrónico ReleaseOrder</label>
                     <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
                 </field>
             </group>

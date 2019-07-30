@@ -5,6 +5,10 @@
             <ordenes_general>
                 <ordenes_reintentos>1</ordenes_reintentos>
                 <ordenes_correo>example@example.com</ordenes_correo>
+                <pagos_reintentos>1</pagos_reintentos>
+                <pagos_correo>example@example.com</pagos_correo>
+                <inventario_reintentos>1</inventario_reintentos>
+                <inventario_correo>example@example.com</inventario_correo>
             </ordenes_general>
         </trax_general>
     </default>
