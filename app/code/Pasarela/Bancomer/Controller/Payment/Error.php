@@ -138,15 +138,15 @@ class Error extends \Magento\Framework\App\Action\Action
             $resultPage->getLayout()->initMessages();
             //TODO: Cancelar orden
             $this->cancelOrder($mp_order);
-            $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");         
-            $resultPage->getLayout()->getBlock('bancomer_success')->setOrder($mp_order);
-            $resultPage->getLayout()->getBlock('bancomer_success')->setReference($mp_reference);
-            $resultPage->getLayout()->getBlock('bancomer_success')->setAmount($mp_amount);
-            $resultPage->getLayout()->getBlock('bancomer_success')->setPaymentMethod($mp_paymentMethod);
-            $resultPage->getLayout()->getBlock('bancomer_success')->setResponse($mp_responsemsg);
+            $resultPage->getLayout()->getBlock('bancomer_error')->setTitle("Transacción Cancelada");         
+            $resultPage->getLayout()->getBlock('bancomer_error')->setOrder($mp_order);
+            $resultPage->getLayout()->getBlock('bancomer_error')->setReference($mp_reference);
+            $resultPage->getLayout()->getBlock('bancomer_error')->setAmount($mp_amount);
+            $resultPage->getLayout()->getBlock('bancomer_error')->setPaymentMethod($mp_paymentMethod);
+            $resultPage->getLayout()->getBlock('bancomer_error')->setResponse($mp_responsemsg);
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-            $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Error");
+            $resultPage->getLayout()->getBlock('bancomer_error')->setTitle("Error");
         }
         return $resultPage;
     }
@@ -154,8 +154,11 @@ class Error extends \Magento\Framework\App\Action\Action
     //Se cambia estado de la orden y se cancela
     public function cancelOrder($mp_order){   
         try {
-            $order = $this->orderRepository->get((int)$mp_order);           
-            $order->cancel();   
+            $order = $this->orderRepository->get((int)$mp_order);
+            $status = \Magento\Sales\Model\Order::STATE_CANCELED;
+            $order->setState($status)->setStatus($status);
+            $order->addStatusHistoryComment("No se ha recibido el pago")->setIsCustomerNotified(true);            
+            $order->save();    
             $this->logger->info('RegisterPayment - Se cancela orden');     
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
