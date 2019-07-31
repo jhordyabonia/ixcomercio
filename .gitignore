@@ -130,7 +130,7 @@ pub/
 var/
 !/app/code/*/*/composer.json
 
-index.php
+/index.php
 old.*
 app/etc/
 

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/** Grid adminhtml routes xml
+ * @category  Pasarela
+ * @package   Pasarela_Grid
+ * @author    Valentina Aguirre
+ * @copyright Copyright (c) 2010-2016 Pasarela Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="pasarela_grid" frontName="pasarela_grid">
+            <module name="Pasarela_Grid" />
+        </route>
+    </router>
+</config>

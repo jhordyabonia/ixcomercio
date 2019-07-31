@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/** Grid module xml
+ * @category  Pasarela
+ * @package   Pasarela_Grid
+ * @author    Valentina Aguirre
+ * @copyright Copyright (c) 2010-2017 Pasarela Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Pasarela_Grid" setup_version="1.0.0">
+    </module>
+</config>

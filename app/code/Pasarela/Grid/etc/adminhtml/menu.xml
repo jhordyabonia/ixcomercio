@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/** Grid menu xml
+ * @category  Pasarela
+ * @package   Pasarela_Grid
+ * @author    Valentina Aguirre
+ * @copyright Copyright (c) 2010-2017 Pasarela Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Pasarela_Grid::manager" title="Grid Manager" module="Pasarela_Grid" sortOrder="10" resource="Pasarela_Grid::manager" />
+        <add id="Pasarela_Grid::add_row" title="Grid Manager" module="Pasarela_Grid" sortOrder="20" parent="Pasarela_Grid::manager" action="grid/grid" resource="Pasarela_Grid::add_row"/>
+    </menu>
+</config>
