@@ -61,13 +61,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($model->getEntityId()) {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                ['legend' => __('Edit Row Data'), 'class' => 'fieldset-wide']
+                ['legend' => __('Edit payment method'), 'class' => 'fieldset-wide']
             );
             $fieldset->addField('id', 'hidden', ['name' => 'id']);
         } else {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                ['legend' => __('Add Row Data'), 'class' => 'fieldset-wide']
+                ['legend' => __('Add new payment method'), 'class' => 'fieldset-wide']
             );
         }
 
@@ -76,9 +76,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'payment_type',
-                'label' => __('tipo de Pago'),
+                'label' => __('Payment Type'),
                 'id' => 'payment_type',
-                'title' => __('Tipo de Pago'),
+                'title' => __('Payment Type'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -102,9 +102,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'payment_code',
-                'label' => __('Código de Pago'),
+                'label' => __('Payment Code'),
                 'id' => 'payment_code',
-                'title' => __('Código de Pago'),
+                'title' => __('Payment Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -115,9 +115,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'trax_code',
-                'label' => __('Código Pasarela'),
+                'label' => __('Trax Code'),
                 'id' => 'trax_code',
-                'title' => __('Código Pasarela'),
+                'title' => __('Trax Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -128,9 +128,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'country_code',
-                'label' => __('Código País'),
+                'label' => __('Country Code'),
                 'id' => 'country_code',
-                'title' => __('Código País'),
+                'title' => __('Country Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -141,9 +141,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'store_code',
-                'label' => __('Código Tienda'),
+                'label' => __('Store Code'),
                 'id' => 'store_code',
-                'title' => __('Código Tienda'),
+                'title' => __('Store Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]

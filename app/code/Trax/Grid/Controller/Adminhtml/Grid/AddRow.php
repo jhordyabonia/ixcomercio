@@ -51,15 +51,15 @@ class AddRow extends \Magento\Backend\App\Action
             $rowData = $rowData->load($rowId);
             $rowTitle = $rowData->getTitle();
             if (!$rowData->getEntityId()) {
-                $this->messageManager->addError(__('row data no longer exist.'));
-                $this->_redirect('grid/grid/rowdata');
+                $this->messageManager->addError(__('carrier no longer exist.'));
+                $this->_redirect('trax_grid/grid/rowdata');
                 return;
             }
         }
 
         $this->coreRegistry->register('row_data', $rowData);
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $title = $rowId ? __('Edit Row Data ').$rowTitle : __('Add Row Data');
+        $title = $rowId ? __('Edit Carrier ').$rowTitle : __('Add Carrier');
         $resultPage->getConfig()->getTitle()->prepend($title);
         return $resultPage;
     }

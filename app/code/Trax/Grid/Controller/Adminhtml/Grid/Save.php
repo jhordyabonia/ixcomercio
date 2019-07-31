@@ -37,7 +37,7 @@ class Save extends \Magento\Backend\App\Action
     {
         $data = $this->getRequest()->getPostValue();
         if (!$data) {
-            $this->_redirect('grid/grid/addrow');
+            $this->_redirect('trax_grid/grid/addrow');
             return;
         }
         try {
@@ -47,11 +47,11 @@ class Save extends \Magento\Backend\App\Action
                 $rowData->setEntityId($data['id']);
             }
             $rowData->save();
-            $this->messageManager->addSuccess(__('Row data has been successfully saved.'));
+            $this->messageManager->addSuccess(__('Carrier has been successfully saved.'));
         } catch (\Exception $e) {
             $this->messageManager->addError(__($e->getMessage()));
         }
-        $this->_redirect('grid/grid/index');
+        $this->_redirect('trax_grid/grid/index');
     }
 
     /**

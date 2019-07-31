@@ -19,7 +19,7 @@
         <item name="buttons" xsi:type="array">
             <item name="add" xsi:type="array">
                 <item name="name" xsi:type="string">add</item>
-                <item name="label" xsi:type="string" translate="true">Add New Row</item>
+                <item name="label" xsi:type="string" translate="true">Add New Payment Method</item>
                 <item name="class" xsi:type="string">primary</item>
                 <item name="url" xsi:type="string">*/*/addrow</item>
             </item>
@@ -97,7 +97,7 @@
                         <item name="url" xsi:type="url" path="grid/grid/massdelete"/>
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Delete</item>
-                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected row record?</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected payment method?</item>
                         </item>
                     </item>
                 </argument>
@@ -129,7 +129,7 @@
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">text</item>
-                   <item name="label" xsi:type="string" translate="true">Tipo de Pago</item>
+                   <item name="label" xsi:type="string" translate="true">Payment Type</item>
                </item>
            </argument>
        </column>
@@ -145,7 +145,7 @@
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Código de pago</item>
+                   <item name="label" xsi:type="string" translate="true">Payment Code</item>
                </item>
            </argument>
        </column>
@@ -153,7 +153,7 @@
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Código en Trax</item>
+                   <item name="label" xsi:type="string" translate="true">Trax Code</item>
                </item>
            </argument>
        </column>
@@ -161,7 +161,7 @@
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Código País</item>
+                   <item name="label" xsi:type="string" translate="true">Country Code</item>
                </item>
            </argument>
        </column>
@@ -169,7 +169,7 @@
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Código Tienda</item>
+                   <item name="label" xsi:type="string" translate="true">Store Code</item>
                </item>
            </argument>
        </column>

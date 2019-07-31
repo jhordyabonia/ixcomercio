@@ -61,13 +61,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($model->getEntityId()) {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                ['legend' => __('Edit Row Data'), 'class' => 'fieldset-wide']
+                ['legend' => __('Edit Carrier'), 'class' => 'fieldset-wide']
             );
             $fieldset->addField('id', 'hidden', ['name' => 'id']);
         } else {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                ['legend' => __('Add Row Data'), 'class' => 'fieldset-wide']
+                ['legend' => __('Add Carrier'), 'class' => 'fieldset-wide']
             );
         }
 
@@ -89,9 +89,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'service_type',
-                'label' => __('Tipo de Servicio'),
+                'label' => __('Service Type'),
                 'id' => 'service_type',
-                'title' => __('Tipo de Servicio'),
+                'title' => __('Service Type'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -102,9 +102,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'trax_code',
-                'label' => __('Código Trax'),
+                'label' => __('Trax Code'),
                 'id' => 'trax_code',
-                'title' => __('Código Trax'),
+                'title' => __('Trax Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -115,9 +115,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'country_code',
-                'label' => __('Código País'),
+                'label' => __('Country Code'),
                 'id' => 'country_code',
-                'title' => __('Código País'),
+                'title' => __('Country Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
@@ -128,9 +128,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'text',
             [
                 'name' => 'store_code',
-                'label' => __('Código Tienda'),
+                'label' => __('Store Code'),
                 'id' => 'store_code',
-                'title' => __('Código Tienda'),
+                'title' => __('Store Code'),
                 'class' => 'required-entry',
                 'required' => true,
             ]
