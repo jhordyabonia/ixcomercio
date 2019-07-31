@@ -18,10 +18,6 @@ class Grid extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      * @var string
      */
     protected $_idFieldName = 'id';
-    /**
-     * @var \Magento\Framework\Stdlib\DateTime\DateTime
-     */
-    protected $_date;
 
     /**
      * Construct.
@@ -32,11 +28,9 @@ class Grid extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     public function __construct(
         \Magento\Framework\Model\ResourceModel\Db\Context $context,
-        \Magento\Framework\Stdlib\DateTime\DateTime $date,
         $resourcePrefix = null
     ) {
         parent::__construct($context, $resourcePrefix);
-        $this->_date = $date;
     }
 
     /**

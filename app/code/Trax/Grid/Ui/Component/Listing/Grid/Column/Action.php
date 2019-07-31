@@ -17,7 +17,7 @@ use Magento\Framework\UrlInterface;
 class Action extends Column
 {
     /** Url path */
-    const ROW_EDIT_URL = 'grid/grid/addrow';
+    const ROW_EDIT_URL = 'trax/grid/addrow';
     /** @var UrlInterface */
     protected $_urlBuilder;
 
