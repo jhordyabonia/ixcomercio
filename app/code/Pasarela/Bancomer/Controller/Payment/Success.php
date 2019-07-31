@@ -12,6 +12,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Trax\Ordenes\Model\IwsOrderFactory;
+use Pasarela\Grid\Model\GridFactory;
 
 /**
  * Webhook class  
@@ -49,6 +50,11 @@ class Success extends \Magento\Framework\App\Action\Action
     protected $_invoiceService;
     protected $transactionBuilder;
     protected $_iwsOrder;
+
+    /**
+     * @var \Pasarela\Grid\Model\GridFactory
+     */
+    private $gridFactory;
     
     /**
      * 
@@ -64,6 +70,7 @@ class Success extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\Controller\ResultFactory $result
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Catalogo\Helper\Email $email
+     * @param \Pasarela\Grid\Model\GridFactory $gridFactory
      */
     public function __construct(
             Context $context, 
@@ -78,7 +85,8 @@ class Success extends \Magento\Framework\App\Action\Action
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Catalogo\Helper\Email $email,
-            \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder
+            \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
+            \Pasarela\Grid\Model\GridFactory $gridFactory
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -93,6 +101,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
+        $this->gridFactory = $gridFactory;
     }
 
     /**
@@ -143,7 +152,7 @@ class Success extends \Magento\Framework\App\Action\Action
                     //TODO: Actualizar datos en base de datos
                     $this->saveOrderPayment($mp_order, $mp_reference, $mp_paymentMethod, $mp_cardType, $mp_response, $mp_responsemsg, $mp_authorization, $mp_date, $mp_paymentMethodCode, $mp_bankname, $mp_bankcode, $mp_saleid, $mp_pan);
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
-                    $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization);
+                    $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization, $mp_paymentMethod);
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Exitosa");
                 } 
                 if($mp_response != '0'){
@@ -215,7 +224,7 @@ class Success extends \Magento\Framework\App\Action\Action
     }
     
     //Se cambia estado de la orden y se genera factura
-    public function changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization){   
+    public function changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization, $mp_paymentMethod){   
         try {
             $order = $this->orderRepository->get((int)$mp_order);
             $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
@@ -246,11 +255,12 @@ class Success extends \Magento\Framework\App\Action\Action
             if($serviceUrl){
                 try{
                     $payload = $this->loadPayloadService($mp_order, $mp_amount, $mp_bankname, 
-                    $mp_authorization, $mp_pan);
+                    $mp_authorization, $mp_pan, $mp_paymentMethod, $storeManager->getStore()->getCode());
                     if($payload){
                         $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
                     } else{
                         $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                        $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
                     }
                 } catch(Exception $e){
                     $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
@@ -365,18 +375,21 @@ class Success extends \Magento\Framework\App\Action\Action
     }
 
     //Laod Payload request
-	public function loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan) 
+	public function loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan, $mp_paymentMethod, $storeCode) 
 	{   
         //Load IWS Order id
         $iwsOrder = $this->loadIwsOrder($mp_order);
+        $PaymentTypeId = $this->loadPaymentMethodId($mp_order, $mp_paymentMethod, $storeCode);
+        if(!$PaymentTypeId){
+            return false;
+        }
         if($iwsOrder){
-            $this->logger->info('RegisterPayment - iwsOrder: '.$iwsOrder);
             $payments = array();
             $tempPayment['Amount'] = $mp_amount;
             $tempPayment['Authorization'] = $mp_authorization;
             $tempPayment['BankName'] = $mp_bankname;
             $tempPayment['BankAccount'] = $mp_pan;
-            $tempPayment['PaymentTypeId'] = 'ECG3';
+            $tempPayment['PaymentTypeId'] = $PaymentTypeId;
             $tempPayment['Partial'] = false;
             $payments[] = $tempPayment;
             $payload = array(
@@ -401,6 +414,36 @@ class Success extends \Magento\Framework\App\Action\Action
         return false;
 
     }
+
+    //Se carga relación de metodos de pago con trax
+    public function loadPaymentMethodId($mp_order, $mp_paymentMethod, $storeCode)
+    {   
+        $order = $this->loadOrderInformation($mp_order);
+        $payment = $order->getPayment();
+        $shipping = $order->getShippingAddress();
+        $trax = $this->gridFactory->create();
+        $trax->getCollection()
+            ->addFieldToFilter('payment_code', $mp_paymentMethod)
+            ->addFieldToFilter('payment_type', $method->getTitle())
+            ->addFieldToFilter('country_code', $shipping->getCountryId())
+            ->addFieldToFilter('store_code', $storeCode);
+        if($trax->getId()){
+            return $trax->getTraxCode();
+        }
+        return false;
+    }
+
+    //Se añade comentario interno a orden
+    public function loadOrderInformation($orderId) 
+    {
+		try {
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
+            return $order;
+        } catch (\Exception $e) {
+            $this->logger->info('RegisterPayment - Error al obtener información de la orden con ID: '.$orderId);
+        }
+	}
 
     //Se añade comentario interno a orden
     public function addOrderComment($orderId, $paymentId) 
