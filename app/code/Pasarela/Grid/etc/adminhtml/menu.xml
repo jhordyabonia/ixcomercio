@@ -10,7 +10,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Pasarela_Grid::manager" title="Grid Manager" module="Pasarela_Grid" sortOrder="10" resource="Pasarela_Grid::manager" />
-        <add id="Pasarela_Grid::add_row" title="Grid Manager" module="Pasarela_Grid" sortOrder="20" parent="Pasarela_Grid::manager" action="grid/grid" resource="Pasarela_Grid::add_row"/>
+        <add id="Pasarela_Grid::manager" title="Trax Match" module="Pasarela_Grid" sortOrder="10" resource="Pasarela_Grid::manager" />
+        <add id="Pasarela_Grid::add_row" title="Métodos de pago" module="Pasarela_Grid" sortOrder="20" parent="Pasarela_Grid::manager" action="grid/grid" resource="Pasarela_Grid::add_row"/>
     </menu>
 </config>
