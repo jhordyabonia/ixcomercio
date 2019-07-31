@@ -36,7 +36,7 @@ class Index extends \Magento\Backend\App\Action
     public function execute()
     {
         $resultPage = $this->resultPageFactory->create();
-        $resultPage->setActiveMenu('Trax_Grid::grid_list');
+        $resultPage->setActiveMenu('Trax_Grid::add_row');
         $resultPage->getConfig()->getTitle()->prepend(__('Carrier'));
         return $resultPage;
     }
@@ -48,6 +48,6 @@ class Index extends \Magento\Backend\App\Action
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Trax_Grid::grid_list');
+        return $this->_authorization->isAllowed('Trax_Grid::add_row');
     }
 }
