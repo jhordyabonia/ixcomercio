@@ -8,6 +8,7 @@ use \Psr\Log\LoggerInterface;
 use Trax\Ordenes\Model\IwsOrderFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
+use Trax\Grid\Model\GridFactory;
 
 class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 {
@@ -34,6 +35,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     protected $scopeConfig;
 
 	protected $logger;
+
+    /**
+     * @var \Trax\Grid\Model\GridFactory
+     */
+    private $gridFactory;
 	
     /**
      * AdminFailed constructor.
@@ -45,7 +51,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Trax\Catalogo\Helper\Email $email,
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
-        \Magento\Framework\Controller\ResultFactory $result
+        \Magento\Framework\Controller\ResultFactory $result,
+        \Trax\Grid\Model\GridFactory $gridFactory
     )
     {
         $this->logger = $logger;
@@ -54,6 +61,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->order = $order;     
         $this->_iwsOrder = $iwsOrder;
         $this->resultRedirect = $result;
+        $this->gridFactory = $gridFactory;
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
@@ -73,8 +81,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order);
-            $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+            $payload = $this->loadPayloadService($order, $storeManager->getStore()->getCode());
+            if($payload){
+                $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+            } else {
+                $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax: '.$e->getMessage());
+                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+            }
         } catch(Exception $e){
             $this->logger->info('PlaceOrder - Se ha producido un error: '.$e->getMessage());
         }
@@ -185,11 +198,15 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order) 
+	public function loadPayloadService($order, $storeCode) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
+        $shipping = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
+        if(!$shipping['CarrierId']){
+            return false;
+        }
         $items = array();
         foreach ($orderItems as $key => $dataItem) {
             $tempItem['Sku'] = $dataItem->getSku();
@@ -253,10 +270,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'ReceiveInvoiceByMail' => true,
             'Shipments' => array(
                 array(
-                    'FreightService' => 'mienvio',
+                    'FreightService' => $order->getShippingMethod(),
                     'FreightShipmentId' => $order->getQuoteId(),
-                    'ServiceType' => 'express',
-                    'CarrierId' => 'CLL3',
+                    'ServiceType' => $shipping['ServiceType'],
+                    'CarrierId' => $shipping['CarrierId'],
                     'Amount' => $order->getShippingAmount(),
                     'FreightCost' => $order->getShippingAmount(),
                 )
@@ -266,6 +283,29 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         return json_encode($payload);
     }
 
+    //Se Carga información de carrier
+    public function loadShippingInformation($order, $country, $storeCode) 
+    {
+        $orderShipping = explode(" - ", $order->getShippingDescription());
+        $shipping['ServiceType'] = $orderShipping[1];
+        $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);
+	}
+
+    //Se carga relación de carrier con trax
+    public function loadCarrierId($country, $orderShipping, $storeCode)
+    {   
+        $trax = $this->gridFactory->create();
+        $trax->getCollection()
+            ->addFieldToFilter('carrier', $orderShipping[0])
+            ->addFieldToFilter('service_type', $orderShipping[1])
+            ->addFieldToFilter('country_code', $country)
+            ->addFieldToFilter('store_code', $storeCode);
+        if($trax->getId()){
+            return $trax->getTraxCode();
+        }
+        return false;
+    }
+
     //Se añade comentario interno a orden
     public function addOrderComment($orderId, $iwsOrder) 
     {
@@ -273,6 +313,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
             $order->addStatusHistoryComment('Se genero orden interna en IWS. Orden Interna IWS #'.$iwsOrder);
+            $order->setExtOrderId($iwsOrder);
             $order->save();
         } catch (\Exception $e) {
             $this->logger->info('PlaceOrder - Error al guardar comentario en orden con ID: '.$orderId);
