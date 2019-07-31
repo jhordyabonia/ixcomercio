@@ -50,7 +50,7 @@ class AddRow extends \Magento\Backend\App\Action
         if ($rowId) {
             $rowData = $rowData->load($rowId);
             $rowTitle = $rowData->getTitle();
-            if (!$rowData->getEntityId()) {
+            if (!$rowData->getId()) {
                 $this->messageManager->addError(__('payment method no longer exist.'));
                 $this->_redirect('pasarela_grid/grid/index');
                 return;

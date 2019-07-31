@@ -58,7 +58,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         $form->setHtmlIdPrefix('trax_');
-        if ($model->getEntityId()) {
+        if ($model->getId()) {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
                 ['legend' => __('Edit Carrier'), 'class' => 'fieldset-wide']

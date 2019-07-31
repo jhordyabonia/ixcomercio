@@ -50,7 +50,7 @@ class AddRow extends \Magento\Backend\App\Action
         if ($rowId) {
             $rowData = $rowData->load($rowId);
             $rowTitle = $rowData->getTitle();
-            if (!$rowData->getEntityId()) {
+            if (!$rowData->getId()) {
                 $this->messageManager->addError(__('carrier no longer exist.'));
                 $this->_redirect('trax_grid/grid/index');
                 return;
