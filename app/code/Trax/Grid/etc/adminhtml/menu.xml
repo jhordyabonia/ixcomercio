@@ -10,6 +10,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Trax_Grid::add_row" title="Carrier" translate="title" module="Trax_Grid" sortOrder="10" parent="Pasarela_Grid::manager" action="trax_grid/grid/index" resource="Trax_Grid::add_row"/>
+        <add id="Trax_Grid::add_row" title="Carrier" translate="title" module="Trax_Grid" sortOrder="10" parent="Pasarela_Grid::trax" action="trax_grid/grid/index" resource="Trax_Grid::add_row"/>
     </menu>
 </config>
