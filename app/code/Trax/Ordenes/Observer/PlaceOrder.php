@@ -297,7 +297,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $trax = $this->gridFactory->create();
         
         $trax->getResource()
-            ->load($trax, $store_code, 'storeCode');
+            ->load($trax, $storeCode, 'store_code');
             $this->logger->info('PlaceOrder - Entra a la coleccion');
         foreach ($trax as $key => $data) {
             $this->logger->info('PlaceOrder - Lee datos');
