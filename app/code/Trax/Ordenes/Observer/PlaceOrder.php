@@ -85,7 +85,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
             } else {
-                $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax: '.$e->getMessage());
+                $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax');
                 $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
             }
         } catch(Exception $e){
@@ -295,13 +295,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     public function loadCarrierId($country, $orderShipping, $storeCode)
     {   
         $trax = $this->gridFactory->create();
-        $trax->getCollection()
-            ->addFieldToFilter('carrier', $orderShipping[0])
-            ->addFieldToFilter('service_type', $orderShipping[1])
-            ->addFieldToFilter('country_code', $country)
-            ->addFieldToFilter('store_code', $storeCode);
-        if($trax->getId()){
-            return $trax->getTraxCode();
+        
+        $trax->getResource()
+            ->load($trax, $store_code, 'storeCode');
+            $this->logger->info('PlaceOrder - Entra a la coleccion');
+        foreach ($trax as $key => $data) {
+            $this->logger->info('PlaceOrder - Lee datos');
+            if($data->getCarrier() == $orderShipping[0] && $data->getServiceType() == $orderShipping[1] && $data->getCountryCode() == $country ){
+                
+            $this->logger->info('PlaceOrder - Entra a la coleccion '.$data->getTraxCode());
+                return $data->getTraxCode();
+            }
         }
         return false;
     }
