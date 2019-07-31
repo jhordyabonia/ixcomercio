@@ -51,15 +51,15 @@ class AddRow extends \Magento\Backend\App\Action
             $rowData = $rowData->load($rowId);
             $rowTitle = $rowData->getTitle();
             if (!$rowData->getEntityId()) {
-                $this->messageManager->addError(__('row data no longer exist.'));
-                $this->_redirect('grid/grid/rowdata');
+                $this->messageManager->addError(__('payment method no longer exist.'));
+                $this->_redirect('pasarela_grid/grid/rowdata');
                 return;
             }
         }
 
         $this->coreRegistry->register('row_data', $rowData);
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $title = $rowId ? __('Edit Row Data ').$rowTitle : __('Add Row Data');
+        $title = $rowId ? __('Edit Payment Method ').$rowTitle : __('Add Payment Method');
         $resultPage->getConfig()->getTitle()->prepend($title);
         return $resultPage;
     }
