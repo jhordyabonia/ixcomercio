@@ -97,7 +97,7 @@
                         <item name="url" xsi:type="url" path="grid/grid/massdelete"/>
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Delete</item>
-                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected row record?</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected payment method?</item>
                         </item>
                     </item>
                 </argument>

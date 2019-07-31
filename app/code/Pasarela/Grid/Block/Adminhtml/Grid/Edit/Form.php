@@ -61,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($model->getEntityId()) {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                ['legend' => __('Edit Row Data'), 'class' => 'fieldset-wide']
+                ['legend' => __('Edit payment method'), 'class' => 'fieldset-wide']
             );
             $fieldset->addField('id', 'hidden', ['name' => 'id']);
         } else {

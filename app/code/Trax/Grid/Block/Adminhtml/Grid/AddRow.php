@@ -41,7 +41,7 @@ class AddRow extends \Magento\Backend\Block\Widget\Form\Container
         $this->_controller = 'adminhtml_grid';
         parent::_construct();
         if ($this->_isAllowedAction('Trax_Grid::add_row')) {
-            $this->buttonList->update('save', 'label', __('Guardar'));
+            $this->buttonList->update('save', 'label', __('Save'));
         } else {
             $this->buttonList->remove('save');
         }
@@ -55,7 +55,7 @@ class AddRow extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        return __('Agregar nueva fila');
+        return __('Add new Carrier');
     }
 
     /**
