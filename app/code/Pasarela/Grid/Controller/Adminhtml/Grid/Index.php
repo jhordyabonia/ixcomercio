@@ -37,7 +37,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Pasarela_Grid::grid_list');
-        $resultPage->getConfig()->getTitle()->prepend(__('Métodos de Pago'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Payment Methods'));
         return $resultPage;
     }
 
