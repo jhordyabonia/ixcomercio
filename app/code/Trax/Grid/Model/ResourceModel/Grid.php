@@ -23,7 +23,6 @@ class Grid extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      * Construct.
      *
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
-     * @param \Magento\Framework\Stdlib\DateTime\DateTime       $date
      * @param string|null                                       $resourcePrefix
      */
     public function __construct(
