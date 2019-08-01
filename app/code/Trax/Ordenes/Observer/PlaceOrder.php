@@ -299,7 +299,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 		$connection = $resource->getConnection();
 		$tableName = $resource->getTableName('trax_match_carrier'); 
 		//Select Data from table
-        $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND service_type='".$orderShipping[1]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
+        $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
         $this->logger->info('PlaceOrder - Query: '.$sql);
         $trax = $connection->fetchAll($sql); 
         foreach ($trax as $key => $data) {
