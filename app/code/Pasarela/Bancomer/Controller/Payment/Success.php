@@ -423,11 +423,12 @@ class Success extends \Magento\Framework\App\Action\Action
     {   
         $order = $this->loadOrderInformation($mp_order);
         $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
         $shipping = $order->getShippingAddress();
         $trax = $this->gridFactory->create();
         $trax->getCollection()
             ->addFieldToFilter('payment_code', $mp_paymentMethod)
-            ->addFieldToFilter('payment_type', $payment->getTitle())
+            ->addFieldToFilter('payment_type', $method->getTitle())
             ->addFieldToFilter('country_code', $shipping->getCountryId())
             ->addFieldToFilter('store_code', $storeCode);
         echo $storeCode."<br>".$shipping->getCountryId()."<br>".$payment->getTitle()."<br>".$mp_paymentMethod;
