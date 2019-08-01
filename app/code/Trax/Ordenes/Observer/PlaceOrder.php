@@ -288,7 +288,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     {
         $orderShipping = explode(" - ", $order->getShippingDescription());
         $shipping['ServiceType'] = $orderShipping[1];
-        $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);
+        $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);        
+        $this->logger->info('PlaceOrder - Respuesta Query: '.$sql);
+        return $shipping;
 	}
 
     //Se carga relación de carrier con trax
