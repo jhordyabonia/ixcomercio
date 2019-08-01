@@ -130,6 +130,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     //Función recursiva para intentos de conexión
     public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
+        $this->logger->info('PlaceOrder - Se intenta conexión con trax: '.$serviceUrl);
         $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
@@ -288,7 +289,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     {
         $orderShipping = explode(" - ", $order->getShippingDescription());
         $shipping['ServiceType'] = $orderShipping[1];
-        $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);
+        $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);     
+        return $shipping;
 	}
 
     //Se carga relación de carrier con trax
@@ -300,7 +302,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 		$tableName = $resource->getTableName('trax_match_carrier'); 
 		//Select Data from table
         $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
-        $this->logger->info('PlaceOrder - Query: '.$sql);
         $trax = $connection->fetchAll($sql); 
         foreach ($trax as $key => $data) {
             return $data['trax_code'];
