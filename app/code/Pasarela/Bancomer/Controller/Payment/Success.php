@@ -421,6 +421,17 @@ class Success extends \Magento\Framework\App\Action\Action
     //Se carga relación de metodos de pago con trax
     public function loadPaymentMethodId($mp_order, $mp_paymentMethod, $storeCode)
     {   
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+		$connection = $resource->getConnection();
+		$tableName = $resource->getTableName('trax_match_payment'); 
+		//Select Data from table
+		$sql = "Select * FROM " . $tableName;
+        $result = $connection->fetchAll($sql); 
+        echo "<pre>";
+        print_r($result);
+        echo "</pre>";
+        exit();
         $order = $this->loadOrderInformation($mp_order);
         $payment = $order->getPayment();
         $method = $payment->getMethodInstance();
@@ -429,7 +440,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $trax->getCollection();
         echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
         foreach ($trax as $key => $data) {
-            var_dump($data->getData());
+            var_dump($data);
         }
         exit();
         if($trax->getId()){
