@@ -81,7 +81,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order, $storeManager->getStore()->getCode());
+            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode());
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
             } else {
