@@ -429,7 +429,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $trax->getCollection();
         echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
         foreach ($trax as $key => $data) {
-            var_dump($data->getData());
+            var_dump($data);
         }
         exit();
         if($trax->getId()){
