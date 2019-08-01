@@ -426,7 +426,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $method = $payment->getMethodInstance();
         $shipping = $order->getShippingAddress();
         $trax = $this->gridFactory->create();
-        $trax->getResource();
+        $trax->getCollection();
         echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
         foreach ($trax as $key => $data) {
             var_dump($data->getData());
