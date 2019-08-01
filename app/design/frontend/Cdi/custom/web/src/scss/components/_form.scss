@@ -52,11 +52,7 @@ form{
 }
 .column{
 	&:not(.sidebar-main) form.form, &:not(.sidebar-additional) form.form, form.form{
-		.actions-toolbar{
-			@media only screen and (min-width: $tablet){
-		    	float: right;
-		  	}
-		}
+		.actions-toolbar{}
 	}
 }
 .login-container{
