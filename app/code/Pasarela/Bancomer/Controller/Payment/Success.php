@@ -430,7 +430,8 @@ class Success extends \Magento\Framework\App\Action\Action
 		$connection = $resource->getConnection();
 		$tableName = $resource->getTableName('trax_match_payment'); 
 		//Select Data from table
-		$sql = "Select * FROM " . $tableName." where payment_type='".$method->getTitle()."' AND payment_code='".$mp_paymentMethod."' AND country_code='".$shipping->getCountryId()."' AND store_code='".$storeCode."'";
+        $sql = "Select * FROM " . $tableName." where payment_type='".$method->getTitle()."' AND payment_code='".$mp_paymentMethod."' AND country_code='".$shipping->getCountryId()."' AND store_code='".$storeCode."'";
+        echo $sql;
         $result = $connection->fetchAll($sql); 
         echo "<pre>";
         print_r($result);
