@@ -425,6 +425,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $payment = $order->getPayment();
         $method = $payment->getMethodInstance();
         $shipping = $order->getShippingAddress();
+        $trax = $this->gridFactory->create();
         $trax->getResource()
             ->load($trax, $storeCode, 'store_code');
         echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
