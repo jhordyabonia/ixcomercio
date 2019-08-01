@@ -8,12 +8,12 @@ form{
 				> .label{
 					color: #000;
 					font-size: 100%;
-			    margin: 0 0 10px;
-			    @media only screen and (min-width: $tablet){
-			      width: 100%;
-			      text-align: left;
-			      padding: 0;
-			    }
+			    	margin: 0 0 10px;
+				    @media only screen and (min-width: $tablet){
+				      	width: 100%;
+				      	text-align: left;
+				      	padding: 0;
+				    }
 				}
 			}
 			&.choice{
@@ -33,8 +33,8 @@ form{
 		}
 		>.legend{
 			@media only screen and (min-width: $tablet){
-	      margin-left: 0;
-	    }
+		      	margin-left: 0;
+		    }
 		}
 	}
 	.actions-toolbar{
