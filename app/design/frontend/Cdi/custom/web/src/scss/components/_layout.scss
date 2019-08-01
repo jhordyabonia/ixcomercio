@@ -213,6 +213,12 @@
     border: 0;
   }
 }
+.page-title-wrapper {
+  margin: 40px 0 20px;
+  .page-title{
+    margin-bottom: 0;
+  }
+}
 .page-title, .product-name h1, .product-name .h1{
   font-size: 24px;
   font-weight: 600;
