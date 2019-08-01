@@ -431,21 +431,9 @@ class Success extends \Magento\Framework\App\Action\Action
 		$tableName = $resource->getTableName('trax_match_payment'); 
 		//Select Data from table
         $sql = "Select * FROM " . $tableName." where payment_type='".$method->getTitle()."' AND payment_code='".$mp_paymentMethod."' AND country_code='".$shipping->getCountryId()."' AND store_code='".$storeCode."'";
-        echo $sql;
-        $result = $connection->fetchAssoc($sql); 
-        echo "<pre>";
-        print_r($result);
-        echo "</pre>";
-        exit();
-        $trax = $this->gridFactory->create();
-        $trax->getCollection();
-        echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
+        $trax = $connection->fetchAll($sql); 
         foreach ($trax as $key => $data) {
-            var_dump($data);
-        }
-        exit();
-        if($trax->getId()){
-            return $trax->getTraxCode();
+            return $data['trax_code'];
         }
         return false;
     }
