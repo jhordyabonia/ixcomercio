@@ -205,8 +205,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
-        $shipping = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
-        if(!$shipping['CarrierId']){
+        $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
+        if(!$shippingData['CarrierId']){
             return false;
         }
         $items = array();
@@ -274,8 +274,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 array(
                     'FreightService' => $order->getShippingMethod(),
                     'FreightShipmentId' => $order->getQuoteId(),
-                    'ServiceType' => $shipping['ServiceType'],
-                    'CarrierId' => $shipping['CarrierId'],
+                    'ServiceType' => $shippingData['ServiceType'],
+                    'CarrierId' => $shippingData['CarrierId'],
                     'Amount' => $order->getShippingAmount(),
                     'FreightCost' => $order->getShippingAmount(),
                 )
