@@ -431,7 +431,7 @@ class Success extends \Magento\Framework\App\Action\Action
             ->addFieldToFilter('payment_type', $method->getTitle())
             ->addFieldToFilter('country_code', $shipping->getCountryId())
             ->addFieldToFilter('store_code', $storeCode);
-        echo $storeCode."<br>".$shipping->getCountryId()."<br>".$method->getTitle()."<br>".$mp_paymentMethod;
+        echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
         echo "<pre>";
         print_r($trax->getData());
         echo "</pre>";
