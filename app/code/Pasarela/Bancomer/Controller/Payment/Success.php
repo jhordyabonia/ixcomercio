@@ -429,7 +429,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $trax->getResource()
             ->load($trax, $storeCode, 'store_code');
         echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
-        var_dump($trax);
+        var_dump($trax->getData());
         exit();
         if($trax->getId()){
             return $trax->getTraxCode();
