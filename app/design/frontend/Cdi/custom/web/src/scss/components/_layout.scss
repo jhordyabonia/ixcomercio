@@ -425,7 +425,6 @@ body.page-layout-2columns-left{
     }
     > .field{
       margin-bottom: 7px;
-      padding-left: 40px;
       @media only screen and (max-width: 599px){
         padding-left: 0;
       }
@@ -516,7 +515,6 @@ body.page-layout-2columns-left{
   font-size: .9em;
 }
 body .column:not( .sidebar-main ) form .actions-toolbar{
-  margin-left: 40px;
   @media only screen and (max-width: 599px){
     margin-left: 0;
   }
