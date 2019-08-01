@@ -294,22 +294,16 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     //Se carga relación de carrier con trax
     public function loadCarrierId($country, $orderShipping, $storeCode)
     {   
-        $trax = $this->gridFactory->create();
-        
-        $this->logger->info('PlaceOrder - Entra a la coleccion ');
-        $trax->getCollection()
-            ->addFieldToFilter('carrier', $orderShipping[0])
-            ->addFieldToFilter('service_type', $orderShipping[1])
-            ->addFieldToFilter('country_code', $country)
-            ->addFieldToFilter('store_code', $storeCode);
-            foreach ($trax as $key => $data) {
-                $this->logger->info('PlaceOrder - Lee datos');
-                if($data->getCarrier() == $orderShipping[0] && $data->getServiceType() == $orderShipping[1] && $data->getCountryCode() == $country ){
-                    
-                $this->logger->info('PlaceOrder - Entra a la coleccion '.$data->getTraxCode());
-                    return $data->getTraxCode();
-                }
-            }
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+		$connection = $resource->getConnection();
+		$tableName = $resource->getTableName('trax_match_carrier'); 
+		//Select Data from table
+        $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND service_type='".$orderShipping[1]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
+        $trax = $connection->fetchAll($sql); 
+        foreach ($trax as $key => $data) {
+            return $data['trax_code'];
+        }
         return false;
     }
 
