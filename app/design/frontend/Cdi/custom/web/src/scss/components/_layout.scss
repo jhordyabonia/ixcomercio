@@ -454,52 +454,59 @@ body.page-layout-2columns-left{
       }
     }
   }
-}
-.actions-toolbar{
-    width: 100%;
-    max-width: 485px;
-    clear: both;
-    margin: 10px 0 0;
-    border-top: 1px solid #EDEDED;
-    text-align: right;
-    margin-left: 30px;
-    padding-top: 5px;
+  .actions-toolbar{
     @media only screen and (min-width: $tablet){
       margin-left: 40px;
     }
-    @media only screen and (max-width: 599px){
-      margin-left: 0;
-    }
     .primary{
-      float: right;
-      @media only screen and (max-width: 480px){
-        width: 100%;
-      }
-      .action{
-        margin-left: 5px;
-        min-width: 140px;
-        border-radius: 25px;
-        background: #E73C3E;
-        display: inline-block;
-        padding: 7px 15px;
-        border: 0;
-        color: #FFFFFF;
-        font-size: 13px;
-        font-weight: normal;
-        line-height: 19px;
-        text-align: center;
-        text-transform: uppercase;
-        vertical-align: middle;
-        white-space: nowrap;
-        @media only screen and (max-width: 480px){
-          width: 100%;
-        }
-        &:hover{
-          background: #000;
-        }
+      @media only screen and (min-width: $tablet){
+        float: right;
       }
     }
   }
+}
+.actions-toolbar{
+  width: 100%;
+  max-width: 485px;
+  clear: both;
+  margin: 10px 0 0;
+  border-top: 1px solid #EDEDED;
+  text-align: right;
+  margin-left: 30px;
+  padding-top: 5px;
+  @media only screen and (max-width: 599px){
+    margin-left: 0;
+  }
+  .primary{
+    float: right;
+    @media only screen and (max-width: 480px){
+      width: 100%;
+    }
+    .action{
+      margin-left: 5px;
+      min-width: 140px;
+      border-radius: 25px;
+      background: #E73C3E;
+      display: inline-block;
+      padding: 7px 15px;
+      border: 0;
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: normal;
+      line-height: 19px;
+      text-align: center;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+      @media only screen and (max-width: 480px){
+        width: 100%;
+      }
+      &:hover{
+        background: #000;
+      }
+    }
+  }
+}
 .form-note p {
   line-height: 1.5em;
   font-size: .9em;
