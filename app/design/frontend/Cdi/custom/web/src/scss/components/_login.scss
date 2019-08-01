@@ -1,14 +1,19 @@
 .login-container{
   text-align: left;
-    .form {
-      .fieldset{
-        >.field{
-          padding-left: 0;
-          margin-bottom: 30px;
-          &:not(.choice)>.label {
+  .form {
+    .fieldset{
+      >.field{
+        padding-left: 0;
+        margin-bottom: 30px;
+        &:not(.choice){
+          >.label{
             max-width: 100%;
+          }
+          .control{
+            max-width: 80%;
           }
         }
       }
+    }
   }
 }
