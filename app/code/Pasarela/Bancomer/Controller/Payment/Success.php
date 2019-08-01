@@ -7,6 +7,9 @@
  */
 
 namespace Pasarela\Bancomer\Controller\Payment;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
