@@ -432,7 +432,7 @@ class Success extends \Magento\Framework\App\Action\Action
 		//Select Data from table
         $sql = "Select * FROM " . $tableName." where payment_type='".$method->getTitle()."' AND payment_code='".$mp_paymentMethod."' AND country_code='".$shipping->getCountryId()."' AND store_code='".$storeCode."'";
         echo $sql;
-        $result = $connection->fetchObject($sql); 
+        $result = $connection->fetchAssoc($sql); 
         echo "<pre>";
         print_r($result);
         echo "</pre>";
