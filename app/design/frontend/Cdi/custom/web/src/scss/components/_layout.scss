@@ -515,6 +515,7 @@ body.page-layout-2columns-left{
   font-size: .9em;
 }
 body .column:not( .sidebar-main ) form .actions-toolbar{
+  margin-left: 0;
   @media only screen and (max-width: 599px){
     margin-left: 0;
   }
