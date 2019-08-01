@@ -492,6 +492,9 @@ body.page-layout-2columns-left{
         @media only screen and (max-width: 480px){
           width: 100%;
         }
+        &:hover{
+          background: #000;
+        }
       }
     }
   }

@@ -15,5 +15,11 @@
         }
       }
     }
+    .actions-toolbar{
+      max-width: 100%;
+      .primary{
+        float: left;
+      }
+    }
   }
 }
