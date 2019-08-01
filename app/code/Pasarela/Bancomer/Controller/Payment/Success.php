@@ -428,7 +428,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $trax = $this->gridFactory->create();
         $trax->getCollection();
         echo "storeccode: ".$storeCode."<br>country: ".$shipping->getCountryId()."<br>Payment: ".$method->getTitle()."<br>payment method: ".$mp_paymentMethod;
-        var_dump($trax->getData());
+        var_dump($trax);
         exit();
         if($trax->getId()){
             return $trax->getTraxCode();
