@@ -1,0 +1,72 @@
+.filter-options {
+  .panel-group{
+    .panel{
+      border-radius: 0;
+      box-shadow: none;
+      border-bottom: 0;
+      &.panel-default{
+        >.panel-heading{
+          text-align: left;
+          background: none;
+          border-radius: 0;
+          border-bottom: 1px solid #ccc;
+          box-shadow: none;
+          padding: 0;
+          .panel-title{
+            a{
+              width: 100%;
+              font-weight: 500;
+              line-height: normal;
+              text-decoration: none;
+              padding: 15px 30px 15px 15px;
+              display: inline-block;
+              transition: .5s all ease;
+              background: url(../images/arrow-down-black.png) no-repeat 95% center;
+              background-size: 14px;
+              &[aria-expanded="true"]{
+                background: url(../images/arrow-up-maincolor.png) no-repeat 95% center;
+                background-size: 14px;
+              }
+            }
+          }
+        }
+        .panel-collapse{
+          background: #efefef;
+          >.panel-body{
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+            .items{
+              .item{
+                a{
+                  color: #000;
+                  .count{
+                    color: #999;
+                    font-size: 12px;
+                  }
+                  .icon-check{
+                    width: 15px;
+                    height: 15px;
+                    background: none;
+                    border: 1px solid #bbb;
+                    border-radius: 2px;
+                    margin: 5px 5px 0 0;
+                    float: left;
+                  }
+                }
+                &.mana-selected{
+                  a .icon-check{
+                    background: url(../images/check-white.png) no-repeat center;
+                    background-size: 10px;
+                    background-color: $redcolor;
+                    border: 1px solid $redcolor;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
