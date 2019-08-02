@@ -92,6 +92,9 @@ html {
     h1,h2,h3{
       font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
+    .page-wrapper{
+      min-height: inherit;
+    }
     .columns {
       .column.main{
         padding: 0;
