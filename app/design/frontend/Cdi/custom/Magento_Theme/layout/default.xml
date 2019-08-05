@@ -22,9 +22,6 @@
 			<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
 			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 		</referenceContainer>
-
-		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
-		<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 		<referenceBlock name="store.settings" remove="true" />
 
 		<!--Reemplaza el footer-->
