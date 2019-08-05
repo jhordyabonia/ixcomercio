@@ -12,7 +12,7 @@
 		<move element="navigation.sections" destination="header.container" as="navigation.sections" after="-"/>
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
-			<referenceBlock name="header.panel.wrapper" remove="false" />
+			<referenceBlock name="header.panel.wrapper" remove="true" />
 			<container name="header.row.container.iconsearch" as="header_row_container_iconsearch" before="header.row.container.toplinks" htmlTag="div" htmlClass="icon-search">
 				<block class="Magento\Framework\View\Element\Template" name="header.iconsearch.block" template="Magento_Theme::html/icon-search.phtml" cacheable="false"/>
 			</container>
