@@ -5,6 +5,8 @@
   .column.main{
     .block:not(.widget){
       text-align: left;
+      padding: 40px;
+      border: 1px solid #e8e8e8;
       .block-title{
         border-bottom: 1px solid #e8e8e8;
         padding-bottom: 12px;
@@ -22,27 +24,31 @@
         margin-right: 20px;
       }
     }
-    .form .fieldset{
-      >.field{
-        margin: 0 0 29px;
-        &:not(.choice){
-          >.label{
-            max-width: 100%;
-            padding: 0;
-          }
-          .control{
-            @media only screen and (min-width: $tablet){
-              width: 74.2%;
-              max-width: inherit;
+    .form {
+      padding: 40px;
+      border: 1px solid #e8e8e8;
+      .fieldset{
+        >.field{
+          margin: 0 0 29px;
+          &:not(.choice){
+            >.label{
+              max-width: 100%;
+              padding: 0;
+            }
+            .control{
+              @media only screen and (min-width: $tablet){
+                width: 74.2%;
+                max-width: inherit;
+              }
             }
           }
         }
-      }
-      >.legend{
-        width: 100%;
-        border-bottom: 1px solid #e8e8e8;
-        padding-bottom: 12px;
-        float: none;
+        >.legend{
+          width: 100%;
+          border-bottom: 1px solid #e8e8e8;
+          padding-bottom: 12px;
+          float: none;
+        }
       }
     }
   }
