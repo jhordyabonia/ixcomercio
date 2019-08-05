@@ -163,6 +163,7 @@ ul, ol {
 html a {
   color: #00B5E2;
   text-decoration: none;
+  cursor: pointer;
   &:hover{
     color: #00a1c9;
     text-decoration: underline;
