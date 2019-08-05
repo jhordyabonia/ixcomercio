@@ -20,7 +20,16 @@
 			<referenceBlock name="top.search" remove="false" />
 		</referenceContainer>
 		<!--Elimina breadcrumb-->
-		<referenceBlock name="breadcrumbs" remove="true" />
+
+		<container name="header.row.container.iconsearch" as="header_row_container_iconsearch" before="header.row.container.toplinks" htmlTag="div" htmlClass="icon-search">
+			<block class="Magento\Framework\View\Element\Template" name="header.iconsearch.block" template="Magento_Theme::html/icon-search.phtml" cacheable="false"/>
+		</container>
+		<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks">
+			<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+		</container>
+		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
+		<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
 		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
