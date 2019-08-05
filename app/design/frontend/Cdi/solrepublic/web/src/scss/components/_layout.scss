@@ -150,6 +150,11 @@ h3.blktxt {
     padding: 95px 0 0;
     max-width: 100%;
   }
+  [data-content-type='row'][data-appearance='contained'] [data-element='inner'] {
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 }
 .cms-index-index .page-layout-1column{
   .page-wrapper .page-main{
