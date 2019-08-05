@@ -13,22 +13,16 @@
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
 			<referenceBlock name="header.panel.wrapper" remove="false" />
-		</referenceContainer>
-		<!--Elimina el carrito y el buscador de la cabecera-->
-		<referenceContainer name="header-wrapper">
-			<referenceBlock name="minicart" remove="true" />
-			<referenceBlock name="top.search" remove="false" />
-		</referenceContainer>
-		<!--Elimina breadcrumb-->
+			<container name="header.row.container.iconsearch" as="header_row_container_iconsearch" before="header.row.container.toplinks" htmlTag="div" htmlClass="icon-search">
+				<block class="Magento\Framework\View\Element\Template" name="header.iconsearch.block" template="Magento_Theme::html/icon-search.phtml" cacheable="false"/>
+			</container>
+			<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks">
+				<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+			</container>
+			<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
+			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 
-		<container name="header.row.container.iconsearch" as="header_row_container_iconsearch" before="header.row.container.toplinks" htmlTag="div" htmlClass="icon-search">
-			<block class="Magento\Framework\View\Element\Template" name="header.iconsearch.block" template="Magento_Theme::html/icon-search.phtml" cacheable="false"/>
-		</container>
-		<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks">
-			<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
-		</container>
-		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
-		<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+		</referenceContainer>
 
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
