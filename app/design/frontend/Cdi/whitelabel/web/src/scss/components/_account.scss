@@ -3,14 +3,20 @@
     margin: 40px 0 60px;
   }
   .column.main{
-    .block{
+    .block:not(.widget){
       text-align: left;
       .block-title{
         border-bottom: 1px solid #e8e8e8;
         padding-bottom: 12px;
-        strong{
+        > strong{
           font-weight: 400;
         }
+      }
+      .form .fieldset>.legend{
+        width: 100%;
+        border-bottom: 1px solid #e8e8e8;
+        padding-bottom: 12px;
+        float: none;
       }
       .block-content{
         .box-title{
