@@ -12,7 +12,6 @@
       .block-content{
         .box-title{
           color: $redcolor;
-          color: #000;
         }
       }
       .action{
@@ -27,6 +26,9 @@
   .item{
     a{
       color: #000;
+      &:hover{
+        color: $redcolor;
+      }
     }
   }
 }

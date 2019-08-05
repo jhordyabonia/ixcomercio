@@ -21,3 +21,14 @@
     }
   }
 }
+.account-nav{
+  text-align: left;
+  .item{
+    a{
+      color: #000;
+      &:hover{
+        color: $redcolor;
+      }
+    }
+  }
+}
