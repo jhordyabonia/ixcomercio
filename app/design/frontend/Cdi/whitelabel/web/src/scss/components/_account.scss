@@ -12,12 +12,6 @@
           font-weight: 400;
         }
       }
-      .form .fieldset>.legend{
-        width: 100%;
-        border-bottom: 1px solid #e8e8e8;
-        padding-bottom: 12px;
-        float: none;
-      }
       .block-content{
         .box-title{
           color: $redcolor;
@@ -27,6 +21,12 @@
         text-decoration: underline;
         margin-right: 20px;
       }
+    }
+    .form .fieldset>.legend{
+      width: 100%;
+      border-bottom: 1px solid #e8e8e8;
+      padding-bottom: 12px;
+      float: none;
     }
   }
 }
