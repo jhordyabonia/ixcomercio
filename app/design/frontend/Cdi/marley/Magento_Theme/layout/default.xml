@@ -36,6 +36,12 @@
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
 		
+		<!--Elimian bloque sidebar-->
+		<referenceContainer name="sidebar.additional">
+			<referenceBlock name="catalog.compare.sidebar" remove="true"/>
+			<referenceBlock name="wishlist_sidebar" remove="true"/>
+		</referenceContainer>
+		
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
 		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer"/>

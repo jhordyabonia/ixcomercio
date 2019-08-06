@@ -23,6 +23,12 @@
 			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
+		
+		<!--Elimian bloque sidebar-->
+		<referenceContainer name="sidebar.additional">
+			<referenceBlock name="catalog.compare.sidebar" remove="true"/>
+			<referenceBlock name="wishlist_sidebar" remove="true"/>
+		</referenceContainer>
 
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
