@@ -58,6 +58,7 @@
     .actions-toolbar{
       margin: 0;
       .primary{
+        min-width: 120px;
         @media only screen and (min-width: $tablet){
           float: left;
         }
@@ -78,6 +79,11 @@
 .account-nav{
   text-align: left;
   .item{
+    &.current {
+      a, strong{
+        border-color: $redcolor;
+      }
+    }
     a{
       color: #000;
       &:hover{
