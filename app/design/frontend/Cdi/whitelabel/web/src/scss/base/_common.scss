@@ -48,10 +48,10 @@ img{
 .txt-white, .txt-white h1, .txt-white h2 {
   color: #fff;
 }
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
+:hover,
+:active,
+:focus {
+  outline: 0;
   outline: none;
 }
 section{

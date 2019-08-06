@@ -25,12 +25,17 @@
       }
     }
     form {
-      padding: 40px;
+      text-align: left;
       border: 1px solid #e8e8e8;
+      padding: 40px;
       .fieldset{
         >.field{
-          margin: 0 0 29px;
+          margin: 0 0 15px;
+          &:last-child{
+            margin: 0;
+          }
           &:not(.choice){
+            margin: 0 0 29px;
             >.label{
               max-width: 100%;
               padding: 0;
