@@ -116,7 +116,7 @@ class Success extends \Magento\Framework\App\Action\Action
      */
     public function execute() {                
         try {               
-            /*$mp_order = $_POST['mp_order'];
+            $mp_order = $_POST['mp_order'];
             $mp_reference = $_POST['mp_reference'];
             $mp_amount = $_POST['mp_amount'];
             $mp_response = $_POST['mp_response'];
@@ -131,8 +131,8 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_bankcode = $_POST['mp_bankcode'];
             $mp_pan = $_POST['mp_pan'];
             $mp_saleid = $_POST['mp_saleid'];
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
-            $mp_order = "54";
+            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            /*$mp_order = "54";
             $mp_reference = "2000000085";
             $mp_amount = "133070,89";
             $mp_paymentMethod = "TDX";
@@ -147,7 +147,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_saleid = "1";
             $mp_pan = "12345678";
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
             $resultPage = $this->resultPageFactory->create();
             $resultPage->getLayout()->initMessages();
             if($mp_signature == $mp_signature1){
