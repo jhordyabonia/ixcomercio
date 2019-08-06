@@ -55,6 +55,20 @@
           float: none;
         }
       }
+      .actions-toolbar{
+        .primary{
+          @media only screen and (min-width: $tablet){
+            float: left;
+          }
+        }
+        .secondary{
+          a.action{
+            @media only screen and (min-width: $tablet){
+              margin-top: 20px;
+            }
+          }
+        }
+      }
     }
   }
 }

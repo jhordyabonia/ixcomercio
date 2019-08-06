@@ -22,11 +22,11 @@ form{
 				}
 				input{
 					&[type=checkbox]{
+						top: 4px;
+						width: 18px;
+					    height: 18px;
 						display: inline-block;
 						margin: 0;
-					    top: 4px;
-					    width: 18px;
-					    height: 18px;
 					}
 				}
 				label{
