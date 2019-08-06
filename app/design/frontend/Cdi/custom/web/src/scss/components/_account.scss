@@ -3,10 +3,12 @@
     margin: 40px 0 60px;
   }
   .column.main{
-    .block:not(.widget){
+    form, .block:not(.widget), .table-wrapper{
       text-align: left;
-      padding: 40px;
       border: 1px solid #e8e8e8;
+      padding: 40px;
+    }
+    .block:not(.widget){
       .block-title{
         border-bottom: 1px solid #e8e8e8;
         padding-bottom: 12px;
@@ -25,9 +27,6 @@
       }
     }
     form {
-      text-align: left;
-      border: 1px solid #e8e8e8;
-      padding: 40px;
       .fieldset{
         >.field{
           margin: 0 0 15px;
