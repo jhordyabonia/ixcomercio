@@ -63,6 +63,8 @@
         }
       }
       .secondary{
+        width: 100%;
+        float: left;
         a.action{
           @media only screen and (min-width: $tablet){
             margin-top: 20px;
