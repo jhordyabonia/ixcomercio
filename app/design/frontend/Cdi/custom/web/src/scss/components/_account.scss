@@ -57,6 +57,7 @@
       }
     }
     .actions-toolbar{
+      margin: 0;
       .primary{
         @media only screen and (min-width: $tablet){
           float: left;
@@ -65,6 +66,7 @@
       .secondary{
         width: 100%;
         float: left;
+        text-align: left;
         a.action{
           @media only screen and (min-width: $tablet){
             margin-top: 20px;
