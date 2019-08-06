@@ -52,19 +52,25 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
-		/*$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-		//Se obtiene lista de sku
-		$sku = $this->getSku($observer->getEvent());
-		//Se obtiene url del servicio
-		$serviceUrl = $this->getServiceUrl($configData, $sku);
-        //Se carga el servicio por curl
-        if($configData['datos_iws']){
-            $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0);
-        }*/
+        if($configData['productos_iws']==1){
+            //Se obtiene lista de sku
+            $sku = $this->getSku($observer->getEvent());
+		    //Se obtiene url del servicio
+		    $serviceUrl = $this->getServiceUrl($configData, $sku);
+            //Se carga el servicio por curl
+            if($configData['datos_iws']){
+                if($serviceUrl){
+                    $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
+                } else {
+                    $this->logger->info('GetProducts - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
+                }
+            }
+        }
 	}
 
     //Obtiene los parámetros de configuración desde el cms
