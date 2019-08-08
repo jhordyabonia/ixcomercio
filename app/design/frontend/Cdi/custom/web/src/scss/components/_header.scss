@@ -43,12 +43,9 @@ header{
       }
     }
     .header-toplinks{
-      position: absolute;
-      right: 0;
-      top: 30px;
-      .custom-top-links{
-        padding: 5px 0;
-        text-align: center;
+      display: none;
+      text-align: center;
+      &.skip-active{
         @media only screen and (min-width: $tablet){
           display: block;
           position: absolute;
@@ -56,6 +53,7 @@ header{
           top: 40px;
           right: 55px;
           width: 200px;
+          padding: 5px 0;
           background: white;
           border: solid 1px #B7B8B9;
         }
@@ -67,6 +65,9 @@ header{
         position: relative;
         padding: 5px 10px;
         display: block;
+        &:hover{
+          color: $redcolor;
+        }
       }
     }
   }
