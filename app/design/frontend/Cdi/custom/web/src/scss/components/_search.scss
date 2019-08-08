@@ -31,6 +31,11 @@ header{
         position: absolute;
         transition: width .75s ease;
         border: 0;
+        &:hover{
+          background-color: white;
+          outline: 1px solid #c3c5c4;
+          width: 300px;
+        }
       }
     }
     .actions{
@@ -61,13 +66,6 @@ header{
           background-position: 4px -146px;
           text-indent: -9999px;
         }
-      }
-    }
-    &:hover{
-      input#search{
-        background-color: white;
-        outline: 1px solid #c3c5c4;
-        width: 300px;
       }
     }
   }
