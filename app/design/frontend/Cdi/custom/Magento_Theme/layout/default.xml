@@ -20,12 +20,13 @@
 			<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks">
 				<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 			</container>
+			
 			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
 
 
-		<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		<move element="minicart" destination="header.account.cart.wrapper" as="minicart" after="-"/>
 		
 
