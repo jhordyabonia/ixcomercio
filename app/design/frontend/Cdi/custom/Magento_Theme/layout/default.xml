@@ -8,11 +8,16 @@
                 <argument name="logo_img_height" xsi:type="number">50</argument>
             </arguments>
         </referenceBlock>
+
 		<!--Mueve el menú al header-->
 		<move element="navigation.sections" destination="header.container" as="navigation.sections" after="-"/>
+		
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
+			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
+			</container>
+
 			<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks">
 				<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 			</container>
@@ -20,7 +25,7 @@
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
 
-		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
+		<move element="minicart" destination="header.account.cart.wrapper" as="minicart" after="-"/>
 		
 
 		<!--Elimian bloque sidebar-->
