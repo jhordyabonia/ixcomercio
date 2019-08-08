@@ -16,13 +16,13 @@
 			<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks">
 				<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 			</container>
+			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
 
 		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
-		<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 		
-		
+
 		<!--Elimian bloque sidebar-->
 		<referenceContainer name="sidebar.additional">
 			<referenceBlock name="catalog.compare.sidebar" remove="true"/>
