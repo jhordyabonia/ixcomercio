@@ -9,6 +9,7 @@ header{
     max-width: 1300px;
     margin: 0 auto;
     padding-bottom: 0;
+    position: relative;
     border: 0;
     @media only screen and (min-width: 769px){
       padding: 30px 30px 0;
@@ -40,6 +41,11 @@ header{
         display: block;
         background: none;
       }
+    }
+    .header-toplinks{
+      position: absolute;
+      right: 0;
+      top: 30px;
     }
   }
   .header-wrapper{
