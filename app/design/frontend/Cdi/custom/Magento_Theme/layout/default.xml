@@ -27,7 +27,6 @@
 
 		<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		<move element="minicart" destination="header.account.cart.wrapper" as="minicart" after="-"/>
-		<move element="header.row.container.toplinks" destination="header.account.cart.wrapper" as="header.row.container.toplinks" before="minicart"/>
 		
 
 		<!--Elimian bloque sidebar-->
