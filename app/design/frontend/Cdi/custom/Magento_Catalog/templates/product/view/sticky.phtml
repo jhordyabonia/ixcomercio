@@ -23,7 +23,7 @@ $cartEnabled = (bool)$_helperCdi->getStoreConfig('general/store_information/cust
 				<?php if($cartEnabled){ ?>
 					<div class="sticky-price-box">
 						<div class="sticky-price">
-							<?php //$block->getChildHtml('product.price.final') ?>
+							<?php $block->getChildHtml('product.price.final') ?>
 						</div>
 						<div class="sticky-addto">
 							<button class="button btn-cart">
