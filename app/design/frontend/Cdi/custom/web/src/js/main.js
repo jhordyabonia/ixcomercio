@@ -6,6 +6,44 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	});
 
 
+	$(document).ready(function(){
+		
+		// =============================================
+	    // Skip Links
+	    // =============================================
+
+	    var skipContents = jQuery('.skip-content');
+	    var skipLinks = jQuery('.skip-link');
+
+	    skipLinks.on('click', function (e) {
+	        e.preventDefault();
+
+	        var self = jQuery(this);
+	        // Use the data-target-element attribute, if it exists. Fall back to href.
+	        var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
+
+	        // Get target element
+	        var elem = jQuery(target);
+
+	        // Check if stub is open
+	        var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+
+	        // Hide all stubs
+	        skipLinks.removeClass('skip-active');
+	        skipContents.removeClass('skip-active');
+
+	        // Toggle stubs
+	        if (isSkipContentOpen) {
+	            self.removeClass('skip-active');
+	        } else {
+	            self.addClass('skip-active');
+	            elem.addClass('skip-active');
+	        }
+	    });
+	});
+
+
+
 	$(document).ajaxComplete(function() {
 	  	jQuery(".product-options-wrapper .swatch-attribute.jam_color .swatch-attribute-options .swatch-option").hover(function(){
 			var labelColor = jQuery(this).attr("option-label");
