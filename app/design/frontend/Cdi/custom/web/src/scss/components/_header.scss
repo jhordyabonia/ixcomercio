@@ -268,6 +268,11 @@ header{
       }
     }
   }
+  .account-cart-wrapper{
+    position: absolute;
+    top: 40px;
+    right: 0px;
+  }
   .minicart-wrapper{
     @media only screen and (min-width: $tablet){
       margin: 0;
