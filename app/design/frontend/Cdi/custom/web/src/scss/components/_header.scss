@@ -246,4 +246,21 @@ header{
       }
     }
   }
+  .minicart-wrapper{
+    @media only screen and (min-width: $tablet){
+      margin: 0;
+    }
+    .action.showcart{
+      &:before{
+        content:'';
+        width: 30px;
+        height: 30px;
+        margin-right: 3px;
+        vertical-align: middle;
+        background: url(../images/icon_sprite.png) no-repeat;
+        background-position: 0px -95px;
+        text-indent: -9999px;
+      }
+    }
+  }
 }
