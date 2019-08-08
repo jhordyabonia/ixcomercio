@@ -20,6 +20,7 @@
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
 
+		<move element="header.row.container.toplinks" destination="header.wrapper" as="header_row_container_toplinks" after="top.search"/>
 		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
 		
 
