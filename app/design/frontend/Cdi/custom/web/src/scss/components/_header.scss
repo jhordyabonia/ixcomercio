@@ -46,6 +46,28 @@ header{
       position: absolute;
       right: 0;
       top: 30px;
+      .custom-top-links{
+        padding: 5px 0;
+        text-align: center;
+        @media only screen and (min-width: $tablet){
+          display: block;
+          position: absolute;
+          z-index: 200;
+          top: 40px;
+          right: 55px;
+          width: 200px;
+          background: white;
+          border: solid 1px #B7B8B9;
+        }
+      }
+      a{
+        color: #000000;
+        line-height: 23px;
+        text-align: center;
+        position: relative;
+        padding: 5px 10px;
+        display: block;
+      }
     }
   }
   .header-wrapper{
