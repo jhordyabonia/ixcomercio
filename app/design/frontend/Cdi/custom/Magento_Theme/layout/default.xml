@@ -40,6 +40,8 @@
 			<referenceBlock name="wishlist_sidebar" remove="true"/>
 		</referenceContainer>
 		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
+		<!--Elimina breadcrumb-->
+		<referenceBlock name="breadcrumbs" remove="true" />
 
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
