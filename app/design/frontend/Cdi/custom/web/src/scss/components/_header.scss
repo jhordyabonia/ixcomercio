@@ -291,4 +291,38 @@ header{
       }
     }
   }
+  .skip-link {
+    position: relative;
+    float: left;
+    width: 20%;
+    height: 44px;
+    background: #FFFFFF;
+    color: #000000;
+    line-height: 42px;
+    text-align: center;
+    .icon{
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      vertical-align: middle;
+    }
+  }
+  .skip-account {
+    @media only screen and (min-width: $tablet){
+      float: none;
+      width: auto;
+      vertical-align: top;
+      display: inline-block;
+      padding: 0 10px;
+      text-transform: uppercase;
+    }
+    .icon{
+      background-position: 4px -44px;
+      background: url(../images/icon_sprite.png) no-repeat;
+      background-size: 100px 1000px;
+      @media only screen and (min-width: $mobile){
+        margin-right: 3px;
+      }
+    }
+  }
 }
