@@ -305,9 +305,12 @@ header{
       width: 30px;
       height: 30px;
       vertical-align: middle;
+      @media only screen and (min-width: $mobile){
+        margin-right: 3px;
+      }
     }
   }
-  .skip-account {
+  .skip-account{
     @media only screen and (min-width: $tablet){
       float: none;
       width: auto;
@@ -320,9 +323,6 @@ header{
       background-position: 4px -44px;
       background: url(../images/icon_sprite.png) no-repeat;
       background-size: 100px 1000px;
-      @media only screen and (min-width: $mobile){
-        margin-right: 3px;
-      }
     }
   }
 }
