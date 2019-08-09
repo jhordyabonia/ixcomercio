@@ -1,0 +1,14 @@
+.cart-container{
+  form{
+    &.form-cart{
+      table{
+        thead{
+          th{
+            color: #999;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+}
