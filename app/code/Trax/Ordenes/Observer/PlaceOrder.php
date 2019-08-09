@@ -23,9 +23,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
-    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
+    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
 
-    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
+    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
     
     private $helper;
 	
