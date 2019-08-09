@@ -2,11 +2,13 @@
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
 <div class="custom-top-links">
-    <a href="<?php echo $this->getUrl('customer-support') ?>"><?php echo __('Shopping Cart') ?></a>
-    <?php if($customerSession->isLoggedIn()) { ?>
-        <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('My Account') ?></a>
-    <?php } else { ?>
-        <a href="<?php echo $this->getUrl('customer/account/login') ?>"><?php echo __('Log In') ?></a>
-	<?php } ?>	
-        <a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo __('Shopping Cart') ?></a>
+	<ul>
+		<a href="<?php echo $this->getUrl('customer-support') ?>"><li><?php echo __('Customer Support') ?></li></a>
+		<?php if($customerSession->isLoggedIn()) { ?>
+			<a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
+		<?php } else { ?>
+			<a href="<?php echo $this->getUrl('customer/account/login') ?>"><li><?php echo __('Log In') ?></li></a>
+		<?php } ?>	
+		<a href="<?php echo $this->getUrl('checkout/cart') ?>"><li><?php echo __('Shopping Cart') ?></li></a>
+	</ul>
 </div>
