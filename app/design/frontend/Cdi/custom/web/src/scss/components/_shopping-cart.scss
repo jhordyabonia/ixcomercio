@@ -78,6 +78,17 @@
           background: none;
           border: 1px solid #ccc;
           padding: 7px 15px;
+          height: 44px;
+          font-size: 16px;
+          font-weight: normal;
+          &.continue:before, &.update:before{
+            line-height: 28px;
+          }
+          &:hover{
+            color: #fff;
+            background: #000;
+            border-color: #000;
+          }
         }
       }
     }
