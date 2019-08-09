@@ -1,14 +1,7 @@
-<?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
 <div class="custom-top-links">
 	<ul>
 		<a href="<?php echo $this->getUrl('customer-support') ?>"><li><?php echo __('Customer Support') ?></li></a>
-		<?php if($customerSession->isLoggedIn()) { ?>
-			<a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
-		<?php } else { ?>
-			<a href="<?php echo $this->getUrl('customer/account/login') ?>"><li><?php echo __('Log In') ?></li></a>
-		<?php } ?>	
+		<a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
 		<a href="<?php echo $this->getUrl('checkout/cart') ?>"><li><?php echo __('Shopping Cart') ?></li></a>
 	</ul>
 </div>

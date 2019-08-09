@@ -38,9 +38,10 @@
 		
 		<!--Elimina el carrito y el buscador de la cabecera-->
 		<referenceContainer name="header-wrapper">
-			<referenceBlock name="minicart" remove="true" />
 			<referenceBlock name="top.search" remove="true" />
 		</referenceContainer>
+		
+		<move element="minicart" destination="tooglevav" as="minicart" before="-"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
