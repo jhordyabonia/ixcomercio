@@ -402,6 +402,7 @@
       empty-cells: show;
       font-size: 100%;
       border: 0;
+      border-bottom: 1px dashed #e5e5e5;
       @media only screen and (min-width: $tablet){
         width: 100%;
       }
@@ -420,6 +421,7 @@
         }
         .label{
           color: #000;
+          font-size: 100%;
           display: table-cell;
         }
       }
