@@ -80,6 +80,7 @@
           padding: 7px 15px;
           height: 44px;
           font-size: 16px;
+          line-height: 30px;
           font-weight: normal;
           &.continue:before, &.update:before{
             line-height: 28px;
@@ -90,6 +91,37 @@
             border-color: #000;
           }
         }
+      }
+    }
+  }
+  .cart-summary{
+    text-align: left;
+    color: #000;
+    >.title{
+      font-weight: bold;
+    }
+    .mark, mark{
+      background: none;
+    }
+    .label{
+      color: #000;
+    }
+    .action.primary.checkout{
+      min-width: 140px;
+      border-radius: 25px;
+      background: #E73C3E;
+      display: inline-block;
+      border: 0;
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: normal;
+      line-height: 19px;
+      text-align: center;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+      &:hover{
+        background: #000;
       }
     }
   }
