@@ -41,7 +41,7 @@
 			<referenceBlock name="top.search" remove="true" />
 		</referenceContainer>
 		
-		<move element="minicart" destination="main.content" as="minicart" before="-"/>
+		<move element="minicart" destination="main.content" as="minicart" before="tooglevav"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
