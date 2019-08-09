@@ -109,7 +109,7 @@ class Error extends \Magento\Framework\App\Action\Action
             $mp_authorization = $_POST['mp_authorization'];
             $mp_paymentMethod = $_POST['mp_paymentMethod'];
             $mp_cardType = $_POST['mp_cardType'];
-            $mp_response = $_POST['mp_response'];
+            $mp_responsemsg = $_POST['mp_responsemsg'];
             $mp_date = $_POST['mp_date'];
             $mp_paymentMethodCode = $_POST['mp_paymentMethodCode'];
             $mp_signature = $_POST['mp_signature'];
