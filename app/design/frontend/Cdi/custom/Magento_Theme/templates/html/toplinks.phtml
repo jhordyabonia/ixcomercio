@@ -4,7 +4,7 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
 <div class="custom-top-links">
     <?php if($customerSession->isLoggedIn()) { ?>
         <ul class="custom-account-login"> 
-            <a href="<?php echo $customerSession->getAccountUrl() ?>"><li><?php echo __('My Account') ?></li></a>
+            <a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
             <span data-bind="scope: 'wishlist'" class="link wishlist"><a href="<?php echo $this->getUrl('wishlist') ?>"><li><?php echo __('My Wishlist') ?><span data-bind="text: wishlist().counter" class="counter qty"></span></li></a></span>
             <a href="<?php echo $this->getUrl('sales/order/history') ?>"><li><?php echo __('My Orders') ?></li></a>
             <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Log Out') ?></li></a>
