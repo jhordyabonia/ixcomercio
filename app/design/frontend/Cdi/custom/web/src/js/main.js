@@ -1,4 +1,8 @@
-require(['jquery', 'mainJs', 'domReady!'], function($) {
+require([
+    'jquery'
+],
+function ($, Component) {
+    'use strict';
     
 	jQuery('#scroll-to-top').click(function(){
 		jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
@@ -43,7 +47,6 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	});
 
 
-
 	$(document).ajaxComplete(function() {
 	  	jQuery(".product-options-wrapper .swatch-attribute.jam_color .swatch-attribute-options .swatch-option").hover(function(){
 			var labelColor = jQuery(this).attr("option-label");
@@ -62,4 +65,6 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 		}
 		
 	});
+
+	return Component;
 });
