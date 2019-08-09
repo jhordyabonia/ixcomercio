@@ -102,23 +102,23 @@ class Error extends \Magento\Framework\App\Action\Action
      */
     public function execute() {                
         try {               
-            /*$mp_order = $_POST['mp_order'];
-            $mp_reference = $_POST['mp_reference'];
-            $mp_amount = $_POST['mp_amount'];
-            $mp_response = $_POST['mp_response'];
-            $mp_authorization = $_POST['mp_authorization'];
-            $mp_paymentMethod = $_POST['mp_paymentMethod'];
-            $mp_cardType = $_POST['mp_cardType'];
-            $mp_responsemsg = $_POST['mp_responsemsg'];
-            $mp_date = $_POST['mp_date'];
-            $mp_paymentMethodCode = $_POST['mp_paymentMethodCode'];
-            $mp_signature = $_POST['mp_signature'];
-            $mp_bankname = $_POST['mp_bankname'];
-            $mp_bankcode = $_POST['mp_bankcode'];
-            $mp_pan = $_POST['mp_pan'];
-            $mp_saleid = $_POST['mp_saleid'];
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
-            $mp_order = "56";
+            $mp_order = $_REQUEST['mp_order'];
+            $mp_reference = $_REQUEST['mp_reference'];
+            $mp_amount = $_REQUEST['mp_amount'];
+            $mp_response = $_REQUEST['mp_response'];
+            $mp_authorization = $_REQUEST['mp_authorization'];
+            $mp_paymentMethod = $_REQUEST['mp_paymentMethod'];
+            $mp_cardType = $_REQUEST['mp_cardType'];
+            $mp_responsemsg = $_REQUEST['mp_responsemsg'];
+            $mp_date = $_REQUEST['mp_date'];
+            $mp_paymentMethodCode = $_REQUEST['mp_paymentMethodCode'];
+            $mp_signature = $_REQUEST['mp_signature'];
+            $mp_bankname = $_REQUEST['mp_bankname'];
+            $mp_bankcode = $_REQUEST['mp_bankcode'];
+            $mp_pan = $_REQUEST['mp_pan'];
+            $mp_saleid = $_REQUEST['mp_saleid'];
+            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            /*$mp_order = "56";
             $mp_reference = "2000000087";
             $mp_amount = "133070,89";
             $mp_paymentMethod = "TDX";
@@ -133,7 +133,7 @@ class Error extends \Magento\Framework\App\Action\Action
             $mp_saleid = "1";
             $mp_pan = "12345678";
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
             $resultPage = $this->resultPageFactory->create();
             $resultPage->getLayout()->initMessages();
             //TODO: Cancelar orden
