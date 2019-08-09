@@ -39,6 +39,10 @@
             }
           }
         }
+        .col.price, .col.qty, .col.subtotal, .col.msrp{
+          text-align: center;
+          vertical-align: middle;
+        }
       }
     }
   }
