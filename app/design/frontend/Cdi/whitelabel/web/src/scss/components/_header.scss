@@ -115,6 +115,16 @@ header{
               &:before{
                 display: none;
               }
+              .counter.qty{
+                right: -115%;
+                position: absolute;
+                top: -60%;
+                background: $redcolor;
+                border-radius: 50%;
+                width: 22px;
+                height: 22px;
+                font-size: 12px;
+              }
             }
           }
         }
