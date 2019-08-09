@@ -116,6 +116,11 @@ class Success extends \Magento\Framework\App\Action\Action
      */
     public function execute() {                
         try {               
+            $post = $this->getRequest()->getPostValue();
+
+            echo "<pre>";
+            print_r($post);
+            exit;
             echo "entra"; exit();
             $mp_order = $_POST['mp_order'];
             $mp_reference = $_POST['mp_reference'];
