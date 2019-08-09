@@ -148,6 +148,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_pan = "12345678";
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
+            echo "entra"; exit();
             $resultPage = $this->resultPageFactory->create();
             $resultPage->getLayout()->initMessages();
             if($mp_signature == $mp_signature1){
