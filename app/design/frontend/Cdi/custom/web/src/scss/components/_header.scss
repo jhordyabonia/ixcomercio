@@ -289,6 +289,11 @@ header{
         background-position: 0 -90px;
         text-indent: -9999px;
       }
+      &:hover{
+        &:before{
+          background-position: -50px -95px;
+        } 
+      }
       &.active{
         &:before{
           vertical-align: middle;
