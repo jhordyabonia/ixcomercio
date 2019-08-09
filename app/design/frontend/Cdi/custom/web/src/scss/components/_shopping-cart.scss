@@ -21,17 +21,19 @@
                   font-weight: bold;
                   font-size: 16px;
                   display: block;
-                  margin-top: 0;
+                  margin-top: 6px;
                 }
                 .product-item-stock{
-                  color: #4fb62f;
                   display: block;
                   text-align: left;
-                }
-                .product-item-outstock{
-                  color: $redcolor;
-                  display: block;
-                  text-align: left;
+                  font-weight: bold;
+                  font-size: 14px;
+                  &.in-stock{
+                    color: #4fb62f;
+                  }
+                  &.out-stock{
+                    color: $redcolor;  
+                  }
                 }
               }
             }
