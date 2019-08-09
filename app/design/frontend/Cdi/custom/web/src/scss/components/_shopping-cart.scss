@@ -72,6 +72,14 @@
           vertical-align: middle;
         }
       }
+      .cart.main.actions{
+        .action{
+          color: #999;
+          background: none;
+          border: 1px solid #ccc;
+          padding: 7px 15px;
+        }
+      }
     }
   }
 }
