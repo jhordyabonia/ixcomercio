@@ -283,12 +283,16 @@ header{
       &:before{
         content:'';
         width: 30px;
-        height: 30px;
-        margin-right: 3px;
+        height: 42px;
         vertical-align: middle;
         background: url(../images/icon_sprite.png) no-repeat;
-        background-position: 0px -95px;
+        background-position: 0 -90px;
         text-indent: -9999px;
+      }
+      &.active{
+        &:before{
+          vertical-align: middle;
+        }
       }
       .counter.qty{
         top: -6px;
