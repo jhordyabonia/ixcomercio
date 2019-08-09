@@ -409,9 +409,6 @@
         tr{
           &:nth-child(even){
             background-color: #fbfbfb;
-            th, td{
-              border-right: 1px solid #f5f5f5;
-            }
           }
         }
         th, td{
@@ -419,9 +416,11 @@
         }
         th{
           font-weight: bold;
+          border-right: 1px solid #f5f5f5;
         }
         .label{
           color: #000;
+          display: table-cell;
         }
       }
     }
