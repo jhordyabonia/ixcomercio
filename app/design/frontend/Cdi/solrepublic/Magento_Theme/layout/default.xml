@@ -29,6 +29,7 @@
 		
 		<!--Bloque de menu lateral desplegable-->
 		<referenceContainer name="main.content">
+			<container name="header.row.container.minicart" as="header_row_container_minicart" before="tooglevav" htmlTag="div" htmlClass="header-minicart" />
 			<block class="Magento\Framework\View\Element\Template" name="tooglevav" as="tooglevav" before="-" template="Magento_Theme::html/tooglenav.phtml">
 				<block class="Magento\Theme\Block\Html\Topmenu" name="tooglevav.tooglenav" as="tooglevav_tooglenav" template="Magento_Theme::html/topmenu.phtml" ttl="3600"/>
 				<block class="Magento\Framework\View\Element\Template" name="tooglevav.social" as="tooglevav_social" template="Magento_Theme::html/social.phtml"/>
@@ -41,7 +42,7 @@
 			<referenceBlock name="top.search" remove="true" />
 		</referenceContainer>
 		
-		<move element="minicart" destination="main.content" as="minicart" before="tooglevav"/>
+		<move element="minicart" destination="header.row.container.minicart" as="minicart" after="-"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
