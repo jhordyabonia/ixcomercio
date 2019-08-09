@@ -352,6 +352,11 @@ header{
       padding: 0 10px;
       text-transform: uppercase;
     }
+    &:not(.skip-active):hover{
+      .icon{
+        background-position: -46px -44px;
+      }
+    }
     .icon{
       background: url(../images/icon_sprite.png) no-repeat;
       background-position: 4px -44px;
