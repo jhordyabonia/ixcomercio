@@ -38,6 +38,13 @@
               }
             }
           }
+          input{
+            &.input-text{
+              border: 0;
+              color: #000;
+              font-size: 16px;
+            }
+          }
         }
         .col.price, .col.qty, .col.subtotal, .col.msrp{
           text-align: center;

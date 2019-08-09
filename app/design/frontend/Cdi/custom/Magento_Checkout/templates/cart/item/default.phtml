@@ -87,6 +87,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         <?php endif; ?>
         <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
             <div class="field qty">
+                <div class="control-qty add"></div>
                 <div class="control qty">
                     <label for="cart-<?= /* @escapeNotVerified */ $_item->getId() ?>-qty">
                         <span class="label"><?= /* @escapeNotVerified */ __('Qty') ?></span>
@@ -102,6 +103,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                                data-role="cart-item-qty"/>
                     </label>
                 </div>
+                <div class="control-qty remove"></div>
             </div>
         </td>
 
