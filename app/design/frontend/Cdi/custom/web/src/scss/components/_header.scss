@@ -309,6 +309,9 @@ header{
         margin-right: 3px;
       }
     }
+    label{
+      display: none;
+    }
   }
   .skip-account{
     @media only screen and (min-width: $tablet){
@@ -320,8 +323,8 @@ header{
       text-transform: uppercase;
     }
     .icon{
-      background-position: 4px -44px;
       background: url(../images/icon_sprite.png) no-repeat;
+      background-position: 4px -44px;
       background-size: 100px 1000px;
     }
   }
