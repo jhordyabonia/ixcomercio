@@ -290,6 +290,25 @@ header{
         background-position: 0px -95px;
         text-indent: -9999px;
       }
+      .counter.qty{
+        top: -6px;
+        background: none;
+        @media only screen and (min-width: $tablet){
+          width: auto;
+          color: $redcolor;
+          border-radius: 0px;
+          position: static;
+          background: none;
+          margin-left: 0px;
+          font-size: 14px;
+          &:before{
+            content: '(';
+          }
+          &:after{
+            content: ')';
+          }
+        }
+      }
     }
   }
   .skip-link {
