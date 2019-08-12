@@ -12,7 +12,7 @@
 		<!--Redeclara el header-->
 		<referenceContainer name="header.container" htmlClass="header-primary-container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />			
-			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
+			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper" before="header.row.wrapper">
 				<container name="header.row.container.toplinks" as="header_row_container_toplinks" before="-" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
 					<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 				</container>
