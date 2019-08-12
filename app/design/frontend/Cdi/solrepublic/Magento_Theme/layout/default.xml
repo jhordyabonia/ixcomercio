@@ -50,7 +50,6 @@
 		<!--Elimian bloque sidebar-->
     	<referenceBlock name="catalog.compare.sidebar" remove="true"/>
 		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
-		<referenceBlock name="wishlist_sidebar" remove="true"/>
 		
 		<!--Reemplaza el footer-->
 		<referenceContainer name="page.wrapper">
