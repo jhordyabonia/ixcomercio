@@ -26,13 +26,13 @@
 						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
 					</container>
 				</container>
+			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		</referenceContainer>
 		
 		<!--Mueve bloques al header-->
 		<move element="navigation.sections" destination="header.row.container.mainmenu" as="navigation.sections" after="-"/>
 		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
-		<move element="top.search" destination="header.account.cart.wrapper" as="top.search" after="header_row_container_toplinks"/>
-		<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
