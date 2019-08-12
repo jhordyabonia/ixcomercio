@@ -1,5 +1,5 @@
 form{
-	margin-bottom: 40px;
+	margin: 40px 0;
 	.label{
 		color: #000;
 	}
@@ -128,13 +128,13 @@ form{
 	    width: 100%;
 	}
 }
-.account-social-login{
-	margin-top: 40px;
-}
 .column:not(.sidebar-main), .column:not(.sidebar-additional){
-	form .actions-toolbar{
+	.form .actions-toolbar{
 		@media only screen and (min-width: $tablet){
 			margin: 0;
 		}
 	}
+}
+.control.captcha-image .captcha-img{
+	width: auto;
 }
