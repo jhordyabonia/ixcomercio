@@ -235,6 +235,27 @@ ul.sticky-sections {
         }
       }
     }
+    .product-add-form{
+      .action.primary{
+        margin-left: 5px;
+        min-width: 140px; 
+        background: $redcolor;
+        display: inline-block;
+        padding: 15px;
+        border: 0;
+        color: #FFFFFF;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 19px;
+        text-align: center;
+        text-transform: uppercase;
+        vertical-align: middle;
+        white-space: nowrap;
+        &:hover{
+          background: #000;
+        }
+      } 
+    }
   }
   .product-info_main, .product-info_media{
     .product-name {
