@@ -10,9 +10,9 @@
   .opc-wrapper {
     .shipping-address-item.selected-item{
       border-color: $redcolor;
-    }
-    &:after{
-      background: $redcolor;
+      &:after{
+        background: $redcolor;
+      }
     }
   }
 }
