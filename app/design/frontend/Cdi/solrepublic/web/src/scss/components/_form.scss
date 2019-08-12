@@ -89,7 +89,7 @@ form{
 		font-family: 'Graphik-bold', 'Helvetica', sans-serif;
 	}
 }
-.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-create{
+.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword{
 	.form.password.forget, .form.send.confirmation, .form.create.account{
 		text-align: left;
 		@media only screen and (min-width: $tablet){
@@ -134,6 +134,9 @@ form{
 			margin: 0;
 		}
 	}
+}
+.account-social-login{
+	margin-top: 40px;
 }
 .control.captcha-image .captcha-img{
 	width: auto;
