@@ -1,0 +1,18 @@
+.checkout-container{
+  .opc-progress-bar-item._active{
+    &:before{
+      background: $redcolor;
+    }
+    >span:before{
+      background: $redcolor;
+    }
+  }
+  .opc-wrapper {
+    .shipping-address-item.selected-item{
+      border-color: $redcolor;
+    }
+    &:after{
+      background: $redcolor;
+    }
+  }
+}
