@@ -17,7 +17,10 @@
 					<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-xs-6 col-md-1 margNone" />
 					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-mainmenu col-sm-8 col-md-10 hidden-xs margLeft" />
 					<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access col-md-1 col-sm-2 col-xs-6">
-						<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
+						<container name="header.container.access" as="header_container_access" after="-" htmlTag="div" htmlClass="quick-access">
+							<container name="header.row.container.minicart" as="header_row_container_minicart" before="tooglevav" htmlTag="div" htmlClass="header-minicart" />
+							<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
+						</container>
 					</container>
 				</container>
 			</container>
@@ -29,7 +32,6 @@
 		
 		<!--Bloque de menu lateral desplegable-->
 		<referenceContainer name="main.content">
-			<container name="header.row.container.minicart" as="header_row_container_minicart" before="tooglevav" htmlTag="div" htmlClass="header-minicart" />
 			<block class="Magento\Framework\View\Element\Template" name="tooglevav" as="tooglevav" before="-" template="Magento_Theme::html/tooglenav.phtml">
 				<block class="Magento\Theme\Block\Html\Topmenu" name="tooglevav.tooglenav" as="tooglevav_tooglenav" template="Magento_Theme::html/topmenu.phtml" ttl="3600"/>
 				<block class="Magento\Framework\View\Element\Template" name="tooglevav.social" as="tooglevav_social" template="Magento_Theme::html/social.phtml"/>
