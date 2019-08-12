@@ -133,6 +133,8 @@ form{
 }
 .column:not(.sidebar-main), .column:not(.sidebar-additional){
 	form .actions-toolbar{
-		margin: 0;
+		@media only screen and (min-width: $tablet){
+			margin: 0;
+		}
 	}
 }
