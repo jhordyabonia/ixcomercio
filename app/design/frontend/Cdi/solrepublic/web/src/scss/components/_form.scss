@@ -44,9 +44,6 @@ form{
 		    }
 		}
 	}
-	.actions-toolbar{
-		margin: 0;
-	}
 }
 .actions-toolbar{
 	> .primary{
@@ -133,4 +130,9 @@ form{
 }
 .account-social-login{
 	margin-top: 40px;
+}
+.column:not(.sidebar-main), .column:not(.sidebar-additional){
+	form .actions-toolbar{
+		margin: 0;
+	}
 }
