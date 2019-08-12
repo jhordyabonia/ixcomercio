@@ -11,13 +11,13 @@
 
 		<!--Mueve el menú al header-->
 		<move element="navigation.sections" destination="header.container" as="navigation.sections" after="-"/>
+		<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="header.container" htmlTag="div" htmlClass="header-freeshipping">
+			<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
+		</container>
 		
 			
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
-			<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="header.account.cart.wrapper" htmlTag="div" htmlClass="header-freeshipping">
-				<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
-			</container>
 			<referenceBlock name="header.panel.wrapper" remove="true" />
 			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
 
