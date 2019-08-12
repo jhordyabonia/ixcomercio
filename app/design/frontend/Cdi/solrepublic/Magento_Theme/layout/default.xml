@@ -18,7 +18,6 @@
 					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-mainmenu col-sm-8 col-md-10 hidden-xs margLeft" />
 					<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access col-md-1 col-sm-2 col-xs-6">
 						<container name="header.container.access" as="header_container_access" after="-" htmlTag="div" htmlClass="quick-access">
-							<container name="header.row.container.minicart" as="header_row_container_minicart" before="tooglevav" htmlTag="div" htmlClass="header-minicart" />
 							<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
 						</container>
 					</container>
@@ -44,7 +43,7 @@
 			<referenceBlock name="top.search" remove="true" />
 		</referenceContainer>
 		
-		<move element="minicart" destination="header.row.container.minicart" as="minicart" after="-"/>
+		<move element="minicart" destination="header.container.access" as="minicart" before="header.access.toogle"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
