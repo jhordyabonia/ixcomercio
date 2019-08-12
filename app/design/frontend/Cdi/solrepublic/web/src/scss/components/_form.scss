@@ -1,4 +1,5 @@
 form{
+	margin-bottom: 40px;
 	.label{
 		color: #000;
 	}
@@ -42,6 +43,9 @@ form{
 		      	margin-left: 0;
 		    }
 		}
+	}
+	.actions-toolbar{
+		margin: 0;
 	}
 }
 .actions-toolbar{
