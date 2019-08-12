@@ -1,6 +1,9 @@
 .account{
   &.page-layout-2columns-left .page-wrapper .page-main .columns .column.main{
     padding: 0;
+    p{
+      font-size: 14px;
+    }
   }
   .page-title-wrapper{
     margin: 40px 0 60px;
@@ -22,9 +25,11 @@
       .block-content{
         .box-title{
           color: #000;
+          font-family: 'Graphik-Medium', 'Helvetica', sans-serif;
         }
       }
       .action{
+        font-size: 13px;
         text-decoration: underline;
         margin-right: 20px;
       }
@@ -88,8 +93,10 @@
         border-color: #000;
       }
     }
-    a{
+    a, strong{
       color: #000;
+      font-size: 14px;
+      font-family: 'Graphik-Medium', 'Helvetica', sans-serif;
       &:hover{
         color: #000;
       }
