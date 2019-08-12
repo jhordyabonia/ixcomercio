@@ -8,15 +8,19 @@
                 <argument name="logo_img_height" xsi:type="number">32</argument>
             </arguments>
         </referenceBlock>
+		<referenceContainer name="page.wrapper">
+			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
+				<container name="header.row.container.toplinks" as="header_row_container_toplinks" before="-" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
+					<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+				</container>
+			</container>
+			<move element="top.search" destination="page.wrapper" as="top.search" after="-"/>
+			<move element="header.account.cart.wrapper" destination="page.wrapper" as="header.account.cart.wrapper" after="top.search"/>
+		</referenceContainer>
 
 		<!--Redeclara el header-->
 		<referenceContainer name="header.container" htmlClass="header-primary-container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
-				<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
-					<container name="header.row.container.toplinks" as="header_row_container_toplinks" before="-" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
-						<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
-					</container>
-				</container>
 				<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="container">
 					<container name="header.row.wrapper.row" as="header_row_wrapper_row" before="-" htmlTag="div" htmlClass="row">
 						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="wrapper-brand col-sm-4 col-xs-6" />
@@ -26,8 +30,6 @@
 						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
 					</container>
 				</container>
-			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
-			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		</referenceContainer>
 		
 		<!--Mueve bloques al header-->
