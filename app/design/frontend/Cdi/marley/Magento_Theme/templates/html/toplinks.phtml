@@ -1,0 +1,13 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
+<div class="custom-top-links">
+    <ul class="custom-account-login"> 
+        <a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('Mi cuenta') ?></li></a>
+        <?php if($customerSession->isLoggedIn()) { ?>
+            <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Fin de sesión') ?></li></a>
+        <?php } else { ?>
+            <a href="<?php echo $this->getUrl('customer/account/login') ?>"><li><?php echo __('Inicio de sesión') ?></li></a>
+        <?php } ?>
+    </ul>
+</div>

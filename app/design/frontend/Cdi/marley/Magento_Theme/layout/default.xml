@@ -12,6 +12,11 @@
 		<!--Redeclara el header-->
 		<referenceContainer name="header.container" htmlClass="header-primary-container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
+				<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
+					<container name="header.row.container.toplinks" as="header_row_container_toplinks" before="-" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
+						<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+					</container>
+				</container>
 				<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="container">
 					<container name="header.row.wrapper.row" as="header_row_wrapper_row" before="-" htmlTag="div" htmlClass="row">
 						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="wrapper-brand col-sm-4 col-xs-6" />
@@ -26,12 +31,8 @@
 		<!--Mueve bloques al header-->
 		<move element="navigation.sections" destination="header.row.container.mainmenu" as="navigation.sections" after="-"/>
 		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
-		
-		<!--Elimina el carrito y el buscador de la cabecera-->
-		<referenceContainer name="header-wrapper">
-			<referenceBlock name="minicart" remove="true" />
-			<referenceBlock name="top.search" remove="true" />
-		</referenceContainer>
+		<move element="top.search" destination="header.account.cart.wrapper" as="top.search" after="header_row_container_toplinks"/>
+		<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
