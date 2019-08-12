@@ -1,4 +1,7 @@
 .account{
+  .page-layout-2columns-left .column.main{
+    padding: 0;
+  }
   .page-title-wrapper{
     margin: 40px 0 60px;
   }
@@ -27,6 +30,7 @@
       }
     }
     form {
+      margin: 0;
       .fieldset{
         >.field{
           margin: 0 0 15px;
