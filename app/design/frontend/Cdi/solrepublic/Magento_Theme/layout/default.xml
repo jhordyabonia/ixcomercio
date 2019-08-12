@@ -11,6 +11,9 @@
 		
 		<!--Redeclara el header-->
 		<referenceContainer name="header.container">
+			<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="-" htmlTag="div" htmlClass="header-freeshipping">
+				<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
+			</container>
 			<referenceBlock name="header.panel.wrapper" remove="true" />
 			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="header-container">
 				<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="header">
