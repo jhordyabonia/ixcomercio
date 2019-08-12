@@ -181,9 +181,10 @@ ul.sticky-sections {
               display: block;
             }
             .label, .control{
-              display: inline-block;
+              display: block;
             }
             .control{
+              margin: 10px 0;
               input{
                 width: 3em;
                 height: 30px;
@@ -201,6 +202,8 @@ ul.sticky-sections {
               border-radius: 50%;
               font-size: 18px;
               font-weight: bold;
+              text-align: center;
+              line-height: 28px;
               &.disable{
                 color: #999;
                 background: none;
