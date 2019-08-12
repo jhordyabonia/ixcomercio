@@ -237,11 +237,11 @@ ul.sticky-sections {
     }
     .product-add-form{
       .action.primary{
-        margin-left: 5px;
-        min-width: 140px; 
-        background: $redcolor;
+        min-width: 140px;
+        border-radius: 25px;
+        background: #E73C3E;
         display: inline-block;
-        padding: 15px;
+        padding: 7px 15px;
         border: 0;
         color: #FFFFFF;
         font-size: 13px;
