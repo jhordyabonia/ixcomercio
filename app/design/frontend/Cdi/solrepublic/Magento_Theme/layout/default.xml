@@ -11,11 +11,11 @@
 		
 		<!--Redeclara el header-->
 		<referenceContainer name="header.container">
+			<referenceBlock name="header.panel.wrapper" remove="true" />
+			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="header-container">
 			<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="-" htmlTag="div" htmlClass="header-freeshipping">
 				<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
 			</container>
-			<referenceBlock name="header.panel.wrapper" remove="true" />
-			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="header-container">
 				<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="header">
 					<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-xs-6 col-md-1 margNone" />
 					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-mainmenu col-sm-8 col-md-8 hidden-xs margLeft" />
