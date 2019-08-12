@@ -15,8 +15,8 @@
 			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="header-container">
 				<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="header">
 					<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-xs-6 col-md-1 margNone" />
-					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-mainmenu col-sm-8 col-md-10 hidden-xs margLeft" />
-					<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access col-md-1 col-sm-2 col-xs-6">
+					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-mainmenu col-sm-8 col-md-8 hidden-xs margLeft" />
+					<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access col-md-3 col-sm-2 col-xs-6">
 						<container name="header.container.access" as="header_container_access" after="-" htmlTag="div" htmlClass="quick-access">
 							<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
 						</container>
