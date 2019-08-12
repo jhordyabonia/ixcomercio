@@ -5,7 +5,7 @@
       .items-total{
         line-height: normal;
       }
-      label{
+      label, .label{
         color: #000;
       }
       .actions{
@@ -32,6 +32,8 @@
         }
       }
       .minicart-items-wrapper{
+        border-top: 0;
+        margin-bottom: 20px;
         .minicart-items{
           .item{
             text-align: left;
