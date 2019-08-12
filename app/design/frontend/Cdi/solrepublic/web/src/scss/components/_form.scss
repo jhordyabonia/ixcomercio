@@ -37,6 +37,7 @@ form{
 			}
 		}
 		>.legend{
+			font-family: 'Graphik-bold', 'Helvetica', sans-serif;
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }
@@ -125,4 +126,7 @@ form{
 	    background: #e8e8e8;
 	    width: 100%;
 	}
+}
+.account-social-login{
+	margin-top: 40px;
 }
