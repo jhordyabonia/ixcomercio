@@ -26,6 +26,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
+
+    const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
     
     private $helper;
 	
@@ -81,7 +83,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode());
+            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id']);
             $this->logger->info('PlaceOrder - Payload: '.$payload);
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
@@ -110,6 +112,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
+        $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -200,7 +203,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order, $storeCode) 
+	public function loadPayloadService($order, $storeCode, $configDataStoreId) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
@@ -221,7 +224,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $payload = array(
             'StoreOrder' => array(
-                'StoreId' => 'houseofmar',
+                'StoreId' => $configDataStoreId,
                 'StoreOrderNumber' => $order->getIncrementId(),
                 'Customer' => array(
                     'FirstName' => $billing->getFirstname(),
