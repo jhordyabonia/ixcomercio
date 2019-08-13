@@ -44,6 +44,34 @@ function ($, Component) {
 	            elem.addClass('skip-active');
 	        }
 	    });
+
+
+	    // =============================================
+	    // Quantity Controls
+	    // =============================================
+		var qtyControl = jQuery('.control-qty');
+
+		qtyControl.on('click', function (e) {
+
+			var self = jQuery(this);
+			var parent = jQuery(this).parent();
+			var QtyVal = parent.find('input.input-text.qty').val();
+
+			if(self.hasClass('remove')){
+				if(QtyVal >= 2 ){
+					QtyVal.val(QtyVal--);
+					if(QtyVal == 2){
+						self.addClass('disable');
+					}
+				}
+			}else if(self.hasClass('add')){
+				QtyVal.val(QtyVal++);
+				parent.find('.remove').removeClass('disable');
+			}
+		});
+
+
+
 	});
 
 

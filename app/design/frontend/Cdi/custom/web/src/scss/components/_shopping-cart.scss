@@ -47,10 +47,16 @@
                   border-radius: 50%;
                   font-size: 18px;
                   font-weight: bold;
+                  cursor: pointer;
+                  &:not(.disable):hover{
+                    color: #fff;
+                    background: #000;
+                  }
                   &.disable{
                     color: #999;
                     background: none;
                     border: 1px solid #ccc;
+                    pointer-events: none;
                   }
                 }
                 .control.qty{
