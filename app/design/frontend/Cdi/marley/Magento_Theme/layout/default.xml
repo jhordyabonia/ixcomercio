@@ -36,6 +36,7 @@
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
+		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
 		
 		<!--Elimian bloque sidebar-->
 		<referenceContainer name="sidebar.additional">

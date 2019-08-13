@@ -26,6 +26,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
+
+    const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
     
     private $helper;
 	
@@ -81,7 +83,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode());
+            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id']);
             $this->logger->info('PlaceOrder - Payload: '.$payload);
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
@@ -110,6 +112,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
+        $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -200,7 +203,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order, $storeCode) 
+	public function loadPayloadService($order, $storeCode, $configDataStoreId) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
@@ -221,7 +224,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $payload = array(
             'StoreOrder' => array(
-                'StoreId' => 'houseofmarley',
+                'StoreId' => $configDataStoreId,
                 'StoreOrderNumber' => $order->getIncrementId(),
                 'Customer' => array(
                     'FirstName' => $billing->getFirstname(),
@@ -234,7 +237,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'FirstName' => $billing->getFirstname(),
                     'LastName' => $billing->getLastname(),
                     'Email' => $billing->getEmail(),
-                    'DocumentId' => '1040505',
+                    'DocumentId' => $billing->getIdentification(),
                     'Cellphone' => $billing->getTelephone(),
                     'LandLinePhone' => '',
                     'OtherPhone' => '',
@@ -251,7 +254,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'FirstName' => $shipping->getFirstname(),
                     'LastName' => $shipping->getLastname(),
                     'Email' => $shipping->getEmail(),
-                    'DocumentId' => '1040505',
+                    'DocumentId' => $shipping->getIdentification(),
                     'Cellphone' => $shipping->getTelephone(),
                     'LandLinePhone' => '',
                     'OtherPhone' => '',
@@ -267,7 +270,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 'DeliveryType' => $order->getShippingMethod(),
             ),
             'CouponCodes' => array(),
-            'TaxRegistrationNumber' => "64251 2 357348 DV41",
+            'TaxRegistrationNumber' => $billing->getIdentification(),
             'InvoiceRequested' => true,
             'ReceiveInvoiceByMail' => true,
             'Shipments' => array(
