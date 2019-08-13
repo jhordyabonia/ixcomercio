@@ -58,14 +58,14 @@ function ($, Component) {
 			var qtyVal = parent.find('input.input-text.qty').val();
 
 			if(self.hasClass('remove')){
-				if(QtyVal >= 2 ){
-					QtyVal.val(QtyVal--);
-					if(QtyVal == 2){
+				if(qtyVal >= 2 ){
+					qtyVal.val(qtyVal--);
+					if(qtyVal == 2){
 						self.addClass('disable');
 					}
 				}
 			}else if(self.hasClass('add')){
-				QtyVal.val(QtyVal++);
+				qtyVal.val(qtyVal++);
 				parent.find('.remove').removeClass('disable');
 			}
 		});
