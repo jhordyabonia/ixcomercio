@@ -131,6 +131,14 @@
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
       font-size: 14px;
     }
+    input[type=checkbox], input[type=radio]{
+      display: inline-block;
+    }
+    .checkout-methods-items{
+      a{
+        font-size: 14px;
+      }
+    }
     .action.primary.checkout{
       min-width: 140px;
       background: #00aeef;
