@@ -120,13 +120,16 @@
     }
     .block{
       >.title{
-        strong{
+        strong[role='heading']{
           font-size: 1.5rem;
         }
       }
       .fieldset .field:not(.choice)>.label{
         font-size: 12px;
       }
+    }
+    .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      font-size: 14px;
     }
     .action.primary.checkout{
       min-width: 140px;
