@@ -49,29 +49,31 @@ function ($, Component) {
 	    // =============================================
 	    // Quantity Controls
 	    // =============================================
-		/*
+		
 		var qtyControl = jQuery('.control-qty');
 
 		qtyControl.on('click', function (e) {
-
 			var self = jQuery(this);
 			var parent = self.parent();
-			var qtyVal = parent.find('input.input-text.qty').val();
+			var qtyField = parent.find('input.input-text.qty');
+			var qtyVal = parseInt(qtyField.val());
 
 			if(self.hasClass('remove')){
+				
 				if(qtyVal >= 2 ){
-					qtyVal.val(qtyVal--);
-					if(qtyVal == 2){
-						self.addClass('disable');
-					}
-				}
-			}else if(self.hasClass('add')){
-				qtyVal.val(qtyVal++);
-				parent.find('.remove').removeClass('disable');
-			}
+		            qtyField.val(qtyVal-1);
+		            if(qtyVal == 2){
+		                self.addClass('disable');
+		            }
+		        }
+				
+		    }else if(self.hasClass('add')){
+				
+		        qtyField.val(qtyVal +1);
+		        parent.find('.remove').removeClass('disable');
+				
+		    }
 		});
-		*/
-
 
 
 	});
