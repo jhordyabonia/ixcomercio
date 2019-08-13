@@ -84,12 +84,28 @@
           vertical-align: middle;
           display: inline-block;
           float: none;
-          .action.showcart:before{
-            content: '';
-            width: 40px;
-            height: 55px;
-            background: url(../images/icon_cart.png) no-repeat center 5px;
-            background-size: auto;
+          .action.showcart{
+            &:before{
+              content: '';
+              width: 40px;
+              height: 55px;
+              background: url(../images/icon_cart.png) no-repeat center 5px;
+              background-size: auto;
+            }
+            .counter.qty{
+              top: -5px;
+              right: 0;
+              width: 20px;
+              height: 20px;
+              color: #fff;
+              font-size: 12px;
+              line-height: 20px;
+              font-weight: bold;
+              position: absolute;
+              background: #00abf2;
+              border-radius: 50%;
+              margin: 0;
+            }
           }
         }
         a{
