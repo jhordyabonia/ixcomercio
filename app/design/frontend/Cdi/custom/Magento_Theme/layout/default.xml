@@ -22,23 +22,22 @@
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
+			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
+
+				<container name="header.account.wrapper" as="header_account_wrapper" before="-" htmlTag="div" htmlClass="account-header-wrapper">
+					<block class="Magento\Framework\View\Element\Template" name="header.account.icon" template="Magento_Theme::html/header-account-icon.phtml" cacheable="false"/>
+				</container>
+				<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
+					<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+				</container>
+
+			</container>
 			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
 
 
-		<container name="header.skip.links" as="header_skip_links" htmlTag="div" htmlClass="header-skip-links">
-				<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
-					<container name="header.account.wrapper" as="header_account_wrapper" before="-" htmlTag="div" htmlClass="account-header-wrapper">
-						<block class="Magento\Framework\View\Element\Template" name="header.account.icon" template="Magento_Theme::html/header-account-icon.phtml" cacheable="false"/>
-					</container>
-					<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
-						<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
-					</container>
-				</container>
-			</container>
-
-		<move element="header.skip.links" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		<move element="minicart" destination="header.account.cart.wrapper" as="minicart" after="-"/>
 		
 
