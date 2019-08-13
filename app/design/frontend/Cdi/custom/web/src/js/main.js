@@ -54,8 +54,8 @@ function ($, Component) {
 		qtyControl.on('click', function (e) {
 
 			var self = jQuery(this);
-			var parent = jQuery(this).parent();
-			var QtyVal = parent.find('input.input-text.qty').val();
+			var parent = self.parent();
+			var qtyVal = parent.find('input.input-text.qty').val();
 
 			if(self.hasClass('remove')){
 				if(QtyVal >= 2 ){
