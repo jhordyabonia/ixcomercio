@@ -118,6 +118,16 @@
     .label{
       color: #000;
     }
+    .block{
+      >.title{
+        strong{
+          font-size: 1.5rem;
+        }
+      }
+      .fieldset .field:not(.choice)>.label{
+        font-size: 12px;
+      }
+    }
     .action.primary.checkout{
       min-width: 140px;
       background: #00aeef;
