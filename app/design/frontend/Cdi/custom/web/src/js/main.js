@@ -49,6 +49,7 @@ function ($, Component) {
 	    // =============================================
 	    // Quantity Controls
 	    // =============================================
+		/*
 		var qtyControl = jQuery('.control-qty');
 
 		qtyControl.on('click', function (e) {
@@ -69,6 +70,7 @@ function ($, Component) {
 				parent.find('.remove').removeClass('disable');
 			}
 		});
+		*/
 
 
 
