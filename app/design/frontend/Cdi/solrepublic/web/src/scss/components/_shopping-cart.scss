@@ -85,6 +85,10 @@
         .col.price, .col.qty, .col.subtotal, .col.msrp{
           text-align: center;
           vertical-align: middle;
+          font-size: 14px;
+        }
+        .price-excluding-tax .price{
+          font-size: 14px;
         }
       }
       .cart.main.actions{
