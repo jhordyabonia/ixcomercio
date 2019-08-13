@@ -52,6 +52,36 @@ function ($, Component) {
 				jQuery('#sideMenu').animate({right:0}, 500);
 			}
 		}
+
+
+		// =============================================
+	    // Quantity Controls
+	    // =============================================
+		
+		var qtyControl = jQuery('.control-qty');
+
+		qtyControl.on('click', function (e) {
+			var self = jQuery(this);
+			var parent = self.parent();
+			var qtyField = parent.find('input.input-text.qty');
+			var qtyVal = parseInt(qtyField.val());
+
+			if(self.hasClass('remove')){
+				
+				if(qtyVal >= 2 ){
+		            qtyField.val(qtyVal-1);
+		            if(qtyVal == 2){
+		                self.addClass('disable');
+		            }
+		        }
+				
+		    }else if(self.hasClass('add')){
+				
+		        qtyField.val(qtyVal +1);
+		        parent.find('.remove').removeClass('disable');
+				
+		    }
+		});
 		
 
 		// Hide Header on on scroll down
