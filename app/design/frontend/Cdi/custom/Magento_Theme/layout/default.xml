@@ -22,8 +22,12 @@
 		<!--Elimina el contenedor de top links-->
 		<referenceContainer name="header.container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
+			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
+		</referenceContainer>
+		<referenceBlock name="store.settings" remove="true" />
 
-			<container name="header.skip.links" as="header_skip_links" htmlTag="div" htmlClass="header-skip-links">
+
+		<container name="header.skip.links" as="header_skip_links" htmlTag="div" htmlClass="header-skip-links">
 				<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
 					<container name="header.account.wrapper" as="header_account_wrapper" before="-" htmlTag="div" htmlClass="account-header-wrapper">
 						<block class="Magento\Framework\View\Element\Template" name="header.account.icon" template="Magento_Theme::html/header-account-icon.phtml" cacheable="false"/>
@@ -33,13 +37,8 @@
 					</container>
 				</container>
 			</container>
-			
-			<move element="header.skip.links" destination="header.wrapper" as="header.account.cart.wrapper" after="-"/>
-			<move element="top.search" destination="header.skip.links" as="top.search" before="-"/>
-		</referenceContainer>
-		<referenceBlock name="store.settings" remove="true" />
 
-
+		<move element="header.skip.links" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		<move element="minicart" destination="header.account.cart.wrapper" as="minicart" after="-"/>
 		
 
