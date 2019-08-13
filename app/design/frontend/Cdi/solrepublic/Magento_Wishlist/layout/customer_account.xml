@@ -6,6 +6,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>My Favourites</title>
+    </head>
     <body>
         <referenceBlock name="customer_account_navigation">
             <referenceBlock name="customer-account-navigation-wish-list-link">
