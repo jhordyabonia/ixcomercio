@@ -188,6 +188,8 @@ ul.sticky-sections {
               input{
                 width: 3em;
                 height: 30px;
+                color: #000;
+                font-weight: bold;
                 text-align: center;
                 vertical-align: middle;
               }
@@ -204,6 +206,10 @@ ul.sticky-sections {
               font-weight: bold;
               text-align: center;
               line-height: 28px;
+              &:not(.disable):hover{
+                color: #fff;
+                background: #000;
+              }
               &.disable{
                 color: #999;
                 background: none;
