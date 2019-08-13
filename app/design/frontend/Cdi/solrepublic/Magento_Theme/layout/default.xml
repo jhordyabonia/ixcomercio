@@ -10,7 +10,7 @@
         </referenceBlock>
 
         <referenceContainer name="page.wrapper">
-			<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="header.row.wrapper" htmlTag="div" htmlClass="header-freeshipping">
+			<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="-" htmlTag="div" htmlClass="header-freeshipping">
 				<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
 			</container>
 		</referenceContainer>
