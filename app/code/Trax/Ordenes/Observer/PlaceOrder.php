@@ -254,7 +254,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'FirstName' => $shipping->getFirstname(),
                     'LastName' => $shipping->getLastname(),
                     'Email' => $shipping->getEmail(),
-                    'DocumentId' => '1040505',
+                    'DocumentId' => $shipping->getIdentification(),
                     'Cellphone' => $shipping->getTelephone(),
                     'LandLinePhone' => '',
                     'OtherPhone' => '',
@@ -270,7 +270,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 'DeliveryType' => $order->getShippingMethod(),
             ),
             'CouponCodes' => array(),
-            'TaxRegistrationNumber' => "64251 2 357348 DV41",
+            'TaxRegistrationNumber' => $billing->getIdentification(),
             'InvoiceRequested' => true,
             'ReceiveInvoiceByMail' => true,
             'Shipments' => array(
