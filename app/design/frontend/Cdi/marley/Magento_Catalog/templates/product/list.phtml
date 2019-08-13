@@ -71,12 +71,26 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
 				</div>
                 <div class="actions">
-					<a class="button btn-cart"
-					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
-						<span>
-						<?= /* @escapeNotVerified */ __('View more') ?>
-						</span>
-					</a>
+                    <?php if ($_product->isSaleable()): ?>
+                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                        <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                            <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                            <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                            <?php echo $block->getBlockHtml('formkey')?>
+                            <button type="submit"
+                                title="<?php echo $block->escapeHtml(__('Buy')); ?>"
+                                class="action tocart primary">
+                                <span><?php /* @escapeNotVerified */ echo __('Buy') ?></span>
+                            </button>
+                        </form>
+                    <?php else: ?>
+                        <a class="button btn-cart"
+                        href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
+                            <span>
+                            <?= /* @escapeNotVerified */ __('View more') ?>
+                            </span>
+                        </a>
+                    <?php endif; ?>
 				</div>
             </li>
             <?php endforeach; ?>
