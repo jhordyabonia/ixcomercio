@@ -221,7 +221,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $payload = array(
             'StoreOrder' => array(
-                'StoreId' => 'houseofmarley',
+                'StoreId' => 'houseofmar',
                 'StoreOrderNumber' => $order->getIncrementId(),
                 'Customer' => array(
                     'FirstName' => $billing->getFirstname(),
