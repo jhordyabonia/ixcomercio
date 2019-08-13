@@ -237,7 +237,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'FirstName' => $billing->getFirstname(),
                     'LastName' => $billing->getLastname(),
                     'Email' => $billing->getEmail(),
-                    'DocumentId' => '1040505',
+                    'DocumentId' => $billing->getIdentification(),
                     'Cellphone' => $billing->getTelephone(),
                     'LandLinePhone' => '',
                     'OtherPhone' => '',
