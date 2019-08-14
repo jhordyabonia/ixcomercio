@@ -209,7 +209,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
         $giftcard = json_decode($order->getGiftCards());
-        $giftcarddata = "";
+        $giftcardData = "";
         if(count($giftcard)>0){
             $giftcardData = $giftcard[0]->c;
         }
