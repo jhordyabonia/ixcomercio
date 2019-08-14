@@ -208,6 +208,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
+        $giftcard = json_decode($order->getGiftCard());
+        $giftcarddata = "";
+        if(count($giftcard)>0){
+            $giftcardData = $giftcard[0]->c;
+        }
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
             return false;
@@ -269,7 +274,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
-            'CouponCodes' => array(),
+            'Discounts' => $order->getGiftCardsAmount() + $order->getBaseDiscountAmount(),
+            'CouponCodes' => array($order->getCouponCode(), $giftcardData),
             'TaxRegistrationNumber' => $billing->getIdentification(),
             'InvoiceRequested' => true,
             'ReceiveInvoiceByMail' => true,
