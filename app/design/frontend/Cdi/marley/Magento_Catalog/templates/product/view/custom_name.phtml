@@ -2,7 +2,7 @@
 <style>
     .price-box{
         display: block !important;
-        font-weight: 400;
+        font-weight: bold;
     }
 </style>
 <?php $_product = $block->getProduct(); ?>
@@ -11,5 +11,5 @@
 	<span class="label"><?php echo __('SKU:')?></span>
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
-<div style="display:block"><?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?></div>
+<?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
 <p class="short-description"><strong><?= $block->escapeHtml($_product->getMarleyType()) ?></strong></p>
