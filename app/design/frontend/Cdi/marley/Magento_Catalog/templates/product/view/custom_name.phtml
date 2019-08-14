@@ -4,5 +4,5 @@
 	<span class="label"><?php echo __('SKU:')?></span>
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
-<?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+<div style="display:block"><?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?></div>
 <p class="short-description"><strong><?= $block->escapeHtml($_product->getMarleyType()) ?></strong></p>
