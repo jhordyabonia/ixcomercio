@@ -31,8 +31,8 @@
 		<!--Mueve bloques al header-->
 		<move element="navigation.sections" destination="header.row.container.mainmenu" as="navigation.sections" after="-"/>
 		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>	
-		<move element="top.search" destination="header.account.cart.wrapper" as="top.search" after="header.row.container.toplinks"/>	
-		<move element="minicart" destination="header.account.cart.wrapper" as="minicart" after="top.search"/>
+		<move element="top.search" destination="header.row.container.toplinks" as="top.search" after="header.toplinks.block"/>	
+		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
 		
 		<!--Elimina breadcrumb-->
 		<referenceBlock name="breadcrumbs" remove="true" />
