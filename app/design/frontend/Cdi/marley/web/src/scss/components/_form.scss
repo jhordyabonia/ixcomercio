@@ -1,4 +1,8 @@
 form{
+	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
+		width: 100%;
+		min-width: inherit;
+	}
 	.label{
 		color: #000;
 	}
@@ -14,6 +18,9 @@ form{
 				      	text-align: left;
 				      	padding: 0;
 				    }
+				}
+				> .control{
+					width: 100%;
 				}
 			}
 			&.choice{
@@ -103,9 +110,9 @@ form{
 	}
 	.box-upload{
 		margin: 20px 0;
-    padding: 20px;
-    background: #e8e8e8;
-    width: 100%;
+	    padding: 20px;
+	    background: #e8e8e8;
+	    width: 100%;
 	}
 }
 .control.captcha-image .captcha-img{
