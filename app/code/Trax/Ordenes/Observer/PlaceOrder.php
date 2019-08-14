@@ -208,10 +208,18 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
+        $coupon = array();
+        if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
+            $coupon = array($order->getCouponCode());
+        }
         $giftcard = json_decode($order->getGiftCards());
         $giftcardData = "";
         if(count($giftcard)>0){
-            $giftcardData = $giftcard[0]->c;
+            if(count($coupon)>0){
+                array_push($coupon, $giftcard[0]->c);
+            } else{
+                $coupon = array($giftcard[0]->c);
+            }
         }
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
@@ -274,8 +282,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
-            'Discounts' => $order->getGiftCardsAmount() + $order->getBaseDiscountAmount(),
-            'CouponCodes' => array($order->getCouponCode(), $giftcardData),
+            'Discounts' => abs($order->getGiftCardsAmount()) + $order->getBaseDiscountAmount(),
+            'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
             'InvoiceRequested' => true,
             'ReceiveInvoiceByMail' => true,
