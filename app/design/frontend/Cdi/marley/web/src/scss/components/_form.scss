@@ -1,8 +1,9 @@
 form{
+	text-align: left;
 	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
 		@media only screen and (min-width: $tablet){
-			width: 100%;
-			min-width: inherit;
+			width: 100%!important;
+    		min-width: inherit!important;
 		}
 	}
 	.label{
@@ -54,6 +55,7 @@ form{
 		}
 	}
 	.actions-toolbar{
+		margin: 0;
 		.secondary{
     	width: 100%;
     	@media only screen and (min-width: $tablet){
