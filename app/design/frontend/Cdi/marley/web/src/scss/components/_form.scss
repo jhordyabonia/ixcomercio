@@ -55,7 +55,7 @@ form{
 		}
 	}
 	.actions-toolbar{
-		margin: 0;
+		margin: 0!important;
 		.secondary{
     	width: 100%;
     	@media only screen and (min-width: $tablet){
@@ -121,9 +121,4 @@ form{
 }
 .control.captcha-image .captcha-img{
 	width: auto;
-}
-.column:not(.sidebar-main) form .actions-toolbar, .column:not(.sidebar-additional) form .actions-toolbar{
-	@media only screen and (min-width: $tablet){
-		margin: 0;
-	}
 }
