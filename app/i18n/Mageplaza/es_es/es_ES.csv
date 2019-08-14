@@ -16427,3 +16427,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Send E-mail","Enviar",lib,web
 "Telephone","Teléfono",lib,web
 "Comment / Question","Comentario / Pregunta",lib,web
+"Speakers","Parlantes",lib,web
