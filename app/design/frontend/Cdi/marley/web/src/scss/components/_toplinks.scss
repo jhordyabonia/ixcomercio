@@ -29,6 +29,9 @@
       }
     }
     .block-search{
+      @media only screen and (min-width: $tablet){
+        padding: 4px 0;
+      }
       .control{
         @media only screen and (min-width: $tablet){
           padding: 0;
@@ -37,6 +40,10 @@
           display: none;
         }
       }
+    }
+    .minicart-wrapper{
+      display: inline-block;
+      vertical-align: middle;
     }
   }
 }
