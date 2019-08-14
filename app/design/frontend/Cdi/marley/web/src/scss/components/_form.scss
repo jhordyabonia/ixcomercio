@@ -1,7 +1,9 @@
 form{
 	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
-		width: 100%;
-		min-width: inherit;
+		@media only screen and (min-width: $tablet){
+			width: 100%;
+			min-width: inherit;
+		}
 	}
 	.label{
 		color: #000;
