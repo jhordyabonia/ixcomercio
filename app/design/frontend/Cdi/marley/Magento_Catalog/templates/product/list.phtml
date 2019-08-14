@@ -70,6 +70,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 				<div class="atributo-familia">
 					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
 				</div>
+                <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                 <div class="actions">
                     <?php if ($_product->isSaleable()): ?>
                         <?php $postParams = $block->getAddToCartPostParams($_product); ?>
