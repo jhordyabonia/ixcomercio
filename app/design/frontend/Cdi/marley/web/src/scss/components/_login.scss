@@ -1,5 +1,13 @@
 .login-container{
   text-align: left;
+  .block{
+    .block-title{
+      font-size: 1.3rem;
+    }
+  }
+  .fieldset:after{
+    font-size: 12px;
+  }
   .form {
     .fieldset{
       >.field{
