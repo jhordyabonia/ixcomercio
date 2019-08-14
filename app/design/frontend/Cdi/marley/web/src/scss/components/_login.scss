@@ -33,3 +33,28 @@
     }
   }
 }
+.actions-toolbar{
+  .primary{
+    .action{
+      min-width: 180px;
+      margin: 0;
+      margin-left: 5px;
+      padding: 0 25px;
+      color: #000;
+      font-size: 16px;
+      line-height: 45px;
+      text-transform: uppercase;
+      transition: .3s all ease;
+      background-color: transparent;
+      border: 2px solid #000;
+      overflow: visible;
+      cursor: pointer;
+      float: right;
+      font-family: 'flamaCondensedmed',sans-serif;
+      &:hover{
+        color: #fff;
+        background: #000;
+      }
+    }
+  }
+}
