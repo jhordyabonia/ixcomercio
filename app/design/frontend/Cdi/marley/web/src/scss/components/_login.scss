@@ -1,0 +1,27 @@
+.login-container{
+  text-align: left;
+  .form {
+    .fieldset{
+      >.field{
+        padding-left: 0;
+        margin-bottom: 30px;
+        &:not(.choice){
+          >.label{
+            max-width: 100%;
+          }
+          .control{
+            max-width: 80%;
+          }
+        }
+      }
+    }
+    .actions-toolbar{
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0!important;
+      .primary{
+        float: left;
+      }
+    }
+  }
+}
