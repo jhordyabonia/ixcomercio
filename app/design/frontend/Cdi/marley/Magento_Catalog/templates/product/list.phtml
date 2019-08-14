@@ -43,6 +43,12 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     $pos = $block->getPositioned();
     ?>
     <div class="products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
+    <style>
+    .price-box{
+        display: block !important;
+        font-weight: 500;
+    }
+    </style>
         <ul class="products list items product-items" id="container-grid">
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
@@ -70,7 +76,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 				<div class="atributo-familia">
 					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
 				</div>
-                <div style="display:block; font-weight: 500;"><?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?></div>
+                <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                 <div class="actions">
                     <?php if ($_product->isSaleable()): ?>
                         <?php $postParams = $block->getAddToCartPostParams($_product); ?>
