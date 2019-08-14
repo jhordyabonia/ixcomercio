@@ -6,10 +6,37 @@
   background: #ebebeb;
   .header-toplinks{
     width: 96%;
+    text-align: right;
     padding-left: 12px;
     padding-right: 12px;
+    margin: 0 auto;
     @media only screen and (min-width: 1280px){
       max-width: 960px;
+    }
+    .custom-top-links, .block-search, .minicart-wrapper{
+      float: none;
+      display: inline-block;
+      margin-left: 10px;
+    }
+    .custom-top-links{
+      .custom-account-login{
+        margin: 0;
+        a{
+          display: inline-block;
+          padding: 4px 0.5833em;
+          text-transform: uppercase;
+        }
+      }
+    }
+    .block-search{
+      .control{
+        @media only screen and (min-width: $tablet){
+          padding: 0;
+        }
+        .nested{
+          display: none;
+        }
+      }
     }
   }
 }
