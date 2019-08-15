@@ -209,8 +209,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
         $coupon = array();
+        $discount = "";
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
+            $discount = "plural";
         }
         $giftcard = json_decode($order->getGiftCards());
         $giftcardData = "";
@@ -220,6 +222,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             } else{
                 $coupon = array($giftcard[0]->c);
             }
+            $discount = "plural";
         }
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
@@ -230,7 +233,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
             $tempItem['Price'] = $dataItem->getPrice();
-            $tempItem['Discount'] = '';
+            if($discount == ''){
+                $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
+                if($price > 0){
+                    $discount = $price;
+                }
+            }
+            $tempItem['Discount'] = $discount;
             $tempItem['CouponCode'] = '';
             $tempItem['StoreItemId'] = $dataItem->getId();
             $items[] = $tempItem;
@@ -282,6 +291,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
+            'Total' => $order->getGrandTotal(),
             'Discounts' => abs($order->getGiftCardsAmount()) + $order->getBaseDiscountAmount(),
             'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
