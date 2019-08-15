@@ -6,19 +6,31 @@
       width: 90%;
     }
   }
-  .opc-progress-bar-item._active{
-    &:before{
-      background: #00aeef;
+  .opc-progress-bar-item{
+    >span{
+      &:after{
+        font-size: 1.3rem;
+      }
     }
-    >span:before{
-      background: #00aeef;
+    &._active{
+      &:before{
+        background: #000;
+      }
+      >span{
+        &:before{
+          background: #000;
+        }
+        &:after{
+          font-size: 1.8rem;
+        }
+      }
     }
   }
   .opc-wrapper {
     .shipping-address-item.selected-item{
-      border-color: #00aeef;
+      border-color: #000;
       &:after{
-        background: #00aeef;
+        background: #000;
       }
     }
   }
