@@ -49,10 +49,11 @@
                 .control-qty{
                   width: 28px;
                   height: 28px;
-                  color: #fff;
-                  background: #00aeef;
+                  color: #000;
+                  background: none;
                   vertical-align: middle;
                   display: inline-block;
+                  border: 1px solid #000;
                   border-radius: 50%;
                   font-size: 18px;
                   font-weight: bold;
@@ -148,10 +149,10 @@
     }
     .action.primary.checkout{
       min-width: 140px;
-      background: #00aeef;
+      background: none;
       display: inline-block;
-      border: 0;
-      color: #FFFFFF;
+      border: 1px solid #000;
+      color: #000;
       font-size: 13px;
       font-weight: normal;
       line-height: 19px;
@@ -160,6 +161,7 @@
       vertical-align: middle;
       white-space: nowrap;
       &:hover{
+        color: #fff;
         background: #000;
       }
     }
