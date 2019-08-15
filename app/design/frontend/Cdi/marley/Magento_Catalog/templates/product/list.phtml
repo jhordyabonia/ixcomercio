@@ -52,7 +52,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         <ul class="products list items product-items" id="container-grid">
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
-            <li class="item product col-sm-6 col-md-4 col-xl-3" style="opacity: 1;">
+            <li class="item product col-sm-6 col-md-3 col-xl-3" style="opacity: 1;">
 				<div class="product-image-wrapper">
 					<?php
 					$baseImage = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'category_page_grid');//->getUrl();
