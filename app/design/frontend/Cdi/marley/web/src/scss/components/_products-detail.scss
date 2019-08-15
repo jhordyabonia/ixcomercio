@@ -224,6 +224,102 @@
       margin: 15px 0;
       float: left;
     }
+    .product-add-form{
+      .box-tocart{
+        margin: 0;
+        .field{
+          display: block;
+          padding: 0;
+          margin: 0;
+          &.qty{
+            @media only screen and (min-width: 768px){
+              display: block;
+            }
+            .label, .control{
+              display: block;
+            }
+            .control{
+              margin: 10px 0;
+              input{
+                width: 3em;
+                height: 30px;
+                color: #000;
+                font-weight: bold;
+                text-align: center;
+                vertical-align: middle;
+              }
+            }
+            .control-qty{
+              width: 28px;
+              height: 28px;
+              color: #000;
+              background: none;
+              border: 1px solid #000;
+              vertical-align: middle;
+              display: inline-block;
+              border-radius: 50%;
+              font-size: 18px;
+              font-weight: bold;
+              text-align: center;
+              line-height: 28px;
+              cursor: pointer;
+              &:not(.disable):hover{
+                color: #fff;
+                background: #000;
+              }
+              &.disable{
+                color: #999;
+                background: none;
+                border: 1px solid #ccc;
+                pointer-events: none;
+              }
+            }
+            .control.qty{
+              display: inline-block;
+            }
+          }
+          .label{
+            font-size: 12px;
+            line-height: 1.3;
+            float: none;
+            display: block;
+            clear: both;
+            border: 0;
+            margin-bottom: 3px;
+            color: #000;
+          }
+        }
+        .actions{
+          float: left;
+          margin-right: 10px;
+          max-width: 100%;
+          padding: 15px 0;
+          button{
+            margin-bottom: 10px;
+            background: none;
+            display: inline-block;
+            border: 2px solid #00abf2;
+            color: #00abf2;
+            text-align: center;
+            text-transform: uppercase;
+            vertical-align: middle;
+            min-height: 40px;
+            line-height: 40px;
+            font-size: 16px;
+            padding: 0 30px;
+            float: left;
+            min-width: 160px;
+            width: 100%;
+            white-space: normal;
+            border-radius: 0;
+            &:hover{
+              color: #fff;
+              background: #00abf2;
+            }
+          }
+        }
+      } 
+    }
   }
 }
 .product-characteristics{
