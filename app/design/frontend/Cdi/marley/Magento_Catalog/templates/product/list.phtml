@@ -43,10 +43,16 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     $pos = $block->getPositioned();
     ?>
     <div class="products wrapper <?= /* @escapeNotVerified */ $viewMode ?> products-<?= /* @escapeNotVerified */ $viewMode ?>">
+    <style>
+        .price-box{
+            display: block !important;
+            font-weight: 300;
+        }
+    </style>
         <ul class="products list items product-items" id="container-grid">
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
-            <li class="item product col-sm-6 col-md-4 col-xl-3" style="opacity: 1;">
+            <li class="item product col-sm-6 col-md-3 col-xl-3" style="opacity: 1;">
 				<div class="product-image-wrapper">
 					<?php
 					$baseImage = $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'category_page_grid');//->getUrl();
@@ -70,6 +76,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 				<div class="atributo-familia">
 					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
 				</div>
+                <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                 <div class="actions">
                     <?php if ($_product->isSaleable()): ?>
                         <?php $postParams = $block->getAddToCartPostParams($_product); ?>
@@ -79,8 +86,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             <?php echo $block->getBlockHtml('formkey')?>
                             <button type="submit"
                                 title="<?php echo $block->escapeHtml(__('Buy')); ?>"
-                                class="button btn-cart">
-                                <span><?php /* @escapeNotVerified */ echo __('Buy') ?></span>
+                                class="button btn-cart" style="display: block; margin: 0 40%; border: 1px solid;">
+                                <span style="display: block; font-size: 20px; font-weight: 600;"><?php /* @escapeNotVerified */ echo __('Buy') ?></span>
                             </button>
                         </form>
                     <?php else: ?>

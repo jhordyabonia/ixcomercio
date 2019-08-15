@@ -1,0 +1,169 @@
+.checkout-cart-index{
+  .page-wrapper .page-main{
+    max-width: 1300px;
+    margin: 0 auto;
+    @media (min-width: $tablet){
+      width: 90%;
+    }
+  }
+}
+.cart-container{
+  form{
+    &.form-cart{
+      table{
+        thead{
+          th{
+            color: #999;
+            font-weight: 400;
+            border: 0;
+          }
+        }
+        tbody{
+          tr{
+            td{
+              border: 0;
+              &.item{
+                .product-item-details{
+                  text-align: left;
+                }
+                .product-item-name{
+                  font-weight: bold;
+                  font-size: 16px;
+                  display: block;
+                  margin-top: 6px;
+                }
+                .product-item-stock{
+                  display: block;
+                  text-align: left;
+                  font-weight: bold;
+                  font-size: 14px;
+                  &.in-stock{
+                    color: #4fb62f;
+                  }
+                  &.out-stock{
+                    color: #cd3800;
+                  }
+                }
+              }
+              &.qty{
+                .control-qty{
+                  width: 28px;
+                  height: 28px;
+                  color: #000;
+                  background: none;
+                  vertical-align: middle;
+                  display: inline-block;
+                  border: 1px solid #000;
+                  border-radius: 50%;
+                  font-size: 18px;
+                  font-weight: bold;
+                  cursor: pointer;
+                  &:not(.disable):hover{
+                    color: #fff;
+                    background: #000;
+                  }
+                  &.disable{
+                    color: #999;
+                    background: none;
+                    border: 1px solid #ccc;
+                    pointer-events: none;
+                  }
+                }
+                .control.qty{
+                  display: inline-block;
+                }
+              }
+            }
+          }
+          input{
+            &.input-text{
+              border: 0;
+              color: #000;
+              font-size: 16px;
+            }
+          }
+        }
+        .col.price, .col.qty, .col.subtotal, .col.msrp{
+          text-align: center;
+          vertical-align: middle;
+          font-size: 14px;
+        }
+        .price-excluding-tax .price{
+          font-size: 14px;
+        }
+      }
+      .cart.main.actions{
+        .action{
+          color: #999;
+          background: none;
+          border: 1px solid #ccc;
+          padding: 7px 15px;
+          height: 44px;
+          font-size: 16px;
+          line-height: 30px;
+          font-weight: normal;
+          &.continue:before, &.update:before{
+            line-height: 28px;
+          }
+          &:hover{
+            color: #fff;
+            background: #000;
+            border-color: #000;
+          }
+        }
+      }
+    }
+  }
+  .cart-summary{
+    text-align: left;
+    color: #000;
+    >.title{
+      font-family: "flamacondensed-bold",Oswald,sans-serif;
+    }
+    .mark, mark{
+      background: none;
+    }
+    .label{
+      color: #000;
+    }
+    .block{
+      >.title{
+        strong[role='heading']{
+          font-size: 1rem;
+        }
+      }
+      .fieldset .field:not(.choice)>.label{
+        font-size: 12px;
+      }
+    }
+    .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      font-size: 14px;
+    }
+    input[type=checkbox], input[type=radio]{
+      display: inline-block;
+    }
+    .checkout-methods-items{
+      a{
+        font-size: 14px;
+      }
+    }
+    .action.primary.checkout{
+      min-width: 140px;
+      background: none;
+      display: inline-block;
+      border: 1px solid #000;
+      color: #000;
+      font-size: 13px;
+      font-weight: normal;
+      line-height: 19px;
+      text-align: center;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+      &:hover{
+        color: #fff;
+        background: #000;
+      }
+    }
+  }
+}

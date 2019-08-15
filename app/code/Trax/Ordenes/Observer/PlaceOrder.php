@@ -208,6 +208,20 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
+        $coupon = array();
+        if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
+            $coupon = array($order->getCouponCode());
+        }
+        $giftcard = json_decode($order->getGiftCards());
+        $giftcardData = "";
+        if(count($giftcard)>0){
+            if(count($coupon)>0){
+                array_push($coupon, $giftcard[0]->c);
+            } else{
+                $coupon = array($giftcard[0]->c);
+            }
+        }
+        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
             return false;
@@ -217,8 +231,14 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
             $tempItem['Price'] = $dataItem->getPrice();
-            $tempItem['Discount'] = '';
-            $tempItem['CouponCode'] = '';
+            if(count($coupon) == 0){
+                $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
+                if($price > 0){
+                    $discount = $price;
+                }
+            }
+            $tempItem['Discounts'] = $discount;
+            $tempItem['CouponCodes'] = $coupon;
             $tempItem['StoreItemId'] = $dataItem->getId();
             $items[] = $tempItem;
         }
@@ -269,7 +289,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
-            'CouponCodes' => array(),
+            'Total' => $order->getGrandTotal(),
+            'Discounts' => $discount,
+            'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
             'InvoiceRequested' => true,
             'ReceiveInvoiceByMail' => true,
