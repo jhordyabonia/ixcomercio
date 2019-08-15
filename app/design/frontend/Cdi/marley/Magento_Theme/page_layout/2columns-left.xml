@@ -10,8 +10,6 @@
     <referenceContainer name="columns">
         <container name="div.columns.container" htmlTag="div" htmlClass="container" before="-">
             <container name="div.container.row" htmlTag="div" htmlClass="row" before="-">
-                <container name="div.col.left" htmlTag="div" htmlClass="col-md-3 pull-left" before="-" />
-                <container name="div.col.right" htmlTag="div" htmlClass="col-md-9 pull-right" after="-" />
             </container>
         </container>
 
@@ -23,9 +21,4 @@
             <container name="sidebar.additional" as="sidebar_additional" label="Sidebar Additional"/>
         </container>
     </referenceContainer>
-
-	<!--Se agregan elementos al contenedor-->
-    <move element="main" destination="div.col.right" />
-    <move element="div.sidebar.main" destination="div.col.left" />
-    <move element="div.sidebar.additional" destination="div.col.left" />
 </layout>
