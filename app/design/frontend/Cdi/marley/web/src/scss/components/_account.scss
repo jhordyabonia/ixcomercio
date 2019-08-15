@@ -73,8 +73,10 @@
     }
     .actions-toolbar{
       margin: 0;
-      .primary{
+      .primary:not(div){
         min-width: 120px;
+        font-size: 16px;
+        padding: 0 25px;
         @media only screen and (min-width: $tablet){
           float: left;
         }
