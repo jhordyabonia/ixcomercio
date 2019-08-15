@@ -118,7 +118,7 @@
     text-align: left;
     color: #000;
     >.title{
-      font-weight: bold;
+      font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
     .mark, mark{
       background: none;
@@ -129,7 +129,7 @@
     .block{
       >.title{
         strong[role='heading']{
-          font-size: 1.5rem;
+          font-size: 1rem;
         }
       }
       .fieldset .field:not(.choice)>.label{
