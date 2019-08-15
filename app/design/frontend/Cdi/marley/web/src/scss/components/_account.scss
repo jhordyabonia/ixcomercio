@@ -1,0 +1,126 @@
+.account{
+  &.page-layout-2columns-left .page-wrapper .page-main .columns .column.main{
+    padding: 0;
+    p{
+      font-size: 14px;
+    }
+  }
+  .page-title-wrapper{
+    margin: 40px 0 60px;
+  }
+  .column.main{
+    form, .block:not(.widget), .table-wrapper{
+      text-align: left;
+      border: 1px solid #e8e8e8;
+      padding: 40px;
+    }
+    .block:not(.widget){
+      .block-title{
+        border-bottom: 1px solid #e8e8e8;
+        padding-bottom: 12px;
+        > strong{
+          font-weight: 400;
+        }
+      }
+      .block-content{
+        .box-title{
+          color: #000;
+          font-family: 'Graphik-Medium', 'Helvetica', sans-serif;
+        }
+      }
+      .action{
+        font-size: 13px;
+        text-decoration: underline;
+        margin-right: 20px;
+      }
+    }
+    .block:last-child {
+      margin-bottom: 40px;
+    }
+    form {
+      margin-top: 0;
+      .fieldset{
+        >.field{
+          margin: 0 0 15px;
+          &:last-child{
+            margin: 0;
+          }
+          &:not(.choice){
+            margin: 0 0 29px;
+            >.label{
+              max-width: 100%;
+              padding: 0;
+            }
+            .control{
+              @media only screen and (min-width: $tablet){
+                width: 74.2%;
+                max-width: inherit;
+              }
+            }
+          }
+        }
+        >.legend{
+          width: 100%;
+          border-bottom: 1px solid #e8e8e8;
+          padding-bottom: 12px;
+          float: none;
+        }
+      }
+    }
+    .actions-toolbar{
+      margin: 0;
+      .primary{
+        min-width: 120px;
+        @media only screen and (min-width: $tablet){
+          float: left;
+        }
+      }
+      .secondary{
+        width: 100%;
+        float: left;
+        text-align: left;
+        a.action{
+          @media only screen and (min-width: $tablet){
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+.account-nav{
+  text-align: left;
+  .item{
+    &.current {
+      a, strong{
+        border-color: #000;
+      }
+    }
+    a, strong{
+      color: #000;
+      font-size: 14px;
+      font-family: 'Graphik-Medium', 'Helvetica', sans-serif;
+      &:hover{
+        color: #000;
+      }
+    }
+  }
+}
+.sidebar.sidebar-additional{
+  text-align: left;
+  .block-title strong{
+    font-weight: 400;
+  }
+  .actions-toolbar{
+    text-align: left;
+  }
+  .actions-toolbar{
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    > div{
+      text-align: left;
+      float: left;
+    }
+  }
+}
