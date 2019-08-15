@@ -24,9 +24,11 @@
       }
       .block-content{
         .box-title{
-          color: #000;
-          font-size: 1.5em;
-          font-family: "flamacondensed-bold",Oswald,sans-serif;
+          span{
+            color: #000;
+            font-size: 1.5em;
+            font-family: "flamacondensed-bold",Oswald,sans-serif;
+          }
         }
       }
       .action{
