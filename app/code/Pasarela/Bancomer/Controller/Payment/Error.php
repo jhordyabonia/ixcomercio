@@ -246,7 +246,7 @@ class Error extends \Magento\Framework\App\Action\Action
     //Función recursiva para intentos de conexión
     public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload);
+        $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
             $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS');
@@ -261,6 +261,36 @@ class Error extends \Magento\Framework\App\Action\Action
                 $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
             }
         }   
+
+    }
+
+    //Se carga servicio por CURL
+	public function loadIwsService($serviceUrl, $payload, $method) 
+	{        
+        $curl = curl_init();
+        // Set some options - we are passing in a useragent too here
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $serviceUrl,
+            CURLOPT_POSTFIELDS => $payload
+        ));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload))
+        );
+        // Send the request & save response to $resp
+        $resp = curl_exec($curl);
+        // Close request to clear up some resources
+        $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curl_errors = curl_error($curl);
+        curl_close($curl);    
+        $this->logger->info($method.' - status code: '.$status_code);
+        $this->logger->info($method.' - '.$serviceUrl);
+        $this->logger->info($method.' - curl errors: '.$curl_errors);
+        if ($status_code == '200'){
+            return json_decode($resp);
+        }
+        return false;
 
     }
 
