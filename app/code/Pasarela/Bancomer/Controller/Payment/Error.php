@@ -166,7 +166,7 @@ class Error extends \Magento\Framework\App\Action\Action
             try{
                 $payload = $this->loadPayloadService($mp_order);
                 if($payload){
-                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeManager->getStore()->getCode(), 0);
                 } else{
                     $this->logger->info('CancelOrder - Se ha producido un error al cargar la información de la orden en iws');
                     $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
@@ -241,7 +241,7 @@ class Error extends \Magento\Framework\App\Action\Action
     }
 
     //Función recursiva para intentos de conexión
-    public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+    public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload);
         if($data){     
@@ -251,7 +251,7 @@ class Error extends \Magento\Framework\App\Action\Action
             if($configData['cancelar_reintentos']>$attempts){
                 $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
