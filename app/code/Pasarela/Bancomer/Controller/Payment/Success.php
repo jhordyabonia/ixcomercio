@@ -253,7 +253,7 @@ class Success extends \Magento\Framework\App\Action\Action
             //Se obtienen parametros de configuración por Store        
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode()); 
             $this->logger->info('RegisterPayment - Se obtienen parámetros de configuración');
-            $serviceUrl = $this->getServiceUrl($configData);   
+            $serviceUrl = $this->getServiceUrl($configData, 'registerpayments');   
             $this->logger->info('RegisterPayment - url '.$serviceUrl);
             if($serviceUrl){
                 try{
@@ -312,7 +312,7 @@ class Success extends \Magento\Framework\App\Action\Action
     }
  
     //Obtiene url de conexión del servicio
-	public function getServiceUrl($configData) 
+	public function getServiceUrl($configData, $method) 
 	{
         if($configData['apikey'] == ''){
             $serviceUrl = false;
@@ -320,7 +320,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'registerpayments?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
+            $serviceUrl = $configData['url'].$method.'?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
         }
         return $serviceUrl;
     }
@@ -331,7 +331,8 @@ class Success extends \Magento\Framework\App\Action\Action
         $data = $this->loadIwsService($serviceUrl, $payload);
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, $data[0]->PaymentId);
+            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId);
+            $this->initReleaseOrder($mp_order, $configData, $order, $storeCode);
         } else {
             if($configData['pagos_reintentos']>$attempts){
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
@@ -340,6 +341,49 @@ class Success extends \Magento\Framework\App\Action\Action
             } else{
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
                 $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
+                $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+            }
+        }   
+
+    }
+
+    //Función que inicializa el releaseOrder
+    public function initReleaseOrder($mp_order, $configData, $order, $storeCode) {
+        $releaseServiceUrl = $this->getServiceUrl($configData, 'releaseOrder');   
+        $this->logger->info('ReleaseOrder - url '.$releaseServiceUrl);
+        if($releaseServiceUrl){
+            try{
+                $releasePayload = $this->loadReleasePayloadService($mp_order);
+                if($releasePayload){
+                    $this->beginReleaseOrder($mp_order, $configData, $releasePayload, $releaseServiceUrl, $order, $storeCode, 0);
+                } else{
+                    $this->logger->info('ReleaseOrder - Se ha producido un error al cargar la información de la orden en iws');
+                    $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $releaseServiceUrl, $releasePayload, $storeManager->getStore()->getCode());
+                }
+            } catch(Exception $e){
+                $this->logger->info('ReleaseOrder - Se ha producido un error: '.$e->getMessage());
+            }
+            //TODO: Actualizar datos en base de datos con respuesta de IWS
+        } else{
+            $this->logger->info('ReleaseOrder - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
+        }
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl, $payload);
+        if($data){     
+            //Mapear orden de magento con IWS en tabla custom
+            $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.');
+        } else {
+            if($configData['pagos_reintentos']>$attempts){
+                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('ReleaseOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+            } else{
+                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
                 $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
             }
         }   
@@ -405,6 +449,19 @@ class Success extends \Magento\Framework\App\Action\Action
         return false;
     }
 
+    //Laod Payload request
+	public function loadReleasePayloadService($mp_order) 
+	{   
+        //Load IWS Order id
+        $iwsOrder = $this->loadIwsOrder($mp_order);
+        if($iwsOrder){
+            $payload['OrderNumber'] = $iwsOrder;
+            $this->logger->info('ReleaseOrder - payload: '.json_encode($payload));
+            return json_encode($payload);
+        }
+        return false;
+    }
+
     //Load IWS ORder for custom model
     public function loadIwsOrder($mp_order)
     {    
@@ -451,12 +508,12 @@ class Success extends \Magento\Framework\App\Action\Action
 	}
 
     //Se añade comentario interno a orden
-    public function addOrderComment($orderId, $paymentId) 
+    public function addOrderComment($orderId, $comment) 
     {
 		try {
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
-            $order->addStatusHistoryComment('Se genero información de pago interno en IWS. Pago Interno IWS #'.$paymentId);
+            $order->addStatusHistoryComment($comment);
             $order->save();
         } catch (\Exception $e) {
             $this->logger->info('RegisterPayment - Error al guardar comentario en orden con ID: '.$orderId);
