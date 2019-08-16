@@ -289,7 +289,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
-            'Total' => $order->getGrandTotal(),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
