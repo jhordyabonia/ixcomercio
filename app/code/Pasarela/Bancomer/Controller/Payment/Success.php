@@ -412,8 +412,12 @@ class Success extends \Magento\Framework\App\Action\Action
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'ReleaseOrder');
         if($data){     
+            if($data['OnHold']){
+                $this->addOrderComment($mp_order, 'Se ha producido un error al ejecutar el método releaseOrder.', 'ReleaseOrder');
+            } else {
+                $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
+            }
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
         } else {
             if($configData['inventario_reintentos']>$attempts){
                 $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
