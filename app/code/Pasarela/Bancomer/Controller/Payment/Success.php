@@ -375,7 +375,7 @@ class Success extends \Magento\Framework\App\Action\Action
             if($configData['pagos_reintentos']>$attempts){
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
                 $this->logger->info('RegisterPayment - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
                 $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
@@ -418,7 +418,7 @@ class Success extends \Magento\Framework\App\Action\Action
             if($configData['inventario_reintentos']>$attempts){
                 $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('ReleaseOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
@@ -439,7 +439,7 @@ class Success extends \Magento\Framework\App\Action\Action
             if($configData['cancelar_reintentos']>$attempts){
                 $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);

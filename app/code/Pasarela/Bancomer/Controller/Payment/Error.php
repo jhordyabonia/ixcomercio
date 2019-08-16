@@ -251,7 +251,7 @@ class Error extends \Magento\Framework\App\Action\Action
             if($configData['cancelar_reintentos']>$attempts){
                 $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
