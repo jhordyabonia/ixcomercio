@@ -366,7 +366,7 @@ class Success extends \Magento\Framework\App\Action\Action
     //Función recursiva para intentos de conexión
     public function beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload);
+        $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
             $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'RegisterPayment');
@@ -410,7 +410,7 @@ class Success extends \Magento\Framework\App\Action\Action
     //Función recursiva para intentos de conexión
     public function beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload);
+        $data = $this->loadIwsService($serviceUrl, $payload, 'ReleaseOrder');
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
             $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
@@ -431,7 +431,7 @@ class Success extends \Magento\Framework\App\Action\Action
     //Función recursiva para intentos de conexión
     public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload);
+        $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
             $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS', 'CancelOrder');
@@ -450,7 +450,7 @@ class Success extends \Magento\Framework\App\Action\Action
     }
 
     //Se carga servicio por CURL
-	public function loadIwsService($serviceUrl, $payload) 
+	public function loadIwsService($serviceUrl, $payload, $method) 
 	{        
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
@@ -469,10 +469,9 @@ class Success extends \Magento\Framework\App\Action\Action
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
-        $this->logger->info('RegisterPayment - payload: '.$payload);
-        $this->logger->info('RegisterPayment - status code: '.$status_code);
-        $this->logger->info('RegisterPayment - '.$serviceUrl);
-        $this->logger->info('RegisterPayment - curl errors: '.$curl_errors);
+        $this->logger->info($method.' - status code: '.$status_code);
+        $this->logger->info($method.' - '.$serviceUrl);
+        $this->logger->info($method.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
             return json_decode($resp);
         }
