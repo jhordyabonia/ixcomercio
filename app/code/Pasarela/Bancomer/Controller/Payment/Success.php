@@ -40,6 +40,10 @@ class Success extends \Magento\Framework\App\Action\Action
     const INVENTARIO_REINTENTOS = 'trax_ordenes/ordenes_general/inventario_reintentos';
 
     const INVENTARIO_CORREO = 'trax_ordenes/ordenes_general/inventario_correo';
+
+    const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
+
+    const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
     
     private $helper;
 	
@@ -163,7 +167,7 @@ class Success extends \Magento\Framework\App\Action\Action
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Exitosa");
                 } 
                 if($mp_response != '0'){
-                    //TODO: Cancelar orden
+                    $this->cancelIwsOrder($mp_order);
                     $this->cancelOrder($mp_order);
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");
                 } 
@@ -279,6 +283,34 @@ class Success extends \Magento\Framework\App\Action\Action
         }
     }
     
+    //Se cancela orden en IWS
+    public function cancelIwsOrder($mp_order){   
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+        //Se obtienen parametros de configuración por Store        
+        $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode()); 
+        $this->logger->info('CancelOrder - Se obtienen parámetros de configuración');
+        $serviceUrl = $this->getServiceUrl($configData, 'cancelorder');   
+        $this->logger->info('CancelOrder - url '.$serviceUrl);
+        if($serviceUrl){
+            try{
+                $payload = $this->loadReleasePayloadService($mp_order);
+                if($payload){
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+                } else{
+                    $this->logger->info('CancelOrder - Se ha producido un error al cargar la información de la orden en iws');
+                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+                }
+            } catch(Exception $e){
+                $this->logger->info('CancelOrder - Se ha producido un error: '.$e->getMessage());
+            }
+            //TODO: Actualizar datos en base de datos con respuesta de IWS
+        } else{
+            $this->logger->info('CancelOrder - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
+        }
+    }
+    
     //Se cambia estado de la orden y se cancela
     public function cancelOrder($mp_order){   
         try {
@@ -311,6 +343,8 @@ class Success extends \Magento\Framework\App\Action\Action
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);
         $configData['inventario_correo'] = $this->scopeConfig->getValue(self::INVENTARIO_CORREO, $storeScope, $websiteCode);
+        $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
+        $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -389,6 +423,27 @@ class Success extends \Magento\Framework\App\Action\Action
                 $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
                 $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
+            }
+        }   
+
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl, $payload);
+        if($data){     
+            //Mapear orden de magento con IWS en tabla custom
+            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS', 'CancelOrder');
+        } else {
+            if($configData['cancelar_reintentos']>$attempts){
+                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+            } else{
+                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
+                $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
             }
         }   
 
