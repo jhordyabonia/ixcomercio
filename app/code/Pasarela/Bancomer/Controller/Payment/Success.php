@@ -387,7 +387,7 @@ class Success extends \Magento\Framework\App\Action\Action
 
     //Función que inicializa el releaseOrder
     public function initReleaseOrder($mp_order, $configData, $order, $storeCode) {
-        $releaseServiceUrl = $this->getServiceUrl($configData, 'releaseOrder');   
+        $releaseServiceUrl = $this->getServiceUrl($configData, 'releaseorder');   
         $this->logger->info('ReleaseOrder - url '.$releaseServiceUrl);
         if($releaseServiceUrl){
             try{
