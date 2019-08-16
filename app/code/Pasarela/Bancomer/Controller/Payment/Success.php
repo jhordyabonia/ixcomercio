@@ -36,6 +36,10 @@ class Success extends \Magento\Framework\App\Action\Action
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
+
+    const INVENTARIO_REINTENTOS = 'trax_ordenes/ordenes_general/inventario_reintentos';
+
+    const INVENTARIO_CORREO = 'trax_ordenes/ordenes_general/inventario_correo';
     
     private $helper;
 	
@@ -246,7 +250,6 @@ class Success extends \Magento\Framework\App\Action\Action
             $payment->save();
             
             $this->logger->info('RegisterPayment - Se registra información de pago en magento');
-            //TODO: Llamar método registerPayment
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
             $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
@@ -268,7 +271,6 @@ class Success extends \Magento\Framework\App\Action\Action
                 } catch(Exception $e){
                     $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
                 }
-                //TODO: Actualizar datos en base de datos con respuesta de IWS
             } else{
                 $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
             }
@@ -307,6 +309,8 @@ class Success extends \Magento\Framework\App\Action\Action
         }
         $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
+        $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);
+        $configData['inventario_correo'] = $this->scopeConfig->getValue(self::INVENTARIO_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -331,7 +335,7 @@ class Success extends \Magento\Framework\App\Action\Action
         $data = $this->loadIwsService($serviceUrl, $payload);
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId);
+            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'RegisterPayment');
             $this->initReleaseOrder($mp_order, $configData, $order, $storeCode);
         } else {
             if($configData['pagos_reintentos']>$attempts){
@@ -375,16 +379,16 @@ class Success extends \Magento\Framework\App\Action\Action
         $data = $this->loadIwsService($serviceUrl, $payload);
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.');
+            $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
         } else {
-            if($configData['pagos_reintentos']>$attempts){
+            if($configData['inventario_reintentos']>$attempts){
                 $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
                 $this->logger->info('ReleaseOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                 $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
-                $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+                $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
+                $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
             }
         }   
 
@@ -421,7 +425,7 @@ class Success extends \Magento\Framework\App\Action\Action
 
     }
 
-    //Laod Payload request
+    //Load Payload request
 	public function loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan, $mp_paymentMethod, $storeCode) 
 	{   
         //Load IWS Order id
@@ -449,7 +453,7 @@ class Success extends \Magento\Framework\App\Action\Action
         return false;
     }
 
-    //Laod Payload request
+    //Load Payload request
 	public function loadReleasePayloadService($mp_order) 
 	{   
         //Load IWS Order id
@@ -508,7 +512,7 @@ class Success extends \Magento\Framework\App\Action\Action
 	}
 
     //Se añade comentario interno a orden
-    public function addOrderComment($orderId, $comment) 
+    public function addOrderComment($orderId, $comment, $method) 
     {
 		try {
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -516,7 +520,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $order->addStatusHistoryComment($comment);
             $order->save();
         } catch (\Exception $e) {
-            $this->logger->info('RegisterPayment - Error al guardar comentario en orden con ID: '.$orderId);
+            $this->logger->info($method.' - Error al guardar comentario en orden con ID: '.$orderId);
         }
 	}
 }

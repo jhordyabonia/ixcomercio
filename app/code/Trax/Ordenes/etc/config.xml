@@ -10,6 +10,8 @@
                 <pagos_correo>example@example.com</pagos_correo>
                 <inventario_reintentos>1</inventario_reintentos>
                 <inventario_correo>example@example.com</inventario_correo>
+                <cancelar_reintentos>1</cancelar_reintentos>
+                <cancelar_correo>example@example.com</cancelar_correo>
             </ordenes_general>
         </trax_general>
     </default>
