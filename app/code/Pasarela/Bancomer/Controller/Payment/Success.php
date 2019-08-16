@@ -412,7 +412,7 @@ class Success extends \Magento\Framework\App\Action\Action
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'ReleaseOrder');
         if($data){     
-            if($data['OnHold']){
+            if($data->OnHold){
                 $this->addOrderComment($mp_order, 'Se ha producido un error al ejecutar el método releaseOrder.', 'ReleaseOrder');
             } else {
                 $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
