@@ -21,11 +21,14 @@ if($atts){
 			<div class="col-sm-3 col-12" style="text-align: center;">
 				<b><?php echo __('Dimensions')?></b>
 				<ul>
-					<?php if($_product->getHeight()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('height')->getStoreLabel();?>: <?= $_product->getHeight() ?></li>
+					<?php if($_product->getTsDimensionsHeight()): ?>
+						<li><?php echo $_product->getResource()->getAttribute('height')->getStoreLabel();?>: <?= $_product->getTsDimensionsHeight() ?></li>
 					<?php endif;?>
 					<?php if($_product->getTsDimensionsWidth()): ?>
 						<li><?php echo $_product->getResource()->getAttribute('width')->getStoreLabel();?>: <?= $_product->getTsDimensionsWidth() ?></li>
+					<?php endif;?>
+					<?php if($_product->getTsDimensionsLength()): ?>
+						<li><?php echo $_product->getResource()->getAttribute('length')->getStoreLabel();?>: <?= $_product->getTsDimensionsLength() ?></li>
 					<?php endif;?>
 					<?php if($_product->getDepth()): ?>
 						<li><?php echo $_product->getResource()->getAttribute('depth')->getStoreLabel();?>: <?= $_product->getDepth() ?></li>
