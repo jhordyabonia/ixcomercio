@@ -503,11 +503,15 @@ body.page-layout-2columns-left{
       white-space: nowrap;
       @media only screen and (max-width: 480px){
         width: 100%;
+        margin-left: 0;
       }
       &:hover{
         background: #000;
       }
     }
+  }
+  > .primary, > .secondary{
+    margin-bottom: 20px;
   }
 }
 .form-note p {

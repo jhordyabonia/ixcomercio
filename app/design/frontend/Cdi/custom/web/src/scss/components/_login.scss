@@ -2,6 +2,9 @@
   text-align: left;
   .form {
     .fieldset{
+      &:after{
+        margin-top: 70px;
+      }
       >.field{
         padding-left: 0;
         margin-bottom: 30px;
