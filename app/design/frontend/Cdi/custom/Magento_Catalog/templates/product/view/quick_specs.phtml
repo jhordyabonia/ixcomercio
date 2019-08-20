@@ -28,7 +28,7 @@ if($atts){
 						<li><?php echo $_product->getResource()->getAttribute('width')->getStoreLabel();?>: <?= $_product->getTsDimensionsWidth() ?></li>
 					<?php endif;?>
 					<?php if($_product->getTsDimensionsLength()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('length')->getStoreLabel();?>: <?= $_product->getTsDimensionsLength() ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('ts_dimensions_length')->getStoreLabel();?>: <?= $_product->getTsDimensionsLength() ?></li>
 					<?php endif;?>
 					<?php if($_product->getDepth()): ?>
 						<li><?php echo $_product->getResource()->getAttribute('depth')->getStoreLabel();?>: <?= $_product->getDepth() ?></li>
