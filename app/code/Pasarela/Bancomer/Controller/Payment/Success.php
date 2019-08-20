@@ -36,6 +36,14 @@ class Success extends \Magento\Framework\App\Action\Action
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
+
+    const INVENTARIO_REINTENTOS = 'trax_ordenes/ordenes_general/inventario_reintentos';
+
+    const INVENTARIO_CORREO = 'trax_ordenes/ordenes_general/inventario_correo';
+
+    const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
+
+    const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
     
     private $helper;
 	
@@ -159,7 +167,7 @@ class Success extends \Magento\Framework\App\Action\Action
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Exitosa");
                 } 
                 if($mp_response != '0'){
-                    //TODO: Cancelar orden
+                    $this->cancelIwsOrder($mp_order);
                     $this->cancelOrder($mp_order);
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");
                 } 
@@ -246,14 +254,13 @@ class Success extends \Magento\Framework\App\Action\Action
             $payment->save();
             
             $this->logger->info('RegisterPayment - Se registra información de pago en magento');
-            //TODO: Llamar método registerPayment
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
             $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
             //Se obtienen parametros de configuración por Store        
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode()); 
             $this->logger->info('RegisterPayment - Se obtienen parámetros de configuración');
-            $serviceUrl = $this->getServiceUrl($configData);   
+            $serviceUrl = $this->getServiceUrl($configData, 'registerpayments');   
             $this->logger->info('RegisterPayment - url '.$serviceUrl);
             if($serviceUrl){
                 try{
@@ -268,12 +275,39 @@ class Success extends \Magento\Framework\App\Action\Action
                 } catch(Exception $e){
                     $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
                 }
-                //TODO: Actualizar datos en base de datos con respuesta de IWS
             } else{
                 $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
             }
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
+        }
+    }
+    
+    //Se cancela orden en IWS
+    public function cancelIwsOrder($mp_order){   
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+        //Se obtienen parametros de configuración por Store        
+        $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode()); 
+        $this->logger->info('CancelOrder - Se obtienen parámetros de configuración');
+        $serviceUrl = $this->getServiceUrl($configData, 'cancelorder');   
+        $this->logger->info('CancelOrder - url '.$serviceUrl);
+        if($serviceUrl){
+            try{
+                $payload = $this->loadReleasePayloadService($mp_order);
+                if($payload){
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
+                } else{
+                    $this->logger->info('CancelOrder - Se ha producido un error al cargar la información de la orden en iws');
+                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+                }
+            } catch(Exception $e){
+                $this->logger->info('CancelOrder - Se ha producido un error: '.$e->getMessage());
+            }
+            //TODO: Actualizar datos en base de datos con respuesta de IWS
+        } else{
+            $this->logger->info('CancelOrder - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
         }
     }
     
@@ -307,12 +341,16 @@ class Success extends \Magento\Framework\App\Action\Action
         }
         $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
+        $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);
+        $configData['inventario_correo'] = $this->scopeConfig->getValue(self::INVENTARIO_CORREO, $storeScope, $websiteCode);
+        $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
+        $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
         return $configData;
 
     }
  
     //Obtiene url de conexión del servicio
-	public function getServiceUrl($configData) 
+	public function getServiceUrl($configData, $method) 
 	{
         if($configData['apikey'] == ''){
             $serviceUrl = false;
@@ -320,7 +358,7 @@ class Success extends \Magento\Framework\App\Action\Action
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'registerpayments?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
+            $serviceUrl = $configData['url'].$method.'?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
         }
         return $serviceUrl;
     }
@@ -328,15 +366,16 @@ class Success extends \Magento\Framework\App\Action\Action
     //Función recursiva para intentos de conexión
     public function beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload);
+        $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, $data[0]->PaymentId);
+            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'RegisterPayment');
+            $this->initReleaseOrder($mp_order, $configData, $order, $storeCode);
         } else {
             if($configData['pagos_reintentos']>$attempts){
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
                 $this->logger->info('RegisterPayment - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
                 $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
@@ -346,8 +385,76 @@ class Success extends \Magento\Framework\App\Action\Action
 
     }
 
+    //Función que inicializa el releaseOrder
+    public function initReleaseOrder($mp_order, $configData, $order, $storeCode) {
+        $releaseServiceUrl = $this->getServiceUrl($configData, 'releaseorder');   
+        $this->logger->info('ReleaseOrder - url '.$releaseServiceUrl);
+        if($releaseServiceUrl){
+            try{
+                $releasePayload = $this->loadReleasePayloadService($mp_order);
+                if($releasePayload){
+                    $this->beginReleaseOrder($mp_order, $configData, $releasePayload, $releaseServiceUrl, $order, $storeCode, 0);
+                } else{
+                    $this->logger->info('ReleaseOrder - Se ha producido un error al cargar la información de la orden en iws');
+                    $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $releaseServiceUrl, $releasePayload, $storeManager->getStore()->getCode());
+                }
+            } catch(Exception $e){
+                $this->logger->info('ReleaseOrder - Se ha producido un error: '.$e->getMessage());
+            }
+            //TODO: Actualizar datos en base de datos con respuesta de IWS
+        } else{
+            $this->logger->info('ReleaseOrder - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
+        }
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl, $payload, 'ReleaseOrder');
+        if($data){     
+            if($data->OnHold){
+                $this->addOrderComment($mp_order, 'Se ha producido un error al ejecutar el método releaseOrder.', 'ReleaseOrder');
+            } else {
+                $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
+            }
+            //Mapear orden de magento con IWS en tabla custom
+        } else {
+            if($configData['inventario_reintentos']>$attempts){
+                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('ReleaseOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+            } else{
+                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
+                $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
+            }
+        }   
+
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
+        if($data){     
+            //Mapear orden de magento con IWS en tabla custom
+            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS', 'CancelOrder');
+        } else {
+            if($configData['cancelar_reintentos']>$attempts){
+                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+            } else{
+                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
+                $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+            }
+        }   
+
+    }
+
     //Se carga servicio por CURL
-	public function loadIwsService($serviceUrl, $payload) 
+	public function loadIwsService($serviceUrl, $payload, $method) 
 	{        
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
@@ -366,10 +473,9 @@ class Success extends \Magento\Framework\App\Action\Action
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
-        $this->logger->info('RegisterPayment - payload: '.$payload);
-        $this->logger->info('RegisterPayment - status code: '.$status_code);
-        $this->logger->info('RegisterPayment - '.$serviceUrl);
-        $this->logger->info('RegisterPayment - curl errors: '.$curl_errors);
+        $this->logger->info($method.' - status code: '.$status_code);
+        $this->logger->info($method.' - '.$serviceUrl);
+        $this->logger->info($method.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
             return json_decode($resp);
         }
@@ -377,7 +483,7 @@ class Success extends \Magento\Framework\App\Action\Action
 
     }
 
-    //Laod Payload request
+    //Load Payload request
 	public function loadPayloadService($mp_order, $mp_amount, $mp_bankname, $mp_authorization, $mp_pan, $mp_paymentMethod, $storeCode) 
 	{   
         //Load IWS Order id
@@ -400,6 +506,19 @@ class Success extends \Magento\Framework\App\Action\Action
                 'Payments' => $payments
             );
             $this->logger->info('RegisterPayment - payload: '.json_encode($payload));
+            return json_encode($payload);
+        }
+        return false;
+    }
+
+    //Load Payload request
+	public function loadReleasePayloadService($mp_order) 
+	{   
+        //Load IWS Order id
+        $iwsOrder = $this->loadIwsOrder($mp_order);
+        if($iwsOrder){
+            $payload['OrderNumber'] = $iwsOrder;
+            $this->logger->info('ReleaseOrder - payload: '.json_encode($payload));
             return json_encode($payload);
         }
         return false;
@@ -451,15 +570,15 @@ class Success extends \Magento\Framework\App\Action\Action
 	}
 
     //Se añade comentario interno a orden
-    public function addOrderComment($orderId, $paymentId) 
+    public function addOrderComment($orderId, $comment, $method) 
     {
 		try {
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
-            $order->addStatusHistoryComment('Se genero información de pago interno en IWS. Pago Interno IWS #'.$paymentId);
+            $order->addStatusHistoryComment($comment);
             $order->save();
         } catch (\Exception $e) {
-            $this->logger->info('RegisterPayment - Error al guardar comentario en orden con ID: '.$orderId);
+            $this->logger->info($method.' - Error al guardar comentario en orden con ID: '.$orderId);
         }
 	}
 }
