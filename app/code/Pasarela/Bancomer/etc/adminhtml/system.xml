@@ -37,7 +37,7 @@
                     <label>Sandbox mp_account</label>
                     <comment>Identificador único cliente Proporcionado por Flap en pruebas de conectividad</comment>
                 </field>
-                <field id="sandbox_mp_node" translate="label" type="obscure" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="sandbox_mp_node" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Sandbox mp_node</label>
                     <comment>Según necesidad del cliente. Divisiones: sucursales, áreas, secciones, etc. – El valor a enviar se confirma en pruebas de conectividad</comment>
                 </field>
