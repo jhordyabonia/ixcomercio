@@ -13,12 +13,24 @@
       >.field{
         padding-left: 0;
         margin-bottom: 30px;
+        @media only screen and (max-width: 768px){
+          width: 100%;
+          float: left;
+        }
         &:not(.choice){
           >.label{
             max-width: 100%;
+            @media only screen and (max-width: 768px){
+              width: 100%;
+              float: left;
+            }
           }
           .control{
             max-width: 80%;
+            @media only screen and (max-width: 768px){
+              width: 100%;
+              max-width: 100%;
+            }
           }
         }
       }
@@ -35,6 +47,9 @@
 }
 .actions-toolbar{
   .primary{
+    @media only screen and (max-width: 480px){
+      width: 100%;
+    }
     .action{
       min-width: 180px;
       margin: 0;
@@ -50,6 +65,10 @@
       overflow: visible;
       cursor: pointer;
       float: right;
+      @media only screen and (max-width: 480px){
+        width: 100%;
+        margin-left: 0;
+      }
       font-family: 'flamaCondensedmed',sans-serif;
       &:hover{
         color: #fff;
