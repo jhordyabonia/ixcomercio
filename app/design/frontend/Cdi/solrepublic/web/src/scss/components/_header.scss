@@ -32,7 +32,7 @@
           background: none;
           .navigation{
             background: none;
-            ul{
+            > ul{
               li{
                 height: 55px;
                 margin: 0 1.25%;
@@ -65,6 +65,19 @@
                     height: 100%;
                     text-align: center;
                     vertical-align: middle;
+                  }
+                }
+                ul.submenu{
+                  border: 0;
+                  text-align: left;
+                  li{
+                    width: 100%;
+                    margin: 0;
+                    padding: 0;
+                    a{
+                      color: #000;
+                      padding: 0 10px;
+                    }
                   }
                 }
               }
