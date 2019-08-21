@@ -42,12 +42,16 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(LoggerInterface $logger,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email, \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,     \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory
     )
     {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->_indexerFactory = $indexerFactory;
+        $this->_indexerCollectionFactory = $indexerCollectionFactory;
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
