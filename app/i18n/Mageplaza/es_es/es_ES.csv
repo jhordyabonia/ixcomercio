@@ -16428,3 +16428,6 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Telephone","Teléfono",lib,web
 "Comment / Question","Comentario / Pregunta",lib,web
 "Speakers","Parlantes",lib,web
+"Wireless","Inalámbrico",lib,web
+"Earphones","Auriculares",lib,web
+"Resources","Recursos",lib,web
