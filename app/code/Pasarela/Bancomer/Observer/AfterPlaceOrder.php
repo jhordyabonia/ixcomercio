@@ -21,17 +21,17 @@ class AfterPlaceOrder implements ObserverInterface
 
 	const URL_PRODUCCION = 'payment/pasarela_bancomer/url_produccion_bancomer';
 
-	const SANDBOX_MERCHANT_ID = 'payment/pasarela_bancomer/sandbox_merchant_id';
+	const SANDBOX_MP_ACCOUNT = 'payment/pasarela_bancomer/sandbox_mp_account';
 
-	const SANDBOX_LLAVE_SECRETA = 'payment/pasarela_bancomer/sandbox_sk';
+	const SANDBOX_MP_NODE = 'payment/pasarela_bancomer/sandbox_mp_node';
 
-    const SANDBOX_LLAVE_PUBLICA = 'payment/pasarela_bancomer/sandbox_pk';
+    const SANDBOX_MP_CONCEPT = 'payment/pasarela_bancomer/sandbox_mp_concept';
 
-	const PRODUCCION_MERCHANT_ID = 'payment/pasarela_bancomer/live_merchant_id';
+	const PRODUCCION_MP_ACCOUNT = 'payment/pasarela_bancomer/live_mp_account';
 
-	const PRODUCCION_LLAVE_SECRETA = 'payment/pasarela_bancomer/live_sk';
+	const PRODUCCION_MP_NODE = 'payment/pasarela_bancomer/live_mp_node';
 
-    const PRODUCCION_LLAVE_PUBLICA = 'payment/pasarela_bancomer/live_pk';
+    const PRODUCCION_MP_CONCEPT = 'payment/pasarela_bancomer/live_mp_concept';
     
     protected $config;
     protected $order;    
@@ -83,12 +83,12 @@ class AfterPlaceOrder implements ObserverInterface
 
         echo 
         '<form id="bancomermultipagos-form" method="post" action="'.$configData['url'].'">
-            <input type="hidden" name="mp_account" value="'.$configData['merchant_id'].'">
+            <input type="hidden" name="mp_account" value="'.$configData['mp_account'].'">
             <input type="hidden" name="mp_product" value="1">
             <input type="hidden" name="mp_order" value="'.$orderId[0].'">
             <input type="hidden" name="mp_reference" value="'.$order->getIncrementId().'">
-            <input type="hidden" name="mp_node" value="0">
-            <input type="hidden" name="mp_concept" value="2">
+            <input type="hidden" name="mp_node" value="'.$configData['mp_node'].'">
+            <input type="hidden" name="mp_concept" value="'.$configData['mp_concept'].'">
             <input type="hidden" name="mp_amount" value="'.$order->getGrandTotal().'.00">
             <input type="hidden" name="mp_customername" value="'.$billing->getFirstname().' '.$billing->getLastname().'">
             <input type="hidden" name="mp_email" value="'.$billing->getEmail().'">
@@ -99,7 +99,7 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'payment/error">
         </form>
         <script type="text/javascript">
-            document.getElementById("bancomermultipagos-form").submit();
+            setTimeout(function(){ document.getElementById("bancomermultipagos-form").submit(); }, 20000);
         </script>';
     }    
 
@@ -110,16 +110,15 @@ class AfterPlaceOrder implements ObserverInterface
         //Se valida entorno para obtener url del servicio
         if($enviroment == '1'){
             $configData['url'] = $this->scopeConfig->getValue(self::URL_SANDBOX, $storeScope, $websiteCode);
-            $configData['merchant_id'] = $this->scopeConfig->getValue(self::SANDBOX_MERCHANT_ID, $storeScope, $websiteCode);
-            $configData['secret_key'] = $this->scopeConfig->getValue(self::SANDBOX_LLAVE_SECRETA, $storeScope, $websiteCode);
-            $configData['public_key'] = $this->scopeConfig->getValue(self::SANDBOX_LLAVE_PUBLICA, $storeScope, $websiteCode);
+            $configData['mp_account'] = $this->scopeConfig->getValue(self::SANDBOX_MP_ACCOUNT, $storeScope, $websiteCode);
+            $configData['mp_node'] = $this->scopeConfig->getValue(self::SANDBOX_MP_NODE, $storeScope, $websiteCode);
+            $configData['mp_concept'] = $this->scopeConfig->getValue(self::SANDBOX_MP_CONCEPT, $storeScope, $websiteCode);
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
-            $configData['merchant_id'] = $this->scopeConfig->getValue(self::PRODUCCION_MERCHANT_ID, $storeScope, $websiteCode);
-            $configData['secret_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_SECRETA, $storeScope, $websiteCode);
-            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
+            $configData['mp_account'] = $this->scopeConfig->getValue(self::PRODUCCION_MP_ACCOUNT, $storeScope, $websiteCode);
+            $configData['mp_node'] = $this->scopeConfig->getValue(self::PRODUCCION_MP_NODE, $storeScope, $websiteCode);
+            $configData['mp_concept'] = $this->scopeConfig->getValue(self::PRODUCCION_MP_CONCEPT, $storeScope, $websiteCode);
         }
-            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         return $configData;
 
     }

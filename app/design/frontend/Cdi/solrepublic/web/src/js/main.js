@@ -11,6 +11,8 @@ function ($, Component) {
     var navbarHeight = jQuery('.page-header').outerHeight();
 
     $(document).ready(function(){
+    	$('.page-wrapper .page-main').css('paddingTop', navbarHeight);
+
 		$('#scroll-to-top').click(function(){
 			$("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
 			return false;

@@ -36,6 +36,14 @@
                     <label>Correo Electrónico ReleaseOrder</label>
                     <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
                 </field>
+                <field id="cancelar_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reintentos de conexión CancelOrder</label>
+                    <comment>Número de reintentos de conexión en servicio.</comment>
+                </field>
+                <field id="cancelar_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Correo Electrónico CancelOrder</label>
+                    <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
+                </field>
             </group>
         </section>
     </system>

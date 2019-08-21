@@ -5,22 +5,50 @@
       >.field{
         padding-left: 0;
         margin-bottom: 30px;
+        @media only screen and (max-width: 768px){
+          width: 100%;
+          float: left;
+        }
         &:not(.choice){
           >.label{
             max-width: 100%;
+            text-align: left;
+            @media only screen and (max-width: 768px){
+              width: 100%;
+              float: left;
+            }
           }
           .control{
             max-width: 80%;
+            @media only screen and (max-width: 768px){
+              width: 100%;
+              max-width: 100%;
+            }
           }
         }
+      }
+      &:after{
+        float: left;
+        width: 100%;
+        margin-top: 25px;
       }
     }
     .actions-toolbar{
       width: 100%;
       max-width: 100%;
       margin-left: 0!important;
+      float: left;
       .primary{
         float: left;
+        @media only screen and (max-width: 480px){
+          width: 100%;
+        }
+        .action{
+          @media only screen and (max-width: 480px){
+            width: 100%;
+            margin-left: 0;
+          }
+        }
       }
     }
   }
