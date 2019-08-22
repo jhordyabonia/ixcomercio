@@ -27,6 +27,10 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
     const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
 
     const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+
+    const TAX_ID = 'trax_catalogo/catalogo_general/tax_id';
+
+    const ATTRIBUTE_ID = 'trax_catalogo/catalogo_general/attribute_id';
     
     private $helper;
 	
@@ -97,6 +101,8 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         $configData['categorias_iws'] = $this->scopeConfig->getValue(self::DATOS_CATEGORIAS_TRAX, $storeScope, $websiteCode);
         $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
         $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
+        $configData['attribute_id'] = $this->scopeConfig->getValue(self::ATTRIBUTE_ID, $storeScope, $websiteCode);
+        $configData['tax_id'] = $this->scopeConfig->getValue(self::TAX_ID, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -148,7 +154,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
         if($data){     
-            $this->loadCatalogData($data, $objectManager, $storeManager->getStore()->getStoreId());
+            $this->loadCatalogData($data, $objectManager, $storeManager->getStore()->getStoreId(), $configData);
             //Se reindexa                            
             $this->reindexData();
             //Se limpia cache
@@ -191,16 +197,16 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
 
     }
 
-	public function loadCatalogData($data, $objectManager, $storeId) 
+	public function loadCatalogData($data, $objectManager, $storeId, $configData) 
 	{
         //Se recorre array
         foreach ($data as $key => $catalog) {
             //Se carga la categoria por atributo
-            $this->loadProductsData($catalog, $objectManager, $storeId);
+            $this->loadProductsData($catalog, $objectManager, $storeId, $configData);
         }     
     }
 
-	public function loadProductsData($catalog, $objectManager, $storeId) 
+	public function loadProductsData($catalog, $objectManager, $storeId, $configData) 
 	{        
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
@@ -210,12 +216,12 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
             $cleanurl = html_entity_decode(strip_tags($url));
             $product->setUrlKey($cleanurl);
             $product->setName($catalog->Description); // Name of Product
-            $product->setAttributeSetId(4); // Attribute set id
+            $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setStoreId($storeId);
             $product->setWeight(10); // weight of product
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-            $product->setTaxClassId(0); // Tax class id
+            $product->setTaxClassId($configData['tax_id']); // Tax class id
             switch($catalog->Type){
                 case 'Physical':
                     $product->setTypeId('simple');
