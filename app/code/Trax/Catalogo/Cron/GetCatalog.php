@@ -491,6 +491,8 @@ class GetCatalog {
         $product->setStatus(1); // Status on product enabled/ disabled 1/0
         $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
         $product->setTaxClassId($configData['tax_id']); // Tax class id
+        $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
+        $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
         switch($catalog->Type){
             case 'Physical':
                 $product->setTypeId('simple');
