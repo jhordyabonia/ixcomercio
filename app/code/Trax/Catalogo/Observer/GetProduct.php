@@ -249,7 +249,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             $idx = $this->_indexerFactory->create()->load($id);
             $idx->reindexAll($id);
         } // this reindexes all
-        $this->logger->info('GetCatalog - Se reindexa');
+        $this->logger->info('GetProduct - Se reindexa');
     }
 
     //Limpia cache despues de consultar el catalogo de un store view
@@ -262,6 +262,6 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
         }
-        $this->logger->info('GetCatalog - Se limpia cache');
+        $this->logger->info('GetProduct - Se limpia cache');
     }
 }
