@@ -68,11 +68,11 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-        if($configData['productos_iws']==1){
-            //Se obtiene lista de sku
-            $sku = $this->getSkuList($observer->getEvent());
-		    //Se obtiene url del servicio
-		    $serviceUrl = $this->getServiceUrl($configData, $sku);
+        //Se obtiene lista de sku
+        if($configData['categorias_iws']==1){
+            $skuList = $this->getSkuList($observer->getEvent());
+            //Se obtiene url del servicio
+            $serviceUrl = $this->getServiceUrl($configData, $skuList);
             //Se carga el servicio por curl
             if($configData['datos_iws']){
                 if($serviceUrl){
@@ -131,13 +131,26 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
 
     }
 
-	public function getSkuList($event) 
+	public function getSkuList($cart) 
 	{
-		$product = $event->getData('product');
-        return $product->getSku();
+		$products = $cart->getQuote()->getItems();
+        $skuList = "";
+        $i = 0;
+		$len = count($products);
+        foreach ($products as $item) {
+            if ($i == 0) {
+                $skuList = $item->getSku().",";
+            } elseif ($i == $len - 1) {
+                $skuList .= $item->getSku();
+            } else {
+                $skuList .= $item->getSku().",";
+            }
+            $i++;
+        }
+        return $skuList;
     }
 
-	public function getServiceUrl($configData, $sku) 
+	public function getServiceUrl($configData, $skuList) 
 	{
         if($configData['apikey'] == ''){
             $serviceUrl = false;
@@ -145,7 +158,7 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].'getproduct?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&sku='.$sku.'&includePriceData=true&includeInventoryData=true'; 
+            $serviceUrl = $configData['url'].'getproducts?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&skusList='.$skuList.'&includePriceData=true&includeInventoryData=true'; 
         }
         return $serviceUrl;
     }
