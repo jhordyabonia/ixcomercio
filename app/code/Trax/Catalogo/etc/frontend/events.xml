@@ -4,15 +4,15 @@
         <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetProducts" />
     </event>
     <event name="catalog_controller_product_view">
-        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetProduct" />
+        <observer name="retailer_catalog_detail" instance="Trax\Catalogo\Observer\GetProduct" />
     </event>
     <event name="checkout_cart_add_product_complete">
-        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetProduct" />
+        <observer name="retailer_catalog_cart" instance="Trax\Catalogo\Observer\GetProduct" />
     </event>
     <event name="checkout_cart_update_item_complete">
-        <observer name="retailer_catalog" instance="Trax\Catalogo\Observer\GetProduct" />
+        <observer name="retailer_catalog_cart_update" instance="Trax\Catalogo\Observer\GetProduct" />
     </event>
     <event name="checkout_submit_before">
-        <observer name="retailer_catalog" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
+        <observer name="retailer_catalog_checkout" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
     </event>
 </config>
