@@ -10,7 +10,7 @@
         <observer name="retailer_catalog_cart" instance="Trax\Catalogo\Observer\GetProduct" />
     </event>
     <event name="checkout_cart_update_item_complete">
-        <observer name="retailer_catalog_cart_update" instance="Trax\Catalogo\Observer\GetProduct" />
+        <observer name="retailer_catalog_cart_update" instance="Trax\Catalogo\Observer\GetCartProducts" />
     </event>
     <event name="checkout_submit_before">
         <observer name="retailer_catalog_checkout" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
