@@ -70,7 +70,7 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         //Se obtiene lista de sku
         if($configData['productos_iws']==1){
-            $skuList = $this->getSkuList($observer->getEvent());
+            $skuList = $this->getSkuList($observer->getCart());
             //Se obtiene url del servicio
             $serviceUrl = $this->getServiceUrl($configData, $skuList);
             //Se carga el servicio por curl
