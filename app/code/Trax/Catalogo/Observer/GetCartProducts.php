@@ -1,6 +1,9 @@
 <?php
 
 namespace Trax\Catalogo\Observer;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 use \Psr\Log\LoggerInterface;
 
 class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
@@ -60,7 +63,6 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
-        $this->logger->info('GetProducts - entra al observer ');
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
