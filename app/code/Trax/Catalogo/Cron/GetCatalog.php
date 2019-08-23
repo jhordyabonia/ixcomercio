@@ -23,6 +23,10 @@ class GetCatalog {
     const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
 
     const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+
+    const TAX_ID = 'trax_catalogo/catalogo_general/tax_id';
+
+    const ATTRIBUTE_ID = 'trax_catalogo/catalogo_general/attribute_id';
     
     private $helper;
 	
@@ -112,6 +116,8 @@ class GetCatalog {
         $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);
         $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
         $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
+        $configData['attribute_id'] = $this->scopeConfig->getValue(self::ATTRIBUTE_ID, $storeScope, $websiteCode);
+        $configData['tax_id'] = $this->scopeConfig->getValue(self::TAX_ID, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -325,7 +331,7 @@ class GetCatalog {
                     $arrayCategories = $this->loadSubcategoriesData($catalog->Category->Subcategories, $websiteCode, $store, $storeId, $categoryTmp->getId(), $arrayCategories);
                 }
                 //Se valida producto y se asocia a categoria
-                $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId, $arrayCategories);
+                $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId, $arrayCategories, $configData);
                 //Se asocian categorias a productos
                 if($product_id){
                     $allProducts[$product_id] = $product_id;
@@ -440,7 +446,7 @@ class GetCatalog {
     }
 
     //Carga la información de los productos
-    public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds) 
+    public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds, $configData) 
     {        
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
@@ -479,12 +485,14 @@ class GetCatalog {
         $product->setCategoryIds($categoryIds);
         $product->setName($name); // Name of Product        
         $product->setDescription($description); // Description of Product
-        $product->setAttributeSetId(4); // Attribute set id
+        $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
         $product->setWebsiteIds($websiteIds);
         $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
         $product->setStatus(1); // Status on product enabled/ disabled 1/0
         $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-        $product->setTaxClassId(0); // Tax class id
+        $product->setTaxClassId($configData['tax_id']); // Tax class id
+        $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
+        $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
         switch($catalog->Type){
             case 'Physical':
                 $product->setTypeId('simple');

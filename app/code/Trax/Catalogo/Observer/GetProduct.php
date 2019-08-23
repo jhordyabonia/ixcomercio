@@ -27,6 +27,10 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
     const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
 
     const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+
+    const TAX_ID = 'trax_catalogo/catalogo_general/tax_id';
+
+    const ATTRIBUTE_ID = 'trax_catalogo/catalogo_general/attribute_id';
     
     private $helper;
 	
@@ -42,12 +46,16 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
     public function __construct(LoggerInterface $logger,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email, \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,     \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory
     )
     {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
+        $this->_cacheTypeList = $cacheTypeList;
+        $this->_cacheFrontendPool = $cacheFrontendPool;
+        $this->_indexerFactory = $indexerFactory;
+        $this->_indexerCollectionFactory = $indexerCollectionFactory;
 	}
 	
 	public function execute(\Magento\Framework\Event\Observer $observer)
@@ -93,6 +101,8 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         $configData['productos_iws'] = $this->scopeConfig->getValue(self::DATOS_PRODUCTOS_TRAX, $storeScope, $websiteCode);
         $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
         $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
+        $configData['attribute_id'] = $this->scopeConfig->getValue(self::ATTRIBUTE_ID, $storeScope, $websiteCode);
+        $configData['tax_id'] = $this->scopeConfig->getValue(self::TAX_ID, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -103,7 +113,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
         if($data){     
-            $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId());
+            $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId(), $configData);
         } else {
             if($configData['catalogo_reintentos']>$attempts){
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
@@ -161,7 +171,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 
     }
 
-	public function loadProductsData($catalog, $objectManager, $storeId) 
+	public function loadProductsData($catalog, $objectManager, $storeId, $configData) 
 	{        
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
@@ -171,12 +181,12 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             $cleanurl = html_entity_decode(strip_tags($url));
             $product->setUrlKey($cleanurl);
             $product->setName($catalog->Description); // Name of Product
-            $product->setAttributeSetId(4); // Attribute set id
+            $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setStoreId($storeId);
             $product->setWeight(10); // weight of product
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-            $product->setTaxClassId(0); // Tax class id
+            $product->setTaxClassId($configData['tax_id']); // Tax class id
             switch($catalog->Type){
                 case 'Physical':
                     $product->setTypeId('simple');

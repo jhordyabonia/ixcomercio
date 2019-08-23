@@ -10,6 +10,8 @@
                 <url_produccion>https://intcomex-prod.apigee.net/v1/</url_produccion>
             </catalogo_retailer>
             <catalogo_general>
+                <attribute_id>4</attribute_id>
+                <tax_id>0</tax_id>
                 <datos_iws>1</datos_iws>
                 <datos_sales_iws>1</datos_sales_iws>
                 <datos_images_iws>1</datos_images_iws>
