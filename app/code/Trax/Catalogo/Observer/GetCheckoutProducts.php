@@ -68,7 +68,6 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-        $this->logger->info('GetCheckoutProducts - Entra a observer');
         //Se obtiene lista de sku
         if($configData['productos_iws']==1){
             $skuList = $this->getSkuList($observer->getQuote());
