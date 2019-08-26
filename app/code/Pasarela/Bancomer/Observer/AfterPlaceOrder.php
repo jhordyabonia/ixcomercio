@@ -98,7 +98,7 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_email" value="'.$billing->getEmail().'">
             <input type="hidden" name="mp_phone" value="'.$billing->getTelephone().'">
             <input type="hidden" name="mp_currency" value="1">
-            <input type="hidden" name="mp_signature" value="'.hash_hmac('sha256', $cadena, $configData['private_key']).'">
+            <input type="hidden" name="mp_signature" value="'.hash_hmac('sha256', $cadena, '94adCc0ce829a9f53f18c940Ffa44b993e30cdf9dff201A85f649aaC5059bb2dN').'">
             <input type="hidden" name="mp_urlsuccess" value="'.$storeManager->getStore()->getBaseUrl().'payment/success">
             <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'payment/error">
         </form>
