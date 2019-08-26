@@ -13,11 +13,14 @@ error_reporting(E_ALL);
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
 
 /**
  * Webhook class  
  */
-class Error extends \Magento\Framework\App\Action\Action
+class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
@@ -100,6 +103,16 @@ class Error extends \Magento\Framework\App\Action\Action
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
+    }
+    
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
     }
 
     /**
