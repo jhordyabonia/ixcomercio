@@ -218,7 +218,6 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
             $product->setName($name); // Name of Product        
             $product->setDescription($description); // Description of Product
             $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
-            $this->logger->info('GetProducts - Se asocia website a producto: '.$websiteId);
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
             $product->setTaxClassId($configData['tax_id']); // Tax class id
