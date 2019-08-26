@@ -4,7 +4,7 @@
         <observer name="checkout_controller_place_order" instance="Trax\Ordenes\Observer\PlaceOrder"  />
     </event>
     <event name="checkout_submit_before">
-        <observer name="retailer_catalog_order" instance="Trax\Catalogo\Observer\GetCheckoutProducts" />
+        <observer name="checkout_submit_before_trax" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
     </event>
     <!--<event name="sales_order_payment_capture">
         <observer name="place_order" instance="Trax\Ordenes\Observer\PlaceOrder" />
