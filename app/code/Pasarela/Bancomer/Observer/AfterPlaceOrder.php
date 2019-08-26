@@ -27,11 +27,15 @@ class AfterPlaceOrder implements ObserverInterface
 
     const SANDBOX_MP_CONCEPT = 'payment/pasarela_bancomer/sandbox_mp_concept';
 
+    const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
+
 	const PRODUCCION_MP_ACCOUNT = 'payment/pasarela_bancomer/live_mp_account';
 
 	const PRODUCCION_MP_NODE = 'payment/pasarela_bancomer/live_mp_node';
 
     const PRODUCCION_MP_CONCEPT = 'payment/pasarela_bancomer/live_mp_concept';
+
+    const PRODUCCION_PRIVATE_KEY = 'payment/pasarela_bancomer/live_private_key';
     
     protected $config;
     protected $order;    
@@ -80,7 +84,7 @@ class AfterPlaceOrder implements ObserverInterface
         
         $this->logger->debug('#AfterPlaceOrder', array('order_id' => $orderId[0], 'order_status' => $order->getStatus()));           
         $billing = $order->getBillingAddress(); 
-
+        $cadena = $orderId[0].$order->getIncrementId().sprintf("%.2f", $order->getGrandTotal());
         echo 
         '<form id="bancomermultipagos-form" method="post" action="'.$configData['url'].'">
             <input type="hidden" name="mp_account" value="'.$configData['mp_account'].'">
@@ -94,7 +98,7 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_email" value="'.$billing->getEmail().'">
             <input type="hidden" name="mp_phone" value="'.$billing->getTelephone().'">
             <input type="hidden" name="mp_currency" value="1">
-            <input type="hidden" name="mp_signature" value="'.hash('sha256', $orderId[0].$order->getIncrementId().sprintf("%.2f", $order->getGrandTotal()).'').'">
+            <input type="hidden" name="mp_signature" value="'.hash_hmac('sha256',CADENA DE INFORMACIÓN, LLAVE PRIVADA)('sha256', $cadena, $configData['private_key']).'">
             <input type="hidden" name="mp_urlsuccess" value="'.$storeManager->getStore()->getBaseUrl().'payment/success">
             <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'payment/error">
         </form>
@@ -113,11 +117,13 @@ class AfterPlaceOrder implements ObserverInterface
             $configData['mp_account'] = $this->scopeConfig->getValue(self::SANDBOX_MP_ACCOUNT, $storeScope, $websiteCode);
             $configData['mp_node'] = $this->scopeConfig->getValue(self::SANDBOX_MP_NODE, $storeScope, $websiteCode);
             $configData['mp_concept'] = $this->scopeConfig->getValue(self::SANDBOX_MP_CONCEPT, $storeScope, $websiteCode);
+            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
             $configData['mp_account'] = $this->scopeConfig->getValue(self::PRODUCCION_MP_ACCOUNT, $storeScope, $websiteCode);
             $configData['mp_node'] = $this->scopeConfig->getValue(self::PRODUCCION_MP_NODE, $storeScope, $websiteCode);
             $configData['mp_concept'] = $this->scopeConfig->getValue(self::PRODUCCION_MP_CONCEPT, $storeScope, $websiteCode);
+            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
         }
         return $configData;
 
