@@ -123,7 +123,9 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {   
-        $this->logger->info('paymenterror - Entra a la pagina de error');             
+        $this->logger->info('paymenterror - Entra a la pagina de error');   
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getLayout()->initMessages();          
         try {               
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -163,8 +165,6 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
             $mp_pan = "12345678";
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
-            $resultPage = $this->resultPageFactory->create();
-            $resultPage->getLayout()->initMessages();
             //TODO: Cancelar orden
             $this->cancelIwsOrder($mp_order);
             $this->cancelOrder($mp_order);
@@ -225,6 +225,8 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         }
         $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
         $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
+        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        //Se valida entorno para obtener url del servicio
         if($sandbox == '1'){
             $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
         } else{

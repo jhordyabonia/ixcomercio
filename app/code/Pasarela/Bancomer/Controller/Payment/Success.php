@@ -376,6 +376,13 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
         $configData['inventario_correo'] = $this->scopeConfig->getValue(self::INVENTARIO_CORREO, $storeScope, $websiteCode);
         $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
         $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
+        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        //Se valida entorno para obtener url del servicio
+        if($sandbox == '1'){
+            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
+        } else{
+            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
+        }
         return $configData;
 
     }
