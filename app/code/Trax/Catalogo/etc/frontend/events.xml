@@ -13,6 +13,6 @@
         <observer name="retailer_catalog_cart_update" instance="Trax\Catalogo\Observer\GetCartProducts" />
     </event>
     <event name="checkout_submit_before">
-        <observer name="retailer_catalog_checkout" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
+        <observer name="retailer_catalog_checkout" instance="Trax\Catalogo\Observer\GetCheckoutProducts" />
     </event>
 </config>
