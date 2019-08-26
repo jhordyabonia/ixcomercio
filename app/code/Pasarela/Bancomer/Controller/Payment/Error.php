@@ -104,7 +104,7 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
     }
-    
+
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
     {
         return null;
@@ -122,7 +122,8 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
      * @url https://magento.stackexchange.com/questions/197310/magento-2-redirect-to-final-checkout-page-checkout-success-failed?rq=1
      * @return \Magento\Framework\View\Result\Page
      */
-    public function execute() {                
+    public function execute() {   
+        $this->logger->info('paymenterror - Entra a la pagina de error');             
         try {               
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
