@@ -511,9 +511,6 @@ class GetCatalog {
         if(isset($catalog->Freight)){
             if(isset($catalog->Freight->Package)){
                 $product->setWeight($catalog->Freight->Package->Weight);
-                /*$product->setTsDimensionsLength((float)$catalog->Freight->Package->Length);
-                $product->setTsDimensionsWidth((float)$catalog->Freight->Package->Width);
-                $product->setTsDimensionsHeight((float)$catalog->Freight->Package->Height);*/
                 $product->setData('length',$catalog->Freight->Package->Length);
                 $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);
                 $product->setData('width',$catalog->Freight->Package->Width);
