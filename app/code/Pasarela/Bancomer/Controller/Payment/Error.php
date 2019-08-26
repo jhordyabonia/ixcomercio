@@ -120,7 +120,8 @@ class Error extends \Magento\Framework\App\Action\Action
             $mp_bankcode = $_REQUEST['mp_bankcode'];
             $mp_pan = $_REQUEST['mp_pan'];
             $mp_saleid = $_REQUEST['mp_saleid'];
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $cadena = $mp_order.$mp_reference.$mp_amount.$mp_authorization;
+            $mp_signature1 = hash_hmac('sha256', $cadena, '94adCc0ce829a9f53f18c940Ffa44b993e30cdf9dff201A85f649aaC5059bb2dN');
             /*$mp_order = "56";
             $mp_reference = "2000000087";
             $mp_amount = "133070,89";
