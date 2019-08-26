@@ -227,23 +227,9 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                     $description .= $iwsDescription[$i];
                 }
             }        
-            $categoryIds = array_unique(
-                array_merge(
-                    $product->getCategoryIds(),
-                    $categoryIds
-                )
-            );    
-            $websiteIds = array_unique(
-                array_merge(
-                    $product->getWebsiteIds(),
-                    array($websiteId)
-                )
-            );
-            $product->setCategoryIds($categoryIds);
             $product->setName($name); // Name of Product        
             $product->setDescription($description); // Description of Product
             $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
-            $product->setWebsiteIds($websiteIds);
             $this->logger->info('GetProducts - Se asocia website a producto: '.$websiteId);
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)

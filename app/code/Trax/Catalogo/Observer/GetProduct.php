@@ -75,7 +75,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                 if($serviceUrl){
                     $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
                 } else {
-                    $this->logger->info('GetProducts - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
+                    $this->logger->info('GetProduct - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
                 }
             }
         }
@@ -192,24 +192,10 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                     $description .= $iwsDescription[$i];
                 }
             }        
-            $categoryIds = array_unique(
-                array_merge(
-                    $product->getCategoryIds(),
-                    $categoryIds
-                )
-            );    
-            $websiteIds = array_unique(
-                array_merge(
-                    $product->getWebsiteIds(),
-                    array($websiteId)
-                )
-            );
-            $product->setCategoryIds($categoryIds);
             $product->setName($name); // Name of Product        
             $product->setDescription($description); // Description of Product
             $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
-            $product->setWebsiteIds($websiteIds);
-            $this->logger->info('GetProducts - Se asocia website a producto: '.$websiteId);
+            $this->logger->info('GetProduct - Se asocia website a producto: '.$websiteId);
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
             $product->setTaxClassId($configData['tax_id']); // Tax class id
