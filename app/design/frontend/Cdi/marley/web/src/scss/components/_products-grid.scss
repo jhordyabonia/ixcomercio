@@ -127,25 +127,24 @@
   }
   .actions{
     margin: 10px 0 0;
-    a{
-      &.btn-cart{
-        color: #000;
-        display: inline-block;
-        background: transparent;
-        margin: 0 auto;
-        border: 2px solid #000;
-        font-size: 20px;
-        line-height: 50px;
-        font-family: 'flamaCondensedmed',sans-serif;
-        text-transform: uppercase;
-        cursor: pointer;
-        padding: 0 25px;
-        transition: .3s all ease;
-        appearance: none;
-        &:hover{
-          background: #000;
-          color: white;
-        }
+    .btn-cart{
+      color: #000;
+      font-size: 20px;
+      line-height: 50px;
+      font-family: 'flamaCondensedmed',sans-serif;
+      text-transform: uppercase;
+      background: transparent;
+      display: inline-block;
+      border: 2px solid #000;
+      border-radius: 0;
+      padding: 0 25px;
+      margin: 0 auto;
+      transition: .3s all ease;
+      appearance: none;
+      cursor: pointer;
+      &:hover{
+        background: #000;
+        color: white;
       }
     }
   }
