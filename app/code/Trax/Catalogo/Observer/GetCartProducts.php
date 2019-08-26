@@ -188,7 +188,14 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
     }
 
 	public function loadProductsData($catalog, $objectManager, $storeId, $configData) 
-	{        
+	{    
+        foreach ($catalog as $key => $data) {
+            $this->loadProductData($data, $objectManager, $storeId, $configData);
+        }
+    }
+
+	public function loadProductData($catalog, $objectManager, $storeId, $configData) 
+	{    
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $product = $products->loadByAttribute('sku', $catalog->Sku);
