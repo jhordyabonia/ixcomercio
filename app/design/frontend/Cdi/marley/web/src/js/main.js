@@ -17,11 +17,20 @@ function ($, Component) {
     // Height catalog items list
     // =============================================
 
-    var list = jQuery(".products-grid .product-items .item");
+    var list = $(".products-grid .product-items .item");
+    var listName = $(list).find(".product-name");
     var arrayList = [];
+    var arrayName = [];
+
+    jQuery.each(listName, function(i, val){
+      arrayName.push(jQuery(val).innerHeight());
+    });
+    Math.max.apply(Math,arrayName);
+    jQuery(listName).css("minHeight", Math.max.apply(Math,arrayName)+"px");
+
+
     jQuery.each(list, function(i, val){
       arrayList.push(jQuery(val).innerHeight());
-      console.log(jQuery(val).innerHeight());
     });
     Math.max.apply(Math,arrayList);
     jQuery(list).css("height", Math.max.apply(Math,arrayList)+"px");
