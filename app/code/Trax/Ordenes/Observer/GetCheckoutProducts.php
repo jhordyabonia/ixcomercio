@@ -66,11 +66,13 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        $this->logger->info('GetCheckoutProducts - Entra a observer test');
+        $this->logger->info('GetCheckoutProducts - Entra a observer');
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+        $this->logger->info('GetCheckoutProducts - Obtiene parametros de configuración');
         //Se obtiene lista de sku
         $skuList = $this->getSkuList($observer->getQuote());
+        $this->logger->info('GetCheckoutProducts - Obtiene productos');
         //Se obtiene url del servicio
         $serviceUrl = $this->getServiceUrl($configData, $skuList);
         //Se carga el servicio por curl
