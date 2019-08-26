@@ -70,7 +70,7 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         //Se obtiene lista de sku
         if($configData['productos_iws']==1){
-            $skuList = $this->getSkuList($observer->getCart());
+            $skuList = $this->getSkuList($observer->getQuote());
             //Se obtiene url del servicio
             $serviceUrl = $this->getServiceUrl($configData, $skuList);
             //Se carga el servicio por curl
@@ -131,9 +131,9 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
 
     }
 
-	public function getSkuList($cart) 
+	public function getSkuList($order) 
 	{
-		$products = $cart->getQuote()->getItems();
+		$products = $order->getItems();
         $skuList = "";
         $i = 0;
 		$len = count($products);
