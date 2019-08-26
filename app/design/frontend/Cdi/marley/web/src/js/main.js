@@ -14,6 +14,20 @@ function ($, Component) {
 
 
     // =============================================
+    // Height catalog items list
+    // =============================================
+
+    var list = jQuery(".products-grid .product-items .item");
+    var arrayList = [];
+    jQuery.each(list, function(i, val){
+      arrayList.push(jQuery(val).innerHeight());
+      console.log(jQuery(val).innerHeight());
+    });
+    Math.max.apply(Math,arrayList);
+    jQuery(list).css("height", Math.max.apply(Math,arrayList)+"px");
+
+
+    // =============================================
     // Quantity Controls
     // =============================================
     
