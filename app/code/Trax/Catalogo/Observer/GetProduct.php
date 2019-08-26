@@ -224,6 +224,21 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                     $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
                 }
             }
+            $product->setPrice($catalog->Price->UnitPrice);
+            if($catalog->InStock == 0){
+                $stock = 0;
+            } else {
+                $stock = 1;
+            }
+            $product->setStockData(
+                array(
+                    'use_config_manage_stock' => 0,
+                    'manage_stock' => 1,
+                    'is_in_stock' => $stock,
+                    'min_sale_qty' => 1,
+                    'qty' => $catalog->InStock
+                )
+            );
             try{
                 $product->save();
                 $this->logger->info('GetProduct - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
