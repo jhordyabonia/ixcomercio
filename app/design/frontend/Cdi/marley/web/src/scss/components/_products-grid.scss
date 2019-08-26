@@ -127,7 +127,11 @@
   }
   .actions{
     margin: 10px 0 0;
+    form{
+      text-align: center;
+    }
     .btn-cart{
+      min-width: 120px;
       color: #000;
       font-size: 20px;
       line-height: 50px;
