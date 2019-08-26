@@ -69,18 +69,14 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         //Se obtiene lista de sku
-        if($configData['productos_iws']==1){
-            $skuList = $this->getSkuList($observer->getCart());
-            //Se obtiene url del servicio
-            $serviceUrl = $this->getServiceUrl($configData, $skuList);
-            //Se carga el servicio por curl
-            if($configData['datos_iws']){
-                if($serviceUrl){
-                    $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
-                } else {
-                    $this->logger->info('GetProducts - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
-                }
-            }
+        $skuList = $this->getSkuList($observer->getcart());
+        //Se obtiene url del servicio
+        $serviceUrl = $this->getServiceUrl($configData, $skuList);
+        //Se carga el servicio por curl
+        if($serviceUrl){
+            $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
+        } else {
+            $this->logger->info('GetProducts - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
         }
 	}
 
@@ -200,53 +196,6 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
         $products = $productFactory->create();
         $product = $products->loadByAttribute('sku', $catalog->Sku);
         if($product){
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $product->setUrlKey($cleanurl);
-            $iwsDescription = explode("- ", $catalog->Description);
-            $name = $iwsDescription[0];
-            $description = "";
-            if(isset($iwsDescription[1])){
-                $name .= $iwsDescription[1];
-            }
-            if(isset($iwsDescription[2])){
-                $name .= $iwsDescription[2];
-                for($i = 3; $i < count($iwsDescription); $i++){
-                    $description .= $iwsDescription[$i];
-                }
-            }        
-            $product->setName($name); // Name of Product        
-            $product->setDescription($description); // Description of Product
-            $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
-            $product->setStatus(1); // Status on product enabled/ disabled 1/0
-            $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-            $product->setTaxClassId($configData['tax_id']); // Tax class id
-            switch($catalog->Type){
-                case 'Physical':
-                    $product->setTypeId('simple');
-                    break;
-                case 'License':
-                    $product->setTypeId('virtual');
-                    break;
-                case 'Warranty':
-                    $product->setTypeId('configurable');
-                    break;
-                case 'Downloadable':
-                    $product->setTypeId('downloadable');
-                    break;
-            } // type of product (simple/virtual/downloadable/configurable)
-            //Set product dimensions
-            if(isset($catalog->Freight)){
-                if(isset($catalog->Freight->Package)){
-                    $product->setWeight($catalog->Freight->Package->Weight);
-                    $product->setData('length',$catalog->Freight->Package->Length);
-                    $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);
-                    $product->setData('width',$catalog->Freight->Package->Width);
-                    $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);
-                    $product->setData('height',$catalog->Freight->Package->Height);
-                    $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
-                }
-            }
             $product->setPrice($catalog->Price->UnitPrice);
             if($catalog->InStock == 0){
                 $stock = 0;
