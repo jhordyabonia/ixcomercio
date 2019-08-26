@@ -66,7 +66,7 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
 		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        $this->logger->info('GetCheckoutProducts - Entra a observer');
+        $this->logger->info('GetCheckoutProducts - Entra a observer test');
 		//Se obtienen parametros de configuración por Store
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         //Se obtiene lista de sku
@@ -75,6 +75,7 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
         $serviceUrl = $this->getServiceUrl($configData, $skuList);
         //Se carga el servicio por curl
         if($serviceUrl){
+            $this->logger->info('GetCheckoutProducts - Empezo verificación del catalogo');
             $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
         } else {
             $this->logger->info('GetProducts - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
