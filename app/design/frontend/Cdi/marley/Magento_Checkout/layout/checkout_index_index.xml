@@ -7,19 +7,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="checkout" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>    
-		<!--Redeclara el header-->
-		<referenceContainer name="header.container" htmlClass="header-primary-container">
-			<referenceBlock name="header.panel.wrapper" remove="true" />			
-			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper" before="header.row.wrapper" />
-			<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="container">
-				<container name="header.row.wrapper.row" as="header_row_wrapper_row" before="-" htmlTag="div" htmlClass="row">
-					<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="wrapper-brand col-sm-4 col-xs-6" />
-					<container name="header.row.container.access" as="header_row_container_access" htmlTag="div" htmlClass="mobnav-trigger-wrapper" />
-					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
-				</container>
-			</container>
-		</referenceContainer>
-        <move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
+        <referenceContainer name="header.panel" remove="false"/>
         <referenceContainer name="content">
             <block class="Magento\Checkout\Block\Onepage" name="checkout.root" template="Magento_Checkout::onepage.phtml" cacheable="false">
                 <arguments>
