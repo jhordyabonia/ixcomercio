@@ -51,6 +51,14 @@ $imageDisplayArea = 'category_page_list';
 					</div>
 				</div>
 			<?php endforeach; ?>
-		</div>
+		</div>		
+		<?php if ($block->getPagerHtml()): ?>
+			<div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+		<?php endif ?>
 	</div>
 <?php endif; ?>
+<style type="text/css">
+    .custom-pager .limiter{
+        display: block !important;
+    }
+</style>
