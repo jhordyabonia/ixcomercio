@@ -6,7 +6,9 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
+    <body>    
+        <referenceBlock name="top.search" remove="true"/>
+        <referenceBlock name="navigation.sections" remove="true"/>
         <referenceContainer name="content">
             <block class="Magento\Checkout\Block\Onepage" name="checkout.root" template="Magento_Checkout::onepage.phtml" cacheable="false">
                 <arguments>
@@ -37,16 +39,8 @@
                                         <item name="displayArea" xsi:type="string">messages</item>
                                     </item>
                                     <item name="authentication" xsi:type="array">
-                                        <item name="sortOrder" xsi:type="string">1</item>
-                                        <item name="component" xsi:type="string">Magento_Checkout/js/view/authentication</item>
-                                        <item name="displayArea" xsi:type="string">authentication</item>
-                                        <item name="children" xsi:type="array">
-                                            <!--Additional authentication fields-->
-                                            <item name="errors" xsi:type="array">
-                                                <item name="sortOrder" xsi:type="string">0</item>
-                                                <item name="component" xsi:type="string">Magento_Checkout/js/view/authentication-messages</item>
-                                                <item name="displayArea" xsi:type="string">messages</item>
-                                            </item>
+                                        <item name="config" xsi:type="array">
+                                            <item name="componentDisabled" xsi:type="boolean">true</item>
                                         </item>
                                     </item>
                                     <item name="progressBar" xsi:type="array">
