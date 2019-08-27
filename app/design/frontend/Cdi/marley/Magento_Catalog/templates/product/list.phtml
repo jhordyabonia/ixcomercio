@@ -103,6 +103,14 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
             <?php endforeach; ?>
         </ul>        
     </div>
+    <?php if ($block->getPagerHtml()): ?>
+	    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <style type="text/css">
+            .custom-pager .limiter{
+                display: block !important;
+            }
+        </style>
+	<?php endif ?>
 
     <?php echo $block->getToolbarHtml() ?>
     
