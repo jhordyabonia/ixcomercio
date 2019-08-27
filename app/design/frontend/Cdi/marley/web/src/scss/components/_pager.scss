@@ -1,8 +1,35 @@
 .pages{
+  float: left;
+  width: 100%;
   margin: 0;
   padding: 10px 0;
   border-bottom: none;
   border-top: 1px dashed #e5e5e5;
   text-align: center;
   line-height: 36px;
+  > label{
+    color: #333;
+    width: auto;
+    height: auto;
+    font-size: 12px;
+    font-weight: normal;
+    margin-right: 5px;
+    display: inline-block;
+    position: relative;
+    clip: auto;
+  }
+  .items{
+    display: inline-block;
+    vertical-align: middle;
+    li.item{
+      float: left;
+      margin: 0 0 0 1px;
+      display: block;
+      text-align: center;
+      &.current{
+        background-color: #e5e5e5;
+        color: #333;
+      }
+    }
+  }
 }
