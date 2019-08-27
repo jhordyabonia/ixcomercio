@@ -103,7 +103,7 @@ class AfterPlaceOrder implements ObserverInterface
             <input type="hidden" name="mp_urlfailure" value="'.$storeManager->getStore()->getBaseUrl().'bancomer/payment/error">
         </form>
         <script type="text/javascript">
-            setTimeout(function(){ document.getElementById("bancomermultipagos-form").submit(); }, 20000);
+            document.getElementById("bancomermultipagos-form").submit();
         </script>';
     }    
 
