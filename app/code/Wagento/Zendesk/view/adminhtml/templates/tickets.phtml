@@ -1,0 +1,54 @@
+<?php
+/**
+ * Copyright Wagento Creative LLC ©, All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/**
+ * @var \Wagento\Zendesk\Block\Adminhtml\Customer\Tickets $block
+ */
+$tickets = $block->getTickets();
+$url = $this->helper('Wagento\Zendesk\Helper\Data')->getDomain();
+
+?>
+
+<div class="admin__page-section-title">
+    <span class="title"><?php /* @escapeNotVerified */
+        echo __('Support Tickets') ?></span>
+</div>
+<div class="admin__page-section-content">
+    <div class="fieldset-wrapper">
+        <?php if ($tickets): ?>
+            <table cellspacing="0" class="admin__table-secondary">
+                <thead>
+                <tr>
+                    <th><?php echo $block->escapeHtml(__('ID')) ?></th>
+                    <th><?php echo $block->escapeHtml(__('Priority')) ?></th>
+                    <th><?php echo $block->escapeHtml(__('Subject')) ?></th>
+                    <th><?php echo $block->escapeHtml(__('Requested')) ?></th>
+                    <th><?php echo $block->escapeHtml(__('Updated')) ?></th>
+                    <th><?php echo $block->escapeHtml(__('Status')) ?></th>
+                </tr>
+                </thead>
+                <tbody class="odd">
+                <?php foreach ($tickets as $ticket): ?>
+                    <tr>
+                        <td><?php echo $block->escapeHtml(__($ticket['id'])); ?></td>
+                        <td><?php echo $block->escapeHtml(__($ticket['priority'])); ?></td>
+                        <td><a href="<?php echo $url . '/agent/tickets/' . $ticket['id'] ?>"
+                               target="_blank"><?php echo $block->escapeHtml(__($ticket['subject'])); ?></a></td>
+                        <?php $createdDate = new DateTime($ticket['created_at']); ?>
+                        <td><?php echo $createdDate->format('Y-m-d H:i:s'); ?></td>
+                        <?php $updateDate = new DateTime($ticket['updated_at']); ?>
+                        <td><?php echo $createdDate->format('Y-m-d H:i:s'); ?></td>
+                        <td><?php echo $block->escapeHtml(__($ticket['status'])); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else : ?>
+            <div class="message info empty">
+                <span><?php echo $block->escapeHtml(__('Customer doesn\'t have any ticket opened.')) ?></span>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

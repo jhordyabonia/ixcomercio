@@ -16431,3 +16431,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Wireless","Inalámbrico",lib,web
 "Earphones","Auriculares",lib,web
 "Resources","Recursos",lib,web
+"Please enter your email address","Registra tu dirección de correo electrónico",module,Magento_Newsletter
+"Please enter your email address","Registra tu dirección de correo electrónico",lib,web

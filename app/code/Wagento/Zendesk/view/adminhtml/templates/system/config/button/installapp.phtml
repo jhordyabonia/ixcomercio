@@ -1,0 +1,65 @@
+<?php
+/**
+ * Copyright Wagento Creative LLC ©, All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Wagento\Zendesk\Block\System\Config\Form\AppInstallation $block */
+$scope = $block->getScopeConfig();
+
+?>
+<script>
+    require([
+        'jquery',
+        'prototype'
+    ], function (jQuery) {
+
+        var collectSpan = jQuery('#install-collect_span');
+
+        jQuery('#zendesk_m2_app_installation_btn').click(function () {
+            jQuery('#zendesk_m2_app_installation_btn').prop('disabled', true);
+
+            var params = {};
+            new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
+                parameters: params,
+                loaderArea: false,
+                asynchronous: true,
+                onCreate: function () {
+                    collectSpan.find('.install-success-icon').hide();
+                    collectSpan.find('.install-error-icon').hide();
+                    collectSpan.find('.install-processing-icon').show();
+                    jQuery('#install-ajax-message-span').text('Installing');
+                    },
+                onSuccess: function (response) {
+
+                    var res = response.responseJSON;
+
+                    collectSpan.find('.install-processing-icon').hide();
+
+                    var resultText = '';
+                    // response.status > 200
+                    if (res.success) {
+                        resultText = res.success;
+                        collectSpan.find('.install-success-icon').show();
+                    } else {
+                        resultText = res.error;
+                        collectSpan.find('.install-error-icon').show();
+                    }
+                    jQuery('#install-ajax-message-span').text(resultText);
+                    jQuery('#zendesk_m2_app_installation_btn').prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>
+
+<?php echo $block->getButtonHtml() ?>
+<span class="collect-indicator" id="install-collect_span">
+    <img class="install-processing-icon" hidden alt="Processing"
+         src="<?php echo $block->getViewFileUrl('images/process_spinner.gif') ?>"/>
+    <img class="install-success-icon" hidden alt="Success"
+         src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>"/>
+    <img class="install-error-icon" hidden alt="Error"
+         src="<?php echo $block->getViewFileUrl('images/rule_component_remove.gif') ?>"/>
+    <span id="install-ajax-message-span"></span>
+</span>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright Wagento Creative LLC ©, All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Magento\Customer\Block\Account\SortLinkInterface"
+                   ifconfig="zendesk/ticket/frontend/customer_account"
+                   name="customer-account-navigation-customer-tickets-link">
+                <arguments>
+                    <argument name="path" xsi:type="string">zendesk/customer/tickets</argument>
+                    <argument name="label" xsi:type="string" translate="true">My Tickets</argument>
+                    <argument name="sortOrder" xsi:type="number">210</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
