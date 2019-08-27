@@ -13,7 +13,7 @@
         <referenceBlock name="top.search" remove="true"/>
         <referenceBlock name="catalog.compare.link" remove="true"/>
         <referenceBlock name="catalog.topnav" remove="true"/>
-        <referenceContainer name="footer-container" remove="true"/>
+        <referenceContainer name="header.account.cart.wrapper" remove="true"/>
         <referenceContainer name="content">
             <block class="Magento\Checkout\Block\Onepage" name="checkout.root" template="Magento_Checkout::onepage.phtml" cacheable="false">
                 <arguments>
