@@ -3,7 +3,7 @@
     <event name="checkout_onepage_controller_success_action">
         <observer name="checkout_controller_place_order" instance="Trax\Ordenes\Observer\PlaceOrder"  />
     </event>
-    <event name="checkout_submit_before">
+    <event name="checkout_controller_onepage_saveOrder">
         <observer name="checkout_controller_before_trax" instance="Trax\Ordenes\Observer\GetCheckoutProducts" />
     </event>
     <!--<event name="sales_order_payment_capture">
