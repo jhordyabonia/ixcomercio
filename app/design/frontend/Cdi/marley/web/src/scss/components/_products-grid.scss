@@ -154,9 +154,6 @@
   }
 }
 .wrapper-product-sorter{
-  &:last-child{
-    display: none!important;
-  }
   > .sorter{
     width: 100%;
     text-align: left;
