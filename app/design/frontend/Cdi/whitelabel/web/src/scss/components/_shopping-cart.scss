@@ -55,6 +55,9 @@
                 }
                 .control.qty{
                   display: inline-block;
+                  input{
+                    width: 4em;
+                  }
                 }
               }
             }
