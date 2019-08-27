@@ -7,13 +7,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>    
-        <move element="logo" destination="header-wrapper" as="logo" before="-" />
-        <referenceBlock name="minicart" remove="true"/>
-        <referenceContainer name="header.panel" remove="true"/>
-        <referenceBlock name="top.search" remove="true"/>
-        <referenceBlock name="catalog.compare.link" remove="true"/>
-        <referenceBlock name="catalog.topnav" remove="true"/>
-        <referenceContainer name="header.account.cart.wrapper" remove="true"/>
         <referenceContainer name="content">
             <block class="Magento\Checkout\Block\Onepage" name="checkout.root" template="Magento_Checkout::onepage.phtml" cacheable="false">
                 <arguments>
