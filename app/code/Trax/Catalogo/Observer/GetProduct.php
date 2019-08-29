@@ -177,9 +177,6 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         $products = $productFactory->create();
         $product = $products->loadByAttribute('sku', $catalog->Sku);
         if($product){
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $product->setUrlKey($cleanurl);
             $iwsDescription = explode("- ", $catalog->Description);
             $name = $iwsDescription[0];
             $description = "";
