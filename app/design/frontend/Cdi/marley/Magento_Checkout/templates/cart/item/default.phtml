@@ -119,7 +119,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
             <?php endif; ?>
         </td>
 
-        <td class="col icon-delete" data-th="<?= $block->escapeHtml(__('Delete')) ?>">
+        <td class="col delete" data-th="<?= $block->escapeHtml(__('Delete')) ?>">
             <div class="actions-toolbar">
                 <?= /* @escapeNotVerified */ $block->getActions($_item) ?>
             </div>

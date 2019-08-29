@@ -18,7 +18,10 @@
             font-weight: 400;
             border: 0;
             &.item{
-              width: 40%;
+              width: 35%;
+            }
+            &.delete{
+              width: 5%;
             }
           }
         }
