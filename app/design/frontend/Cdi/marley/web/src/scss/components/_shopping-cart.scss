@@ -13,9 +13,13 @@
       table{
         thead{
           th{
+            width: 15%;
             color: #999;
             font-weight: 400;
             border: 0;
+            &.item{
+              width: 40%;
+            }
           }
         }
         tbody{
