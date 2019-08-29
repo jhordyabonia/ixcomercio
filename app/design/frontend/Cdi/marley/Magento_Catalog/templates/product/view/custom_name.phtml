@@ -12,4 +12,4 @@
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
 <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
-<p class="short-description"><strong><?= $block->escapeHtml($_product->getMarleyType()) ?></strong><?= $block->escapeHtml($_product->getShortDescription()) ?></p>
+<p class="short-description"><strong><?= $block->escapeHtml($_product->getMarleyType()) ?></strong><?php echo $_product->getShortDescription() ?></p>
