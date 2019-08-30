@@ -86,7 +86,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             <?php echo $block->getBlockHtml('formkey')?>
                             <button type="submit"
                                 title="<?php echo $block->escapeHtml(__('Buy')); ?>"
-                                class="button btn-cart" style="display: block; margin: 0 40%; border: 1px solid;">
+                                class="button btn-cart">
                                 <span style="display: block; font-size: 20px; font-weight: 600;"><?php /* @escapeNotVerified */ echo __('Buy') ?></span>
                             </button>
                         </form>
@@ -103,6 +103,16 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
             <?php endforeach; ?>
         </ul>        
     </div>
+    <?php if ($block->getPagerHtml()): ?>
+	    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <style type="text/css">
+            .custom-pager .limiter{
+                display: block !important;
+            }
+        </style>
+	<?php endif ?>
+
+    <?php echo $block->getToolbarHtml() ?>
     
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">

@@ -50,6 +50,7 @@
   }
 }
 .actions-toolbar{
+  width: 100%;
   .primary{
     @media only screen and (max-width: 480px){
       width: 100%;
@@ -60,12 +61,13 @@
       margin-left: 5px;
       padding: 0 25px;
       color: #000;
-      font-size: 16px;
+      font-size: 20px;
       line-height: 45px;
       text-transform: uppercase;
       transition: .3s all ease;
       background-color: transparent;
       border: 2px solid #000;
+      border-radius: 0;
       overflow: visible;
       cursor: pointer;
       float: right;

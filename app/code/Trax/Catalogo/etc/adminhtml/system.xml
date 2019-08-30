@@ -40,6 +40,14 @@
             <resource>Magento_Trax::config_catalogo</resource>
             <group id="catalogo_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuración IWS en Catálogo</label>
+                <field id="attribute_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Set de atributos</label>
+                    <comment>Id Set de atributos.</comment>
+                </field>
+                <field id="tax_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Clase de impuesto</label>
+                    <comment>Id clase de impuestos.</comment>
+                </field>
                 <field id="catalogo_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Reintentos de conexión</label>
                     <comment>Número de reintentos de conexión en servicio.</comment>

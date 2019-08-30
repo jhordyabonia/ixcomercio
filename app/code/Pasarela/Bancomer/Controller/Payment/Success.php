@@ -16,11 +16,14 @@ use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\Controller\ResultFactory;
 use Trax\Ordenes\Model\IwsOrderFactory;
 use Pasarela\Grid\Model\GridFactory;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
 
 /**
  * Webhook class  
  */
-class Success extends \Magento\Framework\App\Action\Action
+class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
@@ -44,6 +47,12 @@ class Success extends \Magento\Framework\App\Action\Action
     const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
 
     const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
+
+    const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
+
+    const PRODUCCION_PRIVATE_KEY = 'payment/pasarela_bancomer/live_private_key';
+
+    const SANDBOX = 'payment/pasarela_bancomer/is_sandbox';
     
     private $helper;
 	
@@ -114,6 +123,16 @@ class Success extends \Magento\Framework\App\Action\Action
         $this->_iwsOrder = $iwsOrder;
         $this->gridFactory = $gridFactory;
     }
+    
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
+    }
 
     /**
      * Load the page defined in view/frontend/layout/bancomer_index_webhook.xml
@@ -123,7 +142,12 @@ class Success extends \Magento\Framework\App\Action\Action
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {                
-        try {               
+        try {     
+            $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+            $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+            //Se obtienen parametros de configuración por Store
+            $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
             $mp_order = $_REQUEST['mp_order'];
             $mp_reference = $_REQUEST['mp_reference'];
             $mp_amount = $_REQUEST['mp_amount'];
@@ -139,7 +163,8 @@ class Success extends \Magento\Framework\App\Action\Action
             $mp_bankcode = $_REQUEST['mp_bankcode'];
             $mp_pan = $_REQUEST['mp_pan'];
             $mp_saleid = $_REQUEST['mp_saleid'];
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $cadena = $mp_order.$mp_reference.$mp_amount.$mp_authorization;
+            $mp_signature1 = hash_hmac('sha256', $cadena, $configData['private_key']);
             /*$mp_order = "54";
             $mp_reference = "2000000085";
             $mp_amount = "133070,89";
@@ -189,7 +214,8 @@ class Success extends \Magento\Framework\App\Action\Action
     //Verifica si el código de la transacción es valido
     public function checkResponse($storeScope, $websiteCode) 
     {
-        $enviroment = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        $enviroment = $this->scopeConfig->getValue(self::ENVIROMENT, $storeScope, $websiteCode);
         //Se valida entorno para obtener url del servicio
         if($enviroment == '1'){
             $configData['url'] = $this->scopeConfig->getValue(self::URL_SANDBOX, $storeScope, $websiteCode);
@@ -203,6 +229,11 @@ class Success extends \Magento\Framework\App\Action\Action
             $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         }
             $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
+        if($sandbox == '1'){
+            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
+        } else{
+            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
+        }
         return $configData;
 
     }
@@ -345,6 +376,13 @@ class Success extends \Magento\Framework\App\Action\Action
         $configData['inventario_correo'] = $this->scopeConfig->getValue(self::INVENTARIO_CORREO, $storeScope, $websiteCode);
         $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
         $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
+        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        //Se valida entorno para obtener url del servicio
+        if($sandbox == '1'){
+            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
+        } else{
+            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
+        }
         return $configData;
 
     }

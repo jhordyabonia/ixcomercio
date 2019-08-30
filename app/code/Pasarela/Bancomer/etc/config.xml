@@ -24,9 +24,11 @@
                 <sandbox_mp_account></sandbox_mp_account>
                 <sandbox_mp_node></sandbox_mp_node>
                 <sandbox_mp_concept></sandbox_mp_concept>
+                <sandbox_private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <live_mp_account></live_mp_account>
                 <live_mp_node></live_mp_node>
                 <live_mp_concept></live_mp_concept>
+                <live_private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
             </pasarela_bancomer>
         </payment>
     </default>

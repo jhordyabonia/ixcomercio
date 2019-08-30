@@ -118,7 +118,14 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                 <?= $block->getRowTotalHtml($_item) ?>
             <?php endif; ?>
         </td>
+
+        <td class="col delete" data-th="<?= $block->escapeHtml(__('Delete')) ?>">
+            <div class="actions-toolbar">
+                <?= /* @escapeNotVerified */ $block->getActions($_item) ?>
+            </div>
+        </td>
     </tr>
+    <!--
     <tr class="item-actions">
         <td colspan="4">
             <div class="actions-toolbar">
@@ -126,4 +133,5 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
             </div>
         </td>
     </tr>
+    -->
 </tbody>

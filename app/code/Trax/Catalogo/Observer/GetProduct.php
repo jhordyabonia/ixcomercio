@@ -27,6 +27,10 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
     const CATALOGO_REINTENTOS = 'trax_catalogo/catalogo_general/catalogo_reintentos';
 
     const CATALOGO_CORREO = 'trax_catalogo/catalogo_general/catalogo_correo';
+
+    const TAX_ID = 'trax_catalogo/catalogo_general/tax_id';
+
+    const ATTRIBUTE_ID = 'trax_catalogo/catalogo_general/attribute_id';
     
     private $helper;
 	
@@ -71,7 +75,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                 if($serviceUrl){
                     $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, 0); 
                 } else {
-                    $this->logger->info('GetProducts - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
+                    $this->logger->info('GetProduct - No se genero url del servicio en el store: '.$storeManager->getStore()->getCode().' con store '.$storeManager->getStore()->getStoreId());
                 }
             }
         }
@@ -97,6 +101,8 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         $configData['productos_iws'] = $this->scopeConfig->getValue(self::DATOS_PRODUCTOS_TRAX, $storeScope, $websiteCode);
         $configData['catalogo_reintentos'] = $this->scopeConfig->getValue(self::CATALOGO_REINTENTOS, $storeScope, $websiteCode);
         $configData['catalogo_correo'] = $this->scopeConfig->getValue(self::CATALOGO_CORREO, $storeScope, $websiteCode);
+        $configData['attribute_id'] = $this->scopeConfig->getValue(self::ATTRIBUTE_ID, $storeScope, $websiteCode);
+        $configData['tax_id'] = $this->scopeConfig->getValue(self::TAX_ID, $storeScope, $websiteCode);
         return $configData;
 
     }
@@ -107,7 +113,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
         if($data){     
-            $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId());
+            $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId(), $configData);
         } else {
             if($configData['catalogo_reintentos']>$attempts){
                 $this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
@@ -165,22 +171,30 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 
     }
 
-	public function loadProductsData($catalog, $objectManager, $storeId) 
+	public function loadProductsData($catalog, $objectManager, $storeId, $configData) 
 	{        
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $product = $products->loadByAttribute('sku', $catalog->Sku);
         if($product){
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku);
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $product->setUrlKey($cleanurl);
-            $product->setName($catalog->Description); // Name of Product
-            $product->setAttributeSetId(4); // Attribute set id
+            $iwsDescription = explode("- ", $catalog->Description);
+            $name = $iwsDescription[0];
+            $description = "";
+            if(isset($iwsDescription[1])){
+                $name .= $iwsDescription[1];
+            }
+            if(isset($iwsDescription[2])){
+                $name .= $iwsDescription[2];
+                for($i = 3; $i < count($iwsDescription); $i++){
+                    $description .= $iwsDescription[$i];
+                }
+            }        
+            $product->setName($name); // Name of Product        
+            $product->setDescription($description); // Description of Product
+            $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
-            $product->setStoreId($storeId);
-            $product->setWeight(10); // weight of product
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-            $product->setTaxClassId(0); // Tax class id
+            $product->setTaxClassId($configData['tax_id']); // Tax class id
             switch($catalog->Type){
                 case 'Physical':
                     $product->setTypeId('simple');
@@ -195,6 +209,18 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                     $product->setTypeId('downloadable');
                     break;
             } // type of product (simple/virtual/downloadable/configurable)
+            //Set product dimensions
+            if(isset($catalog->Freight)){
+                if(isset($catalog->Freight->Package)){
+                    $product->setWeight($catalog->Freight->Package->Weight);
+                    $product->setData('length',$catalog->Freight->Package->Length);
+                    $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);
+                    $product->setData('width',$catalog->Freight->Package->Width);
+                    $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);
+                    $product->setData('height',$catalog->Freight->Package->Height);
+                    $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
+                }
+            }
             $product->setPrice($catalog->Price->UnitPrice);
             if($catalog->InStock == 0){
                 $stock = 0;
@@ -210,15 +236,6 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                     'qty' => $catalog->InStock
                 )
             );
-            //Set product dimensions
-            if(isset($catalog->Freight)){
-                if(isset($catalog->Freight->Package)){
-                    $product->setWeight($catalog->Freight->Package->Weight);
-                    $product->setLength($catalog->Freight->Package->Length);
-                    $product->setWidth($catalog->Freight->Package->Width);
-                    $product->setHeight($catalog->Freight->Package->Height);
-                }
-            }
             try{
                 $product->save();
                 $this->logger->info('GetProduct - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
@@ -243,7 +260,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             $idx = $this->_indexerFactory->create()->load($id);
             $idx->reindexAll($id);
         } // this reindexes all
-        $this->logger->info('GetCatalog - Se reindexa');
+        $this->logger->info('GetProduct - Se reindexa');
     }
 
     //Limpia cache despues de consultar el catalogo de un store view
@@ -256,6 +273,6 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
             $cacheFrontend->getBackend()->clean();
         }
-        $this->logger->info('GetCatalog - Se limpia cache');
+        $this->logger->info('GetProduct - Se limpia cache');
     }
 }

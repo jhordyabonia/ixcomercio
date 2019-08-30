@@ -1,4 +1,4 @@
-.page-layout-checkout{
+.checkout-index-index{
   .page-wrapper .page-main .columns .column.main{
     max-width: 1300px;
     margin: 0 auto;
@@ -6,10 +6,16 @@
       width: 90%;
     }
   }
+  .checkout-container{
+    margin: 40px 0 20px;
+  }
   .opc-progress-bar-item{
     >span{
+      font-size: 1.3rem;
       &:after{
+        color: #000;
         font-size: 1.3rem;
+        line-height: 28px;
       }
     }
     &._active{
@@ -32,6 +38,107 @@
       &:after{
         background: #000;
       }
+    }
+    input[type=checkbox], input[type=radio]{
+      float: left;
+      margin: 0;
+    }
+    .payment-method{
+      font-size: 13px;
+      font-weight: normal;
+      padding: .2em .6em .3em;
+      .label{
+        font-size: 13px;
+        font-weight: normal;
+      }
+    }
+    .payment-option{
+      .form{
+        float: none;
+        display: inline-block;
+      }
+    }
+    .actions-toolbar{
+      .primary{
+        @media (min-width: $tablet){
+          float: left;
+          margin: 0 0 10px;
+        }
+      }
+      .secondary .action{
+        color: #999;
+        background: none;
+        border: 1px solid #ccc;
+        padding: 7px 15px;
+        height: 44px;
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: normal;
+        min-width: 180px;
+        border-radius: 0;
+        &:hover{
+          color: #fff;
+          background: #000;
+          border-color: #000;
+        }
+      }
+    }
+  }
+  .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
+    font-size: 36px;
+    font-family: "flamacondensed-bold",Oswald,sans-serif;
+  }
+  .opc-summary-wrapper{
+    .modal-content{
+      border-radius: 0;
+      @media (min-width: $tablet){
+        box-shadow: none;
+      }
+    }
+  }
+  .opc-block-summary{
+    background: none;
+    >.title{
+      font-size: 1.3rem;  
+    }
+    .minicart-items{
+      .product-item-inner{
+        display: block;
+        .product-item-name-block{
+          width: 100%;
+          display: block;
+          padding: 0;
+          .product-item-name{
+            font-weight: bold;
+            font-size: 16px;
+          }
+        }
+      }
+      .details-qty{
+        font-size: 14px;
+        .label{
+          color: #000;
+          padding-left: 0;
+        }
+      }
+    }
+    .product-item{
+      .price{
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+    .mark, mark{
+      background: none;
+      .label{
+        color: #000;
+        padding-left: 0;
+      }
+    }
+  }
+  .opc-block-shipping-information{
+    .shipping-information-title{
+      font-size: 1.3rem;  
     }
   }
 }

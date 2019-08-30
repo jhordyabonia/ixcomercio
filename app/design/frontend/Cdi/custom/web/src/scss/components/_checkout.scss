@@ -1,10 +1,16 @@
 .checkout-container{
-  .opc-progress-bar-item._active{
-    &:before{
-      background: $redcolor;
+  margin: 40px 0 20px;
+  .opc-progress-bar-item{
+    &._active{
+      &:before{
+        background: $redcolor;
+      }
+      >span:before{
+        background: $redcolor;
+      }
     }
-    >span:before{
-      background: $redcolor;
+    >span:after {
+      line-height: 28px;
     }
   }
   .opc-wrapper {

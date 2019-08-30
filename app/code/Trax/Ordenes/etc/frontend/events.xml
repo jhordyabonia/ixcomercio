@@ -3,7 +3,4 @@
     <event name="checkout_onepage_controller_success_action">
         <observer name="checkout_controller_place_order" instance="Trax\Ordenes\Observer\PlaceOrder"  />
     </event>
-    <!--<event name="sales_order_payment_capture">
-        <observer name="place_order" instance="Trax\Ordenes\Observer\PlaceOrder" />
-    </event>-->
 </config>

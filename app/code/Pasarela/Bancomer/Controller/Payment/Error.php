@@ -13,11 +13,14 @@ error_reporting(E_ALL);
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
 
 /**
  * Webhook class  
  */
-class Error extends \Magento\Framework\App\Action\Action
+class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
@@ -33,6 +36,12 @@ class Error extends \Magento\Framework\App\Action\Action
     const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
 
     const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
+
+    const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
+
+    const PRODUCCION_PRIVATE_KEY = 'payment/pasarela_bancomer/live_private_key';
+
+    const SANDBOX = 'payment/pasarela_bancomer/is_sandbox';
     
     private $helper;
 	
@@ -96,6 +105,16 @@ class Error extends \Magento\Framework\App\Action\Action
         $this->_iwsOrder = $iwsOrder;
     }
 
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
+    }
+
     /**
      * Load the page defined in view/frontend/layout/bancomer_index_webhook.xml
      * URL /openpay/payment/success
@@ -103,8 +122,16 @@ class Error extends \Magento\Framework\App\Action\Action
      * @url https://magento.stackexchange.com/questions/197310/magento-2-redirect-to-final-checkout-page-checkout-success-failed?rq=1
      * @return \Magento\Framework\View\Result\Page
      */
-    public function execute() {                
+    public function execute() {   
+        $this->logger->info('paymenterror - Entra a la pagina de error');   
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getLayout()->initMessages();          
         try {               
+            $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+            $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+            //Se obtienen parametros de configuración por Store
+            $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
             $mp_order = $_REQUEST['mp_order'];
             $mp_reference = $_REQUEST['mp_reference'];
             $mp_amount = $_REQUEST['mp_amount'];
@@ -120,7 +147,8 @@ class Error extends \Magento\Framework\App\Action\Action
             $mp_bankcode = $_REQUEST['mp_bankcode'];
             $mp_pan = $_REQUEST['mp_pan'];
             $mp_saleid = $_REQUEST['mp_saleid'];
-            $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
+            $cadena = $mp_order.$mp_reference.$mp_amount.$mp_authorization;
+            $mp_signature1 = hash_hmac('sha256', $cadena, $configData['private_key']);
             /*$mp_order = "56";
             $mp_reference = "2000000087";
             $mp_amount = "133070,89";
@@ -137,8 +165,6 @@ class Error extends \Magento\Framework\App\Action\Action
             $mp_pan = "12345678";
             $mp_signature = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
-            $resultPage = $this->resultPageFactory->create();
-            $resultPage->getLayout()->initMessages();
             //TODO: Cancelar orden
             $this->cancelIwsOrder($mp_order);
             $this->cancelOrder($mp_order);
@@ -199,6 +225,13 @@ class Error extends \Magento\Framework\App\Action\Action
         }
         $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
         $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
+        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        //Se valida entorno para obtener url del servicio
+        if($sandbox == '1'){
+            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
+        } else{
+            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
+        }
         return $configData;
 
     }
