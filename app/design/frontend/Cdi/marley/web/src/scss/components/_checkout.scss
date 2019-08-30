@@ -38,6 +38,32 @@
     }
   }
   .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
+    font-size: 36px;
     font-family: "flamacondensed-bold",Oswald,sans-serif;
+  }
+  .opc-block-summary{
+    >.title{
+      font-size: 1.3rem;  
+    }
+    .minicart-items{
+      .product-item-inner{
+        display: block;
+        .product-item-name-block{
+          width: 100%;
+          display: block;
+          padding: 0;
+          .product-item-name{
+            font-weight: bold;
+            font-size: 16px;
+          }
+        }
+      }
+      .details-qty{
+        font-size: 14px;
+        .label{
+          color: #000;
+        }
+      }
+    }
   }
 }
