@@ -47,15 +47,15 @@
       font-size: 13px;
       font-weight: normal;
       padding: .2em .6em .3em;
+      .label{
+        font-size: 13px;
+        font-weight: normal;
+      }
     }
     .payment-option{
       .form{
         float: none;
         display: inline-block;
-      }
-      .label{
-        font-weight: normal;
-        font-size: 13px;
       }
     }
     .actions-toolbar{
