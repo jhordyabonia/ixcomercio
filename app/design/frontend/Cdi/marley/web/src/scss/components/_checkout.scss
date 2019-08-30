@@ -128,5 +128,12 @@
         font-weight: bold;
       }
     }
+    .mark, mark{
+      background: none;
+      .label{
+        color: #000;
+        padding-left: 0;
+      }
+    }
   }
 }
