@@ -41,7 +41,16 @@
     font-size: 36px;
     font-family: "flamacondensed-bold",Oswald,sans-serif;
   }
+  .opc-summary-wrapper{
+    .modal-content{
+      border-radius: 0;
+      @media (min-width: $tablet){
+        box-shadow: none;
+      }
+    }
+  }
   .opc-block-summary{
+    background: none;
     >.title{
       font-size: 1.3rem;  
     }
@@ -62,7 +71,14 @@
         font-size: 14px;
         .label{
           color: #000;
+          padding-left: 0;
         }
+      }
+    }
+    .product-item{
+      .price{
+        font-size: 14px;
+        font-weight: bold;
       }
     }
   }
