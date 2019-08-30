@@ -13,7 +13,9 @@
     >span{
       font-size: 1.3rem;
       &:after{
+        color: #000;
         font-size: 1.3rem;
+        line-height: 28px;
       }
     }
     &._active{
@@ -35,6 +37,38 @@
       border-color: #000;
       &:after{
         background: #000;
+      }
+    }
+    input[type=checkbox], input[type=radio]{
+      float: left;
+      margin: 0;
+    }
+    .payment-method{
+      font-size: 13px;
+      font-weight: normal;
+      padding: .2em .6em .3em;
+    }
+    .payment-option{
+      .form{
+        float: none;
+        display: inline-block;  
+      }
+    }
+    .actions-toolbar{
+      .secondary{
+        color: #999;
+        background: none;
+        border: 1px solid #ccc;
+        padding: 7px 15px;
+        height: 44px;
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: normal;
+        &:hover{
+          color: #fff;
+          background: #000;
+          border-color: #000;
+        }
       }
     }
   }
