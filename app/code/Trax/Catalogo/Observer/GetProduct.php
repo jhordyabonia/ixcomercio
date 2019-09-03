@@ -213,8 +213,13 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                     $description .= $iwsDescription[$i];
                 }
             }        
-            $product->setName($name); // Name of Product        
-            $product->setDescription($description); // Description of Product
+            $product->setCategoryIds($categoryIds);        
+            if($configData['product_name']){
+                $product->setName($name); // Name of Product        
+            }   
+            if($configData['product_description']){
+                $product->setDescription($description); // Description of Product      
+            }
             $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
@@ -236,30 +241,42 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             //Set product dimensions
             if(isset($catalog->Freight)){
                 if(isset($catalog->Freight->Package)){
-                    $product->setWeight($catalog->Freight->Package->Weight);
-                    $product->setData('length',$catalog->Freight->Package->Length);
-                    $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);
-                    $product->setData('width',$catalog->Freight->Package->Width);
-                    $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);
-                    $product->setData('height',$catalog->Freight->Package->Height);
-                    $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
+                    if($configData['product_weight']){
+                        $product->setWeight($catalog->Freight->Package->Weight);    
+                    }
+                    if($configData['product_length']){
+                        $product->setData('length',$catalog->Freight->Package->Length);
+                        $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);   
+                    }
+                    if($configData['product_width']){
+                        $product->setData('width',$catalog->Freight->Package->Width);
+                        $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);   
+                    }
+                    if($configData['product_height']){
+                        $product->setData('height',$catalog->Freight->Package->Height);
+                        $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
+                    }
                 }
             }
-            $product->setPrice($catalog->Price->UnitPrice);
-            if($catalog->InStock == 0){
-                $stock = 0;
-            } else {
-                $stock = 1;
+            if($configData['product_price']){
+                $product->setPrice($catalog->Price->UnitPrice);
             }
-            $product->setStockData(
-                array(
-                    'use_config_manage_stock' => 0,
-                    'manage_stock' => 1,
-                    'is_in_stock' => $stock,
-                    'min_sale_qty' => 1,
-                    'qty' => $catalog->InStock
-                )
-            );
+            if($configData['product_stock']){
+                if($catalog->InStock == 0){
+                    $stock = 0;
+                } else {
+                    $stock = 1;
+                }
+                $product->setStockData(
+                    array(
+                        'use_config_manage_stock' => 0,
+                        'manage_stock' => 1,
+                        'is_in_stock' => $stock,
+                        'min_sale_qty' => 1,
+                        'qty' => $catalog->InStock
+                    )
+                );
+            }
             try{
                 $product->save();
                 $this->logger->info('GetProduct - Se ha actualizado la información del producto con sku: '.$catalog->Sku);

@@ -267,7 +267,7 @@ class GetCatalog {
         //Se conecta al servicio
         $data = $this->loadIwsService($serviceUrl);
         if($data){                    
-            $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId);
+            $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData);
         } else {
             if($configData['catalogo_reintentos']>$attempts){
                 $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
@@ -378,7 +378,7 @@ class GetCatalog {
     }
 
     //Carga la información de precios e inventario del catalogo
-    public function loadCatalogSalesData($data, $websiteCode, $store, $storeId) 
+    public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData) 
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
         //Se recorre array
@@ -391,21 +391,25 @@ class GetCatalog {
             if(!$product || $product->getStatus()!=1){
                 $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. El producto no existe');
             } else {
-                $product->setPrice($catalog->Price->UnitPrice);
-                if($catalog->InStock == 0){
-                    $stock = 0;
-                } else {
-                    $stock = 1;
+                if($configData['product_price']){
+                    $product->setPrice($catalog->Price->UnitPrice);
                 }
-                $product->setStockData(
-                    array(
-                        'use_config_manage_stock' => 0,
-                        'manage_stock' => 1,
-                        'is_in_stock' => $stock,
-                        'min_sale_qty' => 1,
-                        'qty' => $catalog->InStock
-                    )
-                );
+                if($configData['product_stock']){
+                    if($catalog->InStock == 0){
+                        $stock = 0;
+                    } else {
+                        $stock = 1;
+                    }
+                    $product->setStockData(
+                        array(
+                            'use_config_manage_stock' => 0,
+                            'manage_stock' => 1,
+                            'is_in_stock' => $stock,
+                            'min_sale_qty' => 1,
+                            'qty' => $catalog->InStock
+                        )
+                    );
+                }
                 try{
                     $product->save();
                     $this->logger->info('GetCatalogSalesData - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode);
@@ -505,9 +509,13 @@ class GetCatalog {
                 array($websiteId)
             )
         );
-        $product->setCategoryIds($categoryIds);
-        $product->setName($name); // Name of Product        
-        $product->setDescription($description); // Description of Product
+        $product->setCategoryIds($categoryIds);        
+        if($configData['product_name']){
+            $product->setName($name); // Name of Product        
+        }   
+        if($configData['product_description']){
+            $product->setDescription($description); // Description of Product      
+        }
         $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
         $product->setWebsiteIds($websiteIds);
         $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
@@ -533,13 +541,21 @@ class GetCatalog {
         //Set product dimensions
         if(isset($catalog->Freight)){
             if(isset($catalog->Freight->Package)){
-                $product->setWeight($catalog->Freight->Package->Weight);
-                $product->setData('length',$catalog->Freight->Package->Length);
-                $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);
-                $product->setData('width',$catalog->Freight->Package->Width);
-                $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);
-                $product->setData('height',$catalog->Freight->Package->Height);
-                $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
+                if($configData['product_weight']){
+                    $product->setWeight($catalog->Freight->Package->Weight);    
+                }
+                if($configData['product_length']){
+                    $product->setData('length',$catalog->Freight->Package->Length);
+                    $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);   
+                }
+                if($configData['product_width']){
+                    $product->setData('width',$catalog->Freight->Package->Width);
+                    $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);   
+                }
+                if($configData['product_height']){
+                    $product->setData('height',$catalog->Freight->Package->Height);
+                    $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
+                }
             }
         }
         try{
