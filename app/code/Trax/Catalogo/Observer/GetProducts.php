@@ -248,7 +248,6 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                     $description .= $iwsDescription[$i];
                 }
             }        
-            $product->setCategoryIds($categoryIds);        
             if($configData['product_name']){
                 $product->setName($name); // Name of Product        
             }   

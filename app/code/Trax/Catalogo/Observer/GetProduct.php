@@ -212,8 +212,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
                 for($i = 3; $i < count($iwsDescription); $i++){
                     $description .= $iwsDescription[$i];
                 }
-            }        
-            $product->setCategoryIds($categoryIds);        
+            }            
             if($configData['product_name']){
                 $product->setName($name); // Name of Product        
             }   
