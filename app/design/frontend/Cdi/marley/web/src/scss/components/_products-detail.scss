@@ -216,13 +216,17 @@
     }
     .short-description {
       width: 100%;
-      color: #000;
-      font-family: 'NexusTypewriterOT';
-      font-size: 14px;
-      line-height: 20px;
-      letter-spacing: .5px;
-      margin: 15px 0;
       float: left;
+      margin: 15px 0;
+      p{
+        width: 100%;
+        color: #000;
+        font-family: 'NexusTypewriterOT';
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: .5px;
+        float: left;
+      }
     }
     .product-add-form{
       .box-tocart{
