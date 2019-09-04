@@ -82,6 +82,49 @@
                     <comment>Indica si se consulta IWS cada que se entre al detalle de un producto.</comment>
                 </field>
             </group>
+            <group id="catalogo_iws" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Datos IWS</label>
+                <field id="product_name" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Nombre del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta el nombre del producto desde IWS</comment>
+                </field>
+                <field id="product_description" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Descripción del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta la descripción del producto desde IWS</comment>
+                </field>
+                <field id="product_weight" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Peso del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta el peso del producto desde IWS</comment>
+                </field>
+                <field id="product_length" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Longitud del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta la longitud del producto desde IWS</comment>
+                </field>
+                <field id="product_width" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Anchura del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta la anchura del producto desde IWS</comment>
+                </field>
+                <field id="product_height" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Altura del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta la altura del producto desde IWS</comment>
+                </field>
+                <field id="product_price" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Precio del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta el precio del producto desde IWS</comment>
+                </field>
+                <field id="product_stock" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Inventario del producto</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta el inventario del producto desde IWS</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>
