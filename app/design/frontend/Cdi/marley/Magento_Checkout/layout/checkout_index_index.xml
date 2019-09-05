@@ -32,10 +32,10 @@
                                                                 <item name="sortOrder" xsi:type="string">57</item>
                                                             </item>
                                                             <item name="region" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">58</item>
+                                                                <item name="sortOrder" xsi:type="string">60</item>
                                                             </item>
                                                             <item name="city" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">59</item>
+                                                                <item name="sortOrder" xsi:type="string">65</item>
                                                             </item>
                                                             <item name="street" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">72</item>
