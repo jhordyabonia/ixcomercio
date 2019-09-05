@@ -35,13 +35,13 @@
                                                                 <item name="sortOrder" xsi:type="string">63</item>
                                                             </item>
                                                             <item name="city" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">64</item>
+                                                                <item name="sortOrder" xsi:type="string">70</item>
                                                             </item>
                                                             <item name="street" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">65</item>
+                                                                <item name="sortOrder" xsi:type="string">72</item>
                                                             </item>
                                                             <item name="postcode" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">66</item>
+                                                                <item name="sortOrder" xsi:type="string">74</item>
                                                             </item>
                                                         </item>
                                                     </item>
