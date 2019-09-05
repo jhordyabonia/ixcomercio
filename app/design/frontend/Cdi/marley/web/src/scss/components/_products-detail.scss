@@ -224,6 +224,13 @@
       line-height: 20px;
       letter-spacing: .5px;
       float: left;
+      ul, ol{
+        list-style: disc;
+        list-style-position: inside;
+      }
+      li{
+        margin-bottom: 0;
+      }
     }
     .product-add-form{
       .box-tocart{
