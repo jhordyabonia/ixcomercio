@@ -23,22 +23,22 @@
                                                     <item name="shipping-address-fieldset" xsi:type="array">
                                                         <item name="children" xsi:type="array">
                                                             <item name="telephone" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">90</item>
+                                                                <item name="sortOrder" xsi:type="string">60</item>
                                                             </item>
                                                             <item name="company" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">100</item>
+                                                                <item name="sortOrder" xsi:type="string">70</item>
                                                             </item>
                                                             <item name="country_id" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">85</item>
                                                             </item>
                                                             <item name="region_id" xsi:type="array">
+                                                                <item name="sortOrder" xsi:type="string">86</item>
+                                                            </item>
+                                                            <item name="street" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">87</item>
                                                             </item>
                                                             <item name="postcode" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">80</item>
-                                                            </item>
-                                                            <item name="vat_id" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">1</item>
+                                                                <item name="sortOrder" xsi:type="string">88</item>
                                                             </item>
                                                         </item>
                                                     </item>
