@@ -166,6 +166,10 @@
       .fieldset .field:not(.choice)>.label{
         font-size: 12px;
       }
+      .fieldset{
+        width: 100%;
+        float: left;
+      }
     }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
       font-size: 14px;
@@ -178,19 +182,26 @@
         font-size: 14px;
       }
     }
-    .action.primary.checkout{
+    div.primary{
+      width: 100%;
+    }
+    button.action.primary{
+      width: 100%;
       min-width: 140px;
       background: none;
       display: inline-block;
       border: 1px solid #000;
       color: #000;
-      font-size: 13px;
+      font-size: 16px;
       font-weight: normal;
       line-height: 19px;
       text-align: center;
       text-transform: uppercase;
+      font-family: "flamacondensed-bold",Oswald,sans-serif;
       vertical-align: middle;
       white-space: nowrap;
+      padding: 14px 17px;
+      margin: 0;
       &:hover{
         color: #fff;
         background: #000;
