@@ -31,7 +31,7 @@
                                                             <item name="country_id" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">57</item>
                                                             </item>
-                                                            <item name="region" xsi:type="array">
+                                                            <item name="region_id" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">60</item>
                                                             </item>
                                                             <item name="city" xsi:type="array">
