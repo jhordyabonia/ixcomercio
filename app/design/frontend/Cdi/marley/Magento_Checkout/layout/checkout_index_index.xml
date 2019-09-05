@@ -23,25 +23,19 @@
                                                     <item name="shipping-address-fieldset" xsi:type="array">
                                                         <item name="children" xsi:type="array">
                                                             <item name="telephone" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">60</item>
-                                                            </item>
-                                                            <item name="company" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">61</item>
+                                                                <item name="sortOrder" xsi:type="string">55</item>
                                                             </item>
                                                             <item name="country_id" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">62</item>
-                                                            </item>
-                                                            <item name="region" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">63</item>
-                                                            </item>
-                                                            <item name="city" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">70</item>
                                                             </item>
-                                                            <item name="street" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">72</item>
+                                                            <item name="region" xsi:type="array">
+                                                                <item name="sortOrder" xsi:type="string">80</item>
                                                             </item>
-                                                            <item name="postcode" xsi:type="array">
-                                                                <item name="sortOrder" xsi:type="string">74</item>
+                                                            <item name="city" xsi:type="array">
+                                                                <item name="sortOrder" xsi:type="string">90</item>
+                                                            </item>
+                                                            <item name="street" xsi:type="array">
+                                                                <item name="sortOrder" xsi:type="string">100</item>
                                                             </item>
                                                         </item>
                                                     </item>
