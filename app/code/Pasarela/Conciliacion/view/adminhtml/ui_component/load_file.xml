@@ -10,7 +10,7 @@
     </argument>
     <dataSource name="load_file_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Pasarela\Conciliacion\Model\DataProvider</argument>
+            <argument name="class" xsi:type="string">Pasarela\Conciliacion\Model\Conciliacion</argument>
             <argument name="name" xsi:type="string">load_file_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
