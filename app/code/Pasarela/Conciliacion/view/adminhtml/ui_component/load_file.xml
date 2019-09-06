@@ -34,7 +34,7 @@
                 <item name="config" xsi:type="array">
                     <item name="dataType" xsi:type="string">file</item>
                     <item name="label" xsi:type="string" translate="true">Archivo</item>
-                    <item name="formElement" xsi:type="object">input</item>
+                    <item name="formElement" xsi:type="string">file</item>
                     <item name="dataScope" xsi:type="string">file</item>
                 </item>
             </argument>
