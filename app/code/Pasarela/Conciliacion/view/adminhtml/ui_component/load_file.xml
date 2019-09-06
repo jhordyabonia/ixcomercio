@@ -12,7 +12,7 @@
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string">Conicliation File</item>
                     <item name="visible" xsi:type="boolean">true</item>
-                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader
+                    <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
                     <item name="formElement" xsi:type="string">fileUploader</item>
                     <item name="uploaderConfig" xsi:type="array">
                         <item name="url" xsi:type="url" path="pasarela_conciliacion/conciliacion/loadfile"/>
