@@ -8,37 +8,67 @@
  * @copyright Copyright (c) 2010-2016 Pasarela Software Private Limited (https://webkul.com)
  * @license   https://store.webkul.com/license.html
  */
-namespace Pasarela\Conciliacion\Controller\Adminhtml\Conciliacion;use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Backend\App\Action;  
-
-class Loadfile extends \Vendor\Blog\Controller\Adminhtml\Blog
+namespace Pasarela\Conciliacion\Controller\Adminhtml\Conciliacion;
+use Magento\Backend\App\Action;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Filesystem;
+use Magento\MediaStorage\Model\File\UploaderFactory;
+ 
+class Loadfile extends Action
 {
-
-    protected $_fileUploaderFactory;
-    protected $_directory_list;
-    protected $_logger;
-
+    protected $fileSystem;
+ 
+    protected $uploaderFactory;
+ 
+    protected $allowedExtensions = ['csv']; // to allow file upload types 
+ 
+    protected $fileId = 'file'; // name of the input file box  
+ 
     public function __construct(
         Action\Context $context,
-        \Magento\Framework\Registry $coreRegistry,
-        \Magento\MediaStorage\Model\File\UploaderFactory $fileUploaderFactory,
-        \Magento\Framework\App\Filesystem\DirectoryList $directory_list,
-        \Psr\Log\LoggerInterface $logger
+        Filesystem $fileSystem,
+        UploaderFactory $uploaderFactory
     ) {
-        $this->_fileUploaderFactory = $fileUploaderFactory;
-        $this->_directory_list = $directory_list;
-        $this->_logger = $logger;
-        parent::__construct($context, $coreRegistry);
+        $this->fileSystem = $fileSystem;
+        $this->uploaderFactory = $uploaderFactory;
+        parent::__construct($context);
     }
-
-    public function execute(){
-        $uploader = $this->_fileUploaderFactory->create(['fileId' => 'featured_images']);
-        $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
-        $uploader->setAllowRenameFiles(false);
-        $uploader->setFilesDispersion(false);
-        $path = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('blog');
-        //$path = $this->_directory_list->getPath('media') . '/blog';
-        $this->_logger->debug('Uploader.php: '.$path);
-        $uploader->save($path);
+ 
+    public function execute()
+    {
+        $destinationPath = $this->getDestinationPath();
+ 
+        try {
+            $uploader = $this->uploaderFactory->create(['fileId' => $this->fileId])
+                ->setAllowCreateFolders(true)
+                ->setAllowedExtensions($this->allowedExtensions)
+                ->addValidateCallback('validate', $this, 'validateFile');
+            if (!$uploader->save($destinationPath)) {
+                throw new LocalizedException(
+                    __('File cannot be saved to path: $1', $destinationPath)
+                );
+            }
+ 
+            // @todo
+            // process the uploaded file
+        } catch (\Exception $e) {
+            $this->messageManager->addError(
+                __($e->getMessage())
+            );
+        }
+    }
+    
+    public function validateFile($filePath)
+    {
+        // @todo
+        // your custom validation code here
+    }
+ 
+    public function getDestinationPath()
+    {
+        return $this->fileSystem
+            ->getDirectoryWrite(DirectoryList::TMP)
+            ->getAbsolutePath('/');
     }
 }
