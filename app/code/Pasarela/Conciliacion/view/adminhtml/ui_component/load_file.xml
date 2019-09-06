@@ -15,6 +15,19 @@
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
+    <dataSource name="load_file_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Pasarela\Conciliacion\Model\DataProvider</argument>
+            <argument name="name" xsi:type="string">load_file_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
     <fieldset name="file_detail">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
