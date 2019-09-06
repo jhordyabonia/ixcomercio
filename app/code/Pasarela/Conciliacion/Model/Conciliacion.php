@@ -57,110 +57,75 @@ class Conciliacion extends \Magento\Framework\Model\AbstractModel implements Con
     }
 
     /**
-     * Get PaymentType.
+     * Get ConciliationDate.
      *
      * @return varchar
      */
-    public function getPaymentType()
+    public function getConciliationDate()
     {
-        return $this->getData(self::PAYMENT_TYPE);
+        return $this->getData(self::CONCILIATION_DATE);
     }
 
     /**
-     * Set PaymentType.
+     * Set ConciliationDate.
      */
-    public function setPaymentType($paymentType)
+    public function setConciliationDate($conciliationDate)
     {
-        return $this->setData(self::PAYMENT_TYPE, $paymentType);
+        return $this->setData(self::CONCILIATION_DATE, $conciliationDate);
     }
 
     /**
-     * Get getGateway.
+     * Get getProcesedPayments.
      *
      * @return varchar
      */
-    public function getGateway()
+    public function getProcesedPayments()
     {
-        return $this->getData(self::GATEWAY);
+        return $this->getData(self::PROCESED_PAYMENTS);
     }
 
     /**
-     * Set Gateway.
+     * Set ProcesedPayments.
      */
-    public function setGateway($gateway)
+    public function setProcesedPayments($procesedPayments)
     {
-        return $this->setData(self::GATEWAY, $gateway);
+        return $this->setData(self::PROCESED_PAYMENTS, $procesedPayments);
     }
 
     /**
-     * Get getPaymentCode.
+     * Get getProcesedOrders.
      *
      * @return varchar
      */
-    public function getPaymentCode()
+    public function getProcesedOrders()
     {
-        return $this->getData(self::GATEWAY);
+        return $this->getData(self::PROCESED_ORDERS);
     }
 
     /**
-     * Set PaymentCode.
+     * Set ProcesedOrders.
      */
-    public function setPaymentCode($paymentCode)
+    public function setProcesedOrders($procesedOrders)
     {
-        return $this->setData(self::PAYMENT_CODE, $paymentCode);
+        return $this->setData(self::PROCESED_ORDERS, $procesedOrders);
     }
 
     /**
-     * Get getTraxCode.
+     * Get getUnprocesedPayments.
      *
      * @return varchar
      */
-    public function getTraxCode()
+    public function getUnprocesedPayments()
     {
-        return $this->getData(self::TRAX_CODE);
+        return $this->getData(self::UNPROCESED_ORDERS);
     }
 
     /**
-     * Set setTraxCode.
+     * Set setUnprocesedPayments.
      */
-    public function setTraxCode($traxCode)
+    public function setUnprocesedPayments($unprocesedPayments)
     {
-        return $this->setData(self::TRAX_CODE, $traxCode);
+        return $this->setData(self::UNPROCESED_ORDERS, $unprocesedPayments);
     }
 
-    /**
-     * Get CountryCode.
-     *
-     * @return varchar
-     */
-    public function getCountryCode()
-    {
-        return $this->getData(self::COUNTRY_CODE);
-    }
-
-    /**
-     * Set CountryCode.
-     */
-    public function setCountryCode($countryCode)
-    {
-        return $this->setData(self::COUNTRY_CODE, $countryCode);
-    }
-
-    /**
-     * Get StoreCode.
-     *
-     * @return varchar
-     */
-    public function getStoreCode()
-    {
-        return $this->getData(self::STORE_CODE);
-    }
-
-    /**
-     * Set StoreCode.
-     */
-    public function setStoreCode($storeCode)
-    {
-        return $this->setData(self::STORE_CODE, $storeCode);
-    }
 }
