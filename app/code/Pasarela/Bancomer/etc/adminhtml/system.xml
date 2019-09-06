@@ -45,11 +45,11 @@
                     <label>Sandbox mp_concept</label>
                     <comment>Según necesidad del cliente. Clasificación de los cobros o pagos. El valor a enviar se confirma en pruebas de conectividad</comment>
                 </field>
-                <field id="sandbox_private_key" translate="label" type="obscure" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Producción llave privada</label>                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                <field id="sandbox_private_key" translate="label" type="obscure" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sandbox llave privada</label>                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                     <comment>Es única y la asigna Flap por primera vez.</comment>            
                 </field>   
-                <field id="live_mp_account" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="live_mp_account" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Producción mp_account</label>
                     <comment>Identificador único cliente Proporcionado por Flap en pruebas de conectividad</comment>
                 </field>
@@ -57,11 +57,11 @@
                     <label>Producción mp_node</label>
                     <comment>Según necesidad del cliente. Divisiones: sucursales, áreas, secciones, etc. – El valor a enviar se confirma en pruebas de conectividad</comment>
                 </field>
-                <field id="live_mp_concept" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Producción mp_concept</label>                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                <field id="live_mp_concept" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Producción mp_concept</label>                    
                     <comment>Según necesidad del cliente. Clasificación de los cobros o pagos. El valor a enviar se confirma en pruebas de conectividad</comment>            
                 </field>
-                <field id="live_private_key" translate="label" type="obscure" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="live_private_key" translate="label" type="obscure" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Producción llave privada</label>
                     <comment>Es única y la asigna Flap por primera vez.</comment>            
                 </field>    
