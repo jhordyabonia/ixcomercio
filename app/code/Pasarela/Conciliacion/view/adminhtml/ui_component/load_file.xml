@@ -10,6 +10,14 @@
             <item name="dataScope" xsi:type="string">data</item>
             <item name="namespace" xsi:type="string">load_file</item>
         </item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="array">
+                <item name="name" xsi:type="string">back</item>
+                <item name="label" xsi:type="string" translate="true">Back</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/index</item>
+            </item>
+        </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
     <dataSource name="load_file_data_source">
