@@ -21,15 +21,17 @@ class Loadfile extends Action
  
     protected $uploaderFactory;
  
-    protected $allowedExtensions = ['csv']; // to allow file upload types 
+    protected $allowedExtensions = ['des']; // to allow file upload types 
  
-    protected $fileId = 'file'; // name of the input file box  
+    protected $fileId = 'conciliation_file'; // name of the input file box  
  
     public function __construct(
+        LoggerInterface $logger,
         Action\Context $context,
         Filesystem $fileSystem,
         UploaderFactory $uploaderFactory
     ) {
+        $this->logger = $logger;
         $this->fileSystem = $fileSystem;
         $this->uploaderFactory = $uploaderFactory;
         parent::__construct($context);
@@ -42,12 +44,14 @@ class Loadfile extends Action
         try {
             $uploader = $this->uploaderFactory->create(['fileId' => $this->fileId])
                 ->setAllowCreateFolders(true)
-                ->setAllowedExtensions($this->allowedExtensions)
-                ->addValidateCallback('validate', $this, 'validateFile');
+                ->setAllowedExtensions($this->allowedExtensions);
             if (!$uploader->save($destinationPath)) {
                 throw new LocalizedException(
                     __('File cannot be saved to path: $1', $destinationPath)
                 );
+                $this->logger->info('BANCOMER - Error al cargar el archivo');
+            } else {
+                $this->logger->info('BANCOMER - Se carga el archivo');
             }
  
             // @todo
