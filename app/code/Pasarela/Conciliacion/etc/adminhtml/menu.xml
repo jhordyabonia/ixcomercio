@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/** Conciliacion menu xml
+ * @category  Pasarela
+ * @package   Pasarela_Conciliacion
+ * @author    Valentina Aguirre
+ * @copyright Copyright (c) 2010-2017 Pasarela Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Pasarela_Conciliacion::add_row" title="Bancomer Conciliación" translate="title" module="Pasarela_Conciliacion" sortOrder="10" parent="Magento_Sales::sales_operation" action="pasarela_conciliacion/conciliacion/index" resource="Pasarela_Conciliacion::add_row"/>
+    </menu>
+</config>
