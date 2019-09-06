@@ -29,13 +29,15 @@
                 <item name="sortOrder" xsi:type="number">20</item>
             </item>
         </argument>
-        <field name="file">
+        <field name="conciliation_file">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">file</item>
-                    <item name="label" xsi:type="string" translate="true">Archivo</item>
-                    <item name="formElement" xsi:type="string">file</item>
-                    <item name="dataScope" xsi:type="string">file</item>
+                    <item name="label" xsi:type="string">Sound Check</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="pasarela_conciliacion/conciliacion/loadfile"/>
+                    </item>
                 </item>
             </argument>
         </field>
