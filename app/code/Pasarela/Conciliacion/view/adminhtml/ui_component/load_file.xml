@@ -1,0 +1,47 @@
+ </argument>
+        <field name="employee_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Employee Id</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">employee</item>
+                    <item name="dataScope" xsi:type="string">employee_id</item>
+                </item>
+            </argument>
+        </field>
+        <field name="employee_name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Employee Name</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">employee</item>
+                    <item name="dataScope" xsi:type="string">employee_name</item>
+                </item>
+            </argument>
+        </field>
+        <field name="employee_salary">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Employee Salary</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">employee</item>
+                    <item name="dataScope" xsi:type="string">employee_salary</item>
+                </item>
+            </argument>
+        </field>
+        <field name="employee_address">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Employee Address</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">employee</item>
+                    <item name="dataScope" xsi:type="string">employee_address</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>
