@@ -5,7 +5,7 @@
             <item name="provider" xsi:type="string">load_file.load_file_data_source</item>
             <item name="deps" xsi:type="string">load_file.load_file_data_source</item>
         </item>
-        <item name="label" xsi:type="string" translate="true">Employee Information</item>
+        <item name="label" xsi:type="string" translate="true">Upload Conicliation</item>
         <item name="config" xsi:type="array">
             <item name="dataScope" xsi:type="string">data</item>
             <item name="namespace" xsi:type="string">load_file</item>
@@ -34,13 +34,6 @@
         </argument>
     </dataSource>
     <fieldset name="file_detail">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="collapsible" xsi:type="boolean">false</item>
-                <item name="label" xsi:type="string" translate="true">Upload Conciliation</item>
-                <item name="sortOrder" xsi:type="number">20</item>
-            </item>
-        </argument>
         <field name="conciliation_file">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
