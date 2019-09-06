@@ -62,6 +62,8 @@ class Loadfile extends Action
                 __($e->getMessage())
             );
         }
+        $this->_redirect('pasarela_conciliacion/conciliacion/addrow');
+        return;
     }
     
     public function validateFile($filePath)
