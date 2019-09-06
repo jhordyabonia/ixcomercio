@@ -52,7 +52,7 @@ class InstallSchema implements InstallSchemaInterface
                         'procesed_payments',
                         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                         null,
-                        ['nullbale'=>false,'default'=>'']
+                        ['nullbale'=>false,'default'=>0]
                     )
                     ->addColumn(
                         'procesed_orders',

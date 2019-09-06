@@ -19,7 +19,7 @@
         <item name="buttons" xsi:type="array">
             <item name="add" xsi:type="array">
                 <item name="name" xsi:type="string">add</item>
-                <item name="label" xsi:type="string" translate="true">Add New Payment Method</item>
+                <item name="label" xsi:type="string" translate="true">Load new Conciliation</item>
                 <item name="class" xsi:type="string">primary</item>
                 <item name="url" xsi:type="string">*/*/addrow</item>
             </item>
@@ -39,15 +39,15 @@
         </argument>
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
-                <item name="component" xsi:type="string">Magento_Ui/js/conciliacion/provider</item>
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
             </item>
         </argument>
     </dataSource>
     <container name="listing_top">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
-                <item name="template" xsi:type="string">ui/conciliacion/toolbar</item>
-                <item name="stickyTmpl" xsi:type="string">ui/conciliacion/sticky/toolbar</item>
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+                <item name="stickyTmpl" xsi:type="string">ui/grid/sticky/toolbar</item>
             </item>
         </argument>
         <bookmark name="bookmarks"/>
@@ -64,7 +64,7 @@
                         <item name="filters" xsi:type="array">
                             <item name="select" xsi:type="array">
                                 <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
-                                <item name="template" xsi:type="string">ui/conciliacion/filters/elements/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
                             </item>
                         </item>
                     </item>
@@ -80,29 +80,6 @@
                 </item>
             </argument>
         </filters>
-        <massaction name="listing_massaction">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="selectProvider" xsi:type="string">conciliacion_record_pasarela_conciliacion_list.conciliacion_record_pasarela_conciliacion_list.conciliacion_records_columns.ids</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/conciliacion/tree-massactions</item>
-                    <item name="indexField" xsi:type="string">id</item>
-                </item>
-            </argument>
-            <!-- Mass actions which you want to add in your grid-->
-            <action name="delete">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="type" xsi:type="string">delete</item>
-                        <item name="label" xsi:type="string" translate="true">Delete</item>
-                        <item name="url" xsi:type="url" path="pasarela_conciliacion/conciliacion/massdelete"/>
-                        <item name="confirm" xsi:type="array">
-                            <item name="title" xsi:type="string" translate="true">Delete</item>
-                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected payment method?</item>
-                        </item>
-                    </item>
-                </argument>
-            </action>
-        </massaction>
         <paging name="listing_paging">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -125,63 +102,37 @@
                </item>
            </argument>
        </selectionsColumn>
-       <column name="payment_type">
+       <column name="conciliation_date">
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">text</item>
-                   <item name="label" xsi:type="string" translate="true">Payment Type</item>
+                   <item name="label" xsi:type="string" translate="true">Conciliation Date</item>
                </item>
            </argument>
        </column>
-       <column name="gateway" >
+       <column name="procesed_payments" >
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Gateway</item>
+                   <item name="label" xsi:type="string" translate="true">N° Procesed Payments</item>
                </item>
            </argument>
        </column>
-       <column name="payment_code" >
+       <column name="procesed_orders" >
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Payment Code</item>
+                   <item name="label" xsi:type="string" translate="true">Procesed Orders List</item>
                </item>
            </argument>
        </column>
-       <column name="trax_code" >
+       <column name="unprocesed_orders" >
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Trax Code</item>
+                   <item name="label" xsi:type="string" translate="true">Unprocesed Orders List</item>
                </item>
            </argument>
        </column>
-       <column name="country_code" >
-           <argument name="data" xsi:type="array">
-               <item name="config" xsi:type="array">
-                   <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Country Code</item>
-               </item>
-           </argument>
-       </column>
-       <column name="store_code" >
-           <argument name="data" xsi:type="array">
-               <item name="config" xsi:type="array">
-                   <item name="filter" xsi:type="string">false</item>
-                   <item name="label" xsi:type="string" translate="true">Store Code</item>
-               </item>
-           </argument>
-       </column>
-       <!-- Add Action with each row of grid and for this we will create a class Action -->
-       <actionsColumn name="actions" class="Pasarela\Conciliacion\Ui\Component\Listing\Conciliacion\Column\Action">
-           <argument name="data" xsi:type="array">
-               <item name="config" xsi:type="array">
-                   <item name="resizeEnabled" xsi:type="boolean">false</item>
-                   <item name="resizeDefaultWidth" xsi:type="string">107</item>
-                   <item name="indexField" xsi:type="string">id</item>
-               </item>
-           </argument>
-       </actionsColumn>
     </columns>
 </listing>
