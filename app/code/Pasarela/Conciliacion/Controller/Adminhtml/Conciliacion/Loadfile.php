@@ -22,7 +22,7 @@ class Loadfile extends Action
  
     protected $uploaderFactory;
  
-    protected $allowedExtensions = ['des']; // to allow file upload types 
+    protected $allowedExtensions = ['des', 'xls', 'xlsx']; // to allow file upload types 
  
     protected $fileId = 'conciliation_file'; // name of the input file box  
  
