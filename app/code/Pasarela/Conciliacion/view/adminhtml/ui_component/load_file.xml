@@ -2,13 +2,10 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">conciliacion_record_pasarela_conciliacion_list.conciliacion_record_pasarela_conciliacion_list_data_source</item>
-            <item name="deps" xsi:type="string">conciliacion_record_pasarela_conciliacion_list.conciliacion_record_pasarela_conciliacion_list_data_source</item>
+            <item name="provider" xsi:type="string">load_file.load_file_data_source</item>
+            <item name="deps" xsi:type="string">load_file.load_file_data_source</item>
         </item>
-        <item name="label" xsi:type="string" translate="true">Load Conciliation</item>
-        <item name="layout" xsi:type="array">
-            <item name="type" xsi:type="string">tabs</item>
-        </item>
+        <item name="label" xsi:type="string" translate="true">Employee Information</item>
         <item name="config" xsi:type="array">
             <item name="dataScope" xsi:type="string">data</item>
             <item name="namespace" xsi:type="string">load_file</item>
