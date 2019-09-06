@@ -37,7 +37,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Pasarela_Conciliacion::conciliacion_list');
-        $resultPage->getConfig()->getTitle()->prepend(__('Payment Methods'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Conciliations'));
         return $resultPage;
     }
 

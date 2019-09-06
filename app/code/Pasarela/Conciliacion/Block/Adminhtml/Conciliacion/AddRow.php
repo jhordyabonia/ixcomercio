@@ -1,6 +1,6 @@
 <?php
     /**
-     * Pasarela_Conciliacion Add Row Form Block.
+     * Pasarela_Conciliacion Load Row Form Block.
      *
      * @category    Pasarela
      *
@@ -55,7 +55,7 @@ class AddRow extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        return __('Add new Payment Method');
+        return __('Load new Conciliation');
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Pasarela_Conciliacion Add New Row Form Admin Block.
+ * Pasarela_Conciliacion Load New Row Form Admin Block.
  * @category    Pasarela
  * @package     Pasarela_Conciliacion
  * @author      Pasarela Software Private Limited
@@ -9,7 +9,7 @@
 namespace Pasarela\Conciliacion\Block\Adminhtml\Conciliacion\Edit;
 
 /**
- * Adminhtml Add New Row Form.
+ * Adminhtml Load New Row Form.
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -67,7 +67,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         } else {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                ['legend' => __('Add new payment method'), 'class' => 'fieldset-wide']
+                ['legend' => __('Load new payment method'), 'class' => 'fieldset-wide']
             );
         }
 
