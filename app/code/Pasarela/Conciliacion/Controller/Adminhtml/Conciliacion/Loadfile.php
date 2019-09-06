@@ -8,58 +8,37 @@
  * @copyright Copyright (c) 2010-2016 Pasarela Software Private Limited (https://webkul.com)
  * @license   https://store.webkul.com/license.html
  */
-namespace Pasarela\Conciliacion\Controller\Adminhtml\Conciliacion;
+namespace Pasarela\Conciliacion\Controller\Adminhtml\Conciliacion;use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Backend\App\Action;  
 
-class Loadfile extends \Magento\Backend\App\Action
+class Loadfile extends \Vendor\Blog\Controller\Adminhtml\Blog
 {
-    /**
-     * @var \Pasarela\Conciliacion\Model\ConciliacionFactory
-     */
-    var $gridFactory;
 
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Pasarela\Conciliacion\Model\ConciliacionFactory $gridFactory
-     */
+    protected $_fileUploaderFactory;
+    protected $_directory_list;
+    protected $_logger;
+
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Pasarela\Conciliacion\Model\ConciliacionFactory $gridFactory
+        Action\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\MediaStorage\Model\File\UploaderFactory $fileUploaderFactory,
+        \Magento\Framework\App\Filesystem\DirectoryList $directory_list,
+        \Psr\Log\LoggerInterface $logger
     ) {
-        parent::__construct($context);
-        $this->gridFactory = $gridFactory;
+        $this->_fileUploaderFactory = $fileUploaderFactory;
+        $this->_directory_list = $directory_list;
+        $this->_logger = $logger;
+        parent::__construct($context, $coreRegistry);
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
-    public function execute()
-    {
-        echo "entra"; exit();
-        $data = $this->getRequest()->getPostValue();
-        if (!$data) {
-            $this->_redirect('pasarela_conciliacion/conciliacion/addrow');
-            return;
-        }
-        try {
-            $rowData = $this->gridFactory->create();
-            $rowData->setData($data);
-            if (isset($data['id'])) {
-                $rowData->setEntityId($data['id']);
-            }
-            $rowData->save();
-            $this->messageManager->addSuccess(__('Payment method has been successfully saved.'));
-        } catch (\Exception $e) {
-            $this->messageManager->addError(__($e->getMessage()));
-        }
-        $this->_redirect('pasarela_conciliacion/conciliacion/index');
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Pasarela_Conciliacion::save');
+    public function execute(){
+        $uploader = $this->_fileUploaderFactory->create(['fileId' => 'featured_images']);
+        $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
+        $uploader->setAllowRenameFiles(false);
+        $uploader->setFilesDispersion(false);
+        $path = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath('blog');
+        //$path = $this->_directory_list->getPath('media') . '/blog';
+        $this->_logger->debug('Uploader.php: '.$path);
+        $uploader->save($path);
     }
 }
