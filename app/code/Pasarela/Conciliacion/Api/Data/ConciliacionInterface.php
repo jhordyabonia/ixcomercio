@@ -16,12 +16,10 @@ interface ConciliacionInterface
      * Constants for keys of data array. Identical to the name of the getter in snake case.
      */
     const ID = 'id';
-    const PAYMENT_TYPE = 'payment_type';
-    const GATEWAY = 'gateway';
-    const PAYMENT_CODE = 'payment_code';
-    const TRAX_CODE = 'trax_code';
-    const COUNTRY_CODE = 'country_code';
-    const STORE_CODE = 'store_code';
+    const CONCILIATION_DATE = 'conciliation_date';
+    const PROCESED_PAYMENTS = 'procesed_payments';
+    const PROCESED_ORDERS = 'procesed_orders';
+    const UNPROCESED_ORDERS = 'unprocesed_orders';
 
    /**
     * Get Id.
@@ -36,74 +34,50 @@ interface ConciliacionInterface
     public function setId($id);
 
    /**
-    * Get PaymentType.
+    * Get ConciliationDate.
     *
     * @return varchar
     */
-    public function getPaymentType();
+    public function getConciliationDate();
 
    /**
-    * Set PaymentType.
+    * Set ConciliationDate.
     */
-    public function setPaymentType($paymentType);
+    public function setConciliationDate($conciliationDate);
 
    /**
-    * Get Gateway.
+    * Get ProcesedPayments.
     *
     * @return varchar
     */
-    public function getGateway();
+    public function getProcesedPayments();
 
    /**
-    * Set Gateway.
+    * Set ProcesedPayments.
     */
-    public function setGateway($gateway);
+    public function setProcesedPayments($procesedPayments);
 
     /**
-     * Get PaymentCode.
+     * Get UnprocesedPayments.
      *
      * @return varchar
      */
-     public function getPaymentCode();
+     public function getUnprocesedPayments();
  
     /**
-     * Set setPaymentCode.
+     * Set setUnprocesedPayments.
      */
-     public function setPaymentCode($paymentCode);
+     public function setUnprocesedPayments($unprocesedPayments);
 
    /**
     * Get Publish Date.
     *
     * @return varchar
     */
-    public function getTraxCode();
+    public function getProcesedOrders();
 
    /**
-    * Set setTraxCode.
+    * Set setProcesedOrders.
     */
-    public function setTraxCode($traxCode);
-
-   /**
-    * Get CountryCode.
-    *
-    * @return varchar
-    */
-    public function getCountryCode();
-
-   /**
-    * Set StartingPrice.
-    */
-    public function setCountryCode($countryCode);
-
-   /**
-    * Get StoreCode.
-    *
-    * @return varchar
-    */
-    public function getStoreCode();
-
-   /**
-    * Set StoreCode.
-    */
-    public function setStoreCode($storeCode);
+    public function setProcesedOrders($procesedOrders);
 }
