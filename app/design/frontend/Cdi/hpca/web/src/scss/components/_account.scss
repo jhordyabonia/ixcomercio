@@ -1,0 +1,112 @@
+.account{
+  .page-title-wrapper{
+    margin: 40px 0 60px;
+  }
+  .column.main{
+    form, .block:not(.widget), .table-wrapper{
+      text-align: left;
+      border: 1px solid #e8e8e8;
+      padding: 40px;
+    }
+    .block:not(.widget){
+      .block-title{
+        border-bottom: 1px solid #e8e8e8;
+        padding-bottom: 12px;
+        > strong{
+          font-weight: 400;
+        }
+      }
+      .block-content{
+        .box-title{
+          color: $redcolor;
+        }
+      }
+      .action{
+        text-decoration: underline;
+        margin-right: 20px;
+      }
+    }
+    form {
+      .fieldset{
+        >.field{
+          margin: 0 0 15px;
+          &:last-child{
+            margin: 0;
+          }
+          &:not(.choice){
+            margin: 0 0 29px;
+            >.label{
+              max-width: 100%;
+              padding: 0;
+            }
+            .control{
+              @media only screen and (min-width: $tablet){
+                width: 74.2%;
+                max-width: inherit;
+              }
+            }
+          }
+        }
+        >.legend{
+          width: 100%;
+          border-bottom: 1px solid #e8e8e8;
+          padding-bottom: 12px;
+          float: none;
+        }
+      }
+    }
+    .actions-toolbar{
+      margin: 0;
+      .primary{
+        min-width: 120px;
+        @media only screen and (min-width: $tablet){
+          float: left;
+        }
+      }
+      .secondary{
+        width: 100%;
+        float: left;
+        text-align: left;
+        a.action{
+          @media only screen and (min-width: $tablet){
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+.account-nav{
+  text-align: left;
+  .item{
+    &.current {
+      a, strong{
+        border-color: $redcolor;
+      }
+    }
+    a{
+      color: #000;
+      &:hover{
+        color: $redcolor;
+      }
+    }
+  }
+}
+.sidebar.sidebar-additional{
+  text-align: left;
+  .block-title strong{
+    font-weight: 400;
+  }
+  .actions-toolbar{
+    text-align: left;
+  }
+  .actions-toolbar{
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    > div{
+      text-align: left;
+      float: left;
+    }
+  }
+}

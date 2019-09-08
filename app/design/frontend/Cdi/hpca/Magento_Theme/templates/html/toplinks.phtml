@@ -1,0 +1,20 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
+<div class="custom-top-links">
+    <?php if($customerSession->isLoggedIn()) { ?>
+        <ul> 
+            <li><?php echo __('Hello')?>, <?php echo $customerSession->getCustomer()->getName() ?></li>
+            <a href="<?php echo $customerSession->getAccountUrl() ?>"><li><?php echo __('My Account') ?></li></a>
+            <a href="<?php echo $this->getUrl('sales/order/history') ?>"><li><?php echo __('My Orders') ?></li></a>
+            <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Sign Out') ?></li></a>
+        </ul>
+        <span data-bind="scope: 'wishlist'" class="link wishlist">
+            <a href="<?php echo $this->getUrl('wishlist') ?>">
+                <?php echo __('My Wishlist') ?><span data-bind="text: wishlist().counter" class="counter qty"></span>
+            </a>
+        </span>
+    <?php } else { ?>
+        <a href="<?php echo $this->getUrl('customer/account/login') ?>"><?php echo __('Sign In')?><span class="sign-in-icon"></span></a>
+    <?php } ?>
+</div>
