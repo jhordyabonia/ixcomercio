@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/** Conciliacion di xml
+ * @category  Pasarela
+ * @package   Pasarela_Conciliacion
+ * @author    Valentina Aguirre
+ * @copyright Copyright (c) 2010-2017 Pasarela Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Pasarela\Conciliacion\Api\Data\ConciliacionInterface" type="Pasarela\Conciliacion\Model\Conciliacion" />
+
+    <virtualType name="Pasarela\Conciliacion\Model\ResourceModel\Conciliacion\Conciliacion\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">bancomer_conciliation</argument>
+            <argument name="resourceModel" xsi:type="string">Pasarela\Conciliacion\Model\ResourceModel\Conciliacion</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="conciliacion_record_pasarela_conciliacion_list_data_source" xsi:type="string">Pasarela\Conciliacion\Model\ResourceModel\Conciliacion\Conciliacion\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Pasarela\Conciliacion\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Pasarela\Conciliacion\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">customLogHandler</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Pasarela\Conciliacion\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
