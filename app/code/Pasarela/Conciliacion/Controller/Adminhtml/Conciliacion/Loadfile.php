@@ -51,11 +51,11 @@ class Loadfile extends Action
     
     private $helper;
 
-    private $processed_payments;
+    public $processed_payments;
 
-    private $processed_orders;
+    public $processed_orders;
 
-    private $unprocessed_orders;
+    public $unprocessed_orders;
     
     protected $scopeConfig;
 
@@ -135,7 +135,8 @@ class Loadfile extends Action
         if (($gestor = fopen($filePath, "r")) !== FALSE) {
             while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
                 $numero = count($datos);
-                $this->logger->info('BANCOMER CONCILIACION - '.$numero.' de campos en la línea '.$fila);$this->savePayment($datos);
+                $this->logger->info('BANCOMER CONCILIACION - '.$numero.' de campos en la línea '.$fila);
+                $this->savePayment($datos);
                 $fila++;
             }
             fclose($gestor);
@@ -262,6 +263,7 @@ class Loadfile extends Action
                     $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
                 }
             } else{
+                $this->logger->info('BANCOMER CONCILIACION - No procesado: '.$this->unprocessed_orders);
                 $this->unprocessed_orders = $this->unprocessed_orders.', '.$data[7];
             }
         } catch(Exception $e){
