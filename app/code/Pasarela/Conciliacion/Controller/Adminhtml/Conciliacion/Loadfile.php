@@ -130,6 +130,7 @@ class Loadfile extends Action
                     $this->logger->info('BANCOMER - Datos: '.$datos[$c]);
                 }
             }
+            $this->logger->info('BANCOMER - finaliza while: '.$filePath);
             fclose($gestor);
         }
     }
