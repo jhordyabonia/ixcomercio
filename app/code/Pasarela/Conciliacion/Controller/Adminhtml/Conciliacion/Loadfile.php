@@ -173,8 +173,8 @@ class Loadfile extends Action
     public function savePayment($data){   
         try {
             $order = $this->orderRepository->get((int)$data[8]);
-            $this->logger->info('BANCOMER - valor pendiente '.$order->getBaseTotalDue());
-            if($order->getBaseTotalDue()!=0){
+            $this->logger->info('BANCOMER - valor pendiente '.$order->getTotalDue());
+            if($order->getTotalDue()!=0){
                 $this->saveOrderPayment($data);
                 $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
                 $order->setState($status)->setStatus($status);
