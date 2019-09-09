@@ -139,6 +139,7 @@ class Loadfile extends Action
                 $fila++;
             }
             fclose($gestor);
+            $this->logger->info('BANCOMER CONCILIACION - termian de leer archivo ');
             $this->saveConciliation();
         }
 
