@@ -247,7 +247,7 @@ class Loadfile extends Action
                     try{
                         $payload = $this->loadPayloadService($data, $store->getWebsiteCode());
                         if($payload){
-                            $this->beginBANCOMER CONCILIACION($data[8], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
+                            $this->beginRegisterPayments($data[8], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
                             $this->processed_payments = $this->processed_payments + 1;
                             $this->processed_orders = $this->processed_orders.', '.$data[7];
                         } else{
@@ -327,7 +327,7 @@ class Loadfile extends Action
     }
 
     //Función recursiva para intentos de conexión
-    public function beginBANCOMER CONCILIACION($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+    public function beginRegisterPayments($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'BANCOMER CONCILIACION');
         if($data){     
@@ -338,7 +338,7 @@ class Loadfile extends Action
             if($configData['pagos_reintentos']>$attempts){
                 $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
                 $this->logger->info('BANCOMER CONCILIACION - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginBANCOMER CONCILIACION($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->beginRegisterPayments($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
                 $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
                 $this->logger->info('BANCOMER CONCILIACION - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
