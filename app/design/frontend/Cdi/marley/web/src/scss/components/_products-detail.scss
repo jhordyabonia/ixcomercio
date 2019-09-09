@@ -223,8 +223,8 @@
           }
         }
         &.old-price{
+          color: #8e8e8e;
           .price{
-            color: #8e8e8e;
             font-size: 30px;
           }
         }
@@ -234,6 +234,7 @@
       }
       .price{
         font-size: 35px;
+        font-family: 'flamacondensed-bold';
       }
     }
     .short-description {
