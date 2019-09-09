@@ -56,7 +56,7 @@ class Loadfile extends Action
                 $this->logger->info('BANCOMER - Error al cargar el archivo en la ruta: '.$destinationPath);
             } else {
                 $this->logger->info('BANCOMER - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
-                $this->validateFile($this->getFilePath($destinationPath, $result['file']));
+                $this->validateFile($result['file']);
             }
  
             // @todo
