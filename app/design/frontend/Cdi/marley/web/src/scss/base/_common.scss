@@ -160,6 +160,12 @@ html {
     display: none;
   }  
 }
+.page-title-wrapper{
+  .print{
+    margin: 0 0 20px;
+    float: none;
+  }
+}
 .page-title{
   margin-bottom: 20px;
   h1, h2{
