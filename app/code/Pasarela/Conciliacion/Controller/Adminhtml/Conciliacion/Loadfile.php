@@ -9,6 +9,9 @@
  * @license   https://store.webkul.com/license.html
  */
 namespace Pasarela\Conciliacion\Controller\Adminhtml\Conciliacion;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\LocalizedException;
@@ -173,7 +176,7 @@ class Loadfile extends Action
     public function savePayment($data){   
         try {
             $order = $this->orderRepository->get((int)$data[8]);
-            $this->logger->info('BANCOMER - valor pendiente '.$order->getTotalDue());
+            $this->logger->info('BANCOMER - Orden '.$data[7].' valor pendiente '.$order->getTotalDue());
             if($order->getTotalDue()!=0){
                 $this->saveOrderPayment($data);
                 $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
