@@ -162,7 +162,7 @@ class Loadfile extends Action
 			"response" => 'N/A',
 			"response_msg" => 'N/A',
 			"authorization" => $data[10],
-			"date" => $data[0]
+			"date" => new \DateTime($data[0])
             ]);
         try{
             $saveData = $model->save();
