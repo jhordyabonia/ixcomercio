@@ -144,6 +144,7 @@ class Loadfile extends Action
     //Se guarda información de Pago en tabla custom
     public function saveOrderPayment($data) 
     {
+        $this->logger->info('BANCOMER - entra a función saveOrderPayment');
 		$model = $this->_bancomerTransacciones->create();
 		$model->addData([
 			"order_id" => $data[7],
@@ -171,6 +172,7 @@ class Loadfile extends Action
     //Se cambia estado de la orden y se genera factura
     public function savePayment($data){   
         try {
+            $this->logger->info('BANCOMER - entra a función savePayment');
             $order = $this->orderRepository->get((int)$data[7]);
             if($order->getBaseTotalDue()!=0){
                 $this->saveOrderPayment($data);
@@ -180,6 +182,7 @@ class Loadfile extends Action
                 $order->addStatusHistoryComment("Pago recibido exitosamente")->setIsCustomerNotified(true);            
                 $order->save();        
         
+                $this->logger->info('BANCOMER - registra información de la orden');
                 $invoice = $this->_invoiceService->prepareInvoice($order);        
                 $invoice->setTransactionId($data[9]);          
                 $invoice->pay()->save();
