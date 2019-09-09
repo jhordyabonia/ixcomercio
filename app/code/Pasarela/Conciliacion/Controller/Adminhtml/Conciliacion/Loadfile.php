@@ -118,7 +118,9 @@ class Loadfile extends Action
     {
         $this->logger->info('BANCOMER - entra a función: '.$filePath);
         $fila = 1;
+        $this->logger->info('BANCOMER - sigue while: '.$filePath);
         if (($gestor = fopen($filePath, "r")) !== FALSE) {
+            $this->logger->info('BANCOMER - entra while: '.$filePath);
             while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
                 $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);
                 $this->savePayment($datos);
