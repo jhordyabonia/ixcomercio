@@ -326,7 +326,7 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
             $order->setState($status)->setStatus($status);
             $order->save();        
-            $this->addOrderComment($mp_order, 'La transacción se genero con un pago offline o esta en proceso de valiación. Por favor consulte el estado en unos minutos', 'RegisterPayment');
+            $this->addOrderComment($mp_order, 'La transacción se genero con un pago offline o esta en proceso de validación. Por favor consulte el estado en unos minutos', 'RegisterPayment');
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
