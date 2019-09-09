@@ -147,7 +147,6 @@ class Loadfile extends Action
     //Se guarda información de Pago en tabla custom
     public function saveOrderPayment($data) 
     {
-        $this->logger->info('BANCOMER - entra a función saveOrderPayment');
 		$model = $this->_bancomerTransacciones->create();
         $this->logger->info('BANCOMER - llama modelo');
 		$model->addData([
@@ -164,14 +163,17 @@ class Loadfile extends Action
 			"response_msg" => 'N/A',
 			"authorization" => $data[10],
 			"date" => $data[0]
-			]);
-            $this->logger->info('BANCOMER - añade datos');
-        $saveData = $model->save();
-        $this->logger->info('BANCOMER - guarda modelo');
-        if($saveData){
-            $this->logger->info('RegisterPayment - Se inserto información de pago de la orden: '.$mp_reference);
-        } else {
-            $this->logger->info('RegisterPayment - Se produjo un error al guardar la información de pago de la orden: '.$mp_reference);
+            ]);
+        try{
+            $saveData = $model->save();
+            $this->logger->info('BANCOMER - guarda modelo');
+            if($saveData){
+                $this->logger->info('RegisterPayment - Se inserto información de pago de la orden: '.$mp_reference);
+            } else {
+                $this->logger->info('RegisterPayment - Se produjo un error al guardar la información de pago de la orden: '.$mp_reference);
+            }
+        } catch (\Exception $e){
+            $this->logger->info('BANCOMER - error al guardar modelo '.$e->getMessage());
         }
     }
     
