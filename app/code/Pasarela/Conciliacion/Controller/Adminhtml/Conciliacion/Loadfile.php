@@ -166,7 +166,6 @@ class Loadfile extends Action
             ]);
         try{
             $saveData = $model->save();
-            $this->logger->info('BANCOMER - guarda modelo');
             if($saveData){
                 $this->logger->info('RegisterPayment - Se inserto información de pago de la orden: '.$mp_reference);
             } else {
@@ -332,6 +331,21 @@ class Loadfile extends Action
         } else{
             $this->logger->info('ReleaseOrder - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
         }
+    }
+    
+ 
+    //Obtiene url de conexión del servicio
+	public function getServiceUrl($configData, $method) 
+	{
+        if($configData['apikey'] == ''){
+            $serviceUrl = false;
+        } else {
+            $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
+            $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
+            $signature = hash('sha256', $signature);
+            $serviceUrl = $configData['url'].$method.'?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature; 
+        }
+        return $serviceUrl;
     }
 
     //Función recursiva para intentos de conexión
