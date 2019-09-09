@@ -1,7 +1,6 @@
 .message{
   &.info{
     color: #000;
-    font-size: 1rem;
     text-align: center;
     background: none;
     margin: 20px auto;
@@ -13,7 +12,8 @@
       font-size: 40px;
     }
   }
-  &.success{
+  &.success, &.info, &.warning{
     font-size: 1rem;
+    font-family: "flamacondensedmed",Oswald,sans-serif;
   }
 }

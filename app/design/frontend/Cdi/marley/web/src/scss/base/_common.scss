@@ -69,6 +69,7 @@ html {
   body {
     color: #333;
     font-size: 12px;
+    font-family: Helvetica,Arial,sans-serif;
     background-color: white;
     text-align: center;
     @media only screen and (max-width: 959px){
@@ -162,7 +163,7 @@ html {
 }
 .page-title-wrapper{
   .print{
-    @media only screen and (max-width: $tablet){
+    @media only screen and (min-width: $tablet){
       margin: 0 0 20px;
       float: none;
     }
