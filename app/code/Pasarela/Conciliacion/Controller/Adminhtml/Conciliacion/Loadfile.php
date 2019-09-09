@@ -120,7 +120,8 @@ class Loadfile extends Action
         $fila = 1;
         if (($gestor = fopen($filePath, "r")) !== FALSE) {
             while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
-                $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);
+                $numero = count($datos);
+                $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);$this->savePayment($datos);
                 $fila++;
             }
             fclose($gestor);
