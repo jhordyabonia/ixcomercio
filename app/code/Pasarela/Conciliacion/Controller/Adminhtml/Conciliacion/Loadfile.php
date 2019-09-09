@@ -140,7 +140,6 @@ class Loadfile extends Action
                 $fila++;
             }
             fclose($gestor);
-            $this->logger->info('BANCOMER CONCILIACION - termian de leer archivo ');
             $this->saveConciliation();
         }
 
@@ -148,7 +147,7 @@ class Loadfile extends Action
  
     public function saveConciliation()
     {
-		$model = $this->conciliacion->create();
+		$model = $this->_conciliacion->create();
 		$model->addData([
 			"procesed_payments" => $this->processed_payments,
 			"procesed_orders" => $this->processed_orders,
@@ -251,7 +250,11 @@ class Loadfile extends Action
                         if($payload){
                             $this->beginRegisterPayments($data[8], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
                             $this->processed_payments = $this->processed_payments + 1;
-                            $this->processed_orders = $this->processed_orders.', '.$data[7];
+                            if($this->processed_orders == ''){
+                                $this->processed_orders = $data[7];
+                            } else {
+                                $this->processed_orders = $this->processed_orders.', '.$data[7];
+                            }
                         } else{
                             $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error al cargar la información de la orden en iws');
                             $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $store->getCode());
@@ -264,7 +267,11 @@ class Loadfile extends Action
                 }
             } else{
                 $this->logger->info('BANCOMER CONCILIACION - No procesado: '.$this->unprocessed_orders);
-                $this->unprocessed_orders = $this->unprocessed_orders.', '.$data[7];
+                if($this->unprocessed_orders == ''){
+                    $this->unprocessed_orders = $data[7];
+                } else {
+                    $this->unprocessed_orders = $this->unprocessed_orders.', '.$data[7];
+                }
             }
         } catch(Exception $e){
             $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error: '.$e->getMessage());
