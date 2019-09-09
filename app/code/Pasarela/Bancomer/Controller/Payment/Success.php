@@ -190,12 +190,17 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
                     //TODO: Cambiar estado de orden y actualizar información de pago                    
                     $this->changeOrderStatus($mp_order, $mp_amount, $mp_bankname, $mp_saleid, $mp_pan, $mp_authorization, $mp_paymentMethod);
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Exitosa");
-                } 
-                if($mp_response != '0'){
+                } elseif($mp_response != '000000') {
+                    $this->processOrder($mp_order);
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción en Proceso");
+                } elseif($mp_response != '0'){
                     $this->cancelIwsOrder($mp_order);
                     $this->cancelOrder($mp_order);
                     $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");
-                } 
+                } else {
+                    $this->processOrder($mp_order);
+                    $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción en Proceso");
+                }
             } else{
                 $resultPage->getLayout()->getBlock('bancomer_success')->setTitle("Transacción Cancelada");
             }            
@@ -309,6 +314,19 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             } else{
                 $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
             }
+        } catch(Exception $e){
+            $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
+        }
+    }
+    
+    //Se cambia estado de la orden y se genera factura
+    public function processOrder($mp_order){   
+        try {
+            $order = $this->orderRepository->get((int)$mp_order);
+            $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
+            $order->setState($status)->setStatus($status);
+            $order->save();        
+            $this->addOrderComment($mp_order, 'La transacción se genero con un pago offline o esta en proceso de valiación. Por favor consulte el estado en unos minutos', 'RegisterPayment');
         } catch(Exception $e){
             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
         }
