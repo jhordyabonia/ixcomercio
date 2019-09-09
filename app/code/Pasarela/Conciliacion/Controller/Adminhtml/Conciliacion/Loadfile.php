@@ -50,6 +50,12 @@ class Loadfile extends Action
     const SANDBOX = 'payment/pasarela_bancomer/is_sandbox';
     
     private $helper;
+
+    private $processed_payments;
+
+    private $processed_orders;
+
+    private $unprocessed_orders;
     
     protected $scopeConfig;
 
@@ -68,6 +74,7 @@ class Loadfile extends Action
         UploaderFactory $uploaderFactory,
         \Magento\Framework\File\Csv $csv,
         \Pasarela\Bancomer\Model\BancomerTransaccionesFactory $bancomerTransacciones,
+        \Pasarela\Conciliacion\Model\ConciliacionFactory $conciliacion,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Trax\Catalogo\Helper\Email $email,
@@ -79,11 +86,15 @@ class Loadfile extends Action
         $this->uploaderFactory = $uploaderFactory;
         $this->csv = $csv;
         $this->_bancomerTransacciones = $bancomerTransacciones;
+        $this->_conciliacion = $conciliacion;
         $this->orderRepository = $orderRepository;
         $this->_invoiceService = $invoiceService;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
+        $this->processed_payments = 0;
+        $this->processed_orders = '';
+        $this->unprocessed_orders = '';
         parent::__construct($context);
     }
  
@@ -100,9 +111,9 @@ class Loadfile extends Action
                 $this->messageManager->addError(
                     __('File cannot be saved to path: '.$destinationPath)
                 );
-                $this->logger->info('BANCOMER - Error al cargar el archivo en la ruta: '.$destinationPath);
+                $this->logger->info('BANCOMER CONCILIACION - Error al cargar el archivo en la ruta: '.$destinationPath);
             } else {
-                $this->logger->info('BANCOMER - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
+                $this->logger->info('BANCOMER CONCILIACION - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
                 $this->validateFile($this->getFilePath($destinationPath, $result['file']));
             }
  
@@ -119,17 +130,38 @@ class Loadfile extends Action
     
     public function validateFile($filePath)
     {
-        $this->logger->info('BANCOMER - entra a función: '.$filePath);
+        $this->logger->info('BANCOMER CONCILIACION - entra a función: '.$filePath);
         $fila = 1;
         if (($gestor = fopen($filePath, "r")) !== FALSE) {
             while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
                 $numero = count($datos);
-                $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);$this->savePayment($datos);
+                $this->logger->info('BANCOMER CONCILIACION - '.$numero.' de campos en la línea '.$fila);$this->savePayment($datos);
                 $fila++;
             }
             fclose($gestor);
+            $this->saveConciliation();
         }
 
+    }
+ 
+    public function saveConciliation()
+    {
+		$model = $this->conciliacion->create();
+		$model->addData([
+			"procesed_payments" => $this->processed_payments,
+			"procesed_orders" => $this->processed_orders,
+			"unprocesed_orders" => $this->unprocessed_orders
+            ]);
+        try{
+            $saveData = $model->save();
+            if($saveData){
+                $this->logger->info('BANCOMER CONCILIACION - Se inserto información de pago de la orden: '.$mp_reference);
+            } else {
+                $this->logger->info('BANCOMER CONCILIACION - Se produjo un error al guardar la información de pago de la orden: '.$mp_reference);
+            }
+        } catch (\Exception $e){
+            $this->logger->info('BANCOMER CONCILIACION - error al guardar modelo '.$e->getMessage());
+        }
     }
  
     public function getDestinationPath()
@@ -148,7 +180,7 @@ class Loadfile extends Action
     public function saveOrderPayment($data) 
     {
 		$model = $this->_bancomerTransacciones->create();
-        $this->logger->info('BANCOMER - llama modelo');
+        $this->logger->info('BANCOMER CONCILIACION - llama modelo');
 		$model->addData([
 			"order_id" => $data[8],
 			"reference" => $data[7],
@@ -167,12 +199,12 @@ class Loadfile extends Action
         try{
             $saveData = $model->save();
             if($saveData){
-                $this->logger->info('RegisterPayment - Se inserto información de pago de la orden: '.$mp_reference);
+                $this->logger->info('BANCOMER CONCILIACION - Se inserto información de pago de la orden: '.$mp_reference);
             } else {
-                $this->logger->info('RegisterPayment - Se produjo un error al guardar la información de pago de la orden: '.$mp_reference);
+                $this->logger->info('BANCOMER CONCILIACION - Se produjo un error al guardar la información de pago de la orden: '.$mp_reference);
             }
         } catch (\Exception $e){
-            $this->logger->info('BANCOMER - error al guardar modelo '.$e->getMessage());
+            $this->logger->info('BANCOMER CONCILIACION - error al guardar modelo '.$e->getMessage());
         }
     }
     
@@ -180,7 +212,7 @@ class Loadfile extends Action
     public function savePayment($data){   
         try {
             $order = $this->orderRepository->get((int)$data[8]);
-            $this->logger->info('BANCOMER - Orden '.$data[7].' valor pendiente '.$order->getTotalDue());
+            $this->logger->info('BANCOMER CONCILIACION - Orden '.$data[7].' valor pendiente '.$order->getTotalDue());
             if($order->getTotalDue()!=0){
                 $this->saveOrderPayment($data);
                 $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
@@ -189,7 +221,7 @@ class Loadfile extends Action
                 $order->addStatusHistoryComment("Pago recibido exitosamente")->setIsCustomerNotified(true);            
                 $order->save();        
         
-                $this->logger->info('BANCOMER - registra información de la orden');
+                $this->logger->info('BANCOMER CONCILIACION - registra información de la orden');
                 $invoice = $this->_invoiceService->prepareInvoice($order);        
                 $invoice->setTransactionId($data[10]);          
                 $invoice->pay()->save();
@@ -199,7 +231,7 @@ class Loadfile extends Action
                 $payment->setIsTransactionPending(false);
                 $payment->save();
                 
-                $this->logger->info('RegisterPayment - Se registra información de pago en magento');
+                $this->logger->info('BANCOMER CONCILIACION - Se registra información de pago en magento');
                 $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
                 $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
                 $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
@@ -208,27 +240,31 @@ class Loadfile extends Action
                 $storeManager->setCurrentStore($store->getCode());
                 //Se obtienen parametros de configuración por Store        
                 $configData = $this->getConfigParams($storeScope, $store->getCode()); 
-                $this->logger->info('RegisterPayment - Se obtienen parámetros de configuración');
+                $this->logger->info('BANCOMER CONCILIACION - Se obtienen parámetros de configuración');
                 $serviceUrl = $this->getServiceUrl($configData, 'registerpayments');   
-                $this->logger->info('RegisterPayment - url '.$serviceUrl);
+                $this->logger->info('BANCOMER CONCILIACION - url '.$serviceUrl);
                 if($serviceUrl){
                     try{
                         $payload = $this->loadPayloadService($data, $store->getWebsiteCode());
                         if($payload){
-                            $this->beginRegisterPayment($data[8], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
+                            $this->beginBANCOMER CONCILIACION($data[8], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
+                            $this->processed_payments = $this->processed_payments + 1;
+                            $this->processed_orders = $this->processed_orders.', '.$data[7];
                         } else{
-                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                            $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error al cargar la información de la orden en iws');
                             $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $store->getCode());
                         }
                     } catch(Exception $e){
-                        $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
+                        $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error: '.$e->getMessage());
                     }
                 } else{
-                    $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
+                    $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
                 }
+            } else{
+                $this->unprocessed_orders = $this->unprocessed_orders.', '.$data[7];
             }
         } catch(Exception $e){
-            $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
+            $this->logger->info('BANCOMER CONCILIACION - Se ha producido un error: '.$e->getMessage());
         }
     }
 
@@ -284,28 +320,28 @@ class Loadfile extends Action
                 'OrderNumber' => $iwsOrder,
                 'Payments' => $payments
             );
-            $this->logger->info('RegisterPayment - payload: '.json_encode($payload));
+            $this->logger->info('BANCOMER CONCILIACION - payload: '.json_encode($payload));
             return json_encode($payload);
         }
         return false;
     }
 
     //Función recursiva para intentos de conexión
-    public function beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+    public function beginBANCOMER CONCILIACION($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
+        $data = $this->loadIwsService($serviceUrl, $payload, 'BANCOMER CONCILIACION');
         if($data){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'RegisterPayment');
+            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'BANCOMER CONCILIACION');
             $this->initReleaseOrder($mp_order, $configData, $order, $storeCode);
         } else {
             if($configData['pagos_reintentos']>$attempts){
-                $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
-                $this->logger->info('RegisterPayment - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
+                $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
+                $this->logger->info('BANCOMER CONCILIACION - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                $this->beginBANCOMER CONCILIACION($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
             } else{
-                $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
-                $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
+                $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
+                $this->logger->info('BANCOMER CONCILIACION - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
                 $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
             }
         }   
