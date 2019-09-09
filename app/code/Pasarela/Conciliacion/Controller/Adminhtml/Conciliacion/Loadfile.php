@@ -72,6 +72,7 @@ class Loadfile extends Action
     
     public function validateFile($filePath)
     {
+        $this->logger->info('BANCOMER - entra a función: '.$filePath);
         if (!isset($filePath)) 
            throw new \Magento\Framework\Exception\LocalizedException(__('Invalid file upload attempt.'));
    
