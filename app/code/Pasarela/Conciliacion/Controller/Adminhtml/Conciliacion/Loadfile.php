@@ -172,7 +172,7 @@ class Loadfile extends Action
     //Se cambia estado de la orden y se genera factura
     public function savePayment($data){   
         try {
-            $this->logger->info('BANCOMER - entra a función savePayment');
+            $this->logger->info('BANCOMER - entra a función savePayment '.$data[7]);
             $order = $this->orderRepository->get((int)$data[7]);
             if($order->getBaseTotalDue()!=0){
                 $this->saveOrderPayment($data);
