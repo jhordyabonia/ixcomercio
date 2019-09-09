@@ -30,11 +30,13 @@ class Loadfile extends Action
         LoggerInterface $logger,
         Action\Context $context,
         Filesystem $fileSystem,
-        UploaderFactory $uploaderFactory
+        UploaderFactory $uploaderFactory,
+        \Magento\Framework\File\Csv $csv
     ) {
         $this->logger = $logger;
         $this->fileSystem = $fileSystem;
         $this->uploaderFactory = $uploaderFactory;
+        $this->csv = $csv;
         parent::__construct($context);
     }
  
@@ -48,12 +50,13 @@ class Loadfile extends Action
                 ->setAllowedExtensions($this->allowedExtensions);
             $result = $uploader->save($destinationPath);   
             if (!$result) {
-                throw new LocalizedException(
-                    __('File cannot be saved to path: $1', $destinationPath)
+                $this->messageManager->addError(
+                    __('File cannot be saved to path: '.$destinationPath)
                 );
-                $this->logger->info('BANCOMER - Error al cargar el archivo');
+                $this->logger->info('BANCOMER - Error al cargar el archivo en la ruta: '.$destinationPath);
             } else {
                 $this->logger->info('BANCOMER - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
+                $this->validateFile($this->getFilePath($destinationPath, $result['file']));
             }
  
             // @todo
@@ -69,8 +72,16 @@ class Loadfile extends Action
     
     public function validateFile($filePath)
     {
-        // @todo
-        // your custom validation code here
+        if (!isset($filePath)) 
+           throw new \Magento\Framework\Exception\LocalizedException(__('Invalid file upload attempt.'));
+   
+        $csvData = $this->csv->getData($filePath);
+   
+        foreach ($csvData as $row => $data) {
+            if ($row > 0){
+                $this->logger->info('BANCOMER - datos: '.$data);
+            }
+        }
     }
  
     public function getDestinationPath()
