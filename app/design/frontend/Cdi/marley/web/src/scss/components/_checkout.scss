@@ -32,9 +32,16 @@
       }
     }
   }
-  .checkout-payment-method .payment-method-content>.actions-toolbar>.primary .action.primary{
-    font-size: 20px;
-    line-height: 45px;
+  .checkout-payment-method .payment-method-content{
+    >.actions-toolbar{
+      display: inline-block;
+      float: none;
+      >.primary .action.primary{
+        font-size: 20px;
+        line-height: 45px;
+        padding: 0 25px;
+      }
+    }
   }
   .opc-wrapper {
     .shipping-address-item.selected-item{
