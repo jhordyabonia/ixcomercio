@@ -111,14 +111,17 @@
       font-size: 28px;
     }
     > p, > span{
-      display: inline-block;
+      display: block;
       margin-bottom: 0;
       color: #000;
       &.old-price {
         color: #8e8e8e;
-        font-size: 18px;
         margin-right: 5px;
         text-decoration: line-through;
+        font-family: 'flamaCondensedmed',sans-serif;
+        .price{
+          font-size: 18px;
+        }
       }
       &.special-price{
         font-size: 28px;
