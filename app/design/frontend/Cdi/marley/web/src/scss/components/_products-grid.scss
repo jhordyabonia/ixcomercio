@@ -107,6 +107,9 @@
     font-family: 'flamacondensed-bold';
     text-align: center;
     margin: 20px 0;
+    .price-label{
+      display: none;
+    }
     .price{
       font-size: 28px;
     }
