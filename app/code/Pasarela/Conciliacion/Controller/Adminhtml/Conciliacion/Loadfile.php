@@ -22,7 +22,7 @@ class Loadfile extends Action
  
     protected $uploaderFactory;
  
-    protected $allowedExtensions = ['des', 'xls', 'xlsx']; // to allow file upload types 
+    protected $allowedExtensions = ['csv']; // to allow file upload types 
  
     protected $fileId = 'conciliation_file'; // name of the input file box  
  
@@ -46,13 +46,14 @@ class Loadfile extends Action
             $uploader = $this->uploaderFactory->create(['fileId' => $this->fileId])
                 ->setAllowCreateFolders(true)
                 ->setAllowedExtensions($this->allowedExtensions);
-            if (!$uploader->save($destinationPath)) {
+            $result = $uploader->save($destinationPath);   
+            if (!$result) {
                 throw new LocalizedException(
                     __('File cannot be saved to path: $1', $destinationPath)
                 );
                 $this->logger->info('BANCOMER - Error al cargar el archivo');
             } else {
-                $this->logger->info('BANCOMER - Se carga el archivo');
+                $this->logger->info('BANCOMER - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
             }
  
             // @todo
@@ -77,5 +78,10 @@ class Loadfile extends Action
         return $this->fileSystem
             ->getDirectoryWrite(DirectoryList::TMP)
             ->getAbsolutePath('/');
+    }
+
+    public function getFilePath($path, $fileName)
+    {
+        return rtrim($path, '/') . '/' . ltrim($fileName, '/');
     }
 }
