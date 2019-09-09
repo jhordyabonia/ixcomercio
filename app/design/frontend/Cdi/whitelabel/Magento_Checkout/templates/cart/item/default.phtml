@@ -87,7 +87,12 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         <?php endif; ?>
         <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
             <div class="field qty">
-                <div class="control-qty remove disable">
+                <?php if($block->getQty() == 1){
+                    $class = " disable";
+                } else {
+                    $class = "";
+                } ?>
+                <div class="control-qty remove<?php echo $class ?>">
                     <span>-</span>
                 </div>
                 <div class="control qty">
