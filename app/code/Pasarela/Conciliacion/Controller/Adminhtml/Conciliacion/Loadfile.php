@@ -116,17 +116,12 @@ class Loadfile extends Action
     
     public function validateFile($filePath)
     {
-        
         $this->logger->info('BANCOMER - entra a función: '.$filePath);
         $fila = 1;
         if (($gestor = fopen($filePath, "r")) !== FALSE) {
             while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
-                $numero = count($datos);
                 $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);
                 $fila++;
-                for ($c=0; $c < $numero; $c++) {
-                    $this->logger->info('BANCOMER - Datos: '.$datos[$c]);
-                }
             }
             fclose($gestor);
         }
