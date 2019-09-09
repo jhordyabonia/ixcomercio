@@ -67,7 +67,7 @@ class Loadfile extends Action
         Filesystem $fileSystem,
         UploaderFactory $uploaderFactory,
         \Magento\Framework\File\Csv $csv,
-        \Pasarela\Bancomer\Model\BancomerTransaccionesFactory  $bancomerTransacciones,
+        \Pasarela\Bancomer\Model\BancomerTransaccionesFactory $bancomerTransacciones,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Trax\Catalogo\Helper\Email $email,
@@ -149,6 +149,7 @@ class Loadfile extends Action
     {
         $this->logger->info('BANCOMER - entra a función saveOrderPayment');
 		$model = $this->_bancomerTransacciones->create();
+        $this->logger->info('BANCOMER - llama modelo');
 		$model->addData([
 			"order_id" => $data[8],
 			"reference" => $data[7],
@@ -164,7 +165,9 @@ class Loadfile extends Action
 			"authorization" => $data[10],
 			"date" => $data[0]
 			]);
+            $this->logger->info('BANCOMER - añade datos');
         $saveData = $model->save();
+        $this->logger->info('BANCOMER - guarda modelo');
         if($saveData){
             $this->logger->info('RegisterPayment - Se inserto información de pago de la orden: '.$mp_reference);
         } else {
