@@ -147,18 +147,18 @@ class Loadfile extends Action
         $this->logger->info('BANCOMER - entra a función saveOrderPayment');
 		$model = $this->_bancomerTransacciones->create();
 		$model->addData([
-			"order_id" => $data[7],
-			"reference" => $data[6],
-			"payment_method" => $data[5],
-			"payment_method_code" => $data[5],
-			"card_type" => $data[11],
-			"bank_name" => $data[17],
-			"bank_account" => $data[11],
-			"bank_code" => $data[17],
-			"sale_id" => $data[9],
+			"order_id" => $data[8],
+			"reference" => $data[7],
+			"payment_method" => $data[6],
+			"payment_method_code" => $data[6],
+			"card_type" => $data[12],
+			"bank_name" => $data[18],
+			"bank_account" => $data[12],
+			"bank_code" => $data[18],
+			"sale_id" => $data[10],
 			"response" => 'N/A',
 			"response_msg" => 'N/A',
-			"authorization" => $data[9],
+			"authorization" => $data[10],
 			"date" => $data[0]
 			]);
         $saveData = $model->save();
@@ -172,23 +172,22 @@ class Loadfile extends Action
     //Se cambia estado de la orden y se genera factura
     public function savePayment($data){   
         try {
-            $this->logger->info('BANCOMER - entra a función savePayment '.$data[7]);
-            $order = $this->orderRepository->get((int)$data[7]);
+            $order = $this->orderRepository->get((int)$data[8]);
             if($order->getBaseTotalDue()!=0){
                 $this->saveOrderPayment($data);
                 $status = \Magento\Sales\Model\Order::STATE_PROCESSING;
                 $order->setState($status)->setStatus($status);
-                $order->setTotalPaid((float)$data[11]);  
+                $order->setTotalPaid((float)$data[12]);  
                 $order->addStatusHistoryComment("Pago recibido exitosamente")->setIsCustomerNotified(true);            
                 $order->save();        
         
                 $this->logger->info('BANCOMER - registra información de la orden');
                 $invoice = $this->_invoiceService->prepareInvoice($order);        
-                $invoice->setTransactionId($data[9]);          
+                $invoice->setTransactionId($data[10]);          
                 $invoice->pay()->save();
         
                 $payment = $order->getPayment();                                
-                $payment->setAmountPaid($data[11]);
+                $payment->setAmountPaid($data[12]);
                 $payment->setIsTransactionPending(false);
                 $payment->save();
                 
@@ -208,7 +207,7 @@ class Loadfile extends Action
                     try{
                         $payload = $this->loadPayloadService($data, $store->getWebsiteCode());
                         if($payload){
-                            $this->beginRegisterPayment($data[7], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
+                            $this->beginRegisterPayment($data[8], $configData, $payload, $serviceUrl, $order, $store->getCode(), 0);
                         } else{
                             $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
                             $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $store->getCode());
@@ -259,17 +258,17 @@ class Loadfile extends Action
 	public function loadPayloadService($data, $storeCode) 
 	{   
         //Load IWS Order id
-        $iwsOrder = $this->loadIwsOrder($data[7]);
-        $PaymentTypeId = $this->loadPaymentMethodId($data[7], $data[5], $storeCode);
+        $iwsOrder = $this->loadIwsOrder($data[8]);
+        $PaymentTypeId = $this->loadPaymentMethodId($data[8], $data[6], $storeCode);
         if(!$PaymentTypeId){
             return false;
         }
         if($iwsOrder){
             $payments = array();
-            $tempPayment['Amount'] = $data[11];
-            $tempPayment['Authorization'] = $data[8];
-            $tempPayment['BankName'] = $data[17];
-            $tempPayment['BankAccount'] = $data[10];
+            $tempPayment['Amount'] = $data[12];
+            $tempPayment['Authorization'] = $data[9];
+            $tempPayment['BankName'] = $data[18];
+            $tempPayment['BankAccount'] = $data[11];
             $tempPayment['PaymentTypeId'] = $PaymentTypeId;
             $tempPayment['Partial'] = false;
             $payments[] = $tempPayment;
