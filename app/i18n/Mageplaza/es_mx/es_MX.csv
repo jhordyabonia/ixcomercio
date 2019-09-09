@@ -16431,4 +16431,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Wireless","Inalámbrico",lib,web
 "Earphones","Auriculares",lib,web
 "Resources","Recursos",lib,web
-"BUY","COMPRAR",lib,web
+"Buy","COMPRAR",lib,web
