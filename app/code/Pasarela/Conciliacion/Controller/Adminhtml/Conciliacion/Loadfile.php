@@ -56,7 +56,7 @@ class Loadfile extends Action
                 $this->logger->info('BANCOMER - Error al cargar el archivo en la ruta: '.$destinationPath);
             } else {
                 $this->logger->info('BANCOMER - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
-                $this->validateFile($result['file']);
+                $this->validateFile($this->getFilePath($destinationPath, $result['file']));
             }
  
             // @todo
@@ -73,15 +73,17 @@ class Loadfile extends Action
     public function validateFile($filePath)
     {
         $this->logger->info('BANCOMER - entra a función: '.$filePath);
-        if (!isset($filePath)) 
-           throw new \Magento\Framework\Exception\LocalizedException(__('Invalid file upload attempt.'));
-   
-        $csvData = $this->csv->getData($filePath);
-   
-        foreach ($csvData as $row => $data) {
-            if ($row > 0){
-                $this->logger->info('BANCOMER - datos: '.$data);
+        $fila = 1;
+        if (($gestor = fopen($filePath, "r")) !== FALSE) {
+            while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
+                $numero = count($datos);
+                $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);
+                $fila++;
+                for ($c=0; $c < $numero; $c++) {
+                    $this->logger->info('BANCOMER - Datos: '.$datos[$c]);
+                }
             }
+            fclose($gestor);
         }
     }
  
