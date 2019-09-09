@@ -75,7 +75,7 @@ class Loadfile extends Action
         $this->logger->info('BANCOMER - entra a función: '.$filePath);
         $fila = 1;
         if (($gestor = fopen($filePath, "r")) !== FALSE) {
-            while (($datos = fgetcsv($gestor, 1000, ";")) !== FALSE) {
+            while (($datos = fgetcsv($gestor, 1000, ",")) !== FALSE) {
                 $numero = count($datos);
                 $this->logger->info('BANCOMER - '.$numero.' de campos en la línea '.$fila);
                 $fila++;
