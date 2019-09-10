@@ -48,7 +48,7 @@
                     <item name="visible" xsi:type="boolean">true</item>
                     <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
                     <item name="dataScope" xsi:type="string">conciliation_file</item>
-                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="formElement" xsi:type="string">imageUploader</item>
                     <item name="uploaderConfig" xsi:type="array">
                         <item name="url" xsi:type="url" path="pasarela_conciliacion/conciliacion/loadfile"/>
                     </item>
