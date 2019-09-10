@@ -122,6 +122,10 @@ class Loadfile extends Action
         } catch (\Exception $e) {
             $this->logger->info('BANCOMER CONCILIACION - '.$e->getMessage());
         }
+        $this->messageManager->addSuccess(
+            __('Se cargo el archivo de conciliación')
+        );
+        $this->logger->info('BANCOMER CONCILIACION - MEnsaje ok');
         $this->_redirect('pasarela_conciliacion/conciliacion');
         return;
     }
@@ -155,9 +159,6 @@ class Loadfile extends Action
             $saveData = $model->save();
             if($saveData){
                 $this->logger->info('BANCOMER CONCILIACION - Se inserto información de la conciliación');
-                $this->messageManager->addSuccess(
-                    __('Se cargo el archivo de conciliación')
-                );
             } else {
                 $this->logger->info('BANCOMER CONCILIACION - Se produjo un error al guardar la información de la conciliación');
             }
