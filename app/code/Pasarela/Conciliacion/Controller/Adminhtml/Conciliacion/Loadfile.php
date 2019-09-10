@@ -115,19 +115,15 @@ class Loadfile extends Action
             } else {
                 $this->logger->info('BANCOMER CONCILIACION - Se carga el archivo: '.$this->getFilePath($destinationPath, $result['file']));
                 $this->validateFile($this->getFilePath($destinationPath, $result['file']));
-            }
- 
-            // @todo
-            // process the uploaded file
+            } 
+            $this->messageManager->addSuccess(
+                __('Se cargo el archivo de conciliación')
+            );
+            $this->_redirect('pasarela_conciliacion/conciliacion/index');
+            return;
         } catch (\Exception $e) {
             $this->logger->info('BANCOMER CONCILIACION - '.$e->getMessage());
         }
-        $this->messageManager->addSuccess(
-            __('Se cargo el archivo de conciliación')
-        );
-        $this->logger->info('BANCOMER CONCILIACION - MEnsaje ok');
-        $this->_redirect('pasarela_conciliacion/conciliacion');
-        return;
     }
     
     public function validateFile($filePath)
