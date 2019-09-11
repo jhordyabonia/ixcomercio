@@ -23,9 +23,26 @@
 					<container name="header.row.container.access" as="header_row_container_access" htmlTag="div" htmlClass="mobnav-trigger-wrapper">
 						<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
 					</container>
-					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
+
+
+					<container name="header.container.skip.links" as="header_container_skip_links" htmlTag="div" htmlClass="skip-links-wrapper">
+						<block class="Magento\Framework\View\Element\Template" name="header.skip.links" template="Magento_Theme::html/header_skip_links.phtml"/>
+					</container>
+
+					<container name="minicart.mobile.wrapper" as="minicart_mobile_wrapper" htmlTag="div" htmlId="mini-cart-wrapper-mobile" after="header.container.skip.links">
 						<block class="Magento\Checkout\Block\Cart\Sidebar" name="minicart.mobile" as="minicart.mobile" before="-" template="Magento_Checkout::cart/minicart.phtml"/>
 					</container>
+
+					<container name="search.mobile.wrapper" as="search_mobile_wrapper" htmlTag="div" htmlId="search-wrapper-mobile" after="minicart.mobile.wrapper">
+						<block class="Magento\Framework\View\Element\Template" name="top.search.mobile" as="top.search.mobile" template="Magento_Search::form.mini.phtml" after="-" />
+					</container>
+
+					<container name="usermenu.mobile.wrapper" as="usermenu_mobile_wrapper" htmlTag="div" htmlId="user-menu-wrapper-mobile" after="search.mobile.wrapper">
+						<block class="Magento\Framework\View\Element\Template" name="header.toplinks.mobile" as="header.toplinks.mobile" template="Magento_Theme::html/toplinks.phtml" cacheable="false" after="-" />
+					</container>
+
+					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
+				</container>
 			</container>
 		</referenceContainer>
 		
