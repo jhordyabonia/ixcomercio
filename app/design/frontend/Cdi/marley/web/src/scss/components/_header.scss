@@ -201,5 +201,11 @@ header{
         }
       }
     }
+    .skip-links-wrapper, #mini-cart-wrapper-mobile, #search-wrapper-mobile, #user-menu-wrapper-mobile{
+      display: none;
+      @media only screen and (max-width: $tablet){
+        display: block;
+      }
+    }
   }
 }
