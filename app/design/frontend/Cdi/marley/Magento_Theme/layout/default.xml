@@ -24,7 +24,7 @@
 						<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
 					</container>
 					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
-						<referenceBlock name="minicart" as="minicart-mobile" after="-">
+						<block class="Magento\Checkout\Block\Cart\Sidebar" name="minicart" as="minicartcopy" after="-" template="Magento_Checkout::cart/minicart.phtml">
 						</referenceBlock>
 					</container>
 			</container>
