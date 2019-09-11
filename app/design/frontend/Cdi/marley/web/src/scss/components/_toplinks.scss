@@ -4,6 +4,9 @@
   font-size: 14px;
   font-family: 'flamaCondensedmed',sans-serif;
   background: #ebebeb;
+  @media only screen and (max-width: $tablet){
+    display: none;
+  }
   .header-toplinks{
     width: 96%;
     text-align: right;
@@ -38,6 +41,11 @@
         }
         .nested{
           display: none;
+        }
+      }
+      .actions{
+        .action.search{
+          top: 5px;
         }
       }
     }
