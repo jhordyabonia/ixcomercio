@@ -26,6 +26,7 @@
 					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
 						<block class="Magento\Checkout\Block\Cart\Sidebar" name="minicart.mobile" as="minicart.mobile" after="-" template="Magento_Checkout::cart/minicart.phtml"/>
 						<block class="Magento\Framework\View\Element\Template" name="top.search.mobile" as="top.search.mobile" template="Magento_Search::form.mini.phtml" />
+						<block class="Magento\Framework\View\Element\Template" name="header.toplinks.mobile" as="header.toplinks.mobile" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 					</container>
 			</container>
 		</referenceContainer>
