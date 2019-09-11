@@ -4,7 +4,7 @@ require([
 function ($, Component) {
   'use strict';
 
-  var navbarHeight = jQuery('header').outerHeight();
+  var navbarHeight = jQuery('header').innerHeight();
 
   $(document).ready(function(){
 
@@ -98,6 +98,8 @@ function ($, Component) {
 
     //Menu mobile
     $("header.header-primary-container .mobnav-trigger-wrapper .mobnav-trigger").click(function(){
+      jQuery("header.header-primary-container .wrapper-nav").css("top", navbarHeight+"px");
+
       if($(this).hasClass("open")){
         $(this).removeClass("open");
         $("header.header-primary-container .wrapper-nav").slideUp();
