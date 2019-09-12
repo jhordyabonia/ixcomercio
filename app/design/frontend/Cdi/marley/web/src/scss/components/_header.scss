@@ -13,12 +13,19 @@ header{
     .wrapper-brand{
       display: inline-block;
       text-align: left;
+      @media only screen and (max-width: $tablet){
+        text-align: center;
+      }
       .logo{
         margin: 20px 0;
         max-width: 100%;
         line-height: 1em;
         text-decoration: none;
         display: inline-block;
+        @media only screen and (max-width: $tablet){
+          width: 240px;
+          float: none;
+        }
         strong{
           position: absolute;
           top: -999em;
@@ -79,6 +86,9 @@ header{
             vertical-align: middle;
           }
         }
+      }
+      @media only screen and (max-width: $tablet){
+        display: none;
       }
       @media only screen and (max-width: $mobile){
         .mobnav-trigger{
@@ -205,6 +215,16 @@ header{
       display: none;
       @media only screen and (max-width: $tablet){
         display: block;
+      }
+    }
+    .skip-links-wrapper{
+      .skip-link{
+        width: 25%;
+        text-decoration: none;
+        background-color: #ecebe8;
+        .label{
+          color: #333;
+        }
       }
     }
   }
