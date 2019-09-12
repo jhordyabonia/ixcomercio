@@ -253,5 +253,10 @@ header{
         display: inline-block;
       }
     }
+    .skip-content{
+      .skip-active {
+        display: block;
+      }
+    }
   }
 }
