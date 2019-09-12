@@ -224,6 +224,7 @@ header{
       @media only screen and (max-width: $tablet){
         width: 75%;
         float: left;
+        display: inline-block;
       }
       .skip-link{
         width: 33.33%;
