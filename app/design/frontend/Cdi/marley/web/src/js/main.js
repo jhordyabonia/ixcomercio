@@ -5,10 +5,15 @@ function ($, Component) {
   'use strict';
 
   var navbarHeight = jQuery('header').innerHeight();
+  var w_width = jQuery( window ).width();
 
   $(document).ready(function(){
-    
-    $('html body').css('paddingTop', navbarHeight);
+
+    if(w_width <= 959){
+      $('html body').css('paddingTop', navbarHeight);
+    }else{
+      $('html body').css('paddingTop', 0);
+    }
 
     $('#scroll-to-top').click(function(){
       $( "html, body" ).animate({scrollTop:0}, 500, 'swing');
@@ -182,6 +187,16 @@ function ($, Component) {
         $('#scroll-to-top').fadeOut();
       }
     }, 500);
+  });
+
+
+
+  jQuery(window).on("resize", function(){
+    if(w_width <= 959){
+      $('html body').css('paddingTop', navbarHeight);
+    }else{
+      $('html body').css('paddingTop', 0);
+    }
   });
 
 
