@@ -4,9 +4,11 @@ require([
 function ($, Component) {
   'use strict';
 
-  var navbarHeight = jQuery('header').outerHeight();
+  var navbarHeight = jQuery('header').innerHeight();
 
   $(document).ready(function(){
+    
+    $('html body').css('paddingTop', navbarHeight);
 
     $('#scroll-to-top').click(function(){
       $( "html, body" ).animate({scrollTop:0}, 500, 'swing');
@@ -98,6 +100,8 @@ function ($, Component) {
 
     //Menu mobile
     $("header.header-primary-container .mobnav-trigger-wrapper .mobnav-trigger").click(function(){
+      jQuery("header.header-primary-container .wrapper-nav").css("top", navbarHeight+"px");
+
       if($(this).hasClass("open")){
         $(this).removeClass("open");
         $("header.header-primary-container .wrapper-nav").slideUp();
@@ -126,6 +130,37 @@ function ($, Component) {
       jQuery(".hero-banner .text-block-banner").prepend(textHeroBanner);
       jQuery(textHeroBanner).addClass("show");
     }
+
+
+
+    // =============================================
+    // Mobile Skip Links
+    // =============================================
+
+    var skipContents = $('.skip-content');
+    var skipLinks = $('.skip-link');
+    
+    skipLinks.on('click', function (e) {
+      e.preventDefault();
+      var self = $(this);
+      var target = self.attr('href');
+      //Get target element
+      var elem = $(target);
+      //Check if stub is open
+      var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+      //Hide all stubs
+      skipLinks.removeClass('skip-active');
+      skipContents.removeClass('skip-active');
+      //Toggle stubs
+      if (isSkipContentOpen) {
+        self.removeClass('skip-active');
+      }else{
+        self.addClass('skip-active');
+        elem.addClass('skip-active');
+      }
+    });
+
+
 
   });
 

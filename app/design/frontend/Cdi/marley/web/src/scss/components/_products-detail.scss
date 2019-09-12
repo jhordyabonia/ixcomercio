@@ -214,6 +214,31 @@
         }
       }
     }
+    .price-box{
+      width: 100%;
+      float: left;
+      > span{
+        display: block;
+        &.special-price{
+          .price{
+            color: #c73615;
+          }
+        }
+        &.old-price{
+          color: #8e8e8e;
+          .price{
+            font-size: 30px;
+          }
+        }
+      }
+      .price-label{
+        display: none;
+      }
+      .price{
+        font-size: 35px;
+        font-family: 'flamacondensed-bold';
+      }
+    }
     .short-description {
       width: 100%;
       margin: 15px 0;

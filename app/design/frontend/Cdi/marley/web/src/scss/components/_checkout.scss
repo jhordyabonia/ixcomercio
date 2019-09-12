@@ -32,6 +32,17 @@
       }
     }
   }
+  .checkout-payment-method .payment-method-content{
+    >.actions-toolbar{
+      display: inline-block;
+      float: none;
+      >.primary .action.primary{
+        font-size: 20px;
+        line-height: 45px;
+        padding: 0 25px;
+      }
+    }
+  }
   .opc-wrapper {
     .shipping-address-item.selected-item{
       border-color: #000;
@@ -139,6 +150,9 @@
   .opc-block-shipping-information{
     .shipping-information-title{
       font-size: 1.3rem;  
+    }
+    .shipping-information-content{
+      text-align: left;
     }
   }
 }

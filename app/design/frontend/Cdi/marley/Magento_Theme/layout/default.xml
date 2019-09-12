@@ -19,11 +19,29 @@
 			</container>
 			<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="container">
 				<container name="header.row.wrapper.row" as="header_row_wrapper_row" before="-" htmlTag="div" htmlClass="row">
-					<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="wrapper-brand col-sm-4 col-xs-6" />
+					<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="wrapper-brand col-md-4 col-sm-12 col-xs-12" />
 					<container name="header.row.container.access" as="header_row_container_access" htmlTag="div" htmlClass="mobnav-trigger-wrapper">
 						<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
 					</container>
-					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="wrapper-nav col-xs-8" after="-"/>
+
+
+					<container name="header.container.skip.links" as="header_container_skip_links" htmlTag="div" htmlClass="skip-links-wrapper">
+						<block class="Magento\Framework\View\Element\Template" name="header.skip.links" template="Magento_Theme::html/header_skip_links.phtml"/>
+					</container>
+
+					<container name="minicart.mobile.wrapper" as="minicart_mobile_wrapper" htmlTag="div" htmlId="mini-cart-wrapper-mobile" htmlClass="skip-content" after="header.container.skip.links">
+						<block class="Magento\Checkout\Block\Cart\Sidebar" name="minicart.mobile" as="minicart.mobile" before="-" template="Magento_Checkout::cart/minicart.phtml"/>
+					</container>
+
+					<container name="search.mobile.wrapper" as="search_mobile_wrapper" htmlTag="div" htmlId="search-wrapper-mobile" htmlClass="skip-content" after="minicart.mobile.wrapper">
+						<block class="Magento\Framework\View\Element\Template" name="top.search.mobile" as="top.search.mobile" template="Magento_Search::form.mini.phtml" after="-" />
+					</container>
+
+					<container name="usermenu.mobile.wrapper" as="usermenu_mobile_wrapper" htmlTag="div" htmlId="user-menu-wrapper-mobile" htmlClass="skip-content" after="search.mobile.wrapper">
+						<block class="Magento\Framework\View\Element\Template" name="header.toplinks.mobile" as="header.toplinks.mobile" template="Magento_Theme::html/toplinks.phtml" cacheable="false" after="-" />
+					</container>
+
+					<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlId="nav-wrapper-mobile" htmlClass="wrapper-nav skip-content col-xs-8" after="-"/>
 				</container>
 			</container>
 		</referenceContainer>

@@ -10,15 +10,25 @@ header{
       width: 100%;
       box-shadow: 0 0 15px rgba(black,.2);
     }
+    @media only screen and (max-width: $tablet){
+      padding-bottom: 20px;
+    }
     .wrapper-brand{
       display: inline-block;
       text-align: left;
+      @media only screen and (max-width: $tablet){
+        text-align: center;
+      }
       .logo{
         margin: 20px 0;
         max-width: 100%;
         line-height: 1em;
         text-decoration: none;
         display: inline-block;
+        @media only screen and (max-width: $tablet){
+          width: 240px;
+          float: none;
+        }
         strong{
           position: absolute;
           top: -999em;
@@ -39,6 +49,9 @@ header{
           vertical-align: inherit;
           max-width: 100%;
         }
+      }
+      .nav-toggle{
+        display: none!important;
       }
     }
     .row{
@@ -80,6 +93,9 @@ header{
           }
         }
       }
+      @media only screen and (max-width: $tablet){
+        display: none;
+      }
       @media only screen and (max-width: $mobile){
         .mobnav-trigger{
           margin: 5px 0;
@@ -98,8 +114,11 @@ header{
         width: 100%;
         max-width: 100%;
       }
-      @media only screen and (max-width: $mobile){
-        top: 62px;
+      @media only screen and (max-width: $tablet){
+        top: 0;
+        left: 0;
+        text-align: left;
+        position: relative;
       }
       .nav-sections{
         left: 0;
@@ -198,6 +217,154 @@ header{
               }
             }
           }
+        }
+      }
+    }
+    #search-wrapper-mobile, #user-menu-wrapper-mobile{
+      &:not(.skip-active){
+        display: none;
+      }
+    }
+    .skip-links-wrapper{
+      display: none;
+      @media only screen and (max-width: $tablet){
+        width: 75%;
+        float: left;
+        display: inline-block;
+      }
+      .skip-link{
+        width: 33.33%;
+        text-decoration: none;
+        background-color: #ecebe8;
+        float: left;
+        position: relative;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        cursor: pointer;
+        &.skip-active{
+          background-color: #f5f5f5;
+          .ic.icon:before{
+            color: #3ec2df;
+          }
+          .label{
+            color: #3ec2df;
+          }
+        }
+        .label{
+          color: #333;
+          font-size: 12px;
+          font-weight: normal;
+          display: inline-block;
+          vertical-align: middle;
+          line-height: 16px;
+          padding: 0;
+          @media only screen and (max-width: $mobile){
+            display: none;
+          }
+        }
+        .icon{
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 3px;
+          font-size: 16px;
+          line-height: 16px;
+        }
+      }
+    }
+    #mini-cart-wrapper-mobile{
+      display: none;
+      @media only screen and (max-width: $tablet){
+        width: 25%;
+        float: left;
+        display: block;
+      }
+    }
+    #search-wrapper-mobile{
+      width: 100%;
+      color: #333;
+      padding: 20px;
+      background-color: #ecebe8;
+      float: left;
+      .block-search{
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        @media only screen and (max-width: $mobile){
+          margin: 0;
+        }
+        input.input-text{
+          margin: 0;
+          padding-right: 35px;
+          position: static;
+        }
+        .minisearch{
+          position: relative;
+          .control{
+            margin: 0;
+          }
+          .label{
+            display: inline-block;
+            background-image: none;
+            background: none;
+            -moz-box-sizing: content-box;
+            border: 0;
+            box-shadow: none;
+            line-height: inherit;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            text-shadow: none;
+            font-weight: 400;
+            padding: 5px 0;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            z-index: 1;
+            &:before{
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              font-size: 22px;
+              line-height: 22px;
+              color: #8f8f8f;
+              content: '\e615';
+              font-family: 'icons-blank-theme';
+              margin: 0;
+              vertical-align: top;
+              display: inline-block;
+              font-weight: normal;
+              overflow: hidden;
+              speak: none;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+    #user-menu-wrapper-mobile{
+      width: 100%;
+      color: #333;
+      text-align: left;
+      padding: 19.5px 15px;
+      background-color: #ecebe8;
+      float: left;
+      .custom-account-login{
+        margin: 0;
+        > a{
+          font-family: 'flamacondensed-bold';
+          text-transform: uppercase;
+          font-size: 18px;
+          line-height: 40px;
+          padding: 0 10px;
+          display: block;
+        }
+      }
+    }
+    .skip-content{
+      &.skip-active {
+        display: block;
+        .control{
+          padding: 0;
         }
       }
     }
