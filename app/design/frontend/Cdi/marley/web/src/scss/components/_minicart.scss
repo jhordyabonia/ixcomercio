@@ -93,7 +93,10 @@
     }
     &:before{
       @media only screen and (max-width: $tablet){
+        color: #333;
+        font-size: 28px;
         line-height: 50px;
+
       }
     }
   }
