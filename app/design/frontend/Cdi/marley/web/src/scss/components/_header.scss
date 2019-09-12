@@ -10,6 +10,9 @@ header{
       width: 100%;
       box-shadow: 0 0 15px rgba(black,.2);
     }
+    @media only screen and (max-width: $tablet){
+      padding-bottom: 20px;
+    }
     .wrapper-brand{
       display: inline-block;
       text-align: left;
@@ -46,6 +49,9 @@ header{
           vertical-align: inherit;
           max-width: 100%;
         }
+      }
+      .nav-toggle{
+        display: none!important;
       }
     }
     .row{
@@ -283,6 +289,52 @@ header{
       .block-search{
         width: 100%;
         padding: 0;
+        margin: 0;
+        @media only screen and (max-width: $mobile){
+          margin: 0;
+        }
+        input.input-text{
+          margin: 0;
+          padding-right: 35px;
+          position: static;
+        }
+        .minisearch{
+          .label{
+            display: inline-block;
+            background-image: none;
+            background: none;
+            -moz-box-sizing: content-box;
+            border: 0;
+            box-shadow: none;
+            line-height: inherit;
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            text-shadow: none;
+            font-weight: 400;
+            padding: 5px 0;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            z-index: 1;
+            &:before{
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              font-size: 22px;
+              line-height: 22px;
+              color: #8f8f8f;
+              content: '\e615';
+              font-family: 'icons-blank-theme';
+              margin: 0;
+              vertical-align: top;
+              display: inline-block;
+              font-weight: normal;
+              overflow: hidden;
+              speak: none;
+              text-align: center;
+            }
+          }
+        }
       }
     }
     #user-menu-wrapper-mobile{
