@@ -7,6 +7,8 @@ function ($, Component) {
   var navbarHeight = jQuery('header').innerHeight();
 
   $(document).ready(function(){
+    
+    $('html body').css('paddingTop', navbarHeight);
 
     $('#scroll-to-top').click(function(){
       $( "html, body" ).animate({scrollTop:0}, 500, 'swing');
