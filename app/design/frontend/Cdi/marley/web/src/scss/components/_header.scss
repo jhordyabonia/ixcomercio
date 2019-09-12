@@ -271,6 +271,7 @@ header{
       @media only screen and (max-width: $tablet){
         width: 25%;
         float: left;
+        display: block;
       }
     }
     #search-wrapper-mobile{
