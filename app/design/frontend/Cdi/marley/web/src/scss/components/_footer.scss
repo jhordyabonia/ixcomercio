@@ -10,15 +10,17 @@ footer{
     .row{
       text-align: left;
       > div{
-        @media only screen and (max-width: 767px){
+        @media only screen and (max-width: 768px){
           float: left;
           width: 100%;
         }
         h3{
-          margin: 0;
+          width: 100%;
           font-size: 22px;
           text-transform: uppercase;
-          @media only screen and (max-width: 767px){
+          float: left;
+          margin: 0;
+          @media only screen and (max-width: 768px){
             line-height: 50px;
             position: relative;
             &:before{
@@ -41,7 +43,7 @@ footer{
           padding: 0;
           margin: 0;
           margin-top: 20px;
-          @media only screen and (max-width: 767px){
+          @media only screen and (max-width: 768px){
             display: none;
             margin-top: 0;
             border-bottom: 1px solid #ededed;
@@ -60,7 +62,7 @@ footer{
               line-height: 30px;
               text-transform: uppercase;
               padding-left: 0;
-              @media only screen and (max-width: 767px){
+              @media only screen and (max-width: 768px){
                 font-size: 18px;
                 line-height: 40px;
               }
