@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright Wagento Creative LLC ©, All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">zendesk_ticket_listing.zendesk_ticket_listing_data_source</item>
+            <item name="deps" xsi:type="string">zendesk_ticket_listing.zendesk_ticket_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>zendesk_ticket_columns</spinner>
+        <buttons>
+            <button name="add">
+                <label>Create Ticket</label>
+                <class>primary</class>
+                <url path="*/*/edit"/>
+            </button>
+        </buttons>
+    </settings>
+
+    <dataSource name="zendesk_ticket_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+
+        <dataProvider class="Wagento\Zendesk\Ui\Component\DataProvider" name="zendesk_ticket_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <!--add paging-->
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks">
+            <settings>
+                <storageConfig>
+                    <namespace>zendesk_ticket_listing</namespace>
+                </storageConfig>
+            </settings>
+        </bookmark>
+        <paging name="listing_paging">
+            <settings>
+                <storageConfig>
+                    <provider>zendesk_ticket_listing.zendesk_ticket_listing.listing_top.bookmarks</provider>
+                    <namespace>current.paging</namespace>
+                </storageConfig>
+                <selectProvider>zendesk_ticket_listing.zendesk_ticket_listing.wage_emarsys_post_columns.ids
+                </selectProvider>
+            </settings>
+        </paging>
+
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">
+                        zendesk_ticket_listing.zendesk_ticket_listing.zendesk_ticket_columns.ids
+                    </item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <settings>
+                    <type>delete</type>
+                    <label>Delete</label>
+                    <url path="zendesk/ticket/massDelete"/>
+                    <confirm>
+                        <title>Delete Tickets</title>
+                        <message>Are you sure you wan't to delete selected Tickets?</message>
+                    </confirm>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+
+    <columns name="zendesk_ticket_columns">
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>id</indexField>
+                <preserveSelectionsOnFilter>true</preserveSelectionsOnFilter>
+            </settings>
+        </selectionsColumn>
+
+        <column name="id" sortOrder="10">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+
+        <column name="subject" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Subject</label>
+            </settings>
+        </column>
+        <column name="email" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Email</label>
+            </settings>
+        </column>
+        <column name="priority" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Priority</label>
+            </settings>
+        </column>
+
+        <column name="type" sortOrder="50">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Type</label>
+            </settings>
+        </column>
+
+        <column name="status" sortOrder="60">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+
+        <column name="created_at" sortOrder="70">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+
+        <column name="updated_at" sortOrder="80">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Updated At</label>
+            </settings>
+        </column>
+
+        <actionsColumn name="actions" class="Wagento\Zendesk\Ui\Component\Listing\Column\ViewAction" sortOrder="90">
+            <settings>
+                <indexField>id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>
