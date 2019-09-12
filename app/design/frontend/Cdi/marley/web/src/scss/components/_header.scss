@@ -108,8 +108,11 @@ header{
         width: 100%;
         max-width: 100%;
       }
-      @media only screen and (max-width: $mobile){
-        top: 62px;
+      @media only screen and (max-width: $tablet){
+        top: 0;
+        left: 0;
+        text-align: left;
+        position: relative;
       }
       .nav-sections{
         left: 0;
@@ -212,7 +215,9 @@ header{
       }
     }
     .skip-links-wrapper, #mini-cart-wrapper-mobile, #search-wrapper-mobile, #user-menu-wrapper-mobile{
-      display: none;
+      &:not(.skip-active){
+        display: none;
+      }
     }
     .skip-links-wrapper{
       @media only screen and (max-width: $tablet){
@@ -256,6 +261,7 @@ header{
     .skip-content{
       &.skip-active {
         display: block;
+        margin-bottom: 20px;
       }
     }
   }
