@@ -299,6 +299,10 @@ header{
           position: static;
         }
         .minisearch{
+          position: relative;
+          .control{
+            margin: 0;
+          }
           .label{
             display: inline-block;
             background-image: none;
