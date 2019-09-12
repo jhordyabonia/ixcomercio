@@ -213,11 +213,11 @@ header{
     }
     .skip-links-wrapper, #mini-cart-wrapper-mobile, #search-wrapper-mobile, #user-menu-wrapper-mobile{
       display: none;
-      @media only screen and (max-width: $tablet){
-        display: block;
-      }
     }
     .skip-links-wrapper{
+      @media only screen and (max-width: $tablet){
+        display: inline-block;
+      }
       .skip-link{
         width: 25%;
         text-decoration: none;
@@ -225,6 +225,12 @@ header{
         .label{
           color: #333;
         }
+      }
+    }
+    #mini-cart-wrapper-mobile{
+      @media only screen and (max-width: $tablet){
+        width: 25%;
+        display: inline-block;
       }
     }
   }
