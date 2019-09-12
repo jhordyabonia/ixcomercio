@@ -238,6 +238,9 @@ header{
         cursor: pointer;
         &.skip-active{
           background-color: #f5f5f5;
+          .ic.icon:before{
+            color: #3ec2df;
+          }
           .label{
             color: #3ec2df;
           }
@@ -250,6 +253,9 @@ header{
           vertical-align: middle;
           line-height: 16px;
           padding: 0;
+          @media only screen and (max-width: $mobile){
+            display: none;
+          }
         }
         .icon{
           display: inline-block;
@@ -261,6 +267,7 @@ header{
       }
     }
     #mini-cart-wrapper-mobile{
+      display: none;
       @media only screen and (max-width: $tablet){
         width: 25%;
         float: left;
@@ -299,7 +306,6 @@ header{
     .skip-content{
       &.skip-active {
         display: block;
-        margin-bottom: 20px;
         .control{
           padding: 0;
         }
