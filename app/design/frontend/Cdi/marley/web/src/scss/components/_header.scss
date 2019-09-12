@@ -254,7 +254,7 @@ header{
       }
     }
     .skip-content{
-      .skip-active {
+      &.skip-active {
         display: block;
       }
     }
