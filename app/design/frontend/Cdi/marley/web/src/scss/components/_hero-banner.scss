@@ -11,6 +11,9 @@
       .col-md-12{
         padding: 0;
         float: left;
+        @media only screen and (max-width: 650px){
+          padding: 0 15px;
+        }
       }
     }
   }
@@ -30,13 +33,14 @@
     transform: translate(-50%, -50%);
     padding: 0 15px;
     @media only screen and (max-width: 650px){
-      position: relative;
-      margin: 20px 0;
-      transform: translate(0);
       left: 0;
       top: 0;
-      float: left;
+      position: relative;
+      transform: translate(0);
+      margin: 20px 0;
       display: none;
+      float: left;
+      padding: 0;
       &.show{
         display: block;
       }
@@ -57,6 +61,7 @@
       }
       @media only screen and (max-width: 650px){
         font-size: 30px;
+        margin: 0;
       }
     }
     p{
