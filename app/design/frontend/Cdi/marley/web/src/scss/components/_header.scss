@@ -181,6 +181,9 @@ header{
                   &:hover{
                     color: #fff;
                     text-decoration: none;
+                    span{
+                      border: 0;
+                    }
                   }
                 }
                 @media only screen and (min-width: 768px){
