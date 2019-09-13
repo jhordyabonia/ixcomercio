@@ -74,7 +74,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 					</a>
 				</h2>
 				<div class="atributo-familia">
-					<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type') ?>
+				    <?php $type = $_helper->productAttribute($_product, $_product->getMarleyType(), 'marley_type');?>
+					<?php echo ($type !== 'No') ? $type : '';  ?>
 				</div>
                 <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                 <div class="actions">
