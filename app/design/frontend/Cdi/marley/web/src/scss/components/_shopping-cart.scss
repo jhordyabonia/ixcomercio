@@ -17,11 +17,20 @@
             color: #999;
             font-weight: 400;
             border: 0;
+            @media (max-width: 1280px){
+              width: auto;
+            }
             &.item{
               width: 35%;
+              @media (max-width: 1280px){
+                width: auto;
+              }
             }
             &.delete{
               width: 5%;
+              @media (max-width: 1280px){
+                width: auto;
+              }
             }
           }
         }
@@ -32,6 +41,9 @@
               &.item{
                 .product-item-details{
                   text-align: left;
+                  @media (max-width: 1280px){
+                    display: block;
+                  }
                 }
                 .product-item-name{
                   font-weight: bold;
@@ -121,7 +133,7 @@
           position: relative;
         }
         .col.qty{
-          .mage-error{
+          div.mage-error{
             left: 50%;
             width: 150px;
             margin-left: -75px;
