@@ -139,9 +139,14 @@
         .col.qty{
           div.mage-error{
             left: 50%;
-            width: 150px;
-            margin-left: -75px;
+            width: 180px;
+            font-size: 12px;
+            margin-left: -90px;
             position: absolute;
+            box-shadow: 0 0 5px rgba(black,.5);
+            background: #fff;
+            padding: 5px;
+            border-radius: 5px;
           }
         }
         .price-excluding-tax .price{
