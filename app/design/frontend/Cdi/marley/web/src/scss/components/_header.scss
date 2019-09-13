@@ -119,6 +119,7 @@ header{
         left: 0;
         text-align: left;
         position: relative;
+        padding: 0;
       }
       .nav-sections{
         left: 0;
@@ -161,6 +162,8 @@ header{
               &.active{
                 @media only screen and (max-width: 768px){
                   a{
+                    color: #fff;
+                    background-color: #aaa;
                     border: 0;
                   }
                 }
@@ -173,6 +176,13 @@ header{
                 text-transform: uppercase;
                 font-weight: 500;
                 padding: 0 10px;
+                @media only screen and (max-width: 768px){
+                  text-decoration: none;
+                  &:hover{
+                    color: #fff;
+                    text-decoration: none;
+                  }
+                }
                 @media only screen and (min-width: 768px){
                   color: black;
                   line-height: 30px;
