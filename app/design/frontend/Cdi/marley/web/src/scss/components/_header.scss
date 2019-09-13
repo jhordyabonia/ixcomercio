@@ -194,6 +194,9 @@ header{
                   white-space: nowrap;
                   position: relative;
                   border-bottom: 2px solid transparent;
+                  &:not(.ui-menu-icon){
+                    margin: 0;
+                  }
                 }
               }
               ul.submenu{
