@@ -40,12 +40,13 @@ header{
       .header-branding{
         .logo{
           width: 100%;
+          max-width: 100%;
           margin: 0;
           float: left;
           img{
             width: auto;
             max-width: 100%;
-            max-height: 60px;
+            height: 60px;
           }
         }
       }
