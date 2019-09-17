@@ -211,6 +211,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         $curl_errors = curl_error($curl);
         curl_close($curl);    
         $this->logger->info('GetProducts- status code: '.$status_code);
+        $this->logger->info('GetProducts- entra: '.$status_code);
         $this->logger->info('GetProducts- '.$serviceUrl);
         $this->logger->info('GetProducts- curl errors: '.$curl_errors);
         if ($status_code == '200'){
