@@ -173,8 +173,6 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         $data = $this->loadIwsService($serviceUrl);
         if($data){     
             $this->loadCatalogData($data, $objectManager, $storeManager->getStore()->getStoreId(), $configData);
-            //Se limpia cache
-            $this->cleanCache();
             $this->logger->info('GetProducts - Se actualiza información de todos los productos');
         } else {
             if($configData['catalogo_reintentos']>$attempts){
