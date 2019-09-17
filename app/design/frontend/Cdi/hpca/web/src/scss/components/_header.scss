@@ -40,9 +40,10 @@ header{
       .header-branding{
         .logo{
           margin: 0;
-          width: 100%;
-          float: left;
+          width: auto;
           max-width: 100%;
+          max-height: 60px;
+          float: left;
         }
       }
       .header-wrapper-nav{
