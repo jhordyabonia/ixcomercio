@@ -83,7 +83,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
 		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
         //Se obtiene lista de sku
         if($configData['categorias_iws']==1){
-            $skuList = $this->getSkuList($observer->getEvent());
+            $skuList = $this->getSkuList($observer->getCategory());
             //Se obtiene url del servicio
             $serviceUrl = $this->getServiceUrl($configData, $skuList);
             //Se carga el servicio por curl
@@ -131,9 +131,8 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
 
     }
 
-	public function getSkuList($event) 
+	public function getSkuList($category) 
 	{
-		$category = $event->getData('category');
 		$productCollection = $category->getProductCollection();
 		$i = 0;
 		$len = $category->getProductCollection()->count();
@@ -170,19 +169,10 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
     //Función recursiva para intentos de conexión
     public function beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts) 
     {
-        $data = $this->loadIwsService($serviceUrl);
-        if($data){      
-        } else {
-            $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
-        }
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
         if($data){     
             $this->loadCatalogData($data, $objectManager, $storeManager->getStore()->getStoreId(), $configData);
-            //Se reindexa                            
-            $this->reindexData();
-            //Se limpia cache
-            $this->cleanCache();
             $this->logger->info('GetProducts - Se actualiza información de todos los productos');
         } else {
             if($configData['catalogo_reintentos']>$attempts){
