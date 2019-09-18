@@ -29,7 +29,7 @@ header{
     		}
         .nested{
           a{
-            color: $redcolor;
+            color: $mainColor;
             font-size: 13px;
             &:hover{
               text-decoration: underline;
