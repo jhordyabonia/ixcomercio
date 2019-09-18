@@ -101,6 +101,7 @@
   .item{
     &.current {
       a, strong{
+        color: #000;
         border-color: #000;
       }
     }

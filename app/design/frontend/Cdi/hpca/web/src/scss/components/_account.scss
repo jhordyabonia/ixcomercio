@@ -81,13 +81,14 @@
   .item{
     &.current {
       a, strong{
-        border-color: $redcolor;
+        color: #000;
+        border-color: $mainColor;
       }
     }
     a{
       color: #000;
       &:hover{
-        color: $redcolor;
+        color: $mainColor;
       }
     }
   }
