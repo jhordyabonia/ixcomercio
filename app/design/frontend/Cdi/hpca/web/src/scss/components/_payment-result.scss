@@ -1,0 +1,13 @@
+table{
+  &.payment-result{
+    text-align: left;
+  }
+}
+.checkout-success{
+	.actions-toolbar{
+		.primary{
+			float: none;
+			display: inline-block;
+		}
+	}
+}
