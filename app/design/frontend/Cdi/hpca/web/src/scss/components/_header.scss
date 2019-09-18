@@ -11,7 +11,7 @@ header{
     position: sticky;
     z-index: 99;
     .header-freeshipping{
-      background: #000;
+      background: $mainColor;
       padding: 5px 15px;
       p{
         color: #fff;

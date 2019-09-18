@@ -25,8 +25,8 @@
   }
   .footer-bottom{
     .footer-nav{
-      color: #fff;
-      background: #89170b;
+      color: #767676;
+      background: #F2F2F2;
       padding: 40px 0;
       .link-block{
         text-align: left;
@@ -52,7 +52,7 @@
           li{
             line-height: 2em;
             a{
-              color: #fff;
+              color: $mainColor;
             }
           }
         }
@@ -84,12 +84,12 @@
     }
   }
   .footer-legal{
-    background: #000;
+    background: #CECECE;
     padding: 0 15px;
     text-align: center;
     span{
       width: 100%;
-      color: #fff;
+      color: #767676;
       font-size: 12px;
       text-align: center;
       padding: 10px 0;
