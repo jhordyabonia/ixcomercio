@@ -31,7 +31,6 @@
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
 		<!--Mueve el precio al bloque sticky-->		
-		<referenceBlock name="reviews.tab" remove="true" />
         <referenceBlock name="product.info.review" remove="true" />
         <!--
 		* Elimina contenido
