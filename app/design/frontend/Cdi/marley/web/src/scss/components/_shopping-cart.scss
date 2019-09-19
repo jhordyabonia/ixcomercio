@@ -10,6 +10,9 @@
 .cart-container{
   form{
     &.form-cart{
+      @media (max-width: $tablet){
+        width: 100%;
+      }
       table{
         thead{
           th{
@@ -186,6 +189,9 @@
   .cart-summary{
     text-align: left;
     color: #000;
+    @media (max-width: $tablet){
+      width: 100%;
+    }
     >.title{
       font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
