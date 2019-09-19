@@ -177,7 +177,11 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
             $resultPage->getLayout()->getBlock('bancomer_error')->setTitle("Error");
-        }
+        }        
+		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+        $resultPage->getLayout()->getBlock('bancomer_error')->setBaseUrl($storeManager->getStore()->getBaseUrl());
         return $resultPage;
     }
     
