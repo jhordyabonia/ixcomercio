@@ -190,6 +190,7 @@
     text-align: left;
     color: #000;
     @media (max-width: $tablet){
+      top: 0!important;
       width: 100%;
     }
     >.title{
