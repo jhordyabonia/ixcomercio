@@ -1,7 +1,14 @@
 table{
-  &.payment-result{
-    text-align: left;
-  }
+	&.payment-result{
+		text-align: left;
+	}
+  	.actions-toolbar{
+  		margin-top: 25px;
+		.primary{
+			float: none;
+			display: inline-block;
+		}
+	}
 }
 .checkout-success{
 	.actions-toolbar{
