@@ -216,7 +216,7 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        $resultPage->getLayout()->getBlock('bancomer_error')->setBaseUrl($storeManager->getStore()->getBaseUrl());
+        $resultPage->getLayout()->getBlock('bancomer_success')->setBaseUrl($storeManager->getStore()->getBaseUrl());
         return $resultPage;
     }
 
