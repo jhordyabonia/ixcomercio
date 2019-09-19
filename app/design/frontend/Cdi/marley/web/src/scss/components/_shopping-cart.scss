@@ -20,6 +20,11 @@
             @media (max-width: 1280px){
               width: auto;
             }
+            &:not(.item){
+              @media (max-width: $tablet){
+                display: none;
+              } 
+            }
             &.item{
               width: 35%;
               @media (max-width: 1280px){
