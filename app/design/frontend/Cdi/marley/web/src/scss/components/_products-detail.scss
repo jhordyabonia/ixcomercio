@@ -272,7 +272,8 @@
               display: block;
             }
             .control{
-              margin: 10px 0;
+              margin: 10px 0 20px;
+              position: relative;
               input{
                 width: 5em;
                 height: 30px;
@@ -282,6 +283,9 @@
                 vertical-align: middle;
                 background: none;
                 border: 1px solid #000;
+              }
+              .mage-error[generated]{
+                position: absolute;
               }
             }
             .control-qty{
@@ -354,7 +358,7 @@
             }
           }
         }
-      } 
+      }
     }
   }
 }
