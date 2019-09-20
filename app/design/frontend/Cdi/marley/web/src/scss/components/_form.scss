@@ -53,6 +53,10 @@ form{
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }
+		    &.review-legend{
+		    	font-size: 1rem;
+		    	border: 0;
+		    }
 		}
 	}
 	.actions-toolbar{
@@ -127,4 +131,32 @@ form{
 }
 .control.captcha-image .captcha-img{
 	width: auto;
+}
+.review-form{
+	.actions-toolbar {
+		.primary {
+			.action{
+				min-width: 180px;
+			    margin: 0;
+			    margin-left: 5px;
+			    padding: 0 25px;
+			    color: #000;
+			    font-size: 20px;
+			    line-height: 45px;
+			    text-transform: uppercase;
+			    transition: .3s all ease;
+			    background-color: transparent;
+			    border: 2px solid #000;
+			    border-radius: 0;
+			    overflow: visible;
+			    cursor: pointer;
+			    float: right;
+			    font-family: 'flamaCondensedmed',sans-serif;
+			    &:hover{
+			    	color: #fff;
+    				background: #000;
+			    }
+			}
+		}
+	}
 }

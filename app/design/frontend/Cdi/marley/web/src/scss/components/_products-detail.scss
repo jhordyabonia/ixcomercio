@@ -427,6 +427,10 @@
             color: #333;
           }
         }
+        &:hover{
+          color: #1e75b4;
+          background: #eee;
+        }
       }
       &.active {
         >.switch {
