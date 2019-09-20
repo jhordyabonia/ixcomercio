@@ -76,6 +76,11 @@
                   }
                 }
               }
+              &.price{
+                .price{
+                  font-size: 14px;
+                } 
+              }
               &.qty{
                 .control-qty{
                   width: 28px;
