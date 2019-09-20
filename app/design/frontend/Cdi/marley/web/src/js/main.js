@@ -36,40 +36,42 @@ function ($, Component) {
       var arrayFamily = [];
       var arrayPrice = [];
 
-      //Image
-      jQuery.each(listImage, function(i, val){
-        arrayImage.push(jQuery(val).innerHeight());
-      });
-      Math.max.apply(Math,arrayImage);
-      jQuery(listImage).css("minHeight", Math.max.apply(Math,arrayImage)+"px");
+      setTimeout(function(){
+        //Image
+        jQuery.each(listImage, function(i, val){
+          arrayImage.push(jQuery(val).innerHeight());
+        });
+        Math.max.apply(Math,arrayImage);
+        jQuery(listImage).css("minHeight", Math.max.apply(Math,arrayImage)+"px");
 
-      //Name
-      jQuery.each(listName, function(i, val){
-        arrayName.push(jQuery(val).innerHeight());
-      });
-      Math.max.apply(Math,arrayName);
-      jQuery(listName).css("minHeight", Math.max.apply(Math,arrayName)+"px");
+        //Name
+        jQuery.each(listName, function(i, val){
+          arrayName.push(jQuery(val).innerHeight());
+        });
+        Math.max.apply(Math,arrayName);
+        jQuery(listName).css("minHeight", Math.max.apply(Math,arrayName)+"px");
 
-      //Family
-      jQuery.each(listFamily, function(i, val){
-        arrayFamily.push(jQuery(val).innerHeight());
-      });
-      Math.max.apply(Math,arrayFamily);
-      jQuery(listFamily).css("minHeight", Math.max.apply(Math,arrayFamily)+"px");
+        //Family
+        jQuery.each(listFamily, function(i, val){
+          arrayFamily.push(jQuery(val).innerHeight());
+        });
+        Math.max.apply(Math,arrayFamily);
+        jQuery(listFamily).css("minHeight", Math.max.apply(Math,arrayFamily)+"px");
 
-      //Price
-      jQuery.each(listPrice, function(i, val){
-        arrayPrice.push(jQuery(val).innerHeight());
-      });
-      Math.max.apply(Math,arrayPrice);
-      jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
+        //Price
+        jQuery.each(listPrice, function(i, val){
+          arrayPrice.push(jQuery(val).innerHeight());
+        });
+        Math.max.apply(Math,arrayPrice);
+        jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
 
-      //Item
-      jQuery.each(list, function(i, val){
-        arrayList.push(jQuery(val).innerHeight());
-      });
-      Math.max.apply(Math,arrayList);
-      jQuery(list).css("height", Math.max.apply(Math,arrayList)+"px");
+        //Item
+        jQuery.each(list, function(i, val){
+          arrayList.push(jQuery(val).innerHeight());
+        });
+        Math.max.apply(Math,arrayList);
+        jQuery(list).css("height", Math.max.apply(Math,arrayList)+"px");
+      },500);
     }
 
 
