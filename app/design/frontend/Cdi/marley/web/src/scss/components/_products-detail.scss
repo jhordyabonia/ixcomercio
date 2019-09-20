@@ -430,7 +430,7 @@
         &:hover{
           color: #1e75b4;
           @media only screen and (min-width: $tablet){
-            background: #eee;
+            background: #eee!important;
           }
         }
       }
