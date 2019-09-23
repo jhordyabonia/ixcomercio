@@ -29,6 +29,8 @@
 						<block class="Magento\Framework\View\Element\Template" name="header.skip.links" template="Magento_Theme::html/header_skip_links.phtml"/>
 					</container>
 
+					<block name="minicart.mobile.wrapper" as="minicart_mobile_wrapper" htmlTag="div" htmlId="mini-cart-wrapper-mobile" htmlClass="skip-content" after="header.container.skip.links" />
+
 					<container name="minicart.mobile.wrapper" as="minicart_mobile_wrapper" htmlTag="div" htmlId="mini-cart-wrapper-mobile" htmlClass="skip-content" after="header.container.skip.links" />
 						<!--<block class="Magento\Checkout\Block\Cart\Sidebar" name="minicart.mobile" as="minicart.mobile" before="-" template="Magento_Checkout::cart/minicart.phtml"/>
 					</container>-->
