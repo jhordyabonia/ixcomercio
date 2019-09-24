@@ -28,7 +28,7 @@ function ($, Component) {
       if($(searchMobile).length == 0){
         $('#search-wrapper-mobile').append($('.block-search'));
       }
-      else if($(minicartMobile).length == 0){
+      if($(minicartMobile).length == 0){
         $('#mini-cart-wrapper-mobile').append($('.minicart-wrapper'));
       }
     }else{
@@ -226,7 +226,7 @@ function ($, Component) {
       if($(searchMobile).length == 0){
         $('#search-wrapper-mobile').append($('.block-search'));
       }
-      else if($(minicartMobile).length == 0){
+      if($(minicartMobile).length == 0){
         $('#mini-cart-wrapper-mobile').append($('.minicart-wrapper'));
       }
     }else{
