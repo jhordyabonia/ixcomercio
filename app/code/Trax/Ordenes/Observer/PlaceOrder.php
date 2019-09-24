@@ -240,6 +240,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
+            $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
             return false;
         }
         $items = array();
