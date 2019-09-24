@@ -32,6 +32,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
 
     const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
+
+    const PORCENTAJE_IMPUESTO = 'trax_ordenes/ordenes_general/porcentaje_impuesto';
     
     private $helper;
 	
@@ -87,7 +89,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id']);
+            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id'], $configData['porcentaje_impuesto']);
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
             } else {
@@ -115,6 +117,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
         $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
+        $configData['porcentaje_impuesto'] = $this->scopeConfig->getValue(self::PORCENTAJE_IMPUESTO, $storeScope, $websiteCode);
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
@@ -218,12 +221,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order, $storeCode, $configDataStoreId) 
+	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
         $coupon = array();
+        $shippingAmount = $order->getShippingAmount() - ($order->getShippingAmount() * $configDataImpuesto / 100);
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
@@ -318,7 +322,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'FreightShipmentId' => $order->getQuoteId(),
                     'ServiceType' => $shippingData['ServiceType'],
                     'CarrierId' => $shippingData['CarrierId'],
-                    'Amount' => $order->getShippingAmount(),
+                    'Amount' => $shippingAmount,
                     'FreightCost' => 0,
                 )
             ),
