@@ -176,16 +176,19 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        if($data){     
-            $this->loadCatalogData($data, $objectManager, $storeId, $configData);
+        if($data['status']){     
+            $this->loadCatalogData($data['resp'], $objectManager, $storeId, $configData);
             $this->logger->info('GetProducts - Se actualiza información de todos los productos');
         } else {
-            if($configData['catalogo_reintentos']>$attempts){
-                $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $storeId, $serviceUrl, $objectManager, $attempts+1);
-            } else{
-                $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeId);
+            if(strpos($configData['errores'], $data['status_code']) !== false){
+                if($configData['catalogo_reintentos']>$attempts){
+                    $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                    sleep($configData['timeout']);
+                    $this->beginCatalogLoad($configData, $storeId, $serviceUrl, $objectManager, $attempts+1);
+                } else{
+                    $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeId);
+                }
             }
         }  
     }
@@ -206,9 +209,17 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         curl_close($curl);    
         $this->logger->info('GetProducts- Service Url: '.$serviceUrl.' - status code: '.$status_code.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
     }
 
 	public function loadCatalogData($data, $objectManager, $storeId, $configData) 

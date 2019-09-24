@@ -184,17 +184,20 @@ class GetCatalog {
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        if($data){     
-            $this->loadCatalogData($data, $website->getCode(), $store, $store->getId(), $configData, $website->getId());
+        if($data['status']){     
+            $this->loadCatalogData($data['resp'], $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
-            if($configData['catalogo_reintentos']>$attempts){
-                $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetCatalog - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
-            } else{
-                $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
+            if(strpos($configData['errores'], $data['status_code']) !== false){
+                if($configData['catalogo_reintentos']>$attempts){
+                    $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
+                    sleep($configData['timeout']);
+                    $this->logger->info('GetCatalog - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                    $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
+                } else{
+                    $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
+                    $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
+                }
             }
         }   
 
@@ -220,9 +223,17 @@ class GetCatalog {
         $this->logger->info('GetCatalog - '.$serviceUrl);
         $this->logger->info('GetCatalog - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 
@@ -272,17 +283,20 @@ class GetCatalog {
     {
         //Se conecta al servicio
         $data = $this->loadIwsService($serviceUrl);
-        if($data){                    
-            $this->loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData);
+        if($data['status']){                    
+            $this->loadCatalogSalesData($data['resp'], $websiteCode, $store, $storeId, $configData);
         } else {
-            if($configData['catalogo_reintentos']>$attempts){
-                $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts+1);
-            } else{
-                $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
+            if(strpos($configData['errores'], $data['status_code']) !== false){
+                if($configData['catalogo_reintentos']>$attempts){
+                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
+                    sleep($configData['timeout']);
+                    $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                    $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts+1);
+                } else{
+                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
+                    $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
+                }
             }
         } 
     }
