@@ -165,6 +165,8 @@ function ($, Component) {
         self.addClass('skip-active');
         elem.addClass('skip-active');
       }
+      jQuery('#search-wrapper-mobile').prepend(jQuery('.block-search'));
+      jQuery('#mini-cart-wrapper-mobile').prepend(jQuery('.block-search'));
     });
 
 
@@ -194,6 +196,7 @@ function ($, Component) {
 
 
   jQuery(window).on("resize", function(){
+    console.log(w_width);
     if(w_width <= 959){
       $('html body').css('paddingTop', navbarHeight);
     }else{
