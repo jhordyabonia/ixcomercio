@@ -180,7 +180,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
             $this->loadCatalogData($data['resp'], $objectManager, $storeId, $configData);
             $this->logger->info('GetProducts - Se actualiza información de todos los productos');
         } else {
-            if(strpos($configData['errores'], $data['status_code']) !== false){
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['catalogo_reintentos']>$attempts){
                     $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
                     sleep($configData['timeout']);
