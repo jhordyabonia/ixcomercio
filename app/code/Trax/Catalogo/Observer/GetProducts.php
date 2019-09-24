@@ -190,7 +190,7 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                     $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeId);
                 }
             } else {
-                $this->logger->info('GetProducts - No entra a validación');
+                $this->logger->info('GetProducts - No entra a validación. Errores permititdos: '.$configData['errores'].' error retornado: '.$data['status_code']);
             }
         }  
     }
