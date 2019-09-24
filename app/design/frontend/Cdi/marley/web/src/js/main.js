@@ -20,6 +20,17 @@ function ($, Component) {
     });
 
 
+    //Append search mobile
+    if(w_width <= 768){
+      var searchMobile = jQuery('#search-wrapper-mobile .block-search');
+      if($(searchMobile).length == 0){
+        jQuery('#search-wrapper-mobile').append(jQuery('.block-search'));  
+      }
+    }else{
+      searchMobile.remove();
+    }
+
+
     // =============================================
     // Height catalog items list
     // =============================================
@@ -207,7 +218,7 @@ function ($, Component) {
     if(w_width <= 768){
       var searchMobile = jQuery('#search-wrapper-mobile .block-search');
       if($(searchMobile).length == 0){
-        jQuery('#search-wrapper-mobile').prepend(jQuery('.block-search'));  
+        jQuery('#search-wrapper-mobile').append(jQuery('.block-search'));  
       }
     }else{
       searchMobile.remove();
