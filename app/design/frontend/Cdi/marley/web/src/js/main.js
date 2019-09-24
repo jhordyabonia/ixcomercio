@@ -20,6 +20,17 @@ function ($, Component) {
     });
 
 
+    //Append search mobile
+    if(w_width <= 768){
+      var searchMobile = jQuery('#search-wrapper-mobile .block-search');
+      if($(searchMobile).length == 0){
+        jQuery('#search-wrapper-mobile').append(jQuery('.block-search'));  
+      }
+    }else{
+      $(searchMobile).remove();
+    }
+
+
     // =============================================
     // Height catalog items list
     // =============================================
@@ -165,8 +176,6 @@ function ($, Component) {
         self.addClass('skip-active');
         elem.addClass('skip-active');
       }
-      jQuery('#search-wrapper-mobile').prepend(jQuery('.block-search'));
-      jQuery('#mini-cart-wrapper-mobile').prepend(jQuery('.block-search'));
     });
 
 
@@ -196,12 +205,25 @@ function ($, Component) {
 
 
   jQuery(window).on("resize", function(){
-    console.log(w_width);
+    navbarHeight = jQuery('header').innerHeight();
     if(w_width <= 959){
       $('html body').css('paddingTop', navbarHeight);
     }else{
       $('html body').css('paddingTop', 0);
     }
+
+    //Append search mobile
+    if(w_width <= 768){
+      var searchMobile = jQuery('#search-wrapper-mobile .block-search');
+      if($(searchMobile).length == 0){
+        jQuery('#search-wrapper-mobile').append(jQuery('.block-search'));  
+      }
+    }else{
+      $(searchMobile).remove();
+    }
+
+
+
   });
 
 
