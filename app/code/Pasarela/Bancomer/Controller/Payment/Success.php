@@ -38,6 +38,8 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
 
 	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
 
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
@@ -390,6 +392,7 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
         $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);

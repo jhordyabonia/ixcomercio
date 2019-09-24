@@ -18,6 +18,8 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
 
 	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
 
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const DATOS_TRAX = 'trax_catalogo/catalogo_general/datos_iws';
 
     const DATOS_SALES_TRAX = 'trax_catalogo/catalogo_general/datos_sales_iws';
@@ -114,6 +116,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
         $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['datos_iws'] = $this->scopeConfig->getValue(self::DATOS_TRAX, $storeScope, $websiteCode);
         $configData['datos_sales_iws'] = $this->scopeConfig->getValue(self::DATOS_SALES_TRAX, $storeScope, $websiteCode);
         $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);

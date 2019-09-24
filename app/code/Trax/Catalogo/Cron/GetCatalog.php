@@ -16,6 +16,8 @@ class GetCatalog {
 
 	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
 
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const DATOS_TRAX = 'trax_catalogo/catalogo_general/datos_iws';
 
     const DATOS_SALES_TRAX = 'trax_catalogo/catalogo_general/datos_sales_iws';

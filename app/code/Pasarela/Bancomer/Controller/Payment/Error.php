@@ -35,6 +35,8 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
 
 	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
 
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
 
     const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
@@ -226,6 +228,7 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
         $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
         $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
         $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
