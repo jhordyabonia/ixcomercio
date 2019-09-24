@@ -189,6 +189,8 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                     $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
                     $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeId);
                 }
+            } else {
+                $this->logger->info('GetProducts - No entra a validación');
             }
         }  
     }
