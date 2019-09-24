@@ -308,8 +308,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
-            'InvoiceRequested' => true,
-            'ReceiveInvoiceByMail' => true,
+            'InvoiceRequested' => false,
+            'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
                 array(
                     'FreightService' => $order->getShippingMethod(),
