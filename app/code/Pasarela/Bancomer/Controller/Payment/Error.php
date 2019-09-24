@@ -288,7 +288,7 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS: '.$payload['OrderNumber']);
+            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. ');
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['cancelar_reintentos']>$attempts){
