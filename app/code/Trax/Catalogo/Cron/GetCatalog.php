@@ -187,12 +187,13 @@ class GetCatalog {
         if($data['status']){     
             $this->loadCatalogData($data['resp'], $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
-            if(strpos($configData['errores'], $data['status_code']) !== false){
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['catalogo_reintentos']>$attempts){
+                    $attempts++;
                     $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
                     sleep($configData['timeout']);
-                    $this->logger->info('GetCatalog - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                    $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts+1);
+                    $this->logger->info('GetCatalog - Se reintenta conexión #'.$attempts.' con el servicio.');
+                    $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, $attempts);
                 } else{
                     $this->logger->info('GetCatalog - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
@@ -286,12 +287,13 @@ class GetCatalog {
         if($data['status']){                    
             $this->loadCatalogSalesData($data['resp'], $websiteCode, $store, $storeId, $configData);
         } else {
-            if(strpos($configData['errores'], $data['status_code']) !== false){
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['catalogo_reintentos']>$attempts){
+                    $attempts++;
                     $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
                     sleep($configData['timeout']);
-                    $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                    $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts+1);
+                    $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio.');
+                    $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts);
                 } else{
                     $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);

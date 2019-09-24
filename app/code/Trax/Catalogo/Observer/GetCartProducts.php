@@ -144,12 +144,13 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
         if($data['status']){     
             $this->loadProductsData($data['resp'], $objectManager, $storeManager->getStore()->getStoreId(), $configData);
         } else {
-            if(strpos($configData['errores'], $data['status_code']) !== false){
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['catalogo_reintentos']>$attempts){
+                    $attempts++;
                     $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
                     sleep($configData['timeout']);
-                    $this->logger->info('GetProducts - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                    $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);
+                    $this->logger->info('GetProducts - Se reintenta conexión #'.$attempts.' con el servicio.');
+                    $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts);
                 } else{
                     $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetProducts - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
