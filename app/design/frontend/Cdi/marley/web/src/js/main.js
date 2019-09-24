@@ -219,7 +219,7 @@ function ($, Component) {
         jQuery('#search-wrapper-mobile').append(jQuery('.block-search'));  
       }
     }else{
-      searchMobile.remove();
+      $(searchMobile).remove();
     }
 
 
