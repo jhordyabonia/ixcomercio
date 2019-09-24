@@ -23,6 +23,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
@@ -110,6 +114,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
@@ -134,21 +140,23 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     //Función recursiva para intentos de conexión
     public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $this->logger->info('PlaceOrder - Se intenta conexión con trax: '.$serviceUrl);
         $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->saveIwsOrder($data->OrderNumber, $order->getId(), $order->getIncrementId());
-            $this->addOrderComment($order->getId(), $data->OrderNumber);
+            $this->saveIwsOrder($data['resp']->OrderNumber, $order->getId(), $order->getIncrementId());
+            $this->addOrderComment($order->getId(), $data['resp']->OrderNumber);
         } else {
-            if($configData['ordenes_reintentos']>$attempts){
-                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('PlaceOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
-                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['ordenes_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -179,9 +187,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('PlaceOrder - '.$serviceUrl);
         $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 
@@ -224,6 +240,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
+            $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
             return false;
         }
         $items = array();

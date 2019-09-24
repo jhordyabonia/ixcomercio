@@ -19,6 +19,10 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const DATOS_TRAX = 'trax_catalogo/catalogo_general/datos_iws';
 
     const DATOS_SALES_TRAX = 'trax_catalogo/catalogo_general/datos_sales_iws';
@@ -110,6 +114,8 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['datos_iws'] = $this->scopeConfig->getValue(self::DATOS_TRAX, $storeScope, $websiteCode);
         $configData['datos_sales_iws'] = $this->scopeConfig->getValue(self::DATOS_SALES_TRAX, $storeScope, $websiteCode);
         $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);
@@ -135,17 +141,21 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        if($data){     
-            $this->loadProductsData($data, $objectManager, $storeManager->getStore()->getStoreId(), $configData);
+        if($data['status']){     
+            $this->loadProductsData($data['resp'], $objectManager, $storeManager->getStore()->getStoreId(), $configData);
         } else {
-            if($configData['catalogo_reintentos']>$attempts){
-                $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetProducts - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts+1);
-            } else{
-                $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
-                $this->logger->info('GetProducts - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
-                $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeManager->getStore()->getStoreId());
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['catalogo_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
+                    sleep($configData['timeout']);
+                    $this->logger->info('GetProducts - Se reintenta conexión #'.$attempts.' con el servicio.');
+                    $this->beginCatalogLoad($configData, $storeManager, $serviceUrl, $objectManager, $attempts);
+                } else{
+                    $this->logger->info('GetProducts - Error conexión: '.$serviceUrl);
+                    $this->logger->info('GetProducts - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeManager->getStore()->getStoreId());
+                }
             }
         }   
 
@@ -201,9 +211,17 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('GetProduct- '.$serviceUrl);
         $this->logger->info('GetProduct- curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 
