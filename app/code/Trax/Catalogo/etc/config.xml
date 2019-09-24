@@ -8,6 +8,7 @@
                 <apuntar_a>0</apuntar_a>
                 <url_desarrollo>https://intcomex-test.apigee.net/v1/</url_desarrollo>
                 <url_produccion>https://intcomex-prod.apigee.net/v1/</url_produccion>
+                <timeout>30</timeout>
             </catalogo_retailer>
         </trax_general>
         <trax_catalogo>
