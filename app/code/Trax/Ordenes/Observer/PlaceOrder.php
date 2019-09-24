@@ -312,12 +312,12 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
                 array(
-                    'FreightService' => $order->getShippingMethod(),
+                    'FreightService' => "MiEnvio.mx",
                     'FreightShipmentId' => $order->getQuoteId(),
                     'ServiceType' => $shippingData['ServiceType'],
                     'CarrierId' => $shippingData['CarrierId'],
                     'Amount' => $order->getShippingAmount(),
-                    'FreightCost' => $order->getShippingAmount(),
+                    'FreightCost' => 0,
                 )
             ),
             'Items' => $items
