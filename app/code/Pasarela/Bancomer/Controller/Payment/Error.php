@@ -286,18 +286,21 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
     public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS');
+            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS: '.$payload['OrderNumber']);
         } else {
-            if($configData['cancelar_reintentos']>$attempts){
-                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
-                $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['cancelar_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -327,9 +330,17 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $this->logger->info($method.' - '.$serviceUrl);
         $this->logger->info($method.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 
