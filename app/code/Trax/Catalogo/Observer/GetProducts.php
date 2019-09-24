@@ -182,15 +182,14 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['catalogo_reintentos']>$attempts){
-                    $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
+                    $attempts++;
+                    $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
                     sleep($configData['timeout']);
-                    $this->beginCatalogLoad($configData, $storeId, $serviceUrl, $objectManager, $attempts+1);
+                    $this->beginCatalogLoad($configData, $storeId, $serviceUrl, $objectManager, $attempts);
                 } else{
                     $this->logger->info('GetProducts - Error conexión: '.$serviceUrl.' Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
                     $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $storeId);
                 }
-            } else {
-                $this->logger->info('GetProducts - No entra a validación. Errores permititdos: '.$configData['errores'].' error retornado: '.$data['status_code']);
             }
         }  
     }
