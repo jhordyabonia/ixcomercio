@@ -19,6 +19,8 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
     const DATOS_TRAX = 'trax_catalogo/catalogo_general/datos_iws';
 
     const DATOS_SALES_TRAX = 'trax_catalogo/catalogo_general/datos_sales_iws';
@@ -98,6 +100,7 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
         $configData['datos_iws'] = $this->scopeConfig->getValue(self::DATOS_TRAX, $storeScope, $websiteCode);
         $configData['datos_sales_iws'] = $this->scopeConfig->getValue(self::DATOS_SALES_TRAX, $storeScope, $websiteCode);
         $configData['datos_images_iws'] = $this->scopeConfig->getValue(self::DATOS_IMAGES_TRAX, $storeScope, $websiteCode);

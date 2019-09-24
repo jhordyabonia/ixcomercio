@@ -23,6 +23,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
@@ -110,6 +112,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);

@@ -36,6 +36,8 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
@@ -233,7 +235,6 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $configData['secret_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_SECRETA, $storeScope, $websiteCode);
             $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         }
-            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         if($sandbox == '1'){
             $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
         } else{
@@ -388,6 +389,7 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
         $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);
