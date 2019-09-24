@@ -27,13 +27,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
 
-    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
+    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
 
-    const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
+    const STORE_ID = 'trax_general/ordenes_general/store_id';
 
-    const PORCENTAJE_IMPUESTO = 'trax_ordenes/ordenes_general/porcentaje_impuesto';
+    const PORCENTAJE_IMPUESTO = 'trax_general/ordenes_general/porcentaje_impuesto';
     
     private $helper;
 	
