@@ -9,6 +9,7 @@
                 <url_desarrollo>https://intcomex-test.apigee.net/v1/</url_desarrollo>
                 <url_produccion>https://intcomex-prod.apigee.net/v1/</url_produccion>
                 <timeout>30</timeout>
+                <errores>500,404</errores>
             </catalogo_retailer>
         </trax_general>
         <trax_catalogo>
