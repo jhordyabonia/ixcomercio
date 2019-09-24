@@ -33,7 +33,7 @@
                 </field>
                 <field id="timeout" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Tiempo entre reintentos</label>
-                    <comment>Tiempo entre reintentos de conexión a los servicios de TRAX. Esta configuración aplica para todos los servicios de TRAX</comment>
+                    <comment>Tiempo en segundos entre reintentos de conexión a los servicios de TRAX. Esta configuración aplica para todos los servicios de TRAX</comment>
                 </field>
             </group>
         </section>
