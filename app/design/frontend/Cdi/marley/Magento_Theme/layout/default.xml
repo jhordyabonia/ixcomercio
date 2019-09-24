@@ -33,11 +33,11 @@
 						<block class="Magento\Framework\View\Element\Template" name="header.mobile.elements" template="Magento_Theme::html/header_mobile_elements.phtml"/>
 					</container>
 
-					
+					<!--
 					<container name="minicart.mobile.wrapper" as="minicart_mobile_wrapper" htmlTag="div" htmlId="mini-cart-wrapper-mobile" htmlClass="skip-content" after="header.container.skip.links" />
 						<block class="Magento\Checkout\Block\Cart\Sidebar" name="minicart.mobile" as="minicart.mobile" before="-" template="Magento_Checkout::cart/minicart.phtml"/>
 					</container>
-					
+					-->
 
 					<!--
 					<container name="search.mobile.wrapper" as="search_mobile_wrapper" htmlTag="div" htmlId="search-wrapper-mobile" htmlClass="skip-content" after="minicart.mobile.wrapper" />
