@@ -176,8 +176,6 @@ function ($, Component) {
         self.addClass('skip-active');
         elem.addClass('skip-active');
       }
-      jQuery('#search-wrapper-mobile').prepend(jQuery('.block-search'));
-      jQuery('#mini-cart-wrapper-mobile').prepend(jQuery('.block-search'));
     });
 
 
