@@ -228,7 +228,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $orderItems = $order->getAllItems();
         $coupon = array();
         $shippingAmount = $order->getShippingAmount() - ($order->getShippingAmount() * $configDataImpuesto / 100);
-        $this->logger->info('PlaceOrder - Valor envio: '.$order->getShippingAmount().' Valor sin impuesto: '.$shippingAmount.' Porcentaje impuesto: '.$configDataImpuesto);
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
@@ -241,7 +240,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $coupon = array($giftcard[0]->c);
             }
         }
-        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
             $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
@@ -251,7 +249,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         foreach ($orderItems as $key => $dataItem) {
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-            $tempItem['Price'] = $dataItem->getPrice();
+            $tempItem['Price'] = $dataItem->getOriginalPrice();
             if(count($coupon) == 0){
                 $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
                 if($price > 0){
@@ -263,6 +261,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['StoreItemId'] = $dataItem->getId();
             $items[] = $tempItem;
         }
+        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
                 'StoreId' => $configDataStoreId,
