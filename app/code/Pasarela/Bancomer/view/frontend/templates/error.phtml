@@ -20,10 +20,12 @@
                     <td><b>Método de pago</b></td>
                     <td><?php echo $this->getPaymentMethod() ?></td>
                 </tr>
-                <tr>
-                    <td><b>Estado</b></td>
-                    <td><?php echo $this->getResponse() ?></td>
-                </tr>
+                <?php if($this->getResponse() != ''){ ?>
+                    <tr>
+                        <td><b>Estado</b></td>
+                        <td><?php echo $this->getResponse() ?></td>
+                    </tr>
+                <?php } ?>
             </table>
             <div class="actions-toolbar">
                 <div class="primary">

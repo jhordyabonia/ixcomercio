@@ -27,11 +27,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
 
-    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
+    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
 
-    const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
+    const STORE_ID = 'trax_general/ordenes_general/store_id';
+
+    const PORCENTAJE_IMPUESTO = 'trax_general/ordenes_general/porcentaje_impuesto';
     
     private $helper;
 	
@@ -87,7 +89,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id']);
+            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id'], $configData['porcentaje_impuesto']);
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
             } else {
@@ -115,6 +117,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
         $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
+        $configData['porcentaje_impuesto'] = $this->scopeConfig->getValue(self::PORCENTAJE_IMPUESTO, $storeScope, $websiteCode);
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
@@ -218,12 +221,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order, $storeCode, $configDataStoreId) 
+	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
         $coupon = array();
+        $shippingAmount = $order->getShippingAmount() - ($order->getShippingAmount() * $configDataImpuesto / 100);
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
@@ -236,7 +240,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $coupon = array($giftcard[0]->c);
             }
         }
-        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
             $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
@@ -246,7 +249,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         foreach ($orderItems as $key => $dataItem) {
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-            $tempItem['Price'] = $dataItem->getPrice();
+            $tempItem['Price'] = $dataItem->getOriginalPrice();
             if(count($coupon) == 0){
                 $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
                 if($price > 0){
@@ -258,6 +261,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['StoreItemId'] = $dataItem->getId();
             $items[] = $tempItem;
         }
+        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
                 'StoreId' => $configDataStoreId,
@@ -318,7 +322,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'FreightShipmentId' => $order->getQuoteId(),
                     'ServiceType' => $shippingData['ServiceType'],
                     'CarrierId' => $shippingData['CarrierId'],
-                    'Amount' => $order->getShippingAmount(),
+                    'Amount' => $shippingAmount,
                     'FreightCost' => 0,
                 )
             ),
