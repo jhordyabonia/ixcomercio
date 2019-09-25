@@ -202,8 +202,12 @@
       font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
     .mark, mark{
-      width: 50%;
+      width: 60%;
       background: none;
+      .value{
+        width: 100%;
+        float: left;
+      }
     }
     .label{
       color: #000;
