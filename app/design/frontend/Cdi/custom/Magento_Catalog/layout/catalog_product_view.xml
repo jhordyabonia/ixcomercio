@@ -40,7 +40,8 @@
 		<move element="product.info.description" destination="product.info.main" as="product.info.description" after="product.info.price"/>
 		<!--Mueve el precio al bloque sticky-->
 		<move element="product.price.final" destination="product.sticky" as="product.price.final" after="-"/>
-		
+		<move element="product.info.review" destination="product.custom.info.review" as="product.info.review" after="-" />
+        <move element="reviews.tab" destination="product.custom.info.review" after="product.info.details" />
 		
 		
 		<!--
@@ -60,6 +61,7 @@
 		<!--Elimina botón reviews-->
 		<!--Elimina el grupo de información adicional-->
 		<referenceBlock name="product.info.details" remove="true" />
+		<referenceBlock name="product.info.review" remove="true" />
 		
 		
 		
