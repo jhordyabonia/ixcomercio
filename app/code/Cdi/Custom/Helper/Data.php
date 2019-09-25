@@ -27,10 +27,12 @@ class Data extends AbstractHelper{
     }
 	
 	public function getMeasureUnit($weight){
-		return $this->_scopeConfig->getValue(
-			'general/locale/weight_unit',
-			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
-		);
+		switch($weight){
+			case 'lbs':
+				return 'in';
+			default: 
+				return 'cms';
+		}
     }
 	
     public function getAttributeArrayFromJson($json){

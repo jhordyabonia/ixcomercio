@@ -1,11 +1,10 @@
 <?php 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $_helper = $this->helper('Magento\Catalog\Helper\Output'); 
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $_product = $block->getProduct(); 
 $atts = $_product->getProductAttributes();
+$weightMeasure = $_helperCdi->getWeightUnit();
+$generalMeasure = $_helperCdi->getMeasureUnit($weightMeasure);
 $fields = array();
 if($atts){
 	$fields = $_helperCdi->getAttributeArrayFromJson($atts);
@@ -25,19 +24,19 @@ if($atts){
 				<b><?php echo __('Dimensions')?></b>
 				<ul>
 					<?php if($_product->getTsDimensionsHeight()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('height')->getStoreLabel();?>: <?= $_product->getTsDimensionsHeight() ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('height')->getStoreLabel();?>: <?= $_product->getTsDimensionsHeight() ?> <?php echo $generalMeasure ?></li>
 					<?php endif;?>
 					<?php if($_product->getTsDimensionsWidth()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('width')->getStoreLabel();?>: <?= $_product->getTsDimensionsWidth() ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('width')->getStoreLabel();?>: <?= $_product->getTsDimensionsWidth() ?> <?php echo $generalMeasure ?></li>
 					<?php endif;?>
 					<?php if($_product->getTsDimensionsLength()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('ts_dimensions_length')->getStoreLabel();?>: <?= $_product->getTsDimensionsLength() ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('ts_dimensions_length')->getStoreLabel();?>: <?= $_product->getTsDimensionsLength() ?> <?php echo $generalMeasure ?></li>
 					<?php endif;?>
 					<?php if($_product->getDepth()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('depth')->getStoreLabel();?>: <?= $_product->getDepth() ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('depth')->getStoreLabel();?>: <?= $_product->getDepth() ?> <?php echo $generalMeasure ?></li>
 					<?php endif;?>
 					<?php if($_product->getWeight()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('weight')->getStoreLabel();?>: <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?> <?php echo $_helperCdi->getWeightUnit(); ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('weight')->getStoreLabel();?>: <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?> <?php echo $weightMeasure; ?></li>
 					<?php endif;?>
 				</ul>
 			</div>
