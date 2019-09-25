@@ -20,14 +20,14 @@ class Data extends AbstractHelper{
     }
 	
 	public function getWeightUnit(){
-		return $this->scopeConfig->getValue(
+		return $this->_scopeConfig->getValue(
 			'general/locale/weight_unit',
 			ScopeInterface::SCOPE_STORE
 		);
     }
 	
 	public function getMeasureUnit($weight){
-		return $this->scopeConfig->getValue(
+		return $this->_scopeConfig->getValue(
 			'general/locale/weight_unit',
 			ScopeInterface::SCOPE_STORE
 		);
