@@ -16,9 +16,12 @@
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
-			<referenceContainer name="product.custom.info.review" htmlClass="product-info_review col-sm-8 col-xs-12 pull-right"/>
+		    </referenceContainer>
+			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
+    			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
+    			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
                 <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml"/>
-		</referenceContainer>
+		    </referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
@@ -40,7 +43,6 @@
 		<move element="product.info.description" destination="product.info.main" as="product.info.description" after="product.info.price"/>
 		<!--Mueve el precio al bloque sticky-->
 		<move element="product.price.final" destination="product.sticky" as="product.price.final" after="-"/>
-        <move element="reviews.tab" destination="product.custom.info.review" after="-" />
 		
 		
 		<!--
@@ -58,6 +60,7 @@
 		<!--Elimina botones social (wishlist, mail, compare)-->
 		<referenceBlock name="product.info.social" remove="true" />
 		<!--Elimina botón reviews-->
+		<referenceBlock name="product.info.review" remove="true" />
 		<!--Elimina el grupo de información adicional-->
 		<referenceBlock name="product.info.details" remove="true" />
 		
