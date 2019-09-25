@@ -44,6 +44,7 @@
     }
   }
   .opc-wrapper {
+    text-align: center;
     .shipping-address-item.selected-item{
       border-color: #000;
       &:after{
@@ -51,7 +52,7 @@
       }
     }
     input[type=checkbox], input[type=radio]{
-      float: left;
+      display: inline-block;
       margin: 0;
     }
     .payment-method{
