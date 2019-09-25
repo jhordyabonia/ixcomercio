@@ -40,7 +40,7 @@
 		<move element="product.info.description" destination="product.info.main" as="product.info.description" after="product.info.price"/>
 		<!--Mueve el precio al bloque sticky-->
 		<move element="product.price.final" destination="product.sticky" as="product.price.final" after="-"/>
-		<move element="product.info.review" destination="product.custom.info.review" as="product.info.review" after="-" />
+		
 		
 		
 		<!--
