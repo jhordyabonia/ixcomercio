@@ -13,13 +13,13 @@
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-4 col-xs-12 pull-left">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
-			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right">
+			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
-		    </referenceContainer>
 			<referenceContainer name="product.custom.info.review" htmlClass="product-info_review col-sm-8 col-xs-12 pull-right">
                 <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml"/>
 		    </referenceContainer>
+		</referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
