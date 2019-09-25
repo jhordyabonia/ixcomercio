@@ -32,6 +32,10 @@ form{
 						}
 						.field-tooltip{
 							right: -30px;
+							@media only screen and (max-width: $tablet){
+						      	right: 0;
+    							top: -35px;
+						    }
 						}
 					}
 				}
