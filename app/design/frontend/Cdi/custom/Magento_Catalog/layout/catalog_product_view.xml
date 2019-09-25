@@ -18,8 +18,6 @@
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
 		    </referenceContainer>
 			<referenceContainer name="product.custom.info.review" htmlClass="product-info_review col-sm-8 col-xs-12 pull-right"/>
-                <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml"/>
-		    </referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
