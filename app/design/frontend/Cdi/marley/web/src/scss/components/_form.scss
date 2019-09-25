@@ -25,6 +25,15 @@ form{
 				}
 				> .control{
 					width: 100%;
+					&._with-tooltip{
+						input{
+							width: 100%;
+							margin-right: 0;
+						}
+						.field-tooltip{
+							right: -30px;
+						}
+					}
 				}
 			}
 			&.choice{
