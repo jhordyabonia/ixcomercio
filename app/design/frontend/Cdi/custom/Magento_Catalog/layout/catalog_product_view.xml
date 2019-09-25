@@ -61,7 +61,6 @@
 		<!--Elimina botón reviews-->
 		<!--Elimina el grupo de información adicional-->
 		<referenceBlock name="product.info.details" remove="true" />
-		<referenceBlock name="product.info.review" remove="true" />
 		
 		
 		
