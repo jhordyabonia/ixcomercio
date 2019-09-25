@@ -19,6 +19,20 @@ class Data extends AbstractHelper{
 		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
 	
+	public function getWeightUnit(){
+		return $this->scopeConfig->getValue(
+			'general/locale/weight_unit',
+			ScopeInterface::SCOPE_STORE
+		);
+    }
+	
+	public function getMeasureUnit($weight){
+		return $this->scopeConfig->getValue(
+			'general/locale/weight_unit',
+			ScopeInterface::SCOPE_STORE
+		);
+    }
+	
     public function getAttributeArrayFromJson($json){
 		$fields = array();
         $atss = json_decode($json);

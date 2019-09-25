@@ -34,7 +34,7 @@ if($atts){
 						<li><?php echo $_product->getResource()->getAttribute('depth')->getStoreLabel();?>: <?= $_product->getDepth() ?></li>
 					<?php endif;?>
 					<?php if($_product->getWeight()): ?>
-						<li><?php echo $_product->getResource()->getAttribute('weight')->getStoreLabel();?>: <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?></li>
+						<li><?php echo $_product->getResource()->getAttribute('weight')->getStoreLabel();?>: <?= number_format((float)$_product->getWeight(), 2, '.', ''); ?> <?php echo $_helperCdi->getWeightUnit(); ?></li>
 					<?php endif;?>
 				</ul>
 			</div>
