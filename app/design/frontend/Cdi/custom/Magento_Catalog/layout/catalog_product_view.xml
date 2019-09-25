@@ -16,6 +16,8 @@
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
+		    </referenceContainer>
+			<referenceContainer name="product.custom.info.review" htmlClass="product-info_review col-sm-8 col-xs-12 pull-right"/>
                 <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml"/>
 		    </referenceContainer>
 		<referenceBlock name="product.info.sku">
@@ -39,6 +41,7 @@
 		<move element="product.info.description" destination="product.info.main" as="product.info.description" after="product.info.price"/>
 		<!--Mueve el precio al bloque sticky-->
 		<move element="product.price.final" destination="product.sticky" as="product.price.final" after="-"/>
+		<move element="product.info.review" destination="product.custom.info.review" as="product.price.final" after="-" />
 		
 		
 		<!--
@@ -56,7 +59,6 @@
 		<!--Elimina botones social (wishlist, mail, compare)-->
 		<referenceBlock name="product.info.social" remove="true" />
 		<!--Elimina botón reviews-->
-		<referenceBlock name="product.info.review" remove="true" />
 		<!--Elimina el grupo de información adicional-->
 		<referenceBlock name="product.info.details" remove="true" />
 		
