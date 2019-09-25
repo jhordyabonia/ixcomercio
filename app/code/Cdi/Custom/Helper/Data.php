@@ -22,14 +22,14 @@ class Data extends AbstractHelper{
 	public function getWeightUnit(){
 		return $this->_scopeConfig->getValue(
 			'general/locale/weight_unit',
-			ScopeInterface::SCOPE_STORE
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
     }
 	
 	public function getMeasureUnit($weight){
 		return $this->_scopeConfig->getValue(
 			'general/locale/weight_unit',
-			ScopeInterface::SCOPE_STORE
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
     }
 	
