@@ -16,7 +16,13 @@
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
-                <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml"/>
+                <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
+                    <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
+                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
+                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
+                    </block>
+                </block>
 		    </referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
