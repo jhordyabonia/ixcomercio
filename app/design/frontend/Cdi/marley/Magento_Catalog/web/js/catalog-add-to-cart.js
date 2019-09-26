@@ -95,8 +95,6 @@ define([
                 productIds = idsResolver(form),
                 formData;
 
-            console.log($(form).parents('.item.product').find('.product-name').text());
-
             $(self.options.minicartSelector).trigger('contentLoading');
             self.disableAddToCartButton(form);
             formData = new FormData(form[0]);
@@ -170,7 +168,7 @@ define([
                     self.enableAddToCartButton(form);
 
                     //popup code start
-                    var popup = $('<div class="add-to-cart-dialog"/>').html($('button.disabled').parents('.product-item-details').find('.product-item-name').text() + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
+                    var popup = $('<div class="add-to-cart-dialog"/>').html($(form).parents('.item.product').find('.product-name').text() + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
                         modalClass: 'add-to-cart-popup',
                         //title: $.mage.__("No Title"),
                         buttons: [
