@@ -148,6 +148,28 @@ define([
 
                     if (res.messages) {
                         $(self.options.messagesSelector).html(res.messages);
+
+                        //popup code start
+                        var popup = $('<div class="add-to-cart-dialog"/>').html(res.messages).modal({ //get product name from product view page only
+                            modalClass: 'add-to-cart-popup',
+                            //title: $.mage.__("No Title"),
+                            buttons: [
+                                {
+                                    text: 'Continue Shopping',
+                                    click: function () {
+                                        this.closeModal();
+                                    }
+                                },
+                                {
+                                    text: 'Proceed to Checkout',
+                                    click: function () {
+                                        window.location = window.checkout.checkoutUrl
+                                    }
+                                }
+                            ]
+                        });
+                        popup.modal('openModal');
+                        //popup code end
                     }
 
                     if (res.minicart) {
@@ -163,28 +185,6 @@ define([
                             .html(res.product.statusText);
                     }
                     self.enableAddToCartButton(form);
-
-                    //popup code start
-                    var popup = $('<div class="add-to-cart-dialog"/>').html(res.messages).modal({ //get product name from product view page only
-                        modalClass: 'add-to-cart-popup',
-                        //title: $.mage.__("No Title"),
-                        buttons: [
-                            {
-                                text: 'Continue Shopping',
-                                click: function () {
-                                    this.closeModal();
-                                }
-                            },
-                            {
-                                text: 'Proceed to Checkout',
-                                click: function () {
-                                    window.location = window.checkout.checkoutUrl
-                                }
-                            }
-                        ]
-                    });
-                    popup.modal('openModal');
-                    //popup code end
                 },
 
                 /** @inheritdoc */
