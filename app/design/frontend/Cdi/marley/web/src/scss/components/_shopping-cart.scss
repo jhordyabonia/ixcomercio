@@ -211,6 +211,7 @@
     }
     .label{
       color: #000;
+      padding-left: 0;
     }
     .block{
       >.title{
@@ -231,6 +232,10 @@
     }
     input[type=checkbox], input[type=radio]{
       display: inline-block;
+      ~ .label{
+        font-size: 100%;
+        padding-left: .6em;
+      }
     }
     .checkout-methods-items{
       a{

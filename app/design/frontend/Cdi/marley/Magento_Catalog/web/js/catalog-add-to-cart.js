@@ -82,9 +82,6 @@ define([
          */
         submitForm: function (form) {
             this.ajaxSubmit(form);
-            console.log($(this).parents('.product-item-details').find('.product-item-name').text());
-            console.log('this ' + this);
-            console.log('form ' + form);
         },
 
         /**
