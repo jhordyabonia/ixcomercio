@@ -95,9 +95,6 @@ define([
                 productIds = idsResolver(form),
                 formData;
 
-            console.log('form ajax' + form);
-            console.log('self ajax' + self);
-
             $(self.options.minicartSelector).trigger('contentLoading');
             self.disableAddToCartButton(form);
             formData = new FormData(form[0]);
@@ -120,6 +117,9 @@ define([
 
                 /** @inheritdoc */
                 success: function (res) {
+                    console.log('res ajax' + res);
+                    console.log('product ajax' + res.product);
+                    
                     var eventData, parameters;
 
                     $(document).trigger('ajax:addToCart', {
