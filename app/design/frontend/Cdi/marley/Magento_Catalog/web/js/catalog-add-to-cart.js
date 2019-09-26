@@ -117,9 +117,6 @@ define([
 
                 /** @inheritdoc */
                 success: function (res) {
-                    console.log('res ajax' + res);
-                    console.log('product ajax' + res.product);
-                    
                     var eventData, parameters;
 
                     $(document).trigger('ajax:addToCart', {
@@ -169,6 +166,11 @@ define([
                             .html(res.product.statusText);
                     }
                     self.enableAddToCartButton(form);
+
+                    console.log('res ajax' + res);
+                    console.log('product ajax' + res.product);
+                    console.log('eventData ajax' + eventData);
+                    console.log('parameters ajax' + parameters);
 
                     //popup code start
                     var popup = $('<div class="add-to-cart-dialog"/>').html($('button.disabled').parents('.product-item-details').find('.product-item-name').text() + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
