@@ -17,7 +17,7 @@
         <div class="page-title">
           <h1>Contáctenos</h1>
         </div>
-        <form action="" id="contactForm" method="post">
+        <form action="<?= $block->escapeUrl($block->getFormAction()) ?>" id="contactForm" method="post" data-mage-init='{"validation":{}}'>
           <div class="fieldset">
             <h2 class="legend">Información de Contacto</h2>
             <ul class="form-list">
