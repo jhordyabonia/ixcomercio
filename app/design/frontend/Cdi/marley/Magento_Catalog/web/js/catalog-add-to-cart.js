@@ -95,8 +95,7 @@ define([
                 productIds = idsResolver(form),
                 formData;
 
-            console.log($(form));
-            console.log($(self));
+            console.log($(form).parents('.item.product').find('.product-name').text());
 
             $(self.options.minicartSelector).trigger('contentLoading');
             self.disableAddToCartButton(form);
