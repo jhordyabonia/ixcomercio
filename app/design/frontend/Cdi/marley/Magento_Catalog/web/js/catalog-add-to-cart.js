@@ -83,6 +83,8 @@ define([
         submitForm: function (form) {
             this.ajaxSubmit(form);
             console.log($(this).parents('.product-item-details').find('.product-item-name').text());
+            console.log('this ' + this);
+            console.log('form ' + form);
         },
 
         /**
@@ -92,6 +94,9 @@ define([
             var self = this,
                 productIds = idsResolver(form),
                 formData;
+
+            console.log('form ajax' + form);
+            console.log('self ajax' + self);
 
             $(self.options.minicartSelector).trigger('contentLoading');
             self.disableAddToCartButton(form);
