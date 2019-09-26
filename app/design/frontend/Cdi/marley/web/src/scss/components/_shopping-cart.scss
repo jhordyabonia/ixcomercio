@@ -202,10 +202,16 @@
       font-family: "flamacondensed-bold",Oswald,sans-serif;
     }
     .mark, mark{
+      width: 60%;
       background: none;
+      .value{
+        width: 100%;
+        float: left;
+      }
     }
     .label{
       color: #000;
+      padding-left: 0;
     }
     .block{
       >.title{
@@ -222,10 +228,14 @@
       }
     }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
-      font-size: 14px;
+      font-size: 13px;
     }
     input[type=checkbox], input[type=radio]{
       display: inline-block;
+      ~ .label{
+        font-size: 100%;
+        padding-left: .6em;
+      }
     }
     .checkout-methods-items{
       a{

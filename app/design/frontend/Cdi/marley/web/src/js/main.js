@@ -20,6 +20,23 @@ function ($, Component) {
     });
 
 
+    //Append search mobile
+    if(w_width <= 768){
+      var searchMobile = $('#search-wrapper-mobile .block-search');
+      var minicartMobile = $('#mini-cart-wrapper-mobile .minicart-wrapper');
+
+      if($(searchMobile).length == 0){
+        $('#search-wrapper-mobile').append($('.block-search'));
+      }
+      if($(minicartMobile).length == 0){
+        $('#mini-cart-wrapper-mobile').append($('.minicart-wrapper'));
+      }
+    }else{
+      $(searchMobile).remove();
+      $(minicartMobile).remove();
+    }
+
+
     // =============================================
     // Height catalog items list
     // =============================================
@@ -194,11 +211,31 @@ function ($, Component) {
 
 
   jQuery(window).on("resize", function(){
+    navbarHeight = jQuery('header').innerHeight();
     if(w_width <= 959){
       $('html body').css('paddingTop', navbarHeight);
     }else{
       $('html body').css('paddingTop', 0);
     }
+
+    //Append search mobile
+    if(w_width <= 768){
+      var searchMobile = $('#search-wrapper-mobile .block-search');
+      var minicartMobile = $('#mini-cart-wrapper-mobile .minicart-wrapper');
+
+      if($(searchMobile).length == 0){
+        $('#search-wrapper-mobile').append($('.block-search'));
+      }
+      if($(minicartMobile).length == 0){
+        $('#mini-cart-wrapper-mobile').append($('.minicart-wrapper'));
+      }
+    }else{
+      $(searchMobile).remove();
+      $(minicartMobile).remove();
+    }
+
+
+
   });
 
 

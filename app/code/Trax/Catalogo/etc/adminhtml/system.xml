@@ -31,6 +31,14 @@
                     <label>Url Producción</label>
                     <comment>Url servicio en producción.</comment>
                 </field>
+                <field id="timeout" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Tiempo entre reintentos</label>
+                    <comment>Tiempo en segundos entre reintentos de conexión a los servicios de TRAX. Esta configuración aplica para todos los servicios de TRAX</comment>
+                </field>
+                <field id="errores" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Errores para reintentos</label>
+                    <comment>Listado de errores separados por "," para realziar reintentos de conexión con TRAX</comment>
+                </field>
             </group>
         </section>
         <section id="trax_catalogo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">

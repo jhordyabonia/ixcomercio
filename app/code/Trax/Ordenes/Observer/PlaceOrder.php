@@ -23,11 +23,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
-    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/ordenes_reintentos';
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
 
-    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/ordenes_correo';
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/ordenes_reintentos';
+
+    const ORDENES_CORREO = 'trax_general/ordenes_general/ordenes_correo';
+
+    const STORE_ID = 'trax_general/ordenes_general/store_id';
+
+    const PORCENTAJE_IMPUESTO = 'trax_general/ordenes_general/porcentaje_impuesto';
     
     private $helper;
 	
@@ -83,8 +89,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         //Se carga el servicio por curl
         $this->logger->info('PlaceOrder - url '.$serviceUrl);
         try{
-            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id']);
-            $this->logger->info('PlaceOrder - Payload: '.$payload);
+            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id'], $configData['porcentaje_impuesto']);
             if($payload){
                 $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(), 0);
             } else {
@@ -110,6 +115,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
+        $configData['porcentaje_impuesto'] = $this->scopeConfig->getValue(self::PORCENTAJE_IMPUESTO, $storeScope, $websiteCode);
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
@@ -134,21 +142,23 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     //Función recursiva para intentos de conexión
     public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $this->logger->info('PlaceOrder - Se intenta conexión con trax: '.$serviceUrl);
         $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->saveIwsOrder($data->OrderNumber, $order->getId(), $order->getIncrementId());
-            $this->addOrderComment($order->getId(), $data->OrderNumber);
+            $this->saveIwsOrder($data['resp']->OrderNumber, $order->getId(), $order->getIncrementId());
+            $this->addOrderComment($order->getId(), $data['resp']->OrderNumber);
         } else {
-            if($configData['ordenes_reintentos']>$attempts){
-                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('PlaceOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
-                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['ordenes_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -179,9 +189,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('PlaceOrder - '.$serviceUrl);
         $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 
@@ -203,12 +221,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order, $storeCode, $configDataStoreId) 
+	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
         $coupon = array();
+        $shippingAmount = $order->getShippingAmount() - ($order->getShippingAmount() * $configDataImpuesto / 100);
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
@@ -221,16 +240,16 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $coupon = array($giftcard[0]->c);
             }
         }
-        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
+            $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
             return false;
         }
         $items = array();
         foreach ($orderItems as $key => $dataItem) {
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-            $tempItem['Price'] = $dataItem->getPrice();
+            $tempItem['Price'] = $dataItem->getOriginalPrice();
             if(count($coupon) == 0){
                 $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
                 if($price > 0){
@@ -242,6 +261,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['StoreItemId'] = $dataItem->getId();
             $items[] = $tempItem;
         }
+        $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
                 'StoreId' => $configDataStoreId,
@@ -251,7 +271,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'LastName' => $billing->getLastname(),
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $billing->getTelephone(),
-                    'DocumentId' => '1040505',
+                    'DocumentId' => $billing->getIdentification(),
                 ),
                 'Billing' => array(
                     'FirstName' => $billing->getFirstname(),
@@ -269,6 +289,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'City' => $billing->getCity(),
                     'Neighborhood' => '',
                     'CountryId' => $billing->getCountryId(),
+                    'PostalCode' => $billing->getPostalCode(),
                 ),
                 'Shipping' => array(
                     'FirstName' => $shipping->getFirstname(),
@@ -286,22 +307,23 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'City' => $shipping->getCity(),
                     'Neighborhood' => '',
                     'CountryId' => $shipping->getCountryId(),
+                    'PostalCode' => $shipping->getPostalCode(),
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
-            'InvoiceRequested' => true,
-            'ReceiveInvoiceByMail' => true,
+            'InvoiceRequested' => false,
+            'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
                 array(
-                    'FreightService' => $order->getShippingMethod(),
+                    'FreightService' => "MiEnvio.mx",
                     'FreightShipmentId' => $order->getQuoteId(),
                     'ServiceType' => $shippingData['ServiceType'],
                     'CarrierId' => $shippingData['CarrierId'],
-                    'Amount' => $order->getShippingAmount(),
-                    'FreightCost' => $order->getShippingAmount(),
+                    'Amount' => $shippingAmount,
+                    'FreightCost' => 0,
                 )
             ),
             'Items' => $items

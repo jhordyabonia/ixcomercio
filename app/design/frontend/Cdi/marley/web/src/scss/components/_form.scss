@@ -14,7 +14,7 @@ form{
 			&:not(.choice){
 				> .label{
 					color: #000;
-					font-size: 100%;
+					font-size: 13px;
 			    	margin: 0 0 10px;
 			    	font-weight: 700;
 				    @media only screen and (min-width: $tablet){
@@ -25,6 +25,19 @@ form{
 				}
 				> .control{
 					width: 100%;
+					&._with-tooltip{
+						input{
+							width: 100%;
+							margin-right: 0;
+						}
+						.field-tooltip{
+							right: -30px;
+							@media only screen and (max-width: $tablet){
+						      	right: 0;
+    							top: -35px;
+						    }
+						}
+					}
 				}
 			}
 			&.choice{

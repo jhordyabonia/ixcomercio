@@ -12,6 +12,10 @@
                     <label>StoreId</label>
                     <comment>StoreId de trax. Ejemplo: houseofmar</comment>
                 </field>
+                <field id="porcentaje_impuesto" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Porcentaje Impuesto</label>
+                    <comment>Porcentaje de impuesto cobrado en el método de envío. Este valor es utilizado para realizar validación de datos enviados a TRAX</comment>
+                </field>
                 <field id="ordenes_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Reintentos de conexión PlaceOrder</label>
                     <comment>Número de reintentos de conexión en servicio.</comment>

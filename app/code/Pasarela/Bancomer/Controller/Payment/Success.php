@@ -36,13 +36,17 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
-    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
 
-    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const INVENTARIO_REINTENTOS = 'trax_ordenes/ordenes_general/inventario_reintentos';
+    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/pagos_reintentos';
 
-    const INVENTARIO_CORREO = 'trax_ordenes/ordenes_general/inventario_correo';
+    const ORDENES_CORREO = 'trax_general/ordenes_general/pagos_correo';
+
+    const INVENTARIO_REINTENTOS = 'trax_general/ordenes_general/inventario_reintentos';
+
+    const INVENTARIO_CORREO = 'trax_general/ordenes_general/inventario_correo';
 
     const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
 
@@ -233,7 +237,6 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $configData['secret_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_SECRETA, $storeScope, $websiteCode);
             $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         }
-            $configData['public_key'] = $this->scopeConfig->getValue(self::PRODUCCION_LLAVE_PUBLICA, $storeScope, $websiteCode);
         if($sandbox == '1'){
             $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
         } else{
@@ -388,6 +391,8 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);
@@ -423,19 +428,22 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
     public function beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'RegisterPayment');
+            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data['resp'][0]->PaymentId, 'RegisterPayment');
             $this->initReleaseOrder($mp_order, $configData, $order, $storeCode);
         } else {
-            if($configData['pagos_reintentos']>$attempts){
-                $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
-                $this->logger->info('RegisterPayment - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
-                $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
-                $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['pagos_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
+                    $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -467,22 +475,24 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
     public function beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'ReleaseOrder');
-        if($data){     
-            if($data->OnHold){
+        if($data['status']){     
+            if($data['resp']->OnHold){
                 $this->addOrderComment($mp_order, 'Se ha producido un error al ejecutar el método releaseOrder.', 'ReleaseOrder');
             } else {
                 $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
             }
-            //Mapear orden de magento con IWS en tabla custom
         } else {
-            if($configData['inventario_reintentos']>$attempts){
-                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('ReleaseOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
-                $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['inventario_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -492,18 +502,21 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
     public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS', 'CancelOrder');
+            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS.', 'CancelOrder');
         } else {
-            if($configData['cancelar_reintentos']>$attempts){
-                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
-                $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['cancelar_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -533,9 +546,17 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
         $this->logger->info($method.' - '.$serviceUrl);
         $this->logger->info($method.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 

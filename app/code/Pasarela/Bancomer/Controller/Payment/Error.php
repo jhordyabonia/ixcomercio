@@ -33,6 +33,10 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
 
     const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
@@ -223,6 +227,8 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['cancelar_reintentos'] = $this->scopeConfig->getValue(self::CANCELAR_REINTENTOS, $storeScope, $websiteCode);
         $configData['cancelar_correo'] = $this->scopeConfig->getValue(self::CANCELAR_CORREO, $storeScope, $websiteCode);
         $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
@@ -280,18 +286,21 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
     public function beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'CancelOrder');
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. Orden Interna IWS');
+            $this->addOrderComment($mp_order, 'Se cancelo orden interna en IWS. ');
         } else {
-            if($configData['cancelar_reintentos']>$attempts){
-                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('CancelOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
-                $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['cancelar_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('CancelOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('CancelOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['cancelar_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
 
@@ -321,9 +330,17 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $this->logger->info($method.' - '.$serviceUrl);
         $this->logger->info($method.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
 
     }
 

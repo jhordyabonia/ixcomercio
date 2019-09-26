@@ -31,6 +31,10 @@ class Loadfile extends Action
 
 	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
 
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
+
     const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
     const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
@@ -290,6 +294,8 @@ class Loadfile extends Action
         } else{
             $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
         }
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['pagos_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['pagos_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['inventario_reintentos'] = $this->scopeConfig->getValue(self::INVENTARIO_REINTENTOS, $storeScope, $websiteCode);
@@ -338,19 +344,22 @@ class Loadfile extends Action
     public function beginRegisterPayments($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'BANCOMER CONCILIACION');
-        if($data){     
+        if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data[0]->PaymentId, 'BANCOMER CONCILIACION');
+            $this->addOrderComment($mp_order, 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data['resp'][0]->PaymentId, 'BANCOMER CONCILIACION');
             $this->initReleaseOrder($mp_order, $configData, $order, $storeCode);
         } else {
-            if($configData['pagos_reintentos']>$attempts){
-                $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
-                $this->logger->info('BANCOMER CONCILIACION - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginRegisterPayments($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
-                $this->logger->info('BANCOMER CONCILIACION - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
-                $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['pagos_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginRegisterPayments($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('BANCOMER CONCILIACION - Error conexión: '.$serviceUrl);
+                    $this->logger->info('BANCOMER CONCILIACION - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
     }
@@ -396,22 +405,25 @@ class Loadfile extends Action
     public function beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, 'ReleaseOrder');
-        if($data){     
-            if($data->OnHold){
+        if($data['status']){     
+            if($data['resp']->OnHold){
                 $this->addOrderComment($mp_order, 'Se ha producido un error al ejecutar el método releaseOrder.', 'ReleaseOrder');
             } else {
                 $this->addOrderComment($mp_order, 'Se ejecuto el método releaseOrder correctamente.', 'ReleaseOrder');
             }
             //Mapear orden de magento con IWS en tabla custom
         } else {
-            if($configData['inventario_reintentos']>$attempts){
-                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('ReleaseOrder - Se reintenta conexión #'.$attempts.' con el servicio: '.$serviceUrl);
-                $this->beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts+1);
-            } else{
-                $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
-                $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
-                $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
+            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                if($configData['inventario_reintentos']>$attempts){
+                    $attempts++;
+                    $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                    sleep($configData['timeout']);
+                    $this->beginReleaseOrder($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                } else{
+                    $this->logger->info('ReleaseOrder - Error conexión: '.$serviceUrl);
+                    $this->logger->info('ReleaseOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['inventario_correo']);
+                    $this->helper->notify('Soporte Trax', $configData['inventario_correo'], $configData['inventario_reintentos'], $serviceUrl, $payload, $storeCode);
+                }
             }
         }   
     }
@@ -466,9 +478,17 @@ class Loadfile extends Action
         $this->logger->info($method.' - '.$serviceUrl);
         $this->logger->info($method.' - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            return json_decode($resp);
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
         }
-        return false;
+        return $response;
     }
 
     //Se añade comentario interno a orden

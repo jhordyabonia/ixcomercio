@@ -50,8 +50,11 @@
         background: #000;
       }
     }
+    .col.col-method{
+      text-align: center;
+    }
     input[type=checkbox], input[type=radio]{
-      float: left;
+      display: inline-block;
       margin: 0;
     }
     .payment-method{
