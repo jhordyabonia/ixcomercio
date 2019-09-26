@@ -165,7 +165,7 @@ define([
                     self.enableAddToCartButton(form);
 
                     //popup code start
-                    var popup = $('<div class="add-to-cart-dialog"/>').html(es.messages).modal({ //get product name from product view page only
+                    var popup = $('<div class="add-to-cart-dialog"/>').html(res.messages).modal({ //get product name from product view page only
                         modalClass: 'add-to-cart-popup',
                         //title: $.mage.__("No Title"),
                         buttons: [
