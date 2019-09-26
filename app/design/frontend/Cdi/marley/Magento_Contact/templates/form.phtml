@@ -17,7 +17,7 @@
         <div class="page-title">
           <h1>Contáctenos</h1>
         </div>
-        <form action="<?= $block->escapeUrl($block->getFormAction()) ?>" id="contactForm" method="post" data-mage-init='{"validation":{}}'>
+        <form action="<?= $block->escapeUrl($block->getFormAction()) ?>" id="contactForm" method="post">
           <div class="fieldset">
             <h2 class="legend">Información de Contacto</h2>
             <ul class="form-list">
@@ -49,6 +49,7 @@
               </li>
             </ul>
           </div>
+          <?= $block->getChildHtml('form.additional.info') ?>
           <div class="buttons-set">
             <p class="required">* Campos Requeridos</p>
             <button type="submit" title="Enviar" class="button"><span><span>Enviar</span></span></button>
