@@ -13,6 +13,11 @@
       text-align: left;
       border: 1px solid #e8e8e8;
       padding: 40px;
+      &.additional-addresses{
+        overflow-x: overlay;
+        padding: 40px 0 0;
+        border: 0;
+      }
     }
     .block:not(.widget){
       .block-title{
