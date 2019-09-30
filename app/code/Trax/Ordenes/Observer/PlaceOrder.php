@@ -290,7 +290,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'City' => $billing->getCity(),
                     'Neighborhood' => '',
                     'CountryId' => $billing->getCountryId(),
-                    'PostalCode' => $billing->getPostalCode(),
+                    'PostalCode' => $billing->getPostCode(),
                 ),
                 'Shipping' => array(
                     'FirstName' => $shipping->getFirstname(),
@@ -308,7 +308,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'City' => $shipping->getCity(),
                     'Neighborhood' => '',
                     'CountryId' => $shipping->getCountryId(),
-                    'PostalCode' => $shipping->getPostalCode(),
+                    'PostalCode' => $shipping->getPostCode(),
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
