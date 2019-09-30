@@ -68,7 +68,7 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
      * @param \Magento\Sales\Model\Service\InvoiceService $invoiceService
      * @param \Magento\Framework\Controller\ResultFactory $result
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Trax\Placesper\Email $email
+     * @param \Trax\Catalogo\Helper\Email $email
      */
     public function __construct(
             Context $context, 
@@ -81,7 +81,7 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
             \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-            \Trax\Placesper\Email $email,
+            \Trax\Catalogo\Helper\Email $email,
             \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder
     ) {
         parent::__construct($context);
