@@ -250,6 +250,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
             $tempItem['Price'] = $dataItem->getOriginalPrice();
+            $discount = '';
             if(count($coupon) == 0){
                 $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
                 if($price > 0){
@@ -289,7 +290,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'City' => $billing->getCity(),
                     'Neighborhood' => '',
                     'CountryId' => $billing->getCountryId(),
-                    'PostalCode' => $billing->getPostalCode(),
+                    'PostalCode' => $billing->getPostCode(),
                 ),
                 'Shipping' => array(
                     'FirstName' => $shipping->getFirstname(),
@@ -307,7 +308,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'City' => $shipping->getCity(),
                     'Neighborhood' => '',
                     'CountryId' => $shipping->getCountryId(),
-                    'PostalCode' => $shipping->getPostalCode(),
+                    'PostalCode' => $shipping->getPostCode(),
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="trax_ordenes" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Lugares</label>
+            <tab>trax</tab>
+            <resource>Magento_Trax::config_ordenes</resource>
+            <group id="lugares_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración IWS en Lugares</label>
+                <field id="country_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Country ID</label>
+                    <comment>El ID de país para el que obtener la lista de municipios/ciudades desde Trax.</comment>
+                </field>
+                <field id="lugares_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reintentos de conexión CancelOrder</label>
+                    <comment>Número de reintentos de conexión en servicio.</comment>
+                </field>
+                <field id="lugares_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Correo Electrónico CancelOrder</label>
+                    <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

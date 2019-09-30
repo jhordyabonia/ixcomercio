@@ -165,7 +165,13 @@ define([
                     self.enableAddToCartButton(form);
 
                     //popup code start
-                    var popup = $('<div class="add-to-cart-dialog"/>').html($(form).parents('.item.product').find('.product-name').text() + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
+                    var titleProduct;
+                    if($(form).parents('.item.product').length){
+                        titleProduct = $(form).parents('.item.product').find('.product-name').text();
+                    }else if($(form).parents('.product-info_main').length){
+                        titleProduct = $(form).parents('.product-info_main').find('.product-name').text();
+                    }
+                    var popup = $('<div class="add-to-cart-dialog"/>').html(titleProduct + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
                         modalClass: 'add-to-cart-popup',
                         //title: $.mage.__("No Title"),
                         buttons: [

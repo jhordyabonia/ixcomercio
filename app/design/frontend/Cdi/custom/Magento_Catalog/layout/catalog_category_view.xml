@@ -24,6 +24,6 @@
 		</referenceContainer>
 		<referenceBlock name="category.product.addto" remove="true" />
 		-->
-		<move element="category.cms" destination="content" as="category.cms" before="-"/>
+		<move element="category.cms" destination="content" as="category.cms" after="-"/>
     </body>
 </page>

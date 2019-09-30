@@ -1,0 +1,16 @@
+.header-freeshipping{
+  color: #fff;
+  background: #c73615;
+  div{
+    margin: 0!important;
+  }
+  p{
+    margin: 0;
+  }
+  a, a:visited{
+  	color: #fff;
+  }
+  [data-content-type='row'][data-appearance='contained'] [data-element='inner']{
+  	padding: 10px!important;
+  }
+}

@@ -295,6 +295,40 @@ header{
         float: left;
         display: block;
       }
+      .minicart-wrapper{
+        .action.showcart{
+          &.active{
+            &:before{
+              line-height: 50px;
+            }
+          }
+        }
+        .counter.qty{
+          top: 5px;
+          right: 20px;
+          width: 18px;
+          height: 18px;
+          color: #fff;
+          font-size: 11px;
+          font-family: Arial,Helvetica,sans-serif;
+          line-height: 18px;
+          font-weight: bold;
+          position: absolute;
+          background: red;
+          border-radius: 50%;
+          margin: 0;
+        }
+        .block-minicart{
+          .minicart-items{
+            .product-item-name{
+              font-size: 1rem;
+            }
+            .price-container .price{
+              font-size: 1rem;
+            }
+          }
+        }
+      }      
     }
     #search-wrapper-mobile{
       width: 100%;
