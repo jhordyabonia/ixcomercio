@@ -250,6 +250,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $tempItem['Sku'] = $dataItem->getSku();
             $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
             $tempItem['Price'] = $dataItem->getOriginalPrice();
+            $discount = '';
             if(count($coupon) == 0){
                 $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
                 if($price > 0){
