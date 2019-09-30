@@ -66,8 +66,6 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Psr\Log\LoggerInterface $logger_interface
      * @param \Magento\Sales\Model\Service\InvoiceService $invoiceService
-     * @param \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder
-     * @param \Trax\Places\Model\BancomerTransaccionesFactory  $bancomerTransacciones
      * @param \Magento\Framework\Controller\ResultFactory $result
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Placesper\Email $email
@@ -81,7 +79,6 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
             \Psr\Log\LoggerInterface $logger_interface,
             \Magento\Sales\Model\Service\InvoiceService $invoiceService,
             \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
-            \Trax\Places\Model\BancomerTransaccionesFactory  $bancomerTransacciones,
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Placesper\Email $email,
@@ -95,7 +92,6 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $this->logger = $logger_interface;        
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
-        $this->_bancomerTransacciones = $bancomerTransacciones;
         $this->resultRedirect = $result;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
