@@ -339,6 +339,7 @@ class GetCatalog {
             $name=ucfirst($catalog->Category->Description);
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
+            $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');

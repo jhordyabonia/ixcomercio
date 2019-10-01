@@ -21,7 +21,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Webhook class  
  */
-class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+class Index extends \Magento\Framework\App\Action\Action
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
@@ -100,16 +100,6 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
-    }
-
-    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
-    {
-        return null;
-    }
-
-    public function validateForCsrf(RequestInterface $request): ?bool
-    {
-        return true;
     }
 
     /**
@@ -195,7 +185,7 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            echo json_encode($data['resp']);
+            echo json_encode($data['resp']); exit();
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['lugares_reintentos']>$attempts){
@@ -207,6 +197,7 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetPlaces - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['lugares_correo']);
                     $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, "N/A", $storeCode);
+                    echo json_encode(array());
                 }
             }
         }   
