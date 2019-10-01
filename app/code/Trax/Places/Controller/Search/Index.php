@@ -214,7 +214,7 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
     }
 
     //Se carga servicio por CURL
-	public function loadIwsService($serviceUrl, $payload, $method) 
+	public function loadIwsService($serviceUrl, $method) 
 	{        
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
