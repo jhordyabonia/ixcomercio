@@ -202,11 +202,11 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
                     $attempts++;
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
                     sleep($configData['timeout']);
-                    $this->beginGetPlaces($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts);
+                    $this->beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts);
                 } else{
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetPlaces - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['lugares_correo']);
-                    $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, $payload, $storeCode);
+                    $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, "N/A", $storeCode);
                 }
             }
         }   
