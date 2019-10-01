@@ -38,11 +38,11 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const LUGARES_REINTENTOS = 'trax_general/lugares_general/lugares_reintentos';
+    const LUGARES_REINTENTOS = 'trax_lugares/lugares_general/lugares_reintentos';
 
-    const LUGARES_CORREO = 'trax_general/lugares_general/lugares_correo';
+    const LUGARES_CORREO = 'trax_lugares/lugares_general/lugares_correo';
 
-    const COUNTRY_ID = 'payment/lugares_general/country_id';
+    const COUNTRY_ID = 'trax_lugares/lugares_general/country_id';
     
     private $helper;
 	

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <trax_general>
+        <trax_lugares>
             <lugares_general>
                 <country_id></country_id>
                 <lugares_reintentos>1</lugares_reintentos>
                 <lugares_correo>example@example.com</lugares_correo>
             </lugares_general>
-        </trax_general>
+        </trax_lugares>
     </default>
 </config>
