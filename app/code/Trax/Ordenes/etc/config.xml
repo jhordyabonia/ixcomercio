@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <trax_general>
+        <trax_ordenes>
             <ordenes_general>
                 <store_id>houseofmar</store_id>
                 <porcentaje_impuesto>16</porcentaje_impuesto>
@@ -14,6 +14,6 @@
                 <cancelar_reintentos>1</cancelar_reintentos>
                 <cancelar_correo>example@example.com</cancelar_correo>
             </ordenes_general>
-        </trax_general>
+        </trax_ordenes>
     </default>
 </config>
