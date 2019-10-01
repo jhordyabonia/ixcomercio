@@ -40,17 +40,17 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/pagos_reintentos';
+    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
-    const ORDENES_CORREO = 'trax_general/ordenes_general/pagos_correo';
+    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
 
-    const INVENTARIO_REINTENTOS = 'trax_general/ordenes_general/inventario_reintentos';
+    const INVENTARIO_REINTENTOS = 'trax_ordenes/ordenes_general/inventario_reintentos';
 
-    const INVENTARIO_CORREO = 'trax_general/ordenes_general/inventario_correo';
+    const INVENTARIO_CORREO = 'trax_ordenes/ordenes_general/inventario_correo';
 
-    const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
+    const CANCELAR_REINTENTOS = 'trax_ordenes/ordenes_general/cancelar_reintentos';
 
-    const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
+    const CANCELAR_CORREO = 'trax_ordenes/ordenes_general/cancelar_correo';
 
     const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
 

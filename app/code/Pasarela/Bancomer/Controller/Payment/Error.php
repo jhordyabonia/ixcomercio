@@ -37,9 +37,9 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
+    const CANCELAR_REINTENTOS = 'trax_ordenes/ordenes_general/cancelar_reintentos';
 
-    const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
+    const CANCELAR_CORREO = 'trax_ordenes/ordenes_general/cancelar_correo';
 
     const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
 
