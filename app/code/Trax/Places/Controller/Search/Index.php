@@ -21,7 +21,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Webhook class  
  */
-class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+class Index extends \Magento\Framework\App\Action\Action
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
