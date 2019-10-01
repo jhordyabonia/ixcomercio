@@ -28,6 +28,9 @@
       color: #fff;
       background: #89170b;
       padding: 40px 0;
+      @media only screen and (max-width: $tablet){
+        padding: 0;
+      }
       .link-block{
         text-align: left;
         h4{
@@ -47,7 +50,8 @@
           }
           @media only screen and (max-width: $tablet){
             width: 100%;
-            padding-bottom: 20px;
+            margin: 0;
+            padding: 20px 0;
             &:after{
               opacity: .2;
             }
@@ -63,6 +67,15 @@
             line-height: 2em;
             a{
               color: #fff;
+            }
+          }
+        }
+        &:last-child{
+          @media only screen and (max-width: $tablet){
+            h4{
+              &:after{
+                display: none;
+              }
             }
           }
         }
