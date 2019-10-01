@@ -232,6 +232,7 @@ class Index extends \Magento\Framework\App\Action\Action
                 'status_code' => $status_code
             );
         }
+        echo "ok"; exit();
         return $response;
 
     }
