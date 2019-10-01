@@ -127,7 +127,11 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
             //Se obtienen parametros de configuración por Store
             $this->logger->info('GetPlaces - Se obtienen parámetros de configuración');
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-            $parentId = $_REQUEST['parentId'];
+            if(isset($_REQUEST['parentId'])){
+                $parentId = $_REQUEST['parentId'];
+            } else{
+                $parentId = false;
+            }
             $serviceUrl = $this->getServiceUrl($configData, 'getplaces', $parentId);   
             $this->logger->info('GetPlaces - url '.$serviceUrl);
             if($serviceUrl){
