@@ -102,16 +102,6 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $this->_iwsOrder = $iwsOrder;
     }
 
-    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
-    {
-        return null;
-    }
-
-    public function validateForCsrf(RequestInterface $request): ?bool
-    {
-        return true;
-    }
-
     /**
      * Load the page defined in view/frontend/layout/bancomer_index_webhook.xml
      * URL /openpay/payment/success
