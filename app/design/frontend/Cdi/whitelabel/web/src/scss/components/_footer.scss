@@ -45,10 +45,20 @@
             position: absolute;
             background: #fff;
           }
+          @media only screen and (max-width: $tablet){
+            width: 100%;
+            padding-bottom: 20px;
+            &:after{
+              opacity: .2;
+            }
+          }
         }
         ul{
           width: 100%;
           float: left;
+          @media only screen and (max-width: $tablet){
+            display: none;
+          }
           li{
             line-height: 2em;
             a{
