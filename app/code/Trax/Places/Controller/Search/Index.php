@@ -166,13 +166,6 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $configData['lugares_reintentos'] = $this->scopeConfig->getValue(self::LUGARES_REINTENTOS, $storeScope, $websiteCode);
         $configData['lugares_correo'] = $this->scopeConfig->getValue(self::LUGARES_CORREO, $storeScope, $websiteCode);
         $configData['country_id'] = $this->scopeConfig->getValue(self::COUNTRY_ID, $storeScope, $websiteCode);
-        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
-        //Se valida entorno para obtener url del servicio
-        if($sandbox == '1'){
-            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
-        } else{
-            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
-        }
         return $configData;
 
     }
