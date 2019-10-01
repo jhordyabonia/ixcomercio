@@ -185,7 +185,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            echo json_encode($data['resp']);
+            echo json_encode($data['resp']); exit();
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['lugares_reintentos']>$attempts){
