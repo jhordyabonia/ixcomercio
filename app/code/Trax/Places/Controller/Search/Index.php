@@ -124,6 +124,7 @@ class Index extends \Magento\Framework\App\Action\Action
             }
             $serviceUrl = $this->getServiceUrl($configData, 'getplaces', $parentId);   
             $this->logger->info('GetPlaces - url '.$serviceUrl);
+            echo "ok 1"; exit();
             if($serviceUrl){
                 try{
                     $this->beginGetPlaces($configData, $serviceUrl, $storeManager->getStore()->getCode(), 0);
