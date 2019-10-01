@@ -6,7 +6,11 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Trax\Places\Controller\Payment;
+namespace Trax\Places\Controller\Search;
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
@@ -17,7 +21,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Webhook class  
  */
-class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
@@ -34,11 +38,11 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const LUGARES_REINTENTOS = 'trax_general/lugares_general/lugares_reintentos';
+    const LUGARES_REINTENTOS = 'trax_lugares/lugares_general/lugares_reintentos';
 
-    const LUGARES_CORREO = 'trax_general/lugares_general/lugares_correo';
+    const LUGARES_CORREO = 'trax_lugares/lugares_general/lugares_correo';
 
-    const COUNTRY_ID = 'payment/lugares_general/country_id';
+    const COUNTRY_ID = 'trax_lugares/lugares_general/country_id';
     
     private $helper;
 	
@@ -123,7 +127,11 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
             //Se obtienen parametros de configuración por Store
             $this->logger->info('GetPlaces - Se obtienen parámetros de configuración');
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-            $parentId = $_REQUEST['parentId'];
+            if(isset($_REQUEST['parentId'])){
+                $parentId = $_REQUEST['parentId'];
+            } else{
+                $parentId = false;
+            }
             $serviceUrl = $this->getServiceUrl($configData, 'getplaces', $parentId);   
             $this->logger->info('GetPlaces - url '.$serviceUrl);
             if($serviceUrl){
@@ -138,9 +146,7 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
             }
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-            $resultPage->getLayout()->getBlock('bancomer_error')->setTitle("Search");
         }        
-        return $resultPage;
     }
 
     //Obtiene los parámetros de configuración desde el cms
@@ -162,13 +168,6 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $configData['lugares_reintentos'] = $this->scopeConfig->getValue(self::LUGARES_REINTENTOS, $storeScope, $websiteCode);
         $configData['lugares_correo'] = $this->scopeConfig->getValue(self::LUGARES_CORREO, $storeScope, $websiteCode);
         $configData['country_id'] = $this->scopeConfig->getValue(self::COUNTRY_ID, $storeScope, $websiteCode);
-        $sandbox = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
-        //Se valida entorno para obtener url del servicio
-        if($sandbox == '1'){
-            $configData['private_key'] = $this->scopeConfig->getValue(self::SANDBOX_PRIVATE_KEY, $storeScope, $websiteCode);
-        } else{
-            $configData['private_key'] = $this->scopeConfig->getValue(self::PRODUCCION_PRIVATE_KEY, $storeScope, $websiteCode);
-        }
         return $configData;
 
     }
@@ -196,18 +195,18 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            return json_encode($data['resp']);
+            echo json_encode($data['resp']);
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['lugares_reintentos']>$attempts){
                     $attempts++;
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
                     sleep($configData['timeout']);
-                    $this->beginGetPlaces($mp_order, $configData, $payload, $serviceUrl, $storeCode, $attempts);
+                    $this->beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts);
                 } else{
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetPlaces - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['lugares_correo']);
-                    $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, $payload, $storeCode);
+                    $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, "N/A", $storeCode);
                 }
             }
         }   
@@ -215,7 +214,7 @@ class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
     }
 
     //Se carga servicio por CURL
-	public function loadIwsService($serviceUrl, $payload, $method) 
+	public function loadIwsService($serviceUrl, $method) 
 	{        
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
