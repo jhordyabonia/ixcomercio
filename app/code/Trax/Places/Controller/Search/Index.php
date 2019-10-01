@@ -185,7 +185,8 @@ class Index extends \Magento\Framework\App\Action\Action
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            echo json_encode($data['resp']);
+        echo "ok 2"; exit();
+            echo $data['resp'];
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['lugares_reintentos']>$attempts){
@@ -224,7 +225,7 @@ class Index extends \Magento\Framework\App\Action\Action
         if ($status_code == '200'){
             $response = array(
                 'status' => true,
-                'resp' => json_decode($resp)
+                'resp' => $resp
             );
         } else {
             $response = array(
@@ -232,7 +233,6 @@ class Index extends \Magento\Framework\App\Action\Action
                 'status_code' => $status_code
             );
         }
-        echo "ok"; exit();
         return $response;
 
     }
