@@ -6,7 +6,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Trax\Places\Controller\Payment;
+namespace Trax\Places\Controller\Search;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
@@ -17,7 +17,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Webhook class  
  */
-class Search extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
