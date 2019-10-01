@@ -142,9 +142,7 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
             }
         } catch (\Exception $e) {
             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-            $resultPage->getLayout()->getBlock('bancomer_error')->setTitle("Search");
         }        
-        return $resultPage;
     }
 
     //Obtiene los parámetros de configuración desde el cms
