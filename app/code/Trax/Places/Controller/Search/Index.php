@@ -195,7 +195,7 @@ class Index extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
-            return json_encode($data['resp']);
+            echo json_encode($data['resp']);
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['lugares_reintentos']>$attempts){
