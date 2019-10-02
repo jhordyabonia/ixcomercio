@@ -58,20 +58,20 @@
             i.icon{
               top: 50%;
               right: 15px;
+              width: 1em;
               position: absolute;
               font-size: 14px;
               font-family: 'fontello';
               font-style: normal;
               font-weight: normal;
               speak: none;
-              display: inline-block;
               text-decoration: inherit;
-              width: 1em;
-              margin-top: -25px;
+              margin-top: -7px;
               text-align: center;
               font-variant: normal;
               text-transform: none;
               line-height: 1em;
+              opacity: .5;
             }
           }
         }

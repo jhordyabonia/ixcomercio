@@ -39,12 +39,18 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    $("footer .footer-nav .link-block h4").click(function(){
 	      if($(this).hasClass("open")){
 	        $(this).removeClass("open");
+	        $(this).find('.icon').removeClass('icon-up-open').addClass('icon-down-open');
+	        $(this).find('.icon').html('&#xe82c;');
 	        $(this).parent().find("ul").slideUp();
 	      }else{
-	        $("footer .footer-nav .link-block h4").removeClass("open");
-	        $("footer .footer-nav .link-block ul").slideUp();
-	        $(this).addClass("open");
-	        $(this).parent().find("ul").slideDown();
+	        $('footer .footer-nav .link-block h4').removeClass('open');
+	        $('footer .footer-nav .link-block ul').slideUp();
+	        $('footer .footer-nav .link-block h4 .icon').removeClass('icon-up-open').addClass('icon-down-open');
+	        $('footer .footer-nav .link-block h4 .icon').html('&#xe82c;');
+	        $(this).addClass('open');
+	        $(this).find('.icon').removeClass('icon-down-open').addClass('icon-up-open');
+	        $(this).find('.icon').html('&#xe82f;');
+	        $(this).parent().find('ul').slideDown();
 	      }
 	    });
 	});
