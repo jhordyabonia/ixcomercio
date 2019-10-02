@@ -151,6 +151,7 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
             $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
             //Se obtienen parametros de configuración por Store
+            //var_dump($_REQUEST); exit();
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
             $mp_order = $_REQUEST['mp_order'];
             $mp_reference = $_REQUEST['mp_reference'];
