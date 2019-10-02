@@ -104,21 +104,17 @@ function ($, Component) {
       var qtyField = parent.find('input.input-text.qty');
       var qtyVal = parseInt(qtyField.val());
 
-      if(self.hasClass('remove')){
-        
+      if(self.hasClass('remove')){ 
         if(qtyVal >= 2 ){
-                qtyField.val(qtyVal-1);
-                if(qtyVal == 2){
-                    self.addClass('disable');
-                }
-            }
-        
-        }else if(self.hasClass('add')){
-        
-            qtyField.val(qtyVal +1);
-            parent.find('.remove').removeClass('disable');
-        
+          qtyField.val(qtyVal-1);
+          if(qtyVal == 2){
+            self.addClass('disable');
+          }
         }
+      }else if(self.hasClass('add')){
+        qtyField.val(qtyVal +1);
+        parent.find('.remove').removeClass('disable');
+      }
     });
     
 
@@ -135,7 +131,12 @@ function ($, Component) {
       }
     });
 
-    //Footer mobile
+
+
+    // =============================================
+    // Footer Mobile
+    // =============================================
+
     $("footer .footer-primary .row>div h3").click(function(){
       if($(this).hasClass("open")){
         $(this).removeClass("open");

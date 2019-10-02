@@ -339,6 +339,7 @@ class GetCatalog {
             $name=ucfirst($catalog->Category->Description);
             $categoryTmp->setName($name);
             $categoryTmp->setIsActive(true);
+            $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
@@ -503,6 +504,7 @@ class GetCatalog {
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
+            $product->setStatus(0); // Status on product enabled/ disabled 1/0
         } 
         $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
         $cleanurl = html_entity_decode(strip_tags($url));
@@ -541,7 +543,6 @@ class GetCatalog {
         $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
         $product->setWebsiteIds($websiteIds);
         $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
-        $product->setStatus(1); // Status on product enabled/ disabled 1/0
         $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
         $product->setTaxClassId($configData['tax_id']); // Tax class id
         $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
@@ -562,21 +563,21 @@ class GetCatalog {
         } // type of product (simple/virtual/downloadable/configurable)
         //Set product dimensions
         if(isset($catalog->Freight)){
-            if(isset($catalog->Freight->Package)){
+            if(isset($catalog->Freight->Item)){
                 if($configData['product_weight']){
-                    $product->setWeight($catalog->Freight->Package->Weight);    
+                    $product->setWeight($catalog->Freight->Item->Weight);    
                 }
                 if($configData['product_length']){
-                    $product->setData('length',$catalog->Freight->Package->Length);
-                    $product->setData('ts_dimensions_length',$catalog->Freight->Package->Length);   
+                    $product->setData('length',$catalog->Freight->Item->Length);
+                    $product->setData('ts_dimensions_length',$catalog->Freight->Item->Length);   
                 }
                 if($configData['product_width']){
-                    $product->setData('width',$catalog->Freight->Package->Width);
-                    $product->setData('ts_dimensions_width',$catalog->Freight->Package->Width);   
+                    $product->setData('width',$catalog->Freight->Item->Width);
+                    $product->setData('ts_dimensions_width',$catalog->Freight->Item->Width);   
                 }
                 if($configData['product_height']){
-                    $product->setData('height',$catalog->Freight->Package->Height);
-                    $product->setData('ts_dimensions_height',$catalog->Freight->Package->Height);
+                    $product->setData('height',$catalog->Freight->Item->Height);
+                    $product->setData('ts_dimensions_height',$catalog->Freight->Item->Height);
                 }
             }
         }

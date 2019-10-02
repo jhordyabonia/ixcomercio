@@ -177,12 +177,14 @@ define([
                         buttons: [
                             {
                                 text: 'Continue Shopping',
+                                class: 'action-secondary',
                                 click: function () {
                                     this.closeModal();
                                 }
                             },
                             {
                                 text: 'Proceed to Checkout',
+                                class: 'action-primary',
                                 click: function () {
                                     window.location = window.checkout.checkoutUrl
                                 }

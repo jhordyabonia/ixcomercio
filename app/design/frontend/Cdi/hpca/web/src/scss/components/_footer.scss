@@ -28,6 +28,9 @@
       color: #767676;
       background: #F2F2F2;
       padding: 40px 0;
+      @media only screen and (max-width: $tablet){
+        padding: 0;
+      }
       .link-block{
         text-align: left;
         h4{
@@ -45,14 +48,34 @@
             position: absolute;
             background: #767676;
           }
+          @media only screen and (max-width: $tablet){
+            width: 100%;
+            margin: 0;
+            padding: 20px 0;
+            &:after{
+              opacity: .2;
+            }
+          }
         }
         ul{
           width: 100%;
           float: left;
+          @media only screen and (max-width: $tablet){
+            display: none;
+          }
           li{
             line-height: 2em;
             a{
               color: $mainColor;
+            }
+          }
+        }
+        &:last-child{
+          @media only screen and (max-width: $tablet){
+            h4{
+              &:after{
+                display: none;
+              }
             }
           }
         }

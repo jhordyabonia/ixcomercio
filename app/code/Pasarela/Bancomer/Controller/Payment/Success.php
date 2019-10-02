@@ -40,17 +40,17 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
 
 	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
-    const ORDENES_REINTENTOS = 'trax_general/ordenes_general/pagos_reintentos';
+    const ORDENES_REINTENTOS = 'trax_ordenes/ordenes_general/pagos_reintentos';
 
-    const ORDENES_CORREO = 'trax_general/ordenes_general/pagos_correo';
+    const ORDENES_CORREO = 'trax_ordenes/ordenes_general/pagos_correo';
 
-    const INVENTARIO_REINTENTOS = 'trax_general/ordenes_general/inventario_reintentos';
+    const INVENTARIO_REINTENTOS = 'trax_ordenes/ordenes_general/inventario_reintentos';
 
-    const INVENTARIO_CORREO = 'trax_general/ordenes_general/inventario_correo';
+    const INVENTARIO_CORREO = 'trax_ordenes/ordenes_general/inventario_correo';
 
-    const CANCELAR_REINTENTOS = 'trax_general/ordenes_general/cancelar_reintentos';
+    const CANCELAR_REINTENTOS = 'trax_ordenes/ordenes_general/cancelar_reintentos';
 
-    const CANCELAR_CORREO = 'trax_general/ordenes_general/cancelar_correo';
+    const CANCELAR_CORREO = 'trax_ordenes/ordenes_general/cancelar_correo';
 
     const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
 
@@ -151,6 +151,7 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
             $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
             //Se obtienen parametros de configuración por Store
+            //var_dump($_REQUEST); exit();
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
             $mp_order = $_REQUEST['mp_order'];
             $mp_reference = $_REQUEST['mp_reference'];
@@ -187,6 +188,9 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
             $resultPage = $this->resultPageFactory->create();
             $resultPage->getLayout()->initMessages();
+            if($mp_paymentMethod == 'TDX'){
+                $mp_paymentMethod = $mp_cardType."-".$mp_paymentMethod;
+            }
             if($mp_signature == $mp_signature1){
                 if($mp_response=='00'){
                     //TODO: Actualizar datos en base de datos

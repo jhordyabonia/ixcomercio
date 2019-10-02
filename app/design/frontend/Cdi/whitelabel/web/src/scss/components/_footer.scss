@@ -28,6 +28,9 @@
       color: #fff;
       background: #89170b;
       padding: 40px 0;
+      @media only screen and (max-width: $tablet){
+        padding: 0;
+      }
       .link-block{
         text-align: left;
         h4{
@@ -45,14 +48,58 @@
             position: absolute;
             background: #fff;
           }
+          @media only screen and (max-width: $tablet){
+            width: 100%;
+            margin: 0;
+            padding: 20px 0;
+            &:after{
+              opacity: .2;
+            }
+            &:before{
+              top: 50%;
+              right: 15px;
+              content: "\e23c";
+              position: absolute;
+              margin-top: -25px;
+              font-family: ThemeIcons;
+              font-size: 12px;
+            }
+            i.icon{
+              font-family: "fontello";
+              font-style: normal;
+              font-weight: normal;
+              speak: none;
+              display: inline-block;
+              text-decoration: inherit;
+              width: 1em;
+              margin-right: .2em;
+              text-align: center;
+              font-variant: normal;
+              text-transform: none;
+              line-height: 1em;
+              margin-left: .2em;
+            }
+          }
         }
         ul{
           width: 100%;
           float: left;
+          @media only screen and (max-width: $tablet){
+            display: none;
+          }
           li{
             line-height: 2em;
             a{
               color: #fff;
+            }
+          }
+        }
+        &:last-child{
+          @media only screen and (max-width: $tablet){
+            h4{
+              &:after{
+                display: none;
+              }
             }
           }
         }
