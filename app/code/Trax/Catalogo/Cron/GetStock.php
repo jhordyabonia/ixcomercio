@@ -276,6 +276,18 @@ class GetStock {
                 $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
             }
         } 
+        //Se reindexa                            
+        $this->reindexCatalogData();
+    }
+
+    //Reindexa los productos despues de consultar el catalogo de un store view
+	public function reindexCatalogData() 
+	{
+        $indexerCollection = $this->_indexerCollectionFactory->create();
+        $ids = "cataloginventory_stock";
+        $idx = $this->_indexerFactory->create()->load($id);
+        $idx->reindexAll($id); 
+        $this->logger->info('GetStock - Se reindexa');
     }
 
 }
