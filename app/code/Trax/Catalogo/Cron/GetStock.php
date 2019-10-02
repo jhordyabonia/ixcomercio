@@ -225,13 +225,13 @@ class GetStock {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['catalogo_reintentos']>$attempts){
                     $attempts++;
-                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
+                    $this->logger->info('GetStock - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
                     sleep($configData['timeout']);
-                    $this->logger->info('GetCatalogSalesData - Se reintenta conexión #'.$attempts.' con el servicio.');
+                    $this->logger->info('GetStock - Se reintenta conexión #'.$attempts.' con el servicio.');
                     $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts);
                 } else{
-                    $this->logger->info('GetCatalogSalesData - Error conexión: '.$serviceUrl);
-                    $this->logger->info('GetCatalogSalesData - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
+                    $this->logger->info('GetStock - Error conexión: '.$serviceUrl);
+                    $this->logger->info('GetStock - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
                     $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
                 }
             }
@@ -244,36 +244,36 @@ class GetStock {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
         //Se recorre array
         foreach ($data as $key => $catalog) {
-            $this->logger->info('GetStock - Lee datos. Website: '.$websiteCode);
-            $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
-            $products = $productFactory->create();
-            //Se carga producto por SKU
-            $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);            
-            if(!$product || $product->getStatus()!=1){
-                $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. El producto no existe');
-            } else {
-                if($configData['product_stock']){
-                    if($catalog->InStock == 0){
-                        $stock = 0;
-                    } else {
-                        $stock = 1;
+            try{
+                $this->logger->info('GetStock - Lee datos. Website: '.$websiteCode);
+                $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
+                $products = $productFactory->create();
+                //Se carga producto por SKU
+                $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);            
+                if(!$product){
+                    $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con store id '.$storeId.'. El producto no existe');
+                } else {
+                    if($configData['product_stock']){
+                        if($catalog->InStock == 0){
+                            $stock = 0;
+                        } else {
+                            $stock = 1;
+                        }
+                        $product->setStockData(
+                            array(
+                                'use_config_manage_stock' => 0,
+                                'manage_stock' => 1,
+                                'is_in_stock' => $stock,
+                                'min_sale_qty' => 1,
+                                'qty' => $catalog->InStock
+                            )
+                        );
                     }
-                    $product->setStockData(
-                        array(
-                            'use_config_manage_stock' => 0,
-                            'manage_stock' => 1,
-                            'is_in_stock' => $stock,
-                            'min_sale_qty' => 1,
-                            'qty' => $catalog->InStock
-                        )
-                    );
-                }
-                try{
                     $product->save();
                     $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode);
-                } catch(Exception $e){
-                    $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
                 }
+            } catch(Exception $e){
+                $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
             }
         } 
     }
