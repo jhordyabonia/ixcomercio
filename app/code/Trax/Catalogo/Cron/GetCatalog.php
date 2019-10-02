@@ -504,6 +504,7 @@ class GetCatalog {
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
+            $product->setStatus(0); // Status on product enabled/ disabled 1/0
         } 
         $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
         $cleanurl = html_entity_decode(strip_tags($url));
@@ -542,7 +543,6 @@ class GetCatalog {
         $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
         $product->setWebsiteIds($websiteIds);
         $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
-        $product->setStatus(1); // Status on product enabled/ disabled 1/0
         $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
         $product->setTaxClassId($configData['tax_id']); // Tax class id
         $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
