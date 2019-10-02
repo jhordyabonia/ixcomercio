@@ -188,6 +188,9 @@ class Success extends \Magento\Framework\App\Action\Action implements CsrfAwareA
             $mp_signature1 = hash('sha256', $mp_order.$mp_reference.$mp_amount.'.00'.$mp_authorization);*/
             $resultPage = $this->resultPageFactory->create();
             $resultPage->getLayout()->initMessages();
+            if($mp_paymentMethod == 'TDX'){
+                $mp_paymentMethod = $mp_cardType."-".$mp_paymentMethod;
+            }
             if($mp_signature == $mp_signature1){
                 if($mp_response=='00'){
                     //TODO: Actualizar datos en base de datos
