@@ -30,6 +30,23 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	      }
 	    }
 		});
+
+
+		// =============================================
+	    // Footer Mobile
+	    // =============================================
+
+	    $("footer .footer-nav .link-block h4").click(function(){
+	      if($(this).hasClass("open")){
+	        $(this).removeClass("open");
+	        $(this).parent().find("ul").slideUp();
+	      }else{
+	        $("footer .footer-nav .link-block h4").removeClass("open");
+	        $("footer .footer-nav .link-block ul").slideUp();
+	        $(this).addClass("open");
+	        $(this).parent().find("ul").slideDown();
+	      }
+	    });
 	});
 
 	
