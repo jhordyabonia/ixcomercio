@@ -284,7 +284,7 @@ class GetStock {
 	public function reindexCatalogData() 
 	{
         $indexerCollection = $this->_indexerCollectionFactory->create();
-        $ids = "cataloginventory_stock";
+        $id = "cataloginventory_stock";
         $idx = $this->_indexerFactory->create()->load($id);
         $idx->reindexAll($id); 
         $this->logger->info('GetStock - Se reindexa');
