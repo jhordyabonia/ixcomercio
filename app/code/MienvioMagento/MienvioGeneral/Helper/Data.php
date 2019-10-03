@@ -14,6 +14,10 @@ class Data extends AbstractHelper
     const XML_PATH_API_KEY = 'carriers/mienviocarrier/apikey';
     const XML_PATH_IS_ENABLE_MIENVIO = 'carriers/mienviocarrier/active';
     const XML_PATH_ENVIRONMENT = 'carriers/mienviocarrier/environment';
+    const XML_PATH_FREE_SHIPPING = 'carriers/mienviocarrier/freeshipping';
+    const XML_PATH_TITLE_METHOD_FREE = 'carriers/mienviocarrier/titlemethodfree';
+    const XML_PATH_SERVICE_LEVEL = 'carriers/mienviocarrier/servicelevel';
+    const XML_PATH_PROVIDER = 'carriers/mienviocarrier/provider';
     const XML_PATH_Street_store = 'shipping/origin/street_line1';
     const XML_PATH_Street2_store = 'shipping/origin/street_line2';
     const XML_PATH_ZipCode_store = 'shipping/origin/postcode';
@@ -35,6 +39,22 @@ class Data extends AbstractHelper
     {
         return (boolean)$this->getConfigValue(self::XML_PATH_IS_ENABLE_MIENVIO , $storeId);
     }
+    public function isFreeShipping($storeId = null)
+    {
+        return (boolean)$this->getConfigValue(self::XML_PATH_FREE_SHIPPING , $storeId);
+    }
+    public function getTitleMethodFree($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_TITLE_METHOD_FREE , $storeId);
+    }
+    public function getServiceLevel($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_SERVICE_LEVEL , $storeId);
+    }
+    public function getProvider($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_PROVIDER , $storeId);
+    }
 
     public function getEnvironment($storeId = null)
     {
@@ -48,7 +68,7 @@ class Data extends AbstractHelper
                 $result = 'http://sandbox.mienvio.mx/';
                 break;
             case 2:// Develop
-                $result = 'http://localhost:8000/';
+                $result = 'http://sandbox.mienvio.mx/';
                 break;
             default:
                 $result = 'https://app.mienvio.mx/';
