@@ -48,6 +48,9 @@
             position: absolute;
             background: #fff;
           }
+          i.icon{
+            display: none;
+          }
           @media only screen and (max-width: $tablet){
             width: 100%;
             margin: 0;
@@ -55,29 +58,24 @@
             &:after{
               opacity: .2;
             }
-            &:before{
+            i.icon{
               top: 50%;
               right: 15px;
-              content: "\e23c";
+              width: 1em;
               position: absolute;
-              margin-top: -25px;
-              font-family: ThemeIcons;
-              font-size: 12px;
-            }
-            i.icon{
-              font-family: "fontello";
+              display: block;
+              font-size: 14px;
+              font-family: 'fontello';
               font-style: normal;
               font-weight: normal;
               speak: none;
-              display: inline-block;
               text-decoration: inherit;
-              width: 1em;
-              margin-right: .2em;
+              margin-top: -7px;
               text-align: center;
               font-variant: normal;
               text-transform: none;
               line-height: 1em;
-              margin-left: .2em;
+              opacity: .5;
             }
           }
         }
@@ -86,6 +84,7 @@
           float: left;
           @media only screen and (max-width: $tablet){
             display: none;
+            padding-top: 15px;
           }
           li{
             line-height: 2em;
