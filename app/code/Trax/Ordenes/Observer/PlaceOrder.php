@@ -227,7 +227,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $shipping = $order->getShippingAddress();
         $orderItems = $order->getAllItems();
         $coupon = array();
+        $this->logger->info('PlaceOrder - Shipping value: '.$order->getShippingAmount());
         $shippingAmount = $order->getShippingAmount() / (1 + ($configDataImpuesto/100));
+        $this->logger->info('PlaceOrder - Shipping value whitout tax: '.$shippingAmount);
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
