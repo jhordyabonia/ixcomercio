@@ -49,6 +49,42 @@ class ObserverSuccess implements ObserverInterface
         $chosenProvider = '';
 
 
+        $dataOrder = $order->getData();
+        $order_quote_id = $dataOrder['quote_id'];
+        $order_shipping_amount = $dataOrder['shipping_amount'];
+        $order_shipping_description = $dataOrder['shipping_description'];
+        $order_shipping_method = $dataOrder['shipping_method'];
+        $quoteId = $order->getQuoteId();
+        $quote = $this->quoteRepository->get($quoteId);
+
+        $isFreeActive = $this->checkIfIsFreeShipping();
+        $titleMethodFree = $this->_mienvioHelper->getTitleMethodFree();
+
+        if($order_shipping_description == $titleMethodFree && $isFreeActive === true){
+
+
+            try{
+                $mienvioResponse = $this->saveFreeShipping($observer);
+                $mienvioAmount = $mienvioResponse['rates'][0]["amount"];
+                $mienvioQuoteId = $mienvioResponse['quote_id'];
+                //$order->setShippingAmount($mienvioAmount);
+                $order->setBaseShippingAmount($mienvioAmount);
+                $order->setBaseShippingDiscountAmount($mienvioAmount);
+                $order->setShippingDiscountAmount($mienvioAmount);
+                $order->setShippingInclTax($mienvioAmount);
+                $order->setBaseShippingInclTax($mienvioAmount);
+                $order->setShippingDescription($mienvioQuoteId);
+                $order->save();
+            }catch (\Exception $e) {
+                $order->setShippingDescription('Generar guía Manual');
+                $order->save();
+                $this->_logger->debug('Error when generate Free Shipping', ['e' => $e]);
+            }
+
+            return $this;
+        }
+
+
         if ($shippingMethodObject->getCarrierCode() != $this->_code) {
             return $this;
         }
@@ -98,8 +134,8 @@ class ObserverSuccess implements ObserverInterface
                 $this->_mienvioHelper->getOriginStreet2(),
                 $this->_mienvioHelper->getOriginZipCode(),
                 "ventas@mienvio.mx",
-                "5551814040",
-                '',
+                "7352124627",
+                'Direccion desde ObserverSuccess@execute',
                 $countryId
             );
 
@@ -141,10 +177,12 @@ class ObserverSuccess implements ObserverInterface
             $packageWeight = $this->convertWeight($orderData['weight']);
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
-                $this->createQuoteFromItems(
+                $mienvioResponse = $this->createQuoteFromItems(
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
                 );
-
+                $mienvioQuoteId = $mienvioResponse['quote_id'];
+                $order->setShippingDescription($mienvioQuoteId);
+                $order->save();
                 return $this;
             }
 
@@ -239,17 +277,13 @@ class ObserverSuccess implements ObserverInterface
             'shop_url'     => $this->_storeManager->getStore()->getUrl()
         ];
 
-        $this->_logger->debug('Creating quote (ObserverSuccess)', ['request' => json_encode($quoteReqData)]);
+        $this->_logger->debug('Creating quote (ObserverSuccess)'.$createQuoteUrl, ['request' => json_encode($quoteReqData)]);
         $this->_curl->post($createQuoteUrl, json_encode($quoteReqData));
-        $quoteResponse = json_decode($this->_curl->getBody());
-        $this->_logger->debug('Creating quote (ObserverSuccess)', ['response' => $this->_curl->getBody()]);
+        $quoteResponse = $this->_curl->getBody();
+        $res = json_decode(stripslashes($quoteResponse), true);
+        $this->_logger->debug('Creating quote (ObserverSuccess)', ['response' => $res]);
+        return $res;
 
-        return [[
-            'courier'      => $quoteResponse->{'courier'},
-            'servicelevel' => $quoteResponse->{'servicelevel'},
-            'id'           => $quoteResponse->{'quote_id'},
-            'cost'         => $quoteResponse->{'cost'}
-        ]];
     }
 
     /**
@@ -339,7 +373,7 @@ class ObserverSuccess implements ObserverInterface
     {
         $volumetricWeight = round(((1 * $length * $width * $height) / 5000), 4);
 
-		return $volumetricWeight;
+        return $volumetricWeight;
     }
 
     /**
@@ -470,5 +504,118 @@ class ObserverSuccess implements ObserverInterface
 
         $this->_logger->info("createAddressDataStr", ["data" => $data]);
         return $data;
+    }
+
+    private function saveFreeShipping($observer){
+
+        $order = $observer->getData('order');
+        $shippingMethodObject = $order->getShippingMethod(true);
+        $shipping_id = $shippingMethodObject->getMethod();
+        $chosenServicelevel = $this->_mienvioHelper->getServiceLevel();
+        $chosenProvider = $this->_mienvioHelper->getProvider();
+
+        try {
+            $baseUrl =  $this->_mienvioHelper->getEnvironment();
+            $apiKey = $this->_mienvioHelper->getMienvioApi();
+            $getPackagesUrl = $baseUrl . 'api/packages';
+            $createAddressUrl = $baseUrl . 'api/addresses';
+            $createShipmentUrl = $baseUrl . 'api/shipments';
+            $createQuoteUrl     = $baseUrl . 'api/quotes';
+
+            $order = $observer->getEvent()->getOrder();
+            $order->setMienvioCarriers($shipping_id);
+            $orderId = $order->getId();
+            $orderData = $order->getData();
+            $quoteId = $order->getQuoteId();
+
+            if ($quoteId === null) {
+                return $this;
+            }
+
+            $quote = $this->quoteRepository->get($quoteId);
+            $shippingAddress = $quote->getShippingAddress();
+            $countryId = $shippingAddress->getCountryId();
+
+            if ($shippingAddress === null) {
+                return $this;
+            }
+
+            $this->_logger->info("Shipping address", ["data" => $shippingAddress->getData()]);
+            $this->_logger->info("order", ["data" => $order->getData()]);
+            $this->_logger->info("quoteId", ["data" => $quoteId]);
+            $this->_logger->info("shippingid", ["data" => $shipping_id]);
+
+            $fromData = $this->createAddressDataStr(
+                "MIENVIO DE MEXICO",
+                $this->_mienvioHelper->getOriginStreet(),
+                $this->_mienvioHelper->getOriginStreet2(),
+                $this->_mienvioHelper->getOriginZipCode(),
+                "ventas@mienvio.mx",
+                "7352124627",
+                'Direccion desde ObserverSuccess@execute',
+                $countryId
+            );
+
+            $customerName  = $shippingAddress->getName();
+            $customermail  = $shippingAddress->getEmail();
+            $customerPhone = $shippingAddress->getTelephone();
+            $countryId     = $shippingAddress->getCountryId();
+
+            $toStreet2 = empty($shippingAddress->getStreetLine(2)) ? $shippingAddress->getStreetLine(1) : $shippingAddress->getStreetLine(2);
+
+            $toData = $this->createAddressDataStr(
+                $customerName,
+                substr($shippingAddress->getStreetLine(1), 0, 30),
+                substr($toStreet2, 0, 30),
+                $shippingAddress->getPostcode(),
+                $customermail,
+                $customerPhone,
+                substr($shippingAddress->getStreetLine(3), 0, 30),
+                $countryId
+            );
+
+            $this->_logger->info("Addresses data", ["to" => $toData, "from" => $fromData]);
+
+            $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
+            $this->_curl->setOptions($options);
+
+            $this->_curl->post($createAddressUrl, json_encode($fromData));
+            $addressFromResp = json_decode($this->_curl->getBody());
+            $addressFromId = $addressFromResp->{'address'}->{'object_id'};
+
+            $this->_curl->post($createAddressUrl, json_encode($toData));
+            $addressToResp = json_decode($this->_curl->getBody());
+            $addressToId = $addressToResp->{'address'}->{'object_id'};
+
+            $this->_logger->info("responses", ["to" => $addressToId, "from" => $addressFromId]);
+
+            /* Measures */
+            $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllVisibleItems());
+            $packageWeight = $this->convertWeight($orderData['weight']);
+
+            if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
+               $response = $this->createQuoteFromItems(
+                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
+                );
+                $this->_logger->info("RESPUESTAMIENVIOFREE", ["info" => $response]);
+
+
+                return $response;
+            }
+
+        } catch (\Exception $e) {
+            $this->_logger->info("error saving new shipping method Exception");
+            $this->_logger->info($e->getMessage());
+        }
+    }
+
+    private function checkIfIsFreeShipping()
+    {
+        $isActive = $this->_mienvioHelper->isFreeShipping();
+        if (!$isActive) {
+            return false;
+        }else{
+            return true;
+        }
     }
 }

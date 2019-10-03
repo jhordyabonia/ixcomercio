@@ -8,13 +8,29 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="apikey" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="apikey" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>API Key</label>
                     <comment>Available under your Mienvio account. Go to Settings &gt; API</comment>
                 </field>
-                <field id="environment" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="environment" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Ambiente de trabajo</label>
                     <source_model>MienvioMagento\MienvioGeneral\Model\Config\Source\Environments</source_model>
+                </field>
+                <field id="freeshipping" translate="label" type="select" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free Shipping</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="titlemethodfree" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Free Shipping Key</label>
+                    <comment>Title - Method Name</comment>
+                </field>
+                <field id="servicelevel" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default Service level</label>
+                    <comment>Default Service level for free shipping</comment>
+                </field>
+                <field id="provider" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Provider</label>
+                    <comment>Default Provider for free shipping</comment>
                 </field>
             </group>
         </section>
