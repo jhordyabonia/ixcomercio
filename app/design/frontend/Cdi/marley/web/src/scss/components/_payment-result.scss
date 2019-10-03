@@ -20,3 +20,26 @@
 		}
 	}
 }
+.checkout-onepage-success{
+	#registration{
+		form{
+			text-align: center;
+			.action.primary{
+				min-width: 180px;
+			    margin: 0 auto;
+			    padding: 0 25px;
+			    color: #fff;
+			    font-size: 20px;
+			    line-height: 45px;
+			    text-transform: uppercase;
+			    transition: .3s all ease;
+			    background-color: #000;
+			    border: 2px solid #000;
+			    border-radius: 0;
+			    overflow: visible;
+			    cursor: pointer;
+			    font-family: 'flamaCondensedmed',sans-serif;
+			}
+		}
+	}
+}
