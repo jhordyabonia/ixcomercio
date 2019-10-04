@@ -228,7 +228,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $orderItems = $order->getAllItems();
         $coupon = array();
         $configDataImpuesto = $configDataImpuesto/100;
-        $shippingAmount = $order->geBasetShippingAmount();
+        $shippingAmount = $order->geBaseShippingAmount();
         if($shippingAmount!=0){
             $shippingAmount = $shippingAmount / (1 + $configDataImpuesto);
         }
