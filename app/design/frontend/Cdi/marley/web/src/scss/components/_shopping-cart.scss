@@ -276,8 +276,12 @@
         float: left;
       }
     }
+    .totals-tax-details{
+      border-bottom: 0;
+    }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
       font-size: 13px;
+      border-bottom: 0;
     }
     .cart-totals .amount, .opc-block-summary .table-totals .amount{
       @media (max-width: $tablet){
