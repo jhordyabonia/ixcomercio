@@ -152,7 +152,7 @@
                   }
                 }
               }
-              &.item, &.price, &.qty, &.subtotal{
+              &.col.item, &.col.price, &.col.qty, &.col.subtotal{
                 @media (max-width: $tablet){
                   width: 100%;
                   padding-left: 50%;
