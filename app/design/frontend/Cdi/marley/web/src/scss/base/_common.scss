@@ -424,6 +424,9 @@ table{
     color: #1e75b4;
     background-color: #333;
   }
+  @media only screen and (max-width: 959px){
+    display: none!important;
+  }
 }
 .ic-up:before {
   content: "\e262";
