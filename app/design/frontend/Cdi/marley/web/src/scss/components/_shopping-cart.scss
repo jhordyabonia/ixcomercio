@@ -279,6 +279,12 @@
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
       font-size: 13px;
     }
+    .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      @media (max-width: $tablet){
+        width: 40%;
+        float: left;
+      }
+    }
     input[type=checkbox], input[type=radio]{
       display: inline-block;
       ~ .label{
