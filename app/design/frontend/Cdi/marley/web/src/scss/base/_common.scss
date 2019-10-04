@@ -120,7 +120,10 @@ html {
       header{
         h2{
           margin: 0 0 40px;
-          font-size: 2rem;
+          font-size: 2em;
+          @media only screen and (min-width: 768px){
+            font-size: 2.6666em;
+          }
         }
       }
     }
@@ -420,6 +423,9 @@ table{
   &:hover{
     color: #1e75b4;
     background-color: #333;
+  }
+  @media only screen and (max-width: 959px){
+    display: none!important;
   }
 }
 .ic-up:before {

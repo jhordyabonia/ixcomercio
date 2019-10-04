@@ -25,7 +25,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private $directoryHelper;
 
-    const LEVEL_1_COUNTRIES = ['PE', 'CL'];
+    const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
 
     /**
      * Defines if quote endpoint will be used at rates
@@ -88,6 +88,21 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
         if ($apiKey == "" || $apiSource == "NA") {
             return false;
+        }
+    }
+
+    /**
+     * Checks if mienvio's configuration is ready
+     *
+     * @return boolean
+     */
+    private function checkIfIsFreeShipping()
+    {
+        $isActive = $this->_mienvioHelper->isFreeShipping();
+        if (!$isActive) {
+            return false;
+        }else{
+            return true;
         }
     }
 
@@ -155,7 +170,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $this->_mienvioHelper->getOriginZipCode(),
                 "ventas@mienvio.mx",
                 "5551814040",
-                '',
+                'MienvioRates@CollectRates:173',
                 $destCountryId
             );
 
@@ -196,9 +211,11 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $createShipmentUrl, $options, $packageValue, $fromZipCode);
             }
 
+             
+
             foreach ($rates as $rate) {
                 $this->_logger->debug('rate_id');
-                $methodId = $rate['servicelevel'] . '-' . $rate['courier'];
+                $methodId = $this->parseReverseServiceLevel($rate['servicelevel']) . '-' . $rate['courier'];
                 $this->_logger->debug((string)$methodId);
                 $this->_logger->debug(strval($rate['id']));
 
@@ -206,7 +223,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $method->setCarrier($this->getCarrierCode());
                 $method->setCarrierTitle($rate['courier']);
                 $method->setMethod((string)$methodId);
-                $method->setMethodTitle($rate['servicelevel']);
+                $method->setMethodTitle($rate['servicelevel'].' - '.$rate['duration_terms']);
                 $method->setPrice($rate['cost']);
                 $method->setCost($rate['cost']);
                 $rateResponse->append($method);
@@ -245,14 +262,18 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         if (isset($quoteResponse->{'rates'})) {
             $rates = [];
 
-            foreach ($quoteResponse->{'rates'} as $rate) {
+            foreach ($quoteResponse->{'rates'} as $key => $rate) {
+
                 $rates[] = [
                     'courier'      => $rate->{'provider'},
-                    'servicelevel' => $rate->{'servicelevel'},
+                    'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
                     'id'           => $quoteResponse->{'quote_id'},
                     'cost'         => $rate->{'amount'},
-                    'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'}
+                    'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'},
+                    'duration_terms' => $rate->{'duration_terms'}
                 ];
+
+                
             }
 
             return $rates;
@@ -264,6 +285,107 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'id'           => $quoteResponse->{'quote_id'},
             'cost'         => $quoteResponse->{'cost'}
         ]];
+    }
+
+    private  function parseServiceLevel($serviceLevel){
+        $parsed = '';
+        switch ($serviceLevel) {
+            case 'estandar':
+                $parsed = 'Estándar';
+                break;
+            case 'express':
+                $parsed = 'Express';
+                break;
+            case 'saver':
+                $parsed = 'Saver';
+                break;
+            case 'express_plus':
+                $parsed = 'Express Plus';
+                break;
+            case 'economy':
+                $parsed = 'Economy';
+                break;
+            case 'priority':
+                $parsed = 'Priority';
+                break;
+            case 'worlwide_usa':
+                $parsed = 'World Wide USA';
+            break;
+            case 'worldwide_usa':
+                $parsed = 'World Wide USA';
+                break;
+            case 'regular':
+                $parsed = 'Regular';
+                break;
+            case 'regular_mx':
+                $parsed = 'Regular MX';
+                break;
+            case 'BE_priority':
+                $parsed = 'Priority';
+                break;
+            case 'flex':
+                $parsed = 'Flex';
+                break;
+            case 'scheduled':
+                $parsed = 'Programado';
+                break;
+            default:
+                $parsed = $serviceLevel;
+        }
+
+        return $parsed;
+
+    }
+
+
+    private  function parseReverseServiceLevel($serviceLevel){
+        $parsed = '';
+        switch ($serviceLevel) {
+            case 'Estándar' :
+                $parsed = 'estandar';
+                break;
+            case 'Express' :
+                $parsed = 'express';
+                break;
+            case 'Saver' :
+                $parsed = 'saver';
+                break;
+            case 'Express Plus' :
+                $parsed = 'express_plus';
+                break;
+            case 'Economy' :
+                $parsed = 'economy';
+                break;
+            case 'Priority' :
+                $parsed = 'priority';
+                break;
+            case 'World Wide USA' :
+                $parsed = 'worlwide_usa';
+                break;
+            case 'World Wide USA' :
+                $parsed = 'worldwide_usa';
+                break;
+            case 'Regular' :
+                $parsed = 'regular';
+                break;
+            case 'Regular MX' :
+                $parsed = 'regular_mx';
+                break;
+            case 'Priority' :
+                $parsed = 'BE_priority';
+                break;
+            case 'Flex' :
+                $parsed = 'flex';
+                break;
+            case 'Programado' :
+                $parsed = 'scheduled';
+                break;
+            default:
+                $parsed = $serviceLevel;
+        }
+
+        return $parsed;
+
     }
 
     /**
@@ -403,7 +525,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'street2' => $street2,
             'email' => $email,
             'phone' => $phone,
-            'reference' => $reference
+            'reference' => 'MienvioRates@CreateAddressDataStr'
         ];
 
         if ($countryCode === 'MX') {
