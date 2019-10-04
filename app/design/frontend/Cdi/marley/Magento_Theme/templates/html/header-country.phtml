@@ -27,25 +27,43 @@
 .btn-pais:focus{
 	box-shadow:none;
 }
-.dropdown-menu.selec-pais{
+.selec-pais{
 	background: #fff;
     width: 236px;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
     border-top: 1px solid #ccc;
     border-radius: 0;
     padding: 0;
-    margin-top: -1px;
+        margin-top: 10px;
+    z-index: 999;
+    position: absolute;
+	right: 0;
 }
 .selec-pais ul {
     list-style: none;
     padding: 0;
-    overflow: hidden;
+    *overflow: hidden;
     margin: 0;
 }
+
+.banderas-header .arrow-down{
+    display: inline-block;
+    height: 0;
+    width: 0;
+    border-top: 6px solid #3b3b3b;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    margin-left: 30px;
+}
+
+
 .selec-pais ul li {
     width: 100%;
     float: left;
     border-bottom: 1px solid #ccc;
+	margin: 0;
+    padding: 10px;
+	text-align: left;
 }
 .selec-pais ul li:hover {
     background: #65ABD9;
@@ -67,15 +85,33 @@
     text-transform: lowercase;
     color: #777;
 }
+.banderas-header {
+    position: absolute;
+    top: 0;
+    right: 51%;
+}
 
 
       </style>
 	 
- 
-  <button class="btn btn-pais dropdown-toggle" type="button" id="paises" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+ <div class="banderas-header">
+  <!--<button class="btn btn-pais dropdown-toggle" type="button" id="paises" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+  <button class="btn btn-pais action showpais" type="button" id="paises" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-block="country">
     Selecciona tu país
+	<span class="arrow-down"></span>
   </button>
-  <div class="dropdown-menu selec-pais dropdown-menu-right" aria-labelledby="paises">
+  <!--<div class="dropdown-menu selec-pais dropdown-menu-right" aria-labelledby="paises"> block block-minicart-->
+  <div class="selec-pais "
+             data-role="dropdownDialog"
+             data-mage-init='{"dropdownDialog":{
+                "appendTo":"[data-block=country]",
+                "triggerTarget":".showpais",
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
+                "closeOnEscape": true,
+                "triggerClass":"active",
+                "parentClass":"active",
+                "buttons":[]}}'>
     <ul>
       <li><a href="https://www.thehouseofmarley.com/" target="_blank" style="background:url(<?php echo $this->getViewFileUrl("images/banderas/usa.png");?>) no-repeat;">USA <span> English</span></a></li>
       <li><a href="https://www.thehouseofmarley.com.ar" target="_blank" style="background:url(<?php echo $this->getViewFileUrl("images/banderas/argentina.png");?>) no-repeat;"> Argentina <span> Español</span></a></li>
@@ -88,6 +124,7 @@
       <li><a href="http://www.thehouseofmarley.cl" target="_blank" style="background:url(<?php echo $this->getViewFileUrl("images/banderas/chile.png");?>) no-repeat;">Chile<span> español</span></a></li>
       <li><a href="#" target="_blank" style="background:url(<?php echo $this->getViewFileUrl("images/banderas/mexico.png");?>) no-repeat;">México<span> español</span></a></li>
     </ul>
+  </div>
   </div>
 		  <script type="text/javascript">
     //require(['bootstrap']);
