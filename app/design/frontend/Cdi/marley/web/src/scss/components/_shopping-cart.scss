@@ -59,9 +59,12 @@
               &.item{
                 .product-item-photo{
                   @media (max-width: $tablet){
-                    width: 50%;
+                    width: 40%;
                     position: absolute;
-                  } 
+                    .product-image-container{
+                      min-width: 80%;
+                    }
+                  }
                 }
                 .product-item-details{
                   text-align: left;
@@ -165,7 +168,7 @@
               &.col.item, &.col.price, &.col.qty, &.col.subtotal{
                 @media (max-width: $tablet){
                   width: 100%;
-                  padding-left: 50%!important;
+                  padding-left: 40%!important;
                   padding-right: 50px!important;
                   text-align: left;
                   float: left;
