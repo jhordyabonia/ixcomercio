@@ -120,7 +120,10 @@ html {
       header{
         h2{
           margin: 0 0 40px;
-          font-size: 2rem;
+          font-size: 2em;
+          @media only screen and (min-width: 768px){
+            font-size: 2.6666em;
+          }
         }
       }
     }
