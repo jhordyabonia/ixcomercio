@@ -34,7 +34,7 @@
     border-top: 1px solid #ccc;
     border-radius: 0;
     padding: 0;
-        margin-top: 10px;
+        margin-top: 37px;
     z-index: 999;
     position: absolute;
 	right: 0;
@@ -94,9 +94,9 @@
 
       </style>
 	 
- <div class="banderas-header">
+ <div class="banderas-header" data-block="country">
   <!--<button class="btn btn-pais dropdown-toggle" type="button" id="paises" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-  <button class="btn btn-pais action showpais" type="button" id="paises" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-block="country">
+  <button class="btn btn-pais action showpais" type="button" id="paises" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Selecciona tu país
 	<span class="arrow-down"></span>
   </button>
@@ -107,7 +107,7 @@
                 "appendTo":"[data-block=country]",
                 "triggerTarget":".showpais",
                 "timeout": "2000",
-                "closeOnMouseLeave": false,
+                "closeOnMouseLeave": true,
                 "closeOnEscape": true,
                 "triggerClass":"active",
                 "parentClass":"active",
