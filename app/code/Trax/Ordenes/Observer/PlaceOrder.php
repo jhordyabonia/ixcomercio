@@ -233,9 +233,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $shippingAmount = $shippingAmount / (1 + $configDataImpuesto);
         }
         $freightAmount = $order->getBaseShippingDiscountAmount();
-        if($freightAmount!=0){
-            $freightAmount = $freightAmount / (1 + $configDataImpuesto);
-        }
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
