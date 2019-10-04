@@ -245,6 +245,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $coupon = array($giftcard[0]->c);
             }
         }
+        $this->logger->info('PlaceOrder - freightAmount: '.$freightAmount);
+        $this->logger->info('PlaceOrder - shippingAmount: '.$shippingAmount);
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
             $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
