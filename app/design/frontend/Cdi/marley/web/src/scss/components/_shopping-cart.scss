@@ -61,10 +61,15 @@
                 .product-item-photo{
                   @media (max-width: $tablet){
                     width: 40%;
+                    max-width: 40%;
                     position: absolute;
                     .product-image-container{
                       min-width: 80%;
                     }
+                  }
+                  @media (max-width: $mobile){
+                    min-width: 100%;
+                    padding: 0 15px;
                   }
                 }
                 .product-item-details{
