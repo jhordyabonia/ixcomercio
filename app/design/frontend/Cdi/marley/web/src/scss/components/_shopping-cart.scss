@@ -136,9 +136,11 @@
               }
               &.delete{
                 @media (max-width: $tablet){
-                  right: 0;
-                  top: 8px;
-                  position: absolute;
+                  &.col{
+                    right: 0;
+                    top: 8px;
+                    position: absolute;
+                  }
                 }
                 .action-delete{
                   margin: 0;
