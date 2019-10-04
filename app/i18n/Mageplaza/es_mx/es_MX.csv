@@ -3199,7 +3199,7 @@ Time in seconds between the widget updates.,module,Magento_CatalogWidget
 Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidget
 <br/>Si no está establecido, valor por defecto de 86400 segundos (24 horas). Para actualizar un widget de manera instantánea, vaya a Gestión de Caché y limpie la caché Salida HTML de Bloques.,module,Magento_CatalogWidget
 <br/>Los widgets no mostrarán productos que comiencen a coincidir con las condiciones especificadas hasta que la caché sea refrescada.                ",module,Magento_CatalogWidget
-"Shopping Cart","Cesta",module,Magento_Checkout
+"Shopping Cart","Carrito",module,Magento_Checkout
 "Invalid method: %1","Método inválido: %1",module,Magento_Checkout
 "City","Ciudad",module,Magento_Checkout
 "Country","País",module,Magento_Checkout
@@ -3207,19 +3207,19 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Zip/Postal Code","Código Postal",module,Magento_Checkout
 "My Cart (1 item)","Mi carrito (1 producto)",module,Magento_Checkout
 "My Cart (%1 items)","Mi carrito (%1 artículos)",module,Magento_Checkout
-"My Cart","Mi cesta",module,Magento_Checkout
+"My Cart","Mi carrito",module,Magento_Checkout
 "For delivery questions.","Para preguntas de entrega.",module,Magento_Checkout
 "Customer is already registered","Cliente ya está registrado",module,Magento_Checkout
 "Your session has expired","Tu sesión ha caducado",module,Magento_Checkout
 "A letter with further instructions will be sent to your email.","Se enviara un correo con mas instrucciones a su cuenta de correo.",module,Magento_Checkout
-"You added %1 to your shopping cart.","Añadiste %1 a tu cesta.",module,Magento_Checkout
+"You added %1 to your shopping cart.","Añadiste %1 a tu carrito.",module,Magento_Checkout
 "We can't add this item to your shopping cart right now.","No podemos añadir este artículo a su carrito de compras ahora mismo.",module,Magento_Checkout
 "Out of stock","No está disponible",module,Magento_Checkout
 "We can't find the quote item.","No podemos encontrar el artículo cotizado.",module,Magento_Checkout
 "We cannot configure the product.","No se puede configurar el artículo.",module,Magento_Checkout
 "You used coupon code ""%1"".","Se utiliza el código de cupón ""%1"".",module,Magento_Checkout
 "The coupon code ""%1"" is not valid.","El cupón ""%1"" no es válido.",module,Magento_Checkout
-"You canceled the coupon code.","Usted canceló el código del cupón.",module,Magento_Checkout
+"You canceled the coupon code.","Cancelaste el código del cupón.",module,Magento_Checkout
 "We cannot apply the coupon code.","No se puede aplicar el código de cupón.",module,Magento_Checkout
 "We can't remove the item.","No se puede quitar el producto.",module,Magento_Checkout
 "%1 was updated in your shopping cart.","%1 fueron actualizados en su carrito de la compra.",module,Magento_Checkout
@@ -16433,5 +16433,10 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Resources","Recursos",lib,web
 "Buy","COMPRAR",lib,web
 "Enter your destination to get a shipping estimate","Ingresa los datos de destino para estimar el costo de envío",lib,web
+"Enter your destination to get a shipping estimate","Ingresa los datos de destino para estimar el costo de envío",module,Magento_Checkout
 "After the payment is confirmed, you will be redirected to the advanced multi-payment platform to make the payment","Serás redirigido a la plataforma de Multipagos",lib,web
 "identification","identificación",lib,web
+"Continue Shopping","Continuar comprando",module,Magento_Catalog
+"Proceed to Checkout","Tramitar pedido",module,Magento_Catalog
+"has been added to cart","se ha agregado al carrito",module,Magento_Catalog
+"In stock","Disponible",module,Magento_Checkout
