@@ -5,7 +5,7 @@ Magento 2 platform approves multiple languages around the world, so **Magento 2 
 
 Read more [Magento 2 Spanish Language Pack](https://www.mageplaza.com/magento-2-spanish-language-pack.html)
 
-![Mageplaza Spanish language pack](https://i.imgur.com/qjWPj1W.png)
+![Mageplaza Spanish language pack](https://cdn3.mageplaza.com/media/general/qjWPj1W.png)
 
 ## Overview
 
@@ -21,7 +21,7 @@ Read more [Magento 2 Spanish Language Pack](https://www.mageplaza.com/magento-2-
 
 This is status of Spanish Language Pack, you can see how many percentage of this project has been done.
 
-![language pack](http://progressed.io/bar/96?title=translated)
+![language pack](https://progress-bar.dev/96/?title=translated)
 
 It is not fully translated? Feel free to contribute:
 - [On Crowdin](https://crowdin.com/project/magento-2): It takes time to approve your contribution by Magento team.
