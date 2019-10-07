@@ -46,6 +46,9 @@
               }
             }
           }
+          &.city{
+            display: none;
+          }
         }
         >.legend{
           width: 100%;
