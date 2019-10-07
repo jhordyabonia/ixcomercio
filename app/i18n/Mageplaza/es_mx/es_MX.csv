@@ -749,7 +749,7 @@ href=""https://dashboard.rjmetrics.com/v2/magento/signup/"">Magento BI Essential
 "Reload Data","Recargar datos",module,Magento_Backend
 "Browse Files...","Examinar Archivos...",module,Magento_Backend
 "Magento","Magento",module,Magento_Backend
-"Copyright &copy; %1 Magento Commerce Inc. All rights reserved.","Copyright &copy; %1 Magento Commerce Inc. Todos los derechos reservados.",module,Magento_Backend
+"Copyright &copy; %1 Magento Commerce Inc. All rights reserved.","Copyright &copy; %1 Magento Commerce Inc. Todos los derechooooos reservados.",module,Magento_Backend
 "ver. %1","ver. %1",module,Magento_Backend
 "Magento Admin Panel","Panel de administración de Magento",module,Magento_Backend
 "Account Setting","Configuración de la cuenta",module,Magento_Backend
@@ -16432,11 +16432,11 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Earphones","Auriculares",lib,web
 "Resources","Recursos",lib,web
 "Buy","COMPRAR",lib,web
-"Enter your destination to get a shipping estimate","Ingresa los datos de destino para estimar el costo de envío",lib,web
-"Enter your destination to get a shipping estimate","Ingresa los datos de destino para estimar el costo de envío",module,Magento_Checkout
-"After the payment is confirmed, you will be redirected to the advanced multi-payment platform to make the payment","Serás redirigido a la plataforma de Multipagos",lib,web
+"Enter your destination to get a shipping estimate","Ingresa los datos de destino para estimar el costo de envío.",lib,web
+"Enter your destination to get a shipping estimate","Ingresa los datos de destino para estimar el costo de envío.",module,Magento_Checkout
+"After the payment is confirmed, you will be redirected to the advanced multi-payment platform to make the payment.","Serás redirigido a la plataforma de Multipagos",lib,web
 "identification","identificación",lib,web
 "Continue Shopping","Continuar comprando",module,Magento_Catalog
 "Proceed to Checkout","Tramitar pedido",module,Magento_Catalog
-"has been added to cart","se ha agregado al carrito",module,Magento_Catalog
+"has been added to cart.","se ha agregado al carrito.",module,Magento_Catalog
 "In stock","Disponible",module,Magento_Checkout
