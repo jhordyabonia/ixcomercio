@@ -305,7 +305,7 @@ header{
         }
         .counter.qty{
           top: 5px;
-          right: 20px;
+          right: 50%;
           width: 18px;
           height: 18px;
           color: #fff;
@@ -316,7 +316,7 @@ header{
           position: absolute;
           background: red;
           border-radius: 50%;
-          margin: 0;
+          margin: 0 -18px 0 0;
         }
         .block-minicart{
           .minicart-items{

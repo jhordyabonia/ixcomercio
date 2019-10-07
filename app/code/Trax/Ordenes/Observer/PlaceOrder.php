@@ -228,7 +228,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $orderItems = $order->getAllItems();
         $coupon = array();
         $configDataImpuesto = $configDataImpuesto/100;
-        $shippingAmount = $order->getShippingAmount() / (1 + $configDataImpuesto);
+        $shippingAmount = $order->getBaseShippingAmount();
+        if($shippingAmount!=0){
+            $shippingAmount = $shippingAmount / (1 + $configDataImpuesto);
+        }
+        $freightAmount = $order->getBaseShippingDiscountAmount();
         if($order->getCouponCode() != '' || $order->getCouponCode() != null){            
             $coupon = array($order->getCouponCode());
         }
@@ -241,6 +245,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $coupon = array($giftcard[0]->c);
             }
         }
+        $this->logger->info('PlaceOrder - freightAmount: '.$freightAmount);
+        $this->logger->info('PlaceOrder - shippingAmount: '.$shippingAmount);
         $shippingData = $this->loadShippingInformation($order, $shipping->getCountryId(), $storeCode);
         if(!$shippingData['CarrierId']){
             $this->logger->info('PlaceOrder - No se ha obtenido carrier ID');
@@ -325,7 +331,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'ServiceType' => $shippingData['ServiceType'],
                     'CarrierId' => $shippingData['CarrierId'],
                     'Amount' => $shippingAmount,
-                    'FreightCost' => 0,
+                    'FreightCost' => $freightAmount,
                 )
             ),
             'Items' => $items

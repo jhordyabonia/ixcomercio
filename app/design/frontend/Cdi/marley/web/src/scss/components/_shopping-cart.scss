@@ -14,6 +14,9 @@
         width: 100%;
       }
       table{
+        @media (max-width: $tablet){
+          display: block;
+        } 
         thead{
           th{
             width: 15%;
@@ -44,13 +47,40 @@
         }
         tbody{
           tr{
+            @media (max-width: $tablet){
+              position: relative;
+              border-bottom: 1px solid #eee;
+              padding-bottom: 20px;
+              &:last-child{
+                border-bottom: 0;
+              }
+            }
             td{
               border: 0;
               &.item{
+                .product-item-photo{
+                  @media (max-width: $tablet){
+                    width: 40%;
+                    max-width: 40%;
+                    position: absolute;
+                    .product-image-container{
+                      min-width: 80%;
+                    }
+                  }
+                  @media (max-width: $mobile){
+                    padding: 0 15px;
+                    .product-image-container{
+                      min-width: 100%;
+                    }
+                  }
+                }
                 .product-item-details{
                   text-align: left;
                   @media (max-width: 1280px){
                     display: block;
+                  }
+                  @media (max-width: $tablet){
+                    margin: 0;
                   }
                 }
                 .product-item-name{
@@ -94,6 +124,9 @@
                   font-size: 18px;
                   font-weight: bold;
                   cursor: pointer;
+                  @media (max-width: $tablet){
+                    text-align: center;
+                  }
                   &:not(.disable):hover{
                     color: #fff;
                     background: #000;
@@ -113,6 +146,13 @@
                 }
               }
               &.delete{
+                @media (max-width: $tablet){
+                  &.col{
+                    right: 0;
+                    top: 8px;
+                    position: absolute;
+                  }
+                }
                 .action-delete{
                   margin: 0;
                   border: 0;
@@ -131,6 +171,15 @@
                   span{
                     display: none;
                   }
+                }
+              }
+              &.col.item, &.col.price, &.col.qty, &.col.subtotal{
+                @media (max-width: $tablet){
+                  width: 100%;
+                  padding-left: 40%!important;
+                  padding-right: 50px!important;
+                  text-align: left;
+                  float: left;
                 }
               }
             }
@@ -227,8 +276,18 @@
         float: left;
       }
     }
+    .totals-tax-details{
+      border-bottom: 0;
+    }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
       font-size: 13px;
+      border-bottom: 0;
+    }
+    .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      @media (max-width: $tablet){
+        width: 40%;
+        float: left;
+      }
     }
     input[type=checkbox], input[type=radio]{
       display: inline-block;
