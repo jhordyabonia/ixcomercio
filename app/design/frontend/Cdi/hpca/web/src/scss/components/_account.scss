@@ -48,7 +48,11 @@
             }
           }
           &.city{
-            display: none;
+            .control{
+              input{
+                display: none;
+              }
+            }
           }
         }
         >.legend{
