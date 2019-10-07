@@ -3403,7 +3403,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Maximum Display Recently Added Item(s)","Maximalanzeige kürzlich hinzugefügter Artikel",module,Magento_Checkout
 "of","de",module,Magento_Checkout
 "Something went wrong while saving the page. Please refresh the page and try again.","Algo salió mal al guardar la página. Actualiza la página y vuelve a intentarlo.",module,Magento_Checkout
-"You added %1 to your <a href=""%2"">shopping cart</a>.","Has agregado %1 al <a href=""%2"">carrito de compras</a>.",module,Magento_Checkout
+"You added %1 to your <a href=""%2"">shopping cart</a>.","Has agregadoo %1 al <a href=""%2"">carrito de compras</a>.",module,Magento_Checkout
 "Please select at least one product to add to cart","Please select at least one product to add to cart",module,Magento_Checkout
 "The quote item isn't found. Verify the item and try again.","La oración no es encontrada. Verificar e intentar de nuevo.",module,Magento_Checkout
 "The order wasn't placed. First, agree to the terms and conditions, then try placing your order again.","El pedido no fue realizado. Primero, acepte los términos y condiciones, luego intente realizar su pedido nuevamente.",module,Magento_Checkout
