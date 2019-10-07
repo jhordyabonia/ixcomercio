@@ -16440,3 +16440,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Proceed to Checkout","Tramitar pedido",module,Magento_Catalog
 "has been added to cart.","se ha agregado al carrito.",module,Magento_Catalog
 "In stock","Disponible",module,Magento_Checkout
+"Continue Shopping","Continuar comprando",module,Magento_Checkout
+"Proceed to Checkout","Tramitar pedido",module,Magento_Checkout
+"has been added to cart.","se ha agregado al carrito.",module,Magento_Checkout
+"In stock","Disponible",module,Magento_Catalog
