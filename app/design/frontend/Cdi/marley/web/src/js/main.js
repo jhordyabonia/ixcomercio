@@ -205,13 +205,25 @@ function ($, Component) {
     // =============================================
 
     var fieldState = $('form .fieldset > .field.region #region_id');
+
     if($(fieldState).length){
+      var stateOptions = $(fieldState).find('option');
+
       $.ajax({
         url: '/places/search/',
         type: 'GET',
         dataType: 'json',
         success: function(res) {
-          console.log(res);
+          $.each(stateOptions, function(i, val){
+            var optionName = $(val).text();
+      $.each(res, function(iRes, valRes){
+              if(valRes.Name == optionName){
+                $(val).attr("parentId", valRes.Id);
+              }else{
+                $(val).hide();
+              }
+            });
+          });
         }
       });
     }
