@@ -204,13 +204,12 @@ function ($, Component) {
     // Get cities
     // =============================================
 
-    /*
     var fieldState = $('form .fieldset > .field.region #region_id');
 
     fieldState.on('change', function (e) {
       $.ajax({
         url: '/places/search/',
-        data: 'parentId='+fieldState.val(),
+        data: 'parentId='+fieldState.find('option:selected').attr('parentId');,
         type: 'GET',
         dataType: 'json',
         success: function(res) {
@@ -218,8 +217,6 @@ function ($, Component) {
         }
       });      
     });
-    */
-
 
 
   });
