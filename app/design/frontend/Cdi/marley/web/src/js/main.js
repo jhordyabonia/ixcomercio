@@ -236,9 +236,6 @@ function ($, Component) {
 
     if($(fieldState).length){
       var stateOptions = $(fieldState).find('option');
-
-      console.log(stateOptions);
-
       $.ajax({
         url: '/places/search/',
         type: 'GET',
@@ -250,8 +247,6 @@ function ($, Component) {
               if(valRes.Name == optionName){
                 $(val).attr("parentId", valRes.Id);
                 $(val).show();
-              }else{
-                $(val).hide();
               }
             });
           });
