@@ -73,10 +73,10 @@ class ObserverSuccess implements ObserverInterface
                 $order->setShippingDiscountAmount($mienvioAmount);
                 $order->setShippingInclTax($mienvioAmount);
                 $order->setBaseShippingInclTax($mienvioAmount);
-                $order->setShippingDescription($mienvioQuoteId);
+                $order->setMienvioQuoteId($mienvioQuoteId);
                 $order->save();
             }catch (\Exception $e) {
-                $order->setShippingDescription('Generar guía Manual');
+                $order->setMienvioQuoteId('Generar guía Manual');
                 $order->save();
                 $this->_logger->debug('Error when generate Free Shipping', ['e' => $e]);
             }
