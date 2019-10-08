@@ -91,7 +91,7 @@
             <div class="control">
                 <select id="city_id" name="city_id"
                         title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>"
-                        class="validate-select city_id" <?= /* @noEscape */ !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>>
+                        class="validate-select city_id">
                     <option value=""><?= $block->escapeHtml(__('Please select a city')) ?></option>
                 </select>
                 <input type="text"
