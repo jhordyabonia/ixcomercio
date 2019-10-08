@@ -201,9 +201,28 @@ function ($, Component) {
 
 
     // =============================================
+    // Get states
+    // =============================================
+
+    var fieldState = $('form .fieldset > .field.region #region_id');
+    if($(fieldState).length){
+      $.ajax({
+        url: '/places/search/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+          console.log(res);
+        }
+      });
+    }
+
+
+
+    // =============================================
     // Get cities
     // =============================================
 
+    /*
     var fieldState = $('form .fieldset > .field.region #region_id');
 
     fieldState.on('change', function (e) {
@@ -215,10 +234,9 @@ function ($, Component) {
         success: function(res) {
           console.log(res);
         }
-      });
-
-      
+      });      
     });
+    */
 
 
 
