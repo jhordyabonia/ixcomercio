@@ -233,25 +233,29 @@ function ($, Component) {
     // =============================================
 
     var fieldState = $('form .fieldset > .field.region #region_id');
+    var statusField;
 
-    if($(fieldState).length){
-      var stateOptions = $(fieldState).find('option');
-      $.ajax({
-        url: '/places/search/',
-        type: 'GET',
-        dataType: 'json',
-        success: function(res) {
-          $.each(stateOptions, function(i, val){
-            var optionName = $(val).text();
-            $.each(res, function(iRes, valRes){
-              if(valRes.Name == optionName){
-                $(val).attr("parentId", valRes.Id);
-                $(val).show();
-              }
+    if(statusField==undefined){
+      if($(fieldState).length){
+        var stateOptions = $(fieldState).find('option');
+        $.ajax({
+          url: '/places/search/',
+          type: 'GET',
+          dataType: 'json',
+          success: function(res) {
+            $.each(stateOptions, function(i, val){
+              var optionName = $(val).text();
+              $.each(res, function(iRes, valRes){
+                if(valRes.Name == optionName){
+                  $(val).attr("parentId", valRes.Id);
+                  $(val).show();
+                }
+              });
             });
-          });
-        }
-      });
+            statusField=1;
+          }
+        });
+      }
     }
 
   });
