@@ -203,7 +203,7 @@ function ($, Component) {
     // =============================================
     // Get cities
     // =============================================
-
+    /*
     var fieldState = $('form .fieldset > .field.region #region_id');
 
     fieldState.on('change', function (e) {
@@ -217,6 +217,7 @@ function ($, Component) {
         }
       });      
     });
+    */
 
 
   });
