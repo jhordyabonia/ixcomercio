@@ -202,32 +202,6 @@ function ($, Component) {
 
 
     // =============================================
-    // Get cities
-    // =============================================
-    
-    var fieldState = $('form .fieldset > .field.region #region_id');
-
-    fieldState.on('change', function (e) {
-      $.ajax({
-        url: '/places/search/',
-        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
-        type: 'GET',
-        dataType: 'json',
-        success: function(res) {
-          console.log(res);
-        }
-      });      
-    });
-    
-
-
-  });
-
-
-  
-  $(document).ajaxComplete(function(){
-
-    // =============================================
     // Get states
     // =============================================
 
@@ -265,7 +239,33 @@ function ($, Component) {
       }, 1000);
     }
 
+
+
+    // =============================================
+    // Get cities
+    // =============================================
     
+    var fieldState = $('form .fieldset > .field.region #region_id');
+
+    fieldState.on('change', function (e) {
+      $.ajax({
+        url: '/places/search/',
+        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+          console.log(res);
+        }
+      });      
+    });
+    
+
+
+  });
+
+
+  
+  $(document).ajaxComplete(function(){
   });
 
 
