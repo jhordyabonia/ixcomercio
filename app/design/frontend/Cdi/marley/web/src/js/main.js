@@ -238,6 +238,7 @@ function ($, Component) {
       }, 1000);
     }
 
+
     // =============================================
     // Get cities
     // =============================================
@@ -258,7 +259,20 @@ function ($, Component) {
         }
       });
     });
-    
+
+
+
+    // =============================================
+    // Zendesk link - footer
+    // =============================================
+    var linksFooter = $('footer a');
+
+    $.each(linksFooter, function(i, val){
+      if(val.innerText == "Zendesk Support"){
+        var parentLi = $(this).parent();
+        $('footer .col-md-3:eq(0) .nav-submenu').append(parentLi);
+      }
+    });
 
 
   });
