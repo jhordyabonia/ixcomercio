@@ -46,6 +46,25 @@
               }
             }
           }
+          &.region{
+            .control{
+              select{
+                option{
+                  display: none;
+                  &[parentid]{
+                    display: block;
+                  }
+                }
+              }
+            }
+          }
+          &.city{
+            .control{
+              input{
+                visibility: hidden;
+              }
+            }
+          }
         }
         >.legend{
           width: 100%;

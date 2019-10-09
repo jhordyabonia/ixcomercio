@@ -90,7 +90,10 @@
           <div class="field required">
             <label for="city" class="label"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?></span></label>
             <div class="control">
-              <input type="text" name="city" value="<?= $block->escapeHtmlAttr($block->getFormData()->getCity()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>" id="city">
+              <select id="city_id" name="city_id" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="validate-select" style="display:none;">
+                <option value=""><?= /* @escapeNotVerified */ __('Please select a city') ?></option>
+              </select>
+              <input type="text" id="city" name="city" value="<?= $block->escapeHtmlAttr($block->getFormData()->getCity()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>" style="display:none;">
             </div>
           </div>
 

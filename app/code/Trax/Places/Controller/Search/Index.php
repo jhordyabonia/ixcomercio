@@ -199,6 +199,8 @@ class Index extends \Magento\Framework\App\Action\Action
                     $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, "N/A", $storeCode);
                     echo json_encode(array());
                 }
+            } else{
+                echo json_encode(array());
             }
         }   
 
