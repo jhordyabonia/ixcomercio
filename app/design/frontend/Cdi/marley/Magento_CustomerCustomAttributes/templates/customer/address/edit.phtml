@@ -86,17 +86,12 @@
                 </div>
             </div>
         <?php endif; ?>
-                <select id="city_id" name="city_id"
-                        title="<?= $block->escapeHtmlAttr(__('City')) ?>"
-                        class="validate-select">
-                    <option value=""><?= $block->escapeHtml(__('Please select a city.')) ?></option>
-                </select>
         <div class="field city required">
             <label class="label" for="city"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?></span></label>
             <div class="control">
                 <select id="city_id" name="city_id"
                         title="<?= $block->escapeHtmlAttr(__('City')) ?>"
-                        class="validate-select">
+                        class="validate-select city-id">
                     <option value=""><?= $block->escapeHtml(__('Please select a city.')) ?></option>
                 </select>
                 <input type="text"
