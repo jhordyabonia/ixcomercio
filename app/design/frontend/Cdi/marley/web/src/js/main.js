@@ -6,6 +6,7 @@ function ($, Component) {
 
   var navbarHeight = jQuery('header').innerHeight();
   var w_width = jQuery( window ).width();
+  var statusField;
 
   $(document).ready(function(){
 
@@ -231,8 +232,6 @@ function ($, Component) {
     // =============================================
 
     var fieldState = $('form .fieldset > .field.region #region_id');
-    var statusField;
-
     if(statusField==undefined){
       console.log("undefined");
       if($(fieldState).length){
