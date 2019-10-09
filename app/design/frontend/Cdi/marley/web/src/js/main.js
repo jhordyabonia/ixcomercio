@@ -6,6 +6,7 @@ function ($, Component) {
 
   var navbarHeight = jQuery('header').innerHeight();
   var w_width = jQuery( window ).width();
+  var statusField;
 
   $(document).ready(function(){
 
@@ -209,7 +210,7 @@ function ($, Component) {
     fieldState.on('change', function (e) {
       $.ajax({
         url: '/places/search/',
-        data: 'parentId='+fieldState.find('option:selected').attr('parentId');,
+        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
         type: 'GET',
         dataType: 'json',
         success: function(res) {
@@ -231,9 +232,8 @@ function ($, Component) {
     // =============================================
 
     var fieldState = $('form .fieldset > .field.region #region_id');
-    var statusField;
-
     if(statusField==undefined){
+      console.log("undefined");
       if($(fieldState).length){
         var stateOptions = $(fieldState).find('option');
         $.ajax({
@@ -250,10 +250,12 @@ function ($, Component) {
                 }
               });
             });
-            statusField=1;
           }
         });
       }
+      statusField=1;
+    }else{
+      console.log("1");
     }
 
   });
