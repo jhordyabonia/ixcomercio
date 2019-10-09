@@ -233,12 +233,9 @@ function ($, Component) {
     var fieldState = $('form .fieldset > .field.region #region_id');
     var statusField;
 
-    console.log(statusField);
-
     if(statusField==undefined){
-      console.log("UNDEFINED");      
+      console.log("undefined");
       if($(fieldState).length){
-        console.log("EXISTE");
         var stateOptions = $(fieldState).find('option');
         $.ajax({
           url: '/places/search/',
@@ -254,13 +251,13 @@ function ($, Component) {
                 }
               });
             });
-            statusField=1;
           }
         });
       }
+      statusField=1;
+    }else{
+      console.log("1");
     }
-
-    console.log("AJAXCOMPLETE");
 
   });
 
