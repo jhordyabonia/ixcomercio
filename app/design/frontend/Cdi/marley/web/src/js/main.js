@@ -202,6 +202,47 @@ function ($, Component) {
 
 
     // =============================================
+    // Get states
+    // =============================================
+
+    var fieldState = $('form .fieldset > .field.region #region_id');
+    var stateOptions;
+    var intervalState;
+
+    function getStates() {
+      stateOptions = $(fieldState).find('option');
+      $.ajax({
+        url: '/places/search/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+          $.each(stateOptions, function(i, val){
+            var optionName = $(val).text();
+            $.each(res, function(iRes, valRes){
+              if(valRes.Name == optionName){
+                $(val).attr("parentId", valRes.Id);
+                $(val).show();
+              }
+            });
+          });
+        }
+      });
+    }
+
+    
+    if($(fieldState).length){
+      stateOptions = $(fieldState).find('option');
+      if($(stateOptions).length <= 1){
+        intervalState = setInterval(getStates, 1000);
+      }else{
+        getStates();
+        clearInterval(intervalState);
+      }
+    }
+
+
+
+    // =============================================
     // Get cities
     // =============================================
     
@@ -226,38 +267,6 @@ function ($, Component) {
 
   
   $(document).ajaxComplete(function(){
-
-    // =============================================
-    // Get states
-    // =============================================
-
-    var fieldState = $('form .fieldset > .field.region #region_id');
-    if(statusField==undefined){
-      console.log("undefined");
-      if($(fieldState).length){
-        var stateOptions = $(fieldState).find('option');
-        $.ajax({
-          url: '/places/search/',
-          type: 'GET',
-          dataType: 'json',
-          success: function(res) {
-            $.each(stateOptions, function(i, val){
-              var optionName = $(val).text();
-              $.each(res, function(iRes, valRes){
-                if(valRes.Name == optionName){
-                  $(val).attr("parentId", valRes.Id);
-                  $(val).show();
-                }
-              });
-            });
-          }
-        });
-      }
-      statusField=1;
-    }else{
-      console.log("1");
-    }
-
   });
 
 
