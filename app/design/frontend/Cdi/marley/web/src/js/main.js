@@ -211,33 +211,31 @@ function ($, Component) {
 
     function getStates() {
       stateOptions = $(fieldState).find('option');
-      $.ajax({
-        url: '/places/search/',
-        type: 'GET',
-        dataType: 'json',
-        success: function(res) {
-          $.each(stateOptions, function(i, val){
-            var optionName = $(val).text();
-            $.each(res, function(iRes, valRes){
-              if(valRes.Name == optionName){
-                $(val).attr("parentId", valRes.Id);
-                $(val).show();
-              }
+      if($(stateOptions).length <= 1){
+        $.ajax({
+          url: '/places/search/',
+          type: 'GET',
+          dataType: 'json',
+          success: function(res) {
+            $.each(stateOptions, function(i, val){
+              var optionName = $(val).text();
+              $.each(res, function(iRes, valRes){
+                if(valRes.Name == optionName){
+                  $(val).attr("parentId", valRes.Id);
+                  $(val).show();
+                }
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      }else{
+        clearInterval(intervalState);
+      }
     }
 
     
     if($(fieldState).length){
-      stateOptions = $(fieldState).find('option');
-      if($(stateOptions).length <= 1){
-        intervalState = setInterval(getStates, 1000);
-      }else{
-        getStates();
-        clearInterval(intervalState);
-      }
+      intervalState = setInterval(getStates, 1000);
     }
 
 
