@@ -252,10 +252,9 @@ function ($, Component) {
         dataType: 'json',
         success: function(res) {
           $(fieldCity).find('option:not([value=""])').remove();
-          $.each(function(i, val){
+          $.each(res, function(i, val){
             $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
           });
-          
         }
       });
     });
