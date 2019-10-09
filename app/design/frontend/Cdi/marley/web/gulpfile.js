@@ -59,9 +59,6 @@ gulp.task('sass_lint', function lintCssTask() {
 });
 
 gulp.task('default', gulp.parallel('patterns','uglify','sass_lint'), function() {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  })
   gulp.watch(thisWatchScssFiles, ['patterns']); // Reload on SCSS file changes.
   gulp.watch(thisWatchJsFiles, ['uglify']); // Reload on JS file changes.
 });
