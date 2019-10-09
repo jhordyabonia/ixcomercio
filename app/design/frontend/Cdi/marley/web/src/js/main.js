@@ -228,7 +228,6 @@ function ($, Component) {
       });      
     }
 
-    
     if($(fieldState).length){
       intervalState = setInterval(function(){
         stateOptions = $(fieldState).find('option');
@@ -239,13 +238,11 @@ function ($, Component) {
       }, 1000);
     }
 
-
-
     // =============================================
     // Get cities
     // =============================================
     
-    var fieldState = $('form .fieldset > .field.region #region_id');
+    var fieldCity = $('form .fieldset > .field.city #city_id');
 
     fieldState.on('change', function (e) {
       $.ajax({
@@ -254,9 +251,13 @@ function ($, Component) {
         type: 'GET',
         dataType: 'json',
         success: function(res) {
-          console.log(res);
+          $(fieldCity).find('option:not([value=""])').remove();
+          $.each(function(i, val){
+            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+          });
+          
         }
-      });      
+      });
     });
     
 
