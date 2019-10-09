@@ -209,7 +209,7 @@ function ($, Component) {
     fieldState.on('change', function (e) {
       $.ajax({
         url: '/places/search/',
-        data: 'parentId='+fieldState.find('option:selected').attr('parentId');,
+        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
         type: 'GET',
         dataType: 'json',
         success: function(res) {
