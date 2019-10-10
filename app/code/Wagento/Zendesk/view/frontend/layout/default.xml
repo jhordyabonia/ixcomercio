@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright Wagento Creative LLC ©, All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <referenceBlock name="footer_links">
+            <block class="Magento\Framework\View\Element\Template"
+                   ifconfig="zendesk/help_center/hc_link"
+                   name="zendesk-link" template="Wagento_Zendesk::footer/link.phtml"/>
+        </referenceBlock>
+
+        <referenceContainer name="footer">
+            <block class="Wagento\Zendesk\Block\Footer\ZendeskWidget"
+                   ifconfig="zendesk/help_center/include_web_widget"
+                   name="zendesk_widget"
+                   template="Wagento_Zendesk::footer/zendeskwidget.phtml"/>
+        </referenceContainer>
+
+    </body>
+</page>
