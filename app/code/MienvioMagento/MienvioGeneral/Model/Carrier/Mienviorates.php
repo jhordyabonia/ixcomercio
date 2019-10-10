@@ -170,7 +170,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $this->_mienvioHelper->getOriginZipCode(),
                 "ventas@mienvio.mx",
                 "5551814040",
-                'MienvioRates@CollectRates:173',
+                '',
                 $destCountryId
             );
 
