@@ -134,8 +134,8 @@ class ObserverSuccess implements ObserverInterface
                 $this->_mienvioHelper->getOriginStreet2(),
                 $this->_mienvioHelper->getOriginZipCode(),
                 "ventas@mienvio.mx",
-                "7352124627",
-                'Direccion desde ObserverSuccess@execute',
+                "4422876138",
+                '',
                 $countryId
             );
 
@@ -181,7 +181,7 @@ class ObserverSuccess implements ObserverInterface
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
-                $order->setShippingDescription($mienvioQuoteId);
+                $order->setMienvioQuoteId($mienvioQuoteId);
                 $order->save();
                 return $this;
             }
@@ -551,8 +551,8 @@ class ObserverSuccess implements ObserverInterface
                 $this->_mienvioHelper->getOriginStreet2(),
                 $this->_mienvioHelper->getOriginZipCode(),
                 "ventas@mienvio.mx",
-                "7352124627",
-                'Direccion desde ObserverSuccess@execute',
+                "4422876138",
+                '',
                 $countryId
             );
 
