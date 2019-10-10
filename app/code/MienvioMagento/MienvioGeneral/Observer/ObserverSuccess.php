@@ -181,7 +181,7 @@ class ObserverSuccess implements ObserverInterface
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
-                $order->setShippingDescription($mienvioQuoteId);
+                $order->setMienvioQuoteId($mienvioQuoteId);
                 $order->save();
                 return $this;
             }
