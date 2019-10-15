@@ -11,8 +11,7 @@
             class: 'message-' + message.type + ' ' + message.type + ' message',
             'data-ui-id': 'message-' + message.type
         }">
-            <!-- ko i18n: message.text --><!-- /ko -->
-            <div data-bind="html: message.text"></div>
+            <div data-bind="i18n: html: message.text"></div>
         </div>
     </div>
     <!-- /ko -->
@@ -22,8 +21,7 @@
             class: 'message-' + message.type + ' ' + message.type + ' message',
             'data-ui-id': 'message-' + message.type
         }">
-            <!-- ko i18n: message.text --><!-- /ko -->
-            <div data-bind="html: message.text"></div>
+            <div data-bind="i18n: html: message.text"></div>
         </div>
     </div>
     <!-- /ko -->
