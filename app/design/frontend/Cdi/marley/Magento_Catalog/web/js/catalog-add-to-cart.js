@@ -171,7 +171,7 @@ define([
                     }else if($(form).parents('.product-info_main').length){
                         titleProduct = $(form).parents('.product-info_main').find('.product-name').text();
                     }
-                    var popup = $('<div class="add-to-cart-dialog"/>').html(titleProduct + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
+                    var popup = $('<div class="add-to-cart-dialog"/>').html(titleProduct + $t('<span> has been added to cart.</span>')).modal({ //get product name from product view page only
                         modalClass: 'add-to-cart-popup',
                         //title: $.mage.__("No Title"),
                         buttons: [
