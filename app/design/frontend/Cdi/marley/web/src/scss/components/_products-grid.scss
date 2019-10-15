@@ -11,8 +11,9 @@
       max-width: 1320px;
       margin: 0 auto;
       @media only screen and (max-width: 1280px){
-        width: 96%;
+        width: 100%;
         max-width: 960px;
+        float: left;
       }
       .products li.item{
         padding-bottom: 50px;
@@ -20,6 +21,12 @@
         &:hover .sticker{
           width: 65px;
         }
+      }
+    }
+    .sidebar{
+      @media only screen and (max-width: 1280px){
+        width: 100%;
+        float: left;
       }
     }
   }
