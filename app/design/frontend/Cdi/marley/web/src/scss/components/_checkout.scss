@@ -68,8 +68,10 @@
     }
     .payment-option{
       .form{
-        float: none;
+        width: 100%;
+        max-width: 320px;
         display: inline-block;
+        float: none;
       }
     }
     .actions-toolbar{
