@@ -10,12 +10,6 @@ function ($, Component) {
 
   $(document).ready(function(){
 
-    if(w_width <= 959){
-      $('html body').css('paddingTop', navbarHeight);
-    }else{
-      $('html body').css('paddingTop', 0);
-    }
-
     $('#scroll-to-top').click(function(){
       $( "html, body" ).animate({scrollTop:0}, 500, 'swing');
     });
@@ -301,12 +295,7 @@ function ($, Component) {
 
   jQuery(window).on("resize", function(){
     navbarHeight = jQuery('header').innerHeight();
-    if(w_width <= 959){
-      $('html body').css('paddingTop', navbarHeight);
-    }else{
-      $('html body').css('paddingTop', 0);
-    }
-
+    
     //Append search mobile
     if(w_width <= 768){
       var searchMobile = $('#search-wrapper-mobile .block-search');
