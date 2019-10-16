@@ -20,8 +20,10 @@
 .modals-wrapper{
   .modal-popup{
     .modal-inner-wrap{
-      width: 90%;
-      max-width: 650px;
+      @media only screen and (max-width: $mobile){
+        width: 90%;
+        max-width: 650px;
+      }
       .modal-header, .modal-footer{
         border: 0;
       }
@@ -35,7 +37,7 @@
       }
       .modal-footer{
         text-align: center;
-        @media only screen and (min-width: $mobile){
+        @media only screen and (max-width: $mobile){
           padding: 1rem 1rem 3rem;
         }
         button{
@@ -53,7 +55,7 @@
           white-space: normal;
           border-radius: 0;
           float: none;
-          @media only screen and (min-width: $mobile){
+          @media only screen and (max-width: $mobile){
             width: 100%;
             margin: 0 0 10px;
             &:last-child{
