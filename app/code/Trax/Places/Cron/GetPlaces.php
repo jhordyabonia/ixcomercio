@@ -84,7 +84,7 @@ class GetPlaces {
                     $this->logger->info('GetPlaces - url '.$serviceUrl);
                     if($serviceUrl){
                         try{
-                            $this->beginGetPlaces($configData, $serviceUrl, $storeManager->getStore()->getCode(), 0);
+                            $this->beginGetPlaces($configData, $serviceUrl, $storeManager->getStore()->getCode(), 0, 'region');
                         } catch(Exception $e){
                             $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
                         }
@@ -174,19 +174,23 @@ class GetPlaces {
     }
 
     //Función recursiva para intentos de conexión
-    public function beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts) {
+    public function beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
-        if($data['status']){     
-            //Mapear lugares de magento con IWS en tabla custom
-            $this->loadPlaces($configData, $storeCode, $data['resp']);
+        if($data['status']){
+            if(count($data['resp'])>0){
+                //Mapear lugares de magento con IWS en tabla custom
+                $this->loadPlaces($configData, $storeCode, $data['resp'], $type, $parent_id);
+            } else{
+                $this->logger->info('GetPlaces - El servicio no retorna información');
+            }
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
                 if($configData['lugares_reintentos']>$attempts){
                     $attempts++;
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
                     sleep($configData['timeout']);
-                    $this->beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts);
+                    $this->beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id);
                 } else{
                     $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetPlaces - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['lugares_correo']);
@@ -194,50 +198,40 @@ class GetPlaces {
                     echo json_encode(array());
                 }
             } else{
-                echo json_encode(array());
+                $this->logger->info('GetPlaces - No se establecio conexión con el servicio');
             }
         }   
 
     }
 
     //Función que carga las regiones asociadas a un pais y una tienda en especifico
-    public function loadPlaces($configData, $storeCode, $data) {
+    public function loadPlaces($configData, $storeCode, $data, $type, $parent_id = null) {
         //Se leen datos de la respuesta
+        $places = array();
+
         foreach ($data as $key => $region) {
-            $this->logger->info('GetPlaces - Se verifica si el registro de region con id de trax: '.$region->Id.' existe');
+            $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, 'region');
             //Se verifica si existe el registro para el pais y la tienda
             if(!$id){
                 //Se genera registro
-                $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
+                $id = $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
             } else {
                 //Se actualiza información
-                $this->updatePlace($id, 'region');
+                $this->updatePlace($id, 'region', $region);
             }
+            $places[$id] = $id;
+            //Se cargan las places hijos
+            switch($type){
+                case 'region': $type2 = 'city'; break;
+                case 'city': $type2 = 'locality'; break;
+                case 'locality': $type2 = $type; break;
+            }
+            $serviceUrl = $this->getServiceUrl($configData, 'getplaces', $region->Id);
+            $this->beginGetPlaces($configData, $serviceUrl, $storeCode, 0, $type2, $id);
+            //Se verifican los registros que no cumplan para dejarlos con estado 0
         }
-        //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
-        if($data['status']){     
-            //Mapear lugares de magento con IWS en tabla custom
-            $this->loadPlaces($configData, $storeCode, $data['resp']);
-        } else {
-            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
-                if($configData['lugares_reintentos']>$attempts){
-                    $attempts++;
-                    $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
-                    sleep($configData['timeout']);
-                    $this->beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts);
-                } else{
-                    $this->logger->info('GetPlaces - Error conexión: '.$serviceUrl);
-                    $this->logger->info('GetPlaces - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['lugares_correo']);
-                    $this->helper->notify('Soporte Trax', $configData['lugares_correo'], $configData['lugares_reintentos'], $serviceUrl, "N/A", $storeCode);
-                    echo json_encode(array());
-                }
-            } else{
-                echo json_encode(array());
-            }
-        }   
-
+        $this->checkPlaces($places, $configData, $storeCode, $type);
     }
 
     //Consulta la tabla custom de places y verifica si la region existe
@@ -313,13 +307,14 @@ class GetPlaces {
         $saveData = $model->save();
         if($saveData){
             $this->logger->info('GetPlaces - Se inserto el place de tipo '.$region.' con id de trax: '.$region->Id);
+            return $saveData->id;
         } else {
             $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$region.' con id de trax: '.$region->Id);
         }
     }
 
     //Actualiza un place
-    public function updatePlace($id, $type) 
+    public function updatePlace($id, $type, $region) 
     {   
         switch($type){
             case 'region':
@@ -330,8 +325,7 @@ class GetPlaces {
                 $model = $this->_traxPlacesLocalities->create(); break;
         }		
         $model->setData([
-            "id" => $storeCode,
-            "country_id" => $country_id,
+            "id" => $id,
             "trax_id" => $region->Id,
             "name" => $region->Name,
             "level" => $region->Level,
@@ -339,6 +333,54 @@ class GetPlaces {
             "area_code" => $region->AreaCode,
             "postal_code" => $region->PostalCode,
             "status" => 1
+            ]);
+        $saveData = $model->save();
+        if($saveData){
+            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$region.' con id de trax: '.$id);
+        } else {
+            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$region.' con id de trax: '.$id);
+        }
+    }
+
+    //Consulta la tabla custom de places y verifica si la region existe
+    public function checkPlaces($places, $configData, $storeCode, $type) 
+    {   
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+        switch($type){
+            case 'region':
+                $table = 'trax_places_regions'; break;
+            case 'city':
+                $table = 'trax_places_cities'; break;
+            case 'locality':
+                $table = 'trax_places_localities'; break;
+        }
+		$tableName = $resource->getTableName($table); 
+		//Select Data from table
+        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$country_id."' AND trax_id='".$place_id."'";
+        $place = $connection->fetchAll($sql); 
+        foreach ($place as $key => $data) {
+            if(!array_key_exists ( $data['id'] , $places )){
+                $this->disablePlace($data['id'], $type);
+            }
+        }
+    }
+
+    //Actualiza un place
+    public function disablePlace($id, $type) 
+    {   
+        switch($type){
+            case 'region':
+                $model = $this->_traxPlacesRegions->create(); break;
+            case 'city':
+                $model = $this->_traxPlacesCities->create(); break;
+            case 'locality':
+                $model = $this->_traxPlacesLocalities->create(); break;
+        }		
+        $model->setData([
+            "id" => $id,
+            "status" => 0
             ]);
         $saveData = $model->save();
         if($saveData){
