@@ -142,7 +142,6 @@ class Index extends \Magento\Framework\App\Action\Action
     //Obtiene los parámetros de configuración desde el cms
     public function getConfigParams($storeScope, $websiteCode) 
     {
-
         //Se obtienen parametros de configuración por Store
         $configData['apikey'] = $this->scopeConfig->getValue(self::API_KEY, $storeScope, $websiteCode);
         $configData['accesskey'] = $this->scopeConfig->getValue(self::ACCESS_KEY, $storeScope, $websiteCode);

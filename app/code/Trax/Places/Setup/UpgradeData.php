@@ -66,6 +66,12 @@ class UpgradeData implements UpgradeDataInterface
                             ['identity'=>true,'unsigned'=>true,'nullable'=>false,'primary'=>true]
                         )
                         ->addColumn(
+                            'store_code',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
+                        )
+                        ->addColumn(
                             'country_id',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             255,
@@ -107,6 +113,12 @@ class UpgradeData implements UpgradeDataInterface
                             '2M',
                             ['nullbale'=>true,'default'=>'']
                         )
+                        ->addColumn(
+                            'status',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            null,
+                            ['nullable'=>false,'default'=>1]
+                        )
                          ->setOption('charset','utf8');
                 $conn->createTable($table);
             }
@@ -117,6 +129,18 @@ class UpgradeData implements UpgradeDataInterface
                             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                             null,
                             ['identity'=>true,'unsigned'=>true,'nullable'=>false,'primary'=>true]
+                        )
+                        ->addColumn(
+                            'store_code',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
+                        )
+                        ->addColumn(
+                            'country_id',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
                         )
                         ->addColumn(
                             'trax_places_region_id',
@@ -160,6 +184,12 @@ class UpgradeData implements UpgradeDataInterface
                             '2M',
                             ['nullbale'=>true,'default'=>'']
                         )
+                        ->addColumn(
+                            'status',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            null,
+                            ['nullable'=>false,'default'=>1]
+                        )
                          ->setOption('charset','utf8');
                 $conn->createTable($table1);
             }
@@ -170,6 +200,18 @@ class UpgradeData implements UpgradeDataInterface
                             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                             null,
                             ['identity'=>true,'unsigned'=>true,'nullable'=>false,'primary'=>true]
+                        )
+                        ->addColumn(
+                            'store_code',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
+                        )
+                        ->addColumn(
+                            'country_id',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
                         )
                         ->addColumn(
                             'trax_places_city_id',
@@ -212,6 +254,12 @@ class UpgradeData implements UpgradeDataInterface
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
                             ['nullbale'=>true,'default'=>'']
+                        )
+                        ->addColumn(
+                            'status',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            null,
+                            ['nullable'=>false,'default'=>1]
                         )
                          ->setOption('charset','utf8');
                 $conn->createTable($table2);
