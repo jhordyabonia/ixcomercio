@@ -87,13 +87,13 @@ class UpgradeData implements UpgradeDataInterface
                             'name',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             255,
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'level',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'parent_id',
@@ -105,7 +105,7 @@ class UpgradeData implements UpgradeDataInterface
                             'area_code',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'postal_code',
@@ -158,13 +158,13 @@ class UpgradeData implements UpgradeDataInterface
                             'name',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             255,
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'level',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'parent_id',
@@ -176,7 +176,7 @@ class UpgradeData implements UpgradeDataInterface
                             'area_code',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'postal_code',
@@ -223,19 +223,19 @@ class UpgradeData implements UpgradeDataInterface
                              'trax_id',
                              \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                              255,
-                             ['nullbale'=>false,'default'=>'']
+                             ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'name',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             255,
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'level',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'parent_id',
@@ -247,7 +247,7 @@ class UpgradeData implements UpgradeDataInterface
                             'area_code',
                             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                             '2M',
-                            ['nullbale'=>false,'default'=>'']
+                            ['nullbale'=>true,'default'=>'']
                         )
                         ->addColumn(
                             'postal_code',

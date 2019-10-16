@@ -65,6 +65,7 @@ class GetPlaces {
 
     public function execute() 
     {
+        $this->logger->info('GetPlaces - Se ejecuta cron ');
         //Se declaran variables de la tierra
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -208,7 +209,6 @@ class GetPlaces {
     public function loadPlaces($configData, $storeCode, $data, $type, $parent_id = null) {
         //Se leen datos de la respuesta
         $places = array();
-
         foreach ($data as $key => $region) {
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, 'region');
