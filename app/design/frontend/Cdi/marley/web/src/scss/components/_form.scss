@@ -17,10 +17,16 @@ form{
 					font-size: 13px;
 			    	margin: 0 0 10px;
 			    	font-weight: 700;
+			    	word-break: break-all;
+				    text-align: left;
+				    padding: 0;
 				    @media only screen and (min-width: $tablet){
 				      	width: 100%;
-				      	text-align: left;
-				      	padding: 0;
+				    }
+				    span{
+				    	text-align: left;
+				    	white-space: normal;
+					    word-break: break-word;
 				    }
 				}
 				> .control{
