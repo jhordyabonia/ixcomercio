@@ -65,7 +65,6 @@ class GetPlaces {
 
     public function execute() 
     {
-        $this->logger->info('GetPlaces - Se ejecuta cron ');
         //Se declaran variables de la tierra
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -211,14 +210,14 @@ class GetPlaces {
         $places = array();
         foreach ($data as $key => $region) {
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
-            $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, 'region');
+            $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
             //Se verifica si existe el registro para el pais y la tienda
             if(!$id){
                 //Se genera registro
-                $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
+                $this->savePlace($configData['country_id'], $storeCode, $region, $type);
             } else {
                 //Se actualiza información
-                $this->updatePlace($id, 'region', $region);
+                $this->updatePlace($id, $type, $region);
             }
             $places[$region->Id] = $region->Id;
             //Se cargan las places hijos
