@@ -230,6 +230,11 @@ header{
               }
             }
           }
+          .wrapper-menu-mobile{
+            width: auto;
+            display: inline-block;
+            vertical-align: middle;
+          }
           .quick-access{
             vertical-align: middle;
             display: none;
@@ -276,9 +281,7 @@ header{
             }
           }
           .icon-search{
-            width: auto;
             display: inline-block;
-            vertical-align: middle;
             margin-left: 20px;
             .icon-search-button{
               width: 32px;
