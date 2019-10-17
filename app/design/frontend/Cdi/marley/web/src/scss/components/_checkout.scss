@@ -12,6 +12,9 @@
   .opc-progress-bar-item{
     >span{
       font-size: 1.3rem;
+      @media (max-width: $tablet){
+        font-size: 1rem;
+      }
       &:after{
         color: #000;
         font-size: 1.3rem;
@@ -28,6 +31,26 @@
         }
         &:after{
           font-size: 1.8rem;
+        }
+      }
+    }
+  }
+  .opc-estimated-wrapper{
+    background: #ecebe8;
+    .estimated-block{
+      text-align: left;
+    }
+    .minicart-wrapper{
+      width: auto;
+      .action.showcart{
+        border: 0;
+        background: none;
+        .counter.qty{
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+          background: red;
+          border-radius: 50%;
         }
       }
     }
