@@ -306,10 +306,10 @@ class GetPlaces {
         }		
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se inserto el place de tipo '.$region.' con id de trax: '.$region->Id);
+            $this->logger->info('GetPlaces - Se inserto el place de tipo '.$type.' con id de trax: '.$region->Id);
             return $saveData->id;
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$region.' con id de trax: '.$region->Id);
+            $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$type.' con id de trax: '.$region->Id);
         }
     }
 
@@ -336,9 +336,9 @@ class GetPlaces {
             ]);
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$type.' con id de trax: '.$id);
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$type.' con id de trax: '.$id);
         }
     }
 
@@ -384,9 +384,9 @@ class GetPlaces {
             ]);
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$type.' con id de trax: '.$id);
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$type.' con id de trax: '.$id);
         }
     }
 
