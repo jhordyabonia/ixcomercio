@@ -166,6 +166,14 @@ header{
                   &.parent{
                     > .level-top{
                       padding-right: 28px;
+                      >.ui-menu-icon{
+                        &:after{
+                          @media only screen and (min-width: $desktop){
+                            font-size: 28px;
+                            color: #ccc;
+                          }
+                        }
+                      }
                     }  
                   }
                   > .level-top{
