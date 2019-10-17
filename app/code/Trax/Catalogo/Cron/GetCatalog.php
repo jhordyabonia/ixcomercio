@@ -331,6 +331,7 @@ class GetCatalog {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
+                $categoryTmp->setIsActive(false);
             }
             //Se asocian campos
             $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.'-'.rand(0,1000));
@@ -338,7 +339,6 @@ class GetCatalog {
             $categoryTmp->setUrlKey($cleanurl);
             $name=ucfirst($catalog->Category->Description);
             $categoryTmp->setName($name);
-            $categoryTmp->setIsActive(true);
             $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
             if($existe == 0){

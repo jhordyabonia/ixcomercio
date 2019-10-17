@@ -147,12 +147,12 @@ define([
                 this.popUpForm.options.buttons = [
                     {
                         text: buttons.save.text ? buttons.save.text : $t('Save Address'),
-                        class: buttons.save.class ? buttons.save.class : 'action primary action-save-address',
+                        class: buttons.save.class ? buttons.save.class : 'action-primary action-save-address',
                         click: self.saveNewAddress.bind(self)
                     },
                     {
                         text: buttons.cancel.text ? buttons.cancel.text : $t('Cancel'),
-                        class: buttons.cancel.class ? buttons.cancel.class : 'action secondary action-hide-popup',
+                        class: buttons.cancel.class ? buttons.cancel.class : 'action-secondary action-hide-popup',
 
                         /** @inheritdoc */
                         click: this.onClosePopUp.bind(this)

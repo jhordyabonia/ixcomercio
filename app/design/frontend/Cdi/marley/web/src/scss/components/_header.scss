@@ -148,7 +148,7 @@ header{
             @media only screen and (min-width: 768px){
               padding: 0;
             }
-            li{
+            > li{
               margin: 0;
               display: inline-block;
               float: none;
@@ -168,7 +168,7 @@ header{
                   }
                 }
               }
-              a{
+              > a{
                 color: black;
                 font-size: 15px;
                 line-height: 30px;
@@ -387,6 +387,18 @@ header{
               speak: none;
               text-align: center;
             }
+          }
+          .action.search{
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 100%;
+            position: absolute;
+            display: block;
+            overflow: hidden;
+            padding: 0;
+            opacity: 0;
+            z-index: 9;
           }
         }
       }
