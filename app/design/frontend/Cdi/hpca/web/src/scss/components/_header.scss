@@ -175,8 +175,21 @@ header{
                   }
                 }
                 .submenu{
-                  li a{
-                    padding: 12px 20px;
+                  li{
+                    a{
+                      padding: 12px 20px;
+                    }
+                    &.parent{
+                      > a >.ui-menu-icon{
+                        top: 50%;
+                        margin-top: -10px;
+                        &:after{
+                          color: #ccc;
+                          font-size: 28px;
+                          line-height: 20px;
+                        }
+                      }
+                    }
                   }
                 }
               }
