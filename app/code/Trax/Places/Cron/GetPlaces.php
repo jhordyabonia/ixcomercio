@@ -124,7 +124,7 @@ class GetPlaces {
     * Si $type = 1 se obtiene la información general del catalogo
     * Si $type != 1 se obtiene el precio e inventario del catalogo
     */
-	public function getServiceUrl($configData, $type, $storeCode) 
+	public function getServiceUrl($configData, $method, $parentId) 
 	{
         if($configData['apikey'] == ''){
             $serviceUrl = false;
@@ -215,12 +215,12 @@ class GetPlaces {
             //Se verifica si existe el registro para el pais y la tienda
             if(!$id){
                 //Se genera registro
-                $id = $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
+                $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
             } else {
                 //Se actualiza información
                 $this->updatePlace($id, 'region', $region);
             }
-            $places[$id] = $id;
+            $places[$region->Id] = $region->Id;
             //Se cargan las places hijos
             switch($type){
                 case 'region': $type2 = 'city'; break;
@@ -306,10 +306,9 @@ class GetPlaces {
         }		
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se inserto el place de tipo '.$region.' con id de trax: '.$region->Id);
-            return $saveData->id;
+            $this->logger->info('GetPlaces - Se inserto el place de tipo '.$type.' con id de trax: '.$region->Id);
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$region.' con id de trax: '.$region->Id);
+            $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$type.' con id de trax: '.$region->Id);
         }
     }
 
@@ -336,9 +335,9 @@ class GetPlaces {
             ]);
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$type.' con id de trax: '.$id);
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$type.' con id de trax: '.$id);
         }
     }
 
@@ -358,11 +357,11 @@ class GetPlaces {
         }
 		$tableName = $resource->getTableName($table); 
 		//Select Data from table
-        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$country_id."' AND trax_id='".$place_id."'";
+        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$configData['country_id']."' AND trax_id='".$place_id."'";
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
-            if(!array_key_exists ( $data['id'] , $places )){
-                $this->disablePlace($data['id'], $type);
+            if(!array_key_exists ( $data['trax_id'] , $places )){
+                $this->disablePlace($data['trax_id'], $type);
             }
         }
     }
@@ -384,9 +383,9 @@ class GetPlaces {
             ]);
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$type.' con id de trax: '.$id);
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$region.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$type.' con id de trax: '.$id);
         }
     }
 
