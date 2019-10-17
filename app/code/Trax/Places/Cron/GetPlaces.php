@@ -357,7 +357,7 @@ class GetPlaces {
         }
 		$tableName = $resource->getTableName($table); 
 		//Select Data from table
-        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$country_id."' AND trax_id='".$place_id."'";
+        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$configData['country_id']."' AND trax_id='".$place_id."'";
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
             if(!array_key_exists ( $data['trax_id'] , $places )){
