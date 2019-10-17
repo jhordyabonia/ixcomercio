@@ -220,7 +220,7 @@ header{
                     border: 0;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
-                      line-height: 30px;
+                      line-height: 36px;
                     }
                     &:hover{
                       color: $mainColor;
@@ -249,9 +249,13 @@ header{
             }
           }
           .wrapper-menu-mobile{
+            left: 15px;
+            top: 50%;
             width: auto;
             display: inline-block;
             vertical-align: middle;
+            transform: translate(0, -50%);
+            position: absolute;
           }
           .quick-access{
             vertical-align: middle;
