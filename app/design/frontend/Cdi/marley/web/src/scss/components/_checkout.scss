@@ -65,6 +65,13 @@
         font-size: 13px;
         font-weight: normal;
       }
+      .actions-toolbar{
+        .action{
+          @media (max-width: $tablet){
+            margin: 0 0 10px;
+          }
+        }
+      }
     }
     .payment-option{
       .form{
