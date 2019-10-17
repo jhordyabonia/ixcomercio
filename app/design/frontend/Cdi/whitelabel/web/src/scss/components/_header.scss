@@ -124,7 +124,7 @@ header{
                 right: -115%;
                 position: absolute;
                 top: -60%;
-                background: $redcolor;
+                background: $mainColor;
                 border-radius: 50%;
                 width: 22px;
                 height: 22px;
@@ -157,13 +157,19 @@ header{
               ul.ui-menu{
                 padding: 0;
                 .level0{
+                  &.active{
+                    > .level-top{
+                      color: $mainColor;
+                    }
+                  }
                   > .level-top{
                     color: #111;
                     font-size: 16px;
                     line-height: normal;
                     transition: .3s all ease;
+                    border: 0;
                     &:hover{
-                      color: $redcolor;
+                      color: $mainColor;
                     }
                   }
                 }
@@ -225,14 +231,14 @@ header{
               height: 32px;
               background: url(../images/icons/search-white.png) no-repeat center;
               background-size: 18px;
-              background-color: $redcolor;
-              display: inline-block;
+              background-color: $mainColor;
               border-radius: 50%;
               cursor: pointer;
+              float: left;
               &.close{
                 background: url(../images/icons/close-white.png) no-repeat center;
                 background-size: 18px;
-                background-color: $redcolor;
+                background-color: $mainColor;
                 opacity: 1;
               }
             }
