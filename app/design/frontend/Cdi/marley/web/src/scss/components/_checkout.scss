@@ -8,6 +8,14 @@
   }
   .checkout-container{
     margin: 40px 0 20px;
+    .custom-slide{
+      .modal-header{
+        padding: 0;
+        .action-close{
+          z-index: 9;
+        }
+      }
+    }
   }
   .opc-progress-bar-item{
     >span{
