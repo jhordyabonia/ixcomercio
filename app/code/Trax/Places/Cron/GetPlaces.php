@@ -215,12 +215,12 @@ class GetPlaces {
             //Se verifica si existe el registro para el pais y la tienda
             if(!$id){
                 //Se genera registro
-                $id = $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
+                $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
             } else {
                 //Se actualiza información
                 $this->updatePlace($id, 'region', $region);
             }
-            $places[$id] = $id;
+            $places[$region->Id] = $region->Id;
             //Se cargan las places hijos
             switch($type){
                 case 'region': $type2 = 'city'; break;
@@ -307,7 +307,6 @@ class GetPlaces {
         $saveData = $model->save();
         if($saveData){
             $this->logger->info('GetPlaces - Se inserto el place de tipo '.$type.' con id de trax: '.$region->Id);
-            return $saveData->id;
         } else {
             $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$type.' con id de trax: '.$region->Id);
         }
@@ -361,8 +360,8 @@ class GetPlaces {
         $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$country_id."' AND trax_id='".$place_id."'";
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
-            if(!array_key_exists ( $data['id'] , $places )){
-                $this->disablePlace($data['id'], $type);
+            if(!array_key_exists ( $data['trax_id'] , $places )){
+                $this->disablePlace($data['trax_id'], $type);
             }
         }
     }
