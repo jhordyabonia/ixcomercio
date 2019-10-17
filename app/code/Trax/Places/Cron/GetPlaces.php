@@ -124,7 +124,7 @@ class GetPlaces {
     * Si $type = 1 se obtiene la información general del catalogo
     * Si $type != 1 se obtiene el precio e inventario del catalogo
     */
-	public function getServiceUrl($configData, $type, $storeCode) 
+	public function getServiceUrl($configData, $type, $parentId) 
 	{
         if($configData['apikey'] == ''){
             $serviceUrl = false;
