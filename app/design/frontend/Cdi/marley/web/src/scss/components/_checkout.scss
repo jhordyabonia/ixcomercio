@@ -44,6 +44,9 @@
     }
   }
   .opc-wrapper {
+    @media (max-width: $tablet){
+      padding: 0 15px;
+    }
     .shipping-address-item.selected-item{
       border-color: #000;
       &:after{
@@ -61,6 +64,9 @@
       font-size: 13px;
       font-weight: normal;
       padding: .2em .6em .3em;
+      @media (max-width: $tablet){
+        padding: 0;
+      }
       .label{
         font-size: 13px;
         font-weight: normal;
