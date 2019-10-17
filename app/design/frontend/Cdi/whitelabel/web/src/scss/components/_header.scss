@@ -156,6 +156,7 @@ header{
               background: none;
               ul.ui-menu{
                 padding: 0;
+                text-align: left;
                 .level0{
                   &.active{
                     > .level-top{
@@ -171,6 +172,11 @@ header{
                     &:hover{
                       color: $mainColor;
                     }
+                  }
+                }
+                .submenu{
+                  li a{
+                    padding: 12px 20px;
                   }
                 }
               }
