@@ -76,6 +76,25 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            .switcher-dropdown{
+              left: 50%;
+              width: 100px;
+              min-width: 100px;
+              text-align: center;
+              margin-left: -50px;
+              &:before{
+                margin-left: -6px;
+              }
+              &:after{
+                margin-left: -7px;
+              }
+              &:before, &:after{
+                left: 50%;
+              }
+              li a{
+                text-decoration: none;
+              }
+            }
           }
           .custom-top-links{
             padding: 0 15px;
@@ -158,6 +177,7 @@ header{
                 padding: 0;
                 text-align: left;
                 .level0{
+                  margin: 0;
                   &.active{
                     > .level-top{
                       color: $mainColor;
@@ -169,8 +189,9 @@ header{
                       >.ui-menu-icon{
                         &:after{
                           @media only screen and (min-width: $desktop){
+                            color: #000;
                             font-size: 28px;
-                            color: #ccc;
+                            font-weight: bold;
                           }
                         }
                       }
