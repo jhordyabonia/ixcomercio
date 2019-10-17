@@ -32,7 +32,7 @@
                     color: #4fb62f;
                   }
                   &.out-stock{
-                    color: $redcolor;  
+                    color: $mainColor;
                   }
                 }
               }
@@ -41,7 +41,7 @@
                   width: 28px;
                   height: 28px;
                   color: #fff;
-                  background: $redcolor;
+                  background: $mainColor;
                   vertical-align: middle;
                   display: inline-block;
                   border-radius: 50%;

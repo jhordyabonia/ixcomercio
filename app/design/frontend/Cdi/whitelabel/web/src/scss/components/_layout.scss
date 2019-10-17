@@ -56,7 +56,7 @@ section{
     margin: 30px 0 0;
     a{
       min-width: 200px;
-      color: $redcolor;
+      color: $mainColor;
       font-weight: 400;
       font-size: 1.4rem;
       text-transform: uppercase;
@@ -386,8 +386,8 @@ section{
                   a .icon-check{
                     background: url(../images/check-white.png) no-repeat center;
                     background-size: 10px;
-                    background-color: $redcolor;
-                    border: 1px solid $redcolor;
+                    background-color: $mainColor;
+                    border: 1px solid $mainColor;
                   }
                 }
               }
@@ -447,7 +447,7 @@ section{
           }
         }
         &.current{
-          background: $redcolor;
+          background: $mainColor;
           strong.page, a{
             color: #fff;
           }  
@@ -495,7 +495,7 @@ section{
 .action{
   &.primary{
     width: 100%;
-    background: $redcolor;
+    background: $mainColor;
     text-transform: uppercase;
     transition: .5s all ease;
     font-weight: 400;
