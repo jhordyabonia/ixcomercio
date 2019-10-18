@@ -50,6 +50,9 @@ header{
             margin: 0 auto;
           }
         }
+        .nav-toggle{
+          display: none;
+        }
       }
       .header-wrapper-nav{
         line-height: normal;
@@ -256,6 +259,7 @@ header{
             vertical-align: middle;
             transform: translate(0, -50%);
             position: absolute;
+            pointer-events: auto;
           }
           .quick-access{
             vertical-align: middle;
