@@ -326,12 +326,12 @@ class GetCatalog {
             if($categories->getSize()){
                 $collection = $objectManager->create('Magento\Catalog\Model\Category');
                 $categoryTmp = $collection->load($categories->getFirstItem()->getId(), $storeId);
+                $categoryTmp->setIsActive(false);
                 $existe = 1;
             } else {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
-                $categoryTmp->setIsActive(false);
             }
             //Se asocian campos
             $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.'-'.rand(0,1000));
@@ -459,6 +459,7 @@ class GetCatalog {
                 $collection = $objectManager->create('Magento\Catalog\Model\Category');
                 $categoryTmp = $collection->load($categories->getFirstItem()->getId(), $storeId);
                 $existe = 1;
+                $categoryTmp->setIsActive(false);
             } else {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
@@ -473,7 +474,6 @@ class GetCatalog {
             $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
-            $categoryTmp->setIsActive(true);
             $categoryTmp->setUrlKey($cleanurl);
             $categoryTmp->setData('description', $catalog->Description);
             if($existe==0){
