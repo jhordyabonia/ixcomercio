@@ -174,7 +174,7 @@ class GetPlaces {
     }
 
     //Función recursiva para intentos de conexión
-    public function beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
+    public function beginGetPlacess($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){
