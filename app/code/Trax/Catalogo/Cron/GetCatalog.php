@@ -395,7 +395,7 @@ class GetCatalog {
                 $newArrayCategory[$key1] = $category;
             }
         }
-        $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
+        //$this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
         $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
     }
