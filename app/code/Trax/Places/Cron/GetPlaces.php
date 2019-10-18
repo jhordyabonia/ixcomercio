@@ -208,7 +208,7 @@ class GetPlaces {
     public function loadPlaces($configData, $storeCode, $data, $type, $parent_id = null) {
         //Se leen datos de la respuesta
         $places = array();
-        foreach ($data as $key => $region) {
+        /*foreach ($data as $key => $region) {
             exit();
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
@@ -231,7 +231,7 @@ class GetPlaces {
             $this->beginGetPlaces($configData, $serviceUrl, $storeCode, 0, $type2, $id);
             //Se verifican los registros que no cumplan para dejarlos con estado 0
         }
-        $this->checkPlaces($places, $configData, $storeCode, $type);
+        $this->checkPlaces($places, $configData, $storeCode, $type);*/
     }
 
     //Consulta la tabla custom de places y verifica si la region existe
