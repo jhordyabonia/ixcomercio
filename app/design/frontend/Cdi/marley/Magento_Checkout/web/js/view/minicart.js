@@ -100,6 +100,9 @@ define([
             $('[data-block="minicart"]').on('contentLoading', function () {
                 addToCartCalls++;
                 self.isLoading(true);
+                if(window.location.href.indexOf("/checkout/") > -1) {
+                    location.reload();
+                }
             });
 
             if (cartData().website_id !== window.checkout.websiteId ||

@@ -11,6 +11,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			jQuery(this).toggleClass("close");
 		});
 
+		jQuery('#iconBurgerButton').click(function(){
+			jQuery('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
+			jQuery(this).toggleClass("close");
+		});
+
 		jQuery('.products-grid .owl-carousel').owlCarousel({
 			nav: true,
 			dots: true,

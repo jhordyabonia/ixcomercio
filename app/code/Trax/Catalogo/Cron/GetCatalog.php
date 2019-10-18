@@ -395,7 +395,7 @@ class GetCatalog {
                 $newArrayCategory[$key1] = $category;
             }
         }
-        $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
+        //$this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
         $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
     }
@@ -463,6 +463,7 @@ class GetCatalog {
                 $categoryFactory=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 /// Add a new sub category under root category
                 $categoryTmp = $categoryFactory->create();
+                $categoryTmp->setIsActive(false);
             }
             /// Get Root Category
             $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
@@ -473,7 +474,6 @@ class GetCatalog {
             $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
-            $categoryTmp->setIsActive(true);
             $categoryTmp->setUrlKey($cleanurl);
             $categoryTmp->setData('description', $catalog->Description);
             if($existe==0){

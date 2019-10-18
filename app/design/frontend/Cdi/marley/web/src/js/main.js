@@ -274,7 +274,6 @@ function ($, Component) {
       }
     });
 
-
   });
 
 

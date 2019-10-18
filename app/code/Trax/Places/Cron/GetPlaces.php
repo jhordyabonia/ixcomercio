@@ -65,7 +65,6 @@ class GetPlaces {
 
     public function execute() 
     {
-        $this->logger->info('GetPlaces - Se ejecuta cron ');
         //Se declaran variables de la tierra
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -175,7 +174,7 @@ class GetPlaces {
     }
 
     //Función recursiva para intentos de conexión
-    public function beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
+    public function beginGetPlacess($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
         if($data['status']){
@@ -207,20 +206,22 @@ class GetPlaces {
 
     //Función que carga las regiones asociadas a un pais y una tienda en especifico
     public function loadPlaces($configData, $storeCode, $data, $type, $parent_id = null) {
+        die();
         //Se leen datos de la respuesta
         $places = array();
-        foreach ($data as $key => $region) {
+        /*foreach ($data as $key => $region) {
+            exit();
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
-            $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, 'region');
+            $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
             //Se verifica si existe el registro para el pais y la tienda
             if(!$id){
                 //Se genera registro
-                $id = $this->savePlace($configData['country_id'], $storeCode, $region, 'region');
+                $this->savePlace($configData['country_id'], $storeCode, $region, $type);
             } else {
                 //Se actualiza información
-                $this->updatePlace($id, 'region', $region);
+                $this->updatePlace($id, $type, $region);
             }
-            $places[$id] = $id;
+            $places[$region->Id] = $region->Id;
             //Se cargan las places hijos
             switch($type){
                 case 'region': $type2 = 'city'; break;
@@ -231,7 +232,7 @@ class GetPlaces {
             $this->beginGetPlaces($configData, $serviceUrl, $storeCode, 0, $type2, $id);
             //Se verifican los registros que no cumplan para dejarlos con estado 0
         }
-        $this->checkPlaces($places, $configData, $storeCode, $type);
+        $this->checkPlaces($places, $configData, $storeCode, $type);*/
     }
 
     //Consulta la tabla custom de places y verifica si la region existe
@@ -307,7 +308,6 @@ class GetPlaces {
         $saveData = $model->save();
         if($saveData){
             $this->logger->info('GetPlaces - Se inserto el place de tipo '.$type.' con id de trax: '.$region->Id);
-            return $saveData->id;
         } else {
             $this->logger->info('GetPlaces - Se produjo un error al guardar el place de tipo '.$type.' con id de trax: '.$region->Id);
         }
@@ -358,11 +358,11 @@ class GetPlaces {
         }
 		$tableName = $resource->getTableName($table); 
 		//Select Data from table
-        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$country_id."' AND trax_id='".$place_id."'";
+        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$configData['country_id']."'";
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
-            if(!array_key_exists ( $data['id'] , $places )){
-                $this->disablePlace($data['id'], $type);
+            if(!array_key_exists ( $data['trax_id'] , $places )){
+                $this->disablePlace($data['trax_id'], $type);
             }
         }
     }
