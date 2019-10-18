@@ -275,6 +275,17 @@ function ($, Component) {
     });
 
 
+    // =============================================
+    // Reload checkout page
+    // =============================================
+    $('.action-primary.action-accept').click(function(){
+      if(window.location.pathname == '/checkout/'){
+        alert("alerta");
+        location.reload();
+      }
+    });
+
+
   });
 
 
