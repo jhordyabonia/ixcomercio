@@ -206,6 +206,7 @@ class GetPlaces {
 
     //Función que carga las regiones asociadas a un pais y una tienda en especifico
     public function loadPlaces($configData, $storeCode, $data, $type, $parent_id = null) {
+        die();
         //Se leen datos de la respuesta
         $places = array();
         /*foreach ($data as $key => $region) {
