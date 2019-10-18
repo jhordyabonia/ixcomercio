@@ -90,6 +90,9 @@
     .table-checkout-shipping-method{
       .col{
         text-align: left;
+        &:first-child {
+          text-align: center;
+        }
       }
     }
     input[type=checkbox], input[type=radio]{
