@@ -25,6 +25,7 @@
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
     $description = false;
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+    $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 ?>
     <!--<section class="block widget block-products-list <?php /* @escapeNotVerified */ echo $mode; ?>">
         <div class="container">
@@ -58,10 +59,17 @@
                                         <?php
                                         echo $block->getProductPriceHtml($_item, $type);
                                         ?>
-
-                                        <?php if ($templateType): ?>
-                                            <?php echo $block->getReviewsSummaryHtml($_item, $templateType) ?>
-                                        <?php endif; ?>
+                                        <?php $reviewFactory->getEntitySummary($_product, $_product->getStore()->getId());
+                                        $ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary(); ?>
+                                        <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                                            <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+                                                <meta itemprop="worstRating" content="1">
+                                                <meta itemprop="bestRating" content="100">
+                                                <span style="width:<?php echo $ratingSummary; ?>%">
+                                                    <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+                                                </span>
+                                            </div>
+                                        </div>
 
                                         <?php if ($showWishlist || $showCompare || $showCart): ?>
                                             <div class="product-item-actions">
