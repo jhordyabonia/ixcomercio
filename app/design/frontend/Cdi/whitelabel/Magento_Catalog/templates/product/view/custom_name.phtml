@@ -1,4 +1,8 @@
-<?php $_product = $block->getProduct(); ?>
+<?php $_product = $block->getProduct(); 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
+echo $StockState->getStockQty($product->getId(), $product->getStore()->getWebsiteId());
+?>
 <h1 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h1>
 <div class="sku">
 	<span class="label"><?php echo __('SKU:')?></span>
