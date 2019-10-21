@@ -1,4 +1,11 @@
-<?php $_product = $block->getProduct(); ?>
+<?php $_product = $block->getProduct(); 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
+$stock = $StockState->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId());
+$reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+$reviewFactory->getEntitySummary($_product, $_product->getStore()->getId());
+$ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary();
+?>
 <h1 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h1>
 <div class="sku">
 	<span class="label"><?php echo __('SKU:')?></span>
