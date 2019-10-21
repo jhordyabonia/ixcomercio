@@ -414,7 +414,7 @@ section{
     }
   }
 }
-.page-products .products.wrapper ~ .toolbar-products{
+.page-products .products.wrapper .toolbar-products{
   width: 100%;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
@@ -481,7 +481,6 @@ section{
     }
   }
   .sorter-action, .modes{
-    display: none;
     @media only screen and (min-width: $tablet){
       display: none;
     }
