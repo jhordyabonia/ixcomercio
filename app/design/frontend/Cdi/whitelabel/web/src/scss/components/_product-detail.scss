@@ -140,7 +140,7 @@
   }
   .product-info_main{
     text-align: left;
-    .product-name, .stock-status, .product-attribute, .sku, .product-type-data{
+    .product-name, .rating-summary, .stock-status, .product-attribute, .sku, .product-type-data{
       width: 100%;
       float: left;
     }
@@ -157,11 +157,14 @@
     .stock-status{
       margin: 10px 0;
       line-height: normal;
-      .in-stock{
-        color: #4fb62f;
-      }
-      .out-stock{
-        color: #D7410B;
+      > span{
+        font-weight: 500;
+        .in-stock{
+          color: #4fb62f;
+        }
+        .out-stock{
+          color: #D7410B;
+        }
       }
     }
     .product-attribute{
