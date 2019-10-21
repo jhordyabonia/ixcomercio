@@ -14,17 +14,36 @@ form{
 			&:not(.choice){
 				> .label{
 					color: #000;
-					font-size: 100%;
+					font-size: 13px;
 			    	margin: 0 0 10px;
 			    	font-weight: 700;
+			    	word-break: break-all;
+				    text-align: left;
+				    padding: 0;
 				    @media only screen and (min-width: $tablet){
 				      	width: 100%;
-				      	text-align: left;
-				      	padding: 0;
+				    }
+				    span{
+				    	text-align: left;
+				    	white-space: normal;
+					    word-break: break-word;
 				    }
 				}
 				> .control{
 					width: 100%;
+					&._with-tooltip{
+						input{
+							width: 100%;
+							margin-right: 0;
+						}
+						.field-tooltip{
+							right: -30px;
+							@media only screen and (max-width: $tablet){
+						      	right: 0;
+    							top: -35px;
+						    }
+						}
+					}
 				}
 			}
 			&.choice{
@@ -52,6 +71,9 @@ form{
 			text-align: left;
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
+		    }
+		    &.review-legend{
+		    	border: 0;
 		    }
 		}
 	}
@@ -127,4 +149,29 @@ form{
 }
 .control.captcha-image .captcha-img{
 	width: auto;
+}
+.review-form{
+	float: left;
+	.actions-toolbar {
+		.primary {
+			.action{
+				color: #fff;
+			    background: $mainColor;
+			    border: none;
+				min-width: 180px;
+			    margin: 0;
+			    padding: 0 25px;
+			    line-height: 45px;
+			    text-transform: uppercase;
+			    transition: .3s all ease;
+			    overflow: visible;
+			    cursor: pointer;
+			    float: right;
+			    &:hover{
+			    	color: #fff;
+    				background: #000;
+			    }
+			}
+		}
+	}
 }

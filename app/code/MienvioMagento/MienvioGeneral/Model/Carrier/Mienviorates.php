@@ -14,6 +14,8 @@ use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Psr\Log\LoggerInterface;
 use MienvioMagento\MienvioGeneral\Helper\Data as Helper;
+use Magento\Quote\Model\QuoteRepository;
+use \Magento\Checkout\Controller\Index\Index;
 
 
 
@@ -24,6 +26,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      * @var \Magento\Directory\Helper\Data
      */
     private $directoryHelper;
+    private $quoteRepository;
 
     const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
 
@@ -143,6 +146,16 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     public function collectRates(RateRequest $request)
     {
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+        $shippingAddress = $cart->getQuote()->getShippingAddress();
+
+        $freeShippingSet = $shippingAddress->getFreeShipping();
+
+
+
+        $shippingAddress = $cart->getQuote()->getShippingAddress();
         $rateResponse = $this->_rateResultFactory->create();
         $apiKey = $this->_mienvioHelper->getMienvioApi();
         $baseUrl =  $this->_mienvioHelper->getEnvironment();
@@ -211,7 +224,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $createShipmentUrl, $options, $packageValue, $fromZipCode);
             }
 
-             
 
             foreach ($rates as $rate) {
                 $this->_logger->debug('rate_id');
@@ -224,10 +236,18 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $method->setCarrierTitle($rate['courier']);
                 $method->setMethod((string)$methodId);
                 $method->setMethodTitle($rate['servicelevel'].' - '.$rate['duration_terms']);
-                $method->setPrice($rate['cost']);
-                $method->setCost($rate['cost']);
+                if($freeShippingSet){
+                    $method->setPrice(0);
+                    $method->setCost(0);
+                }else{
+                    $method->setPrice($rate['cost']);
+                    $method->setCost($rate['cost']);
+                }
+
                 $rateResponse->append($method);
             }
+
+
         } catch (\Exception $e) {
             $this->_logger->debug("Rates Exception");
             $this->_logger->debug($e);
@@ -263,15 +283,19 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $rates = [];
 
             foreach ($quoteResponse->{'rates'} as $key => $rate) {
+                if($rate->{'servicelevel'} == 'worlwide_usa' || $rate->{'servicelevel'} == 'worldwide_usa'){
 
-                $rates[] = [
-                    'courier'      => $rate->{'provider'},
-                    'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
-                    'id'           => $quoteResponse->{'quote_id'},
-                    'cost'         => $rate->{'amount'},
-                    'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'},
-                    'duration_terms' => $rate->{'duration_terms'}
-                ];
+                }else{
+                    $rates[] = [
+                        'courier'      => $rate->{'provider'},
+                        'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
+                        'id'           => $quoteResponse->{'quote_id'},
+                        'cost'         => $rate->{'amount'},
+                        'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'},
+                        'duration_terms' => $rate->{'duration_terms'}
+                    ];
+                }
+
 
                 
             }
@@ -525,7 +549,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'street2' => $street2,
             'email' => $email,
             'phone' => $phone,
-            'reference' => 'MienvioRates@CreateAddressDataStr'
+            'reference' => ''
         ];
 
         if ($countryCode === 'MX') {

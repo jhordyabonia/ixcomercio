@@ -57,15 +57,19 @@ class ObserverSuccess implements ObserverInterface
         $quoteId = $order->getQuoteId();
         $quote = $this->quoteRepository->get($quoteId);
 
+        $shipping_cost = $order->getShippingAmount();
+
         $isFreeActive = $this->checkIfIsFreeShipping();
         $titleMethodFree = $this->_mienvioHelper->getTitleMethodFree();
 
-        if($order_shipping_description == $titleMethodFree && $isFreeActive === true){
+        if($shipping_cost == 0 && $isFreeActive === true){
 
 
             try{
                 $mienvioResponse = $this->saveFreeShipping($observer);
                 $mienvioAmount = $mienvioResponse['rates'][0]["amount"];
+                $mienvioProvider = $mienvioResponse['rates'][0]["provider"];
+                $mienvioServiceLevel = $mienvioResponse['rates'][0]["servicelevel"];
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
                 //$order->setShippingAmount($mienvioAmount);
                 $order->setBaseShippingAmount($mienvioAmount);
@@ -74,6 +78,8 @@ class ObserverSuccess implements ObserverInterface
                 $order->setShippingInclTax($mienvioAmount);
                 $order->setBaseShippingInclTax($mienvioAmount);
                 $order->setMienvioQuoteId($mienvioQuoteId);
+                $order->setShippingDescription($mienvioProvider.' - '.$mienvioServiceLevel);
+                $order->setShippingMethod('mienviocarrier_'.$mienvioServiceLevel.'-'.$mienvioProvider);
                 $order->save();
             }catch (\Exception $e) {
                 $order->setMienvioQuoteId('Generar guía Manual');
@@ -491,16 +497,6 @@ class ObserverSuccess implements ObserverInterface
             $data['level_1'] = $zipcode;
         }
 
-        /*$data = '{
-            "object_type": "PURCHASE",
-            "name": "'. $name . '",
-            "street": "'. $street . '",
-            "street2": "'. $street2 . '",
-            "level_1": "'. $zipcode . '",
-            "email": "'. $email .'",
-            "phone": "'. $phone .'",
-            "reference": "'. $reference .'"
-        }';*/
 
         $this->_logger->info("createAddressDataStr", ["data" => $data]);
         return $data;
@@ -597,7 +593,6 @@ class ObserverSuccess implements ObserverInterface
                $response = $this->createQuoteFromItems(
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
                 );
-                $this->_logger->info("RESPUESTAMIENVIOFREE", ["info" => $response]);
 
 
                 return $response;
@@ -617,5 +612,107 @@ class ObserverSuccess implements ObserverInterface
         }else{
             return true;
         }
+    }
+
+
+    private  function parseServiceLevel($serviceLevel){
+        $parsed = '';
+        switch ($serviceLevel) {
+            case 'estandar':
+                $parsed = 'Estándar';
+                break;
+            case 'express':
+                $parsed = 'Express';
+                break;
+            case 'saver':
+                $parsed = 'Saver';
+                break;
+            case 'express_plus':
+                $parsed = 'Express Plus';
+                break;
+            case 'economy':
+                $parsed = 'Economy';
+                break;
+            case 'priority':
+                $parsed = 'Priority';
+                break;
+            case 'worlwide_usa':
+                $parsed = 'World Wide USA';
+                break;
+            case 'worldwide_usa':
+                $parsed = 'World Wide USA';
+                break;
+            case 'regular':
+                $parsed = 'Regular';
+                break;
+            case 'regular_mx':
+                $parsed = 'Regular MX';
+                break;
+            case 'BE_priority':
+                $parsed = 'Priority';
+                break;
+            case 'flex':
+                $parsed = 'Flex';
+                break;
+            case 'scheduled':
+                $parsed = 'Programado';
+                break;
+            default:
+                $parsed = $serviceLevel;
+        }
+
+        return $parsed;
+
+    }
+
+
+    private  function parseReverseServiceLevel($serviceLevel){
+        $parsed = '';
+        switch ($serviceLevel) {
+            case 'Estándar' :
+                $parsed = 'estandar';
+                break;
+            case 'Express' :
+                $parsed = 'express';
+                break;
+            case 'Saver' :
+                $parsed = 'saver';
+                break;
+            case 'Express Plus' :
+                $parsed = 'express_plus';
+                break;
+            case 'Economy' :
+                $parsed = 'economy';
+                break;
+            case 'Priority' :
+                $parsed = 'priority';
+                break;
+            case 'World Wide USA' :
+                $parsed = 'worlwide_usa';
+                break;
+            case 'World Wide USA' :
+                $parsed = 'worldwide_usa';
+                break;
+            case 'Regular' :
+                $parsed = 'regular';
+                break;
+            case 'Regular MX' :
+                $parsed = 'regular_mx';
+                break;
+            case 'Priority' :
+                $parsed = 'BE_priority';
+                break;
+            case 'Flex' :
+                $parsed = 'flex';
+                break;
+            case 'Programado' :
+                $parsed = 'scheduled';
+                break;
+            default:
+                $parsed = $serviceLevel;
+        }
+
+        return $parsed;
+
     }
 }

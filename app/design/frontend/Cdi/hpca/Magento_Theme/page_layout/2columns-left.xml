@@ -10,7 +10,7 @@
     <referenceContainer name="columns">
         <container name="div.columns.container" htmlTag="div" htmlClass="container" before="-">
             <container name="div.container.row" htmlTag="div" htmlClass="row" before="-">
-                <container name="div.col.left" htmlTag="div" htmlClass="col-md-3 pull-left" before="-" />
+                <container name="div.col.left" htmlTag="div" htmlClass="col-xs-12 col-md-3 pull-left" before="-" />
                 <container name="div.col.right" htmlTag="div" htmlClass="col-md-9 pull-right" after="-" />
             </container>
         </container>
