@@ -159,10 +159,10 @@
       line-height: normal;
       > span{
         font-weight: 500;
-        .in-stock{
+        &.in-stock{
           color: #4fb62f;
         }
-        .out-stock{
+        &.out-stock{
           color: #D7410B;
         }
       }
@@ -250,6 +250,11 @@
         font-size: 30px;
         font-weight: bold;
         color: #000;
+      }
+      .price-final_price{
+        .price{
+          color: #000;
+        }
       }
     }
     .short-description {
@@ -347,7 +352,7 @@
           margin-right: 10px;
           max-width: 100%;
           padding: 15px 0;
-          border-top: 1px solid #ccc;
+          border-top: 1px solid #e5e5e5;
           button{
             margin-bottom: 10px;
             vertical-align: middle;
