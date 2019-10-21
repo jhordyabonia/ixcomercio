@@ -480,6 +480,9 @@ section{
       }
     }
   }
+  .sorter-action, .modes{
+    display: none;
+  }
 }
 .toolbar-sorter{
   .sorter-options{
