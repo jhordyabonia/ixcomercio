@@ -414,75 +414,81 @@ section{
     }
   }
 }
-.page-products .toolbar-products{
-  width: 100%;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  padding: 10px 0;
-  margin: 0;
-  float: left;
-  .pages{
-    @media only screen and (min-width: 768px){
-      float: right;
-    }
-    .pages-items{
-      .item{
-        width: 28px;
-        height: 28px;
-        color: #fff;
-        margin: 0 10px 0 0;
-        border-radius: 50%;
-        float: left;
-        strong.page, a{
-          color: #000;
-          float: left;
-          width: 100%;
-          line-height: 28px;
-          font-size: 14px;
+.page-products {
+  .products.wrapper{
+    ~ .toolbar-products{
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }  
+  }
+  .toolbar-products{
+    width: 100%;
+    margin: 0;
+    float: left;
+    .pages{
+      @media only screen and (min-width: 768px){
+        float: right;
+      }
+      .pages-items{
+        .item{
+          width: 28px;
+          height: 28px;
+          color: #fff;
+          margin: 0 10px 0 0;
           border-radius: 50%;
-        }
-        a{
-          &:hover{
-            background: #eee;
+          float: left;
+          strong.page, a{
+            color: #000;
+            float: left;
+            width: 100%;
+            line-height: 28px;
+            font-size: 14px;
+            border-radius: 50%;
+          }
+          a{
+            &:hover{
+              background: #eee;
+            }
+          }
+          &.current{
+            background: $mainColor;
+            strong.page, a{
+              color: #fff;
+            }  
           }
         }
-        &.current{
-          background: $mainColor;
-          strong.page, a{
-            color: #fff;
-          }  
+      }
+      .action{
+        margin: 0;
+        height: 28px;
+        border-radius: 50%;
+        &.next, &.previous{
+          &:before{
+            width: 100%;
+            float: left;
+            font-size: 38px;
+            line-height: 28px;
+            margin: -1px 0 0 -5px;
+          }
         }
       }
     }
-    .action{
-      margin: 0;
-      height: 28px;
-      border-radius: 50%;
-      &.next, &.previous{
-        &:before{
-          width: 100%;
-          float: left;
-          font-size: 38px;
-          line-height: 28px;
-          margin: -1px 0 0 -5px;
+    .limiter{
+      @media only screen and (min-width: 768px){
+        float: left;
+        text-align: left;
+      }
+      .label{
+        &[for="limiter"]{
+          display: none;
         }
       }
     }
-  }
-  .limiter{
-    @media only screen and (min-width: 768px){
-      float: left;
-      text-align: left;
-    }
-    .label{
-      &[for="limiter"]{
+    .sorter-action, .modes{
+      @media only screen and (min-width: $tablet){
         display: none;
       }
-    }
-  }
-  .sorter-action, .modes{
-    @media only screen and (min-width: $tablet){
-      display: none;
     }
   }
 }
