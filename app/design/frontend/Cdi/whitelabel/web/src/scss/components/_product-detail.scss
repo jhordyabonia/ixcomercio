@@ -1,5 +1,4 @@
 .product-view{
-  background: linear-gradient(315deg,#fbe4d0,#fff1d0);
   padding: 40px 0;
   .container{
     @media only screen and (max-width: 768px){
@@ -148,13 +147,14 @@
     .product-name{
       color: #000;
       font: 50px;
+      font-size: 32px;
       text-transform: uppercase;
       font-weight: bold;
       line-height: 50px;
       margin: 0 0 10px;
       display: block;
       @media only screen and (max-width: 650px){
-        font-size: 40px;
+        font-size: 28px;
       }
     }
     .product-attribute{
@@ -166,11 +166,18 @@
       font-size: 16px;
       text-transform: uppercase;
       font-weight: 400;
+      color: #999;
       .label{
         color: #333;
         font-size: 16px;
         font-weight: normal;
         padding: 0;
+      }
+      .type{
+        margin-right: 7px;
+      }
+      .type, .value{
+        float: left;
       }
     }
     .product-type-data{
