@@ -293,14 +293,13 @@
               height: 28px;
               color: #fff;
               background: $mainColor;
-              border: 2px solid $mainColor;
               vertical-align: middle;
               display: inline-block;
               border-radius: 50%;
               font-size: 18px;
               font-weight: bold;
               text-align: center;
-              line-height: 25px;
+              line-height: 28px;
               cursor: pointer;
               &:not(.disable):hover{
                 color: #fff;
@@ -309,6 +308,7 @@
               &.disable{
                 color: #999;
                 background: none;
+                line-height: 25px;
                 border: 2px solid #aaa;
                 pointer-events: none;
               }
@@ -336,12 +336,6 @@
           padding: 15px 0;
           button{
             margin-bottom: 10px;
-            background: none;
-            display: inline-block;
-            border: 2px solid #000;
-            color: #000;
-            text-align: center;
-            text-transform: uppercase;
             vertical-align: middle;
             min-height: 40px;
             line-height: 40px;
@@ -351,7 +345,6 @@
             min-width: 160px;
             width: auto;
             white-space: normal;
-            border-radius: 0;
             &:hover{
               color: #fff;
               background: #000;
