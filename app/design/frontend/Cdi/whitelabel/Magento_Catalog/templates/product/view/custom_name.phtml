@@ -2,13 +2,22 @@
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
 $stock = $StockState->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId());
+$ratingSummary = $_product->getRatingSummary()->getRatingSummary();
 ?>
 <h1 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h1>
 <div class="sku">
 	<span class="label"><?php echo __('SKU:')?></span>
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
-<?php echo $block->getReviewsSummaryHtml($_product, "short", true); ?>
+<div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+    <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+        <meta itemprop="worstRating" content="1">
+        <meta itemprop="bestRating" content="100">
+        <span style="width:<?php echo $ratingSummary; ?>%">
+            <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+        </span>
+    </div>
+</div>
 <div class="stock-status">
 	<?php if ($stock>0){ ?>
 		<span><?php echo __('In Stock')?></span>
