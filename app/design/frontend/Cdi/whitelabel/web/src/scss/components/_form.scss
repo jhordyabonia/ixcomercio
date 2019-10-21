@@ -1,4 +1,11 @@
 form{
+	text-align: left;
+	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
+		@media only screen and (min-width: $tablet){
+			width: 100%!important;
+    		min-width: inherit!important;
+		}
+	}
 	.label{
 		color: #000;
 	}
@@ -7,13 +14,36 @@ form{
 			&:not(.choice){
 				> .label{
 					color: #000;
-					font-size: 100%;
+					font-size: 13px;
 			    	margin: 0 0 10px;
+			    	font-weight: 700;
+			    	word-break: break-all;
+				    text-align: left;
+				    padding: 0;
 				    @media only screen and (min-width: $tablet){
-				     	width: 100%;
-				      	text-align: left;
-				      	padding: 0;
+				      	width: 100%;
 				    }
+				    span{
+				    	text-align: left;
+				    	white-space: normal;
+					    word-break: break-word;
+				    }
+				}
+				> .control{
+					width: 100%;
+					&._with-tooltip{
+						input{
+							width: 100%;
+							margin-right: 0;
+						}
+						.field-tooltip{
+							right: -30px;
+							@media only screen and (max-width: $tablet){
+						      	right: 0;
+    							top: -35px;
+						    }
+						}
+					}
 				}
 			}
 			&.choice{
@@ -37,31 +67,39 @@ form{
 			}
 		}
 		>.legend{
+			font-size: 1.3rem;
+			text-align: left;
 			@media only screen and (min-width: $tablet){
-	      margin-left: 0;
-	    }
+		      	margin-left: 0;
+		    }
+		    &.review-legend{
+		    	font-size: 1rem;
+		    	border: 0;
+		    }
 		}
 	}
 	.actions-toolbar{
+		margin: 0!important;
+		float: left;
 		.secondary{
-    	width: 100%;
-    	@media only screen and (min-width: $tablet){
-	      float: left;
-	      text-align: left;
+	    	width: 100%;
+	    	margin-bottom: 25px;
+	    	@media only screen and (min-width: $tablet){
+		      float: left;
+		      text-align: left;
+		    }
+		    .action.remind{
+	    		margin: 0;
+		    }
 	    }
-	    .action.remind{
-    		margin: 0 0 30px;
-	    }
-    }
+	}
+	.field-error, div.mage-error[generated]{
+		font-size: 12px;
 	}
 }
 .column{
 	&:not(.sidebar-main) form.form, &:not(.sidebar-additional) form.form, form.form{
-		.actions-toolbar{
-			@media only screen and (min-width: $tablet){
-		    margin: 0;
-		  }
-		}
+		.actions-toolbar{}
 	}
 }
 .login-container{
@@ -105,11 +143,39 @@ form{
 	}
 	.box-upload{
 		margin: 20px 0;
-    padding: 20px;
-    background: #e8e8e8;
-    width: 100%;
+	    padding: 20px;
+	    background: #e8e8e8;
+	    width: 100%;
 	}
 }
 .control.captcha-image .captcha-img{
 	width: auto;
+}
+.review-form{
+	float: left;
+	.actions-toolbar {
+		.primary {
+			.action{
+				min-width: 180px;
+			    margin: 0;
+			    margin-left: 5px;
+			    padding: 0 25px;
+			    color: #000;
+			    font-size: 20px;
+			    line-height: 45px;
+			    text-transform: uppercase;
+			    transition: .3s all ease;
+			    background-color: transparent;
+			    border: 2px solid #000;
+			    border-radius: 0;
+			    overflow: visible;
+			    cursor: pointer;
+			    float: right;
+			    &:hover{
+			    	color: #fff;
+    				background: #000;
+			    }
+			}
+		}
+	}
 }
