@@ -16,6 +16,8 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
@@ -67,7 +69,17 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                 <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
                             </a>
                         </strong>
-                        <?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+                        <?php $reviewFactory->getEntitySummary($_product, $_product->getStore()->getId());
+                        $ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary(); ?>
+                        <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                            <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+                                <meta itemprop="worstRating" content="1">
+                                <meta itemprop="bestRating" content="100">
+                                <span style="width:<?php echo $ratingSummary; ?>%">
+                                    <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+                                </span>
+                            </div>
+                        </div>
                         <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                         <?php echo $block->getProductDetailsHtml($_product); ?>
 
