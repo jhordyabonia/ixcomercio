@@ -1,7 +1,4 @@
-<?php ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-$_product = $block->getProduct(); 
+<?php $_product = $block->getProduct(); 
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
 $stock = $StockState->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId());
@@ -11,7 +8,7 @@ $stock = $StockState->getStockQty($_product->getId(), $_product->getStore()->get
 	<span class="label"><?php echo __('SKU:')?></span>
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
-<?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+<?php echo $block->getReviewsSummaryHtml($_product, "short", true); ?>
 <div class="stock-status">
 	<?php if ($stock>0){ ?>
 		<span><?php echo __('In Stock')?></span>
