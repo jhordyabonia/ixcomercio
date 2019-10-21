@@ -41,7 +41,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                     <?php endif; ?>
                 </strong>
 
-                <span class="product-item-stock in-stock">In stock</span><!-- in-stock / out-stock -->
+                <span class="product-item-stock in-stock"><?= $block->escapeHtml(__('In stock')) ?></span><!-- in-stock / out-stock -->
                 
                 <?php if ($_options = $block->getOptionList()):?>
                     <dl class="item-options">
@@ -87,7 +87,12 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
         <?php endif; ?>
         <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
             <div class="field qty">
-                <div class="control-qty remove disable">
+                <?php if($block->getQty() == 1){
+                    $class = " disable";
+                } else {
+                    $class = "";
+                } ?>
+                <div class="control-qty remove<?php echo $class ?>">
                     <span>-</span>
                 </div>
                 <div class="control qty">
@@ -118,7 +123,14 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                 <?= $block->getRowTotalHtml($_item) ?>
             <?php endif; ?>
         </td>
+
+        <td class="col delete" data-th="<?= $block->escapeHtml(__('Delete')) ?>">
+            <div class="actions-toolbar">
+                <?= /* @escapeNotVerified */ $block->getActions($_item) ?>
+            </div>
+        </td>
     </tr>
+    <!--
     <tr class="item-actions">
         <td colspan="4">
             <div class="actions-toolbar">
@@ -126,4 +138,5 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
             </div>
         </td>
     </tr>
+    -->
 </tbody>
