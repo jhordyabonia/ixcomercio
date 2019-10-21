@@ -411,6 +411,9 @@ section{
         margin: 0 1.66% 30px;
         padding: 20px;
         float: left;
+        @media only screen and (max-width: $mobile){
+          width: 100%;
+        }
         .product-item-info{
           width: auto;
         }
