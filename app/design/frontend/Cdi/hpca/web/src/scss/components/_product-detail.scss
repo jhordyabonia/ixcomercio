@@ -419,8 +419,6 @@
           height: auto;
           padding: 0 10px;
           border: 1px solid transparent;
-          border-top-left-radius: .25rem;
-          border-top-right-radius: .25rem;
           @media only screen and (min-width: $tablet){
             color: #333;
             &:visited{
@@ -436,9 +434,10 @@
         }
         &.active {
           >.switch {
-            color: #009b67;
+            color: $mainColor;
             margin-bottom: -1px;
             background-color: #fff;
+            border-bottom: 2px solid $mainColor;
             padding-bottom: 0;
             &:hover {
               background-color: #fff;
