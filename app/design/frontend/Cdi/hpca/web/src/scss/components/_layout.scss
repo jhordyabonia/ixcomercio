@@ -403,6 +403,8 @@ section{
     width: 100%;
     float: left;
     .product-items{
+      width: 100%;
+      float: left;
       .item{
         width: 30%;
         max-width: initial;
@@ -490,7 +492,7 @@ section{
         }
       }
     }
-    .sorter-action, .modes{
+    .modes{
       @media only screen and (min-width: $tablet){
         display: none;
       }
