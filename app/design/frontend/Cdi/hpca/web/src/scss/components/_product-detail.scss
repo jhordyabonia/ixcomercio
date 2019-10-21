@@ -256,6 +256,8 @@
       }
     }
     .product-add-form{
+      width: 100%;
+      float: left;
       .box-tocart{
         margin: 0;
         .field{
@@ -267,7 +269,7 @@
               display: block;
             }
             .label, .control{
-              display: block;
+              display: inline-block;
             }
             .control{
               margin: 10px 0 20px;
