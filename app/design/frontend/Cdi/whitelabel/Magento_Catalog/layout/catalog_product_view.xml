@@ -41,8 +41,8 @@
 		-->
 		<!--Elimina short description-->
 		<referenceBlock name="page.main.title" remove="true" />
-		<!--Elimina botones social (wishlist, mail, compare)-->
-		<referenceBlock name="product.info.social" remove="true" />
+		<!--Elimina botones social (wishlist, mail, compare)
+		<referenceBlock name="product.info.social" remove="true" />-->
 		<!--Elimina botón reviews-->
 		<referenceBlock name="product.info.review" remove="true" />
 		<!--Elimina el grupo de información adicional
