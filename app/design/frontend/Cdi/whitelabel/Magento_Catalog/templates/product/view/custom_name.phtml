@@ -1,4 +1,7 @@
-<?php $_product = $block->getProduct(); 
+<?php ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+$_product = $block->getProduct(); 
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $StockState = $objectManager->get('\Magento\CatalogInventory\Api\StockStateInterface');
 $stock = $StockState->getStockQty($_product->getId(), $_product->getStore()->getWebsiteId());
