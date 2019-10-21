@@ -79,6 +79,8 @@
         >.legend{
           width: 100%;
           border-bottom: 1px solid #e8e8e8;
+          font-weight: bold;
+          font-size: 20px;
           padding-bottom: 12px;
           float: none;
         }
@@ -90,7 +92,6 @@
       .primary:not(div){
         min-width: 120px;
         font-size: 16px;
-        padding: 0 25px;
         @media only screen and (min-width: $tablet){
           float: left;
         }
