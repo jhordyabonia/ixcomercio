@@ -73,7 +73,6 @@ form{
 		      	margin-left: 0;
 		    }
 		    &.review-legend{
-		    	font-size: 1rem;
 		    	border: 0;
 		    }
 		}
@@ -156,18 +155,15 @@ form{
 	.actions-toolbar {
 		.primary {
 			.action{
+				color: #fff;
+			    background: $mainColor;
+			    border: none;
 				min-width: 180px;
 			    margin: 0;
-			    margin-left: 5px;
 			    padding: 0 25px;
-			    color: #000;
-			    font-size: 20px;
 			    line-height: 45px;
 			    text-transform: uppercase;
 			    transition: .3s all ease;
-			    background-color: transparent;
-			    border: 2px solid #000;
-			    border-radius: 0;
 			    overflow: visible;
 			    cursor: pointer;
 			    float: right;
