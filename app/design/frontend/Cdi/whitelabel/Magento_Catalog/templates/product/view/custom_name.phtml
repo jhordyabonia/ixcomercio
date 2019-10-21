@@ -8,7 +8,7 @@ $stock = $StockState->getStockQty($_product->getId(), $_product->getStore()->get
 	<span class="label"><?php echo __('SKU:')?></span>
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
-<?php echo $block->getReviewsSummaryHtml($_product, $templateType, true); ?>
+<?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
 <div class="stock-status">
 	<?php if ($stock>0){ ?>
 		<span><?php echo __('In Stock')?></span>
