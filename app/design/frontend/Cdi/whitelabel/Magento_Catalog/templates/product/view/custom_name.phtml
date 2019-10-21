@@ -22,9 +22,9 @@ $ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary();
 </div>
 <div class="stock-status">
 	<?php if ($stock>0){ ?>
-		<span><?php echo __('In Stock')?></span>
+		<span class="stock in-stock"><?php echo __('In Stock')?></span>
 	<?php } else { ?>
-		<span><?php echo __('Out Stock')?></span>
+		<span class="stock out-stock"><?php echo __('Out Stock')?></span>
 	<?php } ?>
 </div>
 <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
