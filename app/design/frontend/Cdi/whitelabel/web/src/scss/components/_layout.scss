@@ -482,6 +482,9 @@ section{
   }
   .sorter-action, .modes{
     display: none;
+    @media only screen and (min-width: $tablet){
+      display: none;
+    }
   }
 }
 .toolbar-sorter{
