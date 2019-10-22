@@ -65,6 +65,9 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                     <?php if ($discount != 0): ?>
                         <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
                     <?php endif; ?>
+                    <?php if ($_helperCdi->isNew($_product)): ?>
+                        <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
+                    <?php endif; ?>
                     <div class="product details product-item-details">
                         <?php
                             $_productNameStripped = $block->stripTags($_product->getName(), null, true);
