@@ -144,7 +144,7 @@ class Data extends AbstractHelper{
 	public function isNew ($_product){
         $newsFromDate = $_product->getNewsFromDate();
         $newsToDate = $_product->getNewsToDate();
-        if (!$newsFromDate && !$newsToDate) {
+        if (!$newsFromDate) {
             return false;
         }
 
