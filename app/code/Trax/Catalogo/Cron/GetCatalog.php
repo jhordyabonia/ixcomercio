@@ -101,7 +101,7 @@ class GetCatalog {
                             $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, 0); 
                             $storeArray[$store->getId()] = $store->getId();
                             //Se reindexa                            
-                            $this->reindexData();
+                            //$this->reindexData();
                             //Se limpia cache
                             $this->cleanCache();
                         } else {
