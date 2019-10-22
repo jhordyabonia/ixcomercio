@@ -28,6 +28,7 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 $mode = 'grid';
 $title = $block->getTitle();
+$type = 'widget-product-grid';
 if ($items = $block->getProductCollection()) : ?>
     <div class="mp-product-slider-block block widget block-products-list <?= $mode; ?>">
         <h2 class="mp-product-slider-title"><?= $block->getTitle(); ?></h2>
@@ -73,7 +74,7 @@ if ($items = $block->getProductCollection()) : ?>
                                 <?php endif; ?>
 
                                 <?php if ($block->canShowPrice()) : ?>
-                                    <?= $block->getProductPrice($_item); ?>
+                                    <?= $block->getProductPriceHtml($_item, $type); ?>
                                 <?php endif; ?>
 
                                 <div class="product actions slider-product-item-actions">
