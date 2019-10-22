@@ -246,6 +246,8 @@ define([
             this._ajax(this.options.url.remove, {
                 'item_id': itemId
             }, elem, this._removeItemAfter);
+
+            location.reload();
         },
 
         /**
