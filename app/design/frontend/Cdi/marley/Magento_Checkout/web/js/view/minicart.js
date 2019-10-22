@@ -101,6 +101,7 @@ define([
                 addToCartCalls++;
                 self.isLoading(true);
                 if(window.location.href.indexOf("/checkout/") > -1) {
+                    alert("Redirect");
                     location.reload();
                 }
             });
