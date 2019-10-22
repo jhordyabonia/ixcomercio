@@ -286,13 +286,15 @@ function ($, Component) {
     // =============================================
     // Products items - Minicart
     // =============================================
+    /*
     if (window.location.href.indexOf("/checkout") > -1) {
       console.log('totalItemsMinicart '+totalItemsMinicart);
-      /*if($('.block-minicart .product-item').length != totalItemsMinicart){
+      if($('.block-minicart .product-item').length != totalItemsMinicart){
         console.log("reload");
          location.reload();
-      }*/
+      }
     }
+    */
 
   });
 
