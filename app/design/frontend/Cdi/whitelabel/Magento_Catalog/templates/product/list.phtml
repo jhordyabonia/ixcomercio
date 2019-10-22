@@ -16,6 +16,9 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
@@ -43,7 +46,9 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
         <?php $iterator = 1; ?>
         <ol class="products list items product-items">
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
-            <?php foreach ($_productCollection as $_product): ?>
+            <?php foreach ($_productCollection as $_product): 
+                $discount = $_helperCdi->getDiscount($_product);
+            ?>
                 <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product product-item col-md-4">' : '</li><li class="item product product-item">' ?>
                 <div class="product-item-info" data-container="product-grid">
                     <?php
@@ -57,6 +62,9 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                     <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
                         <?php echo $productImage->toHtml(); ?>
                     </a>
+                    <?php if ($discount != 0): ?>
+                        <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
+                    <?php endif; ?>
                     <div class="product details product-item-details">
                         <?php
                             $_productNameStripped = $block->stripTags($_product->getName(), null, true);
@@ -67,7 +75,17 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                 <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
                             </a>
                         </strong>
-                        <?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+                        <?php $reviewFactory->getEntitySummary($_product, $_product->getStore()->getId());
+                        $ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary(); ?>
+                        <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                            <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+                                <meta itemprop="worstRating" content="1">
+                                <meta itemprop="bestRating" content="100">
+                                <span style="width:<?php echo $ratingSummary; ?>%">
+                                    <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+                                </span>
+                            </div>
+                        </div>
                         <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                         <?php echo $block->getProductDetailsHtml($_product); ?>
 

@@ -11,6 +11,7 @@
  *
  * @var $block \Magento\CatalogWidget\Block\Product\ProductsList
  */
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 ?>
 <?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())):?>
 <?php
@@ -25,6 +26,7 @@
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
     $description = false;
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+    $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 ?>
     <!--<section class="block widget block-products-list <?php /* @escapeNotVerified */ echo $mode; ?>">
         <div class="container">
@@ -39,14 +41,20 @@
                     <div class="products-<?php /* @escapeNotVerified */ echo $mode; ?> <?php /* @escapeNotVerified */ echo $mode; ?>">
                         <ul class="owl-carousel product-items <?php /* @escapeNotVerified */ echo $type; ?>">
                             <?php $iterator = 1; ?>
-                            <?php foreach ($items as $_item): ?>
-                            
+                            <?php foreach ($items as $_item):                              
+                                $discount = $_helperCdi->getDiscount($_item);
+                            ?>                            
                                 <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item">' : '</li><li class="item">' ?>
                                 <div class="product-item-info">
                                     <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>" class="product-item-photo">
                                         <?php echo $block->getImage($_item, $image)->toHtml(); ?>
                                     </a>
-                                    <span class="product-tag disccount-tag">-20%</span>
+                                    <?php if ($discount != 0): ?>
+                                        <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
+                                    <?php endif; ?>
+                                    <?php if ($_helperCdi->isNew($_item)): ?>
+                                        <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
+                                    <?php endif; ?>
                                     <div class="product-item-details">
                                         <strong class="product-item-name">
                                             <a title="<?php echo $block->escapeHtml($_item->getName()) ?>"
@@ -58,10 +66,17 @@
                                         <?php
                                         echo $block->getProductPriceHtml($_item, $type);
                                         ?>
-
-                                        <?php if ($templateType): ?>
-                                            <?php echo $block->getReviewsSummaryHtml($_item, $templateType) ?>
-                                        <?php endif; ?>
+                                        <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
+                                        $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
+                                        <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                                            <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+                                                <meta itemprop="worstRating" content="1">
+                                                <meta itemprop="bestRating" content="100">
+                                                <span style="width:<?php echo $ratingSummary; ?>%">
+                                                    <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+                                                </span>
+                                            </div>
+                                        </div>
 
                                         <?php if ($showWishlist || $showCompare || $showCart): ?>
                                             <div class="product-item-actions">
