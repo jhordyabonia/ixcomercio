@@ -74,7 +74,7 @@ if ($items = $block->getProductCollection()) : ?>
                                 <?php endif; ?>
 
                                 <?php if ($block->canShowPrice()) : ?>
-                                    <?= $block->getProductPriceHtml($_item, $type); ?>
+                                    <?= $block->getProductPrice($_item); ?>
                                 <?php endif; ?>
 
                                 <div class="product actions slider-product-item-actions">
