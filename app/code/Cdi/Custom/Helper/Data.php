@@ -134,5 +134,29 @@ class Data extends AbstractHelper{
 		}
 		return 0;
 	}
+	
+	public function isNew ($_product){
+        $fromDate = $_product->getNewsFromDate();
+        $toDate   = $_product->getNewsToDate();
+
+        if (!$fromDate || !$toDate) {
+            return false;
+		}
+		
+		$date = \Magento\Framework\Stdlib\DateTime\DateTime;
+
+        $currentTime = $date->gmtDate();
+        $fromDate    = $date->gmtDate(null, $fromDate);
+        $toDate      = $date->gmtDate(null, $toDate);
+
+        $currentDateGreaterThanFromDate = (bool)($fromDate < $currentTime);
+        $currentDateLessThanToDate      = (bool)($toDate > $currentTime);
+
+        if ($currentDateGreaterThanFromDate && $currentDateLessThanToDate) {
+            return true;
+        }
+
+        return false;
+    }
  
 }
