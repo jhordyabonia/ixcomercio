@@ -274,11 +274,30 @@ function ($, Component) {
       }
     });
 
+
+    // =============================================
+    // Products items - Minicart
+    // =============================================
+    var totalItemsMinicart = $('.block-minicart .product-item');
+    totalItemsMinicart=totalItemsMinicart.length;
+
+
+
   });
 
 
   
   $(document).ajaxComplete(function(){
+    
+    // =============================================
+    // Products items - Minicart
+    // =============================================
+    if (window.location.href.indexOf("/checkout") > -1) {
+      if($('.block-minicart .product-item').length != totalItemsMinicart){
+         location.reload();
+      }
+    }
+
   });
 
 
