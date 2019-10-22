@@ -246,8 +246,6 @@ define([
             this._ajax(this.options.url.remove, {
                 'item_id': itemId
             }, elem, this._removeItemAfter);
-
-            location.reload();
         },
 
         /**
@@ -263,6 +261,7 @@ define([
                 $(document).trigger('ajax:removeFromCart', {
                     productIds: [productData['product_id']]
                 });
+                location.reload();
             }
         },
 
