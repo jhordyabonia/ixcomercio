@@ -4,6 +4,7 @@ namespace Cdi\Custom\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Model\PageFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
 
 class Data extends AbstractHelper{
  
@@ -13,12 +14,18 @@ class Data extends AbstractHelper{
      * @var TimezoneInterface
      */
     protected $localeDate;
+    /**
+     * @var BestSellersCollectionFactory
+     */
+    protected $_bestSellersCollectionFactory;
 	
 	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-	TimezoneInterface $localeDate){
+	TimezoneInterface $localeDate,
+	BestSellersCollectionFactory $bestSellersCollectionFactory){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
-        $this->localeDate = $localeDate;		
+        $this->localeDate = $localeDate;	
+        $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
 	}
 	
 	public function getStoreConfig($key){
@@ -144,15 +151,29 @@ class Data extends AbstractHelper{
 	public function isNew ($_product){
         $newsFromDate = $_product->getNewsFromDate();
         $newsToDate = $_product->getNewsToDate();
-        if (!$newsFromDate && !$newsToDate) {
+        if (!$newsFromDate) {
             return false;
         }
 
-        return $this->localeDate->isScopeDateInInterval(
-            $_product->getStore(),
-            $newsFromDate,
-            $newsToDate
-        );
+        return true;
+    }
+
+    /**
+     * get collection of best-seller products
+     * @return mixed
+     */
+    public function checkBestseller($_product)
+    {
+        $bestSellers = $this->_bestSellersCollectionFactory->create()
+            ->setPeriod('month');
+
+        foreach ($bestSellers as $product) {
+			if($product->getProductId() == $_product->getId()){
+				return true;
+			}
+        }
+
+		return false;
     }
  
 }

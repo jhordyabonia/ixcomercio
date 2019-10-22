@@ -51,6 +51,15 @@ if ($items = $block->getProductCollection()) : ?>
                             <?php if ($discount != 0): ?>
                                 <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
                             <?php endif; ?>
+                            <?php if ($_helperCdi->isNew($_item)): ?>
+                                <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
+                            <?php endif; ?>
+                            <?php if ($_item->getTypeId() == 'virtual'): ?>
+                                <span class="product-tag download-tag"></span>
+                            <?php endif; ?>
+                            <?php if ($_helperCdi->checkBestseller($_item)): ?>
+                                <span class="product-tag bestseller-tag"></span>
+                            <?php endif; ?>
                             <div class="product details slider-product-item-details">
                                 <strong class="product name product-item-name">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
