@@ -148,8 +148,7 @@ class Data extends AbstractHelper{
             return false;
         }
 
-        return true
-        );
+        return true;
     }
  
 }
