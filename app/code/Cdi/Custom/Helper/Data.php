@@ -8,11 +8,16 @@ class Data extends AbstractHelper{
  
 	protected $pageFactory;
 	protected $_scopeConfig;
+    /**
+     * @var TimezoneInterface
+     */
+    protected $localeDate;
 	
-	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig){
+	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+	TimezoneInterface $localeDate){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
-		
+        $this->localeDate = $localeDate;		
 	}
 	
 	public function getStoreConfig($key){
@@ -136,27 +141,17 @@ class Data extends AbstractHelper{
 	}
 	
 	public function isNew ($_product){
-        $fromDate = $_product->getNewsFromDate();
-        $toDate   = $_product->getNewsToDate();
-
-        if (!$fromDate || !$toDate) {
+        $newsFromDate = $_product->getNewsFromDate();
+        $newsToDate = $_product->getNewsToDate();
+        if (!$newsFromDate && !$newsToDate) {
             return false;
-		}
-		
-		$date = \Magento\Framework\Stdlib\DateTime\DateTime;
-
-        $currentTime = $date->gmtDate();
-        $fromDate    = $date->gmtDate(null, $fromDate);
-        $toDate      = $date->gmtDate(null, $toDate);
-
-        $currentDateGreaterThanFromDate = (bool)($fromDate < $currentTime);
-        $currentDateLessThanToDate      = (bool)($toDate > $currentTime);
-
-        if ($currentDateGreaterThanFromDate && $currentDateLessThanToDate) {
-            return true;
         }
 
-        return false;
+        return $this->localeDate->isScopeDateInInterval(
+            $_product->getStore(),
+            $newsFromDate,
+            $newsToDate
+        );
     }
  
 }
