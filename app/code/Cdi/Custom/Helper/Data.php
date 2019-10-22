@@ -148,10 +148,7 @@ class Data extends AbstractHelper{
             return false;
         }
 
-        return $this->localeDate->isScopeDateInInterval(
-            $_product->getStore(),
-            $newsFromDate,
-            $newsToDate
+        return true
         );
     }
  
