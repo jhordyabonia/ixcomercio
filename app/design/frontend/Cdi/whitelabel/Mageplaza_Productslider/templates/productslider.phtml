@@ -23,6 +23,8 @@ use Mageplaza\Productslider\Block\AbstractSlider;
 
 /** @var AbstractSlider $block */
 
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 $mode = 'grid';
 $title = $block->getTitle();
 if ($items = $block->getProductCollection()) : ?>
@@ -51,7 +53,17 @@ if ($items = $block->getProductCollection()) : ?>
                                 </strong>
 
                                 <?php if ($block->canShowReview()) : ?>
-                                    <?= $block->getReviewsSummaryHtml($_item, 'short', true) ?>
+                                    <?php $reviewFactory->getEntitySummary($_product, $_product->getStore()->getId());
+                                    $ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary(); ?>
+                                    <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                                        <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+                                            <meta itemprop="worstRating" content="1">
+                                            <meta itemprop="bestRating" content="100">
+                                            <span style="width:<?php echo $ratingSummary; ?>%">
+                                                <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+                                            </span>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
 
                                 <?php if ($block->canShowPrice()) : ?>
