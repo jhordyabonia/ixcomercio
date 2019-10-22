@@ -52,7 +52,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                     <?php if ($discount != 0): ?>
                                         <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
                                     <?php endif; ?>
-                                    <?php if ($_helperCdi->isNew($_item)): ?>
+                                    <?php if ($_item->getIsNew()): ?>
                                         <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
                                     <?php endif; ?>
                                     <div class="product-item-details">
