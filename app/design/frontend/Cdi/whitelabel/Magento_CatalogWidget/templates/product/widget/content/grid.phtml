@@ -55,6 +55,9 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                     <?php if ($_helperCdi->isNew($_item)): ?>
                                         <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
                                     <?php endif; ?>
+                                    <?php if ($_item->getTypeId() == 'virtual'): ?>
+                                        <span class="product-tag download-tag"></span>
+                                    <?php endif; ?>
                                     <div class="product-item-details">
                                         <strong class="product-item-name">
                                             <a title="<?php echo $block->escapeHtml($_item->getName()) ?>"
