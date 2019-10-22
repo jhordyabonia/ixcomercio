@@ -8,6 +8,9 @@ function ($, Component) {
   var w_width = jQuery( window ).width();
   var statusField;
 
+  var totalItemsMinicart = $('.block-minicart .product-item');
+  totalItemsMinicart=totalItemsMinicart.length;
+
   $(document).ready(function(){
 
     if(w_width <= 959){
@@ -274,26 +277,19 @@ function ($, Component) {
       }
     });
 
-
-    // =============================================
-    // Products items - Minicart
-    // =============================================
-    var totalItemsMinicart = $('.block-minicart .product-item');
-    totalItemsMinicart=totalItemsMinicart.length;
-
-
-
   });
 
 
   
   $(document).ajaxComplete(function(){
-    
+
     // =============================================
     // Products items - Minicart
     // =============================================
     if (window.location.href.indexOf("/checkout") > -1) {
+      console.log("yeaaa");
       if($('.block-minicart .product-item').length != totalItemsMinicart){
+        console.log("reload");
          location.reload();
       }
     }
