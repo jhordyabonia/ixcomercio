@@ -23,6 +23,7 @@ use Mageplaza\Productslider\Block\AbstractSlider;
 
 /** @var AbstractSlider $block */
 
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 $mode = 'grid';
@@ -39,13 +40,18 @@ if ($items = $block->getProductCollection()) : ?>
                 <?php $iterator = 1; ?>
                 <div id="mp-list-items-<?= $id ?>"
                      class="owl-carousel owl-theme">
-                    <?php foreach ($items as $_item) : ?>
+                    <?php foreach ($items as $_item) :             
+                        $discount = $_helperCdi->getDiscount($_item);
+                    ?>
                         <?= ($iterator++ == 1) ? '<li class="product-item product-slider"">' : '</li><li class="product-item product-slider"">' ?>
                         <div class="slider-product-item-info">
                             <a href="<?= $block->getProductUrl($_item) ?>"
                                class="product photo slider-product-item-photo">
                                 <?= $block->getImage($_item, 'recently_viewed_products_grid_content_widget')->toHtml(); ?>
                             </a>
+                            <?php if ($discount != 0): ?>
+                                <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
+                            <?php endif; ?>
                             <div class="product details slider-product-item-details">
                                 <strong class="product name product-item-name">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
