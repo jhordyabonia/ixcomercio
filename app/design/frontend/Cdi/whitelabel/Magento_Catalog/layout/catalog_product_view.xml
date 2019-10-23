@@ -62,7 +62,7 @@
 		<referenceBlock name="product.info.details" remove="true" />
 		-->
 		<referenceContainer name="product.info.stock.sku" remove="true" />
-		<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
+		<container name="newsletter-container-custom" as="newsletter_custom" before="footer-container-custom" />
 		<referenceContainer name="newsletter-container-custom">
 			<block class="Magento\Catalog\Block\Product\View" name="product.newsletter" template="Magento_Catalog::product/view/newsletter.phtml" />
 		</referenceContainer> 
