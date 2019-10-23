@@ -62,6 +62,6 @@
 		<referenceBlock name="product.info.details" remove="true" />
 		-->
 		<referenceContainer name="product.info.stock.sku" remove="true" />
-		<block class="Magento\Catalog\Block\Product\View" name="product.related.custom.info" template="Magento_Catalog::product/view/custom_info.phtml" after="-" />
+		<block class="Magento\Catalog\Block\Product\View" name="product.newsletter" template="Magento_Catalog::product/view/newsletter.phtml" after="-" />
     </body>
 </page>
