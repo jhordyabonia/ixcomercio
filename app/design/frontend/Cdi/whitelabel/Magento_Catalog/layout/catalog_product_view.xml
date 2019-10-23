@@ -17,6 +17,13 @@
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-md-6"/>
+			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
+                    <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
+                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
+                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
+                    </block>
+                </block>
 			<block class="Magento\Catalog\Block\Product\View" name="product.related.custom.info" template="Magento_Catalog::product/view/custom_info.phtml" after="-" />
 		</referenceContainer>
 		<referenceBlock name="product.info.sku" remove="true" />
