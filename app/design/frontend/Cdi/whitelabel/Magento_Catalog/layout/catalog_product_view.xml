@@ -28,6 +28,7 @@
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
 		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
+		<move element="reviews.tab" destination="content" as="reviews.tab" before="product.related.custom.info"/>
 
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
