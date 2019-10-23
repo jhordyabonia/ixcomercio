@@ -23,8 +23,14 @@
                     <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" after="-">
                         <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
                     </block>
-                </block>
-			<block class="Magento\Catalog\Block\Product\View" name="product.related.custom.info" template="Magento_Catalog::product/view/custom_info.phtml" after="-" />
+            </block>
+			<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.  bestseller" template="productslider.phtml" after="-">
+				<arguments>
+					<argument name="products_count" xsi:type="number">8</argument>
+					<argument name="margin" xsi:type="string">5</argument>
+					<argument name="heading" xsi:type="string" translate="true">Best Seller</argument>
+				</arguments>
+			</block>
 		</referenceContainer>
 		<referenceBlock name="product.info.sku" remove="true" />
 		<referenceBlock name="product.info.overview" remove="true" />
