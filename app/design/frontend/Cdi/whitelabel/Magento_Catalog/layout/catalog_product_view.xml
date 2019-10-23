@@ -61,8 +61,10 @@
 		<!--Elimina el grupo de información adicional
 		<referenceBlock name="product.info.details" remove="true" />
 		-->
-		<referenceContainer name="product.info.stock.sku" remove="true" /><referenceContainer name="newssletter-container-custom">
-			<block class="Magento\Catalog\Block\Product\View" name="product.newsletter" template="Magento_Catalog::product/view/newsletter.phtml" after="-" />
+		<referenceContainer name="product.info.stock.sku" remove="true" />
+		<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
+		<referenceContainer name="newsletter-container-custom">
+			<block class="Magento\Catalog\Block\Product\View" name="product.newsletter" template="Magento_Catalog::product/view/newsletter.phtml" />
 		</referenceContainer> 
     </body>
 </page>
