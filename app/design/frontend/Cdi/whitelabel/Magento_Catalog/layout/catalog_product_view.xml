@@ -32,11 +32,13 @@
 					<argument name="title" xsi:type="string" translate="true">Best Seller</argument>
 				</arguments>
 			</block>
+		</referenceContainer>
+        <referenceContainer name="content.aside">
 			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
 			<referenceContainer name="newsletter-container-custom">
 				<block class="Magento\Catalog\Block\Product\View" name="product.newsletter" template="Magento_Catalog::product/view/newsletter.phtml" />
 			</referenceContainer> 
-		</referenceContainer>
+        </referenceContainer>
 		<referenceBlock name="product.info.sku" remove="true" />
 		<referenceBlock name="product.info.overview" remove="true" />
 		
