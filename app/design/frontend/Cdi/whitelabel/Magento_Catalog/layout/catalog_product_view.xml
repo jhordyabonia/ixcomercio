@@ -18,9 +18,9 @@
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-md-6"/>
 			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
-                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
+                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" after="-"/>
                     <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
-                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
+                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" after="-">
                         <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
                     </block>
                 </block>
@@ -34,8 +34,7 @@
 		-->
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
-		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
-		<move element="product.info.review" destination="reviews" as="product.info.review" before="review_form"/>
+		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>>
 
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
@@ -50,8 +49,8 @@
 		<referenceBlock name="page.main.title" remove="true" />
 		<!--Elimina botones social (wishlist, mail, compare)
 		<referenceBlock name="product.info.social" remove="true" />-->
-		<!--Elimina botón reviews
-		<referenceBlock name="product.info.review" remove="true" />-->
+		<!--Elimina botón reviews-->
+		<referenceBlock name="product.info.review" remove="true" />
 		<!--Elimina el grupo de información adicional
 		<referenceBlock name="product.info.details" remove="true" />
 		-->
