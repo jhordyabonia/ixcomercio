@@ -35,7 +35,7 @@
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
 		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
-		<move element="product.info.review" destination="reviews" as="product.info.review" before="product.review.form"/>
+		<move element="product.info.review" destination="reviews" as="product.info.review" before="review_form"/>
 
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
