@@ -36,7 +36,7 @@
         <referenceContainer name="content.aside">
 			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
 			<referenceContainer name="newsletter-container-custom">
-				<block class="Magento\Catalog\Block\Product\View" name="product.newsletter" template="Magento_Catalog::product/view/newsletter.phtml" />
+				<block class="Magento\Framework\View\Element\Template" name="product.newsletter" template="Magento_Theme::html/newsletter.phtml" />
 			</referenceContainer> 
         </referenceContainer>
 		<referenceBlock name="product.info.sku" remove="true" />
