@@ -24,8 +24,8 @@
         .product-tag{
           top: 15px;
           left: 15px;
-          width: 44px;
-          height: 44px;
+          width: 38px;
+          height: 38px;
           color: #fff;
           font-size: 14px;
           font-weight: 500;
@@ -34,6 +34,30 @@
           border-radius: 50%;
           padding: 8px 0;
           z-index: 999;
+          &:eq(0){
+            width: 44px;
+            height: 44px;
+          }
+          &:eq(1){
+            top: 20px;
+            left: 40px;
+          }
+          &:eq(2){
+            top: 20px;
+            left: 80px;
+          }
+          &:eq(3){
+            top: 20px;
+            left: 120px;
+          }
+          &:eq(4){
+            top: 20px;
+            left: 120px;
+          }
+          &:eq(5){
+            top: 20px;
+            left: 160px;
+          }
           &.disccount-tag{
             background: url(../images/icons/tag-disccount.png) no-repeat center;
             background-size: 100%;
