@@ -96,8 +96,8 @@
             font-weight: bold;
             line-height: normal;
             min-height: 60px;
-            color: $mainColor;
             a{
+              color: $mainColor;
               font-weight: bold;
             }
           }
@@ -124,6 +124,9 @@
             }
             > .price-final_price, .special-price .price-final_price{
               color: #D7410B;
+              .price{
+                font-size: 22px;
+              }
             }
           }
         }
