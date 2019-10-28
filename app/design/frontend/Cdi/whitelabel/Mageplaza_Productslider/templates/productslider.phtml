@@ -32,7 +32,7 @@ $type = 'widget-product-grid';
 if ($items = $block->getProductCollection()) : ?>
     <div class="header-section">
         <h2 class="title-section"><?= $block->getTitle(); ?></h2>
-        <p class="mp-ps-info"><?= $block->getDescription(); ?></p>
+        <p><?= $block->getDescription(); ?></p>
     </div>
     <div class="block-content">
         <div class="products-<?= $mode; ?> <?= $mode; ?>">
