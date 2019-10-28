@@ -1,7 +1,7 @@
 .products-grid{
   .product-items{
     display: block;
-    .item{
+    > .item{
       max-width: 300px;
       padding: 20px;
       border: 1px solid #eee;
