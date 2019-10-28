@@ -65,6 +65,7 @@ class GetPlaces {
 
     public function execute() 
     {
+        $this->logger->info('GetPlaces - entra a cron ');
         //Se declaran variables de la tierra
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
