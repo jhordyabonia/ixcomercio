@@ -79,6 +79,16 @@
         .product-item-details{
           width: 100%;
           display: inline-block;
+          .rating-summary{
+            .rating-result{
+              &:before{
+                text-align: left;
+              }
+              > span:before{
+                text-align: left;
+              }
+            }
+          }
           .product-item-name{
             font-size: 16px;
             font-weight: bold;
