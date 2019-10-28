@@ -47,7 +47,7 @@
                 <height>78</height>
             </image>
             <image id="new_products_content_widget_grid" type="small_image">
-                <width>300</width>
+                <width>270</width>
                 <height>300</height>
             </image>
             <image id="new_products_content_widget_list" type="small_image">
@@ -100,7 +100,7 @@
                 <height>75</height>
             </image>
             <image id="recently_compared_products_grid_content_widget" type="small_image">
-                <width>300</width>
+                <width>270</width>
                 <height>300</height>
             </image>
             <image id="recently_compared_products_images_names_widget" type="thumbnail">
@@ -116,7 +116,7 @@
                 <height>207</height>
             </image>
             <image id="recently_viewed_products_grid_content_widget" type="small_image">
-                <width>300</width>
+                <width>270</width>
                 <height>300</height>
             </image>
             <image id="recently_viewed_products_images_names_widget" type="small_image">

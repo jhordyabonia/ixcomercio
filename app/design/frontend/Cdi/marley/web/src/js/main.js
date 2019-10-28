@@ -46,7 +46,7 @@ function ($, Component) {
     // =============================================
 
     if($(".products-grid .product-items").length){
-      var list = $(".products-grid .product-items .item");
+      var list = $(".products-grid .product-items > .item");
       var listImage = $(list).find(".product-image-wrapper");
       var listName = $(list).find(".product-name");
       var listFamily = $(list).find(".atributo-familia");
