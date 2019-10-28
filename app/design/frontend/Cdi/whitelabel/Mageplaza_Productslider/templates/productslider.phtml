@@ -30,13 +30,13 @@ $mode = 'grid';
 $title = $block->getTitle();
 $type = 'widget-product-grid';
 if ($items = $block->getProductCollection()) : ?>
-    <div class="mp-product-slider-block block widget block-products-list <?= $mode; ?>">
-        <h2 class="mp-product-slider-title"><?= $block->getTitle(); ?></h2>
+    <div class="header-section">
+        <h2 class="title-section"><?= $block->getTitle(); ?></h2>
         <p class="mp-ps-info"><?= $block->getDescription(); ?></p>
     </div>
     <div class="block-content">
         <div class="products-<?= $mode; ?> <?= $mode; ?>">
-            <ol class="product-items widget-viewed-grid">
+            <ul class="product-items widget-viewed-grid">
                 <?php $iterator = 1; ?>
                 <div id="mp-list-items-<?= $block->getSliderId(); ?>" class="owl-carousel owl-theme">
                     <?php foreach ($items as $_item) :             
@@ -124,7 +124,7 @@ if ($items = $block->getProductCollection()) : ?>
                         <?= ($iterator === count($items) + 1) ? '</li>' : '' ?>
                     <?php endforeach ?>
                 </div>
-            </ol>
+            </ul>
         </div>
         <?= $block->getPagerHtml() ?>
     </div>
