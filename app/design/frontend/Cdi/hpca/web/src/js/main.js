@@ -146,12 +146,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 					nav: false,
 					dots: false
 				},
-	      991:{
-	      	items: 4,
-	        nav: true,
-	        dots: true
-	      }
-	    }
+		    	991:{
+			      	items: 4,
+			        nav: true,
+			        dots: true
+		      	}
+		    }
 		});
 	});
 
