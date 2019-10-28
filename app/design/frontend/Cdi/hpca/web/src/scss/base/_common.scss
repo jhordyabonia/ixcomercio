@@ -14,6 +14,27 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'HpBold';
+  src: url('../fonts/hp/hpsimplified_0-webfont.woff2') format('woff2'),
+       url('../fonts/hp/hpsimplified_0-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'HpLight';
+  src: url('../fonts/hp/hpsimplified_lt_0-webfont.woff2') format('woff2'),
+       url('../fonts/hp/hpsimplified_lt_0-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'HpRegular';
+  src:  url('../fonts/hp/hpsimplified_rg_0-webfont.woff2') format('woff2'),
+        url('../fonts/hp/hpsimplified_rg_0-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 * {
   margin: 0;
   padding: 0;
