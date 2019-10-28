@@ -31,7 +31,7 @@ $title = $block->getTitle();
 $type = 'widget-product-grid';
 if ($items = $block->getProductCollection()) : ?>
     <div class="header-section">
-        <h2 class="title-section"><?= $block->getTitle(); ?></h2>
+        <h2 class="title-section"><?= $block->getDescription(); //$block->getTitle(); ?></h2>
         <p><?= $block->getDescription(); ?></p>
     </div>
     <div class="block-content">
