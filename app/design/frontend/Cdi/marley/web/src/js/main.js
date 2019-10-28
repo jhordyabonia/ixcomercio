@@ -192,7 +192,7 @@ function ($, Component) {
 
 
     // =============================================
-    // Add * to inout required
+    // Add * to input required
     // =============================================
 
     var required = $('input.required-entry, select.required-entry');
