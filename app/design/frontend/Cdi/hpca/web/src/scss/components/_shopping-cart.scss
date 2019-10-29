@@ -227,21 +227,29 @@
       }
       .cart.main.actions{
         .action{
-          color: #999;
+          color: $mainColor;
           background: none;
-          border: 1px solid #ccc;
+          border: 1px solid $mainColor;
           padding: 7px 15px;
           height: 44px;
           font-size: 16px;
           line-height: 30px;
           font-weight: normal;
+          &.continue{
+            color: #008424;
+            border: 1px solid #008424;
+            &:hover{
+              background: #008424;
+              border-color: #008424;
+            }
+          }
           &.continue:before, &.update:before{
             line-height: 28px;
           }
           &:hover{
             color: #fff;
-            background: #000;
-            border-color: #000;
+            background: $mainColor;
+            border-color: $mainColor;
           }
         }
       }
