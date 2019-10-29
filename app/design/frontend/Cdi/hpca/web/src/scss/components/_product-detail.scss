@@ -377,6 +377,12 @@
         }
       }
     }
+    .ept-social-share.ept-product-page .facebook-share, .ept-social-share.ept-socialshare-page .facebook-share{
+      background: #3b5998;
+      .facebook-button{
+        color: #fff;
+      }
+    }
   }
 }
 .product-characteristics{
