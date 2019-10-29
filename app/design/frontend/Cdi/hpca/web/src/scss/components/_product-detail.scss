@@ -423,16 +423,17 @@
 }
 .box-additional{
   padding: 60px 0;
-  background: #efefef;
+  background: #fff;
   .product-tabs{
     width: 100%;
     float: left;
     .product.data.items{
+      background: #e8e8e8;
       >.item.title{
         float: left;
         margin: 0 0 -1px;
         >.switch {
-          color: #333;
+          color: $mainColor;
           font-size: 1em;
           line-height: 3em;
           background-color: #e5e4e4;
@@ -441,9 +442,9 @@
           padding: 0 10px;
           border: 1px solid transparent;
           @media only screen and (min-width: $tablet){
-            color: #333;
+            color: $mainColor;
             &:visited{
-              color: #333;
+              color: $mainColor;
             }
           }
           &:hover{
@@ -457,7 +458,7 @@
             color: $mainColor;
             margin-bottom: -1px;
             background-color: #fff;
-            border-bottom: 2px solid $mainColor;
+            border-bottom: 3px solid $mainColor;
             padding-bottom: 0;
             &:hover {
               background-color: #fff;
@@ -475,7 +476,8 @@
           color: #666666;
           font-weight: 500;
           text-align: left;
-          margin-top: 45px;
+          margin-top: 46px;
+          margin-bottom: 0;
           padding: 20px;
           border: 0;
         }
