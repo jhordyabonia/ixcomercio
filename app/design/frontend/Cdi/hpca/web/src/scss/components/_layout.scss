@@ -334,7 +334,8 @@ section{
     .panel{
       border-radius: 0;
       box-shadow: none;
-      border-bottom: 0;
+      border: 0;
+      border-top: 1px solid #ddd;
       &.panel-default{
         >.panel-heading{
           text-align: left;
@@ -357,6 +358,9 @@ section{
               &[aria-expanded="true"]{
                 background: url(../images/arrow-up-maincolor.png) no-repeat 95% center;
                 background-size: 14px;
+              }
+              &:hover{
+                color: $mainColor;
               }
             }
           }
@@ -392,6 +396,7 @@ section{
                 &.mana-selected{
                   a .icon-check{
                     background: url(../images/check-blue.png) no-repeat center;
+                    background-color: #fff;
                     background-size: 10px;
                     border: 1px solid $mainColor;
                   }
