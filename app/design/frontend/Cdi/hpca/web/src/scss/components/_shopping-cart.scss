@@ -4,6 +4,9 @@
     margin: 0 auto;
     @media (min-width: $tablet){
       width: 90%;
+      .page-title-wrapper{
+        text-align: left;
+      }
     }
   }
 }
@@ -84,6 +87,7 @@
                   }
                 }
                 .product-item-name{
+                  color: $mainColor;
                   font-weight: bold;
                   font-size: 16px;
                   display: block;
@@ -108,6 +112,7 @@
               }
               .cart-price{
                 .price{
+                  color: #D7410B;
                   font-size: 18px;
                 } 
               }
@@ -119,9 +124,11 @@
                   background: $mainColor;
                   vertical-align: middle;
                   display: inline-block;
-                  border-radius: 50%;
+                  border-radius: 0 5px;
                   font-size: 18px;
                   font-weight: bold;
+                  text-align: center;
+                  line-height: 28px;
                   cursor: pointer;
                   @media (max-width: $tablet){
                     text-align: center;
@@ -131,9 +138,10 @@
                     background: #000;
                   }
                   &.disable{
-                    color: #999;
-                    background: none;
-                    border: 1px solid #ccc;
+                    color: #fff;
+                    background: #ccc;
+                    line-height: 25px;
+                    border: none;
                     pointer-events: none;
                   }
                 }
