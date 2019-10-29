@@ -232,7 +232,9 @@ class GetPlaces {
             $this->beginGetPlaces($configData, $serviceUrl, $storeCode, 0, $type2, $id);
             //Se verifican los registros que no cumplan para dejarlos con estado 0
         }
-        //$this->checkPlaces($places, $configData, $storeCode, $type);
+        if(count($places)>0){
+            $this->checkPlaces($places, $configData, $storeCode, $type);
+        }
     }
 
     //Consulta la tabla custom de places y verifica si la region existe
