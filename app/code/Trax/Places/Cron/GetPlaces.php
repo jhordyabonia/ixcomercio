@@ -210,7 +210,6 @@ class GetPlaces {
         //Se leen datos de la respuesta
         $places = array();
         foreach ($data as $key => $region) {
-            exit();
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
             //Se verifica si existe el registro para el pais y la tienda
