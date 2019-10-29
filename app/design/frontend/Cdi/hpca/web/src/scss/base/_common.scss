@@ -215,7 +215,9 @@ h1, .h1{
   line-height: 1.2;
   text-rendering: optimizeLegibility;
 }
-.ept-social-share.ept-product-page .facebook-share:hover, .ept-social-share.ept-socialshare-page .facebook-share{
-  color: #fff;
+.ept-social-share.ept-product-page .facebook-share, .ept-social-share.ept-socialshare-page .facebook-share{
   background: #3b5998;
+  a{
+    color: #fff;
+  }
 }
