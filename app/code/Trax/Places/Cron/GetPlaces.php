@@ -80,12 +80,12 @@ class GetPlaces {
                 foreach ($stores as $store) {
                     //Se obtienen parametros de configuración por Store
                     $configData = $this->getConfigParams($storeScope, $store->getCode()); 
-
+                    $this->logger->info('GetPlaces - store '.$store->getCode());
                     $serviceUrl = $this->getServiceUrl($configData, 'getplaces', false);   
                     $this->logger->info('GetPlaces - url '.$serviceUrl);
                     if($serviceUrl){
                         try{
-                            $this->beginGetPlaces($configData, $serviceUrl, $storeManager->getStore()->getCode(), 0, 'region');
+                            //$this->beginGetPlaces($configData, $serviceUrl, $storeManager->getStore()->getCode(), 0, 'region');
                         } catch(Exception $e){
                             $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
                         }
