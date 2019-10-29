@@ -45,8 +45,13 @@
             text-align: left;
             .product-item-name{
               a{
-                color: #000;
+                color: $mainColor;
                 line-height: initial;
+              }
+            }
+            .product-item-pricing{
+              .price{
+                color: #D7410B;
               }
             }
             .details-qty.qty{
@@ -68,6 +73,7 @@
               }
             }
           }
+
         }
       }
       .actions{
