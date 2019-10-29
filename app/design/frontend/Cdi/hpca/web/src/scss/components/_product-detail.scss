@@ -364,6 +364,9 @@
             min-width: 160px;
             width: auto;
             white-space: normal;
+            &.primary{
+              background: #008424;
+            }
             &:hover{
               color: #fff;
               background: #000;
