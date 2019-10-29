@@ -234,7 +234,7 @@
           height: 44px;
           font-size: 16px;
           line-height: 30px;
-          font-weight: normal;
+          font-weight: bold;
           &.continue{
             color: #008424;
             border: 1px solid #008424;
@@ -258,6 +258,8 @@
   .cart-summary{
     text-align: left;
     color: #000;
+    background: none;
+    border: 1px solid #ddd;
     @media (max-width: $tablet){
       top: 0!important;
       width: 100%;
