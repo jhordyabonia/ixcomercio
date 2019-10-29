@@ -41,6 +41,13 @@
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    outline: 0!important;
+    outline: none!important;
+  }
 }
 html {
   font-size: 14px;
