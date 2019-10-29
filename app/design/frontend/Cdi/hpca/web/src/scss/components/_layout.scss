@@ -24,11 +24,12 @@
   margin: 40px 0 20px;
   .page-title{
     font-weight: bold;
-    color: $mainColor;
+    color: #000;
     margin: 0;
   }
 }
 .category-description{
+  color: #666666;
   p{
     font-size: 18px;
     line-height: 24px;
@@ -368,6 +369,8 @@ section{
             text-align: left;
             .items{
               .item{
+                position: relative;
+                padding-right: 25px;
                 a{
                   color: #000;
                   .count{
@@ -375,13 +378,15 @@ section{
                     font-size: 12px;
                   }
                   .icon-check{
-                    width: 15px;
-                    height: 15px;
+                    width: 18px;
+                    height: 18px;
                     background: none;
-                    border: 1px solid #bbb;
-                    border-radius: 2px;
-                    margin: 5px 5px 0 0;
+                    border: 1px solid $mainColor;
+                    margin: 5px 0 0;
                     float: left;
+                    position: absolute;
+                    right: 0;
+                    border-radius: 50%;
                   }
                 }
                 &.mana-selected{
