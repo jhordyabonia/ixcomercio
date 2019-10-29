@@ -41,10 +41,10 @@ if ($items = $block->getProductCollection()) : ?>
                 <?php foreach ($items as $_item) :             
                     $discount = $_helperCdi->getDiscount($_item);
                 ?>
-                    <?= ($iterator++ == 1) ? '<li class="product-item product-slider"">' : '</li><li class="product-item product-slider"">' ?>
-                    <div class="slider-product-item-info">
+                    <?= ($iterator++ == 1) ? '<li class="item"">' : '</li><li class="item"">' ?>
+                    <div class="product-item-info">
                         <a href="<?= $block->getProductUrl($_item) ?>"
-                           class="product photo slider-product-item-photo">
+                           class="product-item-photo">
                             <?= $block->getImage($_item, 'recently_viewed_products_grid_content_widget')->toHtml(); ?>
                         </a>
                         <?php if ($discount != 0): ?>
@@ -59,14 +59,7 @@ if ($items = $block->getProductCollection()) : ?>
                         <?php if ($_helperCdi->checkBestseller($_item)): ?>
                             <span class="product-tag bestseller-tag"></span>
                         <?php endif; ?>
-                        <div class="product details slider-product-item-details">
-                            <strong class="product name product-item-name">
-                                <a title="<?= $block->escapeHtml($_item->getName()) ?>"
-                                   href="<?= $block->getProductUrl($_item) ?>">
-                                    <?= $block->escapeHtml($_item->getName()) ?>
-                                </a>
-                            </strong>
-
+                        <div class="product-item-details">
                             <?php if ($block->canShowReview()) : ?>
                                 <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
                                 $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
@@ -81,11 +74,19 @@ if ($items = $block->getProductCollection()) : ?>
                                 </div>
                             <?php endif; ?>
 
+                            <strong class="product-item-name">
+                                <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                   href="<?= $block->getProductUrl($_item) ?>"
+                                   class="product-item-link">
+                                    <?= $block->escapeHtml($_item->getName()) ?>
+                                </a>
+                            </strong>
+
                             <?php if ($block->canShowPrice()) : ?>
                                 <?= $block->getProductPrice($_item); ?>
                             <?php endif; ?>
 
-                            <div class="product actions slider-product-item-actions">
+                            <div class="product-item-actions">
                                 <?php if ($block->canShowAddToCart()) : ?>
                                     <div class="actions-primary">
                                         <?php if ($_item->isSaleable()) : ?>
