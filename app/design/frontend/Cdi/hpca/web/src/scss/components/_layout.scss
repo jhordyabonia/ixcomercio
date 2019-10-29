@@ -380,7 +380,7 @@ section{
                   .icon-check{
                     width: 18px;
                     height: 18px;
-                    background: none;
+                    background: #fff;
                     border: 1px solid $mainColor;
                     margin: 5px 0 0;
                     float: left;
@@ -391,10 +391,9 @@ section{
                 }
                 &.mana-selected{
                   a .icon-check{
-                    background: url(../images/check-white.png) no-repeat center;
+                    background: url(../images/check-blue.png) no-repeat center;
                     background-size: 10px;
-                    background-color: $redcolor;
-                    border: 1px solid $redcolor;
+                    border: 1px solid $mainColor;
                   }
                 }
               }
@@ -412,7 +411,7 @@ section{
     .product-items{
       width: 100%;
       float: left;
-      .item{
+      > .item{
         width: 30%;
         max-width: initial;
         margin: 0 1.66% 30px;
