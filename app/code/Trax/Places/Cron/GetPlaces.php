@@ -362,13 +362,13 @@ class GetPlaces {
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
             if(!array_key_exists ( $data['trax_id'] , $places )){
-                $this->disablePlace($data['trax_id'], $type);
+                $this->disablePlace($data['id'], $data['trax_id'], $type);
             }
         }
     }
 
     //Actualiza un place
-    public function disablePlace($id, $type) 
+    public function disablePlace($id, $trax_id, $type) 
     {   
         switch($type){
             case 'region':
@@ -384,7 +384,7 @@ class GetPlaces {
             ]);
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se deshabilito el place de tipo '.$type.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se deshabilito el place de tipo '.$type.' con id de trax: '.$trax_id);
         } else {
             $this->logger->info('GetPlaces - Se produjo un error al deshabilitar el place de tipo '.$type.' con id de trax: '.$id);
         }
