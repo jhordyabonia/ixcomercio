@@ -134,25 +134,27 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			jQuery(this).toggleClass("close");
 		});
 
-		jQuery('.products-grid .owl-carousel').owlCarousel({
-			nav: true,
-			dots: true,
-			navSpeed: 800,
-			loop: true,
-			margin: 30,
-			responsive:{
-				0:{
-					items: 2,
-					nav: false,
-					dots: false
-				},
-		    	991:{
-			      	items: 4,
-			        nav: true,
-			        dots: true
-		      	}
-		    }
-		});
+		if(jQuery('.products-grid .owl-carousel').length){
+			jQuery('.products-grid .owl-carousel').owlCarousel({
+				nav: true,
+				dots: true,
+				navSpeed: 800,
+				loop: true,
+				margin: 30,
+				responsive:{
+					0:{
+						items: 2,
+						nav: false,
+						dots: false
+					},
+			    	991:{
+				      	items: 4,
+				        nav: true,
+				        dots: true
+			      	}
+			    }
+			});
+		}
 	});
 
 	
