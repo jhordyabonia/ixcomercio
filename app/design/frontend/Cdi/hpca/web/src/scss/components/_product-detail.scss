@@ -230,7 +230,8 @@
       line-height: normal;
       margin: 10px 0;
       > span{
-        display: block;
+        display: inline-block;
+        margin-right: 20px;
         &.special-price{
           .price{
             color: #c73615;
@@ -239,7 +240,8 @@
         &.old-price{
           color: #8e8e8e;
           .price{
-            font-size: 30px;
+            color: #999;
+            font-size: 24px;
           }
         }
       }
