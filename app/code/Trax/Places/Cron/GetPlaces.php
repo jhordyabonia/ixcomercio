@@ -177,9 +177,10 @@ class GetPlaces {
     //Función recursiva para intentos de conexión
     public function beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
+        $data = $this->loadIwsService($serviceUrl);
         if($data['status']){
             if(count($data['resp'])>0){
+                $this->logger->info('GetPlaces - Se obtuvo respuesta del servicio');
                 //Mapear lugares de magento con IWS en tabla custom
                 $this->loadPlaces($configData, $storeCode, $data['resp'], $type, $parent_id);
             } else{
@@ -210,7 +211,6 @@ class GetPlaces {
         //Se leen datos de la respuesta
         $places = array();
         foreach ($data as $key => $region) {
-            exit();
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
             //Se verifica si existe el registro para el pais y la tienda
