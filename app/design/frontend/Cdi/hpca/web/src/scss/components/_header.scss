@@ -173,6 +173,7 @@ header{
             }
             .wishlist{
               float: left;
+              margin-top: 3px;
               a{
                 width: 20px;
                 height: 20px;
@@ -180,6 +181,9 @@ header{
                 background-size: 100%;
                 overflow: hidden;
                 text-indent: 100%;
+                &:hover{
+                  background: #e8e8e8;
+                }
               }
             }
           }
