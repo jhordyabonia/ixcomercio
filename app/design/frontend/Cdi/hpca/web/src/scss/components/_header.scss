@@ -131,6 +131,19 @@ header{
             > ul{
               float: left;
               &.list-registered-user{
+                margin-right: 20px;
+                padding-right: 30px;
+                &:after{
+                  right: 0;
+                  color: #000;
+                  font-size: 28px;
+                  font-weight: bold;
+                  content: '\e622';
+                  font-family: 'icons-blank-theme';
+                  vertical-align: middle;
+                  display: inline-block;
+                  position: absolute;
+                }
                 > ul{
                   display: none;
                   background: #fff;
