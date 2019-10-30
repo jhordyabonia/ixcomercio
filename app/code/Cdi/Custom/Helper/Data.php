@@ -3,16 +3,29 @@ namespace Cdi\Custom\Helper;
  
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Model\PageFactory;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
 
 class Data extends AbstractHelper{
  
 	protected $pageFactory;
 	protected $_scopeConfig;
+    /**
+     * @var TimezoneInterface
+     */
+    protected $localeDate;
+    /**
+     * @var BestSellersCollectionFactory
+     */
+    protected $_bestSellersCollectionFactory;
 	
-	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig){
+	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+	TimezoneInterface $localeDate,
+	BestSellersCollectionFactory $bestSellersCollectionFactory){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
-		
+        $this->localeDate = $localeDate;	
+        $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
 	}
 	
 	public function getStoreConfig($key){
@@ -103,5 +116,64 @@ class Data extends AbstractHelper{
 				return 1;
 		}
 	}
+	
+	public function getDiscount($_product){ 
+		switch($_product->getTypeId()){
+			case 'configurable':
+				$basePrice = $_product->getPriceInfo()->getPrice('regular_price');
+				$regularPrice = $basePrice->getMinRegularAmount()->getValue();
+				$specialPrice = $_product->getFinalPrice();
+				break;
+			case 'bundle':
+				$regularPrice = $_product->getPriceInfo()->getPrice('regular_price')->getMinimalPrice()->getValue();
+				$specialPrice = $_product->getPriceInfo()->getPrice('final_price')->getMinimalPrice()->getValue();
+				break;
+			case 'grouped':
+				$usedProds = $_product->getTypeInstance(true)->getAssociatedProducts($_product);            
+				foreach ($usedProds as $child) {
+					if ($child->getId() != $_product->getId()) {
+						$regularPrice += $child->getPrice();
+						$specialPrice += $child->getFinalPrice();
+					}
+				}
+				break;
+			default:
+				$regularPrice = $_product->getPriceInfo()->getPrice('regular_price')->getValue();
+				$specialPrice = $_product->getPriceInfo()->getPrice('special_price')->getValue();
+		}  
+		if($regularPrice != $specialPrice){
+			$discount = ($specialPrice * 100) / $regularPrice;
+			return round($discount);
+		}
+		return 0;
+	}
+	
+	public function isNew ($_product){
+        $newsFromDate = $_product->getNewsFromDate();
+        $newsToDate = $_product->getNewsToDate();
+        if (!$newsFromDate) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * get collection of best-seller products
+     * @return mixed
+     */
+    public function checkBestseller($_product)
+    {
+        $bestSellers = $this->_bestSellersCollectionFactory->create()
+            ->setPeriod('month');
+
+        foreach ($bestSellers as $product) {
+			if($product->getProductId() == $_product->getId()){
+				return true;
+			}
+        }
+
+		return false;
+    }
  
 }

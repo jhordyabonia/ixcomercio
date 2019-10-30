@@ -261,6 +261,7 @@ define([
                 $(document).trigger('ajax:removeFromCart', {
                     productIds: [productData['product_id']]
                 });
+                location.reload();
             }
         },
 

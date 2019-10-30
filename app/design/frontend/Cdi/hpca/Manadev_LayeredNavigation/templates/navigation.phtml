@@ -19,6 +19,7 @@
 
         <div class="block-content filter-content">
             <?php if ($block->hasState() && $block->isAppliedFilterVisible()) : ?>
+                <!--
                 <div class="filter-current">
                     <strong class="block-subtitle filter-current-subtitle" role="heading" aria-level="2" data-count="<?php echo $block->getAppliedOptionCount() ?>"><?php echo __('Now Shopping by') ?></strong>
                     <ol class="items">
@@ -29,10 +30,11 @@
                         <?php endforeach; ?>
                     </ol>
                 </div>
-
+                
                 <div class="block-actions filter-actions">
                     <a href="<?php echo $block->getClearUrl() ?>"<?php echo $block->getClearLinkAttributes() ?> class="action clear filter-clear"><span><?php echo __('Clear All') ?></span></a>
                 </div>
+                -->
             <?php endif; ?>
 
             <!--<strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?>

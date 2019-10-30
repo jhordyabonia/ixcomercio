@@ -65,6 +65,7 @@ class GetPlaces {
 
     public function execute() 
     {
+        $this->logger->info('GetPlaces - entra a cron ');
         //Se declaran variables de la tierra
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -79,12 +80,12 @@ class GetPlaces {
                 foreach ($stores as $store) {
                     //Se obtienen parametros de configuración por Store
                     $configData = $this->getConfigParams($storeScope, $store->getCode()); 
-
+                    $this->logger->info('GetPlaces - store '.$store->getCode());
                     $serviceUrl = $this->getServiceUrl($configData, 'getplaces', false);   
                     $this->logger->info('GetPlaces - url '.$serviceUrl);
                     if($serviceUrl){
                         try{
-                            $this->beginGetPlaces($configData, $serviceUrl, $storeManager->getStore()->getCode(), 0, 'region');
+                            $this->beginGetPlaces($configData, $serviceUrl, $store->getCode(), 0, 'region');
                         } catch(Exception $e){
                             $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
                         }
@@ -174,11 +175,12 @@ class GetPlaces {
     }
 
     //Función recursiva para intentos de conexión
-    public function beginGetPlacess($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
+    public function beginGetPlaces($configData, $serviceUrl, $storeCode, $attempts, $type, $parent_id = null) {
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, 'GetPlaces');
+        $data = $this->loadIwsService($serviceUrl);
         if($data['status']){
             if(count($data['resp'])>0){
+                $this->logger->info('GetPlaces - Se obtuvo respuesta del servicio');
                 //Mapear lugares de magento con IWS en tabla custom
                 $this->loadPlaces($configData, $storeCode, $data['resp'], $type, $parent_id);
             } else{
@@ -206,11 +208,9 @@ class GetPlaces {
 
     //Función que carga las regiones asociadas a un pais y una tienda en especifico
     public function loadPlaces($configData, $storeCode, $data, $type, $parent_id = null) {
-        die();
         //Se leen datos de la respuesta
         $places = array();
-        /*foreach ($data as $key => $region) {
-            exit();
+        foreach ($data as $key => $region) {
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
             //Se verifica si existe el registro para el pais y la tienda
@@ -232,7 +232,9 @@ class GetPlaces {
             $this->beginGetPlaces($configData, $serviceUrl, $storeCode, 0, $type2, $id);
             //Se verifican los registros que no cumplan para dejarlos con estado 0
         }
-        $this->checkPlaces($places, $configData, $storeCode, $type);*/
+        if(count($places)>0){
+            $this->checkPlaces($places, $configData, $storeCode, $type);
+        }
     }
 
     //Consulta la tabla custom de places y verifica si la region existe
@@ -362,13 +364,13 @@ class GetPlaces {
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
             if(!array_key_exists ( $data['trax_id'] , $places )){
-                $this->disablePlace($data['trax_id'], $type);
+                $this->disablePlace($data['id'], $data['trax_id'], $type);
             }
         }
     }
 
     //Actualiza un place
-    public function disablePlace($id, $type) 
+    public function disablePlace($id, $trax_id, $type) 
     {   
         switch($type){
             case 'region':
@@ -384,9 +386,9 @@ class GetPlaces {
             ]);
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('GetPlaces - Se actualizo el place de tipo '.$type.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se deshabilito el place de tipo '.$type.' con id de trax: '.$trax_id);
         } else {
-            $this->logger->info('GetPlaces - Se produjo un error al actualizar el place de tipo '.$type.' con id de trax: '.$id);
+            $this->logger->info('GetPlaces - Se produjo un error al deshabilitar el place de tipo '.$type.' con id de trax: '.$id);
         }
     }
 

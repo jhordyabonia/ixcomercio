@@ -9,6 +9,61 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
+	    // Height catalog items list
+	    // =============================================
+
+	    if($(".products-grid .product-items").length){
+	      var list = $(".products-grid .product-items > .item");
+	      var listImage = $(list).find(".product-image-wrapper");
+	      var listName = $(list).find(".product-name");
+	      var listFamily = $(list).find(".atributo-familia");
+	      var listPrice = $(list).find(".price-box");
+	      var arrayList = [];
+	      var arrayImage = [];
+	      var arrayName = [];
+	      var arrayFamily = [];
+	      var arrayPrice = [];
+
+	      setTimeout(function(){
+	        //Image
+	        jQuery.each(listImage, function(i, val){
+	          arrayImage.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayImage);
+	        jQuery(listImage).css("minHeight", Math.max.apply(Math,arrayImage)+"px");
+
+	        //Name
+	        jQuery.each(listName, function(i, val){
+	          arrayName.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayName);
+	        jQuery(listName).css("minHeight", Math.max.apply(Math,arrayName)+"px");
+
+	        //Family
+	        jQuery.each(listFamily, function(i, val){
+	          arrayFamily.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayFamily);
+	        jQuery(listFamily).css("minHeight", Math.max.apply(Math,arrayFamily)+"px");
+
+	        //Price
+	        jQuery.each(listPrice, function(i, val){
+	          arrayPrice.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayPrice);
+	        jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
+
+	        //Item
+	        jQuery.each(list, function(i, val){
+	          arrayList.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayList);
+	        jQuery(list).css("height", Math.max.apply(Math,arrayList)+"px");
+	      },500);
+	    }
+
+
+		// =============================================
 	    // Quantity Controls
 	    // =============================================
 	    
@@ -58,7 +113,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 	    // =============================================
-	    // Add * to inout required
+	    // Add * to input required
 	    // =============================================
 
 	    var required = $('input.required-entry, select.required-entry');

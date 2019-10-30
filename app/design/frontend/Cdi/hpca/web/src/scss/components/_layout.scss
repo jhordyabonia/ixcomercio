@@ -24,11 +24,12 @@
   margin: 40px 0 20px;
   .page-title{
     font-weight: bold;
-    color: $mainColor;
+    color: #000;
     margin: 0;
   }
 }
 .category-description{
+  color: #666666;
   p{
     font-size: 18px;
     line-height: 24px;
@@ -42,7 +43,9 @@ section{
     text-align: left;
     .title-section{
       color: #000;
-      font-size: 36px;
+      font-size: 34px;
+      font-family: 'HpRegular';
+      font-weight: bold;
       margin: 0;
       ~ p {
         margin: 15px 0 0;
@@ -331,7 +334,8 @@ section{
     .panel{
       border-radius: 0;
       box-shadow: none;
-      border-bottom: 0;
+      border: 0;
+      border-top: 1px solid #ddd;
       &.panel-default{
         >.panel-heading{
           text-align: left;
@@ -355,6 +359,9 @@ section{
                 background: url(../images/arrow-up-maincolor.png) no-repeat 95% center;
                 background-size: 14px;
               }
+              &:hover{
+                color: $mainColor;
+              }
             }
           }
         }
@@ -366,6 +373,8 @@ section{
             text-align: left;
             .items{
               .item{
+                position: relative;
+                padding-right: 25px;
                 a{
                   color: #000;
                   .count{
@@ -373,21 +382,23 @@ section{
                     font-size: 12px;
                   }
                   .icon-check{
-                    width: 15px;
-                    height: 15px;
-                    background: none;
-                    border: 1px solid #bbb;
-                    border-radius: 2px;
-                    margin: 5px 5px 0 0;
+                    width: 18px;
+                    height: 18px;
+                    background: #fff;
+                    border: 1px solid $mainColor;
+                    margin: 5px 0 0;
                     float: left;
+                    position: absolute;
+                    right: 0;
+                    border-radius: 50%;
                   }
                 }
                 &.mana-selected{
                   a .icon-check{
-                    background: url(../images/check-white.png) no-repeat center;
+                    background: url(../images/check-blue.png) no-repeat center;
+                    background-color: #fff;
                     background-size: 10px;
-                    background-color: $redcolor;
-                    border: 1px solid $redcolor;
+                    border: 1px solid $mainColor;
                   }
                 }
               }
@@ -405,7 +416,7 @@ section{
     .product-items{
       width: 100%;
       float: left;
-      .item{
+      > .item{
         width: 30%;
         max-width: initial;
         margin: 0 1.66% 30px;
@@ -511,6 +522,7 @@ section{
     padding: 8px 25px 8px 8px;
     background: url(../images/arrow-down-black.png) no-repeat 95% center;
     background-size: 14px;
+    border-radius: 6px;
   }
 }
 /*---BUTTONS---*/
@@ -521,6 +533,7 @@ section{
     text-transform: uppercase;
     transition: .5s all ease;
     font-weight: 400;
+    border-radius: 0 8px; 
     border: 0;
     &:hover{
       background: #000;
