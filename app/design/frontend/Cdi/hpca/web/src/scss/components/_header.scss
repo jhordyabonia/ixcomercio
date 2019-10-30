@@ -130,6 +130,15 @@ header{
             }
             > ul{
               float: left;
+              &.list-registered-user{
+                > ul{
+                  display: none;
+                  background: #fff;
+                  border-radius: 0 0 5px 5px;
+                  text-align: center;
+                  padding-right: 10px;
+                }
+              }
             }
             .wishlist{
               float: left;
