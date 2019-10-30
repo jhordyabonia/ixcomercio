@@ -162,6 +162,9 @@ header{
                     float: left;
                     width: 100%;
                     padding: 5px;
+                    &:hover{
+                      background: #e8e8e8;
+                    } 
                   }
                 }
                 &:hover{
@@ -181,9 +184,6 @@ header{
                 background-size: 100%;
                 overflow: hidden;
                 text-indent: 100%;
-                &:hover{
-                  background: #e8e8e8;
-                }
               }
             }
           }
