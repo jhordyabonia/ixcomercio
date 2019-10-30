@@ -131,11 +131,14 @@ header{
             > ul{
               float: left;
               &.list-registered-user{
-                margin-right: 20px;
-                padding-right: 30px;
-                &:after{
+                margin: 0 20px 0;
+                padding: 4px 30px 0 0;
+                position: relative;
+                cursor: pointer;
+                &:before{
+                  top: 0;
                   right: 0;
-                  color: #000;
+                  color: #999;
                   font-size: 28px;
                   font-weight: bold;
                   content: '\e622';
@@ -150,6 +153,11 @@ header{
                   border-radius: 0 0 5px 5px;
                   text-align: center;
                   padding-right: 10px;
+                }
+                &:hover{
+                  > ul{
+                    display: block;
+                  }
                 }
               }
             }
