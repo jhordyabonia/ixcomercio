@@ -5,9 +5,11 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
     <?php if($customerSession->isLoggedIn()) { ?>
         <ul> 
             <li><?php echo __('Hello')?>, <?php echo $customerSession->getCustomer()->getName() ?></li>
-            <a href="<?php echo $customerSession->getAccountUrl() ?>"><li><?php echo __('My Account') ?></li></a>
-            <a href="<?php echo $this->getUrl('sales/order/history') ?>"><li><?php echo __('My Orders') ?></li></a>
-            <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Sign Out') ?></li></a>
+            <ul>
+                <a href="<?php echo $customerSession->getAccountUrl() ?>"><li><?php echo __('My Account') ?></li></a>
+                <a href="<?php echo $this->getUrl('sales/order/history') ?>"><li><?php echo __('My Orders') ?></li></a>
+                <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Sign Out') ?></li></a>
+            </ul>
         </ul>
         <span data-bind="scope: 'wishlist'" class="link wishlist">
             <a href="<?php echo $this->getUrl('wishlist') ?>">
