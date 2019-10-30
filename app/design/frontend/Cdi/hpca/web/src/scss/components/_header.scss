@@ -132,7 +132,7 @@ header{
               float: left;
               &.list-registered-user{
                 margin: 0 20px 0;
-                padding: 4px 30px 0 0;
+                padding: 4px 30px 4px 0;
                 position: relative;
                 cursor: pointer;
                 &:before{
@@ -148,11 +148,21 @@ header{
                   position: absolute;
                 }
                 > ul{
+                  left: 0;
+                  top: 100%;
                   display: none;
                   background: #fff;
                   border-radius: 0 0 5px 5px;
                   text-align: center;
-                  padding-right: 10px;
+                  padding: 10px;
+                  position: absolute;
+                  box-shadow: 0 0 5px rgba(0,0,0,.2);
+                  z-index: 9;
+                  a{
+                    float: left;
+                    width: 100%;
+                    padding: 5px;
+                  }
                 }
                 &:hover{
                   > ul{
