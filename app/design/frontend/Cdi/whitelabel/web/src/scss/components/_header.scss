@@ -80,6 +80,12 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            .options .action.toggle{
+              &:after, &.active:after{
+                font-size: 26px;
+                color: $mainColor;
+              }
+            }
             .switcher-dropdown{
               left: 50%;
               width: 100px;
