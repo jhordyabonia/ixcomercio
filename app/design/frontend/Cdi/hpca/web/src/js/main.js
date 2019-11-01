@@ -196,7 +196,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    var fieldCountry = $('form .fieldset > .field.country #country');
 	    $( fieldCountry ).change(function() {
-		  	getStates();
+		  	$.ajax({
+		        url: '/places/search/',
+		        type: 'GET',
+		        dataType: 'json',
+		        success: function(res) {
+		            $.each(res, function(iRes, valRes){
+		            	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
+		                $(val).show();
+		            });
+		        }
+		    });
 		});
 	});
 
