@@ -210,6 +210,28 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 		    });
 		});
+
+
+		// =============================================
+	    // Get cities
+	    // =============================================
+	    
+	    var fieldCity = $('form .fieldset > .field.city #city_id');
+
+	    fieldState.on('change', function (e) {
+	      $.ajax({
+	        url: '/places/search/',
+	        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(res) {
+	          $(fieldCity).find('option:not([value=""])').remove();
+	          $.each(res, function(i, val){
+	            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+	          });
+	        }
+	      });
+	    });
 	});
 
 	
