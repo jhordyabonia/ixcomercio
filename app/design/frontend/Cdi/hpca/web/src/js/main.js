@@ -203,7 +203,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        success: function(res) {
 		            $.each(res, function(iRes, valRes){
 		            	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
-		                $(val).show();
 		            });
 		        }
 		    });
