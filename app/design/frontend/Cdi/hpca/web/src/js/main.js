@@ -195,12 +195,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    }
 
 	    var fieldCountry = $('form .fieldset > .field.country #country');
-	    fieldState.on('change', function (e) {
-	      getStates();
-	    }
-
-
-
+	    $( fieldCountry ).change(function() {
+		  	getStates();
+		});
 	});
 
 	
