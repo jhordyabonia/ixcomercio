@@ -205,6 +205,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		            	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
 		            });
 		            $(fieldState).show();
+		            $(fieldState).attr("disabled", false);
 		            $("input#region").hide();
 		        }
 		    });
