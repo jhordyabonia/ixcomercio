@@ -204,6 +204,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		            $.each(res, function(iRes, valRes){
 		            	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
 		            });
+		            $(fieldState).show();
+		            $("input#region").hide();
 		        }
 		    });
 		});
