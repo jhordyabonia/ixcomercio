@@ -155,6 +155,83 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    }
 			});
 		}
+
+
+		// =============================================
+	    // Get states
+	    // =============================================
+
+	    var fieldState = $('form .fieldset > .field.region #region_id');
+	    var stateOptions;
+	    var intervalState;
+
+	    function getStates(){
+	      $.ajax({
+	        url: '/places/search/',
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(res) {
+	          $.each(stateOptions, function(i, val){
+	            var optionName = $(val).text();
+	            $.each(res, function(iRes, valRes){
+	              if(valRes.Name == optionName){
+	                $(val).attr("parentId", valRes.Id);
+	                $(val).show();
+	              }
+	            });
+	          });
+	        }
+	      });      
+	    }
+
+	    if($(fieldState).length){
+	      intervalState = setInterval(function(){
+	        stateOptions = $(fieldState).find('option');
+	        if($(stateOptions).length >= 2){
+	          getStates();
+	          clearInterval(intervalState);
+	        }
+	      }, 1000);
+	    }
+
+	    var fieldCountry = $('form .fieldset > .field.country #country');
+	    $( fieldCountry ).change(function() {
+		  	$.ajax({
+		        url: '/places/search/',
+		        type: 'GET',
+		        dataType: 'json',
+		        success: function(res) {
+		            $.each(res, function(iRes, valRes){
+		            	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
+		            });
+		            $(fieldState).show();
+		            $(fieldState).attr("disabled", false);
+		            $("input#region").hide();
+		        }
+		    });
+		});
+
+
+		// =============================================
+	    // Get cities
+	    // =============================================
+	    
+	    var fieldCity = $('form .fieldset > .field.city #city_id');
+
+	    fieldState.on('change', function (e) {
+	      $.ajax({
+	        url: '/places/search/',
+	        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(res) {
+	          $(fieldCity).find('option:not([value=""])').remove();
+	          $.each(res, function(i, val){
+	            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+	          });
+	        }
+	      });
+	    });
 	});
 
 	
