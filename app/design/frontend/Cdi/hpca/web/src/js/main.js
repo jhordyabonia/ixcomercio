@@ -155,6 +155,52 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    }
 			});
 		}
+
+
+		// =============================================
+	    // Get states
+	    // =============================================
+
+	    var fieldState = $('form .fieldset > .field.region #region_id');
+	    var stateOptions;
+	    var intervalState;
+
+	    function getStates(){
+	      $.ajax({
+	        url: '/places/search/',
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(res) {
+	          $.each(stateOptions, function(i, val){
+	            var optionName = $(val).text();
+	            $.each(res, function(iRes, valRes){
+	              if(valRes.Name == optionName){
+	                $(val).attr("parentId", valRes.Id);
+	                $(val).show();
+	              }
+	            });
+	          });
+	        }
+	      });      
+	    }
+
+	    if($(fieldState).length){
+	      intervalState = setInterval(function(){
+	        stateOptions = $(fieldState).find('option');
+	        if($(stateOptions).length >= 2){
+	          getStates();
+	          clearInterval(intervalState);
+	        }
+	      }, 1000);
+	    }
+
+	    var fieldCountry = $('form .fieldset > .field.country #country');
+	    fieldState.on('change', function (e) {
+	      getStates();
+	    }
+
+
+
 	});
 
 	
