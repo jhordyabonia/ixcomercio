@@ -134,3 +134,4 @@ var/
 old.*
 app/etc/
 
+composer.json
