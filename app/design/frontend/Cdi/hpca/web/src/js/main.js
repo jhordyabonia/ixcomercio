@@ -255,13 +255,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // Print select Address checkout
 	    // =============================================
 	    function getStatesCheckout(){
-	    	$(fieldStateCheckout).find('input').hide();
-
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
+			    	$(fieldStateCheckout).find('input').hide();
 			    	var html = '<select class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">Please select a region, state or province.</option>';
 
