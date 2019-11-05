@@ -302,7 +302,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 				    $('#fieldCityCheckout').on('change', function (e) {
 						var valCity = $(fieldCityCheckout).find('select').val();
-						$(fieldCityCheckout).find('input').val(valCity);
+						$(fieldCityCheckout).find('input').val(valCity).text(valCity);
 				    });
 			    }
 			});
