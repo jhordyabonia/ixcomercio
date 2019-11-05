@@ -302,8 +302,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 				    $('#fieldCityCheckout').on('change', function (e) {
 						var valCity = $(fieldCityCheckout).find('select option:selected');
-						$(fieldCityCheckout).find('input').text($(valCity).text());
-						$(fieldCityCheckout).find('input').val($(valCity).val());
+						console.log("text " + $(valCity).text());
+						console.log("value " + $(valCity).val());
+						//$(fieldCityCheckout).find('input').text($(valCity).text());
+						//$(fieldCityCheckout).find('input').val($(valCity).val());
 				    });
 			    }
 			});
