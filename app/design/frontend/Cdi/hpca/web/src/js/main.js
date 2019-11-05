@@ -254,14 +254,18 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var fieldCityCheckout;
 	    function getStatesCheckout(){
+	    	fieldCityCheckout = $('form .fieldset > .field[name="shippingAddress.city"] .control');
+
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
 			    	$(fieldStateCheckout).find('input').hide();
-			    	var html = '<select class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+			    	$(fieldCityCheckout).find('input').hide();
+			    	var html = '<select onchange="getCitiesCheckout(this);" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">Please select a region, state or province.</option>';
 
 			        $.each(res, function(iRes, valRes){
@@ -271,6 +275,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			        html += '</select>';
 
 	    			$(fieldStateCheckout).append(html);
+
+	    			var htmlCities = '<select class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
+	    							'<option data-title="" value="">Please select a city.</option>'+
+	    							'</select>';
+	    			$(fieldStateCheckout).append(htmlCities);
 			    }
 			});
 	    }
@@ -284,6 +293,25 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
+	    }
+
+
+	    // =============================================
+	    // Print select City checkout
+	    // =============================================
+	    function getCitiesCheckout(obj){
+	    	$.ajax({
+				url: '/places/search/',
+				data: 'parentId='+obj.find('option:selected').attr('parentId'),
+				type: 'GET',
+				dataType: 'json',
+				success: function(res) {
+				  $(fieldCityCheckout).find('option:not([value=""])').remove();
+				  $.each(res, function(i, val){
+				    $(fieldCityCheckout).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+				  });
+				}
+			});
 	    }
 	
 	});
