@@ -278,10 +278,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
-	    	console.log("state checkout " + fieldStateCheckout.length);
+	    	console.log("state checkout " + fieldStateCheckout.length());
     		intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
-    			console.log("state checkout " + fieldStateCheckout.length);
+    			console.log("state checkout " + fieldStateCheckout.length());
 		        if($(fieldStateCheckout).length >= 1){
 		        	console.log("existe field checkout");
 		          	getStatesCheckout();
