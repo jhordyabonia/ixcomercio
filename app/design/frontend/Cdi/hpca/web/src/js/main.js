@@ -301,8 +301,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    });
 
 				    $('#fieldCityCheckout').on('change', function (e) {
-						var valCity = $(fieldCityCheckout).find('select').val();
-						$(fieldCityCheckout).find('input').val(valCity).text(valCity);
+						var valCity = $(fieldCityCheckout).find('select option:selected');
+						$(fieldCityCheckout).find('input').val($(valCity).val()).text($(valCity).text());
 				    });
 			    }
 			});
