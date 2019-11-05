@@ -265,7 +265,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    success: function(res) {
 			    	$(fieldStateCheckout).find('input').hide();
 			    	$(fieldCityCheckout).find('input').hide();
-			    	var html = '<select onchange="getCitiesCheckout(this);" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+			    	var html = '<select id="fieldStateCheckout" onchange="getCitiesCheckout();" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">Please select a region, state or province.</option>';
 
 			        $.each(res, function(iRes, valRes){
@@ -299,10 +299,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select City checkout
 	    // =============================================
-	    function getCitiesCheckout(obj){
+	    function getCitiesCheckout(){
 	    	$.ajax({
 				url: '/places/search/',
-				data: 'parentId='+obj.find('option:selected').attr('parentId'),
+				data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
 				type: 'GET',
 				dataType: 'json',
 				success: function(res) {
