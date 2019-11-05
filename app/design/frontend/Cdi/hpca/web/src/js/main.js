@@ -276,7 +276,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    			$(fieldStateCheckout).append(html);
 
-	    			var htmlCities = '<select class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
+	    			var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
@@ -298,6 +298,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							  });
 							}
 						});
+				    });
+
+				    $('#fieldCityCheckout').on('change', function (e) {
+						var valCity = $(fieldCityCheckout).find('select').val();
+						$(fieldCityCheckout).find('input').val(valCity);
 				    });
 			    }
 			});
