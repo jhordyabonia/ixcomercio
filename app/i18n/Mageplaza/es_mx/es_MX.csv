@@ -4591,7 +4591,7 @@ new products will be created. Use this step to customize images and price for yo
 "Searchable","Buscable",module,Magento_ConfigurableProductStaging
 "Comparable","Comparable",module,Magento_ConfigurableProductStaging
 "Page not found.","Página no encontrada.",module,Magento_Contact
-"Thanks for contacting us with your comments and questions. We'll respond to you very soon.","Gracias por contactarnos con sus comentarios y preguntas. Pronto le responderemos.",module,Magento_Contact
+"Thanks for contacting us with your comments and questions. We'll respond to you very soon.","Gracias por contactarnos con tus comentarios y preguntas. Pronto te responderemos.",module,Magento_Contact
 "An error occurred while processing your form. Please try again later.","Se produjo un error al procesar su formulario. Por favor, inténtelo de nuevo más tarde.",module,Magento_Contact
 "Name is missing","Falta el nombre",module,Magento_Contact
 "Comment is missing","Falta el comentario",module,Magento_Contact
@@ -5047,9 +5047,9 @@ new products will be created. Use this step to customize images and price for yo
 "Zip/Postal Code","Código Postal",module,Magento_Customer
 "Country","País",module,Magento_Customer
 "It's a default billing address.","Es una dirección de facturación predeterminada.",module,Magento_Customer
-"Use as my default billing address","Utilice como mi dirección de facturación por defecto",module,Magento_Customer
+"Use as my default billing address","Utilizar como mi dirección de facturación por defecto",module,Magento_Customer
 "It's a default shipping address.","Es una dirección de envío predeterminada.",module,Magento_Customer
-"Use as my default shipping address","Utilice como mi dirección de envío predeterminada",module,Magento_Customer
+"Use as my default shipping address","Utilizar como mi dirección de envío predeterminada",module,Magento_Customer
 "Save Address","Guardar dirección",module,Magento_Customer
 "Go back","Retroceder",module,Magento_Customer
 "Please enter your email below and we will send you the confirmation link.","Introduce tu email debajo y te enviaremos el enlace de confirmación.",module,Magento_Customer
@@ -5094,10 +5094,10 @@ new products will be created. Use this step to customize images and price for yo
 "Email:","Email:",module,Magento_Customer
 "Password:","Contraseña:",module,Magento_Customer
 "Password you set when creating account","Contraseña que ingresaste al crear la cuenta",module,Magento_Customer
-"Forgot your account password? Click <a href=""%reset_url"">here</a> to reset it.","¿Olvidó la contraseña de su cuenta? Haga clic <a href=""%reset_url""> aquí</a> para restablecerla.",module,Magento_Customer
+"Forgot your account password? Click <a href=""%reset_url"">here</a> to reset it.","¿Olvidaste la contraseña de tu cuenta? Haz clic <a href=""%reset_url""> aquí</a> para restablecerla.",module,Magento_Customer
 "When you sign in to your account, you will be able to:","Cuando inicie sesión en su cuenta, podrá:",module,Magento_Customer
-"Proceed through checkout faster","Procede a través del checkout más rápido",module,Magento_Customer
-"Check the status of orders","Compruebe el estado de los pedidos",module,Magento_Customer
+"Proceed through checkout faster","Proceder a través del checkout más rápido",module,Magento_Customer
+"Check the status of orders","Comprobar el estado de los pedidos",module,Magento_Customer
 "View past orders","Ver órdenes anteriores",module,Magento_Customer
 "Store alternative addresses (for shipping to multiple family members and friends)","Almacenar direcciones alternativas (para el envío a varios miembros de la familia y amigos)",module,Magento_Customer
 "Please confirm your %store_name account","Por favor confirma tu cuenta de %store_name",module,Magento_Customer
@@ -9011,7 +9011,7 @@ information on installing the agent is available <a target=""_blank"" href=""%1"
 " Copy","Copia",module,Magento_Newsletter
 "Are you sure you want to delete this template?","¿Realmente quiere borrar esta plantilla?",module,Magento_Newsletter
 "Sign Up for Our Newsletter:","Inscríbase a nuestro boletín de noticias:",module,Magento_Newsletter
-"Enter your email address","Introduzca su dirección de correo electrónico",module,Magento_Newsletter
+"Enter your email address","Registra tu dirección de correo electrónico",module,Magento_Newsletter
 "Subscribe","Suscribirse",module,Magento_Newsletter
 "Newsletter subscription confirmation","Confirmación de la suscripción al boletín informativo",module,Magento_Newsletter
 "Thank you for subscribing to our newsletter.","Gracias por suscribirte a nuestro boletín.",module,Magento_Newsletter
@@ -12817,8 +12817,8 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Enter discount code","Introducir código de descuento",module,Magento_SalesRule
 "Apply Discount","Aplicar descuento",module,Magento_SalesRule
 "Cancel coupon","Cancelar el cupón",module,Magento_SalesRule
-"Your coupon was successfully removed.","Su cupón fue removido con éxito.",module,Magento_SalesRule
-"Your coupon was successfully applied.","Su cupón fue aplicado con éxito.",module,Magento_SalesRule
+"Your coupon was successfully removed.","Tu cupón fue removido con éxito.",module,Magento_SalesRule
+"Your coupon was successfully applied.","Tu cupón fue aplicado con éxito.",module,Magento_SalesRule
 "Promotion","Promoción",module,Magento_SalesRule
 "Auto Generated Specific Coupon Codes","Códigos de cupones específicos generados automáticamente",module,Magento_SalesRule
 "Web Site","Sitio web",module,Magento_SalesRule
@@ -16406,3 +16406,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "The widget %1 is no longer available. Select a different widget.","El widget %1 ya no está disponible. Seleccione un widget diferente.",lib,web
 "First character must be letter.","El primer carácter debe ser una letra.",lib,web
 "The password can't be the same as the email address. Create a new password and try again.","La contraseña no puede ser la misma que la dirección de correo electrónico. Crear una nueva contraseña y vuelva a intentarlo.",lib,web
+"Back to home","Regresar",lib,web
+"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe.",lib,web

@@ -5,7 +5,7 @@ var config = {
 		}
 	},
     paths: {
-    	"bootstrap": "Magento_Theme/js/bootstrap.bundle",
+    	"bootstrap": "js/bootstrap.bundle",
       "mainJs": "Magento_Theme/js/main.min"
     },
     shim: {
