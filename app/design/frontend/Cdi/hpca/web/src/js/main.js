@@ -286,16 +286,15 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    // Print select City checkout
 				    // =============================================
 				    $('#fieldStateCheckout').on('change', function (e) {
-				    	console.log("change");
-				      	$.ajax({
+				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
 							success: function(res) {
-							  $(fieldCityCheckout).find('option:not([value=""])').remove();
+							  $(fieldCityCheckout).find('select option:not([value=""])').remove();
 							  $.each(res, function(i, val){
-							    $(fieldCityCheckout).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+							    $(fieldCityCheckout).find('select').append("<option value='"+val.Id+"'>"+val.Name+"</option>");
 							  });
 							}
 						});
