@@ -279,15 +279,20 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    }
 
 	    if (window.location.href.indexOf("checkout") > -1) {
-			if($(fieldStateCheckout).length){
-		    	intervalState = setInterval(function(){
-			        var stateOptionsCheckout = $(fieldStateCheckout).find('option');
-			        if($(stateOptionsCheckout).length <= 0){
-			          	getStatesCheckout();
-			          	clearInterval(intervalState);
-			        }
-		      	}, 1000);
-		    }
+	    	console.log("length " + fieldStateCheckout.length);
+	    	setTimeout (function(){
+	    		if($(fieldStateCheckout).length){
+	    			console.log("length");
+			    	intervalState = setInterval(function(){
+				        var stateOptionsCheckout = $(fieldStateCheckout).find('option');
+				        console.log(stateOptionsCheckout);
+				        if($(stateOptionsCheckout).length <= 0){
+				          	getStatesCheckout();
+				          	clearInterval(intervalState);
+				        }
+			      	}, 1000);
+			    }
+	    	},1000);
 	    }
 	
 	});
