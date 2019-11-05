@@ -279,7 +279,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    			var htmlCities = '<select class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
-	    			$(fieldStateCheckout).append(htmlCities);
+	    			$(fieldCityCheckout).append(htmlCities);
 			    }
 			});
 	    }
