@@ -303,6 +303,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    $('#fieldCityCheckout').on('change', function (e) {
 						var valCity = $(fieldCityCheckout).find('select option:selected');
 						$(fieldCityCheckout).find('input').val($(valCity).text());
+						$(fieldCityCheckout).find('input').keyup();
 				    });
 			    }
 			});
