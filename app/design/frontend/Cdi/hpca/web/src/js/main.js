@@ -282,7 +282,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			if($(fieldStateCheckout).length){
 		    	intervalState = setInterval(function(){
 			        var stateOptionsCheckout = $(fieldStateCheckout).find('option');
-			        if($(stateOptions).length <= 0){
+			        if($(stateOptionsCheckout).length <= 0){
 			          	getStatesCheckout();
 			          	clearInterval(intervalState);
 			        }
