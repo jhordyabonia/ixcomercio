@@ -222,8 +222,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	      }, 1000);
 	    }
 	    
-
-
 	    var fieldCountry = $('form .fieldset > .field.country #country');
 	    $( fieldCountry ).change(function() {
 		  	getStates2();
@@ -234,7 +232,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Get cities
 	    // =============================================
-	    /*
+	    
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
 
 	    fieldState.on('change', function (e) {
@@ -251,7 +249,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	        }
 	      });
 	    });
-	    */
+	
 	});
 
 	
