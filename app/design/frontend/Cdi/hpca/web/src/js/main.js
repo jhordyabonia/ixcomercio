@@ -242,12 +242,16 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	        type: 'GET',
 	        dataType: 'json',
 	        success: function(res) {
-	          $(fieldCity).find('option:not([value=""])').remove();
-	          $.each(res, function(i, val){
-	            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
-	          });
-	        }
-	      });
+		        $(fieldCity).find('option:not([value=""])').remove();
+		        	$.each(res, function(i, val){
+		            	$(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+		          	});
+	        	}
+	      	});
+
+	      	var valState = $(fieldState).find('select option:selected');
+			$(fieldState).find('input').val($(valState).text());
+			$(fieldState).find('input').keyup();
 	    });
 
 
