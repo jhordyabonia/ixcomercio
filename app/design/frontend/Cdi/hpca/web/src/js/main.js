@@ -254,8 +254,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
-	    if (window.location.href.indexOf("checkout") > -1) {
-	    	var fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
+	    var fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
+
+	    function getStatesCheckout(){
 	    	$(fieldStateCheckout).find('input').hide();
 
 	    	$.ajax({
@@ -275,6 +276,18 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    			$(fieldStateCheckout).append(html);
 			    }
 			});
+	    }
+
+	    if (window.location.href.indexOf("checkout") > -1) {
+			if($(fieldStateCheckout).length){
+		    	intervalState = setInterval(function(){
+			        var stateOptionsCheckout = $(fieldStateCheckout).find('option');
+			        if($(stateOptions).length <= 0){
+			          	getStatesCheckout();
+			          	clearInterval(intervalState);
+			        }
+		      	}, 1000);
+		    }
 	    }
 	
 	});
