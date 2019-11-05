@@ -265,7 +265,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    success: function(res) {
 			    	$(fieldStateCheckout).find('input').hide();
 			    	$(fieldCityCheckout).find('input').hide();
-			    	var html = '<select id="fieldStateCheckout" onchange="getCitiesCheckout();" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+			    	var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">Please select a region, state or province.</option>';
 
 			        $.each(res, function(iRes, valRes){
@@ -299,8 +299,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select City checkout
 	    // =============================================
-	    function getCitiesCheckout(){
-	    	$.ajax({
+	    $('#fieldStateCheckout').on('change', function (e) {
+	      	$.ajax({
 				url: '/places/search/',
 				data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
 				type: 'GET',
@@ -312,7 +312,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				  });
 				}
 			});
-	    }
+	    });
 	
 	});
 
