@@ -160,8 +160,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Get states
 	    // =============================================
-
-	    var fieldState = $('form .fieldset > .field.region #region_id');
+	    /*
+	    var fieldState = $('form .fieldset > .field.region #region_id, form .fieldset > .field[name="shippingAddress.country_id"] select');
 	    var stateOptions;
 	    var intervalState;
 
@@ -210,12 +210,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 		    });
 		});
+		*/
 
 
 		// =============================================
 	    // Get cities
 	    // =============================================
-	    
+	    /*
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
 
 	    fieldState.on('change', function (e) {
@@ -232,6 +233,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	        }
 	      });
 	    });
+	    */
 	});
 
 	
