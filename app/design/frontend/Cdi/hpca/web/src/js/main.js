@@ -280,6 +280,26 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
+
+
+	    			// =============================================
+				    // Print select City checkout
+				    // =============================================
+				    $('#fieldStateCheckout').on('change', function (e) {
+				    	console.log("change");
+				      	$.ajax({
+							url: '/places/search/',
+							data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
+							type: 'GET',
+							dataType: 'json',
+							success: function(res) {
+							  $(fieldCityCheckout).find('option:not([value=""])').remove();
+							  $.each(res, function(i, val){
+							    $(fieldCityCheckout).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+							  });
+							}
+						});
+				    });
 			    }
 			});
 	    }
@@ -294,25 +314,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 	      	}, 1000);
 	    }
-
-
-	    // =============================================
-	    // Print select City checkout
-	    // =============================================
-	    $('#fieldStateCheckout').on('change', function (e) {
-	      	$.ajax({
-				url: '/places/search/',
-				data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
-				type: 'GET',
-				dataType: 'json',
-				success: function(res) {
-				  $(fieldCityCheckout).find('option:not([value=""])').remove();
-				  $.each(res, function(i, val){
-				    $(fieldCityCheckout).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
-				  });
-				}
-			});
-	    });
 	
 	});
 
