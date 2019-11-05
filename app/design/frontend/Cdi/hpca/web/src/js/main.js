@@ -301,7 +301,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 						var valState = $(fieldStateCheckout).find('select option:selected');
-						$(fieldStateCheckout).find('input').val($(valCity).text());
+						$(fieldStateCheckout).find('input').val($(valState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
