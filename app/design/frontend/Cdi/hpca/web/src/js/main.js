@@ -278,7 +278,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
-	    	console.log("state checkout " + fieldStateCheckout);
+	    	console.log("state checkout " + fieldStateCheckout.length);
     		intervalState = setInterval(function(){
 		        if($(fieldStateCheckout).length >= 1){
 		        	console.log("existe field checkout");
