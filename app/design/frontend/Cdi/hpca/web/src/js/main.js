@@ -256,26 +256,25 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
-	    	fieldStateCheckout.find('input').hide();
-
-	    	var html = '<select class="select" name="state_id" aria-required="true" aria-invalid="false">'+
-	    					'<option data-title="" value="">Please select a region, state or province.</option>';
-	    				
+	    	$(fieldStateCheckout).find('input').hide();
 
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
+			    	var html = '<select class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+	    					'<option data-title="" value="">Please select a region, state or province.</option>';
+
 			        $.each(res, function(iRes, valRes){
 			        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
 			        });
+
+			        html += '</select>';
+
+	    			$(fieldStateCheckout).append(html);
 			    }
 			});
-
-			html += '</select>';
-
-	    	fieldStateCheckout.append(html);
 	    }
 	
 	});
