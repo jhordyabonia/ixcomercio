@@ -31,16 +31,6 @@
                                                             <item name="country_id" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">57</item>
                                                             </item>
-                                                            <item name="custom_region_id" xsi:type="array">                    
-                                                                <item name="sortOrder" xsi:type="string">58</item>
-                                                                <item name="config" xsi:type="array">
-                                                                    <item name="template" xsi:type="string">ui/form/field</item>
-                                                                    <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
-                                                                </item>
-                                                                <item name="validation" xsi:type="array">
-                                                                    <item name="required-entry" xsi:type="boolean">true</item>
-                                                                </item>
-                                                            </item>
                                                             <item name="region_id" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">60</item>
                                                             </item>
