@@ -160,11 +160,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Get states
 	    // =============================================
-	    /*
-	    var fieldState = $('form .fieldset > .field.region #region_id, form .fieldset > .field[name="shippingAddress.country_id"] select');
+	    
+	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
 	    var intervalState;
-
+	    /*
 	    function getStates(){
 	      $.ajax({
 	        url: '/places/search/',
@@ -193,24 +193,42 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	        }
 	      }, 1000);
 	    }
+	    */
+
+
+	    function getStates2(){
+			$.ajax({
+			    url: '/places/search/',
+			    type: 'GET',
+			    dataType: 'json',
+			    success: function(res) {
+			        $.each(res, function(iRes, valRes){
+			        	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
+			        });
+			        $(fieldState).show();
+			        $(fieldState).attr("disabled", false);
+			        $("input#region").hide();
+			    }
+			});
+	    }
+
+	    if($(fieldState).length){
+	      intervalState = setInterval(function(){
+	        stateOptions = $(fieldState).find('option');
+	        if($(stateOptions).length >= 1){
+	          getStates2();
+	          clearInterval(intervalState);
+	        }
+	      }, 1000);
+	    }
+	    
+
 
 	    var fieldCountry = $('form .fieldset > .field.country #country');
 	    $( fieldCountry ).change(function() {
-		  	$.ajax({
-		        url: '/places/search/',
-		        type: 'GET',
-		        dataType: 'json',
-		        success: function(res) {
-		            $.each(res, function(iRes, valRes){
-		            	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
-		            });
-		            $(fieldState).show();
-		            $(fieldState).attr("disabled", false);
-		            $("input#region").hide();
-		        }
-		    });
+		  	getStates2();
 		});
-		*/
+
 
 
 		// =============================================
