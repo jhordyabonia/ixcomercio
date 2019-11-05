@@ -254,8 +254,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
-	    var fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
-
 	    function getStatesCheckout(){
 	    	$(fieldStateCheckout).find('input').hide();
 
@@ -279,8 +277,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    }
 
 	    if (window.location.href.indexOf("checkout") > -1) {
+	    	var fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
+	    	console.log("state checkout " + fieldStateCheckout);
     		intervalState = setInterval(function(){
 		        if($(fieldStateCheckout).length >= 1){
+		        	console.log("existe field checkout");
 		          	getStatesCheckout();
 		          	clearInterval(intervalState);
 		        }
