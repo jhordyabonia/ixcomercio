@@ -13,7 +13,7 @@ define([
     'use strict';
 
     var globalPriceFormat = {
-        requiredPrecision: 2,
+        requiredPrecision: 0,
         integerRequired: 1,
         decimalSymbol: ',',
         groupSymbol: ',',
@@ -78,7 +78,8 @@ define([
 
         am = Number(Math.round(Math.abs(amount - i) + 'e+' + precision) + ('e-' + precision));
         r = (j ? i.substr(0, j) + groupSymbol : '') +
-            i.substr(j).replace(re, '$1' + groupSymbol);
+            i.substr(j).replace(re, '$1' + groupSymbol) +
+            (precision ? decimalSymbol + am.toFixed(precision).replace(/-/, 0).slice(2) : '');
 
         return pattern.replace('%s', r).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
     }
