@@ -111,8 +111,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        $(this).find('.icon').removeClass('icon-down-open').addClass('icon-up-open');
 		        $(this).find('.icon').html('&#xe82f;');
 		        $(this).parent().find('ul').slideDown();
-		      }	
-		    }	      
+		      }
+		    }
 	    });
 
 
