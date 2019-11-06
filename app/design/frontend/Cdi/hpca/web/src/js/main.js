@@ -2,6 +2,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
+		var w_width = $( window ).width();
+		
 		jQuery('#scroll-to-top').click(function(){
 			jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
 			return false;
@@ -94,21 +96,23 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 
 	    $("footer .footer-nav .link-block h4").click(function(){
-	      if($(this).hasClass("open")){
-	        $(this).removeClass("open");
-	        $(this).find('.icon').removeClass('icon-up-open').addClass('icon-down-open');
-	        $(this).find('.icon').html('&#xe82c;');
-	        $(this).parent().find("ul").slideUp();
-	      }else{
-	        $('footer .footer-nav .link-block h4').removeClass('open');
-	        $('footer .footer-nav .link-block ul').slideUp();
-	        $('footer .footer-nav .link-block h4 .icon').removeClass('icon-up-open').addClass('icon-down-open');
-	        $('footer .footer-nav .link-block h4 .icon').html('&#xe82c;');
-	        $(this).addClass('open');
-	        $(this).find('.icon').removeClass('icon-down-open').addClass('icon-up-open');
-	        $(this).find('.icon').html('&#xe82f;');
-	        $(this).parent().find('ul').slideDown();
-	      }
+	    	if(w_width <= 992){
+		    	if($(this).hasClass("open")){
+		        $(this).removeClass("open");
+		        $(this).find('.icon').removeClass('icon-up-open').addClass('icon-down-open');
+		        $(this).find('.icon').html('&#xe82c;');
+		        $(this).parent().find("ul").slideUp();
+		      }else{
+		        $('footer .footer-nav .link-block h4').removeClass('open');
+		        $('footer .footer-nav .link-block ul').slideUp();
+		        $('footer .footer-nav .link-block h4 .icon').removeClass('icon-up-open').addClass('icon-down-open');
+		        $('footer .footer-nav .link-block h4 .icon').html('&#xe82c;');
+		        $(this).addClass('open');
+		        $(this).find('.icon').removeClass('icon-down-open').addClass('icon-up-open');
+		        $(this).find('.icon').html('&#xe82f;');
+		        $(this).parent().find('ul').slideDown();
+		      }	
+		    }	      
 	    });
 
 

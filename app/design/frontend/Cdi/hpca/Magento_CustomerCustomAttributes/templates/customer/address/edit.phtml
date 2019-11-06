@@ -53,11 +53,13 @@
                 <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?></span>
             </label>
             <div class="control">
+                <!--
                 <select id="region_id" name="region_id"
                         title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
                         class="validate-select region_id" <?= /* @noEscape */ !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>>
                     <option value=""><?= $block->escapeHtml(__('Please select a region, state or province.')) ?></option>
                 </select>
+                -->
                 <input type="text"
                        id="region"
                        name="region"
