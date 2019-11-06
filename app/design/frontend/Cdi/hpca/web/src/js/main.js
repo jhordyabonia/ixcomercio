@@ -150,10 +150,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 					0:{
 						items: 1
 					},
-					768:{
+					650:{
 				      	items: 3
 			      	},
-			    	991:{
+			    	992:{
 				      	items: 4
 			      	}
 			    }
