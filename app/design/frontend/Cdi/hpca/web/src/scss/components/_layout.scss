@@ -62,6 +62,9 @@ section{
   }
   .block-category-link{
     margin: 30px 0 0;
+    &.widget{
+      display: inline-block;
+    }
     a{
       min-width: 200px;
       color: $redcolor;
