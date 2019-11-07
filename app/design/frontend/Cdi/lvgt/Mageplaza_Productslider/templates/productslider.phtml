@@ -1,0 +1,135 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_Productslider
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+use Mageplaza\Productslider\Block\AbstractSlider;
+
+/** @var AbstractSlider $block */
+
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+$mode = 'grid';
+$title = $block->getTitle();
+$type = 'widget-product-grid';
+if ($items = $block->getProductCollection()) : ?>
+    <div class="header-section col-xs-12">
+        <h2 class="title-section"><?= $block->getDescription(); //$block->getTitle(); ?></h2>
+        <p><?= $block->getDescription(); ?></p>
+    </div>
+    <div class="block-content col-xs-12">
+        <div class="products-<?= $mode; ?> <?= $mode; ?>">
+            <?php $iterator = 1; ?>
+            <ul class="owl-carousel product-items">    
+                <?php foreach ($items as $_item) :             
+                    $discount = $_helperCdi->getDiscount($_item);
+                ?>
+                    <?= ($iterator++ == 1) ? '<li class="item"">' : '</li><li class="item"">' ?>
+                    <div class="product-item-info">
+                        <a href="<?= $block->getProductUrl($_item) ?>"
+                           class="product-item-photo">
+                            <?= $block->getImage($_item, 'recently_viewed_products_grid_content_widget')->toHtml(); ?>
+                        </a>
+                        <?php if ($discount != 0): ?>
+                            <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
+                        <?php endif; ?>
+                        <?php if ($_helperCdi->isNew($_item)): ?>
+                            <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
+                        <?php endif; ?>
+                        <?php if ($_item->getTypeId() == 'virtual'): ?>
+                            <span class="product-tag download-tag"></span>
+                        <?php endif; ?>
+                        <?php if ($_helperCdi->checkBestseller($_item)): ?>
+                            <span class="product-tag bestseller-tag"></span>
+                        <?php endif; ?>
+                        <div class="product-item-details">
+                            <?php if ($block->canShowReview()) : ?>
+                                <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
+                                $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
+                                <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                                    <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
+                                        <meta itemprop="worstRating" content="1">
+                                        <meta itemprop="bestRating" content="100">
+                                        <span style="width:<?php echo $ratingSummary; ?>%">
+                                            <span itemprop="ratingValue"><?php echo $ratingSummary; ?>%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+
+                            <strong class="product-item-name">
+                                <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                   href="<?= $block->getProductUrl($_item) ?>"
+                                   class="product-item-link">
+                                    <?= $block->escapeHtml($_item->getName()) ?>
+                                </a>
+                            </strong>
+
+                            <?php if ($block->canShowPrice()) : ?>
+                                <?= $block->getProductPrice($_item); ?>
+                            <?php endif; ?>
+
+                            <div class="product-item-actions">
+                                <?php if ($block->canShowAddToCart()) : ?>
+                                    <div class="actions-primary">
+                                        <?php if ($_item->isSaleable()) : ?>
+                                            <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)) : ?>
+                                                <button class="action tocart primary mageplaza-product-slider-button"
+                                                        data-mage-init='{"redirectUrl": {"url": "<?= $block->getAddToCartUrl($_item) ?>"}}'
+                                                        type="button" title="<?= __('Add to Cart') ?>">
+                                                    <span><?= __('Add to Cart') ?></span>
+                                                </button>
+                                            <?php else : ?>
+                                                <?php
+                                                $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+                                                $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
+                                                ?>
+                                                <button class="action tocart primary mageplaza-product-slider-button"
+                                                        data-post='<?= $postData; ?>'
+                                                        type="button" title="<?= __('Add to Cart') ?>">
+                                                    <span><?= __('Add to Cart') ?></span>
+                                                </button>
+                                            <?php endif; ?>
+                                        <?php else : ?>
+                                            <?php if ($_item->getIsSalable()) : ?>
+                                                <div class="stock available">
+                                                    <span><?= __('In stock') ?></span></div>
+                                            <?php else : ?>
+                                                <div class="stock unavailable">
+                                                    <span><?= __('Out of stock') ?></span></div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?= ($iterator === count($items) + 1) ? '</li>' : '' ?>
+                <?php endforeach ?>
+            </ul>
+        </div>
+        <?= $block->getPagerHtml() ?>
+    </div>
+    <script>
+        require(['jquery', 'mageplaza/core/owl.carousel'], function ($) {
+            $('#mp-list-items-<?= $block->getSliderId(); ?>').owlCarousel(<?= $block->getAllOptions()?>);
+        });
+    </script>
+<?php endif; ?>
