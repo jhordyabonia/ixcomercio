@@ -39,6 +39,7 @@
     margin: 0 auto;
     @media only screen and (max-width: $tablet){
       font-size: 14px;
+      line-height: 20px;
     }
   }
 }
@@ -422,7 +423,7 @@ section{
     .product-items{
       width: 100%;
       float: left;
-      .item{
+      > .item{
         width: 30%;
         max-width: initial;
         margin: 0 1.66% 30px;
