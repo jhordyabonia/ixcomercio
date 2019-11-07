@@ -56,6 +56,7 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 			<div class="container">
 				<div class="row">
 				<span><?= /* @escapeNotVerified */ $block->getCopyright() ?></span>
+				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lvgt_links_copyright')->toHtml();?>
 				</div>
 			</div>
 		</div>
