@@ -26,6 +26,9 @@
     font-weight: bold;
     color: #000;
     margin: 0;
+    @media only screen and (max-width: $tablet){
+      font-size: 30px;
+    } 
   }
 }
 .category-description{
@@ -35,6 +38,9 @@
     line-height: 24px;
     max-width: 480px;
     margin: 0 auto;
+    @media only screen and (max-width: $tablet){
+      font-size: 14px;
+    }
   }
 }
 section{
@@ -52,6 +58,9 @@ section{
       font-family: 'HpRegular';
       font-weight: bold;
       margin: 0;
+      @media only screen and (max-width: $tablet){
+        font-size: 30px;
+      }
       ~ p {
         margin: 15px 0 0;
       }
