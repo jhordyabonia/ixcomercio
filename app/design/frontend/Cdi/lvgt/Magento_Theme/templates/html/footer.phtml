@@ -14,7 +14,6 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 
 <div class="footer-social col-md-6">
     <div class="container">
-        <h5><?php echo __('Follow us')?></h5>
         <ul class="social-icons">
 			<?php if($facebook){ ?>
 				<li>
@@ -53,22 +52,12 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 				</div>
             </div>
         </div>  
-    </div>
-    <div class="footer-payment">
-          <div class="container">
-            <div class="row">
-              <ul class="payment-icons">
-			  <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lvgt_payment_methods')->toHtml();?>
-              </ul>
-            </div>
-          </div>
-    </div>
-
-    <div class="footer-legal">
-          <div class="container">
-            <div class="row">
-              <span><?= /* @escapeNotVerified */ $block->getCopyright() ?></span>
-            </div>
-          </div>
+		<div class="footer-legal">
+			<div class="container">
+				<div class="row">
+				<span><?= /* @escapeNotVerified */ $block->getCopyright() ?></span>
+				</div>
+			</div>
+		</div>
     </div>
 </div>
