@@ -14,7 +14,6 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 
 <div class="footer-social col-md-6">
     <div class="container">
-        <h5><?php echo __('Follow us')?></h5>
         <ul class="social-icons">
 			<?php if($facebook){ ?>
 				<li>
@@ -27,6 +26,34 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 				<li>
 					<a href="<?php echo $twitter?>" target="_blank">
 						<img src="<?php echo $this->getViewFileUrl("images/social/twitter.png");?>" alt="Twitter" title="Twitter" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($instagram){ ?>
+				<li>
+					<a href="<?php echo $instagram?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/instagram.png");?>" alt="Twitter" title="Twitter" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($youtube){ ?>
+				<li>
+					<a href="<?php echo $youtube?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/youtube.png");?>" alt="Twitter" title="Twitter" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($spotify){ ?>
+				<li>
+					<a href="<?php echo $spotify?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/spotify.png");?>" alt="Twitter" title="Twitter" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($pinterest){ ?>
+				<li>
+					<a href="<?php echo $pinterest?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/pinterest.png");?>" alt="Twitter" title="Twitter" _secure="true">
 					</a>
 				</li>
 			<?php } ?>
@@ -53,22 +80,13 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 				</div>
             </div>
         </div>  
-    </div>
-    <div class="footer-payment">
-          <div class="container">
-            <div class="row">
-              <ul class="payment-icons">
-			  <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lvgt_payment_methods')->toHtml();?>
-              </ul>
-            </div>
-          </div>
-    </div>
-
-    <div class="footer-legal">
-          <div class="container">
-            <div class="row">
-              <span><?= /* @escapeNotVerified */ $block->getCopyright() ?></span>
-            </div>
-          </div>
+		<div class="footer-legal">
+			<div class="container">
+				<div class="row">
+				<span><?= /* @escapeNotVerified */ $block->getCopyright() ?></span>
+				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('lvgt_links_copyright')->toHtml();?>
+				</div>
+			</div>
+		</div>
     </div>
 </div>
