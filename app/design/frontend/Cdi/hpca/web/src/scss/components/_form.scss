@@ -6,6 +6,9 @@ form{
     		min-width: inherit!important;
 		}
 	}
+	&.review-form{
+		width: 100%;
+	}
 	.label{
 		color: #000;
 	}
