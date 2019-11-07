@@ -335,9 +335,6 @@ section{
 .page-layout-2columns-left{
   .page-wrapper{
     .page-main{
-      .column.main, .sidebar-main{
-        width: 100%;
-      }
       .sidebar-main{
         @media only screen and (max-width: $desktop){
           padding: 0;
