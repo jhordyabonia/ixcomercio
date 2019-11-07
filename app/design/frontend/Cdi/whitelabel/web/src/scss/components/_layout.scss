@@ -26,6 +26,9 @@
     font-weight: bold;
     color: #000;
     margin: 0;
+    @media only screen and (max-width: $tablet){
+      font-size: 30px;
+    }
   }
 }
 .category-description{
@@ -34,6 +37,9 @@
     line-height: 24px;
     max-width: 480px;
     margin: 0 auto;
+    @media only screen and (max-width: $tablet){
+      font-size: 14px;
+    }
   }
 }
 section{
@@ -49,6 +55,9 @@ section{
       color: #000;
       font-size: 36px;
       margin: 0;
+      @media only screen and (max-width: $tablet){
+        font-size: 30px;
+      }
       ~ p {
         margin: 15px 0 0;
       }
@@ -195,7 +204,7 @@ section{
   max-height: 620px;
   height: 240px;
   float: left;
-  @media only screen and (min-width: 768px){
+  @media only screen and (min-width: $tablet){
     height: 400px;
   }
   @media only screen and (min-width: 1280px){
