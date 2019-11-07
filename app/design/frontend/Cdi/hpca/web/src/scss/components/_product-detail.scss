@@ -440,7 +440,7 @@
     float: left;
     .product.data.items{
       background: #e8e8e8;
-      @media only screen and (min-width: $tablet){
+      @media only screen and (max-width: $tablet){
         text-align: left;
       }
       >.item.title{

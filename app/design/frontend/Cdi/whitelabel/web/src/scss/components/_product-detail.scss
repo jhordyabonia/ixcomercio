@@ -428,7 +428,7 @@
     width: 100%;
     float: left;
     .product.data.items{
-      @media only screen and (min-width: $tablet){
+      @media only screen and (max-width: $tablet){
         text-align: left;
       }
       >.item.title{
