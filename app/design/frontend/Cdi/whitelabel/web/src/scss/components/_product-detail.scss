@@ -436,6 +436,7 @@
         margin: 0 0 -1px;
         @media only screen and (max-width: $tablet){
           margin: 0;
+          border-top: 1px solid #d5d5d5;
         }
         >.switch {
           color: #333;
@@ -474,6 +475,9 @@
         &:hover {
           >.switch {
             background-color: #fff;
+            @media only screen and (max-width: $tablet){
+              background-color: #eee;
+            }
           }
         }
       }
@@ -486,7 +490,9 @@
         padding: 20px;
         border: 0;
         @media only screen and (max-width: $tablet){
+          width: 100%;
           margin-top: 0;
+          float: left;
         }
       }
     }
