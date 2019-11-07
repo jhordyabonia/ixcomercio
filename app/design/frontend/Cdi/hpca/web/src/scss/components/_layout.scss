@@ -40,6 +40,7 @@
     margin: 0 auto;
     @media only screen and (max-width: $tablet){
       font-size: 14px;
+      line-height: 20px;
     }
   }
 }
@@ -491,7 +492,7 @@ section{
             }
           }
           &.current{
-            background: $redcolor;
+            background: $mainColor;
             strong.page, a{
               color: #fff;
             }  
