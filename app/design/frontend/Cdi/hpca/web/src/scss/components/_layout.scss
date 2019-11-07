@@ -40,6 +40,7 @@
     margin: 0 auto;
     @media only screen and (max-width: $tablet){
       font-size: 14px;
+      line-height: 20px;
     }
   }
 }
@@ -337,6 +338,11 @@ section{
       .column.main, .sidebar-main{
         width: 100%;
       }
+      .sidebar-main{
+        @media only screen and (max-width: $desktop){
+          padding: 0;
+        }
+      }
     }
   }
 }
@@ -439,9 +445,21 @@ section{
         margin: 0 1.66% 30px;
         padding: 20px;
         float: left;
+        @media only screen and (max-width: $desktop){
+          &.product-item{
+            &:nth-child(3n){
+              margin-right: 0;
+            }
+          }
+        }
         @media only screen and (max-width: $mobile){
-          width: 100%;
-          margin: 0 0 20px;
+          width: 48%;
+          margin: 0 4% 20px 0;
+          &.product-item{
+            &:nth-child(3n){
+              margin-right: 4%;
+            }
+          }
         }
         .product-item-info{
           width: auto;
@@ -491,7 +509,7 @@ section{
             }
           }
           &.current{
-            background: $redcolor;
+            background: $mainColor;
             strong.page, a{
               color: #fff;
             }  

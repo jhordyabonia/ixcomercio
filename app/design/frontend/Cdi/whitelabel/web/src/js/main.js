@@ -144,7 +144,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				margin: 30,
 				responsive:{
 					0:{
-						items: 1
+						items: 2
 					},
 					650:{
 				      	items: 3
