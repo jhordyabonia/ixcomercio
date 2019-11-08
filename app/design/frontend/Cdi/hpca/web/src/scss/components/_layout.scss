@@ -334,7 +334,8 @@ section{
 }
 .page-layout-2columns-left{
   .container{
-    @media only screen and (max-width: 1200px) and (min-width: 768px){
+    width: 96%!important;
+    @media only screen and (max-width: 1200px) and (min-width: 769px){
       max-width: 90%!important;
     }
   }
