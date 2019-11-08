@@ -333,6 +333,11 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
+  .container{
+    @media only screen and (max-width: 959px) and (min-width: 768px){
+      max-width: 90%!important;
+    }
+  }
   .page-wrapper{
     .page-main{
       .sidebar-main{
