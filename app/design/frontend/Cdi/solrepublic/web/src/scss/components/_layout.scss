@@ -345,6 +345,15 @@ body.cms-terms-of-use, body.cms-privacy-policy{
       @media (max-width: $mobile){
         margin: 0 0 40px;
       }
+      > span{
+        width: 100%;
+        display: block;
+      }
+      .price-label{
+        white-space: nowrap;
+        color: #989696;
+        display: none;
+      }
       .price{
         font-size: 21px;
         line-height: 125%;
