@@ -1,3 +1,6 @@
+.modal-slide._show, .modal-popup._show{
+  z-index: 9999!important;
+}
 .message{
   &.info{
     color: #000;
