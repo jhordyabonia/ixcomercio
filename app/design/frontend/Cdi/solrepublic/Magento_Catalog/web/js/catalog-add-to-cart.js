@@ -165,18 +165,26 @@ define([
                     self.enableAddToCartButton(form);
 
                     //popup code start
-                    var popup = $('<div class="add-to-cart-dialog"/>').html($('button.disabled').parents('.product-item-details').find('.product-item-name').text() + '<span> has been added to cart.</span>').modal({ //get product name from product view page only
+                    var titleProduct;
+                    if($(form).parents('.item.product').length){
+                        titleProduct = $(form).parents('.item.product').find('.product-name').text();
+                    }else if($(form).parents('.product-info_main').length){
+                        titleProduct = $(form).parents('.product-info_main').find('.product-name').text();
+                    }
+                    var popup = $('<div class="add-to-cart-dialog"/>').html(titleProduct +'<span>' + $.mage.__('has been added to cart.')+'</span>').modal({ //get product name from product view page only
                         modalClass: 'add-to-cart-popup',
                         //title: $.mage.__("No Title"),
                         buttons: [
                             {
-                                text: 'Continue Shopping',
+                                text: $.mage.__('Continue Shopping'),
+                                class: 'action-secondary',
                                 click: function () {
                                     this.closeModal();
                                 }
                             },
                             {
-                                text: 'Proceed to Checkout',
+                                text: $.mage.__('Proceed to Checkout'),
+                                class: 'action-primary',
                                 click: function () {
                                     window.location = window.checkout.checkoutUrl
                                 }
