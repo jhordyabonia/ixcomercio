@@ -561,7 +561,7 @@ section{
 }
 /*---BUTTONS---*/
 .action{
-  &.primary{
+  &.primary, &.action-apply{
     width: 100%;
     background: $mainColor;
     text-transform: uppercase;
@@ -572,6 +572,19 @@ section{
     &:hover{
       background: #000;
       border: none;
+    }
+  }
+  &.action-update {
+    color: $mainColor;
+    background: none;
+    text-transform: uppercase;
+    transition: .5s all ease;
+    font-weight: 400;
+    border-radius: 0 8px !important;
+    border: 2px solid $mainColor;
+    &:hover{
+      color: #fff;
+      background: $mainColor;
     }
   }
 }
