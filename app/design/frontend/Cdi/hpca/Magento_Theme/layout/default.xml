@@ -25,7 +25,7 @@
 							</container>
 						</container>
 						<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access">
-							<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>
+							<!--<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>-->
 						</container>
 					</container>
 				</container>

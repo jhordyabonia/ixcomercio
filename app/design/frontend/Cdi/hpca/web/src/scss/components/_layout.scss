@@ -26,6 +26,9 @@
     font-weight: bold;
     color: #000;
     margin: 0;
+    @media only screen and (max-width: $tablet){
+      font-size: 30px;
+    } 
   }
 }
 .category-description{
@@ -35,10 +38,19 @@
     line-height: 24px;
     max-width: 480px;
     margin: 0 auto;
+    @media only screen and (max-width: $tablet){
+      font-size: 14px;
+      line-height: 20px;
+    }
   }
 }
 section{
   padding: 60px 0;
+  &.block-products-list{
+    &:nth-of-type(2n-1){
+      background: #f9f9f9;
+    }
+  }
   .header-section{
     text-align: left;
     .title-section{
@@ -47,6 +59,9 @@ section{
       font-family: 'HpRegular';
       font-weight: bold;
       margin: 0;
+      @media only screen and (max-width: $tablet){
+        font-size: 30px;
+      }
       ~ p {
         margin: 15px 0 0;
       }
@@ -57,6 +72,9 @@ section{
   }
   .block-category-link{
     margin: 30px 0 0;
+    &.widget{
+      display: inline-block;
+    }
     a{
       min-width: 200px;
       color: $redcolor;
@@ -315,10 +333,18 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
+  .container{
+    width: 96%!important;
+    @media only screen and (max-width: 1200px) and (min-width: 769px){
+      max-width: 90%!important;
+    }
+  }
   .page-wrapper{
     .page-main{
-      .column.main, .sidebar-main{
-        width: 100%;
+      .sidebar-main{
+        @media only screen and (max-width: $desktop){
+          padding: 0;
+        }
       }
     }
   }
@@ -422,8 +448,16 @@ section{
         margin: 0 1.66% 30px;
         padding: 20px;
         float: left;
+        @media only screen and (max-width: $desktop){
+          &.product-item{
+            &:nth-child(3n){
+              margin-right: 0;
+            }
+          }
+        }
         @media only screen and (max-width: $mobile){
           width: 100%;
+          max-width: 100%;
           margin: 0 0 20px;
         }
         .product-item-info{
@@ -474,7 +508,7 @@ section{
             }
           }
           &.current{
-            background: $redcolor;
+            background: $mainColor;
             strong.page, a{
               color: #fff;
             }  
@@ -527,8 +561,9 @@ section{
 }
 /*---BUTTONS---*/
 .action{
-  &.primary{
+  &.primary, &.action-apply{
     width: 100%;
+    color: #fff;
     background: $mainColor;
     text-transform: uppercase;
     transition: .5s all ease;
@@ -538,6 +573,19 @@ section{
     &:hover{
       background: #000;
       border: none;
+    }
+  }
+  &.action-update {
+    color: $mainColor;
+    background: none;
+    text-transform: uppercase;
+    transition: .5s all ease;
+    font-weight: 400;
+    border-radius: 0 8px !important;
+    border: 2px solid $mainColor;
+    &:hover{
+      color: #fff;
+      background: $mainColor;
     }
   }
 }
