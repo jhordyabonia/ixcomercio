@@ -24,5 +24,13 @@
         background: #00aeef;
       }
     }
+    .actions-toolbar{
+      .primary{
+        @media (min-width: $tablet){
+          float: left;
+          margin: 0 0 10px;
+        }
+      }
+    }
   }
 }
