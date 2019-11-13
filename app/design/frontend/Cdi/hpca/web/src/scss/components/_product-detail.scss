@@ -140,6 +140,9 @@
   }
   .product-info_main{
     text-align: left;
+    @media only screen and (max-width: $tablet){
+      margin-top: 30px;
+    }
     .product-name, .rating-summary, .stock-status, .product-attribute, .sku, .product-type-data{
       width: 100%;
       float: left;
@@ -437,9 +440,16 @@
     float: left;
     .product.data.items{
       background: #e8e8e8;
+      @media only screen and (max-width: $tablet){
+        text-align: left;
+      }
       >.item.title{
         float: left;
         margin: 0 0 -1px;
+        @media only screen and (max-width: $tablet){
+          margin: 0;
+          border-top: 1px solid #d5d5d5;
+        }
         >.switch {
           color: $mainColor;
           font-size: 1em;
@@ -451,6 +461,7 @@
           border: 1px solid transparent;
           @media only screen and (min-width: $tablet){
             color: $mainColor;
+            position: relative;
             &:visited{
               color: $mainColor;
             }
@@ -476,18 +487,24 @@
         &:hover {
           >.switch {
             background-color: #fff;
+            @media only screen and (max-width: $tablet){
+              background-color: #eee;
+            }
           }
         }
       }
       >.item.content{
-        @media only screen and (min-width: $tablet){
-          color: #666666;
-          font-weight: 500;
-          text-align: left;
-          margin-top: 46px;
-          margin-bottom: 0;
-          padding: 20px;
-          border: 0;
+        color: #666666;
+        font-weight: 500;
+        text-align: left;
+        margin-top: 46px;
+        margin-bottom: 0;
+        padding: 20px;
+        border: 0;
+        @media only screen and (max-width: $mobile){
+          width: 100%;
+          margin-top: 0;
+          float: left;
         }
       }
     }

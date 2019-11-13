@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+		<!--Bootstrap
+		<css src="css/bootstrap.css" />
+		-->
+		<css src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" src_type="url" />
+		<css src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" src_type="url" />
+		
+		<!--Fuentes-->
+		<link rel="stylesheet" type="text/css" src="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" src_type="url" /> 
+		
+		<!--Custom Css-->
+		<css src="css/main.min.css" />
+
+		<!--OwlCarousel Css-->
+		<css src="css/owl.carousel.min.css" />
+		
+		<!--Custom Js
+		<link src="js/main.min.js"/>
+		-->
+
+		<!--
+		<remove src="jquery.js"/>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" src_type="url"></script>
+		-->
+		
+		<!--Favicon-->
+		<link src="Cdi_lvgt::img/favicon.png" rel="icon" sizes="32x32" />
+    </head>
+</page>

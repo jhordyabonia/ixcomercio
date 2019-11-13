@@ -18,10 +18,36 @@
     }
   }
   .opc-wrapper {
+    @media (max-width: $tablet){
+      padding: 0 15px;
+    }
     .shipping-address-item.selected-item{
       border-color: #00aeef;
       &:after{
         background: #00aeef;
+      }
+    }
+    .col.col-method{
+      text-align: center;
+    }
+    .table-checkout-shipping-method{
+      .col{
+        text-align: left;
+        &:first-child {
+          text-align: center;
+        }
+      }
+    }
+    input[type=checkbox], input[type=radio]{
+      display: inline-block;
+      margin: 0;
+    }
+    .actions-toolbar{
+      .primary{
+        @media (min-width: $tablet){
+          float: left;
+          margin: 0 0 10px;
+        }
       }
     }
   }

@@ -27,6 +27,21 @@
       color: #333333;
       font-size: 1em;
     }
+    .price-label{
+      display: none;
+    }
+    .special-price{
+      .price{
+        color: red;
+      }
+    }
+    .old-price{
+      color: #aaa;
+      padding-left: 1em;
+      .price{
+        color: #aaa;
+      }
+    }
   }
   .sticky-price-box {
     text-align: right;
@@ -184,7 +199,8 @@ ul.sticky-sections {
               display: block;
             }
             .control{
-              margin: 10px 0;
+              margin: 10px 0 20px;
+              position: relative;
               input{
                 width: 5em;
                 height: 30px;
@@ -192,6 +208,9 @@ ul.sticky-sections {
                 font-weight: bold;
                 text-align: center;
                 vertical-align: middle;
+              }
+              .mage-error[generated]{
+                position: absolute;
               }
             }
             .control-qty{
@@ -286,8 +305,9 @@ ul.sticky-sections {
     padding: 60px;
     text-align: center;
     font-size: 50px;
-    font-weight: 600;
+    font-weight: 300;
     text-transform: initial;
+    font-family: Frankfurter W05 Regular;
   }
 }
 .swatch-option-tooltip {

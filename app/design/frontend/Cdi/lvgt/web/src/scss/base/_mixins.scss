@@ -1,0 +1,21 @@
+//Mediaqueries con breakpoints para responsive
+@mixin media-query($media-query) {
+  @if $media-query == mobileX {
+    @media only screen and (max-width: $mobilex) { @content; }
+  }
+  @if $media-query == mobile {
+    @media only screen and (max-width: $mobile) { @content; }
+  }
+  @if $media-query == tablet {
+    @media only screen and (max-width: $tablet) { @content; }
+  }
+  @if $media-query == desktop {
+    @media only screen and (max-width: $desktop) { @content; }
+  }
+  @if $media-query == desktopL {
+    @media only screen and (max-width: $desktopL) { @content; }
+  }
+  @if $media-query == desktopXL {
+    @media only screen and (max-width: $desktopXL) { @content; }
+  }
+}

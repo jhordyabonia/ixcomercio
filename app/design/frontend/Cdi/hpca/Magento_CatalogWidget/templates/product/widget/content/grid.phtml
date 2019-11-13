@@ -31,12 +31,12 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     <!--<section class="block widget block-products-list <?php /* @escapeNotVerified */ echo $mode; ?>">
         <div class="container">
             <div class="row">-->
-                <div class="header-section">
+                <div class="header-section col-xs-12">
                     <?php if ($title):?>
                     <h2 class="title-section"><?php /* @escapeNotVerified */ echo $title; ?></h2>
                 </div>
                 <?php endif ?>
-                <div class="block-content">
+                <div class="block-content col-xs-12">
                     <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
                     <div class="products-<?php /* @escapeNotVerified */ echo $mode; ?> <?php /* @escapeNotVerified */ echo $mode; ?>">
                         <ul class="owl-carousel product-items <?php /* @escapeNotVerified */ echo $type; ?>">

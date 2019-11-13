@@ -5,8 +5,12 @@
       max-width: 300px;
       padding: 20px;
       border: 1px solid #eee;
+      background: #fff;
       border-radius: 5px;
       position: relative;
+      @media only screen and (max-width: $mobile){
+        max-width: 100%;
+      }
       .product-item-info{
         .product-item-photo{
           float: left;

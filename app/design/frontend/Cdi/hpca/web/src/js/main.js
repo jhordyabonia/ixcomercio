@@ -2,6 +2,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
+		var w_width = $( window ).width();
+		
 		jQuery('#scroll-to-top').click(function(){
 			jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
 			return false;
@@ -94,21 +96,23 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 
 	    $("footer .footer-nav .link-block h4").click(function(){
-	      if($(this).hasClass("open")){
-	        $(this).removeClass("open");
-	        $(this).find('.icon').removeClass('icon-up-open').addClass('icon-down-open');
-	        $(this).find('.icon').html('&#xe82c;');
-	        $(this).parent().find("ul").slideUp();
-	      }else{
-	        $('footer .footer-nav .link-block h4').removeClass('open');
-	        $('footer .footer-nav .link-block ul').slideUp();
-	        $('footer .footer-nav .link-block h4 .icon').removeClass('icon-up-open').addClass('icon-down-open');
-	        $('footer .footer-nav .link-block h4 .icon').html('&#xe82c;');
-	        $(this).addClass('open');
-	        $(this).find('.icon').removeClass('icon-down-open').addClass('icon-up-open');
-	        $(this).find('.icon').html('&#xe82f;');
-	        $(this).parent().find('ul').slideDown();
-	      }
+	    	if(w_width <= 992){
+		    	if($(this).hasClass("open")){
+		        $(this).removeClass("open");
+		        $(this).find('.icon').removeClass('icon-up-open').addClass('icon-down-open');
+		        $(this).find('.icon').html('&#xe82c;');
+		        $(this).parent().find("ul").slideUp();
+		      }else{
+		        $('footer .footer-nav .link-block h4').removeClass('open');
+		        $('footer .footer-nav .link-block ul').slideUp();
+		        $('footer .footer-nav .link-block h4 .icon').removeClass('icon-up-open').addClass('icon-down-open');
+		        $('footer .footer-nav .link-block h4 .icon').html('&#xe82c;');
+		        $(this).addClass('open');
+		        $(this).find('.icon').removeClass('icon-down-open').addClass('icon-up-open');
+		        $(this).find('.icon').html('&#xe82f;');
+		        $(this).parent().find('ul').slideDown();
+		      }
+		    }
 	    });
 
 
@@ -134,8 +138,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			jQuery(this).toggleClass("close");
 		});
 
-		if(jQuery('.products-grid .owl-carousel').length){
-			jQuery('.products-grid .owl-carousel').owlCarousel({
+
+		if($('.products-grid .owl-carousel').length){
+			$('.products-grid .owl-carousel').owlCarousel({
 				nav: true,
 				dots: true,
 				navSpeed: 800,
@@ -143,14 +148,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				margin: 30,
 				responsive:{
 					0:{
-						items: 2,
-						nav: false,
-						dots: false
+						items: 1
 					},
-			    	991:{
-				      	items: 4,
-				        nav: true,
-				        dots: true
+					650:{
+				      	items: 3
+			      	},
+			    	992:{
+				      	items: 4
 			      	}
 			    }
 			});
@@ -236,18 +240,22 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
 
 	    fieldState.on('change', function (e) {
-	      $.ajax({
-	        url: '/places/search/',
-	        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
-	        type: 'GET',
-	        dataType: 'json',
-	        success: function(res) {
-	          $(fieldCity).find('option:not([value=""])').remove();
-	          $.each(res, function(i, val){
-	            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
-	          });
-	        }
-	      });
+	      	$.ajax({
+		        url: '/places/search/',
+		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
+		        type: 'GET',
+		        dataType: 'json',
+		        success: function(res) {
+			        $(fieldCity).find('option:not([value=""])').remove();
+			        $.each(res, function(i, val){
+			            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+			    	});
+		        }
+	      	});
+
+	      	var valState = $(fieldState).find('option:selected');
+			$(fieldState).parent().find('input').val($(valState).text());
+			$(fieldState).parent().find('input').keyup();
 	    });
 
 
