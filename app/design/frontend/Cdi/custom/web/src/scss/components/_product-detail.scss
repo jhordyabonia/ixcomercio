@@ -27,6 +27,19 @@
       color: #333333;
       font-size: 1em;
     }
+    .price-label{
+      display: none;
+    }
+    .special-price{
+      .price{
+        color: red;
+      }
+    }
+    .old-price{
+      .price{
+        color: #aaa;
+      }
+    }
   }
   .sticky-price-box {
     text-align: right;
