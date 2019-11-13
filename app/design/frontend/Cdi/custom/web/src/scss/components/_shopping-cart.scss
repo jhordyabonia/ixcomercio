@@ -231,6 +231,7 @@
       font-weight: bold;
     }
     .mark, mark{
+      width: 60%;
       background: none;
     }
     .label{
@@ -253,6 +254,10 @@
       &:hover{
         background: #000;
       }
+    }
+    .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      font-size: 13px;
+      border-bottom: 0;
     }
   }
 }
