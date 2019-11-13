@@ -376,7 +376,8 @@ body.cms-terms-of-use, body.cms-privacy-policy{
               display: block;
             }
             .control{
-              margin: 10px 0;
+              margin: 10px 0 20px;
+              position: relative;
               input{
                 width: 5em;
                 height: 30px;
@@ -384,6 +385,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
                 font-weight: bold;
                 text-align: center;
                 vertical-align: middle;
+              }
+              .mage-error[generated]{
+                position: absolute;
               }
             }
             .control-qty{
