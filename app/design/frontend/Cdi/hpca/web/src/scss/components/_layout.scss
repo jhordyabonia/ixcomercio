@@ -348,6 +348,16 @@ section{
       }
     }
   }
+  .column.main{
+    @media only screen and (min-width: $tablet){
+      width: 78%;
+    }
+  }
+  .sidebar-main{
+    @media only screen and (min-width: $tablet){
+      width: 20%;
+    } 
+  }
 }
 .block.filter{
   .filter-content{
