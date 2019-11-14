@@ -15,9 +15,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 
 	    if($(".products-grid .product-items").length){
-	      var list = $(".products-grid .product-items > .item.product");
+	      var list = $(".products-grid .product-items .item.product");
 	      var listImage = $(list).find(".product-image-wrapper");
-	      var listName = $(list).find(".product-name");
+	      var listName = $(list).find(".product-item-name");
 	      var listFamily = $(list).find(".atributo-familia");
 	      var listPrice = $(list).find(".price-box");
 	      var arrayList = [];
