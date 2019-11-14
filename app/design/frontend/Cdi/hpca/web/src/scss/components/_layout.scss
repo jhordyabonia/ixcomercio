@@ -448,7 +448,7 @@ section{
         margin: 0 1.66% 30px;
         padding: 20px;
         float: left;
-        @media only screen and (max-width: $desktop){
+        @media only screen and (min-width: $tablet){
           &.product-item{
             &:nth-child(3n){
               margin-right: 0;
