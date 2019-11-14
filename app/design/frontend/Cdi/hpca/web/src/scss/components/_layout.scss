@@ -456,6 +456,9 @@ section{
             &:nth-child(3n + 1){
               margin-left: 0; 
             }
+            &:nth-child(4n + 1){
+              margin-left: 1.66%; 
+            }
           }
         }
         @media only screen and (max-width: $mobile){
