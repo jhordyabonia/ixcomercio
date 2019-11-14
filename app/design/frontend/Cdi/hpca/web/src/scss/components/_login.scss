@@ -1,5 +1,11 @@
 .login-container{
   text-align: left;
+  .block{
+    .block-title{
+      color: $mainColor;
+      text-transform: uppercase;
+    }
+  }
   .fieldset:after{
     width: 100%;
     font-size: 12px;
