@@ -345,9 +345,20 @@ body.cms-terms-of-use, body.cms-privacy-policy{
       @media (max-width: $mobile){
         margin: 0 0 40px;
       }
+      > span{
+        width: 100%;
+        display: block;
+      }
+      .price-label{
+        white-space: nowrap;
+        color: #989696;
+        display: none;
+      }
       .price{
         font-size: 21px;
         line-height: 125%;
+        margin-bottom: 40px;
+        display: inline-block;
       }
     }
     .product-add-form{
@@ -365,7 +376,8 @@ body.cms-terms-of-use, body.cms-privacy-policy{
               display: block;
             }
             .control{
-              margin: 10px 0;
+              margin: 10px 0 20px;
+              position: relative;
               input{
                 width: 5em;
                 height: 30px;
@@ -373,6 +385,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
                 font-weight: bold;
                 text-align: center;
                 vertical-align: middle;
+              }
+              .mage-error[generated]{
+                position: absolute;
               }
             }
             .control-qty{
