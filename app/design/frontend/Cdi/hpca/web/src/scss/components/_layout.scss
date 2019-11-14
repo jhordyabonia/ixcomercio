@@ -345,18 +345,16 @@ section{
         @media only screen and (max-width: $desktop){
           padding: 0;
         }
+        @media only screen and (min-width: $tablet){
+          width: 20%;
+        }
+      }
+      .column.main{
+        @media only screen and (min-width: $tablet){
+          width: 78%;
+        }
       }
     }
-  }
-  .column.main{
-    @media only screen and (min-width: $tablet){
-      width: 78%;
-    }
-  }
-  .sidebar-main{
-    @media only screen and (min-width: $tablet){
-      width: 20%;
-    } 
   }
 }
 .block.filter{
