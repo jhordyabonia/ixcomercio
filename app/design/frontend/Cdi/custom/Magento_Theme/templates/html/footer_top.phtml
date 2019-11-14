@@ -17,7 +17,7 @@ $twitter = $_helperCdi->getStoreConfig('general/store_information/twitter_link')
 					<div class="block newsletter">
 						<form class="form subscribe"
 							novalidate
-							action="<?= $block->escapeUrl($block->getFormActionUrl()) ?>"
+							action="<?=$block->getBaseUrl() ?>newsletter/subscriber/new/"
 							method="post"
 							data-mage-init='{"validation": {"errorClass": "mage-error"}}'
 							id="newsletter-validate-detail">

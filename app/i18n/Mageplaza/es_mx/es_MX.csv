@@ -1822,6 +1822,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "First Name","Nombre",module,Magento_Catalog
 "Last Name","Apellidos",module,Magento_Catalog
 "Email","Correo electrónico",module,Magento_Catalog
+"Identification","Identificación",module,Magento_Catalog
 "Subscribe Date","Fecha de suscripción",module,Magento_Catalog
 "Last Notified","Última notificación",module,Magento_Catalog
 "Send Count","Cantidad de envíos",module,Magento_Catalog
@@ -2333,6 +2334,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Choose existing category.","Elige categoría existente.",module,Magento_Catalog
 "Image Detail","Detalles de la imagen",module,Magento_Catalog
 "Adding...","Añadiendo...",module,Magento_Catalog
+"Adding","Añadiendo...",module,Magento_Catalog
 "Added","Añadido",module,Magento_Catalog
 "does not implement Storage Interface","no implementa la interfaz de almacenamiento",module,Magento_Catalog
 "unselect all","deseleccionar todo",module,Magento_Catalog
@@ -3316,7 +3318,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Cancel","Cancelar",module,Magento_Checkout
 "Save in address book","Guardar en libreta de direcciones",module,Magento_Checkout
 "Estimated Total","Total estimado",module,Magento_Checkout
-"You can create an account after checkout.","Puede crear una cuenta después del cobro.",module,Magento_Checkout
+"You can create an account after checkout.","Puedes crear una cuenta después del cobro.",module,Magento_Checkout
 "You already have an account with us. Sign in or continue as guest.","Ya tienes una cuenta con nosotros. Ingresar o continuar como invitado.",module,Magento_Checkout
 "Login","Entrar",module,Magento_Checkout
 "See Details","Ver información",module,Magento_Checkout
@@ -3403,7 +3405,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Maximum Display Recently Added Item(s)","Maximalanzeige kürzlich hinzugefügter Artikel",module,Magento_Checkout
 "of","de",module,Magento_Checkout
 "Something went wrong while saving the page. Please refresh the page and try again.","Algo salió mal al guardar la página. Actualiza la página y vuelve a intentarlo.",module,Magento_Checkout
-"You added %1 to your <a href=""%2"">shopping cart</a>.","Ha agregado %1 al <a href=""%2"">carrito de compras</a>.",module,Magento_Checkout
+"You added %1 to your <a href=""%2"">shopping cart</a>.","Has agregado %1 al <a href=""%2"">carrito de compras</a>.",module,Magento_Checkout
 "Please select at least one product to add to cart","Please select at least one product to add to cart",module,Magento_Checkout
 "The quote item isn't found. Verify the item and try again.","La oración no es encontrada. Verificar e intentar de nuevo.",module,Magento_Checkout
 "The order wasn't placed. First, agree to the terms and conditions, then try placing your order again.","El pedido no fue realizado. Primero, acepte los términos y condiciones, luego intente realizar su pedido nuevamente.",module,Magento_Checkout
@@ -4589,7 +4591,7 @@ new products will be created. Use this step to customize images and price for yo
 "Searchable","Buscable",module,Magento_ConfigurableProductStaging
 "Comparable","Comparable",module,Magento_ConfigurableProductStaging
 "Page not found.","Página no encontrada.",module,Magento_Contact
-"Thanks for contacting us with your comments and questions. We'll respond to you very soon.","Gracias por contactarnos! Pronto te responderemos.",module,Magento_Contact
+"Thanks for contacting us with your comments and questions. We'll respond to you very soon.","Gracias por contactarnos con tus comentarios y preguntas. Pronto te responderemos.",module,Magento_Contact
 "An error occurred while processing your form. Please try again later.","Se produjo un error al procesar su formulario. Por favor, inténtelo de nuevo más tarde.",module,Magento_Contact
 "Name is missing","Falta el nombre",module,Magento_Contact
 "Comment is missing","Falta el comentario",module,Magento_Contact
@@ -4717,10 +4719,10 @@ new products will be created. Use this step to customize images and price for yo
 "Alphanumeric with spaces","Alfanuméricos con espacios",module,Magento_CustomAttributeManagement
 "Sign Out","Cerrar sesión",module,Magento_Customer
 "Sign In","Iniciar sesión",module,Magento_Customer
-"You are subscribed to our newsletter.","Está suscrito a nuestro boletín de noticias.",module,Magento_Customer
-"You aren't subscribed to our newsletter.","No está suscrito a nuestro boletín de noticias.",module,Magento_Customer
-"You have not set a default shipping address.","No ha establecido una dirección de envío predeterminada.",module,Magento_Customer
-"You have not set a default billing address.","No ha establecido una dirección de facturación predeterminada.",module,Magento_Customer
+"You are subscribed to our newsletter.","Estás suscrito a nuestro boletín de noticias.",module,Magento_Customer
+"You aren't subscribed to our newsletter.","No estás suscrito a nuestro boletín de noticias.",module,Magento_Customer
+"You have not set a default shipping address.","No has establecido una dirección de envío predeterminada.",module,Magento_Customer
+"You have not set a default billing address.","No has establecido una dirección de facturación predeterminada.",module,Magento_Customer
 "Address Book","Libreta de direcciones",module,Magento_Customer
 "Edit Address","Editar dirección",module,Magento_Customer
 "Add New Address","Agregar nueva dirección",module,Magento_Customer
@@ -4824,7 +4826,7 @@ new products will be created. Use this step to customize images and price for yo
 "There was an error confirming the account","Hubo un problema al confirmar la cuenta",module,Magento_Customer
 "If you are a registered VAT customer, please click <a href=""%1"">here</a> to enter your shipping address for proper VAT calculation.","Si eres un cliente registrado de IVA, por favor haga clic <a href=""%1""> aquí</a> para ingresar su dirección de envío para el adecuado cálculo del IVA.",module,Magento_Customer
 "If you are a registered VAT customer, please click <a href=""%1"">here</a> to enter your billing address for proper VAT calculation.","Si eres un cliente registrado de IVA, por favor haga clic <a href=""%1""> aquí</a> para ingresar su dirección de envío para el adecuado cálculo del IVA.",module,Magento_Customer
-"Thank you for registering with %1.","Gracias por registrarse en %1.",module,Magento_Customer
+"Thank you for registering with %1.","Gracias por registrarte en %1.",module,Magento_Customer
 "Please check your email for confirmation key.","Por favor, revise su correo electrónico y busque la clave de confirmación. ",module,Magento_Customer
 "This email does not require confirmation.","Este mensaje de correo electrónico no requiere confirmación.",module,Magento_Customer
 "Wrong email.","Se especificó una dirección de correo electrónico incorrecta.",module,Magento_Customer
@@ -5045,9 +5047,9 @@ new products will be created. Use this step to customize images and price for yo
 "Zip/Postal Code","Código Postal",module,Magento_Customer
 "Country","País",module,Magento_Customer
 "It's a default billing address.","Es una dirección de facturación predeterminada.",module,Magento_Customer
-"Use as my default billing address","Utilice como mi dirección de facturación por defecto",module,Magento_Customer
+"Use as my default billing address","Utilizar como mi dirección de facturación por defecto",module,Magento_Customer
 "It's a default shipping address.","Es una dirección de envío predeterminada.",module,Magento_Customer
-"Use as my default shipping address","Utilice como mi dirección de envío predeterminada",module,Magento_Customer
+"Use as my default shipping address","Utilizar como mi dirección de envío predeterminada",module,Magento_Customer
 "Save Address","Guardar dirección",module,Magento_Customer
 "Go back","Retroceder",module,Magento_Customer
 "Please enter your email below and we will send you the confirmation link.","Introduce tu email debajo y te enviaremos el enlace de confirmación.",module,Magento_Customer
@@ -5065,7 +5067,7 @@ new products will be created. Use this step to customize images and price for yo
 "Please enter your email address below to receive a password reset link.","Por favor introduzca su dirección de correo electrónico para recibir un enlace de restablecimiento de contraseña.",module,Magento_Customer
 "Reset My Password","Restablecer mi contraseña",module,Magento_Customer
 "Registered Customers","Clientes registrados",module,Magento_Customer
-"If you have an account, sign in with your email address.","Si tiene una cuenta, inicie sesión con su dirección de correo electrónico.",module,Magento_Customer
+"If you have an account, sign in with your email address.","Si tienes una cuenta, inicia sesión con tu dirección de correo electrónico.",module,Magento_Customer
 "Password","Contraseña",module,Magento_Customer
 "Forgot Your Password?","¿Olvidó su contraseña?",module,Magento_Customer
 "Subscription option","Opciones de suscripción",module,Magento_Customer
@@ -5076,7 +5078,7 @@ new products will be created. Use this step to customize images and price for yo
 "Confirm Password","Confirmar contraseña",module,Magento_Customer
 "Create an Account","Crear una cuenta",module,Magento_Customer
 "Set a New Password","Establecer nueva contraseña",module,Magento_Customer
-"You have signed out and will go to our homepage in 5 seconds.","Usted ha cerrado la sesión y irá a su página de inicio en 5 segundos.",module,Magento_Customer
+"You have signed out and will go to our homepage in 5 seconds.","Has cerrado la sesión, serás redirigido a la página de inicio en 5 segundos.",module,Magento_Customer
 "New Customers","Nuevos clientes",module,Magento_Customer
 "Creating an account has many benefits: check out faster, keep more than one address, track orders and more.","Crear una cuenta tiene muchos beneficios: Pago más rápido, guardar más de una dirección, seguimiento de pedidos y mucho más.",module,Magento_Customer
 "Company","Empresa",module,Magento_Customer
@@ -5092,10 +5094,10 @@ new products will be created. Use this step to customize images and price for yo
 "Email:","Email:",module,Magento_Customer
 "Password:","Contraseña:",module,Magento_Customer
 "Password you set when creating account","Contraseña que ingresaste al crear la cuenta",module,Magento_Customer
-"Forgot your account password? Click <a href=""%reset_url"">here</a> to reset it.","¿Olvidó la contraseña de su cuenta? Haga clic <a href=""%reset_url""> aquí</a> para restablecerla.",module,Magento_Customer
+"Forgot your account password? Click <a href=""%reset_url"">here</a> to reset it.","¿Olvidaste la contraseña de tu cuenta? Haz clic <a href=""%reset_url""> aquí</a> para restablecerla.",module,Magento_Customer
 "When you sign in to your account, you will be able to:","Cuando inicie sesión en su cuenta, podrá:",module,Magento_Customer
-"Proceed through checkout faster","Procede a través del checkout más rápido",module,Magento_Customer
-"Check the status of orders","Compruebe el estado de los pedidos",module,Magento_Customer
+"Proceed through checkout faster","Proceder a través del checkout más rápido",module,Magento_Customer
+"Check the status of orders","Comprobar el estado de los pedidos",module,Magento_Customer
 "View past orders","Ver órdenes anteriores",module,Magento_Customer
 "Store alternative addresses (for shipping to multiple family members and friends)","Almacenar direcciones alternativas (para el envío a varios miembros de la familia y amigos)",module,Magento_Customer
 "Please confirm your %store_name account","Por favor confirma tu cuenta de %store_name",module,Magento_Customer
@@ -5231,6 +5233,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Account Lock","Bloqueo de cuenta",module,Magento_Customer
 "First Name","Nombre",module,Magento_Customer
 "Last Name","Apellidos",module,Magento_Customer
+"Identification","Identificación",module,Magento_Customer
 "Last Activity","Última actividad",module,Magento_Customer
 "Type","Tipo",module,Magento_Customer
 "Customer Information","Información del cliente",module,Magento_Customer
@@ -9014,7 +9017,7 @@ information on installing the agent is available <a target=""_blank"" href=""%1"
 "Thank you for subscribing to our newsletter.","Gracias por suscribirte a nuestro boletín.",module,Magento_Newsletter
 "To begin receiving the newsletter, you must first confirm your subscription by clicking on the following link:","Antes de recibir los boletines, debes confirmar la suscripción haciendo click en el siguiente enlace:",module,Magento_Newsletter
 "Newsletter subscription success","Ha suscrito con éxito nuestro boletín informativo",module,Magento_Newsletter
-"You have been successfully subscribed to our newsletter.","Te has suscrito con éxito a nuestro boletín.",module,Magento_Newsletter
+"You have been successfully subscribed to our newsletter.","Te has suscrito con éxito al nuestro boletín.",module,Magento_Newsletter
 "Newsletter unsubscription success","Ha cancelado con éxito su suscripción al boletín informativo",module,Magento_Newsletter
 "You have been unsubscribed from the newsletter.","Has sido dado de baja de nuestro boletín.",module,Magento_Newsletter
 "Newsletter Template","Plantillas del boletín informativo",module,Magento_Newsletter
@@ -12206,6 +12209,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Street Address","Dirección",module,Magento_Sales
 "Phone Number","Número de teléfono",module,Magento_Sales
 "Zip/Postal Code","Código Postal",module,Magento_Sales
+"Identification","Identificación",module,Magento_Sales
 "We can't save the address:\n%1","No podemos guardar la dirección: \n%1",module,Magento_Sales
 "Cannot save comment:\n%1","No se puede guardar el comentario:\n %1",module,Magento_Sales
 "We don't have enough information to save the parent transaction ID.","No tenemos suficiente información para guardar la ID de transacción del padre.",module,Magento_Sales
@@ -12813,8 +12817,8 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Enter discount code","Introducir código de descuento",module,Magento_SalesRule
 "Apply Discount","Aplicar descuento",module,Magento_SalesRule
 "Cancel coupon","Cancelar el cupón",module,Magento_SalesRule
-"Your coupon was successfully removed.","Su cupón fue removido con éxito.",module,Magento_SalesRule
-"Your coupon was successfully applied.","Su cupón fue aplicado con éxito.",module,Magento_SalesRule
+"Your coupon was successfully removed.","Tu cupón fue removido con éxito.",module,Magento_SalesRule
+"Your coupon was successfully applied.","Tu cupón fue aplicado con éxito.",module,Magento_SalesRule
 "Promotion","Promoción",module,Magento_SalesRule
 "Auto Generated Specific Coupon Codes","Códigos de cupones específicos generados automáticamente",module,Magento_SalesRule
 "Web Site","Sitio web",module,Magento_SalesRule
@@ -13141,7 +13145,7 @@ Usage limit enforced for logged in customers only.,module,Magento_SalesRule
 "Delete","Borrar",module,Magento_Search
 "Are you sure you want to delete synonym group with id: %1?","¿Seguro que quieres eliminar el grupo de sinónimos con id: %1?",module,Magento_Search
 "View/Edit","Ver/Editar",module,Magento_Search
-"Search entire store here...","Busque aquí por toda la tienda...",module,Magento_Search
+"Search entire store here...","Busca aquí por toda la tienda...",module,Magento_Search
 "There are no search terms available.","No hay términos de búsqueda disponibles.",module,Magento_Search
 "Search Engine","Motor de búsqueda",module,Magento_Search
 "CSV","CSV",module,Magento_Search
@@ -15221,6 +15225,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "First Name","Nombre",module,Magento_User
 "Last Name","Apellidos",module,Magento_User
 "Email","Correo electrónico",module,Magento_User
+"Identification","Identificación",module,Magento_User
 "Status","Estatus",module,Magento_User
 "Active","Activo",module,Magento_User
 "Inactive","Inactivo",module,Magento_User
@@ -16199,73 +16204,73 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Transaction has been canceled","La transacción ha sido cancelada",module,Magento_Worldpay
 "Transaction has been declined","La operación ha sido declinada",module,Magento_Worldpay
 "The response type is incorrect. Verify the type and try again.","El tipo de respuesta es incorrecto. Verifique el tipo y vuelva a intentarlo.",module,Magento_Worldpay
-"Summary","Resumen",theme,frontend/Magento/blank
-"Account Dashboard","Mi panel de control",theme,frontend/Magento/blank
-"Account Information","Información de la cuenta",theme,frontend/Magento/blank
-"Address Book","Libreta de direcciones",theme,frontend/Magento/blank
-"Menu","Menú",theme,frontend/Magento/blank
-"Account","Cuenta",theme,frontend/Magento/blank
-"Settings","Configuración",theme,frontend/Magento/blank
-"Now Shopping by","Ahora comprando por",theme,frontend/Magento/luma
-"Previous","Anterior",theme,frontend/Magento/luma
-"Remove","Eliminar",theme,frontend/Magento/luma
-"Remove This Item","Eliminar este artículo",theme,frontend/Magento/luma
-"Shop By","Comprar por",theme,frontend/Magento/luma
-"Clear All","Eliminar todo",theme,frontend/Magento/luma
-"Shopping Options","Opciones de compra",theme,frontend/Magento/luma
-"Welcome to %store_name","Bienvenido a %store_name",theme,frontend/Magento/luma
-"%name,","%name,",theme,frontend/Magento/luma
-"Welcome to %store_name.","Bienvenido a %store_name.",theme,frontend/Magento/luma
-"To sign in to our site, use these credentials during checkout or on the <a href=""%customer_url"">My Account</a> page:","Para iniciar sesión, utiliza estas credenciales durante el proceso de compra o en la página <a href=""%customer_url"">Mi cuenta</a>:",theme,frontend/Magento/luma
-"Email:","Email:",theme,frontend/Magento/luma
-"Password:","Contraseña:",theme,frontend/Magento/luma
-"Password you set when creating account","Contraseña que ingresaste al crear la cuenta",theme,frontend/Magento/luma
-"Forgot your account password? Click <a href=""%reset_url"">here</a> to reset it.","¿Olvidó la contraseña de su cuenta? Haga clic <a href=""%reset_url""> aquí</a> para restablecerla.",theme,frontend/Magento/luma
-"When you sign in to your account, you will be able to:","Cuando inicie sesión en su cuenta, podrá:",theme,frontend/Magento/luma
-"Quick Checkout","Checkout rápido",theme,frontend/Magento/luma
-"Proceed through checkout faster","Procede a través del checkout más rápido",theme,frontend/Magento/luma
-"Order Status","Estado de pedido",theme,frontend/Magento/luma
-"Check the status of orders","Compruebe el estado de los pedidos",theme,frontend/Magento/luma
-"Manage Addresses","Gestionar direcciones",theme,frontend/Magento/luma
-"Store alternative addresses","Almacena direcciones alternativas",theme,frontend/Magento/luma
-"For shipping to multiple family members and friends","Para envío a varios miembros de la familia y amigos",theme,frontend/Magento/luma
-"Order History","Historial de pedidos",theme,frontend/Magento/luma
-"View past orders","Ver órdenes anteriores",theme,frontend/Magento/luma
-"Footer","Pie de página",theme,frontend/Magento/luma
-"<a href=%url_about_us>About Us</a>","<a href=%url_about_us>Sobre Nosotros</a>",theme,frontend/Magento/luma
-"<a href=url_customer_service>Customer Service</a>","<a href=url_customer_service>Servicio al cliente</a>",theme,frontend/Magento/luma
-"<a href=""tel:%store_phone"">%store_phone</a>","<a href=""tel:%store_phone"">%store_phone</a>",theme,frontend/Magento/luma
-"Hours of Operation:<br /><span class=""no-link"">%store_hours</span>.","Horario de atención:<br /><span class=""no-link"">%store_hours</span>.",theme,frontend/Magento/luma
-"Credit memo for your %store_name order","Credit memo para su orden en %store_name",theme,frontend/Magento/luma
-"Thank you for your order from %store_name.","Gracias por su pedido de %store_name.",theme,frontend/Magento/luma
-"You can check the status of your order by <a href=""%account_url"">logging into your account</a>.","Puede comprobar el estado de su pedido <a href=""%account_url"">accediendo a su cuenta</a>.",theme,frontend/Magento/luma
-"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>.","Si tienes alguna duda acerca de tu pedido, puede enviarnos un email a <a href=""mailto:%store_email"">%store_email</a>.",theme,frontend/Magento/luma
-"Your Credit Memo #%creditmemo_id for Order #%order_id","Su factura rectificada nº %creditmemo_id para el pedido nº %order_id",theme,frontend/Magento/luma
-"Billing Info","Información de facturación",theme,frontend/Magento/luma
-"Shipping Info","Información de envío",theme,frontend/Magento/luma
-"Payment Method","Método de pago",theme,frontend/Magento/luma
-"Shipping Method","Método de envío",theme,frontend/Magento/luma
-"Update to your %store_name credit memo","Actualizar su credit memo de %store_name",theme,frontend/Magento/luma
-"Your order #%increment_id has been updated with a status of <strong>%order_status</strong>.","El pedido nº %increment_id se ha actualizado con un estado de <strong>%order_status</strong>.",theme,frontend/Magento/luma
-"Invoice for your %store_name order","Factura para el pedido en %store_name",theme,frontend/Magento/luma
-"Your Invoice #%invoice_id for Order #%order_id","Su factura nº %invoice_id para el pedido nº %order_id",theme,frontend/Magento/luma
-"Update to your %store_name invoice","Actualizar su factura en %store_name",theme,frontend/Magento/luma
-"Your %store_name order confirmation","Confirmación de su pedido en %store_name",theme,frontend/Magento/luma
-"%customer_name,","%customer_name,",theme,frontend/Magento/luma
-"Once your package ships we will send you a tracking number.","Una vez que el paquete sea enviado te enviaremos un número de seguimiento.",theme,frontend/Magento/luma
-"Your Order <span class=""no-link"">#%increment_id</span>","Su pedido <span class=""no-link""> #%increment_id</span>",theme,frontend/Magento/luma
-"Placed on <span class=""no-link"">%created_at</span>","Creada el <span class=""no-link"">%created_at</span>",theme,frontend/Magento/luma
-"Update to your %store_name order","Actualizar su orden en %store_name",theme,frontend/Magento/luma
-"Your %store_name order has shipped","Se ha enviado su orden de %store_name",theme,frontend/Magento/luma
-"Your shipping confirmation is below. Thank you again for your business.","La confirmación de su envío está abajo. Gracias otra vez por su compra.",theme,frontend/Magento/luma
-"Your Shipment #%shipment_id for Order #%order_id","Su envío nº %shipment_id para el pedido nº %order_id",theme,frontend/Magento/luma
-"Update to your %store_name shipment","Actualización el envío de %store_name",theme,frontend/Magento/luma
-"Account Dashboard","Mi panel de control",theme,frontend/Magento/luma
-"Address Book","Libreta de direcciones",theme,frontend/Magento/luma
-"Account Information","Información de la cuenta",theme,frontend/Magento/luma
-"About Us","Acerca de nosotros",theme,frontend/Magento/luma
-"Customer Service","Servicio al Cliente",theme,frontend/Magento/luma
-"My Account","Mi Cuenta",theme,frontend/Magento/luma
+"Summary","Resumen",theme,frontend\Magento\blank
+"Account Dashboard","Mi panel de control",theme,frontend\Magento\blank
+"Account Information","Información de la cuenta",theme,frontend\Magento\blank
+"Address Book","Libreta de direcciones",theme,frontend\Magento\blank
+"Menu","Menú",theme,frontend\Magento\blank
+"Account","Cuenta",theme,frontend\Magento\blank
+"Settings","Configuración",theme,frontend\Magento\blank
+"Now Shopping by","Ahora comprando por",theme,frontend\Magento\luma
+"Previous","Anterior",theme,frontend\Magento\luma
+"Remove","Eliminar",theme,frontend\Magento\luma
+"Remove This Item","Eliminar este artículo",theme,frontend\Magento\luma
+"Shop By","Comprar por",theme,frontend\Magento\luma
+"Clear All","Eliminar todo",theme,frontend\Magento\luma
+"Shopping Options","Opciones de compra",theme,frontend\Magento\luma
+"Welcome to %store_name","Bienvenido a %store_name",theme,frontend\Magento\luma
+"%name,","%name,",theme,frontend\Magento\luma
+"Welcome to %store_name.","Bienvenido a %store_name.",theme,frontend\Magento\luma
+"To sign in to our site, use these credentials during checkout or on the <a href=""%customer_url"">My Account</a> page:","Para iniciar sesión, utiliza estas credenciales durante el proceso de compra o en la página <a href=""%customer_url"">Mi cuenta</a>:",theme,frontend\Magento\luma
+"Email:","Email:",theme,frontend\Magento\luma
+"Password:","Contraseña:",theme,frontend\Magento\luma
+"Password you set when creating account","Contraseña que ingresaste al crear la cuenta",theme,frontend\Magento\luma
+"Forgot your account password? Click <a href=""%reset_url"">here</a> to reset it.","¿Olvidó la contraseña de su cuenta? Haga clic <a href=""%reset_url""> aquí</a> para restablecerla.",theme,frontend\Magento\luma
+"When you sign in to your account, you will be able to:","Cuando inicie sesión en su cuenta, podrá:",theme,frontend\Magento\luma
+"Quick Checkout","Checkout rápido",theme,frontend\Magento\luma
+"Proceed through checkout faster","Procede a través del checkout más rápido",theme,frontend\Magento\luma
+"Order Status","Estado de pedido",theme,frontend\Magento\luma
+"Check the status of orders","Compruebe el estado de los pedidos",theme,frontend\Magento\luma
+"Manage Addresses","Gestionar direcciones",theme,frontend\Magento\luma
+"Store alternative addresses","Almacena direcciones alternativas",theme,frontend\Magento\luma
+"For shipping to multiple family members and friends","Para envío a varios miembros de la familia y amigos",theme,frontend\Magento\luma
+"Order History","Historial de pedidos",theme,frontend\Magento\luma
+"View past orders","Ver órdenes anteriores",theme,frontend\Magento\luma
+"Footer","Pie de página",theme,frontend\Magento\luma
+"<a href=%url_about_us>About Us</a>","<a href=%url_about_us>Sobre Nosotros</a>",theme,frontend\Magento\luma
+"<a href=url_customer_service>Customer Service</a>","<a href=url_customer_service>Servicio al cliente</a>",theme,frontend\Magento\luma
+"<a href=""tel:%store_phone"">%store_phone</a>","<a href=""tel:%store_phone"">%store_phone</a>",theme,frontend\Magento\luma
+"Hours of Operation:<br /><span class=""no-link"">%store_hours</span>.","Horario de atención:<br /><span class=""no-link"">%store_hours</span>.",theme,frontend\Magento\luma
+"Credit memo for your %store_name order","Credit memo para su orden en %store_name",theme,frontend\Magento\luma
+"Thank you for your order from %store_name.","Gracias por su pedido de %store_name.",theme,frontend\Magento\luma
+"You can check the status of your order by <a href=""%account_url"">logging into your account</a>.","Puede comprobar el estado de su pedido <a href=""%account_url"">accediendo a su cuenta</a>.",theme,frontend\Magento\luma
+"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>.","Si tienes alguna duda acerca de tu pedido, puede enviarnos un email a <a href=""mailto:%store_email"">%store_email</a>.",theme,frontend\Magento\luma
+"Your Credit Memo #%creditmemo_id for Order #%order_id","Su factura rectificada nº %creditmemo_id para el pedido nº %order_id",theme,frontend\Magento\luma
+"Billing Info","Información de facturación",theme,frontend\Magento\luma
+"Shipping Info","Información de envío",theme,frontend\Magento\luma
+"Payment Method","Método de pago",theme,frontend\Magento\luma
+"Shipping Method","Método de envío",theme,frontend\Magento\luma
+"Update to your %store_name credit memo","Actualizar su credit memo de %store_name",theme,frontend\Magento\luma
+"Your order #%increment_id has been updated with a status of <strong>%order_status</strong>.","El pedido nº %increment_id se ha actualizado con un estado de <strong>%order_status</strong>.",theme,frontend\Magento\luma
+"Invoice for your %store_name order","Factura para el pedido en %store_name",theme,frontend\Magento\luma
+"Your Invoice #%invoice_id for Order #%order_id","Su factura nº %invoice_id para el pedido nº %order_id",theme,frontend\Magento\luma
+"Update to your %store_name invoice","Actualizar su factura en %store_name",theme,frontend\Magento\luma
+"Your %store_name order confirmation","Confirmación de su pedido en %store_name",theme,frontend\Magento\luma
+"%customer_name,","%customer_name,",theme,frontend\Magento\luma
+"Once your package ships we will send you a tracking number.","Una vez que el paquete sea enviado te enviaremos un número de seguimiento.",theme,frontend\Magento\luma
+"Your Order <span class=""no-link"">#%increment_id</span>","Su pedido <span class=""no-link""> #%increment_id</span>",theme,frontend\Magento\luma
+"Placed on <span class=""no-link"">%created_at</span>","Creada el <span class=""no-link"">%created_at</span>",theme,frontend\Magento\luma
+"Update to your %store_name order","Actualizar su orden en %store_name",theme,frontend\Magento\luma
+"Your %store_name order has shipped","Se ha enviado su orden de %store_name",theme,frontend\Magento\luma
+"Your shipping confirmation is below. Thank you again for your business.","La confirmación de su envío está abajo. Gracias otra vez por su compra.",theme,frontend\Magento\luma
+"Your Shipment #%shipment_id for Order #%order_id","Su envío nº %shipment_id para el pedido nº %order_id",theme,frontend\Magento\luma
+"Update to your %store_name shipment","Actualización el envío de %store_name",theme,frontend\Magento\luma
+"Account Dashboard","Mi panel de control",theme,frontend\Magento\luma
+"Address Book","Libreta de direcciones",theme,frontend\Magento\luma
+"Account Information","Información de la cuenta",theme,frontend\Magento\luma
+"About Us","Acerca de nosotros",theme,frontend\Magento\luma
+"Customer Service","Servicio al Cliente",theme,frontend\Magento\luma
+"My Account","Mi Cuenta",theme,frontend\Magento\luma
 "Backup options","Opciones de copia de seguridad",lib,web
 "Warning","Advertencia",lib,web
 "Cancel","Cancelar",lib,web
@@ -16401,34 +16406,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "The widget %1 is no longer available. Select a different widget.","El widget %1 ya no está disponible. Seleccione un widget diferente.",lib,web
 "First character must be letter.","El primer carácter debe ser una letra.",lib,web
 "The password can't be the same as the email address. Create a new password and try again.","La contraseña no puede ser la misma que la dirección de correo electrónico. Crear una nueva contraseña y vuelva a intentarlo.",lib,web
-"Connect with JAM","Contáctate con JAM",lib,web
-"Need help?","¿Necesita ayuda?",lib,web
-"Email JAM?","Contáctenos",lib,web
-"Privacy Policy","Política de privacidad",lib,web
-"Terms of Use","Términos de uso",lib,web
-"All Rights Reserved","Todos los derechos reservados",lib,web
-"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe",lib,web
-"First name","Nombres",lib,web
-"Last name","Apellidos",lib,web
-"Categories","Categorías",lib,web
-"Products","Productos",lib,web
-"Last name","Apellidos",lib,web
-"Features","Características",lib,web
-"Specs","Especif.",lib,web
-"In the Box","En la caja",lib,web
-"Quick Specs","Especificaciones",lib,web
-"Categories","Categorías",module,Magento_Sitemap
-"Products","Productos",module,Magento_Sitemap
-"Join the REPUBLIC","ÚNETE A NOSOTROS",lib,web
-"Follow us","SÍGUENOS",lib,web
-"Support","SOPORTE",lib,web
-"Explore","Explora",lib,web
-"For comments, feedback, or help with your product, contact us using the form below.","Déjanos tus comentarios",lib,web
-"Send E-mail","Enviar",lib,web
-"Telephone","Teléfono",lib,web
-"Comment / Question","Comentario / Pregunta",lib,web
-"Speakers","Parlantes",lib,web
-"Wireless","Inalámbrico",lib,web
-"Earphones","Auriculares",lib,web
-"Resources","Recursos",lib,web
-"Buy","COMPRAR",lib,web
+"Back to home","Regresar",lib,web
+"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe.",lib,web

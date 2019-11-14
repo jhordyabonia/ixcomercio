@@ -23,8 +23,10 @@
 		<referenceContainer name="header.container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
 			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper">
-
-				<container name="header.account.wrapper" as="header_account_wrapper" before="-" htmlTag="div" htmlClass="account-header-wrapper">
+				<container name="header.country.wrapper" as="header_country_wrapper" before="-" htmlTag="div" htmlClass="country-header-wrapper">
+					<block class="Magento\Framework\View\Element\Template" name="header.account.country" template="Magento_Theme::html/header-country.phtml" cacheable="false"/>
+				</container>
+				<container name="header.account.wrapper" as="header_account_wrapper" htmlTag="div" htmlClass="account-header-wrapper">
 					<block class="Magento\Framework\View\Element\Template" name="header.account.icon" template="Magento_Theme::html/header-account-icon.phtml" cacheable="false"/>
 				</container>
 				<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">

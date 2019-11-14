@@ -21,6 +21,7 @@
 			<container name="header.account.cart.wrapper" as="header_account_cart_wrapper" htmlTag="div" htmlClass="account-cart-wrapper" before="header.row.wrapper">
 				<container name="header.row.container.toplinks" as="header_row_container_toplinks" before="-" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
 					<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
+					<block name="header.account.icon" cacheable="false" template="Magento_Theme::html/header-country.phtml" class="Magento\Framework\View\Element\Template"/>
 				</container>
 			</container>
 			<container name="header.row.wrapper" as="header_row_wrapper" before="-" htmlTag="div" htmlClass="container">
