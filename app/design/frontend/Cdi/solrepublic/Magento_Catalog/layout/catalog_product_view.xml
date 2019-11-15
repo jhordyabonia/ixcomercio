@@ -38,7 +38,7 @@
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
 		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
-		<move element="product.reviews.container" destination="product.essential.container.row" as="product.reviews.container" after="product.info.main"/>
+		<!--<move element="product.reviews.container" destination="product.essential.container.row" as="product.reviews.container" after="product.info.main"/>-->
 
         <!--main-->
         <move element="product.info.sku" destination="product.info.main" as="product.info.sku" after="product.custom.name"/>
