@@ -1,10 +1,10 @@
 .block.review-add{
   padding: 60px 0; 
+  .block-title {
+    display: block;
+    text-align: left;
+  }
   form.review-form{
     width: 100%;
-    .block-title {
-        display: block;
-        text-align: left;
-    }
   }
 }
