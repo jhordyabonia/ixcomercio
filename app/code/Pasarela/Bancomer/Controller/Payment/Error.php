@@ -314,6 +314,7 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $serviceUrl,
+            CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => $payload
         ));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
