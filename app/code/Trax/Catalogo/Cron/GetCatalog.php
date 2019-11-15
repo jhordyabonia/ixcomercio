@@ -561,27 +561,28 @@ class GetCatalog {
                 $product->setTypeId('downloadable');
                 break;
         } // type of product (simple/virtual/downloadable/configurable)
-        //Set product dimensions
-        if(isset($catalog->Freight)){
-            if(isset($catalog->Freight->Item)){
-                if($configData['product_weight']){
-                    $product->setWeight($catalog->Freight->Item->Weight);    
-                }
-                if($configData['product_length']){
-                    $product->setData('length',$catalog->Freight->Item->Length);
-                    $product->setData('ts_dimensions_length',$catalog->Freight->Item->Length);   
-                }
-                if($configData['product_width']){
-                    $product->setData('width',$catalog->Freight->Item->Width);
-                    $product->setData('ts_dimensions_width',$catalog->Freight->Item->Width);   
-                }
-                if($configData['product_height']){
-                    $product->setData('height',$catalog->Freight->Item->Height);
-                    $product->setData('ts_dimensions_height',$catalog->Freight->Item->Height);
+        try{
+            $product->save();
+            //Set product dimensions
+            if(isset($catalog->Freight)){
+                if(isset($catalog->Freight->Item)){
+                    if($configData['product_weight']){
+                        $product->setWeight($catalog->Freight->Item->Weight);    
+                    }
+                    if($configData['product_length']){
+                        $product->setData('length',$catalog->Freight->Item->Length);
+                        $product->setCustomAttribute('ts_dimensions_length',$catalog->Freight->Item->Length);   
+                    }
+                    if($configData['product_width']){
+                        $product->setData('width',$catalog->Freight->Item->Width);
+                        $product->setCustomAttribute('ts_dimensions_width',$catalog->Freight->Item->Width);   
+                    }
+                    if($configData['product_height']){
+                        $product->setData('height',$catalog->Freight->Item->Height);
+                        $product->setCustomAttribute('ts_dimensions_height',$catalog->Freight->Item->Height);
+                    }
                 }
             }
-        }
-        try{
             $product->save();
             $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
             return $product->getSku();
