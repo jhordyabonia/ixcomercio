@@ -344,6 +344,16 @@ section{
       .sidebar-main{
         @media only screen and (max-width: $desktop){
           padding: 0;
+          float: left;
+          width: 100%;
+        }
+        @media only screen and (min-width: $tablet){
+          width: 25%;
+        }
+      }
+      .column.main{
+        @media only screen and (min-width: $tablet){
+          width: 75%;
         }
       }
     }
@@ -448,10 +458,10 @@ section{
         margin: 0 1.66% 30px;
         padding: 20px;
         float: left;
-        @media only screen and (max-width: $desktop){
+        @media only screen and (min-width: $tablet){
           &.product-item{
-            &:nth-child(3n){
-              margin-right: 0;
+            &:nth-child(n){
+              margin-left: 1.66%; 
             }
           }
         }
@@ -567,6 +577,9 @@ section{
     background: $mainColor;
     text-transform: uppercase;
     transition: .5s all ease;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    font-family: 'HpBold';
     font-weight: 400;
     border-radius: 0 8px !important;
     border: 0;
