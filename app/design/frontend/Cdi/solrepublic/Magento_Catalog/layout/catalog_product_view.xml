@@ -12,15 +12,19 @@
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-7 col-xs-12"/>
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-5 col-xs-12">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
-                <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
-                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
-                    <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
-                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
-                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
-                    </block>
-                </block>
 			</referenceContainer>
+
+			<container name="product.reviews.container" htmlTag="div" htmlClass="reviews-wrapper">
+				<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+	                <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
+	                <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
+	                <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
+	                    <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
+	                </block>
+	            </block>
+			</container>
 		</referenceContainer>
+		
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
@@ -36,6 +40,7 @@
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
 		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
+		<!--<move element="product.reviews.container" destination="product.essential.container.row" as="product.reviews.container" after="product.info.main"/>-->
 
         <!--main-->
         <move element="product.info.sku" destination="product.info.main" as="product.info.sku" after="product.custom.name"/>
