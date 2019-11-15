@@ -82,6 +82,7 @@
           width: 100%;
           display: inline-block;
           .rating-summary{
+            height: auto!important;
             .rating-result{
               &:before{
                 text-align: left;
@@ -95,7 +96,7 @@
           .product-item-name{
             font-size: 20px;
             line-height: normal;
-            font-family: 'HpBold';
+            font-family: 'HpRegular';
             min-height: 60px;
             a{
               color: $mainColor;

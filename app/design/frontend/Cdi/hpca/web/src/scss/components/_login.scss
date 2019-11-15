@@ -1,5 +1,12 @@
 .login-container{
   text-align: left;
+  .block{
+    .block-title{
+      color: $mainColor;
+      text-transform: uppercase;
+      font-family: 'HpBold';
+    }
+  }
   .fieldset:after{
     width: 100%;
     font-size: 12px;
