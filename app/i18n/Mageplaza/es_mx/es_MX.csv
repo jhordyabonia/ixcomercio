@@ -3221,7 +3221,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "We cannot configure the product.","No se puede configurar el artículo.",module,Magento_Checkout
 "You used coupon code ""%1"".","Se utiliza el código de cupón ""%1"".",module,Magento_Checkout
 "The coupon code ""%1"" is not valid.","El cupón ""%1"" no es válido.",module,Magento_Checkout
-"You canceled the coupon code.","Usted canceló el código del cupón.",module,Magento_Checkout
+"You canceled the coupon code.","Cancelaste el código del cupón.",module,Magento_Checkout
 "We cannot apply the coupon code.","No se puede aplicar el código de cupón.",module,Magento_Checkout
 "We can't remove the item.","No se puede quitar el producto.",module,Magento_Checkout
 "%1 was updated in your shopping cart.","%1 fueron actualizados en su carrito de la compra.",module,Magento_Checkout
@@ -3275,6 +3275,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Price","Precio",module,Magento_Checkout
 "Qty","Cantidad",module,Magento_Checkout
 "Subtotal","Subtotal",module,Magento_Checkout
+"has been added to cart","se ha agreagdo al carrito",module,Magento_Checkout
 "Continue Shopping","Continuar comprando",module,Magento_Checkout
 "Clear Shopping Cart","Vaciar el carrito",module,Magento_Checkout
 "Update Shopping Cart","Actualizar carrito",module,Magento_Checkout
@@ -3745,6 +3746,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "State/Province:","Estado/Provincia:",module,Magento_Company
 "ZIP/Postal Code:","Código Postal:",module,Magento_Company
 "Phone Number:","Número de teléfono:",module,Magento_Company
+"Identification","Identificación",module,Magento_Company
 "Job Title:","Puesto:",module,Magento_Company
 "Email Address:","Correo electrónico:",module,Magento_Company
 "Prefix:","Prefijo:",module,Magento_Company
@@ -3884,6 +3886,7 @@ o equipos primero.",module,Magento_Company
 "Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Company
 "ZIP/Postal Code","Código Postal",module,Magento_Company
 "Phone Number","Número de teléfono",module,Magento_Company
+"Identification","Identificación",module,Magento_Company
 "Company Administrator","Administrador de la empresa",module,Magento_Company
 "Job Title","Nombre del cargo",module,Magento_Company
 "Email","Correo electrónico",module,Magento_Company
@@ -4602,6 +4605,7 @@ new products will be created. Use this step to customize images and price for yo
 "Name","Nombre",module,Magento_Contact
 "Email","Correo electrónico",module,Magento_Contact
 "Phone Number","Número de teléfono",module,Magento_Contact
+"Identification","Identificación",module,Magento_Contact
 "What’s on your mind?","¿Qué está en su mente?",module,Magento_Contact
 "Submit","Enviar",module,Magento_Contact
 "Contact Form","Formulario de contacto",module,Magento_Contact
@@ -5087,6 +5091,7 @@ new products will be created. Use this step to customize images and price for yo
 "Name","Nombre",module,Magento_Customer
 "Tax/VAT number","Número de IVA/impuestos",module,Magento_Customer
 "Phone Number","Número de teléfono",module,Magento_Customer
+"Identification","Identificación",module,Magento_Customer
 "Welcome to %store_name","Bienvenido a %store_name",module,Magento_Customer
 "%name,","%name,",module,Magento_Customer
 "Welcome to %store_name.","Bienvenido a %store_name.",module,Magento_Customer
@@ -5556,6 +5561,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Address Information","Información de dirección",module,Magento_CustomerCustomAttributes
 "Company","Empresa",module,Magento_CustomerCustomAttributes
 "Phone Number","Número de teléfono",module,Magento_CustomerCustomAttributes
+"Identification","Identificación",module,Magento_CustomerCustomAttributes
 "Sign-in Information","Información de inicio de sesión",module,Magento_CustomerCustomAttributes
 "Password","Contraseña",module,Magento_CustomerCustomAttributes
 "Confirm Password","Confirmar contraseña",module,Magento_CustomerCustomAttributes
@@ -7153,6 +7159,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Zip/Postal Code","Código Postal",module,Magento_GiftRegistry
 "Country","País",module,Magento_GiftRegistry
 "Phone Number","Número de teléfono",module,Magento_GiftRegistry
+"Identification","Identificación",module,Magento_GiftRegistry
 "Fax","Fax",module,Magento_GiftRegistry
 "Add All To Gift Registry","Añadir todo al registro de regalo",module,Magento_GiftRegistry
 "Ship to registrant's address","Enviar a la dirección del registrante",module,Magento_GiftRegistry
