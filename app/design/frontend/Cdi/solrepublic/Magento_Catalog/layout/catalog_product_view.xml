@@ -13,18 +13,18 @@
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-5 col-xs-12">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
+
+			<container name="product.reviews.container" htmlTag="div" htmlClass="reviews-wrapper">
+				<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+	                <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
+	                <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
+	                <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
+	                    <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
+	                </block>
+	            </block>
+			</container>
 		</referenceContainer>
 		
-		<container name="product.reviews.container" htmlTag="div" htmlClass="reviews-wrapper">
-			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
-                <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
-                <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
-                <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
-                    <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
-                </block>
-            </block>
-		</container>
-
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
