@@ -74,7 +74,6 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
      * @param \Psr\Log\LoggerInterface $logger_interface
      * @param \Magento\Sales\Model\Service\InvoiceService $invoiceService
      * @param \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder
-     * @param \Shipment\Api\Model\ApiTransaccionesFactory  $bancomerTransacciones
      * @param \Magento\Framework\Controller\ResultFactory $result
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Catalogo\Helper\Email $email
@@ -88,7 +87,6 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
             \Psr\Log\LoggerInterface $logger_interface,
             \Magento\Sales\Model\Service\InvoiceService $invoiceService,
             \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
-            \Shipment\Api\Model\ApiTransaccionesFactory  $bancomerTransacciones,
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Catalogo\Helper\Email $email,
@@ -102,7 +100,6 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
         $this->logger = $logger_interface;        
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
-        $this->_bancomerTransacciones = $bancomerTransacciones;
         $this->resultRedirect = $result;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
