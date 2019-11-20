@@ -328,7 +328,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							success: function(res) {
 							  $(fieldCityCheckout).find('select option:not([value=""])').remove();
 							  $.each(res, function(i, val){
-							    $(fieldCityCheckout).find('select').append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+							    $(fieldCityCheckout).find('select').append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
 							  });
 							}
 						});
@@ -351,7 +351,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 						$.ajax({
 							url: '/places/search/',
-							data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+							data: 'parentId='+$('#fieldCityCheckout').find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
