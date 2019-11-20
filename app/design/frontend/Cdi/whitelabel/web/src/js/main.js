@@ -298,20 +298,23 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
-			    	$(fieldStateCheckout).find('input').hide();
-			    	$(fieldCityCheckout).find('input').hide();
-			    	var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+			    	if($(fieldStateCheckout).find('input').length()){
+			    		$(fieldStateCheckout).find('input').hide();
+
+			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">Please select a region, state or province.</option>';
 
-			        $.each(res, function(iRes, valRes){
-			        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
-			        });
+				        $.each(res, function(iRes, valRes){
+				        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
+				        });
 
-			        html += '</select>';
+				        html += '</select>';
 
-	    			$(fieldStateCheckout).append(html);
-
-	    			var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
+		    			$(fieldStateCheckout).append(html);
+			    	}
+			    	
+			    	$(fieldCityCheckout).find('input').hide();
+			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
