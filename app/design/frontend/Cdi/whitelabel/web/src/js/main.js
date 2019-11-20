@@ -179,16 +179,16 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    var intervalState;
 
 	    function getStates(){
-	    	console.log("entra");
-			$.ajax({
+	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
+			    	/*
 			        $.each(res, function(iRes, valRes){
-			        	console.log("agrega");
 			        	$(fieldState).append("<option value='' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
+			        */
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
