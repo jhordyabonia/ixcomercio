@@ -233,45 +233,44 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
-
-
-			    	// =============================================
-				    // Print select street
-				    // =============================================
-				    $('#city_id').on('change', function (e) {
-				    	$.ajax({
-							url: '/places/search/',
-							data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
-							type: 'GET',
-							dataType: 'json',
-							success: function(resCity) {
-								$(fieldStreet).find('select option:not([value=""])').remove();
-							  	$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-							  	});
-							}
-						});
-				    });
-
-
-				    // =============================================
-				    // Print postal code
-				    // =============================================
-				    $('#fieldSelectStreet').on('change', function (e) {
-				    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-						$(fieldStreet).find('input').val($(valStreet).text());
-						$(fieldStreet).find('input').keyup();
-
-				    	$('#zip').val($(valStreet).attr('postalCode'));
-				    	$('#zip').find('input').keyup();
-				    });
-
 		        }
 	      	});
 
 	      	var valState = $(fieldState).find('option:selected');
 			$(fieldState).parent().find('input').val($(valState).text());
 			$(fieldState).parent().find('input').keyup();
+	    });
+
+
+	    // =============================================
+	    // Print select street
+	    // =============================================
+	    $('#city_id').on('change', function (e) {
+	    	$.ajax({
+				url: '/places/search/',
+				data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+				type: 'GET',
+				dataType: 'json',
+				success: function(resCity) {
+					$(fieldStreet).find('select option:not([value=""])').remove();
+				  	$.each(resCity, function(iResCity, valResCity){
+				    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+				  	});
+				}
+			});
+	    });
+
+
+	    // =============================================
+	    // Print postal code
+	    // =============================================
+	    $('#fieldSelectStreet').on('change', function (e) {
+	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
+			$(fieldStreet).find('input').val($(valStreet).text());
+			$(fieldStreet).find('input').keyup();
+
+	    	$('#zip').val($(valStreet).attr('postalCode'));
+	    	$('#zip').find('input').keyup();
 	    });
 
 
