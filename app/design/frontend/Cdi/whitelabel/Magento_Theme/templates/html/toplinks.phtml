@@ -6,7 +6,7 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
         <ul class="list-registered-user">
             <li><?php echo __('Hello')?>, <?php echo $customerSession->getCustomer()->getName() ?></li>
             <ul>
-                <a href="<?php echo $customerSession->getAccountUrl() ?>"><li><?php echo __('My Account') ?></li></a>
+                <a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
                 <a href="<?php echo $this->getUrl('sales/order/history') ?>"><li><?php echo __('My Orders') ?></li></a>
                 <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Sign Out') ?></li></a>
             </ul>
