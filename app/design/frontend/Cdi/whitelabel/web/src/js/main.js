@@ -283,7 +283,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
-	    	var fieldStreet = $('form .fieldset > .field.street .control .additional .control');
+	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 		    var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 							'<option data-title="" value="">Please select a zone.</option>'+
 							'</select>';
