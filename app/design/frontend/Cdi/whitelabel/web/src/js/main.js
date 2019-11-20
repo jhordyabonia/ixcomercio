@@ -232,13 +232,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    	});
 
 
-			    	var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
-	    							'<option data-title="" value="">Please select a zone.</option>'+
-	    							'</select>';
-	    			$(fieldStreet).append(htmlStreet);
-
-
-	    			// =============================================
+			    	// =============================================
 				    // Print select street
 				    // =============================================
 				    $('#city_id').on('change', function (e) {
@@ -248,10 +242,15 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
-							  $(fieldStreet).find('select option:not([value=""])').remove();
-							  $.each(resCity, function(iResCity, valResCity){
-							    $(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-							  });
+								var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'</select>';
+	    						$(fieldStreet).append(htmlStreet);
+
+							  	$(fieldStreet).find('select option:not([value=""])').remove();
+							  	$.each(resCity, function(iResCity, valResCity){
+							    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+							  	});
 							}
 						});
 				    });
