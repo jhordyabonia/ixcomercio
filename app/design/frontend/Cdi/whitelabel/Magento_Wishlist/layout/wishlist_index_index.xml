@@ -7,6 +7,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceBlock name="breadcrumbs" remove="true" />
        <referenceBlock name="page.main.title">
             <action method="setPageTitle">
                 <argument translate="true" name="title" xsi:type="string">My Wishlist</argument>
@@ -14,6 +15,22 @@
         </referenceBlock>
         <referenceContainer name="page.top">
             <referenceBlock name="breadcrumbs">
+                <action method="addCrumb">
+                    <argument name="crumbName" xsi:type="string">Home</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="title" xsi:type="string">Home</item>
+                        <item name="label" xsi:type="string">Home</item>
+                        <item name="link" xsi:type="string">/</item>
+                    </argument>
+                </action>
+                <action method="addCrumb">
+                    <argument name="crumbName" xsi:type="string">My Account</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">My Account</item>
+                        <item name="label" xsi:type="string"  translate="true">My Account</item>
+                        <item name="link" xsi:type="string" translate="true">/customer/account</item>
+                    </argument>
+                </action>
                 <action method="addCrumb">
                     <argument name="crumbName" xsi:type="string">Wishlist</argument>
                     <argument name="crumbInfo" xsi:type="array">
