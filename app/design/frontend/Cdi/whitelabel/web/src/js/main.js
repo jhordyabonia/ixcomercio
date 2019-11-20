@@ -340,11 +340,29 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 					    
 				    });
 
+
+				    // =============================================
+				    // Print select street checkout
+				    // =============================================
 				    $('#fieldCityCheckout').on('change', function (e) {
 						var valCity = $(fieldCityCheckout).find('select option:selected');
 						$(fieldCityCheckout).find('input').val($(valCity).text());
 						$(fieldCityCheckout).find('input').keyup();
+
+						$.ajax({
+							url: '/places/search/',
+							data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+							type: 'GET',
+							dataType: 'json',
+							success: function(resCity) {
+								$(fieldStreetCheckout).find('select option:not([value=""])').remove();
+							  	$.each(resCity, function(iResCity, valResCity){
+							    	$(fieldStreetCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+							  	});
+							}
+						});
 				    });
+				    
 			    }
 			});
 	    }
