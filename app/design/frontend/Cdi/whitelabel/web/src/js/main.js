@@ -215,6 +215,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
+	    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
+
+	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
 	      	$.ajax({
@@ -227,6 +230,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
+
+
+			    	var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'</select>';
+	    			$(fieldStreet).append(htmlStreet);
 		        }
 	      	});
 
@@ -234,6 +243,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			$(fieldState).parent().find('input').val($(valState).text());
 			$(fieldState).parent().find('input').keyup();
 	    });
+
+
+	    // =============================================
+	    // Get zone
+	    // =============================================
 
 
 
