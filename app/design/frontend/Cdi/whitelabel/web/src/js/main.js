@@ -216,7 +216,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
 	    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
-
+	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+						'<option data-title="" value="">Please select a zone.</option>'+
+						'</select>';
+		$(fieldStreet).append(htmlStreet);
 	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
@@ -242,30 +245,25 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
-								var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
-	    							'<option data-title="" value="">Please select a zone.</option>'+
-	    							'</select>';
-	    						$(fieldStreet).append(htmlStreet);
-
-							  	$(fieldStreet).find('select option:not([value=""])').remove();
+								$(fieldStreet).find('select option:not([value=""])').remove();
 							  	$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
-
-
-							  	// =============================================
-							    // Print postal code
-							    // =============================================
-							    $('#fieldSelectStreet').on('change', function (e) {
-							    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-									$(fieldStreet).find('input').val($(valStreet).text());
-									$(fieldStreet).find('input').keyup();
-
-							    	$('#zip').val($(valStreet).attr('postalCode'));
-							    	$('#zip').find('input').keyup();
-							    });
 							}
 						});
+				    });
+
+
+				    // =============================================
+				    // Print postal code
+				    // =============================================
+				    $('#fieldSelectStreet').on('change', function (e) {
+				    	var valStreet = $('#fieldSelectStreet').find('option:selected');
+						$(fieldStreet).find('input').val($(valStreet).text());
+						$(fieldStreet).find('input').keyup();
+
+				    	$('#zip').val($(valStreet).attr('postalCode'));
+				    	$('#zip').find('input').keyup();
 				    });
 
 		        }
