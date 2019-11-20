@@ -362,6 +362,20 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							}
 						});
 				    });
+
+
+				    // =============================================
+				    // Print postal code
+				    // =============================================
+
+				    $('#fieldSelectStreet').on('change', function (e) {
+				    	var valStreetCheckout = $('#fieldSelectStreet').find('option:selected');
+						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
+						$(fieldStreetCheckout).find('input').keyup();
+
+				    	$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
+				    	$('input[name="postcode"]').keyup();
+				    });
 				    
 			    }
 			});
