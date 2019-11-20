@@ -124,16 +124,29 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    });
 
 
+	    // =============================================
+	    // Toggle search
+	    // =============================================
+
 		jQuery('.icon-search-button').click(function(){
 			jQuery('.block-search').toggleClass("open");
 			jQuery(this).toggleClass("close");
 		});
+
+
+		// =============================================
+	    // Toggle menu mobile
+	    // =============================================
 
 		jQuery('#iconBurgerButton').click(function(){
 			jQuery('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
 			jQuery(this).toggleClass("close");
 		});
 
+
+		// =============================================
+	    // Create carousel product grid
+	    // =============================================
 		
 		if($('.products-grid .owl-carousel').length){
 			$('.products-grid .owl-carousel').owlCarousel({
@@ -155,6 +168,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    }
 			});
 		}
+
+
+		// =============================================
+	    // Toggle search
+	    // =============================================
+
+
 	});
 
 	
