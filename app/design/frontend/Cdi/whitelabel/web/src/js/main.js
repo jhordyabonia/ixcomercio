@@ -186,6 +186,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			        $.each(res, function(iRes, valRes){
+			        	console.log("agrega");
 			        	$(fieldState).append("<option value='' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
 			        $(fieldState).show();
