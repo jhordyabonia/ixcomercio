@@ -174,6 +174,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // Get states
 	    // =============================================
 
+	    var fieldState = $('form .fieldset > .field.region #region_id');
+	    var stateOptions;
+	    var intervalState;
+
 	    function getStates(){
 			$.ajax({
 			    url: '/places/search/',
