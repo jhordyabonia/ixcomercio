@@ -171,8 +171,40 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
-	    // Toggle search
+	    // Get states
 	    // =============================================
+
+	    function getStates(){
+			$.ajax({
+			    url: '/places/search/',
+			    type: 'GET',
+			    dataType: 'json',
+			    success: function(res) {
+			        $.each(res, function(iRes, valRes){
+			        	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
+			        });
+			        $(fieldState).show();
+			        $(fieldState).attr("disabled", false);
+			        $("input#region").hide();
+			    }
+			});
+	    }
+
+	    if($(fieldState).length){
+	      intervalState = setInterval(function(){
+	        stateOptions = $(fieldState).find('option');
+	        if($(stateOptions).length >= 1){
+	          getStates();
+	          clearInterval(intervalState);
+	        }
+	      }, 1000);
+	    }
+	    
+	    var fieldCountry = $('form .fieldset > .field.country #country');
+	    $( fieldCountry ).change(function() {
+		  	getStates();
+		});
+
 
 
 	});
