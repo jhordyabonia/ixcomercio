@@ -298,7 +298,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
-			    	if($(fieldStateCheckout).find('input').length()){
+			    	if($(fieldStateCheckout).find('input').length){
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
