@@ -251,21 +251,21 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							  	$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
+
+
+							  	// =============================================
+							    // Print postal code
+							    // =============================================
+							    $('#fieldSelectStreet').on('change', function (e) {
+							    	var valStreet = $('#fieldSelectStreet').find('option:selected');
+									$(fieldStreet).find('input').val($(valStreet).text());
+									$(fieldStreet).find('input').keyup();
+
+							    	$('#zip').val($(valStreet).attr('postalCode'));
+							    	$('#zip').find('input').keyup();
+							    });
 							}
 						});
-				    });
-
-
-				    // =============================================
-				    // Print postal code
-				    // =============================================
-				    $('#fieldSelectStreet').on('change', function (e) {
-				    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-						$(fieldStreet).find('input').val($(valStreet).text());
-						$(fieldStreet).find('input').keyup();
-
-				    	$('#zip').val($(valStreet).attr('postalCode'));
-				    	$('#zip').find('input').keyup();
 				    });
 
 		        }
