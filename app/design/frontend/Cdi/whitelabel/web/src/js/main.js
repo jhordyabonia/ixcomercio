@@ -213,7 +213,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Get cities
 	    // =============================================
-	    
+
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
 	    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
 	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
@@ -245,6 +245,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select street
 	    // =============================================
+
 	    $('#city_id').on('change', function (e) {
 	    	$.ajax({
 				url: '/places/search/',
@@ -264,6 +265,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print postal code
 	    // =============================================
+
 	    $('#fieldSelectStreet').on('change', function (e) {
 	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
 			$(fieldStreet).find('input').val($(valStreet).text());
@@ -272,6 +274,84 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	$('#zip').val($(valStreet).attr('postalCode'));
 	    	$('#zip').find('input').keyup();
 	    });
+
+
+
+
+	    // =============================================
+	    // Print select Address checkout
+	    // =============================================
+	    var fieldCityCheckout;
+	    function getStatesCheckout(){
+	    	fieldCityCheckout = $('form .fieldset > .field[name="shippingAddress.city"] .control');
+
+	    	$.ajax({
+			    url: '/places/search/',
+			    type: 'GET',
+			    dataType: 'json',
+			    success: function(res) {
+			    	$(fieldStateCheckout).find('input').hide();
+			    	$(fieldCityCheckout).find('input').hide();
+			    	var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+	    					'<option data-title="" value="">Please select a region, state or province.</option>';
+
+			        $.each(res, function(iRes, valRes){
+			        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
+			        });
+
+			        html += '</select>';
+
+	    			$(fieldStateCheckout).append(html);
+
+	    			var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
+	    							'<option data-title="" value="">Please select a city.</option>'+
+	    							'</select>';
+	    			$(fieldCityCheckout).append(htmlCities);
+
+
+	    			// =============================================
+				    // Print select City checkout
+				    // =============================================
+				    $('#fieldStateCheckout').on('change', function (e) {
+				    	$.ajax({
+							url: '/places/search/',
+							data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
+							type: 'GET',
+							dataType: 'json',
+							success: function(res) {
+							  $(fieldCityCheckout).find('select option:not([value=""])').remove();
+							  $.each(res, function(i, val){
+							    $(fieldCityCheckout).find('select').append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+							  });
+							}
+						});
+
+
+						var valState = $(fieldStateCheckout).find('select option:selected');
+						$(fieldStateCheckout).find('input').val($(valState).text());
+						$(fieldStateCheckout).find('input').keyup();
+					    
+				    });
+
+				    $('#fieldCityCheckout').on('change', function (e) {
+						var valCity = $(fieldCityCheckout).find('select option:selected');
+						$(fieldCityCheckout).find('input').val($(valCity).text());
+						$(fieldCityCheckout).find('input').keyup();
+				    });
+			    }
+			});
+	    }
+
+	    if (window.location.href.indexOf("checkout") > -1) {
+	    	var fieldStateCheckout;
+	    	intervalState = setInterval(function(){
+    			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
+    			if($(fieldStateCheckout).length >= 1){
+		        	getStatesCheckout();
+		          	clearInterval(intervalState);
+		        }
+	      	}, 1000);
+	    }
 
 
 	});
