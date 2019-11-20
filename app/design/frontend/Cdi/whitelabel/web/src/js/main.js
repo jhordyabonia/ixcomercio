@@ -228,7 +228,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        success: function(res) {
 			        $(fieldCity).find('option:not([value=""])').remove();
 			        $.each(res, function(i, val){
-			            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+			            $(fieldCity).append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
 
 
@@ -236,6 +236,30 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    							'<option data-title="" value="">Please select a zone.</option>'+
 	    							'</select>';
 	    			$(fieldStreet).append(htmlStreet);
+
+
+	    			// =============================================
+				    // Print select street
+				    // =============================================
+				    $('#city_id').on('change', function (e) {
+				    	$.ajax({
+							url: '/places/search/',
+							data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+							type: 'GET',
+							dataType: 'json',
+							success: function(resCity) {
+							  $(fieldStreet).find('select option:not([value=""])').remove();
+							  $.each(resCity, function(iResCity, valResCity){
+							    $(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"'>"+valResCity.Name+"</option>");
+							  });
+							}
+						});
+
+						var valState = $(fieldStateCheckout).find('select option:selected');
+						$(fieldStateCheckout).find('input').val($(valState).text());
+						$(fieldStateCheckout).find('input').keyup();
+					    
+				    });
 		        }
 	      	});
 
