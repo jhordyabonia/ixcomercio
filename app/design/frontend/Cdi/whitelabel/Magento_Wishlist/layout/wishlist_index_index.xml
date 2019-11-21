@@ -25,17 +25,13 @@
         </referenceContainer>
         <referenceContainer name="content">
             <referenceBlock name="customer.wishlist.items">
-                <!--
-                    <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="customer.wishlist.item.image" htmlTag="div" htmlClass="custom-whislist">
-                    </container>
-                -->
-                <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml" cacheable="false"/>
-
+                
                 <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="customer.wishlist.item.image" htmlTag="div" htmlClass="custom-whislist">
-                    <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Info" name="customer.wishlist.item.name" template="Magento_Wishlist::item/column/name.phtml" cacheable="false"/>
-                    <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column" name="customer.wishlist.item.review" template="Magento_Wishlist::item/column/review.phtml" cacheable="false"/>
                 </container>
                 
+                <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml" cacheable="false"/>
+                <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Info" name="customer.wishlist.item.name" template="Magento_Wishlist::item/column/name.phtml" cacheable="false"/>
+                <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column" name="customer.wishlist.item.review" template="Magento_Wishlist::item/column/review.phtml" cacheable="false"/>
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart" name="customer.wishlist.item.price" template="Magento_Wishlist::item/column/price.phtml" cacheable="false">
                     <block class="Magento\Catalog\Pricing\Render" name="product.price.render.wishlist">
                         <arguments>
