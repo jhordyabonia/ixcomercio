@@ -299,6 +299,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
+			    		console.log("crea el select estados");
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -312,6 +313,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 		    			$(fieldStateCheckout).append(html);
 			    	}else{
+			    		console.log("existe el select y compara");
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
@@ -342,6 +344,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							type: 'GET',
 							dataType: 'json',
 							success: function(resState) {
+								console.log(resState);
 							  $(fieldCityCheckout).find('select option:not([value=""])').remove();
 							  $.each(res, function(iState, valState){
 							    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
