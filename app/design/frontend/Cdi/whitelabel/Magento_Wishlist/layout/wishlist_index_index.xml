@@ -26,6 +26,7 @@
         <referenceContainer name="content">
             <referenceBlock name="customer.wishlist.items">
                 <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="-" htmlTag="div" htmlClass="custom-whislist">
+                    <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Info" name="customer.wishlist.item.name" template="Magento_Wishlist::item/column/name.phtml" cacheable="false"/>
                 </container>
             </referenceBlock>
         </referenceContainer>
