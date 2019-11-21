@@ -311,6 +311,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+			    	}else{
+			    		var stateOptions = $(fieldStateCheckout).find('select option');
+			    		$.each(stateOptions, function(iOpt, valOpt){
+				            var optionName = $(valOpt).text();
+				            $.each(res, function(iRes, valRes){
+				            	if(valRes.Name == optionName){
+				                	$(valOpt).attr("parentId", valRes.Id);
+				                	$(valOpt).show();
+				              	}
+				            });
+				        });
 			    	}
 			    	
 			    	$(fieldCityCheckout).find('input').hide();
@@ -330,17 +341,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
-							success: function(res) {
+							success: function(resState) {
 							  $(fieldCityCheckout).find('select option:not([value=""])').remove();
-							  $.each(res, function(i, val){
-							    $(fieldCityCheckout).find('select').append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
+							  $.each(res, function(iState, valState){
+							    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 							  });
 							}
 						});
 
 
-						var valState = $(fieldStateCheckout).find('select option:selected');
-						$(fieldStateCheckout).find('input').val($(valState).text());
+						var valueState = $(fieldStateCheckout).find('select option:selected');
+						$(fieldStateCheckout).find('input').val($(valueState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
