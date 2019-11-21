@@ -23,12 +23,8 @@
                 </action>
             </referenceBlock>
         </referenceContainer>
-        <referenceContainer name="content">
-            <referenceBlock name="customer.wishlist.items">
-                <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="customer.wishlist.item.image" htmlTag="div" htmlClass="custom-whislist">
-                </container>
-            </referenceBlock>
-        </referenceContainer>
+        <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="customer.wishlist.item.image" htmlTag="div" htmlClass="custom-whislist">
+        </container>
 		<move element="customer.wishlist.item.name" destination="custom.wishlist.options.list" as="customer.wishlist.item.name" after="-"/>
     </body>
 </page>
