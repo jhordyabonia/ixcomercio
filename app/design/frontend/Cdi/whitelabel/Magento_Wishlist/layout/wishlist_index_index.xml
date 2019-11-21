@@ -23,6 +23,7 @@
                 </action>
             </referenceBlock>
         </referenceContainer>
+        <container name="div.wrapper.test" htmlTag="div" htmlClass="wrapper-test" before="-" />
         <referenceContainer name="content">
             <referenceBlock name="customer.wishlist.items" as="items" template="wishlist/item/list.phtml">
                 
@@ -30,8 +31,6 @@
                 <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="customer.wishlist.item.image" htmlTag="div" htmlClass="custom-whislist">
                 </container>
                 -->
-
-                <container name="div.wrapper.test" htmlTag="div" htmlClass="wrapper-test" before="-" />
 
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml" cacheable="false"/>
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Info" name="customer.wishlist.item.name" template="Magento_Wishlist::item/column/name.phtml" cacheable="false"/>
