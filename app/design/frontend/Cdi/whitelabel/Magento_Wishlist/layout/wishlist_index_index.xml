@@ -23,7 +23,7 @@
                 </action>
             </referenceBlock>
         </referenceContainer>
-        <container name="div.wrapper.test" htmlTag="div" htmlClass="wrapper-test" before="-" />
+        
         <referenceContainer name="content">
             <referenceBlock name="customer.wishlist.items" as="items" template="wishlist/item/list.phtml">
                 
