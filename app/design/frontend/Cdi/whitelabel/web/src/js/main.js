@@ -323,10 +323,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
-				    $('#fieldStateCheckout').on('change', function (e) {
+				    var selectStateCheckout = $(fieldStateCheckout).find('select');
+				    $(selectStateCheckout).on('change', function (e) {
 				    	$.ajax({
 							url: '/places/search/',
-							data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
+							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
 							success: function(res) {
