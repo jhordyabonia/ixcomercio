@@ -6,3 +6,16 @@
     position: relative;
   }
 }
+.products-grid.wishlist{
+  .product-item{
+    width: 100%;
+    margin-bottom: 20px;
+    .product-item-info{
+      width: 100%;
+      margin: 0;
+      .product-item-photo{
+        width: 25%;
+      }
+    }
+  }
+}
