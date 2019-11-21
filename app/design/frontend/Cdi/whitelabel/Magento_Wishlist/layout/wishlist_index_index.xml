@@ -23,5 +23,11 @@
                 </action>
             </referenceBlock>
         </referenceContainer>
+        <referenceContainer name="content">
+            <referenceBlock name="customer.wishlist.items">
+                <container name="custom.wishlist.options.list" as="custom_wishlist_options_list" after="-" htmlTag="div" htmlClass="custom-whislist">
+                </container>
+            </referenceBlock>
+        </referenceContainer>
     </body>
 </page>
