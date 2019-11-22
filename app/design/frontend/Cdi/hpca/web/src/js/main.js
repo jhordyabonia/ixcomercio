@@ -399,6 +399,20 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 	      	}, 1000);
 	    }
+
+
+
+	    // =============================================
+	    // Zendesk link - footer
+	    // =============================================
+	    var linksFooter = $('footer a');
+
+	    $.each(linksFooter, function(i, val){
+	      if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
+	        var parentLi = $(this).parent();
+	        $('footer .col-md-3:eq(0) .nav-submenu').append(parentLi);
+	      }
+	    });
 	
 	});
 
