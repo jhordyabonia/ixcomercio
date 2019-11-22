@@ -23,7 +23,6 @@
                 </action>
             </referenceBlock>
         </referenceContainer>
-        <container name="div.wrapper.test" htmlTag="div" htmlClass="wrapper-test"/>
         <referenceContainer name="content">
             <referenceBlock name="customer.wishlist.items" as="items" template="wishlist/item/list.phtml">
                 <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Image" name="customer.wishlist.item.image" template="Magento_Wishlist::item/column/image.phtml" cacheable="false"/>
