@@ -48,6 +48,7 @@
             height: 1px;
             position: absolute;
             background: #fff;
+            display: none;
           }
           i.icon{
             display: none;
@@ -58,6 +59,7 @@
             padding: 20px 0;
             &:after{
               opacity: .2;
+              display: block;
             }
             i.icon{
               top: 50%;
@@ -131,16 +133,25 @@
     }
   }
   .footer-legal{
-    background: #000;
+    background: #BCBCBC;
     padding: 0 15px;
-    text-align: center;
+    text-align: left;
     span{
       width: 100%;
-      color: #fff;
+      color: #373737;
       font-size: 12px;
-      text-align: center;
+      text-align: left;
       padding: 10px 0;
-      display: block;
+      display: inline-block;
+    }
+    ul{
+      li{
+        display: inline-block;
+        a{
+          color: #373737;
+          text-decoration: underline;
+        }
+      }
     }
   }
 }
