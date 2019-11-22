@@ -418,7 +418,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    $.each(linksFooter, function(i, val){
 	    	if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
 	        	var parentLi = $(this).parent();
-	        	$('footer .col-md-3:eq(0) ul').append(parentLi);
+	        	$('footer .col-sm-3:eq(0) ul').append(parentLi);
 	      	}
 	    });
 
