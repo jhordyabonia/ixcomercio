@@ -86,11 +86,5 @@
         <!-- Remove pipeline account navigation links -->
         <referenceBlock name="customer-account-navigation-delimiter-1" remove="true"/>
         <referenceBlock name="customer-account-navigation-delimiter-2" remove="true"/>
-        <referenceContainer name="page.wrapper">
-			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
-			<referenceContainer name="newsletter-container-custom">
-				<block class="Magento\Framework\View\Element\Template" name="product.newsletter" template="Magento_Theme::html/newsletter.phtml" />
-			</referenceContainer> 
-        </referenceContainer>
     </body>
 </page>

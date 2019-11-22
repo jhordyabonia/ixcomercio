@@ -7,15 +7,26 @@ section{
         font-size: 22px;
         text-transform: uppercase;
       }
+      @media only screen and (max-width: $mobile){
+        padding: 0 15px;
+      }
     }
     .block.newsletter{
       width: 100%;
       max-width: 560px;
       margin: 20px auto 0;
       form{
+        @media only screen and (max-width: $mobile){
+          padding: 0 15px;
+          text-align: center;
+          display: inline-block;
+        }
         .field.newsletter{
           width: 400px;
           float: left;
+          @media only screen and (max-width: $mobile){
+            width: 100%;
+          }
           .control{
             label{
               width: 100%;
@@ -28,6 +39,9 @@ section{
           input{
             height: 46px;
             border-radius: 5px 0 0 5px;
+            @media only screen and (max-width: $mobile){
+              border-radius: 5px;
+            }
           }
         }
         .actions{

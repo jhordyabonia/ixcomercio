@@ -1,0 +1,35 @@
+.page-multiple-wishlist{
+  .page-title-wrapper{
+    margin: 40px 0 20px;
+    .page-title{
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+  }
+  .column.main form{
+    padding: 0;
+    border: 0;
+  }
+}
+
+.wishlist-index-index{
+  .products-grid.wishlist{
+    .product-item{
+      width: 100%;
+      @media (min-width: $tablet){
+        width: 100%;
+        margin: 0 0 20px;
+      }
+      .product-item-info{
+        width: 100%;
+        margin: 0;
+        .product-item-photo{
+          width: 20%;
+          float: left;
+          padding-right: 20px;
+        }
+      }
+    }
+  }
+}
