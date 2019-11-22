@@ -23,6 +23,7 @@
                 </action>
             </referenceBlock>
         </referenceContainer>
+<<<<<<< HEAD
         <container name="div.wrapper.test" htmlTag="div" htmlClass="wrapper-test"/>
         <referenceContainer name="content">
             <referenceBlock name="customer.wishlist.items" as="items" template="wishlist/item/list.phtml">
@@ -69,5 +70,7 @@
 		<!--
             <move element="customer.wishlist.item.name" destination="custom.wishlist.options.list" as="customer.wishlist.item.name" after="-"/>
         -->
+=======
+>>>>>>> 3dfab730d45a051e0a300f6abce0b174bea4c2ce
     </body>
 </page>
