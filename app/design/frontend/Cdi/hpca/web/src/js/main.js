@@ -164,50 +164,20 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Get states
 	    // =============================================
-	    
+
 	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
 	    var intervalState;
-	    /*
+
 	    function getStates(){
-	      $.ajax({
-	        url: '/places/search/',
-	        type: 'GET',
-	        dataType: 'json',
-	        success: function(res) {
-	          $.each(stateOptions, function(i, val){
-	            var optionName = $(val).text();
-	            $.each(res, function(iRes, valRes){
-	              if(valRes.Name == optionName){
-	                $(val).attr("parentId", valRes.Id);
-	                $(val).show();
-	              }
-	            });
-	          });
-	        }
-	      });      
-	    }
-
-	    if($(fieldState).length){
-	      intervalState = setInterval(function(){
-	        stateOptions = $(fieldState).find('option');
-	        if($(stateOptions).length >= 2){
-	          getStates();
-	          clearInterval(intervalState);
-	        }
-	      }, 1000);
-	    }
-	    */
-
-
-	    function getStates2(){
-			$.ajax({
+	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
-			        $.each(res, function(iRes, valRes){
-			        	$(fieldState).append("<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>");
+			    	$(fieldState).find('option:not([value=""])').remove();
+			    	$.each(res, function(iRes, valRes){
+			    		$(fieldState).append("<option value='"+valRes.Id+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
@@ -220,7 +190,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	      intervalState = setInterval(function(){
 	        stateOptions = $(fieldState).find('option');
 	        if($(stateOptions).length >= 1){
-	          getStates2();
+	          getStates();
 	          clearInterval(intervalState);
 	        }
 	      }, 1000);
@@ -228,16 +198,21 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    
 	    var fieldCountry = $('form .fieldset > .field.country #country');
 	    $( fieldCountry ).change(function() {
-		  	getStates2();
+		  	getStates();
 		});
-
 
 
 		// =============================================
 	    // Get cities
 	    // =============================================
-	    
+
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
+	    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
+	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+						'<option data-title="" value="">Please select a zone.</option>'+
+						'</select>';
+		$(fieldStreet).append(htmlStreet);
+	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
 	      	$.ajax({
@@ -248,7 +223,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        success: function(res) {
 			        $(fieldCity).find('option:not([value=""])').remove();
 			        $.each(res, function(i, val){
-			            $(fieldCity).append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+			            $(fieldCity).append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
 		        }
 	      	});
@@ -260,10 +235,53 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 	    // =============================================
+	    // Print select street
+	    // =============================================
+
+	    $('#city_id').on('change', function (e) {
+	    	$.ajax({
+				url: '/places/search/',
+				data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+				type: 'GET',
+				dataType: 'json',
+				success: function(resCity) {
+					$(fieldStreet).find('select option:not([value=""])').remove();
+				  	$.each(resCity, function(iResCity, valResCity){
+				    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+				  	});
+				}
+			});
+	    });
+
+
+	    // =============================================
+	    // Print postal code
+	    // =============================================
+
+	    $('#fieldSelectStreet').on('change', function (e) {
+	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
+			$(fieldStreet).find('input').val($(valStreet).text());
+			$(fieldStreet).find('input').keyup();
+
+	    	$('#zip').val($(valStreet).attr('postalCode'));
+	    	$('#zip').find('input').keyup();
+	    });
+
+
+
+
+	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
+	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
+		    var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+							'<option data-title="" value="">Please select a zone.</option>'+
+							'</select>';
+			$(fieldStreetCheckout).append(htmlStreetCheckout);
+		    $(fieldStreetCheckout).find('input').hide();
+
 	    	fieldCityCheckout = $('form .fieldset > .field[name="shippingAddress.city"] .control');
 
 	    	$.ajax({
@@ -271,20 +289,34 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
-			    	$(fieldStateCheckout).find('input').hide();
-			    	$(fieldCityCheckout).find('input').hide();
-			    	var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
+			    	if($(fieldStateCheckout).find('input').length){
+			    		$(fieldStateCheckout).find('input').hide();
+
+			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">Please select a region, state or province.</option>';
 
-			        $.each(res, function(iRes, valRes){
-			        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
-			        });
+				        $.each(res, function(iRes, valRes){
+				        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
+				        });
 
-			        html += '</select>';
+				        html += '</select>';
 
-	    			$(fieldStateCheckout).append(html);
-
-	    			var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
+		    			$(fieldStateCheckout).append(html);
+			    	}else{
+			    		var stateOptions = $(fieldStateCheckout).find('select option');
+			    		$.each(stateOptions, function(iOpt, valOpt){
+				            var optionName = $(valOpt).text();
+				            $.each(res, function(iRes, valRes){
+				            	if(valRes.Name == optionName){
+				                	$(valOpt).attr("parentId", valRes.Id);
+				                	$(valOpt).show();
+				              	}
+				            });
+				        });
+			    	}
+			    	
+			    	$(fieldCityCheckout).find('input').hide();
+			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
@@ -293,32 +325,66 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
-				    $('#fieldStateCheckout').on('change', function (e) {
+				    var selectStateCheckout = $(fieldStateCheckout).find('select');
+				    $(selectStateCheckout).on('change', function (e) {
 				    	$.ajax({
 							url: '/places/search/',
-							data: 'parentId='+$('#fieldStateCheckout').find('option:selected').attr('parentId'),
+							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
-							success: function(res) {
+							success: function(resState) {
+								console.log(resState);
 							  $(fieldCityCheckout).find('select option:not([value=""])').remove();
-							  $.each(res, function(i, val){
-							    $(fieldCityCheckout).find('select').append("<option value='"+val.Id+"'>"+val.Name+"</option>");
+							  $.each(resState, function(iState, valState){
+							    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 							  });
 							}
 						});
 
 
-						var valState = $(fieldStateCheckout).find('select option:selected');
-						$(fieldStateCheckout).find('input').val($(valState).text());
+						var valueState = $(fieldStateCheckout).find('select option:selected');
+						$(fieldStateCheckout).find('input').val($(valueState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
 
+
+				    // =============================================
+				    // Print select street checkout
+				    // =============================================
 				    $('#fieldCityCheckout').on('change', function (e) {
 						var valCity = $(fieldCityCheckout).find('select option:selected');
 						$(fieldCityCheckout).find('input').val($(valCity).text());
 						$(fieldCityCheckout).find('input').keyup();
+
+						$.ajax({
+							url: '/places/search/',
+							data: 'parentId='+$('#fieldCityCheckout').find('option:selected').attr('parentId'),
+							type: 'GET',
+							dataType: 'json',
+							success: function(resCity) {
+								$(fieldStreetCheckout).find('select option:not([value=""])').remove();
+							  	$.each(resCity, function(iResCity, valResCity){
+							    	$(fieldStreetCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+							  	});
+							}
+						});
 				    });
+
+
+				    // =============================================
+				    // Print postal code
+				    // =============================================
+
+				    $('#fieldSelectStreet').on('change', function (e) {
+				    	var valStreetCheckout = $('#fieldSelectStreet').find('option:selected');
+						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
+						$(fieldStreetCheckout).find('input').keyup();
+
+				    	$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
+				    	$('input[name="postcode"]').keyup();
+				    });
+				    
 			    }
 			});
 	    }

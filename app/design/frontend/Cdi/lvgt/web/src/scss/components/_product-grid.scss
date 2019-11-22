@@ -8,6 +8,9 @@
       background: #fff;
       border-radius: 5px;
       position: relative;
+      @media only screen and (max-width: $mobile){
+        max-width: 100%;
+      }
       .product-item-info{
         .product-item-photo{
           float: left;
@@ -109,7 +112,7 @@
             .special-price, .normal-price, .price-wrapper{
               .price{
                 font-weight: bold;
-                font-size: 20px;
+                font-size: 18px;
                 display: block;
                 line-height: normal;
               }
