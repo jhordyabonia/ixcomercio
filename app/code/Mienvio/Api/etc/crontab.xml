@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="guide_detail">
+        <job name="custom_cronjob" instance="Mienvio\Api\Cron\GuideDetail" method="execute">
+            <schedule>60 * * * *</schedule>
+        </job>
+    </group>
+    <group id="delivery_detail">
+        <job name="custom_cronjob_stock" instance="Mienvio\Api\Cron\DeliveryDetail" method="execute">
+            <schedule>60 * * * *</schedule>
+        </job>
+    </group>
+</config>

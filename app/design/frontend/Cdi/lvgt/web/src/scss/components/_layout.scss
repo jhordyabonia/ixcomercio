@@ -39,6 +39,7 @@
     margin: 0 auto;
     @media only screen and (max-width: $tablet){
       font-size: 14px;
+      line-height: 20px;
     }
   }
 }
@@ -53,7 +54,8 @@ section{
     text-align: left;
     .title-section{
       color: #000;
-      font-size: 36px;
+      font-size: 30px;
+      text-transform: uppercase;
       margin: 0;
       @media only screen and (max-width: $tablet){
         font-size: 30px;
@@ -334,6 +336,11 @@ section{
       .column.main, .sidebar-main{
         width: 100%;
       }
+      .sidebar-main{
+        @media only screen and (max-width: $desktop){
+          padding: 0;
+        }
+      }
     }
   }
 }
@@ -422,14 +429,22 @@ section{
     .product-items{
       width: 100%;
       float: left;
-      .item{
+      > .item{
         width: 30%;
         max-width: initial;
         margin: 0 1.66% 30px;
         padding: 20px;
         float: left;
+        @media only screen and (max-width: $desktop){
+          &.product-item{
+            &:nth-child(3n){
+              margin-right: 0;
+            }
+          }
+        }
         @media only screen and (max-width: $mobile){
           width: 100%;
+          max-width: 100%;
           margin: 0 0 20px;
         }
         .product-item-info{

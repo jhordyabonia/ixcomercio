@@ -269,24 +269,6 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                         $product->setTypeId('downloadable');
                         break;
                 } // type of product (simple/virtual/downloadable/configurable)
-                //Set product dimensions
-                if(isset($catalog->Freight) && isset($catalog->Freight->Item)){
-                    if($configData['product_weight']){
-                        $product->setWeight($catalog->Freight->Item->Weight);    
-                    }
-                    if($configData['product_length']){
-                        $product->setData('length',$catalog->Freight->Item->Length);
-                        $product->setData('ts_dimensions_length',$catalog->Freight->Item->Length);   
-                    }
-                    if($configData['product_width']){
-                        $product->setData('width',$catalog->Freight->Item->Width);
-                        $product->setData('ts_dimensions_width',$catalog->Freight->Item->Width);   
-                    }
-                    if($configData['product_height']){
-                        $product->setData('height',$catalog->Freight->Item->Height);
-                        $product->setData('ts_dimensions_height',$catalog->Freight->Item->Height);
-                    }
-                }
                 if($configData['product_price']){
                     $product->setPrice($catalog->Price->UnitPrice);
                 }
@@ -307,6 +289,30 @@ class GetProducts implements \Magento\Framework\Event\ObserverInterface
                     );
                 }
                 try{
+                    $product->save();
+                    //Set product dimensions
+                    if(isset($catalog->Freight)){
+                        if(isset($catalog->Freight->Item)){
+                            if($configData['product_weight']){
+                                $product->setWeight($catalog->Freight->Item->Weight);    
+                            }
+                            if($configData['product_length']){
+                                $product->setData('length',$catalog->Freight->Item->Length);
+                                $product->setData('ts_dimensions_height',$catalog->Freight->Item->Height);
+                                $product->setCustomAttribute('ts_dimensions_length',$catalog->Freight->Item->Length);   
+                            }
+                            if($configData['product_width']){
+                                $product->setData('width',$catalog->Freight->Item->Width);
+                                $product->setData('ts_dimensions_width',$catalog->Freight->Item->Width);   
+                                $product->setCustomAttribute('ts_dimensions_width',$catalog->Freight->Item->Width);   
+                            }
+                            if($configData['product_height']){
+                                $product->setData('height',$catalog->Freight->Item->Height);
+                                $product->setData('ts_dimensions_height',$catalog->Freight->Item->Height);
+                                $product->setCustomAttribute('ts_dimensions_height',$catalog->Freight->Item->Height);
+                            }
+                        }
+                    }
                     $product->save();
                     $this->logger->info('GetProducts - Se ha actualizado la información del producto con sku: '.$catalog->Sku);
                 } catch (Exception $e){

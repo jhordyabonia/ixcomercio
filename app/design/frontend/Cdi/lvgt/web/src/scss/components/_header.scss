@@ -284,7 +284,7 @@ header{
                       >.ui-menu-icon{
                         &:after{
                           @media only screen and (min-width: $desktop){
-                            color: #000;
+                            color: #8E8E93;
                             font-size: 28px;
                             font-weight: bold;
                           }
@@ -293,7 +293,7 @@ header{
                     }  
                   }
                   > .level-top{
-                    color: #111;
+                    color: #8E8E93;
                     font-size: 16px;
                     line-height: normal;
                     transition: .3s all ease;

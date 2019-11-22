@@ -5,8 +5,12 @@
   .block-title {
     display: block;
     text-align: left;
+    h3{
+    	color: #636363;
+    }
   }
-  form.review-form{
+  form.review-form{	
     width: 100%;
+	text-align: left;
   }
 }
