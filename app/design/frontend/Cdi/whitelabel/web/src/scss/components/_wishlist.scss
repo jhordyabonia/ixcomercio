@@ -24,6 +24,7 @@
       .product-item-info{
         width: 100%;
         margin: 0;
+        position: relative;
         .product-item-photo{
           width: 20%;
           float: left;
@@ -38,8 +39,44 @@
             width: 25%;
             font-size: 16px;
             font-weight: bold;
+            line-height: 1.42857143;
             margin-top: 6px;
             float: left;
+          }
+        }
+        .product-reviews-summary {
+          .rating-summary, .reviews-actions{
+            float: left;
+          }
+          .rating-summary {
+            .rating-result>span:before{
+              color: $mainColor;
+            }
+          }
+          .reviews-actions{
+            margin: 0;
+          }
+        }
+        .price-box {
+          top: 6px;
+          left: 40%;
+          width: 20%;
+          position: absolute;
+          text-align: center;
+          padding: 0 15px;
+          .price-label{
+            display: none;
+          }
+          .price {
+            color: #333;
+            font-size: 18px;
+            font-weight: 700;
+          }
+          .old-price {
+            .price{
+              color: $mainColor;
+              font-weight: 300;
+            }
           }
         }
       }
