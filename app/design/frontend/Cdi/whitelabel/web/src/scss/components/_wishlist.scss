@@ -89,6 +89,38 @@
           .comment-box {
             display: none;
           }
+          .box-tocart {
+            .field.qty {
+              width: 50%;
+              font-size: 14px;
+              text-align: center;
+              vertical-align: middle;
+              position: relative;
+              .label {
+                display: none;
+              }
+              .control-qty, .input-text.qty {
+                display: inline-block;
+              }
+              .control-qty {
+                width: 28px;
+                height: 28px;
+                color: #fff;
+                background: $mainColor;
+                vertical-align: middle;
+                border-radius: 50%;
+                font-size: 18px;
+                font-weight: bold;
+                cursor: pointer;
+                &.disable {
+                  color: #999;
+                  background: none;
+                  border: 1px solid #ccc;
+                  pointer-events: none;
+                }
+              }
+            }
+          }
         }
       }
     }
