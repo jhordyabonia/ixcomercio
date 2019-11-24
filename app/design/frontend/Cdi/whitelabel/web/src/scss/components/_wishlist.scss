@@ -71,12 +71,23 @@
             color: #333;
             font-size: 18px;
             font-weight: 700;
+            line-height: 1.4;
           }
           .old-price {
             .price{
               color: $mainColor;
-              font-weight: 300;
+              font-weight: 500;
+              font-size: 16px;
             }
+          }
+        }
+        .product-item-inner {
+          top: 6px;
+          left: 60%;
+          width: 40%;
+          position: absolute;
+          .comment-box {
+            display: none;
           }
         }
       }
