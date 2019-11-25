@@ -188,7 +188,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     public function loadOrderInformation($quote_id) 
     {
 		try {
-            $collection = $this->_orderCollectionFactory()->create($customerId)->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
+            $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
             print_r($collection); exit();
             return $order;
         } catch (\Exception $e) {
