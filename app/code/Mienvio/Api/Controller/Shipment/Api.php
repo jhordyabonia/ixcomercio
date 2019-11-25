@@ -121,13 +121,13 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->jsonResultFactory->create();
         //Se verifica si hay una cabecera asociada al token
-        if(isset($headers['hash'])){
+        if(isset($headers['token'])){
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
             $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
             //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-            if(hash('sha256', $configData['user'].','.$configData['password']) == $headers['hash']){
+            if(hash('sha256', $configData['user'].','.$configData['password']) == $headers['token']){
                 $body = json_decode(file_get_contents('php://input'));
                 $result = $this->checkBody($body);
             } else{
