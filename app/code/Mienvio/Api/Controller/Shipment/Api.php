@@ -196,27 +196,25 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     //Se guarda información de IWS en tabla custom
     public function saveMienvioData($type, $order_id) 
     {
-		$model = $this->_iwsOrder->create();
-        switch($type){
-            case 'shipment.upload':
-                $model->addData([
-                    "order_id" => $order_id,
-                    "mienvio_guide" => 1,
-                    ]);
-                break;
-            case 'shipment.status':
-                $model->addData([
-                    "order_id" => $order_id,
-                    "mienvio_delivery" => 1,
-                    ]);
-                break;
-        }
-        $saveData = $model->save();
-        if($saveData){
-            $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$order_id);
-            return true;
-        } else {
-            $this->logger->info('Mienviowebhook - Se produjo un error al actualizar la orden: '.$order_id);
+        $orders = $this->_iwsOrder->create();
+        $orders->getResource()
+            ->load($orders, $mp_order, 'order_id');
+        if($orders->getId()){
+            switch($type){
+                case 'shipment.upload':
+                    $orders->setMienvioGuide(1);
+                    break;
+                case 'shipment.status':
+                    $orders->setMienvioDelivery(1);
+                    break;
+            }
+            try{
+                $orders->save();
+                $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
+                return true;
+            } catch (\Exception $e) {
+                $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$orders->getId());
+            }
         }
         return false;
 	}
