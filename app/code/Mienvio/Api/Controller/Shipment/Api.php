@@ -23,29 +23,9 @@ use Magento\Framework\App\Request\InvalidRequestException;
 class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
-    const API_KEY = 'trax_general/catalogo_retailer/apikey';
+    const API_KEY = 'shipping/mienvio_api/user';
 
-	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
-
-	const ENVIROMENT = 'trax_general/catalogo_retailer/apuntar_a';
-
-	const URL_DESARROLLO = 'trax_general/catalogo_retailer/url_desarrollo';
-
-	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
-
-	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
-
-	const ERRORES = 'trax_general/catalogo_retailer/errores';
-
-    const CANCELAR_REINTENTOS = 'trax_ordenes/ordenes_general/cancelar_reintentos';
-
-    const CANCELAR_CORREO = 'trax_ordenes/ordenes_general/cancelar_correo';
-
-    const SANDBOX_PRIVATE_KEY = 'payment/pasarela_bancomer/sandbox_private_key';
-
-    const PRODUCCION_PRIVATE_KEY = 'payment/pasarela_bancomer/live_private_key';
-
-    const SANDBOX = 'payment/pasarela_bancomer/is_sandbox';
+	const ACCESS_KEY = 'shipping/mienvio_api/password';
     
     private $helper;
 	
@@ -124,6 +104,16 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {   
-        echo "entra";
+        //Se obtienen las cabeceras
+        $headers = array();
+        foreach (getallheaders() as $name => $value) {
+            $headers[$name] = $value;
+        } 
+        //Se verifica si hay una cabecera asociada al token
+        if(isset($headers['hash'])){
+            echo "Con cabecera";
+        } else {
+            echo "Sin cabecera";
+        }
     }
 }
