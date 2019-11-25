@@ -198,7 +198,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     {
         $orders = $this->_iwsOrder->create();
         $orders->getResource()
-            ->load($orders, $mp_order, 'order_id');
+            ->load($orders, $order_id, 'order_id');
         if($orders->getId()){
             switch($type){
                 case 'shipment.upload':
