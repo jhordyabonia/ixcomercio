@@ -153,34 +153,29 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     //Se verifica body de la petición
     public function checkBody($body) 
     {
-        switch($body->type){
-            case 'shipment.upload':
-                $result = $this->guideDetail($body->body->quote_id);
-                break;
-            case 'shipment.status':
-                $result = $this->deliveryDetail($body->body->quote_id);
-                break;
-        }
+        $result = $this->updateMienvioData($body->type, $body->body->quote_id);
         $result->setHttpResponseCode(200);
         $result->setData(['success_message' => __('Authorized')]);
         return $result;
     }
 
     //Agrega notificación de guía
-    public function guideDetail($quote_id) 
+    public function updateMienvioData($type, $quote_id) 
     {        
-        $order = $this->loadOrderInformation($quote_id);
-        $result->setHttpResponseCode(200);
-        $result->setData(['success_message' => __('Authorized')]);
-        return $result;
-    }
-
-    //Agrega notificación de entrega
-    public function deliveryDetail($quote_id) 
-    {
-        $order = $this->loadOrderInformation($quote_id);
-        $result->setHttpResponseCode(200);
-        $result->setData(['success_message' => __('Authorized')]);
+        $order_id = $this->loadOrderInformation($quote_id);
+        if($order_id){
+            $notification = $this->saveMienvioData($type, $order_id);
+            if($notification){
+                $result->setHttpResponseCode(200);
+                $result->setData(['success_message' => __('Authorized')]);
+            } else{
+                $result->setHttpResponseCode(204);
+                $result->setData(['success_message' => __('No Content')]);
+            }
+        } else {
+            $result->setHttpResponseCode(204);
+            $result->setData(['success_message' => __('No Content')]);
+        }
         return $result;
     }
 
@@ -191,11 +186,39 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
             if($collection->getSize()){
                 $data = $collection->getFirstItem();
+                return $data->getEntityId();
             }
-            echo $data->getEntityId(); exit();
-            return $order;
         } catch (\Exception $e) {
             $this->logger->info('Mienviowebhook - Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
         }
+        return false;
+	}
+
+    //Se guarda información de IWS en tabla custom
+    public function saveMienvioData($order_id) 
+    {
+		$model = $this->_iwsOrder->create();
+        switch($body->type){
+            case 'shipment.upload':
+                $model->addData([
+                    "order_id" => $order_id,
+                    "mienvio_guide" => 1,
+                    ]);
+                break;
+            case 'shipment.status':
+                $model->addData([
+                    "order_id" => $order_id,
+                    "mienvio_delivery" => 1,
+                    ]);
+                break;
+        }
+        $saveData = $model->save();
+        if($saveData){
+            $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orderNuorder_idmber);
+            return true;
+        } else {
+            $this->logger->info('Mienviowebhook - Se produjo un error al actualizar la orden: '.$order_id);
+        }
+        return false;
 	}
 }
