@@ -24,8 +24,7 @@
                         </arguments>
                     </block>
                 </block>
-                <block class="Magento\Catalog\Block\Product\View" name="product.info.mailto" template="Magento_Catalog::product/view/mailto.phtml"/>
-				
+
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-6"/>
 			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
