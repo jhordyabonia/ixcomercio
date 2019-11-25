@@ -33,15 +33,16 @@
         }
       }
     }
+  }
+  .form, .block-new-customer{
     .actions-toolbar{
-      width: 100%;
-      max-width: 100%;
-      margin-left: 0!important;
-      float: left;
       .primary{
         float: left;
         background: #258EBF ;
         border-radius: 3px;
+        &:hover {
+          background: #000;
+        }
       }
     }
   }
