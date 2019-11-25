@@ -6,7 +6,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Shipment\Api\Controller\Payment;
+namespace Shipment\Api\Controller\Shipment;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
