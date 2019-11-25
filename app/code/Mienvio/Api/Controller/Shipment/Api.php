@@ -214,7 +214,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         }
         $saveData = $model->save();
         if($saveData){
-            $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orderNuorder_idmber);
+            $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$order_id);
             return true;
         } else {
             $this->logger->info('Mienviowebhook - Se produjo un error al actualizar la orden: '.$order_id);
