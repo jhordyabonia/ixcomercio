@@ -189,4 +189,22 @@
       }
     }
   }
+  form.form-wishlist-items {
+    > .actions-toolbar {
+      .action {
+        color: #999;
+        background: none;
+        border: 1px solid #ccc;
+        padding: 7px 15px;
+        height: 44px;
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: normal;
+        &:hover{
+          color: #fff;
+          background: #000;
+        }
+      }
+    }
+  }
 }
