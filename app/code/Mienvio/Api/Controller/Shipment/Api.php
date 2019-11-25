@@ -126,8 +126,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             if(hash('sha256', $configData['user'].','.$configData['password']) == $headers['hash']){
                 $result->setHttpResponseCode(200);
                 $result->setData(['success_message' => __('Authorized')]);
-                $entityBody = file_get_contents('php://input');
-                var_dump($entityBody); exit();
+                $body = json_decode(file_get_contents('php://input'));
+                print_r($body); exit();
             } else{
                 $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
                 $result->setData(['error_message' => __('Unauthorized')]);
