@@ -236,8 +236,9 @@
         display: inline-block;
         margin-right: 10px;
         &.old-price{
-          color: #89170b;
+          color: $mainColor;
           .price{
+            color: $mainColor;
             font-size: 24px;
             font-weight: normal;
           }
