@@ -45,6 +45,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     protected $_iwsOrder;
     /** @var \Magento\Framework\Controller\Result\JsonFactory */
     protected $jsonResultFactory;
+    protected $_orderCollectionFactory;
     
     /**
      * 
@@ -60,6 +61,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Catalogo\Helper\Email $email
      * @param \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory
+     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
      */
     public function __construct(
             Context $context, 
@@ -74,7 +76,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Catalogo\Helper\Email $email,
             \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
-            \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory
+            \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory,
+            \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory 
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -89,6 +92,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
         $this->jsonResultFactory = $jsonResultFactory;
+        $this->_orderCollectionFactory = $orderCollectionFactory;
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
@@ -124,10 +128,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
             if(hash('sha256', $configData['user'].','.$configData['password']) == $headers['hash']){
-                $result->setHttpResponseCode(200);
-                $result->setData(['success_message' => __('Authorized')]);
                 $body = json_decode(file_get_contents('php://input'));
-                print_r($body); exit();
+                $result = $this->checkBody($body);
             } else{
                 $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
                 $result->setData(['error_message' => __('Unauthorized')]);
@@ -147,4 +149,50 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         return $configData;
 
     }
+
+    //Se verifica body de la petición
+    public function checkBody($body) 
+    {
+        switch($body->type){
+            case 'shipment.upload':
+                $result = $this->guideDetail($body->body->quote_id);
+                break;
+            case 'shipment.status':
+                $result = $this->deliveryDetail($body->body->quote_id);
+                break;
+        }
+        $result->setHttpResponseCode(200);
+        $result->setData(['success_message' => __('Authorized')]);
+        return $result;
+    }
+
+    //Agrega notificación de guía
+    public function guideDetail($quote_id) 
+    {        
+        $order = $this->loadOrderInformation($quote_id);
+        $result->setHttpResponseCode(200);
+        $result->setData(['success_message' => __('Authorized')]);
+        return $result;
+    }
+
+    //Agrega notificación de entrega
+    public function deliveryDetail($quote_id) 
+    {
+        $order = $this->loadOrderInformation($quote_id);
+        $result->setHttpResponseCode(200);
+        $result->setData(['success_message' => __('Authorized')]);
+        return $result;
+    }
+
+    //Se carga la orden relacionada a la cotización
+    public function loadOrderInformation($quote_id) 
+    {
+		try {
+            $collection = $this->_orderCollectionFactory()->create($customerId)->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
+            print_r($collection); exit();
+            return $order;
+        } catch (\Exception $e) {
+            $this->logger->info('Mienviowebhook - Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
+        }
+	}
 }
