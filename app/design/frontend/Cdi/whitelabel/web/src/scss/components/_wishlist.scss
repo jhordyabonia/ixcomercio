@@ -191,7 +191,7 @@
   }
   form.form-wishlist-items {
     > .actions-toolbar {
-      .action {
+      .primary .action {
         color: #999;
         background: none;
         border: 1px solid #ccc;
@@ -200,6 +200,7 @@
         font-size: 16px;
         line-height: 30px;
         font-weight: normal;
+        border-radius: 3px;
         &:hover{
           color: #fff;
           background: #000;
