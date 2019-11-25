@@ -15,6 +15,17 @@
 			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product.essential" />
 			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-6">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
+
+				<block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
+                    <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
+                           template="Magento_Catalog::product/view/addto/compare.phtml" >
+                        <arguments>
+                            <argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
+                        </arguments>
+                    </block>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.mailto" template="Magento_Catalog::product/view/mailto.phtml"/>
+				
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-6"/>
 			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">

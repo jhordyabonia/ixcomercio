@@ -7,7 +7,6 @@
 // @codingStandardsIgnoreFile
 
 /** @var $block \Magento\Catalog\Block\Product\View */
-/** @var $block2 \Magento\Catalog\Block\Product\View\Addto\Compare */
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/custom_disable_checkout');
 ?>
@@ -46,7 +45,6 @@ $cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/cus
             </button>
             <?= $block->getChildHtml('', true) ?>
         </div>
-        <?php $viewModel = $block2->getData('addToCompareViewModel'); ?>
     </div>
 </div>
 <?php endif; ?>
