@@ -1,9 +1,18 @@
 .login-container{
   text-align: left;
+  .block {
+    .block-title {
+      color: #666;
+      text-transform: uppercase; 
+    }
+  }
   .fieldset:after{
     width: 100%;
     font-size: 12px;
     float: left;
+    strong {
+      font-weight: bold;
+    }
   }
   .form {
     .fieldset{
@@ -33,13 +42,16 @@
         }
       }
     }
+  }
+  .form, .block-new-customer{
     .actions-toolbar{
-      width: 100%;
-      max-width: 100%;
-      margin-left: 0!important;
-      float: left;
-      .primary{
+      .action.primary{
         float: left;
+        background: #258EBF ;
+        border-radius: 3px;
+        &:hover {
+          background: #000;
+        }
       }
     }
   }
