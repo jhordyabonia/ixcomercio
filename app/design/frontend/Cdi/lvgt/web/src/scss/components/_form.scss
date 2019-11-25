@@ -11,6 +11,9 @@ form{
 	}
 	.fieldset{
 		> .field{
+			&[name="shippingAddress.postcode"]{
+				display: none;
+			}
 			&:not(.choice){
 				> .label{
 					color: #000;
@@ -67,8 +70,11 @@ form{
 			}
 		}
 		>.legend{
+			color: #666;
 			font-size: 1.3rem;
 			text-align: left;
+			font-weight: bold;
+			text-transform: uppercase;
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }
@@ -94,6 +100,15 @@ form{
 	}
 	.field-error, div.mage-error[generated]{
 		font-size: 12px;
+	}
+	&.form-create-account{
+		.action.primary {
+			background: #258EBF;
+			border-radius: 3px;
+			&:hover{
+				background: #000;
+			}
+		}
 	}
 }
 .column{

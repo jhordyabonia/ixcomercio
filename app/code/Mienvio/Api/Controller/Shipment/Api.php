@@ -1,12 +1,12 @@
 <?php
 /** 
- * @category    Shipments
- * @package     Shipment_Api
+ * @category    Mienvio
+ * @package     Mienvio_Api
  * @author      Valentina Aguirre
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Shipment\Api\Controller\Payment;
+namespace Mienvio\Api\Controller\Shipment;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -20,7 +20,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Webhook class  
  */
-class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
@@ -124,5 +124,6 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {   
+        echo "entra";
     }
 }

@@ -401,13 +401,26 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
-    			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region_id"] .control');
+    			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout();
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
 	    }
+
+
+	    // =============================================
+	    // Zendesk link - footer
+	    // =============================================
+	    var linksFooter = $('footer a');
+
+	    $.each(linksFooter, function(i, val){
+	    	if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
+	        	var parentLi = $(this).parent();
+	        	$('footer .col-sm-3:eq(0) ul').append(parentLi);
+	      	}
+	    });
 
 
 	});
