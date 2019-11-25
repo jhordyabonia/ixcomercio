@@ -43,6 +43,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     protected $_invoiceService;
     protected $transactionBuilder;
     protected $_iwsOrder;
+    /** @var \Magento\Framework\Controller\Result\JsonFactory */
+    protected $jsonResultFactory;
     
     /**
      * 
@@ -57,6 +59,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
      * @param \Magento\Framework\Controller\ResultFactory $result
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Catalogo\Helper\Email $email
+     * @param \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory
      */
     public function __construct(
             Context $context, 
@@ -70,7 +73,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Catalogo\Helper\Email $email,
-            \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder
+            \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
+            \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
@@ -84,6 +88,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
+        $this->jsonResultFactory = $jsonResultFactory;
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
@@ -109,11 +114,17 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         foreach (getallheaders() as $name => $value) {
             $headers[$name] = $value;
         } 
+        /** @var \Magento\Framework\Controller\Result\Json $result */
+        $result = $this->jsonResultFactory->create();
         //Se verifica si hay una cabecera asociada al token
         if(isset($headers['hash'])){
-            echo "Con cabecera";
+            $result->setHttpResponseCode(200);
+            $result->setData(['error_message' => __('Authorized')]);
         } else {
-            echo "Sin cabecera";
+            /** You may introduce your own constants for this custom REST API */
+            $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
+            $result->setData(['error_message' => __('Unauthorized')]);
         }
+        return $result;
     }
 }
