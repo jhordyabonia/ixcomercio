@@ -11,6 +11,9 @@ form{
 	}
 	.fieldset{
 		> .field{
+			&[name="shippingAddress.postcode"]{
+				display: none;
+			}
 			&:not(.choice){
 				> .label{
 					color: #000;
