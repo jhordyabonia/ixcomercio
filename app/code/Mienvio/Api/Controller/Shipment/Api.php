@@ -154,8 +154,6 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     public function checkBody($body) 
     {
         $result = $this->updateMienvioData($body->type, $body->body->quote_id);
-        $result->setHttpResponseCode(200);
-        $result->setData(['success_message' => __('Authorized')]);
         return $result;
     }
 
@@ -163,6 +161,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     public function updateMienvioData($type, $quote_id) 
     {        
         $order_id = $this->loadOrderInformation($quote_id);
+        $result = $this->jsonResultFactory->create();
         if($order_id){
             $notification = $this->saveMienvioData($type, $order_id);
             if($notification){
