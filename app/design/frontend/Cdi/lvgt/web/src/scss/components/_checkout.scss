@@ -128,6 +128,9 @@
     }
     .actions-toolbar{
       .primary{
+        min-width: 120px;
+        background: #64A81B;
+        border-radius: 3px;
         @media (min-width: $tablet){
           float: left;
           margin: 0 0 10px;
