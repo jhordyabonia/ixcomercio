@@ -23,9 +23,9 @@ use Magento\Framework\App\Request\InvalidRequestException;
 class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
-    const API_KEY = 'shipping/mienvio_api/user';
+    const USER = 'shipping/mienvio_api/user';
 
-	const ACCESS_KEY = 'shipping/mienvio_api/password';
+	const PASSWORD = 'shipping/mienvio_api/password';
     
     private $helper;
 	
@@ -118,13 +118,32 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $result = $this->jsonResultFactory->create();
         //Se verifica si hay una cabecera asociada al token
         if(isset($headers['hash'])){
-            $result->setHttpResponseCode(200);
-            $result->setData(['error_message' => __('Authorized')]);
+            $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+            $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+            //Se obtienen parametros de configuración por Store
+            $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+            if(hash('sha256', $configData['user'].','.$configData['password']) == $headers['hash']){
+                $result->setHttpResponseCode(200);
+                $result->setData(['success_message' => __('Authorized')]);
+            } else{
+                $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
+                $result->setData(['error_message' => __('Unauthorized')]);
+            }
         } else {
-            /** You may introduce your own constants for this custom REST API */
             $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
             $result->setData(['error_message' => __('Unauthorized')]);
         }
         return $result;
+    }
+
+    //Obtiene los parámetros de configuración desde el cms
+    public function getConfigParams($storeScope, $websiteCode) 
+    {
+        $enviroment = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
+        $configData['user'] = $this->scopeConfig->getValue(self::USER, $storeScope, $websiteCode);
+        $configData['password'] = $this->scopeConfig->getValue(self::PASSWORD, $storeScope, $websiteCode);
+        return $configData;
+
     }
 }
