@@ -58,6 +58,12 @@
 		<referenceContainer name="footer-container-custom">
 			<block class="Magento\Theme\Block\Html\Footer" name="footer.top" before="footer" template="Magento_Theme::html/footer_top.phtml"/>
 			<block class="Magento\Theme\Block\Html\Footer" name="footer" after="footer.top" template="Magento_Theme::html/footer.phtml"/>
+            <block class="Wagento\Zendesk\Block\Footer\ZendeskWidget"
+                   ifconfig="zendesk/help_center/include_web_widget"
+                   name="zendesk_widget"
+                   template="Wagento_Zendesk::footer/zendeskwidget.phtml"/><block class="Magento\Framework\View\Element\Template"
+                   ifconfig="zendesk/help_center/hc_link"
+                   name="zendesk-link" template="Wagento_Zendesk::footer/link.phtml" after="-"/>
 		</referenceContainer> 
     </body>
 </page>
