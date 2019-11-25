@@ -6,17 +6,13 @@
 
 // @codingStandardsIgnoreFile
 
-/** 
-  @var $block \Magento\Catalog\Block\Product\View
-  @var $compare \Magento\Catalog\Block\Product\View\Addto\Compare
-*/
+/** @var $block \Magento\Catalog\Block\Product\View */
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/custom_disable_checkout');
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable() && $cartEnabled): ?>
-<?php $viewModel = $compare->getData('addToCompareViewModel'); ?>
 <div class="box-tocart">
     <div class="fieldset">
         <?php if ($block->shouldRenderQuantity()): ?>
