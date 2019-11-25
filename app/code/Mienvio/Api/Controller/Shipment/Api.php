@@ -140,7 +140,6 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     //Obtiene los parámetros de configuración desde el cms
     public function getConfigParams($storeScope, $websiteCode) 
     {
-        $enviroment = $this->scopeConfig->getValue(self::SANDBOX, $storeScope, $websiteCode);
         $configData['user'] = $this->scopeConfig->getValue(self::USER, $storeScope, $websiteCode);
         $configData['password'] = $this->scopeConfig->getValue(self::PASSWORD, $storeScope, $websiteCode);
         return $configData;
