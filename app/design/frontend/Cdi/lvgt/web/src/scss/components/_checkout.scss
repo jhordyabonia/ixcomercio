@@ -131,6 +131,9 @@
         min-width: 120px;
         background: #64A81B;
         border-radius: 3px;
+        &:hover {
+          background: #000;
+        }
         @media (min-width: $tablet){
           float: left;
           margin: 0 0 10px;

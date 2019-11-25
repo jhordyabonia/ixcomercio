@@ -401,7 +401,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
-    			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region_id"] .control');
+    			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout();
 		          	clearInterval(intervalState);
