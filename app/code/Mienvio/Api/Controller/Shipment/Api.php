@@ -195,10 +195,10 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
 	}
 
     //Se guarda información de IWS en tabla custom
-    public function saveMienvioData($order_id) 
+    public function saveMienvioData($type, $order_id) 
     {
 		$model = $this->_iwsOrder->create();
-        switch($body->type){
+        switch($type){
             case 'shipment.upload':
                 $model->addData([
                     "order_id" => $order_id,
