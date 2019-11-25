@@ -124,5 +124,6 @@ class Error extends \Magento\Framework\App\Action\Action implements CsrfAwareAct
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {   
+        echo "entra";
     }
 }
