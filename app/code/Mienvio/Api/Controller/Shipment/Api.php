@@ -189,7 +189,10 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     {
 		try {
             $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
-            print_r($collection); exit();
+            if($collection->getSize()){
+                $data = $collection->getFirstItem();
+            }
+            echo $data->getEntityId(); exit();
             return $order;
         } catch (\Exception $e) {
             $this->logger->info('Mienviowebhook - Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
