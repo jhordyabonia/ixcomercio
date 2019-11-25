@@ -90,6 +90,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 	    // =============================================
+	    // Add to wishlist product detail
+	    // =============================================
+
+	    if($('.catalog-product-view .product-addto-links').length){
+	    	var wlistButton = $('.catalog-product-view .product-addto-links');
+	    	wlistButton.remove();
+	    	$('.product-info_main .product-add-form .box-tocart .actions').append(wlistButton);
+	    }
+
+
+	    // =============================================
 	    // Footer Mobile
 	    // =============================================
 
