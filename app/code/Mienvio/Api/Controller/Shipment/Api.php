@@ -200,22 +200,48 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $orders->getResource()
             ->load($orders, $order_id, 'order_id');
         if($orders->getId()){
-            switch($type){
-                case 'shipment.upload':
-                    $orders->setMienvioGuide(1);
-                    break;
-                case 'shipment.status':
-                    $orders->setMienvioDelivery(1);
-                    break;
-            }
+            $update = 0;
             try{
-                $orders->save();
-                $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
+                switch($type){
+                    case 'shipment.upload':
+                        if($orders->getMienvioGuide()==0){
+                            $orders->setMienvioGuide(1);
+                            $update = 1;
+                            $this->addOrderComment($order_id, "Se ha generado la guía de la orden");
+                        }
+                        break;
+                    case 'shipment.status':
+                        if($orders->getMienvioDelivery()==0){
+                            $orders->setMienvioDelivery(1);
+                            $update = 1;
+                            $this->addOrderComment($order_id, "El pedido ha sido entregado");
+                        }
+                        break;
+                }
+                if($update == 1){
+                    $orders->save();
+                    $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
+                } else {
+                    $this->logger->info('Mienviowebhook - La orden con id : '.$orders->getId().' ya se encontraba actualizada');
+                }
                 return true;
             } catch (\Exception $e) {
                 $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$orders->getId());
             }
         }
         return false;
+	}
+
+    //Se añade comentario interno a orden
+    public function addOrderComment($orderId, $comment) 
+    {
+		try {
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($orderId);
+            $order->addStatusHistoryComment($comment);
+            $order->save();
+        } catch (\Exception $e) {
+            $this->logger->info('Mienviowebhook - Error al guardar comentario en orden con ID: '.$orderId);
+        }
 	}
 }
