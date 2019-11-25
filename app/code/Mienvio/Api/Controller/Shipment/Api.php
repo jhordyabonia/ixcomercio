@@ -166,10 +166,10 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             $notification = $this->saveMienvioData($type, $order_id);
             if($notification){
                 $result->setHttpResponseCode(200);
-                $result->setData(['success_message' => __('Authorized')]);
+                $result->setData(['success_message' => __('Updated data')]);
             } else{
                 $result->setHttpResponseCode(204);
-                $result->setData(['success_message' => __('No Content')]);
+                $result->setData(['success_message' => __('Information not found')]);
             }
         } else {
             $result->setHttpResponseCode(204);
