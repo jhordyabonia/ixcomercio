@@ -356,6 +356,7 @@
           border-top: 1px solid #e5e5e5;
           button, .action.towishlist{
             margin-bottom: 10px;
+            margin-right: 10px;
             vertical-align: middle;
             min-height: 40px;
             line-height: 40px;
@@ -368,6 +369,12 @@
             &:hover{
               color: #fff;
               background: #000;
+            }
+            .action.towishlist {
+              color: #999;
+              height: 38px;
+              border: 1px solid #ccc;
+              border-radius: 3px;
             }
           }
         }
