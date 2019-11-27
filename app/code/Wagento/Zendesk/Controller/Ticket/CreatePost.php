@@ -9,6 +9,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Wagento\Zendesk\Controller\AbstractUserAuthentication;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class CreatePost extends AbstractUserAuthentication
 {
@@ -26,6 +27,11 @@ class CreatePost extends AbstractUserAuthentication
     private $scopeConfig;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * CreatePost constructor.
      * @param Context $context
      * @param \Wagento\Zendesk\Helper\Api\Ticket $ticket
@@ -36,13 +42,15 @@ class CreatePost extends AbstractUserAuthentication
         Context $context,
         \Wagento\Zendesk\Helper\Api\Ticket $ticket,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+    \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+    \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
     
         parent::__construct($context);
         $this->ticket = $ticket;
         $this->customerSession = $customerSession;
-        $this->scopeConfig = $scopeConfig;
+    $this->scopeConfig = $scopeConfig;
+    $this->storeManager = $storeManager;
     }
 
     /**
@@ -64,7 +72,8 @@ class CreatePost extends AbstractUserAuthentication
         $backParams = [];
         if ($customerAttribute) {
             $endUserId = $customerAttribute->getValue();
-            $data = $this->getRequest()->getParams();
+            $data  = $this->getRequest()->getParams();
+            $store = $this->storeManager->getStore();
 
             $params = [
                 'requester_id' => $endUserId,
@@ -72,23 +81,32 @@ class CreatePost extends AbstractUserAuthentication
                 'subject' => $data['subject'],
                 'comment' => [
                     'body' => $data['comment']
-                ],
+	        ],
+            'tags' => [$store->getName()]
             ];
 
+            $scope     = \Magento\Store\Model\ScopeInterface::SCOPE_STORES;            
+            $storeCode = $store->getCode();
+           
             // Add extra attributes validation
-            $status = $this->scopeConfig->getValue('zendesk/ticket/priority');
+            $status = $this->scopeConfig->getValue('zendesk/ticket/status', $scope, $storeCode);
             if ($status) {
                 $params['status'] = $status;
             }
-            $type = $this->scopeConfig->getValue('zendesk/ticket/status');
+            else
+                $params['status'] = 'new';
+            $type = $this->scopeConfig->getValue('zendesk/ticket/type', $scope, $storeCode);
             if ($type) {
                 $params['type'] = $type;
             }
-            $priority = $this->scopeConfig->getValue('zendesk/ticket/type');
+            else
+                $params['type'] = 'incident';
+            $priority = $this->scopeConfig->getValue('zendesk/ticket/priority', $scope, $storeCode);
             if ($priority) {
                 $params['priority'] = $priority;
             }
-
+            else
+                $params['priority'] = 'normal';
             // Verify order number send
             if (isset($data['order']) && $data['order'] != -1) {
                 $ticketFieldId = $this->scopeConfig->getValue('zendesk/ticket/order_field_id');
@@ -98,8 +116,7 @@ class CreatePost extends AbstractUserAuthentication
                 ];
                 // assign order id param in case something went wrong
                 $backParams['orderid'] = $data['order'];
-            }
-
+            }   
             $response = $this->ticket->create($params);
             if (is_numeric($response)) {
                 $this->messageManager->addSuccessMessage('Ticket create successfully.');
