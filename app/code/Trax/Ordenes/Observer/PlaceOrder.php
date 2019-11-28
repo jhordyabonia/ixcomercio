@@ -255,7 +255,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $items = array();
         $skuItems = array();
         foreach ($orderItems as $key => $dataItem) {
-            if(count($skuItems) == 0){
+            if (!array_key_exists($dataItem->getSku(), $skuItems) && $dataItem->getOriginalPrice() != 0) {
+                $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
                 $tempItem['Sku'] = $dataItem->getSku();
                 $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
                 $tempItem['Price'] = $dataItem->getOriginalPrice();
@@ -270,25 +271,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $tempItem['CouponCodes'] = $coupon;
                 $tempItem['StoreItemId'] = $dataItem->getId();
                 $items[] = $tempItem;
-            } else {
-                if (!array_key_exists($dataItem->getSku(), $skuItems && $dataItem->getOriginalPrice() != 0)) {
-                    $tempItem['Sku'] = $dataItem->getSku();
-                    $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-                    $tempItem['Price'] = $dataItem->getOriginalPrice();
-                    $discount = '';
-                    if(count($coupon) == 0){
-                        $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
-                        if($price > 0){
-                            $discount = $price;
-                        }
-                    }
-                    $tempItem['Discounts'] = $discount;
-                    $tempItem['CouponCodes'] = $coupon;
-                    $tempItem['StoreItemId'] = $dataItem->getId();
-                    $items[] = $tempItem;
-                }
             }
-            $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
         }
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
