@@ -348,6 +348,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     {
         $orderShipping = explode(" - ", $order->getShippingDescription());
         $shipping['ServiceType'] = $orderShipping[1];
+        $this->logger->info('PlaceOrder - ServiceType '.$orderShipping[1]);
         $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);     
         return $shipping;
 	}
@@ -359,6 +360,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		$connection = $resource->getConnection();
 		$tableName = $resource->getTableName('trax_match_carrier'); 
+        $this->logger->info('PlaceOrder - tableName '.$tableName);
+        $this->logger->info('PlaceOrder - carrier '.$orderShipping[0]);
+        $this->logger->info('PlaceOrder - country_code '.$country);
+        $this->logger->info('PlaceOrder - storeCode '.$storeCode);
 		//Select Data from table
         $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
         $trax = $connection->fetchAll($sql); 
