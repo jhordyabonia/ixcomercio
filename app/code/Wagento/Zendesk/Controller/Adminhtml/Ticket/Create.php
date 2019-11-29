@@ -37,6 +37,11 @@ class Create extends Action
     protected $authSession;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    private $storeManager;
+
+     /**
      * Create constructor.
      * @param Action\Context $context
      * @param \Wagento\Zendesk\Helper\Api\Ticket $ticket
@@ -47,7 +52,8 @@ class Create extends Action
         \Wagento\Zendesk\Helper\Api\User $userApi,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Wagento\Zendesk\Helper\Data $helper,
-        \Magento\Backend\Model\Auth\Session $authSession
+        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
     
         parent::__construct($context);
@@ -56,6 +62,7 @@ class Create extends Action
         $this->customerFactory = $customerFactory;
         $this->helper = $helper;
         $this->authSession = $authSession;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -84,17 +91,20 @@ class Create extends Action
         }
         $requesterName = trim($data["requester_name"]);
         $websiteId = trim($data["website_id"]);
+        $storeName = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getName();
         /** Create the Request Id */
         $requestId = $this->createRequest($requester, $requesterName, $websiteId);
+
         $ticket = [
-            'requester_id' => $requestId,
-            'submitter_id' => $requestId,
-            'subject' => $data['subject'],
-            'status' => $data['status'],
-            'priority' => $data['priority'],
-            'comment' => [
-                'body' => $data['description']
-            ]
+                'requester_id' => $requestId,
+                'submitter_id' => $requestId,
+                'subject' => $data['subject'],
+                'status' => $data['status'],
+                'priority' => $data['priority'],
+                'comment' => [
+                    'body' => $data['description']
+                ],
+	            'tags' => [$storeName]	
         ];
         /** Add additional options  */
         if (isset($data['type']) && strlen(trim($data['type'])) > 0) {

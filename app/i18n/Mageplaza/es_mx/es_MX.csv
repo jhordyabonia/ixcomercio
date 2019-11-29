@@ -16414,7 +16414,25 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "First character must be letter.","El primer carácter debe ser una letra.",lib,web
 "The password can't be the same as the email address. Create a new password and try again.","La contraseña no puede ser la misma que la dirección de correo electrónico. Crear una nueva contraseña y vuelva a intentarlo.",lib,web
 "Back to home","Regresar",lib,web
-"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe.",lib,web
+"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","git pull
 "This is a required field.","Campo obligatorio.",module,Magento_Customer
 "This is a required field.","Campo obligatorio.",module,Magento_Checkout
 "This is a required field.","Campo obligatorio.",module,Magento_Catalog
+"Features","CaracterÃ­sticas",lib,web
+"Specs","Especif.",lib,web
+"In the Box","En la caja",lib,web
+"Quick Specs","Especificaciones",lib,web
+"Categories","CategorÃ­as",module,Magento_Sitemap
+"Products","Productos",module,Magento_Sitemap
+"Join the REPUBLIC","ÃšNETE A NOSOTROS",lib,web
+"Follow us","SÃGUENOS",lib,web
+"Support","SOPORTE",lib,web
+"Explore","Explora",lib,web
+"For comments, feedback, or help with your product, contact us using the form below.","DÃ©janos tus comentarios",lib,web
+"Send E-mail","Enviar",lib,web
+"Telephone","TelÃ©fono",lib,web
+"Comment / Question","Comentario / Pregunta",lib,web
+"Speakers","Parlantes",lib,web
+"Wireless","InalÃ¡mbrico",lib,web
+"Earphones","Auriculares",lib,web
+"Resources","Recursos",lib,web

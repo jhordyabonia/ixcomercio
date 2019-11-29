@@ -253,21 +253,25 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             return false;
         }
         $items = array();
+        $skuItems = array();
         foreach ($orderItems as $key => $dataItem) {
-            $tempItem['Sku'] = $dataItem->getSku();
-            $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-            $tempItem['Price'] = $dataItem->getOriginalPrice();
-            $discount = '';
-            if(count($coupon) == 0){
-                $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
-                if($price > 0){
-                    $discount = $price;
+            if (!array_key_exists($dataItem->getSku(), $skuItems) && $dataItem->getOriginalPrice() != 0) {
+                $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
+                $tempItem['Sku'] = $dataItem->getSku();
+                $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
+                $tempItem['Price'] = $dataItem->getOriginalPrice();
+                $discount = '';
+                if(count($coupon) == 0){
+                    $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
+                    if($price > 0){
+                        $discount = $price;
+                    }
                 }
+                $tempItem['Discounts'] = $discount;
+                $tempItem['CouponCodes'] = $coupon;
+                $tempItem['StoreItemId'] = $dataItem->getId();
+                $items[] = $tempItem;
             }
-            $tempItem['Discounts'] = $discount;
-            $tempItem['CouponCodes'] = $coupon;
-            $tempItem['StoreItemId'] = $dataItem->getId();
-            $items[] = $tempItem;
         }
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
@@ -344,6 +348,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     {
         $orderShipping = explode(" - ", $order->getShippingDescription());
         $shipping['ServiceType'] = $orderShipping[1];
+        $this->logger->info('PlaceOrder - ServiceType '.$orderShipping[1]);
         $shipping['CarrierId'] = $this->loadCarrierId($country, $orderShipping, $storeCode);     
         return $shipping;
 	}
@@ -355,6 +360,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		$connection = $resource->getConnection();
 		$tableName = $resource->getTableName('trax_match_carrier'); 
+        $this->logger->info('PlaceOrder - tableName '.$tableName);
+        $this->logger->info('PlaceOrder - carrier '.$orderShipping[0]);
+        $this->logger->info('PlaceOrder - country_code '.$country);
+        $this->logger->info('PlaceOrder - storeCode '.$storeCode);
 		//Select Data from table
         $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
         $trax = $connection->fetchAll($sql); 
