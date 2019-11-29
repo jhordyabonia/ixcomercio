@@ -233,16 +233,14 @@
       line-height: normal;
       margin: 10px 0;
       > span{
-        display: block;
-        &.special-price{
-          .price{
-            color: #c73615;
-          }
-        }
+        display: inline-block;
+        margin-right: 10px;
         &.old-price{
-          color: #8e8e8e;
+          color: #89170b;
           .price{
-            font-size: 30px;
+            color: #89170b;
+            font-size: 24px;
+            font-weight: normal;
           }
         }
       }
@@ -356,8 +354,9 @@
           max-width: 100%;
           padding: 15px 0;
           border-top: 1px solid #e5e5e5;
-          button{
+          button, .action.towishlist{
             margin-bottom: 10px;
+            margin-right: 10px;
             vertical-align: middle;
             min-height: 40px;
             line-height: 40px;
@@ -372,8 +371,20 @@
               background: #000;
             }
           }
+          .action.towishlist {
+            color: #999;
+            height: 38px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            &:hover{
+              border: 1px solid #000;
+            }
+          }
         }
       }
+    }
+    > .product-addto-links {
+      display: none;
     }
   }
 }
