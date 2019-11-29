@@ -376,6 +376,9 @@
             height: 38px;
             border: 1px solid #ccc;
             border-radius: 3px;
+            &:hover{
+              border: 1px solid #000;
+            }
           }
         }
       }
