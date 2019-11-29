@@ -1,4 +1,4 @@
-require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
