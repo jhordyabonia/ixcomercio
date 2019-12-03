@@ -1,7 +1,10 @@
-.block.review-add{
+.block.review-add, .review-list{
   width: 100%;
   padding: 60px 0;
+  margin: 0;
   float: left;
+}
+.block.review-add{
   .block-title {
     display: block;
     text-align: left;
@@ -41,6 +44,23 @@
 				color: #fff;
 			}
     	}
+    }
+  }
+}
+.review-list {
+  .block-content {
+    text-align: left;
+    .review-items {
+      .item {
+        .rating-label {
+          display: none;
+        }
+        .review-content, .review-details {
+          width: 100%;
+          margin: 0;
+          float: left;
+        }
+      }
     }
   }
 }
