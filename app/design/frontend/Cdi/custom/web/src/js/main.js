@@ -25,33 +25,27 @@ function ($, Component) {
 	    // Skip Links
 	    // =============================================
 
-	    var skipContents = jQuery('.skip-content');
-	    var skipLinks = jQuery('.skip-link');
-
+	    var skipContents = $('header > div');
+	    var skipLinks = $('.skip-link');
+	    
 	    skipLinks.on('click', function (e) {
-	        e.preventDefault();
-
-	        var self = jQuery(this);
-	        // Use the data-target-element attribute, if it exists. Fall back to href.
-	        var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
-
-	        // Get target element
-	        var elem = jQuery(target);
-
-	        // Check if stub is open
-	        var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
-
-	        // Hide all stubs
-	        skipLinks.removeClass('skip-active');
-	        skipContents.removeClass('skip-active');
-
-	        // Toggle stubs
-	        if (isSkipContentOpen) {
-	            self.removeClass('skip-active');
-	        } else {
-	            self.addClass('skip-active');
-	            elem.addClass('skip-active');
-	        }
+	      e.preventDefault();
+	      var self = $(this);
+	      var target = self.attr('href');
+	      //Get target element
+	      var elem = $(target);
+	      //Check if stub is open
+	      var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+	      //Hide all stubs
+	      skipLinks.removeClass('skip-active');
+	      skipContents.removeClass('skip-active');
+	      //Toggle stubs
+	      if (isSkipContentOpen) {
+	        self.removeClass('skip-active');
+	      }else{
+	        self.addClass('skip-active');
+	        elem.addClass('skip-active');
+	      }
 	    });
 
 
