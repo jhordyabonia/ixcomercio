@@ -58,7 +58,7 @@
 		<!--Elimina título-->
 		<referenceBlock name="product.info.overview" remove="true" />
 		<!--Elimina short description-->
-		<referenceBlock name="page.main.title" remove="false" />
+		<referenceBlock name="page.main.title" remove="true" />
 		<!--Elimina botones social (wishlist, mail, compare)-->
 		<referenceBlock name="product.info.social" remove="true" />
 		<!--Elimina botón reviews-->
