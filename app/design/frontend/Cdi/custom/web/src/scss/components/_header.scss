@@ -388,13 +388,6 @@ header{
       line-height: 44px;
       text-align: center;
       cursor: pointer;
-    }
-    .skip-link{
-      &.skip-active{
-        .ic.icon:before{
-          color: #3ec2df;
-        }
-      }
       .label{
         color: #333;
         font-size: 12px;
@@ -405,6 +398,13 @@ header{
         padding: 0;
         @media only screen and (max-width: $mobile){
           display: none;
+        }
+      }
+    }
+    .skip-link{
+      &.skip-active{
+        .ic.icon:before{
+          color: #3ec2df;
         }
       }
       .icon{
