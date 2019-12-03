@@ -187,6 +187,18 @@ header{
             }
             ul.submenu{
               border: 0;
+              @media only screen and (max-width: 768px){
+                width: 100%;
+                top: 0!important;
+                position: relative;
+                background: none;
+                box-shadow: none;
+                min-height: auto;
+                padding: 0 15px 0 0;
+                float: left;
+                margin: 0;
+                border: 0;
+              }
               a{
                 font-size: 14px;
                 line-height: 35px;
@@ -211,6 +223,7 @@ header{
           > a.level-top {
             width: 100%;
             float: left;
+            color: #000;
             text-transform: capitalize;
             font-weight: 700;
             font-size: 18px;
