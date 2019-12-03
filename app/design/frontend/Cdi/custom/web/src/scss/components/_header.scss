@@ -417,7 +417,7 @@ header{
       }
     }
   }
-  > skip.active {
-    display: block;
+  > .skip-active {
+    display: block!important;
   }
 }
