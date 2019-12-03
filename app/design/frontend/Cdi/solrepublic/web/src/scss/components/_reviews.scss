@@ -1,7 +1,10 @@
-.block.review-add{
+.block.review-add, .block.review-list{
   width: 100%;
   padding: 60px 0;
+  margin: 0;
   float: left;
+}
+.block.review-add{
   .block-title {
     display: block;
     text-align: left;
@@ -11,6 +14,30 @@
   }
   form.review-form{	
     width: 100%;
-	text-align: left;
+    text-align: left;
+  }
+}
+.block.review-list {
+  .block-title {
+    display: block;
+    text-align: left;
+    h3{
+      color: #636363;
+    }
+  }
+  .block-content {
+    text-align: left;
+    .review-items {
+      .item {
+        .rating-label {
+          display: none;
+        }
+        .review-content, .review-details {
+          width: 100%;
+          margin: 0;
+          float: left;
+        }
+      }
+    }
   }
 }
