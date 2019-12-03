@@ -23,7 +23,7 @@
                         <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
                     </block>
                 </block>
-		    </referenceContainer>
+        </referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>

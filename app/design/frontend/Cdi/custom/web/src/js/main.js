@@ -329,6 +329,17 @@ function ($, Component) {
 	    });
 
 
+
+	    // =============================================
+	    // Sticky product nav
+	    // =============================================
+	    var stickyProductNav = $('.sticky-product-nav');
+
+	    if($(stickyProductNav).length){
+	    	$('.sticky-product-nav').remove();
+	    	$('.page-wrapper .page-main>.columns').prepend(stickyProductNav);
+	    }
+
 	});
 
 

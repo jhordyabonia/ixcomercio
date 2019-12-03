@@ -137,6 +137,9 @@
                     position: absolute;
                   }
                 }
+                .action-edit{
+                  display: none !important;
+                }
                 .action-delete{
                   margin: 0;
                   border: 0;
@@ -240,6 +243,25 @@
     }
     .label{
       color: #000;
+    }
+    .totals-tax-details{
+      border-bottom: 0;
+    }
+    .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      border-bottom: 0;
+    }
+    .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      @media (max-width: $tablet){
+        width: 40%;
+        float: left;
+      }
+    }
+    input[type=checkbox], input[type=radio]{
+      display: inline-block;
+      ~ .label{
+        font-size: 100%;
+        padding-left: .6em;
+      }
     }
     .action.primary.checkout{
       min-width: 140px;

@@ -11,7 +11,7 @@
 <div class="block review-add">
     <div class="container">
         <div class="row">
-            <div class="block-title col-xs-12"><h2><?= $block->escapeHtml(__('Write Your Own Review')) ?></h2></div>
+            <div class="block-title col-xs-12"><h3><?= $block->escapeHtml(__('Write Your Own Review')) ?></h3></div>
             <div class="block-content col-xs-12">
             <?php if ($block->getAllowWriteReviewFlag()): ?>
             <form action="<?= $block->escapeUrl($block->getAction()) ?>" class="review-form" method="post" id="review-form" data-role="product-review-form" data-bind="scope: 'review-form'">
