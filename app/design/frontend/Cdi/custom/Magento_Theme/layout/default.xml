@@ -33,6 +33,9 @@
 					<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 				</container>
 
+				<container name="header.container.mobile.elements" as="header_container_mobile_elements" htmlTag="div" htmlClass="mobile-elements-wrapper">
+				</container>
+
 			</container>
 			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
