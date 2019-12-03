@@ -2,7 +2,7 @@
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
 		<!--Agrega cabecera sticky para producto-->
-		<referenceContainer name="content">
+		<referenceContainer name="page.main.title">
 			<container name="product.sticky.nav" htmlTag="div" htmlClass="sticky-product-nav" before="content">
 				<block class="Magento\Catalog\Block\Product\View" name="product.sticky" template="Magento_Catalog::product/view/sticky.phtml" after="product.info.type" />
 			</container>
@@ -58,7 +58,7 @@
 		<!--Elimina título-->
 		<referenceBlock name="product.info.overview" remove="true" />
 		<!--Elimina short description-->
-		<referenceBlock name="page.main.title" remove="true" />
+		<referenceBlock name="page.main.title" remove="false" />
 		<!--Elimina botones social (wishlist, mail, compare)-->
 		<referenceBlock name="product.info.social" remove="true" />
 		<!--Elimina botón reviews-->
