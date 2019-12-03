@@ -8,6 +8,21 @@
   }
   form.review-form{
     width: 100%;
+    text-align: left;
+    margin: 0 auto;
+    @media (min-width: $tablet) {
+      .fieldset>.field:not(.choice)>.control{
+        width: 100%;
+      }
+      .actions-toolbar {
+        text-align: center;
+        margin-right: 0;
+        >.primary {
+          display: inline-block;
+          float: none;
+        }
+      }
+    }
     .action{
     	&.primary{
     		color: #00aeef;
