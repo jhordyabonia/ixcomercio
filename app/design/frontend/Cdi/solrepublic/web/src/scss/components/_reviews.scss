@@ -18,6 +18,13 @@
   }
 }
 .block.review-list {
+  .block-title {
+    display: block;
+    text-align: left;
+    h3{
+      color: #636363;
+    }
+  }
   .block-content {
     text-align: left;
     .review-items {
