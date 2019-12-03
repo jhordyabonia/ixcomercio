@@ -1,4 +1,4 @@
-.block.review-add, .review-list{
+.block.review-add, .block.review-list{
   width: 100%;
   padding: 60px 0;
   margin: 0;
@@ -47,7 +47,7 @@
     }
   }
 }
-.review-list {
+.block.review-list {
   .block-content {
     text-align: left;
     .review-items {
