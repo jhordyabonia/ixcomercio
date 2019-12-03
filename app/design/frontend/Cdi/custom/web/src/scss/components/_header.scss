@@ -379,7 +379,7 @@ header{
     @media only screen and (min-width: 769px){
       display: none;
     }
-    .skip-link{
+    .skip-link, > div:not(#header-account){
       width: 20%;
       text-decoration: none;
       float: left;
@@ -388,6 +388,8 @@ header{
       line-height: 44px;
       text-align: center;
       cursor: pointer;
+    }
+    .skip-link{
       &.skip-active{
         .ic.icon:before{
           color: #3ec2df;
