@@ -9,8 +9,17 @@ function ($, Component) {
 		return false;
 	});
 
+	var w_width = jQuery( window ).width();
 
 	$(document).ready(function(){
+
+		// =============================================
+	    // Menu mobile append elements
+	    // =============================================
+	    if(w_width <= 768){
+	    	$('.skip-links-wrapper').append($('.account-cart-wrapper').html());
+	    }
+	
 		
 		// =============================================
 	    // Skip Links
