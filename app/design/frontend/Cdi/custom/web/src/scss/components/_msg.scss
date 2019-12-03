@@ -71,12 +71,13 @@
             border: 2px solid $redcolor;
           }
           &.action-secondary{
-            color: $redcolor;
+            color: #ccc;
             background: transparent;
-            border: 2px solid $redcolor;
+            border: 2px solid #ccc;
             &:hover{
               color: #fff;
               background: $redcolor;
+              border: 2px solid $redcolor;
             }
           }
         }
