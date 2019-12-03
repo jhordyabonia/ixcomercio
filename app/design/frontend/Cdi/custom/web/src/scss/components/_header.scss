@@ -151,6 +151,7 @@ header{
         }
         &.level0 {
           @media only screen and (max-width: $tablet){
+            width: 100%;
             border: 0;
             &:last-child{
               border: 0;
@@ -208,6 +209,8 @@ header{
             }
           }
           > a.level-top {
+            width: 100%;
+            float: left;
             text-transform: capitalize;
             font-weight: 700;
             font-size: 18px;
@@ -215,12 +218,14 @@ header{
             padding: 0 15px 0 25px;
             border-bottom: 1px solid #CCCCCC;
             text-align: left;
-            @media only screen and (min-width: 768px){
+            @media only screen and (min-width: 769px){
+              width: auto;
               color: #000;
               padding: 0;
               line-height: 30px;
               text-align: inherit;
               border: 0;
+              float: none
             }
             .ui-menu-icon{
               &:after{
