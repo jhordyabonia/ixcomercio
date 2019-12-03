@@ -34,6 +34,7 @@
 				</container>
 
 				<container name="header.container.mobile.elements" as="header_container_mobile_elements" htmlTag="div" htmlClass="mobile-elements-wrapper">
+					<block class="Magento\Framework\View\Element\Template" name="header.mobile.elements" template="Magento_Theme::html/header_mobile_elements.phtml"/>
 				</container>
 
 			</container>
