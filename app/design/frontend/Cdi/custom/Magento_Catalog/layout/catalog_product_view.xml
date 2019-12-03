@@ -2,7 +2,7 @@
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
 		<!--Agrega cabecera sticky para producto-->
-		<referenceContainer name="main">
+		<referenceContainer name="root">
 			<container name="product.sticky.nav" htmlTag="div" htmlClass="sticky-product-nav" before="content">
 				<block class="Magento\Catalog\Block\Product\View" name="product.sticky" template="Magento_Catalog::product/view/sticky.phtml" after="product.info.type" />
 			</container>
@@ -23,7 +23,7 @@
                         <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
                     </block>
                 </block>
-		    </referenceContainer>
+        </referenceContainer>
 		<referenceBlock name="product.info.sku">
 			<arguments>
 				<argument name="at_call" xsi:type="string">getSku</argument>
