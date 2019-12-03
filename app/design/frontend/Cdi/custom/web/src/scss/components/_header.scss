@@ -123,10 +123,7 @@ header{
     top: 0;
     left: 0;
     width: 20%;
-    display: block!important;
-    @media only screen and (min-width: 769px){
-      display: none !important;
-    }
+    display: none !important;
   }
   nav.navigation {
     margin: 0;
@@ -270,9 +267,13 @@ header{
     }
   }
   .account-cart-wrapper{
-    position: absolute;
     top: 30px;
     right: 0px;
+    position: absolute;
+    display: none;
+    @media only screen and (min-width: 769px){
+      display: block;
+    }
   }
   .minicart-wrapper{
     line-height: 40px;
@@ -379,21 +380,16 @@ header{
       display: none;
     }
     .skip-link{
-      width: 33.33%;
+      width: 20%;
       text-decoration: none;
-      background-color: #ecebe8;
       float: left;
       position: relative;
-      height: 50px;
-      line-height: 50px;
+      height: 100%;
+      line-height: 44px;
       text-align: center;
       cursor: pointer;
       &.skip-active{
-        background-color: #f5f5f5;
         .ic.icon:before{
-          color: #3ec2df;
-        }
-        .label{
           color: #3ec2df;
         }
       }
