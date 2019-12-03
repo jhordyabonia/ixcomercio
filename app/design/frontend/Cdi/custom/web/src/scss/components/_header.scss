@@ -380,6 +380,7 @@ header{
       display: none;
     }
     > .skip-link, > div:not(#header-account){
+      top: 0;
       width: 20%;
       text-decoration: none;
       float: left;
