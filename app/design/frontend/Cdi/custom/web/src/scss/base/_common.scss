@@ -280,6 +280,14 @@ input.input-text, select, textarea {
   }
 }
 .skip-account {
+  @media only screen and (min-width: 769px){
+    float: none;
+    width: auto;
+    vertical-align: top;
+    display: inline-block;
+    padding: 0 10px;
+    text-transform: uppercase;
+  }
   .icon{
     background: url(../images/icon_sprite.png) no-repeat;
     background-position: 4px -44px;
