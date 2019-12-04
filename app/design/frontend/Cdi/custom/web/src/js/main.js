@@ -27,7 +27,35 @@ function ($, Component) {
 		// =============================================
 	    // Skip Links
 	    // =============================================
+	    var skipContents = $j('.skip-content');
+	    var skipLinks = $j('.skip-link');
 
+	    skipLinks.on('click', function (e) {
+	        e.preventDefault();
+
+	        var self = $j(this);
+	        // Use the data-target-element attribute, if it exists. Fall back to href.
+	        var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
+
+	        // Get target element
+	        var elem = $j(target);
+
+	        // Check if stub is open
+	        var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+
+	        // Hide all stubs
+	        skipLinks.removeClass('skip-active');
+	        skipContents.removeClass('skip-active');
+
+	        // Toggle stubs
+	        if (isSkipContentOpen) {
+	            self.removeClass('skip-active');
+	        } else {
+	            self.addClass('skip-active');
+	            elem.addClass('skip-active');
+	        }
+	    });
+	    /*
 	    var skipContents = $('header > div');
 	    var skipLinks = $('.skip-link');
 	    
@@ -38,18 +66,19 @@ function ($, Component) {
 	      //Get target element
 	      var elem = $(target);
 	      //Check if stub is open
-	      var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+	      var isSkipContentOpen = elem.hasClass('skip-content skip-active') ? 1 : 0;
 	      //Hide all stubs
 	      skipLinks.removeClass('skip-active');
-	      skipContents.removeClass('skip-active');
+	      skipContents.removeClass('skip-content skip-active');
 	      //Toggle stubs
 	      if (isSkipContentOpen) {
-	        self.removeClass('skip-active');
+	        self.removeClass('skip-content skip-active');
 	      }else{
 	        self.addClass('skip-active');
-	        elem.addClass('skip-active');
+	        elem.addClass('skip-content skip-active');
 	      }
 	    });
+	    */
 
 
 	    // =============================================
