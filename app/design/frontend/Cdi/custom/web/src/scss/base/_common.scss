@@ -279,19 +279,11 @@ input.input-text, select, textarea {
     margin-right: 3px;
   }
 }
-.skip-nav {
-  width: 20%;
-  text-align: left;
-  padding: 0 0 0 15px;
+.skip-account {
   .icon{
-    background-position: 4px 4px;
-    margin-right: 3px;
-    background-image: url(../img/icons/icon_sprite.png);
-    background-repeat: no-repeat;
-    text-indent: -9999px;
-  }
-  label{
-    display: inline;
+    background: url(../images/icon_sprite.png) no-repeat;
+    background-position: 4px -44px;
+    background-size: 100px 1000px;
   }
 }
 .skip-nav {
