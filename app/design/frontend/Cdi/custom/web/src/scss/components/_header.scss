@@ -487,9 +487,6 @@ header{
         }
       }
     }
-    .minicart-wrapper {
-      margin-top: 0;
-    }
     .action.search{
       display: block;
     }
@@ -517,6 +514,11 @@ header{
           border: 0;
         }
       }
+    }
+  }
+  .minicart-wrapper {
+    @media only screen and (max-width: $mobile){
+      margin-top: 0;
     }
   }
 }
