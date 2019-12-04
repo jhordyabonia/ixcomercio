@@ -2,7 +2,7 @@
 <?php $_product = $block->getProduct(); ?>
 <div class="product-name">
 	<a id="buybox" name="buybox"></a>
-	<span class="h1"><?= $block->escapeHtml($_product->getName()) ?> 
+	<h1 class="h1"><?= $block->escapeHtml($_product->getName()) ?> 
 		<?php if($_product->getShortDescription()): ?><span><?= $_product->getShortDescription() ?></span><?php endif;?>
-	</span>
+	</h1>
 </div>
