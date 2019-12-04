@@ -19,8 +19,9 @@ function ($, Component) {
 	    var htmlCartWrapper = $('.account-cart-wrapper');
 	    var htmlSearchWrapper = $('header .block-search');
 	    if(w_width <= 768){
+	    	$(htmlSearchWrapper).addClass('skip-content');
 	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
-	    	$('header').append(htmlSearchWrapper).addClass('skip-content');
+	    	$('header').append(htmlSearchWrapper);
 	    }
 	
 		
