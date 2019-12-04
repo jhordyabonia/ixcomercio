@@ -414,6 +414,11 @@ header{
         line-height: 16px;
       }
     }
+    .country-header-wrapper {
+      .dropdown-menu.countrySelectMenu.show {
+        transform: translate3d(0, 30px, 0) !important;
+      }
+    }
   }
   > .skip-active {
     display: block!important;
