@@ -294,6 +294,36 @@ input.input-text, select, textarea {
     display: inline;
   }
 }
+.skip-nav {
+  width: 20%;
+  text-align: left;
+  padding: 0 0 0 15px;
+  .icon{
+    background-position: 4px 4px;
+    margin-right: 3px;
+    background-image: url(../img/icons/icon_sprite.png);
+    background-repeat: no-repeat;
+    text-indent: -9999px;
+  }
+  label{
+    display: inline;
+  }
+}
+.skip-search {
+  width: 20%;
+  text-align: left;
+  padding: 0 0 0 15px;
+  .icon{
+    background-position: 4px 4px;
+    margin-right: 3px;
+    background-image: url(../img/icons/icon_sprite.png);
+    background-repeat: no-repeat;
+    text-indent: -9999px;
+  }
+  label{
+    display: none;
+  }
+}
 #scroll-to-top {
   display: block;
   position: fixed;
@@ -393,6 +423,4 @@ html.nav-open .page-wrapper{
   background-image: url(../images/patterns/triangles-camo-blue.svg);
   background-color: #FFAE3B;
 }
-.ic-search:before {
-  content: "\e235";
-}
+
