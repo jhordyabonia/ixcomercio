@@ -416,7 +416,14 @@ header{
     }
     .country-header-wrapper {
       .dropdown-menu.countrySelectMenu.show {
-        transform: translate3d(0, 30px, 0) !important;
+        position: relative;
+        width: 101vw;
+        margin-left: calc(-84vw / 2 + 17% / 2);
+        margin-right: calc(-100vw / 2 + 17% / 2);
+        margin-bottom: 32%;
+        padding-bottom: 0;
+        border: none;
+        background: #EDEDED;
       }
     }
   }
