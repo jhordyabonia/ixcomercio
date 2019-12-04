@@ -63,7 +63,7 @@
   }
 }
 ul.sticky-sections {
-  font-size: 16px;
+  font-size: 18px;
   display: inline-block;
   margin: 0;
   @media only screen and (max-width: 599px){
@@ -71,7 +71,11 @@ ul.sticky-sections {
   }
   li{
     display: inline;
-    padding-right: 2em;
+    padding-right: .5em;
+    a {
+      color: #008FBE;
+      font-weight: bold;
+    }
   }
 }
 .product-essential{
