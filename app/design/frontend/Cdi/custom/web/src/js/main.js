@@ -18,7 +18,6 @@ function ($, Component) {
 	    // =============================================
 	    var htmlCartWrapper = $('.account-cart-wrapper');
 	    var htmlSearchWrapper = $('header .block-search');
-	    var htmlAccountWrapper = $(htmlCartWrapper + '#header-account');
 
 	    if(w_width <= 768){
 	    	$('header > .nav-sections').addClass('skip-content');
@@ -26,6 +25,9 @@ function ($, Component) {
 
 	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
 	    	$('header').append(htmlSearchWrapper);
+
+	    	var htmlAccountWrapper = $('.skip-links-wrapper #header-account');
+
 	    	$('header').append(htmlAccountWrapper);
 
 	    	$('.account-cart-wrapper').remove();
