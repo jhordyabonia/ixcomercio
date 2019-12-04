@@ -184,7 +184,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 "ventas@mienvio.mx",
                 "5551814040",
                 '',
-                $destCountryId
+                $destCountryId,
+                $this->_mienvioHelper->getOriginCity()
             );
 
             $toData = $this->createAddressDataStr(
@@ -195,7 +196,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 "ventas@mienvio.mx",
                 "5551814040",
                 substr($fullAddressProcessed['suburb'], 0, 30),
-                $destCountryId
+                $destCountryId,
+                $destRegion,
+                $destRegionCode,
+                $destCity
             );
 
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
@@ -535,7 +539,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      * @param  string $countryCode
      * @return string
      */
-    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode)
+    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
         $street = substr($street, 0, 35);
         $street2 = substr($street2, 0, 35);
@@ -552,10 +556,34 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'reference' => ''
         ];
 
-        if ($countryCode === 'MX') {
-            $data['zipcode'] = $zipcode;
-        } else {
-            $data['level_1'] = $zipcode;
+        $location = $this->_mienvioHelper->getLocation();
+        $this->_logger->debug('LOCATION: '.$location);
+        $this->_logger->debug('STREET2: '.$street2);
+        $this->_logger->debug('DestRegion: '.$destRegion);
+        $this->_logger->debug('DestRegionCode: '.$destRegionCode);
+        $this->_logger->debug('DesCity: '.$destCity);
+
+        if($location == 'street2' ){
+
+            if ($countryCode === 'MX') {
+                $data['zipcode'] = $zipcode;
+            } else {
+                $data['level_1'] = $street2;
+            }
+
+        }else if($location == 'zipcode' ){
+            if ($countryCode === 'MX') {
+                $data['zipcode'] = $zipcode;
+            } else {
+                $data['level_1'] = $zipcode;
+            }
+
+        }else{
+            if ($countryCode === 'MX') {
+                $data['zipcode'] = $zipcode;
+            } else {
+                $data['level_1'] = $zipcode;
+            }
         }
 
         return $data;

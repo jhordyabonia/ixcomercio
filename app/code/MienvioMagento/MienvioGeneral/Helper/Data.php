@@ -18,6 +18,7 @@ class Data extends AbstractHelper
     const XML_PATH_TITLE_METHOD_FREE = 'carriers/mienviocarrier/titlemethodfree';
     const XML_PATH_SERVICE_LEVEL = 'carriers/mienviocarrier/servicelevel';
     const XML_PATH_PROVIDER = 'carriers/mienviocarrier/provider';
+    const XML_PATH_LOCATION = 'carriers/mienviocarrier/location';
     const XML_PATH_Street_store = 'shipping/origin/street_line1';
     const XML_PATH_Street2_store = 'shipping/origin/street_line2';
     const XML_PATH_ZipCode_store = 'shipping/origin/postcode';
@@ -55,14 +56,18 @@ class Data extends AbstractHelper
     {
         return $this->getConfigValue(self::XML_PATH_PROVIDER , $storeId);
     }
+    public function getLocation($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_LOCATION , $storeId);
+    }
 
     public function getEnvironment($storeId = null)
     {
-        $env = $this->getConfigValue(self::XML_PATH_IS_ENABLE_MIENVIO , $storeId);
+        $env = $this->getConfigValue(self::XML_PATH_ENVIRONMENT , $storeId);
         $result = '';
         switch ($env){
             case 0://Production
-                $result = 'https://app.mienvio.mx/';
+                $result = 'https://production.mienvio.mx/';
                 break;
             case 1: //Sandbox
                 $result = 'http://sandbox.mienvio.mx/';
@@ -71,7 +76,7 @@ class Data extends AbstractHelper
                 $result = 'http://sandbox.mienvio.mx/';
                 break;
             default:
-                $result = 'https://app.mienvio.mx/';
+                $result = 'https://sandbox.mienvio.mx/';
                 break;
         }
         return $result;
