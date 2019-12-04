@@ -415,19 +415,23 @@ header{
       }
     }
     .country-header-wrapper {
+      .dropdown-toggle.banderas {
+        width: 100%;
+        float: left;
+      }
       .dropdown-menu.countrySelectMenu.show {
         position: relative!important;
         width: 101vw;
         margin-left: calc(-84vw / 2 + 17% / 2);
         margin-right: calc(-100vw / 2 + 17% / 2);
-        transform: translate3d(-0, 26px, 0px) !important;
+        transform: translate3d(0, -18px, 0px) !important;
         margin-bottom: 32%;
         padding-bottom: 0;
         border: none;
         background: #ededed;
         .dropdown-item {
           border-bottom: 1px solid #B7B8B9;
-          &:first-child {
+          &:nth-of-type(1) {
             border-top: 1px solid #B7B8B9;
           }
         }

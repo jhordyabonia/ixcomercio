@@ -16,8 +16,11 @@ function ($, Component) {
 		// =============================================
 	    // Menu mobile append elements
 	    // =============================================
+	    var htmlCartWrapper = $('.account-cart-wrapper');
+	    var htmlSearchWrapper = $('header .block-search');
 	    if(w_width <= 768){
-	    	$('.skip-links-wrapper').append($('.account-cart-wrapper').html());
+	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
+	    	$('.skip-links-wrapper').append($(htmlSearchWrapper);
 	    }
 	
 		
