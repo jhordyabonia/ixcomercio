@@ -169,7 +169,7 @@
   padding: 0;
   height: auto;
   max-height: 620px;
-  min-height: 240px;
+  min-height: 280px;
   float: left;
   @media only screen and (min-width: 769px){
     min-height: 400px;
@@ -183,11 +183,22 @@
     padding-top: 50%;
     text-align: center;
     float: right;
+    @media only screen and (max-width: 599px){
+      width: 60%;
+      padding-top: 0;
+    }
     .text-overlay-banner{
       width: 80%;
       left: 10%;
+      @media only screen and (max-width: 599px) {
+        width: 90%;
+        left: 10%;
+      }
       h1{
         font-size: 6vw;
+        @media only screen and (max-width: 599px) {
+          font-size: 8vw;
+        }
       }
       p{
         font-size: 1.5vw;
