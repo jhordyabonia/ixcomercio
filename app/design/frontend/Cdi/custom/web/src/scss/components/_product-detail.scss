@@ -71,7 +71,10 @@ ul.sticky-sections {
   }
   li{
     display: inline;
-    padding-right: .5em;
+    padding-right: 1.3em;
+    &:last-child{
+      padding: 0;
+    }
     a {
       color: #008FBE;
       font-weight: bold;
