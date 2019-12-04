@@ -20,7 +20,7 @@ function ($, Component) {
 	    var htmlSearchWrapper = $('header .block-search');
 	    if(w_width <= 768){
 	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
-	    	$('.skip-links-wrapper').append(htmlSearchWrapper);
+	    	$('header').append(htmlSearchWrapper);
 	    }
 	
 		
@@ -38,16 +38,16 @@ function ($, Component) {
 	      //Get target element
 	      var elem = $(target);
 	      //Check if stub is open
-	      var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+	      var isSkipContentOpen = elem.hasClass('skip-content skip-active') ? 1 : 0;
 	      //Hide all stubs
 	      skipLinks.removeClass('skip-active');
-	      skipContents.removeClass('skip-active');
+	      skipContents.removeClass('skip-content skip-active');
 	      //Toggle stubs
 	      if (isSkipContentOpen) {
-	        self.removeClass('skip-active');
+	        self.removeClass('skip-content skip-active');
 	      }else{
 	        self.addClass('skip-active');
-	        elem.addClass('skip-active');
+	        elem.addClass('skip-content skip-active');
 	      }
 	    });
 
