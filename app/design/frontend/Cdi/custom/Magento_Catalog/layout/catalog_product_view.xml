@@ -14,6 +14,7 @@
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
+                <block class="Magento\Catalog\Block\Product\View" name="product.custom.name.mobile" template="Magento_Catalog::product/view/custom_name_mobile.phtml" before="-" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
                 <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info" after="product.in.box">
