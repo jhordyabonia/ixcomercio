@@ -449,31 +449,6 @@ header{
         display: none;
       }
     }
-    #header-account {
-      top: 0;
-      right: 0;
-      width: 100%;
-      height: auto;
-      position: relative;
-      background: #EDEDED;
-      float: left;
-      border: 0;
-      ul {
-        margin: 0;
-        a{
-          text-align: left;
-          text-transform: uppercase;
-          line-height: 35px;
-          border-bottom: 1px solid #ccc;
-          padding: 0 15px 0 25px;
-        }
-        > a{
-          &:last-child {
-            border: 0;
-          }
-        }
-      }
-    }
   }
   > .skip-active {
     display: block!important;
@@ -503,6 +478,31 @@ header{
           position: relative;
           padding: 0 40px 0 10px;
           border: 1px solid #C0C0C0;
+        }
+      }
+    }
+  }
+  > #header-account {
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    position: relative;
+    background: #EDEDED;
+    float: left;
+    border: 0;
+    ul {
+      margin: 0;
+      a{
+        text-align: left;
+        text-transform: uppercase;
+        line-height: 35px;
+        border-bottom: 1px solid #ccc;
+        padding: 0 15px 0 25px;
+      }
+      > a{
+        &:last-child {
+          border: 0;
         }
       }
     }
