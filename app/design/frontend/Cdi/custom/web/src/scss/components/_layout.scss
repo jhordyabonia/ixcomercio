@@ -95,7 +95,9 @@
   &.main-banner{
     .text-overlay-banner {
       h1, h1 span, h2, h2 span{
-        font-size: 4vw;
+        @media only screen and (max-width: 1024px){
+          font-size: 5vw; 
+        }
       }
       p{
         font-size: 1.5vw;
