@@ -1,15 +1,25 @@
 .sticky-product-nav{
-  position: sticky;
   top: 0;
+  width: 100%;
+  position: sticky;
   z-index: 150;
   opacity: .95;
   .fullwidth{
     background: #eee;
     padding: 30px 0;
+    @media only screen and (max-width: $mobile){
+      padding: 15px 0;
+    }
     .col-sm-3 {
       @media only screen and (min-width: $tablet){
         padding: 0;
       }
+    }
+    .col-sm-3, .col-sm-6 {
+      @media only screen and (max-width: $mobile){
+        width: 100%;
+        float: left;
+      } 
     }
   }
   .sticky-name, .sticky-price, .sticky-addto {
@@ -21,6 +31,9 @@
   .sticky-name{
     float: left;
     text-align: left;
+    @media only screen and (max-width: $mobile){
+      text-align: center;
+    }
     span {
       display: none;
     }
@@ -51,6 +64,10 @@
   }
   .sticky-price-box {
     text-align: right;
+    @media only screen and (max-width: $mobile){
+      text-align: center;
+      margin-top: 5px;
+    }
     button{
       font-size: 1.5em;
       font-weight: 100;
@@ -74,6 +91,7 @@ ul.sticky-sections {
   margin: 0;
   @media only screen and (max-width: 599px){
     display: none;
+    margin: 5px 0;
   }
   li{
     display: inline;
