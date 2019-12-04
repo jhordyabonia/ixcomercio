@@ -167,14 +167,15 @@
 }
 .banner-fullwidth{
   padding: 0;
+  height: auto;
   max-height: 620px;
-  height: 240px;
+  min-height: 240px;
   float: left;
   @media only screen and (min-width: 769px){
-    height: 400px;
+    min-height: 400px;
   }
   @media only screen and (min-width: 1280px){
-    height: 620px;
+    max-height: 620px;
   }
   .text-block-banner{
     width: 50%;
@@ -186,7 +187,7 @@
       width: 80%;
       left: 10%;
       h1{
-        font-size: 7vw;
+        font-size: 6vw;
       }
       p{
         font-size: 1.5vw;
