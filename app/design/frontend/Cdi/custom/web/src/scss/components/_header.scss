@@ -437,11 +437,37 @@ header{
         }
       }
     }
-    .block-search {
-      padding: 20px;
-    }
   }
   .skip-content.skip-active {
     display: block!important;
+  }
+  > .block-search{
+    width: 100%;
+    height: auto;
+    position: relative;
+    background: #EDEDED;
+    padding: 20px;
+    float: left;
+    #search_mini_form {
+      margin: 0;
+      float: left;
+      width: 100%;
+      position: relative;
+      .control {
+        padding: 0;
+      }
+      .actions {
+        right: 0;
+        left: auto;
+      }
+      input#search {
+        @media only screen and (max-width: $tablet){
+          width: 100%;
+          position: relative;
+          padding: 0 40px 0 10px;
+          border: 1px solid #C0C0C0;
+        }
+      }
+    }
   }
 }
