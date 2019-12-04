@@ -18,12 +18,15 @@ function ($, Component) {
 	    // =============================================
 	    var htmlCartWrapper = $('.account-cart-wrapper');
 	    var htmlSearchWrapper = $('header .block-search');
+	    var htmlAccountWrapper = $(htmlCartWrapper).find('#header-account');
+
 	    if(w_width <= 768){
 	    	$('header > .nav-sections').addClass('skip-content');
 	    	$(htmlSearchWrapper).addClass('skip-content');
 
 	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
 	    	$('header').append(htmlSearchWrapper);
+	    	$('header').append(htmlAccountWrapper);
 
 	    	$('.account-cart-wrapper').remove();
 	    }
