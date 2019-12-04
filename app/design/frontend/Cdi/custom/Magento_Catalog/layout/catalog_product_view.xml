@@ -39,7 +39,6 @@
 		-->
 		<!--media-->
         <move element="product.info.media" destination="product.essential" as="product.info.media" before="-"/>
-        <move element="product.custom.name.mobile" destination="product.info.media" as="product.custom.name.mobile" before="-"/>
 
         <!--main-->
 		<move element="product.info.main" destination="product.essential" as="product.info.main" after="product.info.media"/>
