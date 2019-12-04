@@ -279,10 +279,10 @@ input.input-text, select, textarea {
     margin-right: 3px;
   }
 }
-.skip-account {
+.skip-account.skip-link {
   @media only screen and (min-width: 769px){
-    float: none;
-    width: auto;
+    float: none!important;
+    width: auto!important;
     vertical-align: top;
     display: inline-block;
     padding: 0 10px;
