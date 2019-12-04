@@ -21,9 +21,11 @@ function ($, Component) {
 	    if(w_width <= 768){
 	    	$('header > .nav-sections').addClass('skip-content');
 	    	$(htmlSearchWrapper).addClass('skip-content');
-	    	
+
 	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
 	    	$('header').append(htmlSearchWrapper);
+
+	    	$('.account-cart-wrapper').remove();
 	    }
 	
 		
