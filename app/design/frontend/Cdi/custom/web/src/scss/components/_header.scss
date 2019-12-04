@@ -452,6 +452,14 @@ header{
         display: none;
       }
     }
+    .minicart-wrapper {
+      @media only screen and (max-width: $mobile){
+        margin-top: 0;
+      }
+    }
+    .block-minicart.ui-dialog-content {
+      right: 0;
+    }
   }
   > .skip-active {
     display: block!important;
@@ -517,11 +525,6 @@ header{
           border: 0;
         }
       }
-    }
-  }
-  .minicart-wrapper {
-    @media only screen and (max-width: $mobile){
-      margin-top: 0;
     }
   }
 }
