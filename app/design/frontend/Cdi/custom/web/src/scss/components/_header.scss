@@ -377,7 +377,7 @@ header{
     @media only screen and (min-width: 769px){
       display: none;
     }
-    > .skip-link, > div:not(#header-account){
+    > .skip-link, > div:not(#header-account, .block-search){
       top: 0;
       width: 20%;
       text-decoration: none;
