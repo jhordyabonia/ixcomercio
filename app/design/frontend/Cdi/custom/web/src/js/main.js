@@ -29,7 +29,7 @@ function ($, Component) {
 	    // =============================================
 
 	    var skipContents = $('header > div');
-	    var skipLinks = $('.skip-link');
+	    var skipLinks = $('.skip-links-wrapper .skip-link');
 	    
 	    skipLinks.on('click', function (e) {
 	      e.preventDefault();
