@@ -142,7 +142,7 @@ class Data extends AbstractHelper{
 				$specialPrice = $_product->getPriceInfo()->getPrice('special_price')->getValue();
 		}  
 		if($regularPrice != $specialPrice){
-			$discount = 100 - (($specialPrice * 100) / $regularPrice);
+			$discount = ($specialPrice * 100) / $regularPrice;
 			return round($discount);
 		}
 		return 0;
