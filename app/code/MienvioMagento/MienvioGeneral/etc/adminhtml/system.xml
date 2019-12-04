@@ -32,6 +32,16 @@
                     <label>Provider</label>
                     <comment>Default Provider for free shipping</comment>
                 </field>
+
+
+                <field id="location" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Location</label>
+                    <comment>Set the field to get the location</comment>
+                </field>
+
+
+
+
             </group>
         </section>
     </system>

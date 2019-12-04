@@ -253,7 +253,7 @@ class PlaceOrder extends AbstractHelper
                         $discount = $price;
                     }
                 }
-                $tempItem['Discounts'] = $discount;
+                $tempItem['Discounts']   = $discount;
                 $tempItem['CouponCodes'] = $coupon;
                 $tempItem['StoreItemId'] = $dataItem->getId();
                 $items[] = $tempItem;

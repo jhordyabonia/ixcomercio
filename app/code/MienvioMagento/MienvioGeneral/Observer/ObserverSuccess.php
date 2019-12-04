@@ -491,10 +491,31 @@ class ObserverSuccess implements ObserverInterface
             'reference' => $reference
         ];
 
-        if ($countryCode === 'MX') {
-            $data['zipcode'] = $zipcode;
-        } else {
-            $data['level_1'] = $zipcode;
+        $location = $this->_mienvioHelper->getLocation();
+        $this->_logger->debug('LOCATION: '.$location);
+        $this->_logger->debug('STREET2: '.$street2);
+
+        if($location == 'street2' ){
+
+            if ($countryCode === 'MX') {
+                $data['zipcode'] = $zipcode;
+            } else {
+                $data['level_1'] = $street2;
+            }
+
+        }else if($location == 'zipcode' ){
+            if ($countryCode === 'MX') {
+                $data['zipcode'] = $zipcode;
+            } else {
+                $data['level_1'] = $zipcode;
+            }
+
+        }else{
+            if ($countryCode === 'MX') {
+                $data['zipcode'] = $zipcode;
+            } else {
+                $data['level_1'] = $zipcode;
+            }
         }
 
 
