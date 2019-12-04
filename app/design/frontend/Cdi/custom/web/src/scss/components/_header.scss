@@ -475,9 +475,6 @@ header{
       .actions {
         right: 0;
         left: auto;
-        &.search{
-          display: block;
-        }
       }
       input#search {
         @media only screen and (max-width: $tablet){
@@ -489,6 +486,9 @@ header{
           margin: 0;
         }
       }
+    }
+    .actions.search{
+      display: block;
     }
   }
   > #header-account {
