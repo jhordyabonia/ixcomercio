@@ -460,6 +460,9 @@ header{
     background: #EDEDED;
     padding: 20px;
     float: left;
+    @media only screen and (max-width: $mobile){
+      margin: 0;
+    }
     #search_mini_form {
       margin: 0;
       float: left;
@@ -467,17 +470,23 @@ header{
       position: relative;
       .control {
         padding: 0;
+        margin: 0;
       }
       .actions {
         right: 0;
         left: auto;
+        &.search{
+          display: block;
+        }
       }
       input#search {
         @media only screen and (max-width: $tablet){
+          left: 0;
           width: 100%;
           position: relative;
           padding: 0 40px 0 10px;
           border: 1px solid #C0C0C0;
+          margin: 0;
         }
       }
     }
