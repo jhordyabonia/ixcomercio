@@ -28,6 +28,9 @@ header{
       display: none;
       @media only screen and (max-width: $tablet){
         padding: 5px 0;
+        &.skip-active{
+          float: left;
+        }
         .nav-sections-item-title, .nav-sections-item-title.active{
           display: none;
         }
