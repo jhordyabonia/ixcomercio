@@ -20,7 +20,7 @@ function ($, Component) {
 	    var htmlSearchWrapper = $('header .block-search');
 	    if(w_width <= 768){
 	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
-	    	$('header').append(htmlSearchWrapper);
+	    	//$('header').append(htmlSearchWrapper);
 	    }
 	
 		
