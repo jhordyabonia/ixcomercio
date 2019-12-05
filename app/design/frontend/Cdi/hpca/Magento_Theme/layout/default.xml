@@ -22,10 +22,10 @@
 						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-md-2 col-xs-3" />
 						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-wrapper-nav col-md-10">
 							<container name="header.wrapper.mainmenu" as="header_wrapper_mainmenu" htmlTag="div" htmlClass="wrapper-nav">
+								<container name="header.row.container.access" as="header_row_container_access" before="-" htmlTag="div" htmlClass="header-account-mobile">
+									<block class="Magento\Framework\View\Element\Template" name="account.mobile" template="Magento_Theme::html/account_mobile.phtml"/>
+								</container>
 							</container>
-						</container>
-						<container name="header.row.container.access" as="header_row_container_access" after="-" htmlTag="div" htmlClass="header-access">
-							<!--<block class="Magento\Framework\View\Element\Template" name="header.access.toogle" template="Magento_Theme::html/header_toogle.phtml"/>-->
 						</container>
 					</container>
 				</container>
@@ -52,7 +52,7 @@
 		<!--Mueve bloques al header-->
 		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
 		<move element="header.row.container.toplinks" destination="header.row.container.mainmenu" as="header.row.container.toplinks" before="-"/>
-		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" before="-"/>
+		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" after="-"/>
 		<move element="wrapper.menu.mobile" destination="header.wrapper.mainmenu" as="wrapper.menu.mobile" after="navigation.sections"/>
 		<move element="store_language" destination="header.row.container.toplinks" as="store_language" before="-"/>
 		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
