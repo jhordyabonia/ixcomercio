@@ -10,7 +10,7 @@
         border-radius: 5px;
         position: relative;
         @media only screen and (max-width: $mobile){
-          width: 100%;
+          width: 100%!important;
           max-width: 360px;
         }
         .product-item-info{
