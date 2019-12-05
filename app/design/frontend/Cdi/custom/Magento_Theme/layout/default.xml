@@ -32,8 +32,15 @@
 				<container name="header.row.container.toplinks" as="header_row_container_toplinks" after="header.row.container.iconsearch" htmlTag="div" htmlClass="header-toplinks skip-content" htmlId="header-account">
 					<block class="Magento\Framework\View\Element\Template" name="header.toplinks.block" template="Magento_Theme::html/toplinks.phtml" cacheable="false"/>
 				</container>
-
 			</container>
+
+			<container name="header.container.skip.links" as="header_container_skip_links" htmlTag="div" htmlClass="skip-links-wrapper">
+				<block class="Magento\Framework\View\Element\Template" name="header.skip.links" template="Magento_Theme::html/header_skip_links.phtml"/>
+			</container>
+			<container name="header.container.mobile.elements" as="header_container_mobile_elements" htmlTag="div" htmlClass="mobile-elements-wrapper">
+				<block class="Magento\Framework\View\Element\Template" name="header.mobile.elements" template="Magento_Theme::html/header_mobile_elements.phtml"/>
+			</container>
+
 			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
 			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
 		</referenceContainer>

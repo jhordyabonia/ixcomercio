@@ -13,7 +13,7 @@ $sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_info
 ?>
 <div class="footer-bottom">
     <div class="container">
-		<!--<div class="row">
+		<div class="row">
 			<div class="col-sm-4 col-12 footer-address text-left">
 				<span class="icon"></span>
 				<div class="address-info">
@@ -30,7 +30,7 @@ $sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_info
 					<a href="tel:<?php echo $storePhone;?>"><?php echo $storePhone;?></a> / <a href="<?php echo $contacts?>"><?php echo __('Email Jam');?></a>
 				</div>
             </div>
-		</div>-->
+		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-12 footer-legal">
 				<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('jam_footer_disclaimer')->toHtml();?>

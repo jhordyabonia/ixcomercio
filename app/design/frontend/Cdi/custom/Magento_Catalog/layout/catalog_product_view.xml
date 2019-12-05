@@ -14,9 +14,10 @@
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8 col-xs-12 pull-right"/>
+                <block class="Magento\Catalog\Block\Product\View" name="product.custom.name.mobile" template="Magento_Catalog::product/view/custom_name_mobile.phtml" before="-" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.quick.specs" template="Magento_Catalog::product/view/quick_specs.phtml" after="product-essential" />
     			<block class="Magento\Catalog\Block\Product\View" name="product.in.box" template="Magento_Catalog::product/view/in_the_box.phtml" after="product.quick.specs" />
-                <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+                <block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info" after="product.in.box">
                     <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml"/>
                     <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
                     <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form">
@@ -38,6 +39,7 @@
 		-->
 		<!--media-->
         <move element="product.info.media" destination="product.essential" as="product.info.media" before="-"/>
+        <move element="product.custom.name.mobile" destination="product.essential" as="product.custom.name.mobile" before="product.info.media"/>
 
         <!--main-->
 		<move element="product.info.main" destination="product.essential" as="product.info.main" after="product.info.media"/>

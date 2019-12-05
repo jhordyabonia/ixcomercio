@@ -1,20 +1,40 @@
 .sticky-product-nav{
-  position: sticky;
   top: 0;
+  width: 100%;
+  position: sticky;
   z-index: 150;
   opacity: .95;
   .fullwidth{
     background: #eee;
     padding: 30px 0;
+    @media only screen and (max-width: $mobile){
+      padding: 15px 0;
+    }
+    .col-sm-3 {
+      @media only screen and (min-width: $tablet){
+        padding: 0;
+      }
+    }
+    .col-sm-3, .col-sm-6 {
+      @media only screen and (max-width: $mobile){
+        width: 100%;
+        float: left;
+      } 
+    }
   }
   .sticky-name, .sticky-price, .sticky-addto {
     color: #000;
-    font-size: 1.75em;
+    font-size: 1.6em;
     display: inline;
     line-height: normal;
   }
   .sticky-name{
     float: left;
+    text-align: left;
+    @media only screen and (max-width: $mobile){
+      text-align: center;
+      font-weight: 500;
+    }
     span {
       display: none;
     }
@@ -37,7 +57,7 @@
     }
     .old-price{
       color: #aaa;
-      padding-left: 1em;
+      padding-left: .5em;
       .price{
         color: #aaa;
       }
@@ -45,6 +65,10 @@
   }
   .sticky-price-box {
     text-align: right;
+    @media only screen and (max-width: $mobile){
+      text-align: center;
+      margin-top: 5px;
+    }
     button{
       font-size: 1.5em;
       font-weight: 100;
@@ -63,20 +87,44 @@
   }
 }
 ul.sticky-sections {
-  font-size: 16px;
+  font-size: 18px;
   display: inline-block;
   margin: 0;
   @media only screen and (max-width: 599px){
     display: none;
+    margin: 5px 0;
   }
   li{
     display: inline;
-    padding-right: 2em;
+    padding-right: 1.3em;
+    &:last-child{
+      padding: 0;
+    }
+    a {
+      color: #008FBE;
+      font-weight: bold;
+    }
   }
 }
 .product-essential{
   margin: 30px 0;
   padding: 0 15px;
+  > .product-name {
+    display: none;
+    @media only screen and (max-width: $mobile){
+      text-align: left;
+      display: block;
+    }
+    h1{
+      @media only screen and (max-width: $mobile){
+        color: #000000;
+        font-size: 40px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+    }
+  }
 }
 .catalog-product-view .product-info_main, .product-info_media, .product-collateral, .catalog-product-view .block-related, .box-collateral{
   margin-bottom: 10px;
@@ -197,6 +245,7 @@ ul.sticky-sections {
             }
             .label, .control{
               display: block;
+              text-align: left;
             }
             .control{
               margin: 10px 0 20px;
@@ -302,12 +351,13 @@ ul.sticky-sections {
   }
   h3{
     color: #000;
-    padding: 60px;
+    padding: 60px 0 30px;
     text-align: center;
     font-size: 50px;
     font-weight: 300;
     text-transform: initial;
     font-family: Frankfurter W05 Regular;
+    word-break: break-word;
   }
 }
 .swatch-option-tooltip {
