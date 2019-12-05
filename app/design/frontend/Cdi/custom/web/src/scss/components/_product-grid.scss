@@ -171,6 +171,11 @@
     }
   }
 }
+.page-products.catalogsearch-result-index{
+  .page-wrapper .page-main {
+    max-width: 900px;
+  }
+}
 .search.results {
   .toolbar.toolbar-products .modes, dl.block {
     display: none;
