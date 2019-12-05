@@ -91,7 +91,7 @@
                   text-align: left;
                 }
                 > span:before{
-                  color: black;
+                  color: #f9ec35;
                   text-align: left;
                 }
               }
@@ -100,6 +100,7 @@
               font-size: 16px;
               font-weight: bold;
               line-height: normal;
+              text-transform: uppercase;
               min-height: 60px;
               a{
                 font-weight: bold;
@@ -117,6 +118,11 @@
                   font-size: 18px;
                   display: block;
                   line-height: normal;
+                }
+              }
+              .special-price {
+                .price{
+                  color: red;
                 }
               }
               .old-price{
