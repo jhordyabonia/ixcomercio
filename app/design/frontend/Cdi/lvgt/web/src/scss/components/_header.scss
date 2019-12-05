@@ -234,6 +234,9 @@ header{
           }
           .minicart-wrapper{
             float: left;
+            @media only screen and (max-width: $tablet){
+              width: auto;
+            }
             @media only screen and (max-width: $mobile){
               margin-left: 8px;
             }
