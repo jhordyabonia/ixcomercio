@@ -289,13 +289,21 @@ header{
               transition: 1s all ease;
               overflow: hidden;
               &.open{
-                background: rgba(black,.8);
+                background: rgba(black,.6);
+                display: block;
+                transition: .5s all ease;
+                .nav-sections-items{
+                  left: 0;
+                }
               }
               .nav-sections-items{
                 width: 75%;
                 height: 100%;
                 padding: 20px 0;
                 background: #f5f5f5;
+                position: absolute;
+                left: -100%;
+                transition: .5s all ease;
               }
             }
             .navigation{

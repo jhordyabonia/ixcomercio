@@ -2,6 +2,9 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
+		var w_width = $( window ).width();
+		var h_width = $( window ).height();
+
 		jQuery('#scroll-to-top').click(function(){
 			jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
 			return false;
@@ -152,6 +155,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 		jQuery('#iconBurgerButton').click(function(){
 			jQuery('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
 			jQuery(this).toggleClass("close");
+
+			jQuery('header .wrapper-nav .nav-sections').css('minHeight', h_width);
 		});
 
 
