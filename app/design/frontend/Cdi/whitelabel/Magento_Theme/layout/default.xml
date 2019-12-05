@@ -39,7 +39,7 @@
 
 
 		<container name="wrapper.menu.mobile" as="wrapper_menu_mobile" after="header.row.container.freeshipping" htmlTag="div" htmlClass="wrapper-menu-mobile">
-			<container name="header.icon.menu" as="header_icon_menu" before="-" htmlTag="div" htmlClass="quick-access">
+			<container name="header.icon.menu" as="header_icon_menu" after="-" htmlTag="div" htmlClass="quick-access">
 				<block class="Magento\Framework\View\Element\Template" name="header.iconmenu.block" template="Magento_Theme::html/icon-menu.phtml" cacheable="false"/>
 			</container>
 
@@ -52,7 +52,7 @@
 		<!--Mueve bloques al header-->
 		<move element="logo" destination="header.row.container.branding" as="logo" after="-"/>
 		<move element="header.row.container.toplinks" destination="header.row.container.mainmenu" as="header.row.container.toplinks" before="-"/>
-		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" before="-"/>
+		<move element="navigation.sections" destination="header.wrapper.mainmenu" as="navigation.sections" after="-"/>
 		<move element="wrapper.menu.mobile" destination="header.wrapper.mainmenu" as="wrapper.menu.mobile" after="navigation.sections"/>
 		<move element="store_language" destination="header.row.container.toplinks" as="store_language" before="-"/>
 		<move element="minicart" destination="header.row.container.toplinks" as="minicart" after="-"/>
