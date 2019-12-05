@@ -10,6 +10,9 @@
     > .columns{
       float: left;
       width: 100%;
+      .column.main {
+        padding-bottom: 0;
+      }
     }
     .category-view{
       width: 100%;
