@@ -9,25 +9,46 @@ function ($, Component) {
 		return false;
 	});
 
+	var w_width = jQuery( window ).width();
 
 	$(document).ready(function(){
+
+		// =============================================
+	    // Menu mobile append elements
+	    // =============================================
+	    var htmlCartWrapper = $('.account-cart-wrapper');
+	    var htmlSearchWrapper = $('header .block-search');
+
+	    if(w_width <= 768){
+	    	$('header > .nav-sections').addClass('skip-content');
+	    	$(htmlSearchWrapper).addClass('skip-content');
+
+	    	$('.skip-links-wrapper').append($(htmlCartWrapper).html());
+	    	$('header').append(htmlSearchWrapper);
+
+	    	var htmlAccountWrapper = $('.skip-links-wrapper #header-account');
+
+	    	$('header').append(htmlAccountWrapper);
+
+	    	$('.account-cart-wrapper').remove();
+	    }
+	
 		
 		// =============================================
 	    // Skip Links
 	    // =============================================
-
-	    var skipContents = jQuery('.skip-content');
-	    var skipLinks = jQuery('.skip-link');
+	    var skipContents = $('.skip-content');
+	    var skipLinks = $('.skip-link');
 
 	    skipLinks.on('click', function (e) {
 	        e.preventDefault();
 
-	        var self = jQuery(this);
+	        var self = $(this);
 	        // Use the data-target-element attribute, if it exists. Fall back to href.
 	        var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
 
 	        // Get target element
-	        var elem = jQuery(target);
+	        var elem = $(target);
 
 	        // Check if stub is open
 	        var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
@@ -44,6 +65,85 @@ function ($, Component) {
 	            elem.addClass('skip-active');
 	        }
 	    });
+	    /*
+	    var skipContents = $('header > div');
+	    var skipLinks = $('.skip-link');
+	    
+	    skipLinks.on('click', function (e) {
+	      e.preventDefault();
+	      var self = $(this);
+	      var target = self.attr('href');
+	      //Get target element
+	      var elem = $(target);
+	      //Check if stub is open
+	      var isSkipContentOpen = elem.hasClass('skip-content skip-active') ? 1 : 0;
+	      //Hide all stubs
+	      skipLinks.removeClass('skip-active');
+	      skipContents.removeClass('skip-content skip-active');
+	      //Toggle stubs
+	      if (isSkipContentOpen) {
+	        self.removeClass('skip-content skip-active');
+	      }else{
+	        self.addClass('skip-active');
+	        elem.addClass('skip-content skip-active');
+	      }
+	    });
+	    */
+
+
+	    // =============================================
+	    // Height catalog items list
+	    // =============================================
+
+	    if($(".products-grid .product-items").length){
+	      var list = $(".products-grid .product-items > .item");
+	      var listImage = $(list).find(".product-image-wrapper");
+	      var listName = $(list).find(".product-name");
+	      var listFamily = $(list).find(".atributo-familia");
+	      var listPrice = $(list).find(".price-box");
+	      var arrayList = [];
+	      var arrayImage = [];
+	      var arrayName = [];
+	      var arrayFamily = [];
+	      var arrayPrice = [];
+
+	      setTimeout(function(){
+	        //Image
+	        jQuery.each(listImage, function(i, val){
+	          arrayImage.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayImage);
+	        jQuery(listImage).css("minHeight", Math.max.apply(Math,arrayImage)+"px");
+
+	        //Name
+	        jQuery.each(listName, function(i, val){
+	          arrayName.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayName);
+	        jQuery(listName).css("minHeight", Math.max.apply(Math,arrayName)+"px");
+
+	        //Family
+	        jQuery.each(listFamily, function(i, val){
+	          arrayFamily.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayFamily);
+	        jQuery(listFamily).css("minHeight", Math.max.apply(Math,arrayFamily)+"px");
+
+	        //Price
+	        jQuery.each(listPrice, function(i, val){
+	          arrayPrice.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayPrice);
+	        jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
+
+	        //Item
+	        jQuery.each(list, function(i, val){
+	          arrayList.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayList);
+	        jQuery(list).css("height", Math.max.apply(Math,arrayList)+"px");
+	      },500);
+	    }
 
 
 	    // =============================================
@@ -341,6 +441,7 @@ function ($, Component) {
 	    }
 
 	});
+
 
 
 	$(document).ajaxComplete(function() {

@@ -10,6 +10,9 @@
     > .columns{
       float: left;
       width: 100%;
+      .column.main {
+        padding-bottom: 0;
+      }
     }
     .category-view{
       width: 100%;
@@ -95,7 +98,9 @@
   &.main-banner{
     .text-overlay-banner {
       h1, h1 span, h2, h2 span{
-        font-size: 4vw;
+        @media only screen and (max-width: 1024px){
+          font-size: 5vw; 
+        }
       }
       p{
         font-size: 1.5vw;
@@ -117,6 +122,8 @@
   h2{
     font-weight: 700;
     padding-top: 1em;
+    font-family: 'Frankfurter W05 Regular';
+    font-weight: normal;
   }
   .cat-product-links {
     li {
@@ -165,14 +172,15 @@
 }
 .banner-fullwidth{
   padding: 0;
+  height: auto;
   max-height: 620px;
-  height: 240px;
+  min-height: 280px;
   float: left;
   @media only screen and (min-width: 769px){
-    height: 400px;
+    min-height: 400px;
   }
   @media only screen and (min-width: 1280px){
-    height: 620px;
+    max-height: 620px;
   }
   .text-block-banner{
     width: 50%;
@@ -180,11 +188,24 @@
     padding-top: 50%;
     text-align: center;
     float: right;
+    @media only screen and (max-width: 599px){
+      width: 60%;
+      padding-top: 15%;
+    }
     .text-overlay-banner{
       width: 80%;
       left: 10%;
+      @media only screen and (max-width: 599px) {
+        width: 90%;
+        left: 10%;
+      }
       h1{
-        font-size: 7vw;
+        @media only screen and (max-width: 1200px) {
+          font-size: 6vw;
+        }
+        @media only screen and (max-width: 599px) {
+          font-size: 8vw;
+        }
       }
       p{
         font-size: 1.5vw;
@@ -378,6 +399,39 @@ body.page-layout-2columns-left{
       color: #333333;
       font-weight: 500;
       padding-top: 1em;
+    }
+  }
+}
+.page-products{
+  .products-grid{
+    width: 100%;
+    float: left;
+    margin: 0;
+    .product-items{
+      width: 100%;
+      float: left;
+      > .item{
+        width: 30%;
+        max-width: initial;
+        margin: 0 1.66% 30px !important;
+        padding: 20px;
+        float: left;
+        @media only screen and (max-width: $desktop){
+          &.product-item{
+            &:nth-child(3n){
+              margin-right: 0;
+            }
+          }
+        }
+        @media only screen and (max-width: $mobile){
+          width: 100%!important;
+          max-width: 100%;
+          margin: 0 0 20px !important;
+        }
+        .product-item-info{
+          width: auto;
+        }
+      }
     }
   }
 }
