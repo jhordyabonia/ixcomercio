@@ -147,10 +147,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 			setTimeout(function(){
 				jQuery('header .wrapper-nav .nav-sections .nav-sections-items').toggleClass("open");
-			},300);
+			},200);
 			
 		});
-		
+
 
 
 		if($('.products-grid .owl-carousel').length){

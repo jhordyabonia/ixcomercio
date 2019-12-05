@@ -353,6 +353,10 @@ header{
                   }
                 }
                 .submenu{
+                  @media only screen and (max-width: $desktop){
+                    top: 0!important;
+                    display: none!important;
+                  }
                   li{
                     a{
                       padding: 12px 20px;

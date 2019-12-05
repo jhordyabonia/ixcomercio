@@ -159,7 +159,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 			setTimeout(function(){
 				jQuery('header .wrapper-nav .nav-sections .nav-sections-items').toggleClass("open");
-			},300);
+			},200);
 			
 		});
 
