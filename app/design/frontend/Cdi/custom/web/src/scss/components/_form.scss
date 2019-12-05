@@ -35,6 +35,17 @@ form{
 					display: inline-block;
 				}
 			}
+			> .control._with-tooltip{
+				input {
+					width: 100%;
+				}
+				.field-tooltip {
+					right: -30px;
+					.field-tooltip-action {
+						line-height: 35px;
+					}
+				}
+			}
 		}
 		>.legend{
 			@media only screen and (min-width: $tablet){
