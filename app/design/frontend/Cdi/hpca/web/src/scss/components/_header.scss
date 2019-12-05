@@ -81,6 +81,9 @@ header{
           .switcher-language{
             float: left;
             line-height: 22px;
+            padding-right: 10px;
+            border-right: 1px solid #e5e5e5;
+            margin-right: 0;
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
@@ -112,7 +115,6 @@ header{
           }
           .custom-top-links{
             padding: 0 15px;
-            border-left: 1px solid #e5e5e5;
             border-right: 1px solid #e5e5e5;
             font-size: 14px;
             float: left;
@@ -135,6 +137,9 @@ header{
                 &.sign-in-icon{
                   background: url(../images/icons/sign-in.png) no-repeat center;
                   background-size: 100%;
+                  @media only screen and (max-width: $desktop){
+                    margin: 0;
+                  }
                 }
               }
               span.sign-in-label{
