@@ -118,6 +118,9 @@ header{
             border-right: 1px solid #e5e5e5;
             font-size: 14px;
             float: left;
+            @media only screen and (max-width: $mobile){
+              padding: 0 8px;
+            }
             a{
               color: #111;
               line-height: 22px;
@@ -231,6 +234,9 @@ header{
           }
           .minicart-wrapper{
             float: left;
+            @media only screen and (max-width: $mobile){
+              margin-left: 8px;
+            }
             .action.showcart{
               width: 20px;
               height: 20px;
