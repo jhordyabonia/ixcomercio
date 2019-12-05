@@ -410,7 +410,7 @@ body.page-layout-2columns-left{
       > .item{
         width: 30%;
         max-width: initial;
-        margin: 0 1.66% 30px;
+        margin: 0 1.66% 30px !important;
         padding: 20px;
         float: left;
         @media only screen and (max-width: $desktop){
