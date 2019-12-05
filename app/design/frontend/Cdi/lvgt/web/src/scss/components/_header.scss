@@ -292,9 +292,7 @@ header{
                 background: rgba(black,.6);
                 display: block;
                 transition: .5s all ease;
-                .nav-sections-items{
-                  left: 0;
-                }
+                pointer-events: auto;
               }
               .nav-sections-items{
                 width: 75%;
@@ -304,6 +302,9 @@ header{
                 position: absolute;
                 left: -100%;
                 transition: .5s all ease;
+                &.open{
+                  left: 0;
+                }
               }
             }
             .navigation{
