@@ -17,6 +17,6 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
             </a>
         </span>
     <?php } else { ?>
-        <a href="<?php echo $this->getUrl('customer/account/login') ?>"><?php echo __('Sign In')?><span class="sign-in-icon"></span></a>
+        <a href="<?php echo $this->getUrl('customer/account/login') ?>"><span class="sign-in-label"><?php echo __('Sign In')?></span><span class="sign-in-icon"></span></a>
     <?php } ?>
 </div>
