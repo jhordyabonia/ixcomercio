@@ -317,6 +317,7 @@ header{
                   @media only screen and (max-width: $desktop){
                     width: 100%;
                     position: relative;
+                    margin-bottom: 2px;
                   }
                   &.active{
                     > .level-top{
@@ -332,7 +333,9 @@ header{
                       }
                       >.ui-menu-icon{
                         @media only screen and (max-width: $desktop){
+                          width: 40px;
                           color: $mainColor;
+                          text-align: center;
                         }
                         &:after{
                           font-size: 35px;

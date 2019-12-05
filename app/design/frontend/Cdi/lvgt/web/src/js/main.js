@@ -163,6 +163,15 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			
 		});
 
+		// =============================================
+	    // Toggle submenu mobile
+	    // =============================================
+		$("header .nav-sections .navigation ul.ui-menu .level0.parent > .level-top > .ui-menu-icon").click(function(){
+			if(w_width <= 992){
+				$(this).parent().parent().slideToggle();
+			}
+		});
+
 
 		// =============================================
 	    // Create carousel product grid

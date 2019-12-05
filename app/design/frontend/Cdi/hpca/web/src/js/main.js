@@ -148,7 +148,16 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			setTimeout(function(){
 				jQuery('header .wrapper-nav .nav-sections .nav-sections-items').toggleClass("open");
 			},200);
-			
+		});
+
+		// =============================================
+	    // Toggle submenu mobile
+	    // =============================================
+		
+		$("header .nav-sections .navigation ul.ui-menu .level0.parent > .level-top > .ui-menu-icon").click(function(){
+			if(w_width <= 992){
+				$(this).parent().parent().slideToggle();
+			}
 		});
 
 
