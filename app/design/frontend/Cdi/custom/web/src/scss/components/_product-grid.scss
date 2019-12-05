@@ -1,12 +1,16 @@
 .products-grid{
   .product-items{
     display: block;
-    .item{
+    .item:not(.rating-summary){
       max-width: 300px;
       padding: 20px;
       border: 1px solid #eee;
+      background: #fff;
       border-radius: 5px;
       position: relative;
+      @media only screen and (max-width: $mobile){
+        max-width: 100%;
+      }
       .product-item-info{
         .product-item-photo{
           float: left;
@@ -24,25 +28,72 @@
         .product-tag{
           top: 15px;
           left: 15px;
-          width: 44px;
-          height: 44px;
+          width: 35px;
+          height: 35px;
           color: #fff;
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 500;
           text-align: center;
           position: absolute;
           border-radius: 50%;
-          padding: 8px 0;
+          padding: 6px 0;
           z-index: 999;
+          &:nth-of-type(1){
+            top: 10px;
+            width: 44px;
+            height: 44px;
+            padding: 8px 0;
+            font-size: 14px;
+          }
+          &:nth-of-type(2){
+            left: 50px;
+            z-index: 998;
+          }
+          &:nth-of-type(3){
+            left: 75px;
+            z-index: 997;
+          }
+          &:nth-of-type(4){
+            left: 100px;
+            z-index: 996;
+          }
+          &:nth-of-type(5){
+            left: 125px;
+            z-index: 995;
+          }
+          &:nth-of-type(6){
+            left: 150px;
+            z-index: 994;
+          }
           &.disccount-tag{
-            background: url(../images/icons/tag-disccount.png) no-repeat center;
-            background-size: 100%;
             background-color: #14d1ca;
+          }
+          &.new-tag{
+            background-color: #b0d114;
+          }
+          &.bestseller-tag{
+            background: url(../images/icons/tag-bestseller.png) no-repeat center;
+            background-size: 60%;
+            background-color: #ce6b01;
+          }
+          &.downloadable-tag{
+            background-color: #7b087e;
           }
         }
         .product-item-details{
           width: 100%;
           display: inline-block;
+          .rating-summary{
+            .rating-result{
+              &:before{
+                text-align: left;
+              }
+              > span:before{
+                color: black;
+                text-align: left;
+              }
+            }
+          }
           .product-item-name{
             font-size: 16px;
             font-weight: bold;
@@ -58,17 +109,22 @@
               width: 100%;
               display: block;
             }
-            .special-price, .normal-price{
+            .special-price, .normal-price, .price-wrapper{
               .price{
                 font-weight: bold;
-                font-size: 20px;
+                font-size: 18px;
                 display: block;
                 line-height: normal;
               }
             }
             .old-price{
-              color: #999;
-              font-size: 14px;
+              .price{
+                color: #999;
+                font-size: 14px;
+              }
+            }
+            .price-label{
+              display: none;
             }
           }
         }
@@ -95,6 +151,9 @@
                 &:before{
                   font-size: 40px;
                 }
+              }
+              &.tocompare{
+                display: none;
               }
             }
           }
