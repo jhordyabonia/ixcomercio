@@ -3,7 +3,7 @@
     .product-items{
       display: block;
       .item:not(.rating-summary){
-        width: 31.6%!important;
+        width: 30%!important;
         padding: 20px;
         border: 1px solid #eee;
         background: #fff;
@@ -163,5 +163,10 @@
         }
       }
     }
+  }
+}
+.search.results {
+  .toolbar.toolbar-products .modes, dl.block {
+    display: none;
   }
 }
