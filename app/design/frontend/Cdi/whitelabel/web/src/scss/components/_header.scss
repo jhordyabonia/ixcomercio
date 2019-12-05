@@ -326,8 +326,16 @@ header{
                   &.parent{
                     > .level-top{
                       padding-right: 28px;
+                      @media only screen and (max-width: $desktop){
+                        padding-right: 50px;
+                        background: #e9e9e9;
+                      }
                       >.ui-menu-icon{
+                        @media only screen and (max-width: $desktop){
+                          color: $mainColor;
+                        }
                         &:after{
+                          font-size: 35px;
                           @media only screen and (min-width: $desktop){
                             color: #000;
                             font-size: 28px;
