@@ -120,3 +120,17 @@ form{
 .control.captcha-image .captcha-img{
 	width: auto;
 }
+#checkoutSteps {
+	#shipping {
+		.form .fieldset>.field:not(.choice) {
+			margin-bottom: 29px;
+			>.label {
+				font-weight: 700;
+			    max-width: 100%;
+			}
+			.control {
+				max-width: 100%;
+			}
+		}
+	}
+}
