@@ -9,6 +9,11 @@ form{
 	&.review-form{
 		width: 100%;
 	}
+	&.contact {
+		margin: 0 auto;
+	    max-width: 600px;
+	    min-width: 300px;
+	}
 	.label{
 		color: #000;
 	}
