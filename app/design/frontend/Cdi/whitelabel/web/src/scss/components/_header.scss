@@ -167,6 +167,17 @@ header{
                   display: inline-block;
                   position: absolute;
                 }
+                > a{
+                  display: none;
+                  @media only screen and (max-width: $desktop){
+                    display: block;
+                  }
+                }
+                > li{
+                  @media only screen and (max-width: $desktop){
+                    display: none;
+                  }
+                }
                 > ul{
                   left: 0;
                   top: 100%;

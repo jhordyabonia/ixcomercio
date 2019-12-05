@@ -4,6 +4,7 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
 <div class="custom-top-links">
     <?php if($customerSession->isLoggedIn()) { ?>
         <ul class="list-registered-user"> 
+            <a href="<?php echo $this->getUrl('customer/account') ?>"><span class="sign-in-icon"></span></a>
             <li><?php echo __('Hello')?>, <?php echo $customerSession->getCustomer()->getName() ?></li>
             <ul>
                 <a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
