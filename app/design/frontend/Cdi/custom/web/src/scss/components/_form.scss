@@ -129,6 +129,9 @@ form{
 			float: left;
     		width: 100%;
 			margin-bottom: 29px;
+			@media only screen and (max-width: $mobile){
+				margin-bottom: 20px;
+			}
 			>.label {
 				width: 100%;
 				max-width: 100%;
@@ -150,4 +153,8 @@ form{
 			}
 		}
 	}
+}
+.checkout-shipping-method, .checkout-shipping-address {
+	width: 100%;
+	float: left;
 }
