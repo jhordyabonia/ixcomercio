@@ -305,6 +305,12 @@ header{
                 &.open{
                   left: 0;
                 }
+                .nav-sections-item-title {
+                  display: none;
+                }
+                .section-item-content {
+                  margin: 0;
+                }
               }
             }
             .navigation{
