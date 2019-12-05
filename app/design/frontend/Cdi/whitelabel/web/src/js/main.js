@@ -165,8 +165,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Toggle submenu mobile
 	    // =============================================
-		$("header .nav-sections .navigation ul.ui-menu .level0.parent > .level-top > .ui-menu-icon").click(function(){
+		$("header .nav-sections .navigation ul.ui-menu .level0.parent > .level-top > .ui-menu-icon").click(function(e){
 			if(w_width <= 992){
+				e.preventDefault();
 				$(this).parent().parent().slideToggle();
 			}
 		});
