@@ -11,10 +11,10 @@ form{
 	}
 	&.contact {
 		margin: 0 auto;
-	    max-width: 600px;
+	    max-width: 500px;
 	    min-width: 300px;
 	    @media only screen and (max-width: $tablet){
-	    	width: 90%;
+	    	width: 90%!important;
 	    }
 	}
 	.label{
