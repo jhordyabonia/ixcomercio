@@ -140,6 +140,24 @@
             .actions-primary{
               width: 100%;
               display: block;
+              button.primary{
+                color: #00aeef;
+                font-family: 'Graphik-Regular', 'Helvetica', sans-serif !important;
+                padding: 5px 0 !important;
+                background: transparent;
+                border: 2px solid #00aeef;
+                display: inline-block;
+                font-size: 16px !important;
+                text-transform: uppercase;
+                text-align: center !important;
+                margin: 0 auto 0 0 !important;
+                width: 100%;
+                border-radius: 25px;
+                &:hover {
+                  color: #fff;
+                  background: #00aeef;
+                }
+              }
             }
             .actions-secondary{
               top: 5px;
