@@ -272,6 +272,9 @@ header{
             pointer-events: none;
             z-index: 0;
           }
+          .header-account-mobile {
+            display: none;
+          }
           .nav-sections{
             width: auto;
             background: none;
@@ -310,6 +313,7 @@ header{
                 }
                 .section-item-content {
                   margin: 0;
+                  padding: 0;
                 }
               }
             }
@@ -328,6 +332,18 @@ header{
                   &.active{
                     > .level-top{
                       color: $mainColor;
+                    }
+                    >a:not(.ui-state-active) span:not(.ui-menu-icon){
+                      @media only screen and (max-width: $desktop){
+                        margin-left: 0;
+                      }
+                    }
+                  }
+                  &.has-active {
+                    >a:not(.ui-state-active) span:not(.ui-menu-icon){
+                      @media only screen and (max-width: $desktop){
+                        margin-left: 0;
+                      }
                     }
                   }
                   &.parent{
@@ -370,10 +386,10 @@ header{
                   }
                 }
                 .submenu{
-                  @media only screen and (max-width: $desktop){
+                  /*@media only screen and (max-width: $desktop){
                     top: 0!important;
                     display: none!important;
-                  }
+                  }*/
                   li{
                     a{
                       padding: 12px 20px;
