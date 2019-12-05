@@ -1,5 +1,5 @@
 .message{
-  &.info{
+  &.info, &.notice{
     color: #000;
     font-size: 1.5rem;
     text-align: center;
@@ -13,7 +13,7 @@
       font-size: 40px;
     }
   }
-  &.success, &.info, &.warning, &.error{
+  &.success, &.info, &.warning, &.error, &.notice{
     font-size: 1rem;
     font-weight: bold;
   }
