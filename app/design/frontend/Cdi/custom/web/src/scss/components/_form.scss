@@ -123,8 +123,11 @@ form{
 #checkoutSteps {
 	#shipping {
 		.form .fieldset>.field:not(.choice) {
+			float: left;
+    		width: 100%;
 			margin-bottom: 29px;
 			>.label {
+				text-align: left;
 				font-weight: 700;
 			    max-width: 100%;
 			    padding: 0;
