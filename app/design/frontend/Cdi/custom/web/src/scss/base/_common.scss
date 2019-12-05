@@ -279,19 +279,48 @@ input.input-text, select, textarea {
     margin-right: 3px;
   }
 }
+.skip-account.skip-link {
+  @media only screen and (min-width: 769px){
+    float: none!important;
+    width: auto!important;
+    vertical-align: top;
+    display: inline-block;
+    padding: 0 10px;
+    text-transform: uppercase;
+  }
+  .icon{
+    background: url(../images/icon_sprite.png) no-repeat;
+    background-position: 4px -44px;
+    background-size: 100px 1000px;
+  }
+}
 .skip-nav {
   width: 20%;
   text-align: left;
-  padding: 0 0 0 15px;
   .icon{
-    background-position: 4px 4px;
     margin-right: 3px;
     background-image: url(../img/icons/icon_sprite.png);
+    background-position: 4px 4px;
     background-repeat: no-repeat;
     text-indent: -9999px;
   }
   label{
     display: inline;
+  }
+}
+.skip-search {
+  width: 20%;
+  text-align: left;
+  padding: 0;
+  .icon{
+    margin-right: 3px;
+    background-image: url(../img/icons/icon_sprite.png);
+    background-position: 4px -146px;
+    background-repeat: no-repeat;
+    text-indent: -9999px;
+  }
+  label{
+    display: none;
   }
 }
 #scroll-to-top {
@@ -393,3 +422,4 @@ html.nav-open .page-wrapper{
   background-image: url(../images/patterns/triangles-camo-blue.svg);
   background-color: #FFAE3B;
 }
+
