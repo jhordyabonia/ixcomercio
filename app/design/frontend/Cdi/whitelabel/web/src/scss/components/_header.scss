@@ -137,6 +137,11 @@ header{
                   background-size: 100%;
                 }
               }
+              span.sign-in-label{
+                @media only screen and (max-width: $desktop){
+                  display: none;
+                }
+              }
             }
             > ul{
               float: left;
