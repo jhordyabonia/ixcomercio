@@ -41,6 +41,9 @@ form{
 				}
 				.field-tooltip {
 					right: -30px;
+					@media only screen and (max-width: $tablet){
+				      	right: 5px;
+				    }
 					.field-tooltip-action {
 						line-height: 35px;
 					}
@@ -127,9 +130,10 @@ form{
     		width: 100%;
 			margin-bottom: 29px;
 			>.label {
+				width: 100%;
+				max-width: 100%;
 				text-align: left;
 				font-weight: 700;
-			    max-width: 100%;
 			    padding: 0;
 			}
 			.control {
