@@ -8,7 +8,11 @@
       background: #fff;
       border-radius: 5px;
       position: relative;
+      @media only screen and (min-width: $desktopL) {
+        width: 30%;
+      }
       @media only screen and (max-width: $mobile){
+        width: 100%;
         max-width: 100%;
       }
       .product-item-info{
