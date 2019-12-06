@@ -122,7 +122,8 @@ header{
             font-size: 14px;
             float: left;
             @media only screen and (max-width: $mobile){
-              padding: 0 8px;
+              padding: 0 4px;
+              border-right: 0;
             }
             a{
               color: #111;
@@ -163,6 +164,9 @@ header{
                 cursor: pointer;
                 @media only screen and (max-width: $desktop){
                   padding-top: 0;
+                }
+                @media only screen and (max-width: $mobile){
+                  display: none;
                 }
                 &:before{
                   top: 0;
@@ -241,7 +245,7 @@ header{
               width: auto;
             }
             @media only screen and (max-width: $mobile){
-              margin-left: 8px;
+              margin-left: 4px;
             }
             .action.showcart{
               width: 20px;
@@ -251,6 +255,10 @@ header{
               @media only screen and (max-width: $desktop){
                 width: 22px;
                 height: 22px;
+              }
+              @media only screen and (max-width: $mobile){
+                width: 20px;
+                height: 20px;
               }
               &:before{
                 display: none;
@@ -270,7 +278,7 @@ header{
                 @media only screen and (max-width: $mobile){
                   width: 20px;
                   height: 20px;
-                  font-size: 12px;
+                  font-size: 10px;
                   line-height: 22px;
                 }
               }
