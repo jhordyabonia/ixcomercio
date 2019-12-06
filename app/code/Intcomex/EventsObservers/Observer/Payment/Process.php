@@ -66,7 +66,7 @@ class Process implements ObserverInterface
         $this->logger->info("Está Orden tiene state ->" . $order->getState() . " y status ->" . $order->getStatus() );
         if (
             $order->getState() == $stateProcessing 
-            && $order->getOrigData('state') != $stateProcessing
+            //&& $order->getOrigData('state') != $stateProcessing
             && $payment->getMethod() != 'pasarela_bancomer'
             ) {
                 $storeScope    = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
