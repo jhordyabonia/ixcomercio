@@ -16418,21 +16418,21 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "This is a required field.","Campo obligatorio.",module,Magento_Customer
 "This is a required field.","Campo obligatorio.",module,Magento_Checkout
 "This is a required field.","Campo obligatorio.",module,Magento_Catalog
-"Features","CaracterÃ­sticas",lib,web
-"Specs","Especif.",lib,web
+"Features","Características",lib,web
+"Specs","Especificaciones",lib,web
 "In the Box","En la caja",lib,web
 "Quick Specs","Especificaciones",lib,web
-"Categories","CategorÃ­as",module,Magento_Sitemap
+"Categories","Categorías",module,Magento_Sitemap
 "Products","Productos",module,Magento_Sitemap
-"Join the REPUBLIC","ÃšNETE A NOSOTROS",lib,web
-"Follow us","SÃGUENOS",lib,web
+"Join the REPUBLIC","ÚNETE A NOSOTROS",lib,web
+"Follow us","SÍGUENOS",lib,web
 "Support","SOPORTE",lib,web
 "Explore","Explora",lib,web
-"For comments, feedback, or help with your product, contact us using the form below.","DÃ©janos tus comentarios",lib,web
+"For comments, feedback, or help with your product, contact us using the form below.","Déjanos tus comentarios",lib,web
 "Send E-mail","Enviar",lib,web
-"Telephone","TelÃ©fono",lib,web
+"Telephone","Teléfono",lib,web
 "Comment / Question","Comentario / Pregunta",lib,web
 "Speakers","Parlantes",lib,web
-"Wireless","InalÃ¡mbrico",lib,web
+"Wireless","Inalámbrico",lib,web
 "Earphones","Auriculares",lib,web
 "Resources","Recursos",lib,web
