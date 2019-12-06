@@ -35,6 +35,20 @@ form{
 					display: inline-block;
 				}
 			}
+			> .control._with-tooltip{
+				input {
+					width: 100%;
+				}
+				.field-tooltip {
+					right: -30px;
+					@media only screen and (max-width: $tablet){
+				      	right: 5px;
+				    }
+					.field-tooltip-action {
+						line-height: 35px;
+					}
+				}
+			}
 		}
 		>.legend{
 			@media only screen and (min-width: $tablet){
@@ -108,4 +122,39 @@ form{
 }
 .control.captcha-image .captcha-img{
 	width: auto;
+}
+#checkoutSteps {
+	#shipping {
+		.form .fieldset>.field:not(.choice) {
+			float: left;
+    		width: 100%;
+			margin-bottom: 29px;
+			@media only screen and (max-width: $mobile){
+				margin-bottom: 20px;
+			}
+			>.label {
+				width: 100%;
+				max-width: 100%;
+				text-align: left;
+				font-weight: 700;
+			    padding: 0;
+			}
+			.control {
+				max-width: 100%;
+			}
+			&.street {
+				legend {
+					border: 0;
+				}
+			}
+			.additional {
+				width: 100%;
+				float: left;
+			}
+		}
+	}
+}
+.checkout-shipping-method, .checkout-shipping-address {
+	width: 100%;
+	float: left;
 }

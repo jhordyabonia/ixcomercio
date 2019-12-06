@@ -3,6 +3,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	jQuery(document).ready(function() {
 
 		var w_width = $( window ).width();
+		var w_height = $( window ).height();
 		
 		jQuery('#scroll-to-top').click(function(){
 			jQuery("html, body").animate({scrollTop: 0}, 600, "easeOutCubic");
@@ -133,10 +134,32 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			jQuery(this).toggleClass("close");
 		});
 
-		jQuery('#iconBurgerButton').click(function(){
-			jQuery('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
-			jQuery(this).toggleClass("close");
+		
+
+		// =============================================
+	    // Toggle menu mobile
+	    // =============================================
+
+		$('#iconBurgerButton').click(function(){
+			$('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
+			$('header .wrapper-nav .nav-sections').css('minHeight', w_height);
+			$(this).toggleClass("close");
+
+			setTimeout(function(){
+				$('header .wrapper-nav .nav-sections .nav-sections-items').toggleClass("open");
+			},200);
 		});
+
+		// =============================================
+	    // Toggle submenu mobile
+	    // =============================================
+		$("header .nav-sections .navigation ul.ui-menu .level0.parent > .level-top > .ui-menu-icon").click(function(e){
+			e.preventDefault();
+			if(w_width <= 992){
+				$(this).parent().parent().find(' > .submenu').slideToggle();
+			}
+		});
+
 
 
 		if($('.products-grid .owl-carousel').length){

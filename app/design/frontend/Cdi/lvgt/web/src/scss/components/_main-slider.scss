@@ -1,3 +1,8 @@
+.magestore-bannerslider-standard {
+  @media only screen and (max-width: $tablet){
+    width: 100%!important;
+  }
+}
 .magestore-bannerslide-flex-slider{
   margin: 0!important;
   overflow: hidden;
