@@ -90,6 +90,9 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            @media only screen and (max-width: $mobile){
+              padding-right: 4px;
+            }
             .options .action.toggle{
               &:after, &.active:after{
                 font-size: 26px;
@@ -140,6 +143,10 @@ header{
                 @media only screen and (max-width: $desktop){
                   width: 22px;
                   height: 22px;
+                }
+                @media only screen and (max-width: $mobile){
+                  width: 20px;
+                  height: 20px;
                 }
                 &.sign-in-icon{
                   background: url(../images/icons/sign-in.png) no-repeat center;
