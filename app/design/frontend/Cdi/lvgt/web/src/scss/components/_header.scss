@@ -55,6 +55,9 @@ header{
             @media only screen and (max-width: $desktop){
               float: none;
             }
+            @media only screen and (max-width: $mobile){
+              height: 30px;
+            }
           }
         }
         .nav-toggle{
@@ -91,6 +94,7 @@ header{
               font-size: 16px;
             }
             @media only screen and (max-width: $mobile){
+              border: 0;
               padding-right: 4px;
             }
             .options .action.toggle{
