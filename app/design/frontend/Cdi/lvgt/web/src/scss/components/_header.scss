@@ -95,7 +95,7 @@ header{
             }
             @media only screen and (max-width: $mobile){
               border: 0;
-              padding-right: 4px;
+              padding-right: 6px;
             }
             .options .action.toggle{
               &:after, &.active:after{
@@ -129,7 +129,7 @@ header{
             font-size: 14px;
             float: left;
             @media only screen and (max-width: $mobile){
-              padding: 0 4px;
+              padding: 0 6px;
               border-right: 0;
             }
             a{
@@ -256,7 +256,7 @@ header{
               width: auto;
             }
             @media only screen and (max-width: $mobile){
-              margin-left: 8px;
+              margin-left: 6px;
             }
             .action.showcart{
               width: 20px;
