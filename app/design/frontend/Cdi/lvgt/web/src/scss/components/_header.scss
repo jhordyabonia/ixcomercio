@@ -267,6 +267,12 @@ header{
                 @media only screen and (max-width: $desktopL){
                   right: -60%;
                 }
+                @media only screen and (max-width: $mobile){
+                  width: 20px;
+                  height: 20px;
+                  font-size: 12px;
+                  line-height: 22px;
+                }
               }
             }
           }
