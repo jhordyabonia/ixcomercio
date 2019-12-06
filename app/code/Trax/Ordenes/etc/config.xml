@@ -5,6 +5,7 @@
             <ordenes_general>
                 <store_id>houseofmar</store_id>
                 <porcentaje_impuesto>16</porcentaje_impuesto>
+                <producto_impuesto>true</producto_impuesto>
                 <ordenes_reintentos>1</ordenes_reintentos>
                 <ordenes_correo>example@example.com</ordenes_correo>
                 <pagos_reintentos>1</pagos_reintentos>
