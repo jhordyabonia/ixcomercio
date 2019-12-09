@@ -39,6 +39,12 @@
                 <label for="telephone">Teléfono</label>
                 <div class="input-box">
                   <input name="telephone" id="telephone" title="Teléfono" value="" class="input-text" type="number">
+                </div>                
+              </li>
+              <li>
+              <label for="subject"><span><?= $block->escapeHtml(__('Subject')) ?></label>
+                <div class="input-box">
+                  <input name="subject" id="subject" title="subject" value="" class="input-text" type="text" maxlength="80" required>
                 </div>
               </li>
               <li class="wide">

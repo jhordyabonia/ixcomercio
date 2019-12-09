@@ -210,7 +210,7 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         $ticket = [
                 'requester_id' => $requestId,
                 'submitter_id' => $requestId,
-                'subject' => 'Nuevo ticket ' . $store->getName() ,            
+                'subject' => $data['subject'] ,            
                 'comment' => [
                     'body' => $data['comment']
                 ],
