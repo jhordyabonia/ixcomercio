@@ -13,6 +13,9 @@ header{
     .header-freeshipping{
       background: $mainColor;
       padding: 5px 15px;
+      @media only screen and (max-width: $mobile){
+        font-size: 12px;
+      }
       p{
         color: #fff;
         margin: 0;
@@ -52,6 +55,9 @@ header{
             @media only screen and (max-width: $desktop){
               float: none;
             }
+            @media only screen and (max-width: $mobile){
+              height: 40px;
+            }
           }
         }
         .nav-toggle{
@@ -87,6 +93,10 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            @media only screen and (max-width: $mobile){
+              border: 0;
+              padding-right: 6px;
+            }
             .options .action.toggle{
               &:after, &.active:after{
                 font-size: 26px;
@@ -119,7 +129,8 @@ header{
             font-size: 14px;
             float: left;
             @media only screen and (max-width: $mobile){
-              padding: 0 8px;
+              padding: 0 6px;
+              border-right: 0;
             }
             a{
               color: #111;
@@ -136,6 +147,10 @@ header{
                 @media only screen and (max-width: $desktop){
                   width: 22px;
                   height: 22px;
+                }
+                @media only screen and (max-width: $mobile){
+                  width: 20px;
+                  height: 20px;
                 }
                 &.sign-in-icon{
                   background: url(../images/icons/sign-in.png) no-repeat center;
@@ -160,6 +175,9 @@ header{
                 cursor: pointer;
                 @media only screen and (max-width: $desktop){
                   padding-top: 0;
+                }
+                @media only screen and (max-width: $mobile){
+                  display: none;
                 }
                 &:before{
                   top: 0;
@@ -249,6 +267,10 @@ header{
                 width: 22px;
                 height: 22px;
               }
+              @media only screen and (max-width: $mobile){
+                width: 20px;
+                height: 20px;
+              }
               &:before{
                 display: none;
               }
@@ -263,6 +285,12 @@ header{
                 font-size: 12px;
                 @media only screen and (max-width: $desktopL){
                   right: -60%;
+                }
+                @media only screen and (max-width: $mobile){
+                  width: 20px;
+                  height: 20px;
+                  font-size: 10px;
+                  line-height: 22px;
                 }
               }
             }
@@ -362,6 +390,11 @@ header{
                         padding-right: 50px;
                         background: #e9e9e9;
                       }
+                      &:after {
+                        @media only screen and (max-width: $tablet){
+                          top: inherit;
+                        }
+                      }
                       >.ui-menu-icon{
                         @media only screen and (max-width: $desktop){
                           width: 40px;
@@ -395,13 +428,20 @@ header{
                   }
                 }
                 .submenu{
-                  @media only screen and (min-width: $tablet) and (max-width: $desktop){
+                  @media only screen and (max-width: $tablet){
+                    top: 0!important;
+                    box-shadow: none;
+                  }
+                  @media only screen and (min-width: 769px) and (max-width: $desktop){
                     top: 0!important;
                     display: none!important;
                   }
                   li{
                     a{
                       padding: 12px 20px;
+                      @media only screen and (max-width: $tablet){
+                        border: 0!important;
+                      }
                     }
                     &.parent{
                       > a >.ui-menu-icon{
@@ -445,6 +485,10 @@ header{
               position: relative;
               transition: color 125ms ease-in 0s;
               display: inline-block;
+              @media only screen and (max-width: $mobile){
+                width: 28px;
+                height: 29px;
+              }
               .cd-menu-icon{
                 top: 50%;
                 left: 17px;
@@ -469,9 +513,15 @@ header{
                 }
                 &:before{
                   top: -9px;
+                  @media only screen and (max-width: $mobile){
+                    top: -8px;
+                  }
                 }
                 &:after{
                   top: 9px;
+                  @media only screen and (max-width: $mobile){
+                    top: 8px;
+                  }
                 }
               }
             }
@@ -480,6 +530,9 @@ header{
             margin-left: 20px;
             display: inline-block;
             vertical-align: middle;
+            @media only screen and (max-width: $mobile){
+              margin-left: 10px;
+            }
             .icon-search-button{
               width: 32px;
               height: 32px;
@@ -489,11 +542,19 @@ header{
               border-radius: 50%;
               cursor: pointer;
               float: left;
+              @media only screen and (max-width: $mobile){
+                width: 28px;
+                height: 28px;
+                background-size: 16px;
+              }
               &.close{
                 background: url(../images/icons/close-white.png) no-repeat center;
                 background-size: 18px;
                 background-color: $mainColor;
                 opacity: 1;
+                @media only screen and (max-width: $mobile){
+                  background-size: 16px;
+                }
               }
             }
           }
@@ -505,6 +566,9 @@ header{
             max-width: 35%;
             position: absolute;
             transform: translate(0, -50%);
+          }
+          @media only screen and (max-width: $mobile){
+            max-width: none;
           }
         }
       }

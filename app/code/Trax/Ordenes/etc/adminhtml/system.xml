@@ -16,6 +16,10 @@
                     <label>Porcentaje Impuesto</label>
                     <comment>Porcentaje de impuesto cobrado en el método de envío. Este valor es utilizado para realizar validación de datos enviados a TRAX</comment>
                 </field>
+                <field id="producto_impuesto" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Productos con Impuesto</label>
+                    <comment>Indica si lso productos enviados a trax van con impuesto o no. Valores posibles true o false</comment>
+                </field>
                 <field id="ordenes_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Reintentos de conexión PlaceOrder</label>
                     <comment>Número de reintentos de conexión en servicio.</comment>
