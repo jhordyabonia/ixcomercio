@@ -200,6 +200,10 @@ ul.sticky-sections {
       .swatch-attribute-options{
         margin: 0;
         padding-bottom: 5px;
+        @media only screen and (max-width: $mobile){
+          float: left;
+          width: 100%;
+        }
         .swatch-option{
           &.image, &.color{
             position: relative;
