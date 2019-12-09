@@ -47,6 +47,26 @@
           }
         }
       }
+      .opc-estimated-wrapper {
+        background: #ecebe8;
+        .estimated-block{
+          text-align: left;
+        }
+        .minicart-wrapper{
+          width: auto;
+          .action.showcart{
+            border: 0;
+            background: none;
+            .counter.qty{
+              width: 18px;
+              height: 18px;
+              line-height: 18px;
+              background: red;
+              border-radius: 50%;
+            }
+          }
+        }
+      }
       .checkout-payment-method {
         text-align: left;
         .payment-method-content {
