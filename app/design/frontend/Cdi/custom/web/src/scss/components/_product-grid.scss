@@ -5,7 +5,7 @@
       .item:not(.rating-summary){
         width: 30%!important;
         padding: 20px;
-        border: 1px solid #eee;
+        border: 0;
         background: #fff;
         border-radius: 5px;
         position: relative;
@@ -104,6 +104,17 @@
               min-height: 60px;
               a{
                 font-weight: bold;
+              }
+            }
+            .product-reviews-summary {
+              text-align: center;
+              display: inline-block;
+              margin: 0;
+              .reviews-actions {
+                width: 100%;
+                float: left;
+                line-height: normal;
+                margin: 0;
               }
             }
             .price-box{
