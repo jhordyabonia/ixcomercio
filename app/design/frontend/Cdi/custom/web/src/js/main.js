@@ -98,14 +98,16 @@ function ($, Component) {
 	    if($(".products-grid .product-items").length){
 	      var list = $(".products-grid .product-items > .item");
 	      var listImage = $(list).find(".product-image-wrapper");
-	      var listName = $(list).find(".product-name");
+	      var listName = $(list).find(".product-item-name");
 	      var listFamily = $(list).find(".atributo-familia");
 	      var listPrice = $(list).find(".price-box");
+	      var listOptions = $(list).find(".swatch-opt");
 	      var arrayList = [];
 	      var arrayImage = [];
 	      var arrayName = [];
 	      var arrayFamily = [];
 	      var arrayPrice = [];
+	      var arrayOptions = [];
 
 	      setTimeout(function(){
 	        //Image
@@ -135,6 +137,13 @@ function ($, Component) {
 	        });
 	        Math.max.apply(Math,arrayPrice);
 	        jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
+
+	        //Color
+	        jQuery.each(listOptions, function(i, val){
+	          arrayOptions.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayOptions);
+	        jQuery(listOptions).css("minHeight", Math.max.apply(Math,arrayOptions)+"px");
 
 	        //Item
 	        jQuery.each(list, function(i, val){
