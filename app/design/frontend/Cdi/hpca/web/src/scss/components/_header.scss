@@ -439,6 +439,9 @@ header{
                   li{
                     a{
                       padding: 12px 20px;
+                      @media only screen and (max-width: $tablet){
+                        border: 0!important;
+                      }
                     }
                     &.parent{
                       > a >.ui-menu-icon{
