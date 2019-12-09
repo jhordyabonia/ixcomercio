@@ -251,7 +251,7 @@ ul.sticky-sections {
     .product-add-form{
       .box-tocart{
         margin: 0;
-        @media only screen and (min-width: $mobile){
+        @media only screen and (max-width: $mobile){
           text-align: center;
         }
         .field{
@@ -265,7 +265,7 @@ ul.sticky-sections {
             .label, .control{
               display: block;
               text-align: left;
-              @media only screen and (min-width: $mobile){
+              @media only screen and (max-width: $mobile){
                 text-align: center;
               }
             }
@@ -328,7 +328,7 @@ ul.sticky-sections {
           margin-right: 10px;
           max-width: 100%;
           padding: 15px 0;
-          @media only screen and (min-width: $mobile){
+          @media only screen and (max-width: $mobile){
             float: none;
             display: inline-block;
           }
