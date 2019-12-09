@@ -183,21 +183,23 @@
     max-height: 620px;
   }
   .text-block-banner{
-    width: 50%;
+    width: 100%;
     position: relative;
     padding-top: 50%;
     text-align: center;
     float: right;
     @media only screen and (max-width: 599px){
-      width: 60%;
       padding-top: 15%;
     }
     .text-overlay-banner{
-      width: 80%;
-      left: 10%;
       @media only screen and (max-width: 599px) {
-        width: 90%;
-        left: 10%;
+        width: 50%;
+        &.banner-text-left{
+          left: 0;
+        }
+        &.banner-text-right{
+          right: 0;
+        }
       }
       h1{
         @media only screen and (max-width: 1200px) {
