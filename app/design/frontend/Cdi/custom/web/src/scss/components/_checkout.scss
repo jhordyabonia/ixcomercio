@@ -18,9 +18,13 @@
       background: #ecebe8;
       .estimated-block{
         text-align: left;
+        line-height: normal;
       }
       .minicart-wrapper{
         width: auto;
+        @media (max-width: $tablet){
+          margin-top: 0;
+        }
         .action.showcart{
           border: 0;
           background: none;
