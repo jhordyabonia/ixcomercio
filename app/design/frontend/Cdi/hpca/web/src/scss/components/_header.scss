@@ -390,6 +390,11 @@ header{
                         padding-right: 50px;
                         background: #e9e9e9;
                       }
+                      &:after {
+                        @media only screen and (max-width: $tablet){
+                          top: inherit;
+                        }
+                      }
                       >.ui-menu-icon{
                         @media only screen and (max-width: $desktop){
                           width: 40px;
@@ -423,7 +428,7 @@ header{
                   }
                 }
                 .submenu{
-                  @media only screen and (min-width: $tablet) and (max-width: $desktop){
+                  @media only screen and (min-width: 769px) and (max-width: $desktop){
                     top: 0!important;
                     display: none!important;
                   }
