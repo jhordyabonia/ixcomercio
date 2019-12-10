@@ -203,6 +203,7 @@ function ($, Component) {
 	    var intervalState;
 
 	    function getStates(){
+	    	console.log("entra a get state");
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
