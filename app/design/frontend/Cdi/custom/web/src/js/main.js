@@ -203,7 +203,6 @@ function ($, Component) {
 	    var intervalState;
 
 	    function getStates(){
-	    	console.log("entra a get state");
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
@@ -249,8 +248,7 @@ function ($, Component) {
 	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
-	    	console.log("change state");
-	      	$.ajax({
+	    	$.ajax({
 		        url: '/places/search/',
 		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
 		        type: 'GET',
@@ -310,6 +308,7 @@ function ($, Component) {
 	    // =============================================
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
+	    	console.log("entra a get state");
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 		    var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 							'<option data-title="" value="">Please select a zone.</option>'+
@@ -362,6 +361,7 @@ function ($, Component) {
 				    // =============================================
 				    var selectStateCheckout = $(fieldStateCheckout).find('select');
 				    $(selectStateCheckout).on('change', function (e) {
+				    	console.log("change state");
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
