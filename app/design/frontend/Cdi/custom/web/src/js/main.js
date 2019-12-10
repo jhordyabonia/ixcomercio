@@ -308,7 +308,6 @@ function ($, Component) {
 	    // =============================================
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
-	    	console.log("entra a get state");
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 		    var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 							'<option data-title="" value="">Please select a zone.</option>'+
@@ -324,6 +323,7 @@ function ($, Component) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
+			    		console.log("entra a if");
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -337,6 +337,7 @@ function ($, Component) {
 
 		    			$(fieldStateCheckout).append(html);
 			    	}else{
+			    		console.log("entra a else");
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
