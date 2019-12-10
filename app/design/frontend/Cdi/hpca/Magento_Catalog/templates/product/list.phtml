@@ -62,7 +62,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                     <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
                         <?php echo $productImage->toHtml(); ?>
                     </a>
-                    <?php if ($discount != 0): ?>
+                    <?php if ($discount != 0): 
+                        $discount = 100 - $discount; ?>
                         <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
                     <?php endif; ?>
                     <?php if ($_helperCdi->isNew($_product)): ?>
