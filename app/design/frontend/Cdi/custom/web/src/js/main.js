@@ -345,6 +345,7 @@ function ($, Component) {
 				            var optionName = $(valOpt).text();
 				            $.each(res, function(iRes, valRes){
 				            	if(valRes.Name == optionName){
+				            		console.log("entra each");
 				                	$(valOpt).attr("parentId", valRes.Id);
 				                	$(valOpt).show();
 				              	}
@@ -352,6 +353,7 @@ function ($, Component) {
 				        });
 
 				        if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+				        	console.log("entra if");
 				    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
 				    	}
 			    	}
