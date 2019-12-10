@@ -596,3 +596,25 @@ div.mage-error{
   color: #DF280A;
   font-size: 13px;
 }
+.payment-result {
+  tablet {
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    tbody {
+      tr{
+        &:nth-child(odd) {
+          background: #eee;
+        }
+      }
+    }
+  }
+  .actions-toolbar {
+    max-width: 100%;
+    text-align: center;
+    .primary {
+      display: inline-block;
+      float: none;
+    }
+  }
+}
