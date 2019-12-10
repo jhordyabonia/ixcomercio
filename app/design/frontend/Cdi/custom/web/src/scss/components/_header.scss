@@ -203,7 +203,9 @@ header{
               &:not(:first-child) {
                 .active > a {
                   border: 0;
+                  border-bottom: 1px solid #ccc;
                   padding: 0 15px 0 25px;
+                  color: #E73C3E;
                 }
               }
               a{
