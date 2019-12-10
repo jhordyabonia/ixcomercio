@@ -336,26 +336,28 @@ function ($, Component) {
 
 		    			$(fieldStateCheckout).append(html);
 
-		    			if($('.field[name="shippingAddress.region_id"] select').val() != ""){
-				    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
-				    	}
+		    			setTimeout(function(){
+		    				if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+					    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+					    	}	
+		    			},500);
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
 				            $.each(res, function(iRes, valRes){
 				            	if(valRes.Name == optionName){
-				            		console.log("entra each");
-				                	$(valOpt).attr("parentId", valRes.Id);
+				            		$(valOpt).attr("parentId", valRes.Id);
 				                	$(valOpt).show();
 				              	}
 				            });
 				        });
 
-				        if($('.field[name="shippingAddress.region_id"] select').val() != ""){
-				        	console.log("entra if");
-				    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
-				    	}
+				        setTimeout(function(){
+		    				if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+					    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+					    	}	
+		    			},500);
 			    	}
 
 			    	$(fieldCityCheckout).find('input').hide();
