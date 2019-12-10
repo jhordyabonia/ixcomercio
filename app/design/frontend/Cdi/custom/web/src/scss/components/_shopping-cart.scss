@@ -137,6 +137,10 @@
                     position: absolute;
                   }
                 }
+                .actions-toolbar {
+                  margin-top: 0;
+                  padding-top: 0;
+                }
                 .action-edit{
                   display: none !important;
                 }
@@ -184,6 +188,11 @@
           text-align: center;
           vertical-align: middle;
           position: relative;
+        }
+        .col.price, .col.subtotal {
+          > span {
+            margin-top: -5px;
+          }
         }
         .col.qty{
           div.mage-error{
