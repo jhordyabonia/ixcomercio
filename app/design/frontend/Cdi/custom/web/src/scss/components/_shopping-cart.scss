@@ -270,6 +270,15 @@
       .fieldset{
         width: 100%;
         float: left;
+        .methods {
+          .field>.label {
+            white-space: normal;
+            word-break: break-word;
+            float: right;
+            text-align: left;
+            width: 94%;
+          }
+        }
       }
     }
     .totals-tax-details{
