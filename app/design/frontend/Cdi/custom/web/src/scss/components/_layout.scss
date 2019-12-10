@@ -102,6 +102,12 @@
           font-size: 5vw; 
         }
       }
+      h1{
+        @media only screen and (max-width: $tablet){
+          font-size: 7vw;
+          line-height: normal;
+        }
+      }
       p{
         font-size: 24px;
         @media only screen and (max-width: $tablet){
