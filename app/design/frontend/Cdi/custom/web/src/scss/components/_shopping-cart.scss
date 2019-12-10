@@ -272,11 +272,12 @@
         float: left;
         .methods {
           .field>.label {
+            width: 94%;
             white-space: normal;
             word-break: break-word;
-            float: right;
+            font-weight: normal;
             text-align: left;
-            width: 94%;
+            float: right;
           }
         }
       }
