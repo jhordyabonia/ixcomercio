@@ -235,7 +235,9 @@ header{
           &.active, &.has-active {
             > a.level-top {
               border: 0;
-              border-bottom: 1px solid #ccc;
+              @media only screen and (max-width: $tablet){
+                border-bottom: 1px solid #ccc;
+              }
             }
           }
           > a.level-top {
