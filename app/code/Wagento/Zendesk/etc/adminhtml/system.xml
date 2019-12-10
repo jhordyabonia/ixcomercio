@@ -133,6 +133,10 @@
                         <label>Create Ticket From Contact Us</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
+                    <field id="contact_us_ix" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Create Ticket From Contact Us / IX</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
                 </group>
                 <group id="backend" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Backend Options</label>
