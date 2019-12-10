@@ -38,10 +38,33 @@
           .item{
             text-align: left;
             .product-item-name{
+              width: 100%;
+              float: left;
               a{
+                width: 100%;
                 color: #000;
+                font-weight: bold;
                 line-height: initial;
+                float: left;
               }
+            }
+            .product.options {
+              width: 100%;
+              float: left;
+              span[role='tab']{
+                line-height: normal;
+              }
+              &.list {
+                margin-bottom: 0;
+                line-height: normal;
+                label {
+                  padding: 0;
+                }
+              }
+            }
+            .product-item-pricing {
+              width: 100%;
+              float: left; 
             }
             .details-qty.qty{
               display: none;
