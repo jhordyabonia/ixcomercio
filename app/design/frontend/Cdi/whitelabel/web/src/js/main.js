@@ -255,7 +255,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
-	    	console.log("entra change state");
 	      	$.ajax({
 		        url: '/places/search/',
 		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),

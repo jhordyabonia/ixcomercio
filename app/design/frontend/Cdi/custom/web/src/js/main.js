@@ -249,6 +249,7 @@ function ($, Component) {
 	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
+	    	console.log("change state");
 	      	$.ajax({
 		        url: '/places/search/',
 		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
