@@ -24,6 +24,7 @@ use Magento\Framework\Controller\ResultFactory;
 class Post extends \Magento\Contact\Controller\Index implements HttpPostActionInterface
 {
     const PATH_ZENDESK_CONTACT_US_IX_ENABLE = 'zendesk/ticket/frontend/contact_us_ix';
+    const PATH_ZENDESK_CONTACT_US_IX_TAGS   = 'zendesk/ticket/frontend/contact_us_tags';
     
     /**
      * @var DataPersistorInterface
@@ -207,6 +208,9 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         /** Create the Request Id */
         $requestId = $this->createRequest($requester, $requesterName, $websiteId);
 
+        $tags       = $this->scopeConfig->getValue(self::PATH_ZENDESK_CONTACT_US_IX_TAGS,$data['scope'], $data['storeCode']);
+        $tagsList   = explode(',',$tags);
+        $tagsList[] = $store->getName();
         $ticket = [
                 'requester_id' => $requestId,
                 'submitter_id' => $requestId,
@@ -214,7 +218,7 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
                 'comment' => [
                     'body' => $data['comment']
                 ],
-	            'tags' => [$store->getName()]	
+	            'tags' => $tagsList
         ];
         
         // Add extra attributes validation
