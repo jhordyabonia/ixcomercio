@@ -225,12 +225,14 @@ header{
               }
             }
             &.has-active {
-              >a:not(.ui-state-active) span:not(.ui-menu-icon) {
-                margin: 0;
+              >a {
+                &:not(.ui-state-active) span:not(.ui-menu-icon) {
+                  margin: 0;
+                }
               }
             }
           }
-          &.active, &.has-active{
+          &.active {
             > a.level-top {
               border: 0;
             }
