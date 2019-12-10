@@ -239,6 +239,10 @@
   .cart-summary{
     text-align: left;
     color: #000;
+    @media (max-width: $tablet){
+      top: 0!important;
+      width: 100%;
+    }
     >.title{
       font-weight: bold;
     }
@@ -252,11 +256,27 @@
     }
     .label{
       color: #000;
+      padding-left: 0;
+    }
+    .block{
+      >.title{
+        strong[role='heading']{
+          font-size: 1.3rem;
+        }
+      }
+      .fieldset .field:not(.choice)>.label{
+        font-size: 12px;
+      }
+      .fieldset{
+        width: 100%;
+        float: left;
+      }
     }
     .totals-tax-details{
       border-bottom: 0;
     }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      font-size: 13px;
       border-bottom: 0;
     }
     .cart-totals .amount, .opc-block-summary .table-totals .amount{
@@ -271,6 +291,14 @@
         font-size: 100%;
         padding-left: .6em;
       }
+    }
+    .checkout-methods-items{
+      a{
+        font-size: 14px;
+      }
+    }
+    div.primary{
+      width: 100%;
     }
     .action.primary.checkout{
       min-width: 140px;
@@ -289,10 +317,6 @@
       &:hover{
         background: #000;
       }
-    }
-    .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
-      font-size: 13px;
-      border-bottom: 0;
     }
   }
 }
