@@ -226,9 +226,6 @@ header{
             }
             &.has-active {
               >a {
-                &.level-top {
-                  border-bottom: 1px solid #ccc; 
-                }
                 &:not(.ui-state-active) span:not(.ui-menu-icon) {
                   margin: 0;
                 }
@@ -238,6 +235,7 @@ header{
           &.active, &.has-active {
             > a.level-top {
               border: 0;
+              border-bottom: 1px solid #ccc;
             }
           }
           > a.level-top {
