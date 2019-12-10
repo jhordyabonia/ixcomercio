@@ -323,7 +323,6 @@ function ($, Component) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
-			    		console.log("entra a if");
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -337,7 +336,6 @@ function ($, Component) {
 
 		    			$(fieldStateCheckout).append(html);
 			    	}else{
-			    		console.log("entra a else");
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
@@ -348,6 +346,10 @@ function ($, Component) {
 				              	}
 				            });
 				        });
+			    	}
+
+			    	if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+			    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
 			    	}
 			    	
 			    	$(fieldCityCheckout).find('input').hide();
