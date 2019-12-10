@@ -335,6 +335,10 @@ function ($, Component) {
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+
+		    			if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+				    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+				    	}
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
@@ -346,12 +350,12 @@ function ($, Component) {
 				              	}
 				            });
 				        });
+
+				        if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+				    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+				    	}
 			    	}
 
-			    	if($('.field[name="shippingAddress.region_id"] select').val() != ""){
-			    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
-			    	}
-			    	
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
