@@ -218,6 +218,11 @@ header{
                 color: #E73C3E;
               }
             }
+            &.has-active {
+              >a:not(.ui-state-active) span:not(.ui-menu-icon) {
+                margin: 0;
+              }
+            }
           }
           &.active, &.has-active{
             > a.level-top {
