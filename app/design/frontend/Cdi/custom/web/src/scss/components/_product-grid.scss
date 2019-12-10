@@ -146,6 +146,20 @@
                 display: none;
               }
             }
+            .swatch-opt {
+              text-align: center;
+              .swatch-attribute-options {
+                .swatch-option {
+                  width: 24px;
+                  height: 24px;
+                  min-width: 24px;
+                  margin: 0 10px;
+                  display: inline-block;
+                  border-radius: 50%;
+                  float: none;
+                }
+              }
+            }
           }
           .product-item-actions{
             .actions-primary{
