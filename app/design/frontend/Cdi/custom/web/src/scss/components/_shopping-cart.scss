@@ -137,6 +137,10 @@
                     position: absolute;
                   }
                 }
+                .actions-toolbar {
+                  margin-top: 0;
+                  padding-top: 0;
+                }
                 .action-edit{
                   display: none !important;
                 }
@@ -185,6 +189,11 @@
           vertical-align: middle;
           position: relative;
         }
+        .col.price, .col.subtotal {
+          > span {
+            margin-top: -5px;
+          }
+        }
         .col.qty{
           div.mage-error{
             left: 50%;
@@ -230,6 +239,10 @@
   .cart-summary{
     text-align: left;
     color: #000;
+    @media (max-width: $tablet){
+      top: 0!important;
+      width: 100%;
+    }
     >.title{
       font-weight: bold;
     }
@@ -243,11 +256,37 @@
     }
     .label{
       color: #000;
+      padding-left: 0;
+    }
+    .block{
+      >.title{
+        strong[role='heading']{
+          font-size: 1.3rem;
+        }
+      }
+      .fieldset .field:not(.choice)>.label{
+        font-size: 12px;
+      }
+      .fieldset{
+        width: 100%;
+        float: left;
+        .methods {
+          .field>.label {
+            width: 94%;
+            white-space: normal;
+            word-break: break-word;
+            font-weight: normal;
+            text-align: left;
+            float: right;
+          }
+        }
+      }
     }
     .totals-tax-details{
       border-bottom: 0;
     }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
+      font-size: 13px;
       border-bottom: 0;
     }
     .cart-totals .amount, .opc-block-summary .table-totals .amount{
@@ -262,6 +301,14 @@
         font-size: 100%;
         padding-left: .6em;
       }
+    }
+    .checkout-methods-items{
+      a{
+        font-size: 14px;
+      }
+    }
+    div.primary{
+      width: 100%;
     }
     .action.primary.checkout{
       min-width: 140px;
@@ -280,10 +327,6 @@
       &:hover{
         background: #000;
       }
-    }
-    .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
-      font-size: 13px;
-      border-bottom: 0;
     }
   }
 }

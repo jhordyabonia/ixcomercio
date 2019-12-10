@@ -98,14 +98,18 @@ function ($, Component) {
 	    if($(".products-grid .product-items").length){
 	      var list = $(".products-grid .product-items > .item");
 	      var listImage = $(list).find(".product-image-wrapper");
-	      var listName = $(list).find(".product-name");
+	      var listName = $(list).find(".product-item-name");
 	      var listFamily = $(list).find(".atributo-familia");
+	      var listReviews = $(list).find(".product-reviews-summary");
 	      var listPrice = $(list).find(".price-box");
+	      var listOptions = $(list).find(".swatch-opt");
 	      var arrayList = [];
 	      var arrayImage = [];
 	      var arrayName = [];
 	      var arrayFamily = [];
+	      var arrayReviews = [];
 	      var arrayPrice = [];
+	      var arrayOptions = [];
 
 	      setTimeout(function(){
 	        //Image
@@ -130,11 +134,25 @@ function ($, Component) {
 	        jQuery(listFamily).css("minHeight", Math.max.apply(Math,arrayFamily)+"px");
 
 	        //Price
+	        jQuery.each(listReviews, function(i, val){
+	          arrayReviews.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayReviews);
+	        jQuery(listReviews).css("minHeight", Math.max.apply(Math,arrayReviews)+"px");
+
+	        //Price
 	        jQuery.each(listPrice, function(i, val){
 	          arrayPrice.push(jQuery(val).innerHeight());
 	        });
 	        Math.max.apply(Math,arrayPrice);
 	        jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
+
+	        //Color
+	        jQuery.each(listOptions, function(i, val){
+	          arrayOptions.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayOptions);
+	        jQuery(listOptions).css("minHeight", Math.max.apply(Math,arrayOptions)+"px");
 
 	        //Item
 	        jQuery.each(list, function(i, val){
