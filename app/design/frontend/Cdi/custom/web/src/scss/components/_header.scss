@@ -226,13 +226,16 @@ header{
             }
             &.has-active {
               >a {
+                &.level-top {
+                  border-bottom: 1px solid #ccc; 
+                }
                 &:not(.ui-state-active) span:not(.ui-menu-icon) {
                   margin: 0;
                 }
               }
             }
           }
-          &.active {
+          &.active, &.has-active {
             > a.level-top {
               border: 0;
             }
