@@ -203,6 +203,12 @@ header{
                 margin: 0;
                 border: 0;
               }
+              &:not(:first-child) {
+                .active > a {
+                  border: 0;
+                  padding: 0 15px 0 25px;
+                }
+              }
               a{
                 font-size: 14px;
                 line-height: 35px;
