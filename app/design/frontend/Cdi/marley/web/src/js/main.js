@@ -11,6 +11,58 @@ function ($, Component) {
 
   $(document).ready(function(){
 
+
+
+    /*
+
+    var itemsCart = $('.cart.table-wrapper .items>.item .col.subtotal .price');
+    var subtotal = 0;
+    $.each(itemsCart, function(i, val){
+      var item = $(val).text().split(/\s+/);
+      $.each(item, function(iItem, valItem){
+        var price = parseFloat((valItem).replace(/,/g, ''));
+        if($.isNumeric(price) == true){
+          subtotal += price;
+        }
+      });
+    });
+    console.log(subtotal);
+
+
+    var orderSubtotal = $('.totals.sub .price').text().split(/\s+/);
+    var summarySubtotal = 0;
+    $.each(orderSubtotal, function(i, val){
+        var summaryPriceSubtotal = parseFloat((val).replace(/,/g, ''));
+        if($.isNumeric(summaryPriceSubtotal) == true){
+            summarySubtotal += summaryPriceSubtotal;
+        }
+    });
+    console.log(summarySubtotal);
+
+
+    var orderTax = $('.totals-tax-summary .price').text().split(/\s+/);
+    var summaryTax = 0;
+    $.each(orderTax, function(i, val){
+        var summaryPriceTax = parseFloat((val).replace(/,/g, ''));
+        if($.isNumeric(summaryPriceTax) == true){
+            summaryTax += summaryPriceTax;
+        }
+    });
+    console.log(summaryTax);
+
+    console.log(parseInt(summarySubtotal+summaryTax));
+
+    if(subtotal != (summarySubtotal+summaryTax)){
+      console.log("dif"); 
+    }else{
+      console.log("sim");
+    }
+    
+    */
+
+
+    
+
     totalItemsMinicart=totalItemsMinicart.length;
 
     if(w_width <= 959){
@@ -463,18 +515,8 @@ function ($, Component) {
   
   $(document).ajaxComplete(function(){
 
-    // =============================================
-    // Products items - Minicart
-    // =============================================
-    /*
-    if (window.location.href.indexOf("/checkout") > -1) {
-      console.log('totalItemsMinicart '+totalItemsMinicart);
-      if($('.block-minicart .product-item').length != totalItemsMinicart){
-        console.log("reload");
-         location.reload();
-      }
-    }
-    */
+    console.log("termina ajax");
+    console.log($('.grand.totals .price').text());
 
   });
 
