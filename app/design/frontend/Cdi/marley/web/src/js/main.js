@@ -11,57 +11,59 @@ function ($, Component) {
 
   $(document).ready(function(){
 
-
-
-    /*
-
-    var itemsCart = $('.cart.table-wrapper .items>.item .col.subtotal .price');
-    var subtotal = 0;
-    $.each(itemsCart, function(i, val){
-      var item = $(val).text().split(/\s+/);
-      $.each(item, function(iItem, valItem){
-        var price = parseFloat((valItem).replace(/,/g, ''));
-        if($.isNumeric(price) == true){
-          subtotal += price;
-        }
+    function updateShoppingCart(){
+      var itemsCart = $('.cart.table-wrapper .items>.item .col.subtotal .price');
+      var subtotal = 0;
+      $.each(itemsCart, function(i, val){
+        var item = $(val).text().split(/\s+/);
+        $.each(item, function(iItem, valItem){
+          var price = (valItem).replace(/\./g, '');
+            price = (price).replace(/\,/g, '.');
+          if($.isNumeric(parseFloat(price)) == true){
+            subtotal += parseFloat(price);
+          }
+        });
       });
-    });
-    console.log(subtotal);
+      console.log(subtotal);
+      console.log(Number(subtotal).toFixed(2));
 
 
-    var orderSubtotal = $('.totals.sub .price').text().split(/\s+/);
-    var summarySubtotal = 0;
-    $.each(orderSubtotal, function(i, val){
-        var summaryPriceSubtotal = parseFloat((val).replace(/,/g, ''));
-        if($.isNumeric(summaryPriceSubtotal) == true){
-            summarySubtotal += summaryPriceSubtotal;
-        }
-    });
-    console.log(summarySubtotal);
+      var orderSubtotal = $('.totals.sub .price').text().split(/\s+/);
+      var summarySubtotal = 0;
+      $.each(orderSubtotal, function(i, val){
+          var summaryPriceSubtotal = (val).replace(/\./g, '');
+            summaryPriceSubtotal = (summaryPriceSubtotal).replace(/\,/g, '.');
+          if($.isNumeric(summaryPriceSubtotal) == true){
+              summarySubtotal += parseFloat(summaryPriceSubtotal);
+          }
+      });
+      console.log(summarySubtotal);
+      console.log(Number(summarySubtotal).toFixed(2));
 
 
-    var orderTax = $('.totals-tax-summary .price').text().split(/\s+/);
-    var summaryTax = 0;
-    $.each(orderTax, function(i, val){
-        var summaryPriceTax = parseFloat((val).replace(/,/g, ''));
-        if($.isNumeric(summaryPriceTax) == true){
-            summaryTax += summaryPriceTax;
-        }
-    });
-    console.log(summaryTax);
+      var orderTax = $('.totals-tax-summary .price').text().split(/\s+/);
+      var summaryTax = 0;
+      $.each(orderTax, function(i, val){
+      var summaryPriceTax = (val).replace(/\./g, '');
+            summaryPriceTax = (summaryPriceTax).replace(/\,/g, '.');
+          if($.isNumeric(summaryPriceTax) == true){
+              summaryTax += parseFloat(summaryPriceTax);
+          }
+      });
+      console.log(summaryTax);
+      console.log(Number(summaryTax).toFixed(2));
+      console.log(Number(summarySubtotal+summaryTax).toFixed(2));
 
-    console.log(parseInt(summarySubtotal+summaryTax));
 
-    if(subtotal != (summarySubtotal+summaryTax)){
-      console.log("dif"); 
-    }else{
-      console.log("sim");
+      if(Number(subtotal).toFixed(2) != Number(summarySubtotal+summaryTax).toFixed(2)){
+        console.log("dif"); 
+      }else{
+        console.log("sim");
+      }
     }
-    
-    */
 
 
-    
+
 
     totalItemsMinicart=totalItemsMinicart.length;
 
@@ -515,8 +517,12 @@ function ($, Component) {
   
   $(document).ajaxComplete(function(){
 
-    console.log("termina ajax");
-    console.log($('.grand.totals .price').text());
+    console.log($('.totals.sub .price').text());
+    var callback = function () {
+      console.log("stop");
+    };
+
+    $("body").on('processStop', callback);
 
   });
 
