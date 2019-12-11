@@ -162,6 +162,9 @@ ul.sticky-sections {
       @media only screen and (min-width: 600px){
         display: block;
       }
+      [data-content-type='row'][data-appearance='contained'] [data-element='inner']{
+        padding: 0!important;
+      }
     }
     .product-options-wrapper{
       width: 100%;
@@ -169,6 +172,12 @@ ul.sticky-sections {
       padding: 15px 0;
       clear: both;
       position: relative;
+      @media only screen and (max-width: $mobile){
+        text-align: center;
+      }
+      .fieldset {
+        margin-bottom: 0;
+      }
       .swatch-opt{
         margin: 0;
       }
@@ -191,6 +200,10 @@ ul.sticky-sections {
       .swatch-attribute-options{
         margin: 0;
         padding-bottom: 5px;
+        @media only screen and (max-width: $mobile){
+          float: left;
+          width: 100%;
+        }
         .swatch-option{
           &.image, &.color{
             position: relative;
@@ -202,8 +215,15 @@ ul.sticky-sections {
             padding: 0;
             background-size: cover!important;
             overflow: visible;
+            @media only screen and (max-width: $mobile){
+              display: inline-block;
+              float: none;
+            }
             &:first-child{
               margin-left: 0;
+              @media only screen and (max-width: $mobile){
+                margin-left: 3px;
+              }
             }
             &:not( .disabled ):hover{
               outline: none;
@@ -235,6 +255,9 @@ ul.sticky-sections {
     .product-add-form{
       .box-tocart{
         margin: 0;
+        @media only screen and (max-width: $mobile){
+          text-align: center;
+        }
         .field{
           display: block;
           padding: 0;
@@ -246,6 +269,9 @@ ul.sticky-sections {
             .label, .control{
               display: block;
               text-align: left;
+              @media only screen and (max-width: $mobile){
+                text-align: center;
+              }
             }
             .control{
               margin: 10px 0 20px;
@@ -306,6 +332,10 @@ ul.sticky-sections {
           margin-right: 10px;
           max-width: 100%;
           padding: 15px 0;
+          @media only screen and (max-width: $mobile){
+            float: none;
+            display: inline-block;
+          }
           button{
             margin-bottom: 10px;
             background: #E73C3E;

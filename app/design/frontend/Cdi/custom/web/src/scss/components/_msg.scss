@@ -65,12 +65,12 @@
               margin: 0;
             }
           }
-          &.action-primary{
+          &.action-primary, &.action.primary{
             color: #fff;
             background: $redcolor;
             border: 2px solid $redcolor;
           }
-          &.action-secondary{
+          &.action-secondary, &.action.secondary{
             color: #ccc;
             background: transparent;
             border: 2px solid #ccc;

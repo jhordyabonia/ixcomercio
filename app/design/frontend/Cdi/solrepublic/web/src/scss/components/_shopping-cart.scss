@@ -262,6 +262,16 @@
       .fieldset .field:not(.choice)>.label{
         font-size: 12px;
       }
+      .methods {
+        .field>.label {
+          width: 94%;
+          white-space: normal;
+          word-break: break-word;
+          font-weight: normal;
+          text-align: left;
+          float: right;
+        }
+      }
     }
     .mark, .cart-totals .amount, .opc-block-summary .table-totals .amount{
       font-size: 13px;

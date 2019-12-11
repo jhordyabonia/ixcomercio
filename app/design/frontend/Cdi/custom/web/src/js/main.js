@@ -98,14 +98,18 @@ function ($, Component) {
 	    if($(".products-grid .product-items").length){
 	      var list = $(".products-grid .product-items > .item");
 	      var listImage = $(list).find(".product-image-wrapper");
-	      var listName = $(list).find(".product-name");
+	      var listName = $(list).find(".product-item-name");
 	      var listFamily = $(list).find(".atributo-familia");
+	      var listReviews = $(list).find(".product-reviews-summary");
 	      var listPrice = $(list).find(".price-box");
+	      var listOptions = $(list).find(".swatch-opt");
 	      var arrayList = [];
 	      var arrayImage = [];
 	      var arrayName = [];
 	      var arrayFamily = [];
+	      var arrayReviews = [];
 	      var arrayPrice = [];
+	      var arrayOptions = [];
 
 	      setTimeout(function(){
 	        //Image
@@ -130,11 +134,25 @@ function ($, Component) {
 	        jQuery(listFamily).css("minHeight", Math.max.apply(Math,arrayFamily)+"px");
 
 	        //Price
+	        jQuery.each(listReviews, function(i, val){
+	          arrayReviews.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayReviews);
+	        jQuery(listReviews).css("minHeight", Math.max.apply(Math,arrayReviews)+"px");
+
+	        //Price
 	        jQuery.each(listPrice, function(i, val){
 	          arrayPrice.push(jQuery(val).innerHeight());
 	        });
 	        Math.max.apply(Math,arrayPrice);
 	        jQuery(listPrice).css("minHeight", Math.max.apply(Math,arrayPrice)+"px");
+
+	        //Color
+	        jQuery.each(listOptions, function(i, val){
+	          arrayOptions.push(jQuery(val).innerHeight());
+	        });
+	        Math.max.apply(Math,arrayOptions);
+	        jQuery(listOptions).css("minHeight", Math.max.apply(Math,arrayOptions)+"px");
 
 	        //Item
 	        jQuery.each(list, function(i, val){
@@ -230,7 +248,7 @@ function ($, Component) {
 	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
-	      	$.ajax({
+	    	$.ajax({
 		        url: '/places/search/',
 		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
 		        type: 'GET',
@@ -317,19 +335,31 @@ function ($, Component) {
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+
+		    			setTimeout(function(){
+		    				if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+					    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+					    	}	
+		    			},500);
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
 				            $.each(res, function(iRes, valRes){
 				            	if(valRes.Name == optionName){
-				                	$(valOpt).attr("parentId", valRes.Id);
+				            		$(valOpt).attr("parentId", valRes.Id);
 				                	$(valOpt).show();
 				              	}
 				            });
 				        });
+
+				        setTimeout(function(){
+		    				if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+					    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+					    	}	
+		    			},500);
 			    	}
-			    	
+
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
@@ -342,6 +372,7 @@ function ($, Component) {
 				    // =============================================
 				    var selectStateCheckout = $(fieldStateCheckout).find('select');
 				    $(selectStateCheckout).on('change', function (e) {
+				    	console.log("change state");
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),

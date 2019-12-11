@@ -47,7 +47,8 @@ if ($items = $block->getProductCollection()) : ?>
                            class="product-item-photo">
                             <?= $block->getImage($_item, 'recently_viewed_products_grid_content_widget')->toHtml(); ?>
                         </a>
-                        <?php if ($discount != 0): ?>
+                        <?php if ($discount != 0): 
+                            $discount = 100 - $discount; ?>
                             <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
                         <?php endif; ?>
                         <?php if ($_helperCdi->isNew($_item)): ?>
