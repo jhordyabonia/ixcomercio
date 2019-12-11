@@ -50,7 +50,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                         <?php echo $block->getImage($_item, $image)->toHtml(); ?>
                                     </a>
                                     <?php if ($discount != 0): 
-                                        $discount = 100 - $discount; ?>?>
+                                        $discount = 100 - $discount; ?>
                                         <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
                                     <?php endif; ?>
                                     <?php if ($_helperCdi->isNew($_item)): ?>

@@ -248,7 +248,7 @@ function ($, Component) {
 	    $(fieldStreet).find('input').hide();
 
 	    fieldState.on('change', function (e) {
-	      	$.ajax({
+	    	$.ajax({
 		        url: '/places/search/',
 		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
 		        type: 'GET',
@@ -335,19 +335,31 @@ function ($, Component) {
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+
+		    			setTimeout(function(){
+		    				if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+					    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+					    	}	
+		    			},500);
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
 				            $.each(res, function(iRes, valRes){
 				            	if(valRes.Name == optionName){
-				                	$(valOpt).attr("parentId", valRes.Id);
+				            		$(valOpt).attr("parentId", valRes.Id);
 				                	$(valOpt).show();
 				              	}
 				            });
 				        });
+
+				        setTimeout(function(){
+		    				if($('.field[name="shippingAddress.region_id"] select').val() != ""){
+					    		$('.field[name="shippingAddress.region_id"] select').trigger('change');
+					    	}	
+		    			},500);
 			    	}
-			    	
+
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false">'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
@@ -360,6 +372,7 @@ function ($, Component) {
 				    // =============================================
 				    var selectStateCheckout = $(fieldStateCheckout).find('select');
 				    $(selectStateCheckout).on('change', function (e) {
+				    	console.log("change state");
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
