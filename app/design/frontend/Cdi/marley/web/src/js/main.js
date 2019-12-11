@@ -514,16 +514,14 @@ function ($, Component) {
   });
 
 
-  
+  var countAjaxComplete = 0;
   $(document).ajaxComplete(function(){
-
-    console.log($('.totals.sub .price').text());
-    var callback = function () {
-      console.log("stop");
-    };
-
-    $("body").on('processStop', callback);
-
+    if($('.totals.sub .price').text() != ""){
+      countAjaxComplete += 1;
+      if(countAjaxComplete == 1){
+        updateShoppingCart();  
+      }
+    }
   });
 
 
