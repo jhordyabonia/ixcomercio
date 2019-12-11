@@ -11,60 +11,6 @@ function ($, Component) {
 
   $(document).ready(function(){
 
-    function updateShoppingCart(){
-      var itemsCart = $('.cart.table-wrapper .items>.item .col.subtotal .price');
-      var subtotal = 0;
-      $.each(itemsCart, function(i, val){
-        var item = $(val).text().split(/\s+/);
-        $.each(item, function(iItem, valItem){
-          var price = (valItem).replace(/\./g, '');
-            price = (price).replace(/\,/g, '.');
-          if($.isNumeric(parseFloat(price)) == true){
-            subtotal += parseFloat(price);
-          }
-        });
-      });
-      console.log(subtotal);
-      console.log(Number(subtotal).toFixed(2));
-
-
-      var orderSubtotal = $('.totals.sub .price').text().split(/\s+/);
-      var summarySubtotal = 0;
-      $.each(orderSubtotal, function(i, val){
-          var summaryPriceSubtotal = (val).replace(/\./g, '');
-            summaryPriceSubtotal = (summaryPriceSubtotal).replace(/\,/g, '.');
-          if($.isNumeric(summaryPriceSubtotal) == true){
-              summarySubtotal += parseFloat(summaryPriceSubtotal);
-          }
-      });
-      console.log(summarySubtotal);
-      console.log(Number(summarySubtotal).toFixed(2));
-
-
-      var orderTax = $('.totals-tax-summary .price').text().split(/\s+/);
-      var summaryTax = 0;
-      $.each(orderTax, function(i, val){
-      var summaryPriceTax = (val).replace(/\./g, '');
-            summaryPriceTax = (summaryPriceTax).replace(/\,/g, '.');
-          if($.isNumeric(summaryPriceTax) == true){
-              summaryTax += parseFloat(summaryPriceTax);
-          }
-      });
-      console.log(summaryTax);
-      console.log(Number(summaryTax).toFixed(2));
-      console.log(Number(summarySubtotal+summaryTax).toFixed(2));
-
-
-      if(Number(subtotal).toFixed(2) != Number(summarySubtotal+summaryTax).toFixed(2)){
-        console.log("dif"); 
-      }else{
-        console.log("sim");
-      }
-    }
-
-
-
-
     totalItemsMinicart=totalItemsMinicart.length;
 
     if(w_width <= 959){
@@ -300,14 +246,14 @@ function ($, Component) {
 
 
     // =============================================
-      // Get cities
-      // =============================================
+    // Get cities
+    // =============================================
 
-      var fieldCity = $('form .fieldset > .field.city #city_id');
-      var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
-      var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
-            '<option data-title="" value="">Please select a zone.</option>'+
-            '</select>';
+    var fieldCity = $('form .fieldset > .field.city #city_id');
+    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
+    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+          '<option data-title="" value="">Please select a zone.</option>'+
+          '</select>';
     $(fieldStreet).append(htmlStreet);
       $(fieldStreet).find('input').hide();
 
@@ -515,11 +461,62 @@ function ($, Component) {
 
 
   var countAjaxComplete = 0;
+  function updateShoppingCart(){
+    var itemsCart = $('.cart.table-wrapper .items>.item .col.subtotal .price');
+    var subtotal = 0;
+    $.each(itemsCart, function(i, val){
+      var item = $(val).text().split(/\s+/);
+      $.each(item, function(iItem, valItem){
+        var price = (valItem).replace(/\./g, '');
+          price = (price).replace(/\,/g, '.');
+        if($.isNumeric(parseFloat(price)) == true){
+          subtotal += parseFloat(price);
+        }
+      });
+    });
+    console.log(subtotal);
+    console.log(Number(subtotal).toFixed(2));
+
+
+    var orderSubtotal = $('.totals.sub .price').text().split(/\s+/);
+    var summarySubtotal = 0;
+    $.each(orderSubtotal, function(i, val){
+        var summaryPriceSubtotal = (val).replace(/\./g, '');
+          summaryPriceSubtotal = (summaryPriceSubtotal).replace(/\,/g, '.');
+        if($.isNumeric(summaryPriceSubtotal) == true){
+            summarySubtotal += parseFloat(summaryPriceSubtotal);
+        }
+    });
+    console.log(summarySubtotal);
+    console.log(Number(summarySubtotal).toFixed(2));
+
+
+    var orderTax = $('.totals-tax-summary .price').text().split(/\s+/);
+    var summaryTax = 0;
+    $.each(orderTax, function(i, val){
+    var summaryPriceTax = (val).replace(/\./g, '');
+          summaryPriceTax = (summaryPriceTax).replace(/\,/g, '.');
+        if($.isNumeric(summaryPriceTax) == true){
+            summaryTax += parseFloat(summaryPriceTax);
+        }
+    });
+    console.log(summaryTax);
+    console.log(Number(summaryTax).toFixed(2));
+    console.log(Number(summarySubtotal+summaryTax).toFixed(2));
+
+
+    if(Number(subtotal).toFixed(2) != Number(summarySubtotal+summaryTax).toFixed(2)){
+      console.log("dif"); 
+    }else{
+      console.log("sim");
+    }
+  }
+  
   $(document).ajaxComplete(function(){
     if($('.totals.sub .price').text() != ""){
       countAjaxComplete += 1;
       if(countAjaxComplete == 1){
-        updateShoppingCart();  
+        updateShoppingCart();
       }
     }
   });
