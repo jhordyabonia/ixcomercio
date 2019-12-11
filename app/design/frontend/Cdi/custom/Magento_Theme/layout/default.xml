@@ -41,8 +41,7 @@
 				<block class="Magento\Framework\View\Element\Template" name="header.mobile.elements" template="Magento_Theme::html/header_mobile_elements.phtml"/>
 			</container>
 
-			<move element="top.search" destination="header.wrapper" as="top.search" after="-"/>
-			<move element="header.account.cart.wrapper" destination="header.wrapper" as="header.account.cart.wrapper" after="top.search"/>
+			
 		</referenceContainer>
 		<referenceBlock name="store.settings" remove="true" />
 
