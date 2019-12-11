@@ -224,7 +224,7 @@ header{
                 color: #E73C3E;
               }
             }
-            &.has-active {
+            &.active, &.has-active {
               >a {
                 &:not(.ui-state-active) span:not(.ui-menu-icon) {
                   margin: 0;
