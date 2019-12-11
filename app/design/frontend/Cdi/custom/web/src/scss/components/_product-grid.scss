@@ -4,7 +4,7 @@
       display: block;
       .item:not(.rating-summary){
         width: 30%!important;
-        padding: 20px;
+        padding: 20px 20px 45px;
         border: 0;
         background: #fff;
         border-radius: 5px;
@@ -97,12 +97,14 @@
               }
             }
             .product-item-name{
+              width: 100%;
+              min-height: 30px;
               font-size: 16px;
               font-weight: bold;
               line-height: normal;
               text-transform: uppercase;
-              min-height: 30px;
-              margin: 5px 0 15px;
+              margin: 5px 0 10px;
+              display: inline-block;
               a{
                 font-weight: bold;
               }
@@ -121,8 +123,10 @@
               }
             }
             .price-box{
+              width: 100%;
               min-height: 30px;
               margin: 10px 0 25px;
+              display: inline-block;
               .special-price, .old-price{
                 width: 100%;
                 display: block;
@@ -167,6 +171,13 @@
                   }
                 }
               }
+            }
+            .product-item-actions {
+              width: 80%;
+              left: 10%;
+              bottom: 0;
+              position: absolute;
+              margin-bottom: 0;
             }
           }
           .product-item-actions{
