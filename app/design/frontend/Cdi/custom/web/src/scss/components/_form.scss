@@ -95,6 +95,7 @@ form{
 			text-align: center;
 		}
 		.actions-toolbar{
+			max-width: 100%;
 			text-align: center;
 			.primary{
 				@media only screen and (min-width: $tablet){
