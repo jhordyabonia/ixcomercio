@@ -113,6 +113,7 @@
               text-align: center;
               display: inline-block;
               position: relative;
+              margin: 10px 0 0;
               .reviews-actions {
                 top: -3px;
                 right: -20px;
@@ -154,10 +155,10 @@
                 display: none;
               }
             }
-            .swatch-opt {
+            .swatch-attribute {
               text-align: center;
               .swatch-attribute-options {
-                .swatch-option.color {
+                .swatch-option {
                   width: 24px;
                   height: 24px;
                   min-width: 24px;
