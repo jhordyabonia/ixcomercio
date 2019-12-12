@@ -3,7 +3,7 @@
   .form {
     .fieldset{
       &:after{
-        margin-top: 70px;
+        margin-top: 30px;
       }
       >.field{
         padding-left: 0;
@@ -39,4 +39,8 @@
       }
     }
   }
+}
+.column.main .block.block-new-customer {
+  margin-bottom: 40px;
+  float: left;
 }

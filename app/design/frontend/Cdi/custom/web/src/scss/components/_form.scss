@@ -85,8 +85,8 @@ form{
 	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset{
 		text-align: left;
 		@media only screen and (min-width: $tablet){
-			width: 100%;
-			min-width: 100%;
+			/*width: 100%;
+			min-width: 100%;*/
 			.fieldset>.field:not(.choice)>.control{
 				width: 100%;
 			}
