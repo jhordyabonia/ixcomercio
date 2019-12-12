@@ -1,4 +1,7 @@
 .checkout-index-index{
+  select {
+    font-size: 14px;
+  }
   .checkout-container{
     margin: 40px 0 20px;
     .opc-progress-bar-item{
@@ -12,6 +15,30 @@
       }
       >span:after {
         line-height: 28px;
+      }
+    }
+    .opc-estimated-wrapper {
+      background: #ecebe8;
+      .estimated-block{
+        text-align: left;
+        line-height: normal;
+      }
+      .minicart-wrapper{
+        width: auto;
+        @media (max-width: $tablet){
+          margin-top: 0;
+        }
+        .action.showcart{
+          border: 0;
+          background: none;
+          .counter.qty{
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            background: red;
+            border-radius: 50%;
+          }
+        }
       }
     }
     .opc-wrapper {
@@ -44,6 +71,15 @@
           @media (min-width: $tablet){
             float: left;
             margin: 0 0 10px;
+          }
+        }
+      }
+      .checkout-payment-method {
+        text-align: left;
+        .payment-method-content {
+          >.actions-toolbar {
+            display: inline-block;
+            float: none;
           }
         }
       }
