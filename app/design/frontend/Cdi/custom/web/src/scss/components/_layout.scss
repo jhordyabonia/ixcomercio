@@ -489,6 +489,11 @@ body.page-layout-2columns-left{
   &.contact{
     text-align: left;
   }
+  &.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
+    @media only screen and (min-width: $tablet){
+      min-width: 500px;
+    }
+  }
   .fieldset{
     > .legend{
       width: auto;
