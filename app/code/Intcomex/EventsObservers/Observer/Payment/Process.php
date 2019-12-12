@@ -126,7 +126,7 @@ class Process implements ObserverInterface
                             $serviceUrlPlace = $this->helper_placeorder->getServiceUrl($configDataPlace, $order->getIncrementId());   
                             $this->logger->info('Place Order - url '.$serviceUrlPlace);
                             $this->logger->info('Consultamos el placeload');                                                        
-                            $placeload = $this->helper_placeorder->loadPayloadService($order, $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode(), $configDataPlace['store_id'], $configDataPlace['porcentaje_impuesto']);
+                            $placeload = $this->helper_placeorder->loadPayloadService($order, $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode(), $configDataPlace['store_id'], $configDataPlace['porcentaje_impuesto'], $configDataPlace['producto_impuesto']);
                             $this->logger->info('loadPayloadService - Fin');
                             if($placeload){
                                 $this->logger->info('beginPlaceOrder - Inicio');

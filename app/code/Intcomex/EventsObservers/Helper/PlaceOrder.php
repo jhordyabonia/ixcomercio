@@ -32,6 +32,8 @@ class PlaceOrder extends AbstractHelper
     const STORE_ID = 'trax_ordenes/ordenes_general/store_id';
 
     const PORCENTAJE_IMPUESTO = 'trax_ordenes/ordenes_general/porcentaje_impuesto';
+
+    const PRODUCTO_IMPUESTO = 'trax_ordenes/ordenes_general/producto_impuesto';
     
     /**
     * @var helper
@@ -102,6 +104,7 @@ class PlaceOrder extends AbstractHelper
         $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
         $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
         $configData['porcentaje_impuesto'] = $this->scopeConfig->getValue(self::PORCENTAJE_IMPUESTO, $storeScope, $websiteCode);
+        $configData['producto_impuesto'] = $this->scopeConfig->getValue(self::PRODUCTO_IMPUESTO, $storeScope, $websiteCode);
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
@@ -207,7 +210,7 @@ class PlaceOrder extends AbstractHelper
 	}
 
     //Laod Payload request
-	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto) 
+	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto, $configItemImpuesto) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
@@ -324,7 +327,8 @@ class PlaceOrder extends AbstractHelper
                     'FreightCost' => $freightAmount,
                 )
             ),
-            'Items' => $items
+            'Items' => $items,
+            'TaxesIncludedInPrice' => $configItemImpuesto
         );
         return json_encode($payload);
     }
