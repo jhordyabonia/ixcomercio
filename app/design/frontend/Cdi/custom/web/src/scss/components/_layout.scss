@@ -507,6 +507,7 @@ body.page-layout-2columns-left{
       }
       &:not( .choice ){
         > .label{
+          width: 100%;
           text-align: left;
           @media only screen and (min-width: $tablet){
             float: left;
