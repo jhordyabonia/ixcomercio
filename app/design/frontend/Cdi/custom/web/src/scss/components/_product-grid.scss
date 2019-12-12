@@ -159,8 +159,8 @@
               text-align: center;
               .swatch-attribute-options {
                 .swatch-option {
-                  width: 24px;
-                  height: 24px;
+                  width: 25px!important;
+                  height: 25px!important;
                   min-width: 24px;
                   margin: 0 10px;
                   display: inline-block;
@@ -169,6 +169,9 @@
                   float: none;
                   &:hover {
                     outline: none!important;
+                  }
+                  &.image {
+                    background-size: cover!important;
                   }
                 }
               }
