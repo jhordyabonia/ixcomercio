@@ -16414,7 +16414,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "First character must be letter.","El primer carácter debe ser una letra.",lib,web
 "The password can't be the same as the email address. Create a new password and try again.","La contraseña no puede ser la misma que la dirección de correo electrónico. Crear una nueva contraseña y vuelva a intentarlo.",lib,web
 "Back to home","Regresar",lib,web
-"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","git pull
+"Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.",lib,web
 "This is a required field.","Campo obligatorio.",module,Magento_Customer
 "This is a required field.","Campo obligatorio.",module,Magento_Checkout
 "This is a required field.","Campo obligatorio.",module,Magento_Catalog
@@ -16437,3 +16437,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Earphones","Auriculares",lib,web
 "Resources","Recursos",lib,web
 "Subject","Asunto",module,Magento_Contact
+"Need Help?","¿Necesitas ayuda?",lib,web
