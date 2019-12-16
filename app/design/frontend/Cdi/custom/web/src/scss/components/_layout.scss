@@ -191,6 +191,26 @@
   @media only screen and (min-width: 1280px){
     max-height: 620px;
   }
+  &.banner-background {
+    &.bgSize100Mob {
+      @media only screen and (max-width: 599px){
+        background-size: contain!important;
+        background-position: center top!important;
+        .text-block-banner {
+          padding-top: 100%;
+          .text-overlay-banner {
+            &.banner-text-right, &.banner-text-left {
+              left: 0;
+              right: 0;
+              width: 100%;
+              transform: translate(0);
+              padding: 100px 0 60px;
+            }
+          }
+        }
+      }
+    } 
+  }
   .text-block-banner{
     width: 100%;
     position: relative;
