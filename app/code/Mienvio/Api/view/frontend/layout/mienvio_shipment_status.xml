@@ -4,7 +4,9 @@
     <head>
         <title>Shipment Status</title>
     </head>
-    <referenceContainer name="content">
-        <block class="Mienvio\Api\Block\Status" name="mienvio_status" template="Mienvio_Api::status.phtml" />
-    </referenceContainer>
+    <body>
+        <referenceContainer name="content">
+            <block class="Mienvio\Api\Block\Status" name="mienvio_status" template="Mienvio_Api::status.phtml" />
+        </referenceContainer>
+    </body>
 </page>
