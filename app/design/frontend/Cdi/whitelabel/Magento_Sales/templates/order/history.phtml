@@ -49,7 +49,7 @@
                                     <span><?= /* @escapeNotVerified */ __('Reorder') ?></span>
                                 </a>
                             <?php endif ?>
-                            <a href="<?= /* @escapeNotVerified */ $block->getViewUrl($_order) ?>" class="action view">
+                            <a href="<?php echo $this->getUrl('mienvio/shipment/status') ?>" class="action view">
                                 <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
                             </a>
                         </td>
