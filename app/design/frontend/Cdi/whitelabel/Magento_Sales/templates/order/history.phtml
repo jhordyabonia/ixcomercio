@@ -49,7 +49,7 @@
                                     <span><?= /* @escapeNotVerified */ __('Reorder') ?></span>
                                 </a>
                             <?php endif ?>
-                            <a href="<?php echo substr_replace($this->getUrl('mienvio/shipment/status?orderid='.$_order->getRealOrderId()), "", -1) ?>" class="action view">
+                            <a href="<?php echo $this->getUrl('mienvio/shipment/status/order_id/'.$_order->getId()) ?>" class="action view">
                                 <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
                             </a>
                         </td>
