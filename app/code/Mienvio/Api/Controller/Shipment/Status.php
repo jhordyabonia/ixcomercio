@@ -116,7 +116,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         if($customerSession->isLoggedIn()) {
-            if(isset($this->getRequest()->getParam('order_id', false))){
+            if($this->getRequest()->getParam('order_id') != null){
                 $order_id = $this->getRequest()->getParam('order_id', false);
                 /*TODO:
                 Validar que la orden corresponda al usuario con sesión
