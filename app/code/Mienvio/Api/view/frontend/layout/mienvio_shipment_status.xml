@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <title>Shipment Status</title>
+    </head>
+    <referenceContainer name="content">
+        <block class="Mienvio\Api\Block\Status" name="mienvio_status" template="Mienvio_Api::status.phtml" />
+    </referenceContainer>
+</page>
