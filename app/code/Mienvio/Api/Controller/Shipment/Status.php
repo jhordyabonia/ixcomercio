@@ -118,10 +118,6 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         if($customerSession->isLoggedIn()) {
             if($this->getRequest()->getParam('order_id') != null){
                 $order_id = (int)$this->getRequest()->getParam('order_id', false);
-                /*TODO:
-                Validar que la orden corresponda al usuario con sesión
-                - Si no corresponde redireccionar al historial de ordenes con mensaje de advertencia
-                 */
                 $order = $this->orderFactory->create()->load($order_id);
                 if ($this->orderAuthorization->canView($order)) {
                     /*TODO:
@@ -131,7 +127,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                     - Si ya se entrego el pedido mostrar la información del pedido entregado
                      */
                     $resultPage = $this->resultPageFactory->create();
-                    $resultPage->getConfig()->getTitle()->set((__('Order # '.$order_id)));
+                    $resultPage->getConfig()->getTitle()->set((__('Order # '.$order->getRealOrderId())));
                     $resultPage->getLayout()->initMessages();          
                     try {               
                         $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
