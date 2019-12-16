@@ -136,6 +136,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                 /*TODO:
                 Mensaje de advertencia de error en url
                  */
+                $this->messageManager->addError( __('This is your error message.') );
                 $this->_redirect('customer/account/');
             }
         } else {
