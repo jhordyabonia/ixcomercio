@@ -116,16 +116,22 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         if($customerSession->isLoggedIn()) {
-            $resultPage = $this->resultPageFactory->create();
-            $resultPage->getConfig()->getTitle()->set((__('Welcome to Codesspires')));
-            $resultPage->getLayout()->initMessages();          
-            try {               
-                $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
-            } catch (\Exception $e) {
-                $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-                $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
-            }        
-            return $resultPage;
+            if(isset($_REQUEST['orderid'])){
+                $order_id = $_REQUEST['orderid'];
+                $resultPage = $this->resultPageFactory->create();
+                $resultPage->getConfig()->getTitle()->set((__('Order # '.$order_id)));
+                $resultPage->getLayout()->initMessages();          
+                try {               
+                    $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
+                } catch (\Exception $e) {
+                    $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
+                    $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
+                }        
+                return $resultPage;
+            } else {
+
+                $this->_redirect('customer/account/');
+            }
         } else {
             $this->_redirect('customer/account/');
         }
