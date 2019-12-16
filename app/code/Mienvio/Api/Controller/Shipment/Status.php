@@ -117,6 +117,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         if($customerSession->isLoggedIn()) {
             $resultPage = $this->resultPageFactory->create();
+            $resultPage->getConfig()->getTitle()->set((__('Welcome to Codesspires')));
             $resultPage->getLayout()->initMessages();          
             try {               
                 $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
