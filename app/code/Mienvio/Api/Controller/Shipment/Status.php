@@ -92,7 +92,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
         $this->orderFactory = $orderFactory;
-        $this->_orderCollectionFactory = $orderCollectionFactory;
+        $this->orderAuthorization = $orderAuthorization;
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
@@ -162,49 +162,6 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         return $configData;
 
     }
-
-    //Se verifica body de la petición
-    public function checkBody($body) 
-    {
-        $result = $this->updateMienvioData($body->type, $body->body->quote_id);
-        return $result;
-    }
-
-    //Agrega notificación de guía
-    public function updateMienvioData($type, $quote_id) 
-    {        
-        $order_id = $this->loadOrderInformation($quote_id);
-        $result = $this->jsonResultFactory->create();
-        if($order_id){
-            $notification = $this->saveMienvioData($type, $order_id);
-            if($notification){
-                $result->setHttpResponseCode(200);
-                $result->setData(['success_message' => __('Updated data')]);
-            } else{
-                $result->setHttpResponseCode(204);
-                $result->setData(['success_message' => __('Information not found')]);
-            }
-        } else {
-            $result->setHttpResponseCode(204);
-            $result->setData(['success_message' => __('No Content')]);
-        }
-        return $result;
-    }
-
-    //Se carga la orden relacionada a la cotización
-    public function loadOrderInformation($quote_id) 
-    {
-		try {
-            $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
-            if($collection->getSize()){
-                $data = $collection->getFirstItem();
-                return $data->getEntityId();
-            }
-        } catch (\Exception $e) {
-            $this->logger->info('Mienviowebhook - Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
-        }
-        return false;
-	}
 
     //Se guarda información de IWS en tabla custom
     public function saveMienvioData($type, $order_id) 
