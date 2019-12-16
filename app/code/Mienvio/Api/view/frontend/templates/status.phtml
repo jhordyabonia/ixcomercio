@@ -16,7 +16,7 @@
                     <div class="processed">
                         <?php echo __('Confirmed order') ?>
                     </div>
-                    <div class="<?php ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
+                    <div class="<?php echo ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
                         <?php echo __('Payment Processed') ?>
                     </div>
                 </div>
