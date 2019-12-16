@@ -20,7 +20,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 /**
  * Webhook class  
  */
-class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
+class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface 
 {
 
     const USER = 'shipping/mienvio_api/user';
@@ -46,52 +46,52 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
     /** @var \Magento\Framework\Controller\Result\JsonFactory */
     protected $jsonResultFactory;
     protected $_orderCollectionFactory;
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $orderFactory;
+    /**
+     * @var OrderViewAuthorizationInterface
+     */
+    protected $orderAuthorization;
     
     /**
      * 
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param \Magento\Framework\App\Request\Http $request
-     * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Psr\Log\LoggerInterface $logger_interface
-     * @param \Magento\Sales\Model\Service\InvoiceService $invoiceService
-     * @param \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder
      * @param \Magento\Framework\Controller\ResultFactory $result
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Catalogo\Helper\Email $email
-     * @param \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory
-     * @param \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
+     * @param \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
+     * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Controller\AbstractController\OrderViewAuthorizationInterface $orderAuthorization
      */
     public function __construct(
             Context $context, 
             PageFactory $resultPageFactory, 
             \Magento\Framework\App\Request\Http $request, 
-            \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
             \Magento\Checkout\Model\Session $checkoutSession,
             \Psr\Log\LoggerInterface $logger_interface,
-            \Magento\Sales\Model\Service\InvoiceService $invoiceService,
-            \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
             \Magento\Framework\Controller\ResultFactory $result,
             \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
             \Trax\Catalogo\Helper\Email $email,
             \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
-            \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory,
-            \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory 
+            \Magento\Sales\Model\OrderFactory $orderFactory,
+            \Magento\Sales\Controller\AbstractController\OrderViewAuthorizationInterface $orderAuthorization 
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
         $this->request = $request;
         $this->checkoutSession = $checkoutSession;
-        $this->orderRepository = $orderRepository;
         $this->logger = $logger_interface;        
-        $this->_invoiceService = $invoiceService;
-        $this->transactionBuilder = $transactionBuilder;
         $this->resultRedirect = $result;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_iwsOrder = $iwsOrder;
-        $this->jsonResultFactory = $jsonResultFactory;
+        $this->orderFactory = $orderFactory;
         $this->_orderCollectionFactory = $orderCollectionFactory;
     }
 
@@ -117,29 +117,39 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $customerSession = $objectManager->get('Magento\Customer\Model\Session');
         if($customerSession->isLoggedIn()) {
             if($this->getRequest()->getParam('order_id') != null){
-                $order_id = $this->getRequest()->getParam('order_id', false);
+                $order_id = (int)$this->getRequest()->getParam('order_id', false);
                 /*TODO:
                 Validar que la orden corresponda al usuario con sesión
-                - Si no corresponde redireccionar al dashboard con mensaje de advertencia
+                - Si no corresponde redireccionar al historial de ordenes con mensaje de advertencia
                  */
-                $resultPage = $this->resultPageFactory->create();
-                $resultPage->getConfig()->getTitle()->set((__('Order # '.$order_id)));
-                $resultPage->getLayout()->initMessages();          
-                try {               
-                    $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
-                } catch (\Exception $e) {
-                    $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-                    $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
-                }        
-                return $resultPage;
-            } else {                
-                /*TODO:
-                Mensaje de advertencia de error en url
-                 */
-                $this->messageManager->addError( __('This is your error message.') );
-                $this->_redirect('customer/account/');
+                $order = $this->orderFactory->create()->load($order_id);
+                if ($this->orderAuthorization->canView($order)) {
+                    /*TODO:
+                    Verificar estado de la orden en tabla iws_order
+                    - Si no hay guia generada mostrar cierta información
+                    - Si hay guía generada mostrar información de seguimiento
+                    - Si ya se entrego el pedido mostrar la información del pedido entregado
+                     */
+                    $resultPage = $this->resultPageFactory->create();
+                    $resultPage->getConfig()->getTitle()->set((__('Order # '.$order_id)));
+                    $resultPage->getLayout()->initMessages();          
+                    try {               
+                        $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
+                    } catch (\Exception $e) {
+                        $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
+                        $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
+                    }        
+                    return $resultPage;
+                } else {
+                    $this->messageManager->addError( __('There was an error checking the order information.') );
+                    $this->_redirect('sales/order/history');                 
+                }
+            } else {    
+                $this->messageManager->addError( __('There was an error checking the order information.') );
+                $this->_redirect('sales/order/history');
             }
         } else {
+            $this->messageManager->addError( __('To check the tracking information of your order you must login.') );
             $this->_redirect('customer/account/');
         }
     }
