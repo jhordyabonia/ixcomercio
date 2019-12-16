@@ -194,8 +194,8 @@
   &.banner-background {
     &.bgSize100Mob {
       @media only screen and (max-width: 599px){
-        background-size: contain;
-        background-position: center top;
+        background-size: contain!important;
+        background-position: center top!important;
         .text-block-banner {
           padding-top: 100%;
           .text-overlay-banner {
