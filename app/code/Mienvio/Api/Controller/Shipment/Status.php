@@ -113,15 +113,21 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute() {    
-        $resultPage = $this->resultPageFactory->create();
-        $resultPage->getLayout()->initMessages();          
-        try {               
-            $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
-        } catch (\Exception $e) {
-            $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-            $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
-        }        
-        return $resultPage;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+        if($customerSession->isLoggedIn()) {
+            $resultPage = $this->resultPageFactory->create();
+            $resultPage->getLayout()->initMessages();          
+            try {               
+                $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
+            } catch (\Exception $e) {
+                $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
+                $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
+            }        
+            return $resultPage;
+        } else {
+            $this->_redirect('customer/account/');
+        }
     }
 
     //Obtiene los parámetros de configuración desde el cms
