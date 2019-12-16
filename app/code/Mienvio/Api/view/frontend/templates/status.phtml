@@ -1,10 +1,26 @@
 <div class="container">
     <div class="row">
         <h1 class="page-title"><?php echo $this->getTitle() ?></h1>
-        <div class="order-progress-bar">
-            <div>
-                <?php echo __('Confirmed order') ?>
-            </div>
+        <div class="order-progress-bar">            
+            <?php if($this->getOrderStatus() == 'canceled'){ ?>
+                <div class="canceled-progress-bar">
+                    <div class="processed">
+                        <?php echo __('Confirmed order') ?>
+                    </div>
+                    <div class="processed">
+                        <?php echo __('Order canceled') ?>
+                    </div>
+                </div>
+            <?php } else {?>
+                <div class="normal-progress-bar">
+                    <div class="processed">
+                        <?php echo __('Confirmed order') ?>
+                    </div>
+                    <div class="<?php ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
+                        <?php echo __('Order canceled') ?>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>

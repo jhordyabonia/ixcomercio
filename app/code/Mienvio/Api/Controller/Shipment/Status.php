@@ -127,10 +127,11 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                     - Si ya se entrego el pedido mostrar la información del pedido entregado
                      */
                     $resultPage = $this->resultPageFactory->create();
-                    $resultPage->getConfig()->getTitle()->set((__('Order # '.$order->getStatus())));
+                    $resultPage->getConfig()->getTitle()->set((__('Order # '.$order->getRealOrderId())));
                     $resultPage->getLayout()->initMessages();          
                     try {               
                         $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Order Status");     
+                        $resultPage->getLayout()->getBlock('mienvio_status')->setOrderStatus($order->getStatus());     
                     } catch (\Exception $e) {
                         $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
                         $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
