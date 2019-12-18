@@ -104,6 +104,17 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 
 	    // =============================================
+	    // Move email option - product detail
+	    // =============================================
+	    if($('.catalog-product-view .product-info_main .ept-social-share').length){
+	    	if($('.catalog-product-view .product-info_main .product-social-links').length){
+	    		var html = $('.catalog-product-view .product-info_main .product-social-links');
+	    		$('.catalog-product-view .product-info_main .ept-social-share').append(html);
+	    	}
+	    }
+
+
+	    // =============================================
 	    // Footer Mobile
 	    // =============================================
 
