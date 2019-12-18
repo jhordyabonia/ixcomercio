@@ -392,7 +392,10 @@
     }
     .product-social-links {
       width: auto;
-      float: left;
+      display: inline-block;
+      border-left: 1px solid #e5e5e5;
+      padding-left: 10px;
+      margin-left: 10px;
     }
   }
 }
