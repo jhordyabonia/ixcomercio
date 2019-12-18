@@ -318,7 +318,13 @@ header{
               padding: 8px 15px;
               float: left;
               .list-registered-user {
-                lio, a{
+                > li {
+                  font-weight: bold;
+                }
+                li{
+                  padding: 8px 0;
+                }
+                li, a{
                   width: 100%;
                   color: #000;
                   font-size: 14px;
