@@ -317,6 +317,14 @@ header{
               text-align: left;
               padding: 8px 15px;
               float: left;
+              .list-registered-user {
+                lio, a{
+                  width: 100%;
+                  color: #000;
+                  font-size: 14px;
+                  float: left;
+                }
+              }
             }
           }
           .nav-sections{
