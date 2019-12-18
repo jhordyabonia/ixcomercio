@@ -311,9 +311,6 @@ header{
           }
           .header-account-mobile {
             display: none;
-            @media only screen and (max-width: $mobile){
-              display: block;
-            }
             .custom-mobile-top-links {
               width: 100%;
               margin-top: 20px;
@@ -465,6 +462,13 @@ header{
                       }
                     }
                   }
+                }
+              }
+            }
+            &.open {
+              .header-account-mobile {
+                @media only screen and (max-width: $mobile){
+                  display: block;
                 }
               }
             }
