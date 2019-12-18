@@ -184,6 +184,21 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		}
 
 
+
+		// =============================================
+	    // Get states
+	    // =============================================
+	    if($('.header-account-mobile').length){
+	    	var menuAccountMobile = $('.header-account-mobile');
+	    	var parent = $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items');
+
+	    	$(parent).append(menuAccountMobile);
+	    }
+
+
+
+	
+
 		// =============================================
 	    // Get states
 	    // =============================================
