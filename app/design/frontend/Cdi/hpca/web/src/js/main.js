@@ -93,6 +93,28 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 	    // =============================================
+	    // Add to wishlist product detail
+	    // =============================================
+
+	    if($('.catalog-product-view .product-addto-links').length){
+	    	var wlistButton = $('.catalog-product-view .product-addto-links');
+	    	wlistButton.remove();
+	    	$('.product-info_main .product-add-form .box-tocart .actions').append(wlistButton);
+	    }
+
+
+	    // =============================================
+	    // Move email option - product detail
+	    // =============================================
+	    if($('.catalog-product-view .product-info_main .ept-social-share').length){
+	    	if($('.catalog-product-view .product-info_main .product-social-links').length){
+	    		var html = $('.catalog-product-view .product-info_main .product-social-links');
+	    		$('.catalog-product-view .product-info_main .ept-social-share').append(html);
+	    	}
+	    }
+
+
+	    // =============================================
 	    // Footer Mobile
 	    // =============================================
 
@@ -183,6 +205,21 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			});
 		}
 
+
+
+		// =============================================
+	    // Get states
+	    // =============================================
+	    if($('.header-account-mobile').length){
+	    	var menuAccountMobile = $('.header-account-mobile');
+	    	var parent = $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items');
+
+	    	$(parent).append(menuAccountMobile);
+	    }
+
+
+
+	
 
 		// =============================================
 	    // Get states
