@@ -78,7 +78,7 @@ class CreatePost extends AbstractUserAuthentication
             $params = [
                 'requester_id' => $endUserId,
                 'submitter_id' => $endUserId,
-                'subject' => $data['subject'],
+                'subject' => (isset($data['subject']) && !empty($data['subject']))?$data['subject']: 'Nuevo Ticket' ,
                 'comment' => [
                     'body' => $data['comment']
 	        ],
