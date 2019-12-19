@@ -64,7 +64,8 @@ class Data extends AbstractHelper
     ) {
     
         parent::__construct($context);
-        $this->encryptor = $encryptor;
+	
+	$this->encryptor = $encryptor;
         $this->configWriter = $configWriter;
 	$this->typeList = $typeList;
 	$this->storeManager = $storeManager;
