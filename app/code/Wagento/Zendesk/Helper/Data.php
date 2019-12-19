@@ -162,10 +162,8 @@ class Data extends AbstractHelper
      */
     public function getDomain($excludeProtocol = false)
     {
-        $scope     = \Magento\Store\Model\ScopeInterface::SCOPE_STORES;            
-        $storeCode = $store->getCode();
         if (is_null($this->subdomain)) {
-            $this->subdomain = $this->scopeConfig->getValue(self::PATH_SUBDOMAIN, $scope, $storeCode);
+            $this->subdomain = $this->scopeConfig->getValue(self::PATH_SUBDOMAIN);
         }
         $protocol = $excludeProtocol ? '' : self::PROTOCOL;
         return $protocol . $this->subdomain . self::DOMAIN;
