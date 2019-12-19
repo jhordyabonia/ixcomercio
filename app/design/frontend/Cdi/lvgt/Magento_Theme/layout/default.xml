@@ -20,7 +20,7 @@
     			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="container">
 					<container name="header.row" as="header_row" before="-" htmlTag="div" htmlClass="row">
 						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-md-2 col-xs-6" />
-						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-wrapper-nav col-md-10">
+						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-wrapper-nav col-md-10" after="header_row_container_access">
 							<container name="header.wrapper.mainmenu" as="header_wrapper_mainmenu" htmlTag="div" htmlClass="wrapper-nav">
 								<container name="header.row.container.access" as="header_row_container_access" before="-" htmlTag="div" htmlClass="header-account-mobile">
 									<block class="Magento\Framework\View\Element\Template" name="account.mobile" template="Magento_Theme::html/account_mobile.phtml"/>
@@ -39,7 +39,7 @@
 
 
 		<container name="wrapper.menu.mobile" as="wrapper_menu_mobile" after="header.row.container.freeshipping" htmlTag="div" htmlClass="wrapper-menu-mobile">
-			<container name="header.icon.menu" as="header_icon_menu" before="-" htmlTag="div" htmlClass="quick-access">
+			<container name="header.icon.menu" as="header_icon_menu" after="-" htmlTag="div" htmlClass="quick-access">
 				<block class="Magento\Framework\View\Element\Template" name="header.iconmenu.block" template="Magento_Theme::html/icon-menu.phtml" cacheable="false"/>
 			</container>
 
@@ -62,7 +62,6 @@
 		<referenceBlock name="store.settings" remove="true" />
     	<referenceBlock name="catalog.compare.sidebar" remove="true"/>
 		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
-		<referenceBlock name="wrapper.menu.mobile" remove="true" />
 
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />

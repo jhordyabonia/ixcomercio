@@ -311,6 +311,27 @@ header{
           }
           .header-account-mobile {
             display: none;
+            .custom-mobile-top-links {
+              width: 100%;
+              margin-top: 20px;
+              text-align: left;
+              padding: 8px 15px;
+              float: left;
+              .list-registered-user {
+                > li {
+                  font-weight: bold;
+                }
+                li{
+                  padding: 6px 0;
+                }
+                li, a{
+                  width: 100%;
+                  color: #000;
+                  font-size: 14px;
+                  float: left;
+                }
+              }
+            }
           }
           .nav-sections{
             width: auto;
@@ -455,6 +476,13 @@ header{
                       }
                     }
                   }
+                }
+              }
+            }
+            &.open {
+              .header-account-mobile {
+                @media only screen and (max-width: $mobile){
+                  display: block;
                 }
               }
             }
