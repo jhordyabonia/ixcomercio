@@ -439,6 +439,13 @@ body.cms-terms-of-use, body.cms-privacy-policy{
           margin-right: 10px;
           max-width: 100%;
           padding: 15px 0;
+          @media (max-width: $mobile){
+            width: 100%;
+            margin: 0 0 10px;
+            &:last-child{
+              margin: 0;
+            }
+          }
           button{
             margin-bottom: 10px;
             background: none;
