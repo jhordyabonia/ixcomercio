@@ -408,6 +408,9 @@ header{
       text-align: center;
       cursor: pointer;
       border-right: 1px solid #ededed;
+      &.skip-active{
+        background-color: #ededed;
+      }
       .label{
         color: #333;
         font-size: 12px;
