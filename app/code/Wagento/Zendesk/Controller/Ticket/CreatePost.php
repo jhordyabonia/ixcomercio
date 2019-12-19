@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright Wagento Creative LLC ©, All rights reserved.
+ * Copyright Wagento Creative LLC Â©, All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace Wagento\Zendesk\Controller\Ticket;

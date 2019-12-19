@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright Wagento Creative LLC ©, All rights reserved.
+ * Copyright Wagento Creative LLC Â©, All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace Wagento\Zendesk\Helper;
@@ -44,6 +44,11 @@ class Data extends AbstractHelper
     private $typeList;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * Data constructor.
      * @param Context $context
      * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
@@ -54,13 +59,15 @@ class Data extends AbstractHelper
         Context $context,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
-        \Magento\Framework\App\Cache\TypeListInterface $typeList
+	\Magento\Framework\App\Cache\TypeListInterface $typeList,
+	\Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
     
         parent::__construct($context);
         $this->encryptor = $encryptor;
         $this->configWriter = $configWriter;
-        $this->typeList = $typeList;
+	$this->typeList = $typeList;
+	$this->storeManager = $storeManager;
     }
 
     /**
@@ -162,8 +169,11 @@ class Data extends AbstractHelper
      */
     public function getDomain($excludeProtocol = false)
     {
-        if (is_null($this->subdomain)) {
-            $this->subdomain = $this->scopeConfig->getValue(self::PATH_SUBDOMAIN);
+        $store = $this->storeManager->getStore();    
+        $scope     = \Magento\Store\Model\ScopeInterface::SCOPE_STORES;            
+        $storeCode = $store->getCode();    
+	    if (is_null($this->subdomain)) {
+	    	$this->subdomain = $this->scopeConfig->getValue(self::PATH_SUBDOMAIN,$scope,$storeCode);
         }
         $protocol = $excludeProtocol ? '' : self::PROTOCOL;
         return $protocol . $this->subdomain . self::DOMAIN;
