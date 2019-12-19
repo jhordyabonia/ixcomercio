@@ -360,6 +360,11 @@ body.cms-terms-of-use, body.cms-privacy-policy{
         margin-bottom: 40px;
         display: inline-block;
       }
+      .old-price {
+        .price{
+          text-decoration: line-through;
+        }
+      }
     }
     .product-add-form{
       .box-tocart{
