@@ -475,6 +475,12 @@ header{
       @media only screen and (max-width: $mobile){
         margin-top: 0;
       }
+      a.showcart {
+        width: 100%;
+        &.active {
+          background-color: #ededed;
+        }
+      }
     }
     .block-minicart.ui-dialog-content {
       right: 0;
