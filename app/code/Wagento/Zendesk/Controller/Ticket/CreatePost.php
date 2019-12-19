@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright Wagento Creative LLC ©, All rights reserved.
+ * Copyright Wagento Creative LLC Â©, All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace Wagento\Zendesk\Controller\Ticket;
@@ -78,7 +78,7 @@ class CreatePost extends AbstractUserAuthentication
             $params = [
                 'requester_id' => $endUserId,
                 'submitter_id' => $endUserId,
-                'subject' => $data['subject'],
+                'subject' => (isset($data['subject']) && !empty($data['subject']))?$data['subject']: 'Nuevo Ticket' ,
                 'comment' => [
                     'body' => $data['comment']
 	        ],

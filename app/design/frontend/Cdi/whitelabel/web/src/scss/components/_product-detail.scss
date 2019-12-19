@@ -386,6 +386,17 @@
     > .product-addto-links {
       display: none;
     }
+    .ept-social-share {
+      width: 100%;
+      float: left;
+    }
+    .product-social-links {
+      width: auto;
+      display: inline-block;
+      border-left: 1px solid #e5e5e5;
+      padding-left: 15px;
+      margin-left: 10px;
+    }
   }
 }
 .product-characteristics{

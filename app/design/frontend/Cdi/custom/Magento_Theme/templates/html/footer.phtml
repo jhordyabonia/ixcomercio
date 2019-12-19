@@ -14,7 +14,7 @@ $sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_info
 <div class="footer-bottom">
     <div class="container">
 		<div class="row">
-			<div class="col-sm-4 col-12 footer-address text-left">
+			<!--<div class="col-sm-4 col-12 footer-address text-left">
 				<span class="icon"></span>
 				<div class="address-info">
 					<h5><?php echo $storeName;?></h5>
@@ -22,12 +22,12 @@ $sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_info
 					<?php echo $storeStreet2;?><br/>
 					<?php echo $storeZip;?>
 				</div>
-            </div>
+            </div>-->
 			<div class="col-sm-4 col-12 footer-contacts text-left">
 				<span class="icon"></span>
 				<div class="contact-info">
 					<h5><?php echo __('Need Help?');?></h5>
-					<a href="tel:<?php echo $storePhone;?>"><?php echo $storePhone;?></a> / <a href="<?php echo $contacts?>"><?php echo __('Email Jam');?></a>
+					<a href="javascript:zE.activate();">Chat</a> / <a href="<?php echo $contacts?>"><?php echo __('Contact us');?></a>
 				</div>
             </div>
 		</div>
@@ -37,7 +37,7 @@ $sitemap = $_helperCdi->checkUrl($_helperCdi->getStoreConfig('general/store_info
 				<p><?= /* @escapeNotVerified */ $block->getCopyright() ?></p>
                 <p>
 					<strong><a href="<?php echo $sitemap;?>"><?php echo __('Site Map')?></a></strong>
-					<!--<strong><a href="<?php echo $privacy;?>"><?php echo __('Privacy Policy')?></a></strong>  -->
+					<strong><a href="<?php echo $privacy;?>"><?php echo __('Privacy Policy')?></a></strong>
 					<strong><a href="<?php echo $terms;?>"><?php echo __('Terms of Use')?></a></strong>
 				</p>
 			</div>
