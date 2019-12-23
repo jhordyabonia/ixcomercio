@@ -522,7 +522,7 @@ function ($, Component) {
         console.log("dif");
         $('.cart-container form.form-cart .cart.main.actions .action.update').trigger('click'); 
       }else{
-        console.log("sim");
+        console.log("similar");
       }
     }
   });
