@@ -290,6 +290,7 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
             $user = $this->userApi->getUser($requester);
             if (isset($user["id"])) {
                 $requesterId = $user["id"];
+            }
         }
 
         return $requesterId;
