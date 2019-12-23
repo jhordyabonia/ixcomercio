@@ -74,6 +74,9 @@ header{
           position: absolute;
           z-index: 1;
         }
+        @media only screen and (max-width: $mobile){
+          z-index: 9;
+        }
         .header-toplinks{
           width: auto;
           border: 0;
