@@ -51,7 +51,31 @@ $cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/cus
 <script type="text/x-magento-init">
     {
         "#product_addtocart_form": {
+<<<<<<< HEAD
             "Magento_Catalog/js/validate-product": {}            
+=======
+            "Magento_Catalog/js/validate-product": {}
+            /* XCB */
+            dataLayer.push({
+            'event': 'addToCart',
+            'ecommerce': {
+                'currencyCode': currency,
+                'add': {
+                    'products': [{
+                        'name': <?php  echo $_product->getName(); ?>,
+                        'id': <?php echo $_product->getProduct()->getId(); ?>,
+                        'price': <?php echo $block->getProductPrice($_product); ?>,
+                        'brand': productBrand,
+                        'category': productCategory,
+                        'variant': productVariant,
+                        'quantity': <?php echo $block->getProductDefaultQty() * 1 ?>
+                    }]
+                }
+            }
+        });
+
+            /* XCB FIN */
+>>>>>>> xcb_gtm
         }
     }
 </script>
