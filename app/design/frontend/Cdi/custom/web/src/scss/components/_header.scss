@@ -408,6 +408,9 @@ header{
       text-align: center;
       cursor: pointer;
       border-right: 1px solid #ededed;
+      &.skip-active{
+        background-color: #ededed;
+      }
       .label{
         color: #333;
         font-size: 12px;
@@ -463,6 +466,9 @@ header{
         width: 100%;
         height: 42px;
         border-right: 0;
+        &.skip-active {
+          background-color: #ededed;
+        }
       }
       .label {
         display: none;
@@ -471,6 +477,12 @@ header{
     .minicart-wrapper {
       @media only screen and (max-width: $mobile){
         margin-top: 0;
+      }
+      a.showcart {
+        width: 100%;
+        &.active {
+          background-color: #ededed;
+        }
       }
     }
     .block-minicart.ui-dialog-content {

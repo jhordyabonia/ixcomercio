@@ -82,7 +82,7 @@ form{
 	}
 }
 .customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword{
-	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset{
+	.form.password.forget, .form.send.confirmation, .form.create.account, .form.password.reset{
 		text-align: left;
 		@media only screen and (min-width: $tablet){
 			/*width: 100%;
@@ -95,6 +95,7 @@ form{
 			text-align: center;
 		}
 		.actions-toolbar{
+			max-width: 100%;
 			text-align: center;
 			.primary{
 				@media only screen and (min-width: $tablet){
