@@ -340,12 +340,13 @@ header{
       }
       .counter.qty{
         top: -6px;
+        width: 40px;
+        position: absolute;
         background: none;
+        margin-top: 20px;
         @media only screen and (min-width: $tablet){
-          width: auto;
           color: $redcolor;
           border-radius: 0px;
-          position: static;
           background: none;
           margin-left: 0px;
           font-size: 14px;
