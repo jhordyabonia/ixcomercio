@@ -26,6 +26,8 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
     const USER = 'shipping/mienvio_api/user';
 
 	const PASSWORD = 'shipping/mienvio_api/password';
+
+	const TOKEN = 'carriers/mienviocarrier/apikey';
     
     private $helper;
 	
@@ -167,6 +169,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
     {
         $configData['user'] = $this->scopeConfig->getValue(self::USER, $storeScope, $websiteCode);
         $configData['password'] = $this->scopeConfig->getValue(self::PASSWORD, $storeScope, $websiteCode);
+        $configData['token'] = $this->scopeConfig->getValue(self::TOKEN, $storeScope, $websiteCode);
         return $configData;
 
     }
