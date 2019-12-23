@@ -176,9 +176,6 @@ header{
                 @media only screen and (max-width: $desktop){
                   padding-top: 0;
                 }
-                @media only screen and (max-width: $mobile){
-                  display: none;
-                }
                 &:before{
                   top: 0;
                   right: 0;
@@ -240,6 +237,9 @@ header{
             .wishlist{
               float: left;
               margin-top: 3px;
+              @media only screen and (max-width: $mobile){
+                display: none;    
+              }
               a{
                 width: 20px;
                 height: 20px;
