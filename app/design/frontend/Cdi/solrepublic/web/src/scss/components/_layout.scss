@@ -519,6 +519,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
           &:hover{
             outline: none!important;
           }
+          &.selected {
+            outline: none;
+          }
         }
       }
     }
