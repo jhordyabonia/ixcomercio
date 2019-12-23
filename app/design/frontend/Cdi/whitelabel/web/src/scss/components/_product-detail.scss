@@ -144,6 +144,12 @@
             }
           }
         }
+        .mcs-button-arrow {
+          &:hover{
+            border: 0;
+            background: none;
+          }
+        }
       }
     }
   }
