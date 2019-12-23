@@ -129,10 +129,10 @@
                         <label>Customer Can Comment In Ticket</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
-                    <field id="contact_us" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <!--<field id="contact_us" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Create Ticket From Contact Us</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    </field>
+                    </field>-->
                     <field id="contact_us_ix" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Create Ticket From Contact Us / IX</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
