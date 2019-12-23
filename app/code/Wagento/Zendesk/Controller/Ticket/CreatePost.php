@@ -63,6 +63,8 @@ class CreatePost extends AbstractUserAuthentication
      */
     public function execute()
     {
+        //GDCP. se deshabilita esta funcionalidad radicalmente.
+        return;
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 

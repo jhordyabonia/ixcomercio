@@ -214,7 +214,7 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         $ticket = [
                 'requester_id' => $requestId,
                 'submitter_id' => $requestId,
-                'subject' => $data['subject'] ,            
+                'subject' => (isset($data['subject']) && !empty($data['subject']))?$data['subject']: 'Nuevo Ticket' ,
                 'comment' => [
                     'body' => $data['comment']
                 ],
@@ -287,6 +287,10 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
             $requesterId = $user["id"];
         } else {
             $requesterId = $this->getRequestIdNewUser($requester, $requesterName);
+            $user = $this->userApi->getUser($requester);
+            if (isset($user["id"])) {
+                $requesterId = $user["id"];
+            }
         }
 
         return $requesterId;
