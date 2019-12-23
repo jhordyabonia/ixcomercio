@@ -178,6 +178,7 @@ header{
                 }
                 @media only screen and (max-width: $mobile){
                   margin: 0;
+                  padding: 0 25px 4px 0;
                 }
                 &:before{
                   top: 0;
