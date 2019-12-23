@@ -170,6 +170,7 @@ define([
                         titleProduct = $(form).parents('.item.product').find('.product-name').text();
                     }else if($(form).parents('.product-info_main').length){
                         titleProduct = $(form).parents('.product-info_main').find('.productpage_tagline').text();
+                        console.log('titleProduct '+titleProduct);
                     }
                     var popup = $('<div class="add-to-cart-dialog"/>').html(titleProduct +'<span>' + $.mage.__('has been added to cart.')+'</span>').modal({ //get product name from product view page only
                         modalClass: 'add-to-cart-popup',
