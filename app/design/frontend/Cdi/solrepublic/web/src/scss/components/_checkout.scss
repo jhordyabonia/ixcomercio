@@ -58,6 +58,15 @@
         }
       }
     }
+    .checkout-payment-method {
+      text-align: left;
+      .payment-method-content {
+        >.actions-toolbar {
+          display: inline-block;
+          float: none;
+        }
+      }
+    }
   }
   .opc-summary-wrapper{
     .modal-content{
