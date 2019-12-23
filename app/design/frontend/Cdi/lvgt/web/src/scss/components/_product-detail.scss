@@ -135,6 +135,14 @@
             filter: brightness(100%) !important;
           }
         }
+        .mcs-bullets{
+          .mcs-bullet{
+            background-color: #ccc;
+            &.active{
+              background-color: $mainColor; 
+            }
+          }
+        }
       }
     }
   }
