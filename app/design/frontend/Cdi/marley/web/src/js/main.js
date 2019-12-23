@@ -519,7 +519,8 @@ function ($, Component) {
 
 
       if(Number(subtotal).toFixed(2) != Number(summarySubtotal+summaryTax).toFixed(2)){
-        console.log("dif"); 
+        console.log("dif");
+        $('.cart-container form.form-cart .cart.main.actions .action.update').trigger('click'); 
       }else{
         console.log("sim");
       }
