@@ -36,6 +36,20 @@ form{
 					display: inline-block;
 				}
 			}
+			> .control._with-tooltip{
+				input {
+					width: 100%;
+				}
+				.field-tooltip {
+					right: -30px;
+					@media only screen and (max-width: $tablet){
+				      	right: 5px;
+				    }
+					.field-tooltip-action {
+						line-height: 35px;
+					}
+				}
+			}
 		}
 		>.legend{
 			font-family: 'Graphik-bold', 'Helvetica', sans-serif;
