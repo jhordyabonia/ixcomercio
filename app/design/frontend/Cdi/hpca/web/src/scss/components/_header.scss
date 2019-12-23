@@ -218,6 +218,9 @@ header{
                     width: 200px;
                     left: -100px;
                   }
+                  @media only screen and (max-width: $mobile){
+                    margin: 0;
+                  }
                   a{
                     float: left;
                     width: 100%;
