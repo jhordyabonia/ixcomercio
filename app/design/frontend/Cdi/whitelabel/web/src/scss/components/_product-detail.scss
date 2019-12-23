@@ -148,6 +148,11 @@
           border: 0 !important;
           background: none !important;
         }
+        .MagicScroll-bullets {
+          > div a[target="_blank"] {
+            display: none;
+          }
+        }
       }
     }
   }
