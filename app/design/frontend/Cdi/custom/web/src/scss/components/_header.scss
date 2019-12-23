@@ -443,6 +443,9 @@ header{
       .dropdown-toggle.banderas {
         width: 100%;
         float: left;
+        &[aria-expanded="true"]{
+          background: #ededed;
+        }
       }
       .dropdown-menu.countrySelectMenu.show {
         position: relative!important;

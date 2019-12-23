@@ -32,7 +32,7 @@ function ($, Component) {
 
 	    	$('.account-cart-wrapper').remove();
 
-	    	$('header .skip-links-wrapper .minicart-wrapper a.showcart').click(function(){
+	    	$('header .skip-links-wrapper .minicart-wrapper a.showcart, header .skip-links-wrapper .dropdown-toggle.banderas').click(function(){
 				$('header .skip-links-wrapper .skip-link').removeClass('skip-active');
 			});
 	    }
