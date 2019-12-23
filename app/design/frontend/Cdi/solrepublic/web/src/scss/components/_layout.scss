@@ -532,6 +532,7 @@ body.cms-terms-of-use, body.cms-privacy-policy{
     text-align: left;
     border-bottom: 1px solid #eee;
     margin-bottom: 30px;
+    margin-top: 30px;
     tbody {
       tr{
         &:nth-child(odd) {
@@ -543,6 +544,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
   .actions-toolbar {
     max-width: 100%;
     text-align: center;
+    float: left;
+    width: 100%;
+    margin-bottom: 30px;
     .primary {
       display: inline-block;
       float: none;
