@@ -190,6 +190,9 @@ header{
                   vertical-align: middle;
                   display: inline-block;
                   position: absolute;
+                  @media only screen and (max-width: $mobile){
+                    width: 100%;
+                  }
                 }
                 > a{
                   display: none;
