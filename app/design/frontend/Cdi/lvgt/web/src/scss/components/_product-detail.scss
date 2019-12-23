@@ -139,7 +139,8 @@
           .mcs-bullet{
             background-color: #ccc;
             &.active{
-              background-color: $mainColor; 
+              background-color: $mainColor;
+              border: 0;
             }
           }
         }
