@@ -51,11 +51,6 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
      */
     private $ticket;
 
-    /**
-     * @var \Magento\Customer\Model\Session
-     */
-    private $customerSession;
-
      /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
@@ -92,7 +87,6 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
      * @param MailInterface $mail
      * @param DataPersistorInterface $dataPersistor
      * @param LoggerInterface $logger
-     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         Context $context,
@@ -106,8 +100,7 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         \Wagento\Zendesk\Helper\Data $helper,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Model\Session $customerSession
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context, $contactsConfig);
         $this->context = $context;
@@ -121,7 +114,6 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         $this->authSession = $authSession;
         $this->scopeConfig = $scopeConfig;
         $this->storeManager = $storeManager;
-        $this->customerSession = $customerSession;
 
     }
 
@@ -204,7 +196,8 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
     }
 
     public function createTicket($data)
-    {  
+    {
+        
         $requester     = trim($data["email"]);
         $requesterName = trim($data["name"]);
 
@@ -212,15 +205,8 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
 
         $websiteId     = $store->getWebsiteId();
 
-        $customer = $this->customerSession->getCustomerDataObject();
-        $customerAttribute = $customer->getCustomAttribute('zd_user_id');
-
-        if ($customerAttribute) {
-            $requestId = $customerAttribute->getValue();
-        }
-        else
-            /** Create the Request Id */
-            $requestId = $this->createRequest($requester, $requesterName, $websiteId);
+        /** Create the Request Id */
+        $requestId = $this->createRequest($requester, $requesterName, $websiteId);
 
         $tags       = $this->scopeConfig->getValue(self::PATH_ZENDESK_CONTACT_US_IX_TAGS,$data['scope'], $data['storeCode']);
         $tagsList   = explode(',',$tags);
@@ -286,14 +272,14 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         } else {            
             $customer->loadByEmail($requester);
         }
-        /*
+        
         if ($customer && $customer->getId()) {
             //$requesterId = $customer->getZendeskRequesterId();
             // If the requester name hasn't already been set, then set it to the customer name
             if (strlen($requesterName) == 0) {
                 $requesterName = $customer->getName();
             }
-        }*/
+        }
         
         $user = $this->userApi->getUser($requester);
         
@@ -301,6 +287,9 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
             $requesterId = $user["id"];
         } else {
             $requesterId = $this->getRequestIdNewUser($requester, $requesterName);
+            $user = $this->userApi->getUser($requester);
+            if (isset($user["id"])) {
+                $requesterId = $user["id"];
         }
 
         return $requesterId;
