@@ -31,6 +31,11 @@ function ($, Component) {
 	    	$('header').append(htmlAccountWrapper);
 
 	    	$('.account-cart-wrapper').remove();
+
+	    	$('header .skip-links-wrapper .minicart-wrapper a.showcart, header .skip-links-wrapper .dropdown-toggle.banderas').click(function(){
+				$('header .skip-links-wrapper .skip-link').removeClass('skip-active');
+				$('header .skip-links-wrapper .minicart-wrapper a.showcart').removeClass('active');
+			});
 	    }
 	
 		
