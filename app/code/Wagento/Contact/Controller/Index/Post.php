@@ -214,7 +214,7 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
         $ticket = [
                 'requester_id' => $requestId,
                 'submitter_id' => $requestId,
-                'subject' => $data['subject'] ,            
+                'subject' => (isset($data['subject']) && !empty($data['subject']))?$data['subject']: 'Nuevo Ticket' ,
                 'comment' => [
                     'body' => $data['comment']
                 ],
