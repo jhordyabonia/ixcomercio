@@ -74,6 +74,9 @@ header{
           position: absolute;
           z-index: 1;
         }
+        @media only screen and (max-width: $mobile){
+          z-index: 9;
+        }
         .header-toplinks{
           width: auto;
           border: 0;
@@ -177,7 +180,8 @@ header{
                   padding-top: 0;
                 }
                 @media only screen and (max-width: $mobile){
-                  display: none;
+                  margin: 0;
+                  padding: 0 25px 4px 0;
                 }
                 &:before{
                   top: 0;
@@ -190,6 +194,9 @@ header{
                   vertical-align: middle;
                   display: inline-block;
                   position: absolute;
+                  @media only screen and (max-width: $mobile){
+                    width: 100%;
+                  }
                 }
                 > a{
                   display: none;
@@ -240,6 +247,9 @@ header{
             .wishlist{
               float: left;
               margin-top: 3px;
+              @media only screen and (max-width: $mobile){
+                display: none;    
+              }
               a{
                 width: 20px;
                 height: 20px;
@@ -311,6 +321,27 @@ header{
           }
           .header-account-mobile {
             display: none;
+            .custom-mobile-top-links {
+              width: 100%;
+              margin-top: 20px;
+              text-align: left;
+              padding: 8px 15px;
+              float: left;
+              .list-registered-user {
+                > li {
+                  font-weight: bold;
+                }
+                li{
+                  padding: 6px 0;
+                }
+                li, a{
+                  width: 100%;
+                  color: #000;
+                  font-size: 14px;
+                  float: left;
+                }
+              }
+            }
           }
           .nav-sections{
             width: auto;
@@ -455,6 +486,13 @@ header{
                       }
                     }
                   }
+                }
+              }
+            }
+            &.open {
+              .header-account-mobile {
+                @media only screen and (max-width: $mobile){
+                  display: block;
                 }
               }
             }

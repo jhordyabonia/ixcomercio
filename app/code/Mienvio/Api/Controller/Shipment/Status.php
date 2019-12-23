@@ -26,6 +26,8 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
     const USER = 'shipping/mienvio_api/user';
 
 	const PASSWORD = 'shipping/mienvio_api/password';
+
+	const TOKEN = 'carriers/mienviocarrier/apikey';
     
     private $helper;
 	
@@ -126,16 +128,25 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                     - Si hay guía generada mostrar información de seguimiento
                     - Si ya se entrego el pedido mostrar la información del pedido entregado
                      */
-                    $resultPage = $this->resultPageFactory->create();
-                    $resultPage->getConfig()->getTitle()->set((__('Order # '.$order->getRealOrderId())));
-                    $resultPage->getLayout()->initMessages();          
-                    try {               
-                        $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Entra aquí");     
-                    } catch (\Exception $e) {
-                        $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-                        $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
-                    }        
-                    return $resultPage;
+                    $iws_order = $this->loadIwsData($order_id);
+                    if($iws_order){
+                        $resultPage = $this->resultPageFactory->create();
+                        $resultPage->getConfig()->getTitle()->set((__('Order # '.$order->getRealOrderId())));
+                        $resultPage->getLayout()->initMessages();          
+                        try {               
+                            $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Order Status");     
+                            $resultPage->getLayout()->getBlock('mienvio_status')->setOrderStatus($order->getStatus());     
+                            $resultPage->getLayout()->getBlock('mienvio_status')->setOrderGuide($iws_order->getMienvioGuide()); 
+                            $resultPage->getLayout()->getBlock('mienvio_status')->setOrderDelivery($iws_order->getMienvioDelivery()); 
+                        } catch (\Exception $e) {
+                            $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
+                            $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
+                        }        
+                        return $resultPage;
+                    } else {
+                        $this->messageManager->addError( __('There was an error checking the order information.') );
+                        $this->_redirect('sales/order/history');                 
+                    }
                 } else {
                     $this->messageManager->addError( __('There was an error checking the order information.') );
                     $this->_redirect('sales/order/history');                 
@@ -155,45 +166,19 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
     {
         $configData['user'] = $this->scopeConfig->getValue(self::USER, $storeScope, $websiteCode);
         $configData['password'] = $this->scopeConfig->getValue(self::PASSWORD, $storeScope, $websiteCode);
+        $configData['token'] = $this->scopeConfig->getValue(self::TOKEN, $storeScope, $websiteCode);
         return $configData;
 
     }
 
     //Se guarda información de IWS en tabla custom
-    public function saveMienvioData($type, $order_id) 
+    public function loadIwsData($order_id) 
     {
         $orders = $this->_iwsOrder->create();
         $orders->getResource()
             ->load($orders, $order_id, 'order_id');
         if($orders->getId()){
-            $update = 0;
-            try{
-                switch($type){
-                    case 'shipment.upload':
-                        if($orders->getMienvioGuide()==0){
-                            $orders->setMienvioGuide(1);
-                            $update = 1;
-                            $this->addOrderComment($order_id, "Se ha generado la guía de la orden");
-                        }
-                        break;
-                    case 'shipment.status':
-                        if($orders->getMienvioDelivery()==0){
-                            $orders->setMienvioDelivery(1);
-                            $update = 1;
-                            $this->addOrderComment($order_id, "El pedido ha sido entregado");
-                        }
-                        break;
-                }
-                if($update == 1){
-                    $orders->save();
-                    $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
-                } else {
-                    $this->logger->info('Mienviowebhook - La orden con id : '.$orders->getId().' ya se encontraba actualizada');
-                }
-                return true;
-            } catch (\Exception $e) {
-                $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$orders->getId());
-            }
+            return $orders;
         }
         return false;
 	}

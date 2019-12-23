@@ -20,8 +20,8 @@
                 <ul>
                     <li>
                         <div class="input-box">
-                            <div class="field-label"><label for="firstname"><?= $block->escapeHtml(__('First Name')) ?> <span class="required">*</span></label></div>
-                            <input name="firstname" id="firstname" title="<?= $block->escapeHtmlAttr(__('First Name')) ?>" maxlength="20" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
+                            <div class="field-label"><label for="name"><?= $block->escapeHtml(__('First Name')) ?> <span class="required">*</span></label></div>
+                            <input name="name" id="name" title="<?= $block->escapeHtmlAttr(__('First Name')) ?>" maxlength="20" value="" class="required-entry input-text" type="text" data-validate="{required:true}">
                         </div>
                         <!--<div class="input-box">
                             <div class="field-label"><label for="lastname"><?= $block->escapeHtml(__('Last Name')) ?> <span class="required">*</span></label></div>
@@ -81,6 +81,7 @@
                     </li>
                 </ul>
             </fieldset>
+            <?= $block->getChildHtml('form.additional.info') ?>
             <div class="buttons-set form-buttons btn-only">
                 <input type="text" name="hideit" id="hideit" value="" style="display:none !important;">
                 <button type="submit" class="button" title="<?= $block->escapeHtmlAttr(__('Send E-mail')) ?>">

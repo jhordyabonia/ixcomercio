@@ -135,6 +135,24 @@
             filter: brightness(100%) !important;
           }
         }
+        .mcs-bullets{
+          .mcs-bullet{
+            background-color: #ccc;
+            &.active{
+              background-color: $mainColor;
+              border: 0;
+            }
+          }
+        }
+        .mcs-button-arrow {
+          border: 0 !important;
+          background: none !important;
+        }
+        .MagicScroll-bullets {
+          > div a[target="_blank"] {
+            display: none;
+          }
+        }
       }
     }
   }
@@ -385,6 +403,17 @@
     }
     > .product-addto-links {
       display: none;
+    }
+    .ept-social-share {
+      width: 100%;
+      float: left;
+    }
+    .product-social-links {
+      width: auto;
+      display: inline-block;
+      border-left: 1px solid #e5e5e5;
+      padding-left: 15px;
+      margin-left: 10px;
     }
   }
 }

@@ -360,6 +360,11 @@ body.cms-terms-of-use, body.cms-privacy-policy{
         margin-bottom: 40px;
         display: inline-block;
       }
+      .old-price {
+        .price{
+          text-decoration: line-through;
+        }
+      }
     }
     .product-add-form{
       .box-tocart{
@@ -434,6 +439,13 @@ body.cms-terms-of-use, body.cms-privacy-policy{
           margin-right: 10px;
           max-width: 100%;
           padding: 15px 0;
+          @media (max-width: $mobile){
+            width: 100%;
+            margin: 0 0 10px;
+            &:last-child{
+              margin: 0;
+            }
+          }
           button{
             margin-bottom: 10px;
             background: none;
@@ -507,6 +519,9 @@ body.cms-terms-of-use, body.cms-privacy-policy{
           &:hover{
             outline: none!important;
           }
+          &.selected {
+            outline: none;
+          }
         }
       }
     }
@@ -515,3 +530,30 @@ body.cms-terms-of-use, body.cms-privacy-policy{
 .swatch-option-tooltip{
   display: none!important;
 }
+.payment-result {
+  table {
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    tbody {
+      tr{
+        &:nth-child(odd) {
+          background: #eee;
+        }
+      }
+    }
+  }
+  .actions-toolbar {
+    max-width: 100%;
+    text-align: center;
+    float: left;
+    width: 100%;
+    margin-bottom: 30px;
+    .primary {
+      display: inline-block;
+      float: none;
+    }
+  }
+}
+
