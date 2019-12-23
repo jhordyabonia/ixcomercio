@@ -237,7 +237,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
-        $this->logger->info('Mienvio API - payload: '.$payload);
+        $this->logger->info('Mienvio API - quote_id: '.$quote_id);
         $this->logger->info('Mienvio API - status code: '.$status_code);
         $this->logger->info('Mienvio API - '.$serviceUrl);
         $this->logger->info('Mienvio API - curl errors: '.$curl_errors);
