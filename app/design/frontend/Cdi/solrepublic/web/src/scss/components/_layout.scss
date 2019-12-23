@@ -527,3 +527,26 @@ body.cms-terms-of-use, body.cms-privacy-policy{
 .swatch-option-tooltip{
   display: none!important;
 }
+.payment-result {
+  table {
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    tbody {
+      tr{
+        &:nth-child(odd) {
+          background: #eee;
+        }
+      }
+    }
+  }
+  .actions-toolbar {
+    max-width: 100%;
+    text-align: center;
+    .primary {
+      display: inline-block;
+      float: none;
+    }
+  }
+}
+
