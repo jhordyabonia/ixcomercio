@@ -389,7 +389,7 @@ href=""https://dashboard.rjmetrics.com/v2/magento/signup/"">Magento BI Essential
 "You created the order.","Creó el pedido.",module,Magento_Authorizenet
 "Order saving error: %1","Error al almacenar la orden: %1",module,Magento_Authorizenet
 "Please choose a payment method.","Por favor, elija un método de pago.",module,Magento_Authorizenet
-"We can't process your order right now. Please try again later.","No se puede procesar su pedido ahora. Por favor, inténtelo más tarde.",module,Magento_Authorizenet
+"We can't process your order right now. Please try again later.","No se puede procesar tu pedido ahora. Por favor, inténtelo más tarde.",module,Magento_Authorizenet
 "An error occurred on the server. Please try to place the order again.","Se ha producido un error en el servidor. Intente realizar el pedido de nuevo.",module,Magento_Authorizenet
 "Credit Card: xxxx-%1","Tarjeta de crédito: xxxx-%1",module,Magento_Authorizenet
 "amount %1","monto %1",module,Magento_Authorizenet
@@ -458,7 +458,7 @@ href=""https://dashboard.rjmetrics.com/v2/magento/signup/"">Magento BI Essential
 "Cannot place order.","No se puede realizar el pedido.",module,Magento_Authorizenet
 "'Gateway error: ' .","'Gateway error: ' .",module,Magento_Authorizenet
 "Unable to place order. Please try again later.","No ha sido posible crear el pedido. Por favor inténtalo de nuevo más tarde.",module,Magento_Authorizenet
-"A server error stopped your order from being placed. Please try to place your order again.","Un error del servidor detuvo su pedido de ser completado. Por favor, intente hacer su pedido de nuevo.",module,Magento_Authorizenet
+"A server error stopped your order from being placed. Please try to place your order again.","Un error del servidor detuvo tu pedido de ser completado. Por favor, intenta hacer tu pedido de nuevo.",module,Magento_Authorizenet
 "The transaction details are unavailable. Please try again later.","Los detalles de la transacción no están disponibles. Por favor prueba de nuevo después.",module,Magento_Authorizenet
 "Authorize.Net Direct Post (Deprecated)","Authorize.Net Direct Post (Deprecated)",module,Magento_Authorizenet
 "Signature Key","Signature Key",module,Magento_Authorizenet
@@ -3232,7 +3232,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Checkout","Realizar pedido",module,Magento_Checkout
 "Page not found.","Página no encontrada.",module,Magento_Checkout
 "Please agree to all the terms and conditions before placing the order.","Por favor, acepta todos los términos y condiciones antes de realizar el pedido.",module,Magento_Checkout
-"Something went wrong while processing your order. Please try again later.","Algo salió mal durante el procesamiento de su pedido. Por favor, inténtalo más tarde.",module,Magento_Checkout
+"Something went wrong while processing your order. Please try again later.","Algo salió mal durante el procesamiento de tu pedido. Por favor, inténtalo más tarde.",module,Magento_Checkout
 "%1 doesn't extend \Magento\Checkout\CustomerData\ItemInterface","%1 no extiende \Magento\Checkout\CustomerData\ItemInterface",module,Magento_Checkout
 "Payment Method","Método de pago",module,Magento_Checkout
 "Payment Page","Página de pago",module,Magento_Checkout
@@ -12405,7 +12405,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Print Invoice","Imprimir factura",module,Magento_Sales
 "Qty Invoiced","Cantidad facturada",module,Magento_Sales
 "Close","Cerrar",module,Magento_Sales
-"About Your Order","Acerca de su pedido",module,Magento_Sales
+"About Your Order","Acerca de tu pedido",module,Magento_Sales
 "<span class=""label"">Order Date:</span> %1","<span class=""label""> Fecha de pedido:</span> %1",module,Magento_Sales
 "Refund #%1","Reembolso nº %1",module,Magento_Sales
 "Shipment #%1","Albarán nº %1",module,Magento_Sales
@@ -12418,10 +12418,10 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Search","Buscar",module,Magento_Sales
 "Credit memo for your %store_name order","Credit memo para su orden en %store_name",module,Magento_Sales
 "%name,","%name,",module,Magento_Sales
-"Thank you for your order from %store_name.","Gracias por su pedido de %store_name.",module,Magento_Sales
-"You can check the status of your order by <a href=""%account_url"">logging into your account</a>.","Puede comprobar el estado de su pedido <a href=""%account_url"">accediendo a su cuenta</a>.",module,Magento_Sales
-"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>","Si tienes alguna duda acerca de tu pedido, puede enviarnos un email a <a href=""mailto:%store_email"">%store_email</a>",module,Magento_Sales
-"or call us at <a href=""tel:%store_phone"">%store_phone</a>","o llámenos al <a href=""tel:%store_phone""> %store_phone</a>",module,Magento_Sales
+"Thank you for your order from %store_name.","Gracias por tu pedido de %store_name.",module,Magento_Sales
+"You can check the status of your order by <a href=""%account_url"">logging into your account</a>.","Puedes comprobar el estado de tu pedido <a href=""%account_url"">accediendo a su cuenta</a>.",module,Magento_Sales
+"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>","Si tienes alguna duda acerca de tu pedido, puedes enviarnos un email a <a href=""mailto:%store_email"">%store_email</a>",module,Magento_Sales
+"or call us at <a href=""tel:%store_phone"">%store_phone</a>","o llámanos al <a href=""tel:%store_phone""> %store_phone</a>",module,Magento_Sales
 "Our hours are <span class=""no-link"">%store_hours</span>.","Nuestro horario es de <span class=""no-link"">%store_hours</span>.",module,Magento_Sales
 "Your Credit Memo #%creditmemo_id for Order #%order_id","Su factura rectificada nº %creditmemo_id para el pedido nº %order_id",module,Magento_Sales
 "Billing Info","Información de facturación",module,Magento_Sales
@@ -12431,10 +12431,10 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Invoice for your %store_name order","Factura para el pedido en %store_name",module,Magento_Sales
 "Your Invoice #%invoice_id for Order #%order_id","Su factura nº %invoice_id para el pedido nº %order_id",module,Magento_Sales
 "Update to your %store_name invoice","Actualizar su factura en %store_name",module,Magento_Sales
-"Your %store_name order confirmation","Confirmación de su pedido en %store_name",module,Magento_Sales
+"Your %store_name order confirmation","Confirmación de tu pedido en %store_name",module,Magento_Sales
 "%customer_name,","%customer_name,",module,Magento_Sales
 "Once your package ships we will send you a tracking number.","Una vez que el paquete sea enviado te enviaremos un número de seguimiento.",module,Magento_Sales
-"Your Order <span class=""no-link"">#%increment_id</span>","Su pedido <span class=""no-link""> #%increment_id</span>",module,Magento_Sales
+"Your Order <span class=""no-link"">#%increment_id</span>","Tu pedido <span class=""no-link""> #%increment_id</span>",module,Magento_Sales
 "Placed on <span class=""no-link"">%created_at</span>","Creada el <span class=""no-link"">%created_at</span>",module,Magento_Sales
 "Once your package ships we will send an email with a link to track your order.","Una vez que su paquete se envíe, le enviaremos un correo electrónico con un enlace para rastrear su pedido.",module,Magento_Sales
 "Update to your %store_name order","Actualizar su orden en %store_name",module,Magento_Sales
@@ -16251,7 +16251,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Credit memo for your %store_name order","Credit memo para su orden en %store_name",theme,frontend\Magento\luma
 "Thank you for your order from %store_name.","Gracias por su pedido de %store_name.",theme,frontend\Magento\luma
 "You can check the status of your order by <a href=""%account_url"">logging into your account</a>.","Puede comprobar el estado de su pedido <a href=""%account_url"">accediendo a su cuenta</a>.",theme,frontend\Magento\luma
-"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>.","Si tienes alguna duda acerca de tu pedido, puede enviarnos un email a <a href=""mailto:%store_email"">%store_email</a>.",theme,frontend\Magento\luma
+"If you have questions about your order, you can email us at <a href=""mailto:%store_email"">%store_email</a>.","Si tienes alguna duda acerca de tu pedido, puedes enviarnos un email a <a href=""mailto:%store_email"">%store_email</a>.",theme,frontend\Magento\luma
 "Your Credit Memo #%creditmemo_id for Order #%order_id","Su factura rectificada nº %creditmemo_id para el pedido nº %order_id",theme,frontend\Magento\luma
 "Billing Info","Información de facturación",theme,frontend\Magento\luma
 "Shipping Info","Información de envío",theme,frontend\Magento\luma
@@ -16265,7 +16265,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Your %store_name order confirmation","Confirmación de su pedido en %store_name",theme,frontend\Magento\luma
 "%customer_name,","%customer_name,",theme,frontend\Magento\luma
 "Once your package ships we will send you a tracking number.","Una vez que el paquete sea enviado te enviaremos un número de seguimiento.",theme,frontend\Magento\luma
-"Your Order <span class=""no-link"">#%increment_id</span>","Su pedido <span class=""no-link""> #%increment_id</span>",theme,frontend\Magento\luma
+"Your Order <span class=""no-link"">#%increment_id</span>",Tu pedido <span class=""no-link""> #%increment_id</span>",theme,frontend\Magento\luma
 "Placed on <span class=""no-link"">%created_at</span>","Creada el <span class=""no-link"">%created_at</span>",theme,frontend\Magento\luma
 "Update to your %store_name order","Actualizar su orden en %store_name",theme,frontend\Magento\luma
 "Your %store_name order has shipped","Se ha enviado su orden de %store_name",theme,frontend\Magento\luma
@@ -16438,3 +16438,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Resources","Recursos",lib,web
 "Subject","Asunto",module,Magento_Contact
 "Need Help?","¿Necesitas ayuda?",lib,web
+"The shipping method is missing. Select the shipping method and try again.","Selecciona método de pago",module,Magento_Checkout
