@@ -3401,7 +3401,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Next","Siguiente",module,Magento_Checkout
 "Sorry, no quotes are available for this order at this time","Lo sentimos, no hay cotizaciones disponibles para este pedido en este momento",module,Magento_Checkout
 "Item in Cart","Producto en el carrito",module,Magento_Checkout
-"Items in Cart","Artículos en el carrito",module,Magento_Checkout
+"Items in Cart","Referencias en el carrito",module,Magento_Checkout
 "Require Customer To Be Logged In To Checkout","Kundenanmeldung für Bestellvorgang erforderlich",module,Magento_Checkout
 "Maximum Display Recently Added Item(s)","Maximalanzeige kürzlich hinzugefügter Artikel",module,Magento_Checkout
 "of","de",module,Magento_Checkout
@@ -10777,7 +10777,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "ID","Número de Identificación (ID)",module,Magento_Reports
 "First Name","Nombre",module,Magento_Reports
 "Last Name","Apellidos",module,Magento_Reports
-"Items in Cart","Artículos en el carrito",module,Magento_Reports
+"Items in Cart","Referencias en el carrito",module,Magento_Reports
 "Products in carts","Artículos en carritos",module,Magento_Reports
 "Carts","Carritos",module,Magento_Reports
 "Name","Nombre",module,Magento_Reports
