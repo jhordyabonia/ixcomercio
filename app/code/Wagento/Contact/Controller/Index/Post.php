@@ -314,8 +314,12 @@ class Post extends \Magento\Contact\Controller\Index implements HttpPostActionIn
                 'type' => 'end-user'
             ];
             $user = $this->userApi->createUser($data);
-            if (is_array($user) && isset($user["id"])) {
+            if (is_array($user) && isset($user["id"]) && !empty($user["id"])) {
                 $requesterId = $user['id'];
+            }
+            else{
+                $this->messageManager->addErrorMessage('Error! no se pudo crear el Usuario ZDK');
+                return $resultRedirect->setPath('*/*');
             }
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
