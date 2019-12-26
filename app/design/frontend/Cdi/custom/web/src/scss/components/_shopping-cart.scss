@@ -93,7 +93,9 @@
               }
               .cart-price{
                 .price{
+                  width: 100%;
                   font-size: 18px;
+                  float: left;
                 } 
               }
               &.qty{
