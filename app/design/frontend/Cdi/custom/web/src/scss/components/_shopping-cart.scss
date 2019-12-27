@@ -8,7 +8,7 @@
             color: #999;
             font-weight: 400;
             border: 0;
-            @media (max-width: 1280px){
+            @media (max-width: 1320px){
               width: auto;
             }
             &:not(.item){
@@ -18,13 +18,13 @@
             }
             &.item{
               width: 35%;
-              @media (max-width: 1280px){
+              @media (max-width: 1320px){
                 width: 30%;
               }
             }
             &.delete{
               width: 5%;
-              @media (max-width: 1280px){
+              @media (max-width: 1320px){
                 width: auto;
               }
             }
@@ -93,7 +93,9 @@
               }
               .cart-price{
                 .price{
+                  width: 100%;
                   font-size: 18px;
+                  float: left;
                 } 
               }
               &.qty{
