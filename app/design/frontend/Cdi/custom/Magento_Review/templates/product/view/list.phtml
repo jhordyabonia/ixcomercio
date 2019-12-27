@@ -10,10 +10,6 @@
 
 $_items = $block->getReviewsCollection()->getItems();
 $format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
-echo '<pre>';
-print_r(get_class_methods($block));
-print_r($format);
-die;
 ?>
 <?php if (count($_items)):?>
 <div class="block review-list" id="customer-reviews">
