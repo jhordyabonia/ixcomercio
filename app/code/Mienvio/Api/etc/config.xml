@@ -5,6 +5,9 @@
             <mienvio_api>
                 <user>mienvio</user>
                 <password>mienvioapi</password>
+                <apuntar_a>0</apuntar_a>
+                <url_staging>https://sandbox.mienvio.mx/api/quotes/</url_staging>
+                <url_produccion>https://mienvio.mx/api/quotes/</url_produccion>
             </mienvio_api>
         </shipping>
     </default>

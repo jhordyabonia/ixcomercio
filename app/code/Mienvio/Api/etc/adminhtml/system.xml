@@ -15,6 +15,18 @@
                     <label>Contraseña</label>
                     <comment>Contraseña para conectarse al webhook</comment>            
                 </field>   
+                <field id="apuntar_a" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apuntar a</label>
+                    <source_model>Mienvio\Api\Model\Config\Source\Entornos</source_model>
+                </field>
+                <field id="url_staging" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url Staging</label>
+                    <comment>Url servicio en staging.</comment>
+                </field>
+                <field id="url_produccion" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url Producción</label>
+                    <comment>Url servicio en producción.</comment>
+                </field>
             </group>
         </section>
     </system>

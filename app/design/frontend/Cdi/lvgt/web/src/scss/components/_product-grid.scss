@@ -84,6 +84,7 @@
           width: 100%;
           display: inline-block;
           .rating-summary{
+            height: auto!important;
             .rating-result{
               &:before{
                 text-align: left;

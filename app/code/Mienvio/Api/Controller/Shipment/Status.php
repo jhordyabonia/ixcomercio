@@ -28,6 +28,12 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
 	const PASSWORD = 'shipping/mienvio_api/password';
 
 	const TOKEN = 'carriers/mienviocarrier/apikey';
+
+	const ENVIROMENT = 'shipping/mienvio_api/apuntar_a';
+
+	const URL_STAGING = 'shipping/mienvio_api/url_staging';
+
+	const URL_PRODUCCION = 'shipping/mienvio_api/url_produccion';
     
     private $helper;
 	
@@ -138,6 +144,15 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                             $resultPage->getLayout()->getBlock('mienvio_status')->setOrderStatus($order->getStatus());     
                             $resultPage->getLayout()->getBlock('mienvio_status')->setOrderGuide($iws_order->getMienvioGuide()); 
                             $resultPage->getLayout()->getBlock('mienvio_status')->setOrderDelivery($iws_order->getMienvioDelivery()); 
+                            if($iws_order->getMienvioGuide() == 1){
+                                $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+                                $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+                                $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+                                //Se obtienen parametros de configuración por Store
+                                $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+                                $mienvio_data = $this->loadMienvioData($configData, $order->getMienvioQuoteId());
+                                $resultPage->getLayout()->getBlock('mienvio_status')->setMienvioData($mienvio_data);
+                            }
                         } catch (\Exception $e) {
                             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
                             $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
@@ -167,6 +182,13 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         $configData['user'] = $this->scopeConfig->getValue(self::USER, $storeScope, $websiteCode);
         $configData['password'] = $this->scopeConfig->getValue(self::PASSWORD, $storeScope, $websiteCode);
         $configData['token'] = $this->scopeConfig->getValue(self::TOKEN, $storeScope, $websiteCode);
+        $enviroment = $this->scopeConfig->getValue(self::ENVIROMENT, $storeScope, $websiteCode);
+        //Se valida entorno para obtener url del servicio
+        if($enviroment == '0'){
+            $configData['url'] = $this->scopeConfig->getValue(self::URL_STAGING, $storeScope, $websiteCode);
+        } else{
+            $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
+        }
         return $configData;
 
     }
@@ -194,5 +216,42 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         } catch (\Exception $e) {
             $this->logger->info('Mienviowebhook - Error al guardar comentario en orden con ID: '.$orderId);
         }
+	}
+
+    //Se consume el servicio de mi envio para quotes
+    public function loadMienvioData($configData, $quote_id) 
+    {     
+        $curl = curl_init();
+        // Set some options - we are passing in a useragent too here
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $configData['url'].$quote_id
+        ));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Authorization: Bearer '.$configData['token'])
+        );
+        // Send the request & save response to $resp
+        $resp = curl_exec($curl);
+        // Close request to clear up some resources
+        $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $curl_errors = curl_error($curl);
+        curl_close($curl);    
+        $this->logger->info('Mienvio API - quote_id: '.$quote_id);
+        $this->logger->info('Mienvio API - status code: '.$status_code);
+        $this->logger->info('Mienvio API - '.$configData['url']);
+        $this->logger->info('Mienvio API - curl errors: '.$curl_errors);
+        if ($status_code == '200'){
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
+        } else {
+            $response = array(
+                'status' => false,
+                'status_code' => $status_code
+            );
+        }
+        return $response;
 	}
 }
