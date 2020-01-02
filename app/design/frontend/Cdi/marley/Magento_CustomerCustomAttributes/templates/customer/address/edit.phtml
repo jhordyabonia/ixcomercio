@@ -120,11 +120,11 @@
 
         <div class="field street-zone required">
             <label for="zone_id" class="label">
-                <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('zone') ?></span>
+                <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('zone_id') ?></span>
             </label>
             <div class="control">
                 <select id="zone_id" name="zone_id"
-                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('zone') ?>"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('zone_id') ?>"
                         class="validate-select zone_id" <?= /* @noEscape */ !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>>
                     <option value=""><?= $block->escapeHtml(__('Please select a zone.')) ?></option>
                 </select>
