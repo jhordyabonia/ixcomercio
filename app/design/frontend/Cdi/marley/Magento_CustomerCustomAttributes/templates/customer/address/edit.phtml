@@ -98,6 +98,7 @@
                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?>"
                        id="street_1"
                        class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>"/>
+                <!--
                 <div class="nested">
                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
                     <?php for ($_i = 1, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i < $_n; $_i++): ?>
@@ -115,6 +116,7 @@
                         </div>
                     <?php endfor; ?>
                 </div>
+                -->
             </div>
         </div>
 
