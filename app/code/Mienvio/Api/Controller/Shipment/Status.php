@@ -151,7 +151,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                                 //Se obtienen parametros de configuración por Store
                                 $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
                                 $mienvio_data = $this->loadMienvioData($configData, $order->getMienvioQuoteId());
-                                if(count($mienvio_data->purchase->shipments)>0){
+                                if(count($mienvio_data['purchase']['shipments'])>0){
                                     $mienvio_data = $mienvio_data->purchase->shipments[0];
                                 }
                                 $resultPage->getLayout()->getBlock('mienvio_status')->setMienvioData($mienvio_data);
