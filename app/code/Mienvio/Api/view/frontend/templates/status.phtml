@@ -26,8 +26,8 @@
                                 <?php if($this->getMienvioDataStatus()){ ?>
                                     <ul class="tracking-detail">
                                         <li><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></li>
-                                        <li><?php echo __('Tracking url') ?>: <?php echo $this->getMienvioData()->tracking_url ?></li>
-                                        <li><?php echo __('PDF Information') ?>: <?php echo $this->getMienvioData()->label_url ?></li>
+                                        <li><a href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"></a><?php echo __('Tracking url') ?></li>
+                                        <li><a href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"></a><?php echo __('PDF Information') ?></li>
                                     </ul>
                                     <?php print_r($this->getMienvioData()) ?>
                                 <?php } else{ ?>
