@@ -156,7 +156,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                                 if(count($mienvio_data['resp']->purchase->shipments)>0){
                                     if(isset($mienvio_data['resp']->purchase->shipments[0]->label)){
                                         $mienvio_data_array = $mienvio_data['resp']->purchase->shipments[0]->label;
-                                        $mienvio_data_status = ttrue;
+                                        $mienvio_data_status = true;
                                     } 
                                 } 
                                 $resultPage->getLayout()->getBlock('mienvio_status')->setMienvioData($mienvio_data_array);
