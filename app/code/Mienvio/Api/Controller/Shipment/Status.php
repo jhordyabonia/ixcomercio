@@ -225,7 +225,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $configData['url'].$quote_id
+            CURLOPT_URL => $configData['url'].$quote_id,
         ));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
