@@ -23,7 +23,7 @@
                         <?php echo __('Guide generated') ?>
                         <?php if($this->getOrderGuide() == 1){ ?>
                             <div class="guide-generated">
-                                <?php if(count($this->getMienvioData()) > 0){ ?>
+                                <?php if($this->getMienvioDataStatus()){ ?>
                                     <ul class="tracking-detail">
                                         <li><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></li>
                                         <li><?php echo __('Tracking url') ?>: <?php echo $this->getMienvioData()->tracking_url ?></li>
