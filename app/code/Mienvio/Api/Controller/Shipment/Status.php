@@ -152,7 +152,11 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                                 $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
                                 $mienvio_data = $this->loadMienvioData($configData, $order->getMienvioQuoteId());
                                 if(count($mienvio_data['resp']->purchase->shipments)>0){
-                                    $mienvio_data = $mienvio_data['resp']->purchase->shipments[0]->label;
+                                    if(isset($mienvio_data['resp']->purchase->shipments[0]->label)){
+                                        $mienvio_data = $mienvio_data['resp']->purchase->shipments[0]->label;
+                                    } else {
+                                        $mienvio_data = array();
+                                    }
                                 } else {
                                     $mienvio_data = array();
                                 }

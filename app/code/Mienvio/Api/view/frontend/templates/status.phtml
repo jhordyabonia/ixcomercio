@@ -23,7 +23,16 @@
                         <?php echo __('Guide generated') ?>
                         <?php if($this->getOrderGuide() == 1){ ?>
                             <div class="guide-generated">
-                                <?php print_r($this->getMienvioData()) ?>
+                                <?php if(count($this->getMienvioData()) > 0){ ?>
+                                    <ul class="tracking-detail">
+                                        <li><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></li>
+                                        <li><?php echo __('Tracking url') ?>: <?php echo $this->getMienvioData()->tracking_url ?></li>
+                                        <li><?php echo __('PDF Information') ?>: <?php echo $this->getMienvioData()->label_url ?></li>
+                                    </ul>
+                                    <?php print_r($this->getMienvioData()) ?>
+                                <?php } else{ ?>
+                                    <span><?php echo __('Tracking information is not available. Try again later') ?></span>
+                                <?php } ?>
                             </div>
                         <?php } ?>
                     </div>
