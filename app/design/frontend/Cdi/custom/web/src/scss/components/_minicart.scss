@@ -67,7 +67,14 @@
               float: left; 
             }
             .details-qty.qty{
-              
+              pointer-events: none;
+              label {
+                padding-left: 0;
+              }
+              input {
+                border: 0;
+                padding: 0;
+              }
             }
             .product.actions{
               .primary{
