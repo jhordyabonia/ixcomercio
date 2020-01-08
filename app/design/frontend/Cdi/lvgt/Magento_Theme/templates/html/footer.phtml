@@ -29,17 +29,17 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 					</a>
 				</li>
 			<?php } ?>
-			<?php if($instagram){ ?>
-				<li>
-					<a href="<?php echo $instagram?>" target="_blank">
-						<img src="<?php echo $this->getViewFileUrl("images/social/instagram.png");?>" alt="Twitter" title="Twitter" _secure="true">
-					</a>
-				</li>
-			<?php } ?>
 			<?php if($youtube){ ?>
 				<li>
 					<a href="<?php echo $youtube?>" target="_blank">
 						<img src="<?php echo $this->getViewFileUrl("images/social/youtube.png");?>" alt="Twitter" title="Twitter" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($instagram){ ?>
+				<li>
+					<a href="<?php echo $instagram?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/instagram.png");?>" alt="Twitter" title="Twitter" _secure="true">
 					</a>
 				</li>
 			<?php } ?>
