@@ -20,6 +20,13 @@
         &:last-child{
           margin-right: 0;
         }
+        a{
+          float: left;
+          background-color: #717171;
+          &:hover {
+            background-color: #616161;
+          }
+        }
       }
     }
   }
