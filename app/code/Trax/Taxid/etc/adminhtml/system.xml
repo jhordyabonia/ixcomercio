@@ -3,7 +3,7 @@
     <system>
         <section id="trax_taxid" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
-            <label>Lugares</label>
+            <label>Tax Id</label>
             <tab>trax</tab>
             <resource>Magento_Trax::config_ordenes</resource>
             <group id="taxid_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
