@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="trax_taxid" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Tax Id</label>
+            <tab>trax</tab>
+            <resource>Magento_Trax::config_ordenes</resource>
+            <group id="taxid_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración IWS para TaxId</label>
+                <field id="taxid_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Reintentos de conexión TaxId</label>
+                    <comment>Número de reintentos de conexión en servicio.</comment>
+                </field>
+                <field id="taxid_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Correo Electrónico TaxId</label>
+                    <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

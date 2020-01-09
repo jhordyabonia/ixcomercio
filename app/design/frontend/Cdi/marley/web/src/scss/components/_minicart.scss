@@ -50,8 +50,33 @@
                 line-height: initial;
               }
             }
+            .product.options {
+              width: 100%;
+              float: left;
+              span[role='tab']{
+                line-height: normal;
+              }
+              &.list {
+                margin-bottom: 0;
+                line-height: normal;
+                .label {
+                  padding: 0;
+                }
+              }
+            }
+            .product-item-pricing {
+              width: 100%;
+              float: left; 
+            }
             .details-qty.qty{
-              display: none;
+              pointer-events: none;
+              label {
+                padding-left: 0;
+              }
+              input {
+                border: 0;
+                padding: 0;
+              }
             }
             .product.actions{
               .primary{

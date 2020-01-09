@@ -57,7 +57,7 @@
               &.list {
                 margin-bottom: 0;
                 line-height: normal;
-                label {
+                .label {
                   padding: 0;
                 }
               }
@@ -67,7 +67,14 @@
               float: left; 
             }
             .details-qty.qty{
-              display: none;
+              pointer-events: none;
+              label {
+                padding-left: 0;
+              }
+              input {
+                border: 0;
+                padding: 0;
+              }
             }
             .product.actions{
               .primary{

@@ -1,12 +1,12 @@
 <?php
 /** 
- * @category    Places
- * @package     Trax_Places
+ * @category    TaxId
+ * @package     Trax_Taxid
  * @author      Valentina Aguirre
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Trax\Places\Controller\Search;
+namespace Trax\Taxid\Controller\Search;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
