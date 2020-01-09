@@ -285,17 +285,17 @@ function ($, Component) {
 
       $('#city_id').on('change', function (e) {
         $.ajax({
-        url: '/places/search/',
-        data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
-        type: 'GET',
-        dataType: 'json',
-        success: function(resCity) {
-          $(fieldZoneStreet).find('select option:not([value=""])').remove();
+          url: '/places/search/',
+          data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+          type: 'GET',
+          dataType: 'json',
+          success: function(resCity) {
+            $(fieldZoneStreet).find('select option:not([value=""])').remove();
             $.each(resCity, function(iResCity, valResCity){
               $(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
             });
-        }
-      });
+          }
+        });
       });
 
 
@@ -305,8 +305,8 @@ function ($, Component) {
 
       $('#fieldSelectStreet').on('change', function (e) {
         var valStreet = $('#fieldSelectStreet').find('option:selected');
-      $(fieldStreet).find('input').val($(valStreet).text());
-      $(fieldStreet).find('input').keyup();
+        $(fieldStreet).find('input').val($(valStreet).text());
+        $(fieldStreet).find('input').keyup();
 
         $('#zip').val($(valStreet).attr('postalCode'));
         $('#zip').find('input').keyup();
