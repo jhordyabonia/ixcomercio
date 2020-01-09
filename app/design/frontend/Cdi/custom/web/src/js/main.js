@@ -421,6 +421,7 @@ function ($, Component) {
 								$(fieldZoneCheckout).find('option').remove();
 								$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
 								$.each(resCity, function(iResCity, valResCity){
+									console.log(valResCity.Name);
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
 							}
