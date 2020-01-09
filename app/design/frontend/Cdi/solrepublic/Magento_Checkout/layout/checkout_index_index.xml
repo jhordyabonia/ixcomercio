@@ -40,6 +40,9 @@
                                                             <item name="street" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">72</item>
                                                             </item>
+                                                            <item name="zone_id" xsi:type="array">
+                                                                <item name="sortOrder" xsi:type="string">73</item>
+                                                            </item>
                                                             <item name="postcode" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">74</item>
                                                             </item>

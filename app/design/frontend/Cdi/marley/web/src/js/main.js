@@ -226,7 +226,7 @@ function ($, Component) {
               $(fieldState).attr("disabled", false);
               $("input#region").hide();
           }
-      });
+        });
       }
 
       if($(fieldState).length){
