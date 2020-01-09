@@ -409,7 +409,7 @@ function ($, Component) {
                 type: 'GET',
                 dataType: 'json',
                 success: function(resCity) {
-                  $(fieldZoneCheckout).find('select option').remove();
+                  $(fieldZoneCheckout).find('option').remove();
                   $(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
                   $.each(resCity, function(iResCity, valResCity){
                     $(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
