@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <trax_taxid>
+            <taxid_general>
+                <taxid_reintentos>1</taxid_reintentos>
+                <taxid_correo>example@example.com</taxid_correo>
+            </taxid_general>
+        </trax_taxid>
+    </default>
+</config>

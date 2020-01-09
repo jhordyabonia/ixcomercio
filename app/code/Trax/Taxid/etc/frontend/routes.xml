@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Trax_Taxid default payment configuration
+ *
+ * @category    Trax
+ * @package     Trax_Taxid
+ * @author      Valentina Aguirre
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route frontName="taxid" id="taxid">
+            <module name="Trax_Taxid"/>
+        </route>
+    </router>
+</config>
