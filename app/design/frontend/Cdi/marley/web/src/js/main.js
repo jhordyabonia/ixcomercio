@@ -410,9 +410,10 @@ function ($, Component) {
                 dataType: 'json',
                 success: function(resCity) {
                   $(fieldZoneCheckout).find('option:not([value=""])').remove();
-                    $.each(resCity, function(iResCity, valResCity){
-                      $(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-                    });
+                  $(fieldZoneCheckout).append('<option data-title="" value="">Please select a zone.</option>');
+                  $.each(resCity, function(iResCity, valResCity){
+                    $(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+                  });
                 }
               });
             });
