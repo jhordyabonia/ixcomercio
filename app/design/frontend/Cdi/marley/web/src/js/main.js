@@ -424,8 +424,8 @@ function ($, Component) {
 
             $('select[name="custom_attributes[zone_id]"]').on('change', function (e) {
               var valStreetCheckout = $('select[name="custom_attributes[zone_id]"]').find('option:selected');
-            $(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
-            $(fieldStreetCheckout).find('input').keyup();
+              $(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
+              $(fieldStreetCheckout).find('input').keyup();
 
               $('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
               $('input[name="postcode"]').keyup();
