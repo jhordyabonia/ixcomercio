@@ -272,9 +272,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
 	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 						'<option data-title="" value="">Please select a zone.</option>'+
-						'</select>';*/
-		//$(fieldStreet).append(htmlStreet);
-	    $(fieldStreet).find('input').hide();
+						'</select>';
+		$(fieldStreet).append(htmlStreet);
+	    $(fieldStreet).find('input').hide();*/
 
 	    fieldState.on('change', function (e) {
 	      	$.ajax({
