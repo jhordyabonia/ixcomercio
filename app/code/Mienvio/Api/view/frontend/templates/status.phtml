@@ -2,8 +2,9 @@
     <div class="block-title">
         <strong><?php echo $this->getTitle() ?></strong>
     </div>
-    <div class="order-progress-bar">            
-        <?php if($this->getOrderStatus() == 'canceled'){ ?>
+    
+    <?php if($this->getOrderStatus() == 'canceled'){ ?>
+        <div class="box-content">
             <div class="canceled-progress-bar">
                 <div class="processed">
                     <?php echo __('Confirmed order') ?>
@@ -12,7 +13,9 @@
                     <?php echo __('Order canceled') ?>
                 </div>
             </div>
-        <?php } else {?>
+        </div>
+    <?php } else {?>
+        <div class="box-content">
             <div class="normal-progress-bar">
                 <div class="processed">
                     <?php echo __('Confirmed order') ?>
@@ -20,6 +23,8 @@
                 <div class="<?php echo ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
                     <?php echo __('Payment Processed') ?>
                 </div>
+            </div>
+            <div class="box-actions">
                 <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
                     <?php echo __('Guide generated') ?>
                     <?php if($this->getOrderGuide() == 1){ ?>
@@ -27,8 +32,8 @@
                             <?php if($this->getMienvioDataStatus()){ ?>
                                 <ul class="tracking-detail">
                                     <li><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></li>
-                                    <a href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"><li><?php echo __('Tracking url') ?></li></a>
-                                    <a href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"><li><?php echo __('PDF Information') ?></li></a>
+                                    <a class="action" href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"><li><?php echo __('Tracking url') ?></li></a>
+                                    <a class="action" href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"><li><?php echo __('PDF Information') ?></li></a>
                                 </ul>
                             <?php } else{ ?>
                                 <span><?php echo __('Tracking information is not available. Try again later') ?></span>
@@ -40,6 +45,6 @@
                     <?php echo __('Order delivered') ?>
                 </div>
             </div>
-        <?php } ?>
-    </div>
+        </div>
+    <?php } ?>
 </div>
