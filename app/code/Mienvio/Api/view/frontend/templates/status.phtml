@@ -30,8 +30,8 @@
                 <?php if($this->getOrderGuide() == 1){ ?>
                     <div class="guide-generated">
                         <?php if($this->getMienvioDataStatus()){ ?>
+                            <span><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></span>
                             <ul class="tracking-detail">
-                                <span><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></span>
                                 <a class="action" href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"><?php echo __('Tracking url') ?></a>
                                 <a class="action" href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"><?php echo __('PDF Information') ?></a>
                             </ul>
