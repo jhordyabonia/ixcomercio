@@ -25,6 +25,11 @@
         .box-title{
           color: $mainColor;
         }
+        .tracking-detail {
+          a {
+            display: inline-block;
+          }
+        }
       }
       .action{
         text-decoration: underline;
