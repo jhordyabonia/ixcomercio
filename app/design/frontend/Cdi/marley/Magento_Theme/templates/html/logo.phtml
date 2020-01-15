@@ -24,6 +24,8 @@
          <?= $block->getLogoHeight() ? 'height="' . $block->getLogoHeight() . '"' : '' ?>
     />
 </a>
+<?php
+echo <<<JG
 <script type="text/javascript">
     dataLayer.push{
         'event':'ga_event',
@@ -32,3 +34,5 @@
         'label':'Home'
     }
 </script>
+JG;
+?>
