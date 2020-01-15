@@ -38,6 +38,7 @@ $producto = ''; # GTM variable
                         /* XCB END */
                         ?>
 						<?php
+                        
                             $_productNameStripped = $block->stripTags($_product->getName(), null, true);
                         ?>
 						<div class="productImageContain col-md-6 xs-12">
@@ -74,7 +75,7 @@ $producto = ''; # GTM variable
 <?php
 /* XCB GTM */
 echo <<<JG
-<script type="script/javascript">
+<script type="text/javascript">
     dataLayer.push({
         'event': 'product-list-impressions',
         'ecommerce': {
