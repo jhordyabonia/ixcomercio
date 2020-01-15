@@ -13,11 +13,11 @@
                     <comment>El ID de país para el que obtener la lista de municipios/ciudades desde Trax.</comment>
                 </field>
                 <field id="lugares_reintentos" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Reintentos de conexión CancelOrder</label>
+                    <label>Reintentos de conexión GeyPlaces</label>
                     <comment>Número de reintentos de conexión en servicio.</comment>
                 </field>
                 <field id="lugares_correo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Correo Electrónico CancelOrder</label>
+                    <label>Correo Electrónico GeyPlaces</label>
                     <comment>Correo electrónico de notificación cuando no se tiene conexión con los servicios.</comment>
                 </field>
             </group>

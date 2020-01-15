@@ -151,7 +151,16 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                                 //Se obtienen parametros de configuración por Store
                                 $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
                                 $mienvio_data = $this->loadMienvioData($configData, $order->getMienvioQuoteId());
-                                $resultPage->getLayout()->getBlock('mienvio_status')->setMienvioData($mienvio_data);
+                                $mienvio_data_status = false;
+                                $mienvio_data_array = array();
+                                if(count($mienvio_data['resp']->purchase->shipments)>0){
+                                    if(isset($mienvio_data['resp']->purchase->shipments[0]->label)){
+                                        $mienvio_data_array = $mienvio_data['resp']->purchase->shipments[0]->label;
+                                        $mienvio_data_status = true;
+                                    } 
+                                } 
+                                $resultPage->getLayout()->getBlock('mienvio_status')->setMienvioData($mienvio_data_array);
+                                $resultPage->getLayout()->getBlock('mienvio_status')->setMienvioDataStatus($mienvio_data_status);
                             }
                         } catch (\Exception $e) {
                             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
@@ -225,7 +234,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $configData['url'].$quote_id
+            CURLOPT_URL => $configData['url'].$quote_id,
         ));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
