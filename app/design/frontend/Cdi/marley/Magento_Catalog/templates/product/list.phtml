@@ -71,7 +71,7 @@ $count = 0;
                     $producto = "{        
                         'name': '{$_product->getName()}',
                         'id': '{$_product->getSku()}',
-                        'price': '{$block->getProductPrice($_product)}',
+                        'price': '{$_product->getFinalPrice()}',
                         'brand': 'HOM',
                         'variant': 'productVariant',
                         'list': '{$block->getName()}',
