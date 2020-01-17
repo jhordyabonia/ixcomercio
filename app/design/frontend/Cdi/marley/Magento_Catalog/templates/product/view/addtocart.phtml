@@ -48,6 +48,36 @@ $cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/cus
     </div>
 </div>
 <?php endif; ?>
+<?php
+$prod_detail = "
+    {
+        'name': '".$_product->getName()."',
+                    'id': '".$_product->getSku()."',
+                    'price': ".$_product->getFinalPrice().",
+                    'brand': 'HOM',
+                    'category': '',
+                    'variant': 'productVariant',
+                    'position': 0
+      }
+";
+# GTM XCB
+echo <<<JG
+<script>
+dataLayer.push({
+    'event': 'productClick',
+    'ecommerce': {
+        'click': {
+            'actionField': {
+                'list': 'productList'
+            },
+            'products': [{$prod_detail}]
+        }
+    }
+});
+</script>
+JG;
+# GTM XCB FIN
+?>
 <script type="text/x-magento-init">
     {
         "#product_addtocart_form": {
