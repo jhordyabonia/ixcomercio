@@ -21,6 +21,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $gtm_prods =''; # GTM variable
 $producto = ''; # GTM variable
+$count = 0;
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -73,7 +74,7 @@ $producto = ''; # GTM variable
                         'brand': 'HOM',
                         'variant': 'productVariant',
                         'list': '{$block->getName()}',
-                        'position': {$count}
+                        'position': {($count++)}
                     }";
                     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
                     /* XCB END */
