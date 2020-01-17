@@ -67,14 +67,15 @@ $count = 0;
 					?>
                     <?php
                     /* XCB GTM */
+                    $count++;
                     $producto = "{        
                         'name': '{$_product->getName()}',
                         'id': '{$_product->getSku()}',
-                        'price': '{$block->getFinalPrice()}',
+                        'price': '{$block->getProductPrice($_product)}',
                         'brand': 'HOM',
                         'variant': 'productVariant',
                         'list': '{$block->getName()}',
-                        'position': {($count++)}
+                        'position': {$count}
                     }";
                     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
                     /* XCB END */
