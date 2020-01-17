@@ -21,6 +21,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $gtm_prods =''; # GTM variable
 $producto = ''; # GTM variable
+$banner = $this->getBanner(); # GTM variable
 $count = 0;
 ?>
 <?php if (!$_productCollection->count()): ?>
@@ -74,7 +75,7 @@ $count = 0;
                         'price': '{$_product->getFinalPrice()}',
                         'brand': 'HOM',
                         'variant': 'productVariant',
-                        'list': '{$viewMode}',
+                        'list': '{$banner->getTitle()}',
                         'position': {$count}
                     }";
                     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
