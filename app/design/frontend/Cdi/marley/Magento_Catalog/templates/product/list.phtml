@@ -70,7 +70,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 				<h2 class="product-name">
 					<a class=""
 					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
-						<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+						<?= /* @escapeNotVerified */ 'JG'.$_helper->productAttribute($_product, $_product->getName(), 'name') ?>
 					</a>
 				</h2>
 				<div class="atributo-familia">
