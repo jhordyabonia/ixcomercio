@@ -19,6 +19,8 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$gtm_prods =''; # GTM variable
+$producto = ''; # GTM variable
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -62,6 +64,20 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 							. 'top:' . $productImage->getHeight() . 'px;"';
 					}
 					?>
+                    <?php
+                    /* XCB GTM */
+                    $producto = "{        
+                        'name': '{$_product->getName()}',
+                        'id': '{$_product->getSku()}',
+                        'price': '{$block->getFinalPrice()}',
+                        'brand': 'HOM',
+                        'variant': 'productVariant',
+                        'list': '{$block->getName()}',
+                        'position': {$count}
+                    }";
+                    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
+                    /* XCB END */
+                    ?>
 					<?php // Product Image ?>
                     <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo product-image" tabindex="-1">
                         <img src="<?php echo $baseImage->getUrl() ?>" alt="<?php echo $_product->getName() ?>" />
@@ -70,7 +86,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 				<h2 class="product-name">
 					<a class=""
 					   href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>">
-						<?= /* @escapeNotVerified */ 'JG'.$_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+						<?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
 					</a>
 				</h2>
 				<div class="atributo-familia">
@@ -127,3 +143,19 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         </script>
     <?php endif; ?>
 <?php endif; ?>
+<?php
+/* XCB GTM */
+echo <<<JG
+<script type="text/javascript">
+    dataLayer.push({
+        'event': 'product-list-impressions',
+        'ecommerce': {
+            'currencyCode': 'COP',
+            'impressions': [$gtm_prods]
+        }
+    });
+
+</script>
+JG;
+/* XCB END */
+?>
