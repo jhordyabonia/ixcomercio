@@ -74,7 +74,7 @@ $count = 0;
                         'price': '{$_product->getFinalPrice()}',
                         'brand': 'HOM',
                         'variant': 'productVariant',
-                        'list': '{$_productCollection->getName()}',
+                        'list': '{$viewMode}',
                         'position': {$count}
                     }";
                     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
