@@ -208,6 +208,7 @@ function ($, Component) {
 	    var intervalState;
 	    
 	    function getStates(){
+	    	$('body').trigger('processStart');
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
@@ -220,6 +221,8 @@ function ($, Component) {
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
+
+			        $('body').trigger('processStop');
 			    }
 			});
 	    }
@@ -256,6 +259,7 @@ function ($, Component) {
 	    */
 
 	    fieldState.on('change', function (e) {
+	    	$('body').trigger('processStart');
 	    	$.ajax({
 		        url: '/places/search/',
 		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
@@ -266,6 +270,7 @@ function ($, Component) {
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
+			    	$('body').trigger('processStop');
 		        }
 	      	});
 
@@ -280,6 +285,7 @@ function ($, Component) {
 	    // =============================================
 
 	    $('#city_id').on('change', function (e) {
+	    	$('body').trigger('processStart');
 	    	$.ajax({
 				url: '/places/search/',
 				data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
@@ -290,6 +296,8 @@ function ($, Component) {
 				  	$.each(resCity, function(iResCity, valResCity){
 				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
+
+				  	$('body').trigger('processStop');
 				}
 			});
 	    });
@@ -300,12 +308,14 @@ function ($, Component) {
 	    // =============================================
 
 	    $('#fieldSelectStreet').on('change', function (e) {
+	    	$('body').trigger('processStart');
 	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
 			$(fieldStreet).find('input').val($(valStreet).text());
 			$(fieldStreet).find('input').keyup();
 
 	    	$('#zip').val($(valStreet).attr('postalCode'));
 	    	$('#zip').find('input').keyup();
+	    	$('body').trigger('processStop');
 	    });
 
 
