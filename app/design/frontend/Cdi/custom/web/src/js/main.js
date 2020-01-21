@@ -319,7 +319,6 @@ function ($, Component) {
 	    	
 	    	$('body').trigger('processStart');
 
-	    	jQuery("#shipping").loader("show");
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
 		    /*var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
