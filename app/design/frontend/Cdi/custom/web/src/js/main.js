@@ -206,6 +206,7 @@ function ($, Component) {
 	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
 	    var intervalState;
+	    var pathLoader = "../img/loader.gif";
 
 	    function getStates(){
 	    	$.ajax({
@@ -316,6 +317,7 @@ function ($, Component) {
 	    // =============================================
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
+	    	jQuery("#shipping").loader("show");
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
 		    /*var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
@@ -375,13 +377,15 @@ function ($, Component) {
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
 
+	    			jQuery("#shipping").loader("hide");
+
 
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
 				    var selectStateCheckout = $(fieldStateCheckout).find('select');
 				    $(selectStateCheckout).on('change', function (e) {
-				    	console.log("change state");
+				    	jQuery("#shipping").loader("show");
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -393,6 +397,8 @@ function ($, Component) {
 								$.each(resState, function(iState, valState){
 									$(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
+
+								jQuery("#shipping").loader("hide");
 							}
 						});
 
@@ -408,6 +414,7 @@ function ($, Component) {
 				    // Print select street checkout
 				    // =============================================
 				    $('#fieldCityCheckout').on('change', function (e) {
+				    	jQuery("#shipping").loader("show");
 						var valCity = $(fieldCityCheckout).find('select option:selected');
 						$(fieldCityCheckout).find('input').val($(valCity).text());
 						$(fieldCityCheckout).find('input').keyup();
@@ -423,6 +430,8 @@ function ($, Component) {
 								$.each(resCity, function(iResCity, valResCity){
 									$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
+
+							  	jQuery("#shipping").loader("hide");
 							}
 						});
 				    });
@@ -451,7 +460,10 @@ function ($, Component) {
     			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region_id"] .control');
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout();
-		          	clearInterval(intervalState);
+		        	clearInterval(intervalState);
+		        	jQuery('#shipping').loader({
+					    icon: pathLoader
+					});
 		        }
 	      	}, 1000);
 	    }
