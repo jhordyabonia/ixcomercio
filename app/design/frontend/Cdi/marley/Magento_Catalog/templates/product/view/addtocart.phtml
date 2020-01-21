@@ -52,21 +52,20 @@ $cartEnabled = (bool) $_helperCdi->getStoreConfig('general/store_information/cus
 $prod_detail = "
     {
         'name': '".$_product->getName()."',
-                    'id': '".$_product->getSku()."',
-                    'price': ".$_product->getFinalPrice().",
-                    'brand': 'HOM',
-                    'category': '',
-                    'variant': 'productVariant',
-                    'position': 0
+        'id': '".$_product->getSku()."',
+        'price': ".$_product->getFinalPrice().",
+        'brand': 'HOM',
+        'category': '',
+        'variant': 'productVariant'
       }
 ";
 # GTM XCB
 echo <<<JG
 <script>
 dataLayer.push({
-    'event': 'productClick',
+    'event': 'product-detail',
     'ecommerce': {
-        'click': {
+        'detail': {
             'actionField': {
                 'list': 'productList'
             },
