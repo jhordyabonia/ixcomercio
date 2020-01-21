@@ -267,12 +267,14 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
+	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
+	    /*
 	    var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
 	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 						'<option data-title="" value="">Please select a zone.</option>'+
 						'</select>';
 		$(fieldStreet).append(htmlStreet);
-	    $(fieldStreet).find('input').hide();
+	    $(fieldStreet).find('input').hide();*/
 
 	    fieldState.on('change', function (e) {
 	      	$.ajax({
@@ -305,9 +307,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				type: 'GET',
 				dataType: 'json',
 				success: function(resCity) {
-					$(fieldStreet).find('select option:not([value=""])').remove();
+					$(fieldZoneStreet).find('select option:not([value=""])').remove();
 				  	$.each(resCity, function(iResCity, valResCity){
-				    	$(fieldStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
 				}
 			});
@@ -336,10 +338,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
-		    var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
+	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
+		    /*var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 							'<option data-title="" value="">Please select a zone.</option>'+
-							'</select>';
-			$(fieldStreetCheckout).append(htmlStreetCheckout);
+							'</select>';*/
+			//$(fieldStreetCheckout).append(htmlStreetCheckout);
 		    $(fieldStreetCheckout).find('input').hide();
 
 	    	fieldCityCheckout = $('form .fieldset > .field[name="shippingAddress.city"] .control');
@@ -423,9 +426,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
-								$(fieldStreetCheckout).find('select option:not([value=""])').remove();
+								$(fieldZoneCheckout).find('option').remove();
+                  				$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
 							  	$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldStreetCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+							    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
 							}
 						});
@@ -436,8 +440,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    // Print postal code
 				    // =============================================
 
-				    $('#fieldSelectStreet').on('change', function (e) {
-				    	var valStreetCheckout = $('#fieldSelectStreet').find('option:selected');
+				    $('select[name="custom_attributes[zone_id]"]').on('change', function (e) {
+				    	var valStreetCheckout = $('select[name="custom_attributes[zone_id]"]').find('option:selected');
 						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 

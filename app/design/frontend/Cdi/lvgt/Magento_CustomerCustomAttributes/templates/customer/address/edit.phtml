@@ -98,6 +98,7 @@
                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?>"
                        id="street_1"
                        class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>"/>
+                <!--
                 <div class="nested">
                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
                     <?php for ($_i = 1, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i < $_n; $_i++): ?>
@@ -115,6 +116,20 @@
                         </div>
                     <?php endfor; ?>
                 </div>
+                -->
+            </div>
+        </div>
+
+        <div class="field street-zone required">
+            <label for="zone_id" class="label">
+                <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('zone_id') ?></span>
+            </label>
+            <div class="control">
+                <select id="zone_id" name="zone_id"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('zone_id') ?>"
+                        class="validate-select zone_id" <?= /* @noEscape */ !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>>
+                    <option value=""><?= $block->escapeHtml(__('Please select a zone.')) ?></option>
+                </select>
             </div>
         </div>
 
