@@ -317,6 +317,9 @@ function ($, Component) {
 	    // =============================================
 	    var fieldCityCheckout;
 	    function getStatesCheckout(){
+	    	jQuery('#shipping').loader({
+			    icon: pathLoader
+			});
 	    	jQuery("#shipping").loader("show");
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
@@ -461,9 +464,6 @@ function ($, Component) {
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout();
 		        	clearInterval(intervalState);
-		        	jQuery('#shipping').loader({
-					    icon: pathLoader
-					});
 		        }
 	      	}, 1000);
 	    }
