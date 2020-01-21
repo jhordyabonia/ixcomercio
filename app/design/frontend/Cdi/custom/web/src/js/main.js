@@ -206,7 +206,7 @@ function ($, Component) {
 	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
 	    var intervalState;
-	    var pathLoader = "../img/loader.gif";
+	    var pathLoader = "img/loader.gif";
 
 	    function getStates(){
 	    	$.ajax({
