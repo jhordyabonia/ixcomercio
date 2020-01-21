@@ -93,7 +93,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                     $class = "";
                 } ?>
                 <div class="control-qty remove<?php echo $class ?>">
-                    <span>-</span>
+                    <span>- menos</span>
                 </div>
                 <div class="control qty">
                     <label for="cart-<?= /* @escapeNotVerified */ $_item->getId() ?>-qty">
@@ -111,7 +111,7 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                     </label>
                 </div>
                 <div class="control-qty add">
-                    <span>+</span>
+                    <span>+ mas</span>
                 </div>
             </div>
         </td>
