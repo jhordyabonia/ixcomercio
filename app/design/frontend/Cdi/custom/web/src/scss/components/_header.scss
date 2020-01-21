@@ -306,7 +306,7 @@ header{
   }
   .account-cart-wrapper{
     top: 30px;
-    right: 0px;
+    right: 30px;
     position: absolute;
     display: none;
     @media only screen and (min-width: 769px){
@@ -340,6 +340,7 @@ header{
       }
       .counter.qty{
         top: -6px;
+        left: 90%;
         width: 40px;
         position: absolute;
         background: none;
@@ -355,6 +356,9 @@ header{
           }
           &:after{
             content: ')';
+          }
+          &:before, &:after, .counter-number{
+            float: left;
           }
         }
       }
