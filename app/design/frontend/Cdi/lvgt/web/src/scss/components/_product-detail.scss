@@ -421,6 +421,7 @@
         line-height: 40px;
         background: #6f6f6f;
         border-radius: 50%;
+        vertical-align: middle;
         margin: 0;
         @media only screen and (min-width: $mobile){
           width: 30px;
@@ -430,6 +431,10 @@
         }
         &:hover {
           background: #5f5f5f;
+        }
+        &.action.mailto.friend:before{
+          font-size: 30px;
+          line-height: 30px;
         }
         span {
           display: none;
