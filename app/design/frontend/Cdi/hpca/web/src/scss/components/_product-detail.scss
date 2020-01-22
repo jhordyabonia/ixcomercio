@@ -315,6 +315,9 @@
             .control{
               margin: 10px 0 20px 40px;
               position: relative;
+              @media only screen and (max-width: $tablet){
+                margin: 10px 0 20px 0;
+              }
               input{
                 width: 5em;
                 height: 30px;
