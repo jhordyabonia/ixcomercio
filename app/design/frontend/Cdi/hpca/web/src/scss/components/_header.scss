@@ -41,6 +41,9 @@ header{
         float: none;
       }
       .header-branding{
+        @media only screen and (max-width: $mobile){
+          z-index: 10;
+        }
         .logo{
           width: 100%;
           max-width: 100%;
