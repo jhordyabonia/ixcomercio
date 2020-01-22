@@ -414,9 +414,21 @@
     .product-social-links {
       width: auto;
       display: inline-block;
-      border-left: 1px solid #e5e5e5;
-      padding-left: 15px;
-      margin-left: 10px;
+      a{
+        width: 40px;
+        height: 40px;
+        color: #fff;
+        line-height: 40px;
+        @media only screen and (min-width: $mobile){
+          width: 30px;
+          height: 30px;
+          font-size: 18px;
+          line-height: 30px;
+        }
+        span {
+          display: none;
+        }
+      }
     }
     .ept-social-share.ept-product-page, .ept-social-share.ept-socialshare-page{
       .ept-social-buttons {
@@ -435,6 +447,7 @@
           @media only screen and (min-width: $mobile){
             width: 100%;
             height: 100%;
+            font-size: 18px;
             line-height: 30px;
             float: left;
           }
