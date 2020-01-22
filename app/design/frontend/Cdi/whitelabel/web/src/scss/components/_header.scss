@@ -46,6 +46,11 @@ header{
           max-width: 100%;
           margin: 0;
           float: left;
+          @media only screen and (max-width: $desktop){
+            float: none;
+            margin: 0 auto;
+            display: inline-block;
+          }
           img{
             width: auto;
             height: 60px;
