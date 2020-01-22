@@ -418,6 +418,23 @@
       padding-left: 15px;
       margin-left: 10px;
     }
+    .ept-social-share.ept-product-page, .ept-social-share.ept-socialshare-page{
+      .ept-social-buttons {
+        vertical-align: middle;
+        margin-right: 8px;
+      }
+      .facebook-share{
+        background: #3b5998;
+        .facebook-button{
+          color: #fff;
+        }
+      }
+      .whatsapp-button {
+        &:before {
+          font-size: 40px;
+        }
+      }
+    }
   }
 }
 .product-characteristics{
