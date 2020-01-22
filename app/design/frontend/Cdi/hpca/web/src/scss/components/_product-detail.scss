@@ -428,6 +428,18 @@
       .ept-social-buttons {
         vertical-align: middle;
         margin-right: 8px;
+        @media only screen and (min-width: $mobile){
+          width: 30px;
+          height: 30px;
+        }
+        a{
+          @media only screen and (max-width: $mobile){
+            width: 100%;
+            height: 100%;
+            line-height: 30px;
+            float: left;
+          }
+        }
       }
       .facebook-share{
         background: #3b5998;
@@ -437,7 +449,10 @@
       }
       .whatsapp-button {
         &:before {
-          font-size: 40px;
+          font-size: 34px;
+          @media only screen and (max-width: $mobile){
+            font-size: 40px;
+          }
         }
       }
     }
