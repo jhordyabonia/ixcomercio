@@ -450,6 +450,9 @@
           &:hover {
             background-color: #fff;
           }
+          &:focus{
+            outline: none;
+          }
         }
       }
       &:hover {
