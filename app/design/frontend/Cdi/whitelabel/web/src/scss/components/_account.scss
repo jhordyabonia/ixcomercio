@@ -25,6 +25,14 @@
         .box-title{
           color: $mainColor;
         }
+        .tracking-detail {
+          a {
+            display: inline-block;
+          }
+        }
+        .normal-progress-bar, .canceled-progress-bar {
+          margin-bottom: 25px;
+        }
       }
       .action{
         text-decoration: underline;
