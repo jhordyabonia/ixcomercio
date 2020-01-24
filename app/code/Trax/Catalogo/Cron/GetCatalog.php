@@ -505,10 +505,14 @@ class GetCatalog {
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
             $product->setStatus(0); // Status on product enabled/ disabled 1/0
-        } 
-        $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
-        $cleanurl = html_entity_decode(strip_tags($url));
-        $product->setUrlKey($cleanurl);
+            /*
+            * Jhonatan Holguín
+            * Agrega url solo cuando se crea el producto, para productos preexistentes, deja la que está parametrizada.
+            */
+            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
+            $cleanurl = html_entity_decode(strip_tags($url));
+            $product->setUrlKey($cleanurl);
+        }
         $iwsDescription = explode("- ", $catalog->Description);
         $name = $iwsDescription[0];
         $description = "";
