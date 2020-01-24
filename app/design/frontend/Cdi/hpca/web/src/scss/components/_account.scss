@@ -28,8 +28,10 @@
         }
       }
       .action{
-        text-decoration: underline;
         margin-right: 20px;
+        &:not(.primary) {
+          text-decoration: underline;
+        }
       }
     }
     .block:last-child {
