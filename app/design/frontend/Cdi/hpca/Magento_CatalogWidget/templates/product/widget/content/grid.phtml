@@ -91,23 +91,28 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                                     <div class="actions-primary">
                                                         <?php if ($_item->isSaleable()): ?>
                                                             <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
-                                                                <button class="action tocart primary"
-                                                                        currentName="<?php echo $block->escapeHtml($_item->getName()) ?>"
-                                                                        data-mage-init='{"redirectUrl":{"url":"<?php /* @escapeNotVerified */ echo $block->getAddToCartUrl($_item) ?>"}}'
-                                                                        type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
-                                                                </button>
+                                                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+																	<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+																	<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
+																	<?php echo $block->getBlockHtml('formkey')?>
+																	<button type="submit"
+																			title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+																			class="action tocart primary">
+																		<span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+																	</button>
+																</form>
                                                             <?php else: ?>
-                                                                <?php
-                                                                    $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-                                                                    $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
-                                                                ?>
-                                                                <button class="action tocart primary"
-                                                                        currentName="<?php echo $block->escapeHtml($_item->getName()) ?>"
-                                                                        data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
-                                                                        type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
-                                                                </button>
+																<?php $postParams = $block->getAddToCartPostParams($_item); ?>
+																<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+																	<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+																	<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
+																	<?php echo $block->getBlockHtml('formkey')?>
+																	<button type="submit"
+																			title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+																			class="action tocart primary">
+																		<span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+																	</button>
+																</form>
                                                             <?php endif; ?>
                                                         <?php else: ?>
                                                             <?php if ($_item->getIsSalable()): ?>
@@ -151,3 +156,10 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         </div>
     </section>-->
 <?php endif;?>
+<script type="text/x-magento-init">
+{
+	"[data-role=tocart-form], .form.map.checkout": {
+		"catalogAddToCart": {}
+	}
+}
+</script>
