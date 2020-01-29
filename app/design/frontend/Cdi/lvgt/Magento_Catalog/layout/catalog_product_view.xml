@@ -12,32 +12,11 @@
 					</container>
 				</container>
 			</container>
-			<referenceContainer name="product.info.main" htmlClass="product-info_main col-md-6">
+			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-6">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
-			<referenceContainer name="product.info.media" htmlClass="product-info_media col-md-6"/>
-			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
-                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" after="-"/>
-                    <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
-                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" after="-">
-                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
-                    </block>
-            </block>
-			<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.  bestseller" template="productslider.phtml" after="-">
-				<arguments>
-					<argument name="products_count" xsi:type="number">8</argument>
-					<argument name="margin" xsi:type="string">5</argument>
-					<argument name="heading" xsi:type="string" translate="true">Best Seller</argument>
-					<argument name="title" xsi:type="string" translate="true">Best Seller</argument>
-				</arguments>
-			</block>
+			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-6"/>
 		</referenceContainer>
-        <referenceContainer name="content.aside">
-			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
-			<referenceContainer name="newsletter-container-custom">
-				<block class="Magento\Framework\View\Element\Template" name="product.newsletter" template="Magento_Theme::html/newsletter.phtml" />
-			</referenceContainer> 
-        </referenceContainer>
 		<referenceBlock name="product.info.sku" remove="true" />
 		<referenceBlock name="product.info.overview" remove="true" />
 		
@@ -46,10 +25,12 @@
 		-->
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
-		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>>
+		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
 
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
+		<!--Mueve el precio al bloque sticky-->		
+        <referenceBlock name="product.info.review" remove="true" />
         <!--
 		* Elimina contenido
 		<referenceBlock name="product.info.description" remove="true"/>
@@ -59,8 +40,8 @@
 		-->
 		<!--Elimina short description-->
 		<referenceBlock name="page.main.title" remove="true" />
-		<!--Elimina botones social (wishlist, mail, compare)
-		<referenceBlock name="product.info.social" remove="true" />-->
+		<!--Elimina botones social (wishlist, mail, compare)-->
+		<referenceBlock name="product.info.social" remove="true" />
 		<!--Elimina botón reviews-->
 		<referenceBlock name="product.info.review" remove="true" />
 		<!--Elimina el grupo de información adicional
