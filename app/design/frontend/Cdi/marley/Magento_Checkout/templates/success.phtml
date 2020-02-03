@@ -5,7 +5,9 @@
  */
 
 // @codingStandardsIgnoreFile
-
+/*print_r(get_class_methods($block));
+print_r($block->getLoadedProductCollection());
+die('succes');*/
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <div class="checkout-success">
@@ -32,3 +34,45 @@
         </div>
     </div>
 </div>
+<?php
+/*    $order = $block->escapeHtml($block->getOrderId());
+echo <<<JG
+<script>
+    "dataLayer.push({
+        'event': 'transaction',
+        'ecommerce': {
+            'purchase': {
+                'actionField': {
+                    'id': {$order},
+                    'affiliation': HOM,
+                    'revenue': orderTotal,
+                    'tax': orderTax,
+                    'shipping': orderShipping,
+                    'coupon': orderCoupon
+                },
+                'products': [{
+                    'id': productSku,
+                    'name': productName,
+                    'price': productPrice,
+                    'brand': productName,
+                    'category': productCategory,
+                    'variant': productVarian,
+                    'quantity': productQty,
+                    'coupon': productCoupon
+                },
+                {
+                    'id': 'MM101HOM24',
+                    'name': 'NO BOUNDS XL SIGNATURE GREY', 
+                    'price': '3959',
+                    'brand': 'MARLEY', 
+                    'category': 'PARLANTES',
+                    'variant': 'BLANCO',
+                    'quantity': 2,
+                    'coupon': 'AEIOU'
+                }]
+            }
+        }
+    });
+</script>
+JG;*/
+?>
