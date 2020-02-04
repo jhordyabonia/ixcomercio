@@ -1,45 +1,49 @@
-<div class="container">
-    <div class="row">
-        <h1 class="page-title"><?php echo $this->getTitle() ?></h1>
-        <div class="order-progress-bar">            
-            <?php if($this->getOrderStatus() == 'canceled'){ ?>
-                <div class="canceled-progress-bar">
-                    <div class="processed">
-                        <?php echo __('Confirmed order') ?>
-                    </div>
-                    <div class="processed">
-                        <?php echo __('Order canceled') ?>
-                    </div>
+<div class="block">
+    <div class="block-title">
+        <strong><?php echo $this->getTitle() ?></strong>
+    </div>
+    
+    <?php if($this->getOrderStatus() == 'canceled'){ ?>
+        <div class="block-content">
+            <div class="canceled-progress-bar">
+                <div class="processed">
+                    <?php echo __('Confirmed order') ?>
                 </div>
-            <?php } else {?>
-                <div class="normal-progress-bar">
-                    <div class="processed">
-                        <?php echo __('Confirmed order') ?>
-                    </div>
-                    <div class="<?php echo ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
-                        <?php echo __('Payment Processed') ?>
-                    </div>
-                    <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
-                        <?php echo __('Guide generated') ?>
-                        <?php if($this->getOrderGuide() == 1){ ?>
-                            <div class="guide-generated">
-                                <?php if($this->getMienvioDataStatus()){ ?>
-                                    <ul class="tracking-detail">
-                                        <li><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></li>
-                                        <a href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"><li><?php echo __('Tracking url') ?></li></a>
-                                        <a href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"><li><?php echo __('PDF Information') ?></li></a>
-                                    </ul>
-                                <?php } else{ ?>
-                                    <span><?php echo __('Tracking information is not available. Try again later') ?></span>
-                                <?php } ?>
-                            </div>
+                <div class="processed">
+                    <?php echo __('Order canceled') ?>
+                </div>
+            </div>
+        </div>
+    <?php } else {?>
+        <div class="block-content">
+            <div class="normal-progress-bar">
+                <div class="processed">
+                    <?php echo __('Confirmed order') ?>
+                </div>
+                <div class="<?php echo ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
+                    <?php echo __('Payment Processed') ?>
+                </div>
+            </div>
+            
+            <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
+                <strong class="box-title"><?php echo __('Guide generated') ?></strong>
+                <?php if($this->getOrderGuide() == 1){ ?>
+                    <div class="guide-generated">
+                        <?php if($this->getMienvioDataStatus()){ ?>
+                            <span><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></span>
+                            <ul class="tracking-detail">
+                                <a class="action" href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"><?php echo __('Tracking url') ?></a>
+                                <a class="action" href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"><?php echo __('PDF Information') ?></a>
+                            </ul>
+                        <?php } else{ ?>
+                            <span><?php echo __('Tracking information is not available. Try again later') ?></span>
                         <?php } ?>
                     </div>
-                    <div class="<?php echo ($this->getOrderDelivery() == 1 ? 'processed' : 'no-processed') ?>">
-                        <?php echo __('Order delivered') ?>
-                    </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
+            </div>
+            <div class="<?php echo ($this->getOrderDelivery() == 1 ? 'processed' : 'no-processed') ?>">
+                <?php echo __('Order delivered') ?>
+            </div>
         </div>
-    </div>
+    <?php } ?>
 </div>
