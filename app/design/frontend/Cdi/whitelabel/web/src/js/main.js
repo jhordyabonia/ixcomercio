@@ -498,7 +498,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	});
 
 	
-	var list = jQuery(".search.results .products-grid .product-items .item");
+	var list = jQuery(".search.results .products-grid .product-items > .item");
 	var arrayList = [];
 	jQuery.each(list, function(i, val){
 		arrayList.push(jQuery(val).innerHeight());
