@@ -16439,3 +16439,6 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Subject","Asunto",module,Magento_Contact
 "Need Help?","¿Necesitas ayuda?",lib,web
 "The shipping method is missing. Select the shipping method and try again.","Selecciona método de pago",module,Magento_Checkout
+"Provided Zip/Postal Code seems to be invalid. Example: 12345. If you believe it is the right one you can ignore this notice.","Por favor verifica el código postal",module,Magento_Checkout
+"Terms of Use","Términos de uso",lib,web
+"Privacy Policy","Política de privacidad",lib,web
