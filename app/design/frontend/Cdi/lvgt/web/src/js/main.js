@@ -187,7 +187,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Create carousel product grid
 	    // =============================================
-		/*
+		
 		if($('.products-grid .owl-carousel').length){
 			$('.products-grid .owl-carousel').owlCarousel({
 				nav: true,
@@ -208,7 +208,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			    }
 			});
 		}
-		*/
+		
 
 		// =============================================
 	    // Get states
