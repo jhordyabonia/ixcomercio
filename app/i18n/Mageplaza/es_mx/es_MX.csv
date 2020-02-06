@@ -3743,6 +3743,8 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Street Address:","Dirección:",module,Magento_Company
 "City:","Ciudad:",module,Magento_Company
 "Country:","País:",module,Magento_Company
+"Identification:","Identificación:",module,Magento_Company
+"Zone:","Zona:",module,Magento_Company
 "State/Province:","Estado/Provincia:",module,Magento_Company
 "ZIP/Postal Code:","Código Postal:",module,Magento_Company
 "Phone Number:","Número de teléfono:",module,Magento_Company
@@ -3884,6 +3886,7 @@ o equipos primero.",module,Magento_Company
 "Country","País",module,Magento_Company
 "State/Province","Estado/provincia",module,Magento_Company
 "Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Company
+"Please select a city.","Por favor selecciona una ciudad.",module,Magento_Company
 "ZIP/Postal Code","Código Postal",module,Magento_Company
 "Phone Number","Número de teléfono",module,Magento_Company
 "Identification","Identificación",module,Magento_Company
@@ -5050,6 +5053,8 @@ new products will be created. Use this step to customize images and price for yo
 "Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Customer
 "Zip/Postal Code","Código Postal",module,Magento_Customer
 "Country","País",module,Magento_Customer
+"Identification","Identificación",module,Magento_Customer
+"Zone","Zona",module,Magento_Customer
 "It's a default billing address.","Es una dirección de facturación predeterminada.",module,Magento_Customer
 "Use as my default billing address","Utilizar como mi dirección de facturación por defecto",module,Magento_Customer
 "It's a default shipping address.","Es una dirección de envío predeterminada.",module,Magento_Customer
@@ -5540,6 +5545,8 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_CustomerCustomAttributes
 "Zip/Postal Code","Código Postal",module,Magento_CustomerCustomAttributes
 "Country","País",module,Magento_CustomerCustomAttributes
+"Identification","Identificación",module,Magento_CustomerCustomAttributes
+"Zone","Zona",module,Magento_CustomerCustomAttributes
 "This is your default billing address.","Esta es tu dirección de facturación predeterminada.",module,Magento_CustomerCustomAttributes
 "Use as my default billing address","Utilice como mi dirección de facturación por defecto",module,Magento_CustomerCustomAttributes
 "This is your default shipping address.","Esta es tu dirección de envío predeterminada.",module,Magento_CustomerCustomAttributes
@@ -5773,6 +5780,8 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Phone","Teléfono",module,Magento_CustomerSegment
 "ZIP","Código postal",module,Magento_CustomerSegment
 "Country","País",module,Magento_CustomerSegment
+"Identification","Identificación",module,Magento_CustomerSegment
+"Zone","Zona",module,Magento_CustomerSegment
 "State/Province","Estado/provincia",module,Magento_CustomerSegment
 "Customer Since","Cliente desde",module,Magento_CustomerSegment
 "View Combined Report","Ver informe combinado",module,Magento_CustomerSegment
@@ -16439,3 +16448,12 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Subject","Asunto",module,Magento_Contact
 "Need Help?","¿Necesitas ayuda?",lib,web
 "The shipping method is missing. Select the shipping method and try again.","Selecciona método de pago",module,Magento_Checkout
+"Provided Zip/Postal Code seems to be invalid. Example: 12345. If you believe it is the right one you can ignore this notice.","Por favor verifica el código postal",module,Magento_Checkout
+"Terms of Use","Términos de uso",lib,web
+"Privacy Policy","Política de privacidad",lib,web
+"Sign in with Facebook","Ingresar con Facebook",module,Magento_Customer
+"Sign in with Google","Ingresar con Google",module,Magento_Customer
+"Please enter a valid email address (Ex: johndoe@domain.com).","Ingresa una cuenta válida (Ej: johndoe@domain.com).",module,Magento_Customer
+"The account sign-in was incorrect or your account is disabled temporarily. Please wait and try again later.","La cuenta es incorrecta o ha sido desactivada temporalmente. Por favor intente nuevamente.",module,Magento_Customer
+"Identification","Identificación",module,Magento_Checkout
+
