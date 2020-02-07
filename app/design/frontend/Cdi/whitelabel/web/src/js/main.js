@@ -235,7 +235,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
 
-			        console.log($(fieldState).find("option").html());
+			        console.log($(fieldState).html());
 
 			        $('body').trigger('processStop');
 
@@ -285,7 +285,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
 
-			    	console.log($(fieldCity).find("option").html());
+			    	console.log($(fieldCity).html());
 
 			    	$('body').trigger('processStop');
 		        }
