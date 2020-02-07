@@ -235,6 +235,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
 
+			        console.log($(fieldState).find("<option>"));
+
 			        $('body').trigger('processStop');
 
 			    }
@@ -283,6 +285,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
 
+			    	console.log($(fieldCity).find("<option>"));
+
 			    	$('body').trigger('processStop');
 		        }
 	      	});
@@ -309,6 +313,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 				  	$.each(resCity, function(iResCity, valResCity){
 				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
+
+				  	console.log($(fieldZoneStreet).find("<option>"));
 
 				  	$('body').trigger('processStop');
 
