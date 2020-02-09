@@ -322,14 +322,12 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    // Print postal code
 	    // =============================================
 
-	    $('#fieldSelectStreet').on('change', function (e) {
+	    fieldZoneStreet.on('change', function (e) {
 	    	$('body').trigger('processStart');
-	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-			$(fieldStreet).find('input').val($(valStreet).text());
-			$(fieldStreet).find('input').keyup();
-
-	    	$('#zip').val($(valStreet).attr('postalCode'));
-	    	$('#zip').find('input').keyup();
+	    	var valStreet = $(fieldZoneStreet).find('option:selected');
+			
+	    	$('#zip').val($(valStreet).attr('postalcode'));
+	    	$('#zip').keyup();
 	    	$('body').trigger('processStop');
 	    });
 
