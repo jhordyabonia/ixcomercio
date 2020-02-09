@@ -33,6 +33,10 @@
           float: left;
           padding-right: 20px;
           margin-bottom: 0;
+          @media (max-width: $desktop){
+            width: 30%;
+            padding-right: 0;
+          }
           .product-image-container {
             float: left;
           }
@@ -40,6 +44,9 @@
         .product-item-name, .product-reviews-summary {
           width: 80%;
           float: right;
+          @media (max-width: $desktop){
+            width: 100%;
+          }
         }
         .product-item-name {
           a{
@@ -71,6 +78,10 @@
           position: absolute;
           text-align: center;
           padding: 0 15px;
+          @media (max-width: $desktop){
+            left: 30%;
+            width: 25%;
+          }
           .price-label{
             display: none;
           }
@@ -93,6 +104,10 @@
           left: 60%;
           width: 40%;
           position: absolute;
+          @media (max-width: $desktop){
+            left: 55%;
+            width: 45%;
+          }
           .comment-box {
             display: none;
           }
@@ -153,6 +168,9 @@
               .actions-primary {
                 width: 140px;
                 display: inline-block;
+                @media (max-width: $desktop){
+                  width: 100%;
+                }
               } 
             }
           }
@@ -182,6 +200,9 @@
                 color: #fff;
                 background: #000;
                 border: 1px solid #000;
+              }
+              @media (max-width: $desktop){
+                width: 100%;
               }
             }
           }
