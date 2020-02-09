@@ -124,6 +124,11 @@
               .label {
                 display: none;
               }
+              .control{
+                @media (min-width: $tablet){
+                  width: 100%;
+                }
+              }
               .control-qty, .input-text.qty {
                 display: inline-block;
               }
