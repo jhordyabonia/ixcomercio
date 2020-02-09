@@ -236,6 +236,8 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
 
+			        console.log($(fieldState).html());
+
 			        $('body').trigger('processStop');
 
 			    }
