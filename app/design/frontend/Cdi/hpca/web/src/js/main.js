@@ -283,13 +283,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	$('body').trigger('processStart');
 	      	$.ajax({
 		        url: '/places/search/',
-		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
+		        data: 'parentId='+fieldState.find('option:selected').attr('parentid'),
 		        type: 'GET',
 		        dataType: 'json',
 		        success: function(res) {
 			        $(fieldCity).find('option:not([value=""])').remove();
 			        $.each(res, function(i, val){
-			            $(fieldCity).append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
+			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
 
 			    	$('body').trigger('processStop');
@@ -310,13 +310,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	$('body').trigger('processStart');
 	    	$.ajax({
 				url: '/places/search/',
-				data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+				data: 'parentId='+$('#city_id').find('option:selected').attr('parentid'),
 				type: 'GET',
 				dataType: 'json',
 				success: function(resCity) {
 					$(fieldZoneStreet).find('select option:not([value=""])').remove();
 				  	$.each(resCity, function(iResCity, valResCity){
-				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
 
 				  	$('body').trigger('processStop');
@@ -329,14 +329,14 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // Print postal code
 	    // =============================================
 
-	    $('#fieldSelectStreet').on('change', function (e) {
+	    fieldZoneStreet.on('change', function (e) {
 	    	$('body').trigger('processStart');
-	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-			$(fieldStreet).find('input').val($(valStreet).text());
-			$(fieldStreet).find('input').keyup();
+	    	var valStreet = $(fieldZoneStreet).find('option:selected');
+			//$(fieldStreet).find('input').val($(valStreet).text());
+			//$(fieldStreet).find('input').keyup();
 
-	    	$('#zip').val($(valStreet).attr('postalCode'));
-	    	$('#zip').find('input').keyup();
+	    	$('#zip').val($(valStreet).attr('postalcode'));
+	    	$('#zip').keyup();
 	    	$('body').trigger('processStop');
 	    });
 
