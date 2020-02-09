@@ -229,14 +229,11 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			    success: function(res) {
 			    	$(fieldState).find('option:not([value=""])').remove();
 			    	$.each(res, function(iRes, valRes){
-			    		$(fieldState).append("<option value='"+valRes.Id+"' parentId='"+valRes.Id+"'>"+valRes.Name+"</option>");
-			    		console.log("<option value='"+valRes.Id+"' parentId='"+valRes.Id+"'>"+valRes.Name+"</option>");
+			    		$(fieldState).append("<option value='"+valRes.Id+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
-
-			        console.log($(fieldState).html());
 
 			        $('body').trigger('processStop');
 
@@ -284,6 +281,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			        $(fieldCity).find('option:not([value=""])').remove();
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
+			            console.log($(fieldCity).html());
 			    	});
 
 			    	console.log($(fieldCity).html());
