@@ -314,6 +314,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			var valCity = $('#city_id').find('option:selected');
 			$('#city_id').parent().find('input').val($(valCity).text());
 			$('#city_id').parent().find('input').keyup();
+			console.log("test");
 	    });
 
 
@@ -323,12 +324,12 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	    $('#fieldSelectStreet').on('change', function (e) {
 	    	$('body').trigger('processStart');
-	    	var valStreet = $(fieldZoneStreet).find('option:selected');
-			//$(fieldStreet).find('input').val($(valStreet).text());
-			//$(fieldStreet).find('input').keyup();
+	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
+			$(fieldStreet).find('input').val($(valStreet).text());
+			$(fieldStreet).find('input').keyup();
 
-	    	$('#zip').val($(valStreet).attr('postalcode'));
-	    	$('#zip').keyup();
+	    	$('#zip').val($(valStreet).attr('postalCode'));
+	    	$('#zip').find('input').keyup();
 	    	$('body').trigger('processStop');
 	    });
 
