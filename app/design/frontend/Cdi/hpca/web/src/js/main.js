@@ -322,6 +322,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				  	$('body').trigger('processStop');
 				}
 			});
+
+			var valCity = $('#city_id').find('option:selected');
+			$('#city_id').parent().find('input').val($(valCity).text());
+			$('#city_id').parent().find('input').keyup();
 	    });
 
 

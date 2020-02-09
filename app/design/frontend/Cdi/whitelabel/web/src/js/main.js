@@ -314,6 +314,10 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 				}
 			});
+
+			var valCity = $('#city_id').find('option:selected');
+			$('#city_id').parent().find('input').val($(valCity).text());
+			$('#city_id').parent().find('input').keyup();
 	    });
 
 
