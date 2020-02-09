@@ -229,13 +229,12 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			    success: function(res) {
 			    	$(fieldState).find('option:not([value=""])').remove();
 			    	$.each(res, function(iRes, valRes){
-			    		$(fieldState).append("<option value='"+valRes.Id+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
+			    		$(fieldState).append("<option value='"+valRes.Id+"' parentId='"+valRes.Id+"'>"+valRes.Name+"</option>");
+			    		console.log("<option value='"+valRes.Id+"' parentId='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
 			        $("input#region").hide();
-
-			        console.log($(fieldState).html());
 
 			        $('body').trigger('processStop');
 
@@ -314,7 +313,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
 
-				  	console.log($(fieldZoneStreet).find("option").html());
+				  	console.log($(fieldZoneStreet).html());
 
 				  	$('body').trigger('processStop');
 
