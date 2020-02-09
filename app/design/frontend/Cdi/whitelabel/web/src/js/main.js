@@ -281,10 +281,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			        $(fieldCity).find('option:not([value=""])').remove();
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
-			            console.log($(fieldCity).html());
 			    	});
-
-			    	console.log($(fieldCity).html());
 
 			    	$('body').trigger('processStop');
 		        }
@@ -313,8 +310,6 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
 
-				  	console.log($(fieldZoneStreet).html());
-
 				  	$('body').trigger('processStop');
 
 				}
@@ -326,14 +321,14 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    // Print postal code
 	    // =============================================
 
-	    $('#fieldSelectStreet').on('change', function (e) {
+	    fieldZoneStreet.on('change', function (e) {
 	    	$('body').trigger('processStart');
-	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-			$(fieldStreet).find('input').val($(valStreet).text());
-			$(fieldStreet).find('input').keyup();
+	    	var valStreet = $(fieldZoneStreet).find('option:selected');
+			//$(fieldStreet).find('input').val($(valStreet).text());
+			//$(fieldStreet).find('input').keyup();
 
 	    	$('#zip').val($(valStreet).attr('postalcode'));
-	    	$('#zip').find('input').keyup();
+	    	$('#zip').keyup();
 	    	$('body').trigger('processStop');
 	    });
 
