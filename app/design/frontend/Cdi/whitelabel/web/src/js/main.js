@@ -242,7 +242,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			    success: function(res) {
 			    	$(fieldState).find('option:not([value=""])').remove();
 			    	$.each(res, function(iRes, valRes){
-			    		$(fieldState).append("<option value='"+valRes.Id+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
+			    		$(fieldState).append("<option value='"+valRes.Name+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
