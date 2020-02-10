@@ -209,7 +209,6 @@
             .field.qty, .product-item-actions {
               width: 50%;
               float: left;
-              margin: 0;
               @media (max-width: $tablet) {
                 width: 100%;
                 max-width: 50%;
@@ -223,6 +222,7 @@
             }
             .product-item-actions {
               text-align: center;
+              margin: 0;
               .actions-primary {
                 width: 140px;
                 display: inline-block;
