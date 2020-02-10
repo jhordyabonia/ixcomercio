@@ -43,6 +43,7 @@ header{
       .header-branding{
         @media only screen and (max-width: $mobile){
           z-index: 10;
+          pointer-events: none;
         }
         .logo{
           width: 100%;
@@ -54,6 +55,9 @@ header{
             margin: 0 auto;
             display: inline-block;
             float: none;
+          }
+          @media only screen and (max-width: $mobile){
+            pointer-events: auto;
           }
           img{
             width: auto;
