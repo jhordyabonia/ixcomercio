@@ -265,6 +265,9 @@
                 min-width: 140px;
                 display: block;
               }
+              @media (max-width: $mobilex) {
+                max-width: 100%;
+              }
             }
           }
         }
