@@ -206,8 +206,9 @@
               float: left;
               margin: 0;
               @media (max-width: $tablet) {
-                width: 50%;
-                max-width: 140px;
+                width: 100%;
+                max-width: 50%;
+                min-width: 140px;
               }
             }
             .product-item-actions {
@@ -226,6 +227,10 @@
             margin: 0;
             float: right;
             text-align: center;
+            @media (max-width: $tablet){
+              width: 100%;
+              float: left;
+            }
             .action-secondary {
               width: 140px;
               height: 42px;
@@ -250,6 +255,10 @@
               }
               @media (max-width: $desktop){
                 width: 100%;
+              }
+              @media (max-width: $tablet) {
+                max-width: 50%;
+                min-width: 140px;
               }
             }
           }
