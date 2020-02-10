@@ -328,6 +328,27 @@ header{
           }
           .header-account-mobile {
             display: none;
+            .custom-mobile-top-links {
+              width: 100%;
+              margin-top: 20px;
+              text-align: left;
+              padding: 8px 15px;
+              float: left;
+              .list-registered-user {
+                > li {
+                  font-weight: bold;
+                }
+                li{
+                  padding: 6px 0;
+                }
+                li, a{
+                  width: 100%;
+                  color: #000;
+                  font-size: 14px;
+                  float: left;
+                }
+              }
+            }
           }
           .nav-sections{
             width: auto;
@@ -407,6 +428,11 @@ header{
                         padding-right: 50px;
                         background: #e9e9e9;
                       }
+                      &:after {
+                        @media only screen and (max-width: $tablet){
+                          top: inherit;
+                        }
+                      }
                       >.ui-menu-icon{
                         @media only screen and (max-width: $desktop){
                           width: 40px;
@@ -440,13 +466,20 @@ header{
                   }
                 }
                 .submenu{
-                  @media only screen and (min-width: $tablet) and (max-width: $desktop){
+                  @media only screen and (max-width: $tablet){
+                    top: 0!important;
+                    box-shadow: none;
+                  }
+                  @media only screen and (min-width: 769px) and (max-width: $desktop){
                     top: 0!important;
                     display: none!important;
                   }
                   li{
                     a{
                       padding: 12px 20px;
+                      @media only screen and (max-width: $tablet){
+                        border: 0!important;
+                      }
                     }
                     &.parent{
                       > a >.ui-menu-icon{
@@ -460,6 +493,13 @@ header{
                       }
                     }
                   }
+                }
+              }
+            }
+            &.open {
+              .header-account-mobile {
+                @media only screen and (max-width: $mobile){
+                  display: block;
                 }
               }
             }
