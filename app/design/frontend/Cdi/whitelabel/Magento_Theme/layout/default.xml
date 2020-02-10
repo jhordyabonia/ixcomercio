@@ -20,7 +20,7 @@
     			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="container">
 					<container name="header.row" as="header_row" before="-" htmlTag="div" htmlClass="row">
 						<container name="header.row.container.branding" as="header_row_container_branding" before="-" htmlTag="div" htmlClass="header-branding col-md-2 col-xs-6" />
-						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-wrapper-nav col-md-10" after="header_row_container_access">
+						<container name="header.row.container.mainmenu" as="header_row_container_mainmenu" htmlTag="div" htmlClass="header-wrapper-nav col-md-10">
 							<container name="header.wrapper.mainmenu" as="header_wrapper_mainmenu" htmlTag="div" htmlClass="wrapper-nav">
 								<container name="header.row.container.access" as="header_row_container_access" before="-" htmlTag="div" htmlClass="header-account-mobile">
 									<block class="Magento\Framework\View\Element\Template" name="account.mobile" template="Magento_Theme::html/account_mobile.phtml"/>
