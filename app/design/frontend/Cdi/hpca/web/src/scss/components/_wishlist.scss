@@ -74,6 +74,9 @@
             line-height: 1.42857143;
             margin-top: 6px;
             float: left;
+            @media (max-width: $tablet){
+              width: 100%;
+            }
           }
         }
         .product-reviews-summary {
@@ -106,6 +109,8 @@
             width: 100%;
             padding: 0;
             position: relative;
+            text-align: left;
+            float: left;
           }
           .price-label{
             display: none;
@@ -143,6 +148,10 @@
             display: none;
           }
           .box-tocart {
+            @media (max-width: $tablet){
+              margin: 0;
+              width: 100%;
+            }
             .fieldset {
               margin-bottom: 6px;
             }
@@ -195,8 +204,10 @@
             .field.qty, .product-item-actions {
               width: 50%;
               float: left;
-              @media (min-width: $tablet) {
-                margin: 0;
+              margin: 0;
+              @media (max-width: $tablet) {
+                width: 50%;
+                max-width: 140px;
               }
             }
             .product-item-actions {
