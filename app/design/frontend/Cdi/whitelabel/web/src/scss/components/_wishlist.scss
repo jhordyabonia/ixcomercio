@@ -51,6 +51,9 @@
           }
           .product-image-container {
             float: left;
+            @media (max-width: $tablet){
+              max-width: 80%;
+            }
           }
         }
         .product-item-name, .product-reviews-summary {
