@@ -110,6 +110,7 @@ header{
             }
             @media only screen and (max-width: $mobile){
               border: 0;
+              padding: 0;
             }
             .options .action.toggle{
               &:after, &.active:after{
@@ -381,10 +382,12 @@ header{
                 display: block;
                 transition: .5s all ease;
                 pointer-events: auto;
+                overflow: overlay;
               }
               .nav-sections-items{
                 width: 75%;
-                height: 100%;
+                height: auto;
+                min-height: 100%;
                 padding: 20px 0;
                 background: #f5f5f5;
                 position: absolute;
