@@ -105,9 +105,11 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            @media only screen and (max-width: $tablet){
+              padding-right: 6px;
+            }
             @media only screen and (max-width: $mobile){
               border: 0;
-              padding-right: 6px;
             }
             .options .action.toggle{
               &:after, &.active:after{
@@ -140,6 +142,9 @@ header{
             border-right: 1px solid #e5e5e5;
             font-size: 14px;
             float: left;
+            @media only screen and (max-width: $tablet){
+              padding: 0 12px;
+            }
             @media only screen and (max-width: $mobile){
               padding: 0 6px;
               border-right: 0;
