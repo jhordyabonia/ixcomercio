@@ -39,7 +39,7 @@
 
 
 		<container name="wrapper.menu.mobile" as="wrapper_menu_mobile" after="header.row.container.freeshipping" htmlTag="div" htmlClass="wrapper-menu-mobile">
-			<container name="header.icon.menu" as="header_icon_menu" after="-" htmlTag="div" htmlClass="quick-access">
+			<container name="header.icon.menu" as="header_icon_menu" before="-" htmlTag="div" htmlClass="quick-access">
 				<block class="Magento\Framework\View\Element\Template" name="header.iconmenu.block" template="Magento_Theme::html/icon-menu.phtml" cacheable="false"/>
 			</container>
 
