@@ -208,7 +208,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
-	    // Get states
+	    // Add menu account mobile
 	    // =============================================
 	    if($('.header-account-mobile').length){
 	    	var menuAccountMobile = $('.header-account-mobile');

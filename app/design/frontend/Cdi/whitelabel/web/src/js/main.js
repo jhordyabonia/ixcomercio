@@ -213,6 +213,17 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
+	    // Add menu account mobile
+	    // =============================================
+	    if($('.header-account-mobile').length){
+	    	var menuAccountMobile = $('.header-account-mobile');
+	    	var parent = $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items');
+
+	    	$(parent).append(menuAccountMobile);
+	    }
+
+
+		// =============================================
 	    // Get states
 	    // =============================================
 
