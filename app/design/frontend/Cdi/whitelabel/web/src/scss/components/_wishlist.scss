@@ -152,6 +152,7 @@
             @media (max-width: $tablet){
               margin: 0;
               width: 100%;
+              float: left;
             }
             .fieldset {
               margin-bottom: 6px;
@@ -162,6 +163,9 @@
               vertical-align: middle;
               position: relative;
               margin: 0;
+              @media (max-width: $tablet) {
+                margin: 20px 0;
+              }
               .label {
                 display: none;
               }
@@ -210,6 +214,8 @@
                 width: 100%;
                 max-width: 50%;
                 min-width: 140px;
+                display: block;
+                float: none;
               }
               @media (max-width: $mobilex) {
                 max-width: 100%;
