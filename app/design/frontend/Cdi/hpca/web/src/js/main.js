@@ -163,8 +163,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 
 		$('#iconBurgerButton').click(function(){
+			var hNavMobile = w_height - ($(".page-header").innerHeight());
 			$('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
-			$('header .wrapper-nav .nav-sections').css('minHeight', w_height);
+
+			$('header .wrapper-nav .nav-sections').css('minHeight', hNavMobile);
 			$(this).toggleClass("close");
 
 			setTimeout(function(){
