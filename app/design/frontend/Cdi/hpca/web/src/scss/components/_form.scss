@@ -44,10 +44,7 @@ form{
 				    }
 				}
 				> .control{
-					width: 100%;
-					@media only screen and (min-width: $tablet){
-						width: 100%;
-					}
+					width: 100%!important;
 					&._with-tooltip{
 						input{
 							width: 100%;
