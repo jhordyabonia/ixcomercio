@@ -6,15 +6,18 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
         <ul class="list-registered-user">
             <li><?php echo __('Hello')?>, <?php echo $customerSession->getCustomer()->getName() ?></li>
             <ul>
-                <a href="<?php echo $this->getUrl('customer/account') ?>"><li><?php echo __('My Account') ?></li></a>
-                <a href="<?php echo $this->getUrl('sales/order/history') ?>"><li><?php echo __('My Orders') ?></li></a>
-                <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Sign Out') ?></li></a>
+                <li><a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('My Account') ?></a></li>
+                <li><a href="<?php echo $this->getUrl('sales/order/history') ?>"><?php echo __('My Orders') ?></a></li>
+                <li><a href="<?php echo $this->getUrl('wishlist') ?>"><?php echo __('My Wishlist') ?></a></li>
+                <li><a href="<?php echo $this->getUrl('customer/account/logout') ?>"><?php echo __('Sign Out') ?></a></li>
             </ul>
         </ul>
+        <!--
         <span data-bind="scope: 'wishlist'" class="link wishlist">
             <a href="<?php echo $this->getUrl('wishlist') ?>">
                 <?php echo __('My Wishlist') ?><span data-bind="text: wishlist().counter" class="counter qty"></span>
             </a>
         </span>
+        -->
     <?php } ?>
 </div>

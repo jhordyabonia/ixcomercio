@@ -149,7 +149,7 @@
           background: none !important;
         }
         .MagicScroll-bullets {
-          > div a[target="_blank"] {
+          > div a[target="_blank"], > span a[target="_blank"] {
             display: none;
           }
         }

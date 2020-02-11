@@ -43,6 +43,7 @@ header{
       .header-branding{
         @media only screen and (max-width: $mobile){
           z-index: 10;
+          pointer-events: none;
         }
         .logo{
           width: 100%;
@@ -54,6 +55,9 @@ header{
             margin: 0 auto;
             display: inline-block;
             float: none;
+          }
+          @media only screen and (max-width: $mobile){
+            pointer-events: auto;
           }
           img{
             width: auto;
@@ -102,9 +106,12 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            @media only screen and (max-width: $tablet){
+              padding-right: 6px;
+            }
             @media only screen and (max-width: $mobile){
               border: 0;
-              padding-right: 6px;
+              padding: 0;
             }
             .options .action.toggle{
               &:after, &.active:after{
@@ -137,6 +144,9 @@ header{
             border-right: 1px solid #e5e5e5;
             font-size: 14px;
             float: left;
+            @media only screen and (max-width: $tablet){
+              padding: 0 12px;
+            }
             @media only screen and (max-width: $mobile){
               padding: 0 6px;
               border-right: 0;
@@ -184,6 +194,9 @@ header{
                 cursor: pointer;
                 @media only screen and (max-width: $desktop){
                   padding-top: 0;
+                }
+                @media only screen and (max-width: $tablet){
+                  margin: 0 12px 0 0;
                 }
                 @media only screen and (max-width: $mobile){
                   display: none;
@@ -320,6 +333,27 @@ header{
           }
           .header-account-mobile {
             display: none;
+            .custom-mobile-top-links {
+              width: 100%;
+              margin-top: 20px;
+              text-align: left;
+              padding: 8px 15px;
+              float: left;
+              .list-registered-user {
+                > li {
+                  font-weight: bold;
+                }
+                li{
+                  padding: 6px 0;
+                }
+                li, a{
+                  width: 100%;
+                  color: #000;
+                  font-size: 14px;
+                  float: left;
+                }
+              }
+            }
           }
           .nav-sections{
             width: auto;
@@ -342,10 +376,12 @@ header{
                 display: block;
                 transition: .5s all ease;
                 pointer-events: auto;
+                overflow: overlay;
               }
               .nav-sections-items{
                 width: 75%;
-                height: 100%;
+                height: auto;
+                min-height: 100%;
                 padding: 20px 0;
                 background: #f5f5f5;
                 position: absolute;
@@ -399,6 +435,11 @@ header{
                         padding-right: 50px;
                         background: #e9e9e9;
                       }
+                      &:after {
+                        @media only screen and (max-width: $tablet){
+                          top: inherit;
+                        }
+                      }
                       >.ui-menu-icon{
                         @media only screen and (max-width: $desktop){
                           width: 40px;
@@ -432,13 +473,20 @@ header{
                   }
                 }
                 .submenu{
-                  @media only screen and (min-width: $tablet) and (max-width: $desktop){
+                  @media only screen and (max-width: $tablet){
+                    top: 0!important;
+                    box-shadow: none;
+                  }
+                  @media only screen and (min-width: 769px) and (max-width: $desktop){
                     top: 0!important;
                     display: none!important;
                   }
                   li{
                     a{
                       padding: 12px 20px;
+                      @media only screen and (max-width: $tablet){
+                        border: 0!important;
+                      }
                     }
                     &.parent{
                       > a >.ui-menu-icon{
@@ -452,6 +500,13 @@ header{
                       }
                     }
                   }
+                }
+              }
+            }
+            &.open {
+              .header-account-mobile {
+                @media only screen and (max-width: $mobile){
+                  display: block;
                 }
               }
             }
