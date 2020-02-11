@@ -1,6 +1,6 @@
 form{
 	text-align: left;
-	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
+	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search, &.send.friend{
 		@media only screen and (min-width: $tablet){
 			width: 100%!important;
     		min-width: inherit!important;
@@ -108,8 +108,8 @@ form{
 		}
 	}
 }
-.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword{
-	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset{
+.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword, .sendfriend-product-send{
+	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset, .send.friend{
 		text-align: left;
 		@media only screen and (min-width: $tablet){
 			width: 100%;
