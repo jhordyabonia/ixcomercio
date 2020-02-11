@@ -217,11 +217,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		});
 
 
-
 		// =============================================
 	    // Create carousel product grid
 	    // =============================================
-	    
+
 		if($('.products-grid .owl-carousel').length){
 			$('.products-grid .owl-carousel').owlCarousel({
 				nav: true,
