@@ -1,4 +1,4 @@
-require(['jquery', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
@@ -206,6 +206,19 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    // Open minicart mobile
 	    // =============================================
 		$('header .header-toplinks a').click(function(){
+		    if($('.icon-search-button').hasClass('close')){
+		        toggleSearch();
+		    }
+		    if($('#iconBurgerButton').hasClass('close')){
+		        toggleMenuMobile();
+		    }
+		});
+
+
+		// =============================================
+	    // Toggle language
+	    // =============================================
+	    $('header .switcher-language .action.switcher-trigger').click(function(){
 		    if($('.icon-search-button').hasClass('close')){
 		        toggleSearch();
 		    }

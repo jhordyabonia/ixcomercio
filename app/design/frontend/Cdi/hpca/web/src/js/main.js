@@ -218,6 +218,19 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
+	    // Toggle language
+	    // =============================================
+	    $('header .switcher-language .action.switcher-trigger').click(function(){
+		    if($('.icon-search-button').hasClass('close')){
+		        toggleSearch();
+		    }
+		    if($('#iconBurgerButton').hasClass('close')){
+		        toggleMenuMobile();
+		    }
+		});
+
+
+		// =============================================
 	    // Create carousel product grid
 	    // =============================================
 
