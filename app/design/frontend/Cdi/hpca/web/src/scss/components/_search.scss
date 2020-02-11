@@ -43,6 +43,9 @@ header{
           position: static;
     		}
         .nested{
+          display: block;
+          padding-top: 5px;
+          position: absolute;
           a{
             color: $mainColor;
             font-size: 13px;
