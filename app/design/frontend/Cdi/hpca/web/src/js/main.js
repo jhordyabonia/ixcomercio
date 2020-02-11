@@ -155,13 +155,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // Toggle search
 	    // =============================================
 
-		jQuery('.icon-search-button').click(function(){
-			jQuery('.block-search').toggleClass("open");
-			jQuery(this).toggleClass("close");
+	    function toggleSearch(){
+	    	jQuery('.block-search').toggleClass("open");
+			jQuery('.icon-search-button').toggleClass("close");
 
 			if($('#iconBurgerButton').hasClass('close')){
 				toggleMenuMobile();
 			}
+	    }
+
+		jQuery('.icon-search-button').click(function(){
+			toggleSearch();
 		});
 		
 
@@ -182,6 +186,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    }
 
 		$('#iconBurgerButton').click(function(){
+			if($('.icon-search-button').hasClass('close')){
+				toggleSearch();
+			}
 			toggleMenuMobile();
 		});
 
