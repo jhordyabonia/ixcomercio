@@ -21,8 +21,6 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         <?php if ($_dob->isEnabled()): ?>
             <?= $_dob->setDate($block->getCustomer()->getDob())->toHtml() ?>
         <?php endif ?>
-        <pre>
-        </pre>
         <?php if ($_taxvat->isEnabled()): ?>
             <?= $_taxvat->setTaxvat($block->getCustomer()->getTaxvat())->toHtml() ?>
         <?php endif ?>
