@@ -4,6 +4,7 @@
 		<!--Agrega cabecera sticky para producto-->
 		<referenceContainer name="content">
 			<!--Asigna clases bootstrap a los contenedores main y media y los acomoda deontro de un contenedor-->
+
 			<container name="product.essential" htmlTag="div" htmlClass="product-view" before="-">
 				<container name="product.essential.contproduct" htmlTag="div" htmlClass="cont-product" before="-">
 					<container name="product.essential.container" htmlTag="div" htmlClass="container" before="-">
@@ -27,11 +28,13 @@
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-6"/>
 			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+			<!--
                     <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" after="-"/>
                     <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
                     <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" after="-">
                         <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
                     </block>
+			-->
             </block>
 			<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.  bestseller" template="productslider.phtml" after="-">
 				<arguments>
