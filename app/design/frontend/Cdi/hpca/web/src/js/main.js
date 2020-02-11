@@ -151,28 +151,40 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    });
 
 
+		// =============================================
+	    // Toggle search
+	    // =============================================
+
 		jQuery('.icon-search-button').click(function(){
 			jQuery('.block-search').toggleClass("open");
 			jQuery(this).toggleClass("close");
-		});
 
+			if($('#iconBurgerButton').hasClass('close')){
+				toggleMenuMobile();
+			}
+		});
 		
 
 		// =============================================
 	    // Toggle menu mobile
 	    // =============================================
 
-		$('#iconBurgerButton').click(function(){
-			var hNavMobile = w_height - ($(".page-header").innerHeight());
+	    function toggleMenuMobile(){
+	    	var hNavMobile = w_height - ($(".page-header").innerHeight());
 			$('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
 
 			$('header .wrapper-nav .nav-sections').css('minHeight', hNavMobile);
-			$(this).toggleClass("close");
+			$('#iconBurgerButton').toggleClass("close");
 
 			setTimeout(function(){
 				$('header .wrapper-nav .nav-sections .nav-sections-items').toggleClass("open");
 			},200);
+	    }
+
+		$('#iconBurgerButton').click(function(){
+			toggleMenuMobile();
 		});
+
 
 		// =============================================
 	    // Toggle submenu mobile
