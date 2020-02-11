@@ -29,6 +29,11 @@ header{
     padding: 0 15px;
     form{
     	position: relative;
+      label {
+        right: 0;
+        top: 12px;
+        position: absolute;
+      }
     	.control{
     		input[type="text"]{
     			height: 60px;
