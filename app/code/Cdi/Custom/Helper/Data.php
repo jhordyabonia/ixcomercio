@@ -46,7 +46,14 @@ class Data extends AbstractHelper{
 			default: 
 				return 'cms';
 		}
-    }
+	}
+	
+	public function customerHasPassword($cid){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();  
+        $customerFactory = $objectManager->get('\Magento\Customer\Model\CustomerFactory')->create();
+		$customer = $customerFactory->load($cid);
+		return $customer->getPasswordHash();
+	}
 	
     public function getAttributeArrayFromJson($json){
 		$fields = array();
