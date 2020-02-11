@@ -9,11 +9,19 @@ header{
 		background: #f9f9f9;
 		visibility: hidden;
 		opacity: 0;
+    @media only screen and (max-width: $mobile){
+      margin-top: 0;
+    }
 		&.open{
 			top: 100%;
 			visibility: visible;
 	  	opacity: 1;
 		}
+    .control {
+      border-top: 0;
+      margin: 0;
+      padding: 0 0 25px;
+    }
   }
   .block-content{
   	max-width: 1140px;
@@ -26,6 +34,8 @@ header{
     			height: 60px;
     			font-size: 16px;
 			    padding: 15px 35px 15px 15px;
+          margin: 0;
+          position: static;
     		}
         .nested{
           a{
