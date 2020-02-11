@@ -204,7 +204,24 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		});
 
 
+		// =============================================
+	    // Open minicart mobile
+	    // =============================================
+		$('header .header-toplinks a').click(function(){
+		    if($('.icon-search-button').hasClass('close')){
+		        toggleSearch();
+		    }
+		    if($('#iconBurgerButton').hasClass('close')){
+		        toggleMenuMobile();
+		    }
+		});
 
+
+
+		// =============================================
+	    // Create carousel product grid
+	    // =============================================
+	    
 		if($('.products-grid .owl-carousel').length){
 			$('.products-grid .owl-carousel').owlCarousel({
 				nav: true,

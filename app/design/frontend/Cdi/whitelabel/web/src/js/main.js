@@ -202,6 +202,19 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 		});
 
 
+		// =============================================
+	    // Open minicart mobile
+	    // =============================================
+		$('header .header-toplinks a').click(function(){
+		    if($('.icon-search-button').hasClass('close')){
+		        toggleSearch();
+		    }
+		    if($('#iconBurgerButton').hasClass('close')){
+		        toggleMenuMobile();
+		    }
+		});
+
+
 
 
 		// =============================================
