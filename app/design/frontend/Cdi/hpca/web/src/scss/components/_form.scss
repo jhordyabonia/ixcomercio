@@ -153,6 +153,10 @@ form{
 				    font-size: 16px;
 				    line-height: 30px;
 				    font-weight: normal;
+				    &:hover{
+				    	color: #fff;
+				    	background: #000;
+				    }
 				}
 			}
 		}
