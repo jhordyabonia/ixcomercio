@@ -514,8 +514,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 
-				    	$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
-				    	$('input[name="postcode"]').keyup();
+				    	if($(valStreetCheckout).attr('postalCode') != 'null'){
+							$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
+				    		$('input[name="postcode"]').keyup();
+						}
+						
 				    	$('body').trigger('processStop');
 				    });
 				    
