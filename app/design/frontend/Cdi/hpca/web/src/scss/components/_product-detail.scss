@@ -313,6 +313,7 @@
               display: inline-block;
             }
             .control{
+              width: auto!important;
               margin: 10px 0 20px 40px;
               position: relative;
               @media only screen and (max-width: $tablet){
