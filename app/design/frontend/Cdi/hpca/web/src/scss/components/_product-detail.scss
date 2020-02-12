@@ -404,6 +404,11 @@
               color: #fff;
               background: #000;
             }
+            @media only screen and (max-width: $mobile){
+              width: 100%;
+              margin-right: 0;
+              text-align: center;
+            }
           }
           .action.towishlist {
             color: #999;
