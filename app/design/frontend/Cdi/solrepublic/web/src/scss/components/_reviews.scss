@@ -43,15 +43,24 @@
 }
 
 .customer-review{
+  float: left;
+  width: 100%;
   .product-media{
     margin: 0;
   }
   .product-details{
+    width: 100%;
     text-align: left;
     float: left;
+    .product-info{
+      width: 100%;
+      float: left;
+    }
   }
   .review-details{
+    width: 100%;
     text-align: left;
+    float: left;
     .review-content{
       margin-bottom: 0;
     }
