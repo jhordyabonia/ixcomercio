@@ -297,10 +297,6 @@
       float: left;
       .box-tocart{
         margin: 0;
-        @media only screen and (max-width: $mobile){
-          padding-top: 20px;
-          border-top: 1px solid #e5e5e5;
-        }
         .field{
           display: block;
           padding: 0;
