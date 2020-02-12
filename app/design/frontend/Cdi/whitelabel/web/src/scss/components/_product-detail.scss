@@ -302,17 +302,25 @@
           padding: 0;
           margin: 0;
           &.qty{
+            padding: 20px 0;
+            border-bottom: 1px solid #e5e5e5;
             @media only screen and (min-width: 768px){
               display: block;
             }
+            @media only screen and (max-width: $mobile){
+              border-top: 1px solid #e5e5e5;
+            }
             .label, .control{
+              width: 50%;
               display: inline-block;
             }
             .control{
-              margin: 10px 0 20px 40px;
+              width: auto!important;
+              margin: 0 0 0 40px;
               position: relative;
               @media only screen and (max-width: $tablet){
-                margin: 10px 0 20px 0;
+                margin: 0;
+                float: right;
               }
               input{
                 width: 5em;
@@ -374,7 +382,6 @@
           margin-right: 10px;
           max-width: 100%;
           padding: 15px 0;
-          border-top: 1px solid #e5e5e5;
           button, .action.towishlist{
             margin-bottom: 10px;
             margin-right: 10px;
@@ -390,6 +397,11 @@
             &:hover{
               color: #fff;
               background: #000;
+            }
+            @media only screen and (max-width: $mobile){
+              width: 100%;
+              margin-right: 0;
+              text-align: center;
             }
           }
           .action.towishlist {

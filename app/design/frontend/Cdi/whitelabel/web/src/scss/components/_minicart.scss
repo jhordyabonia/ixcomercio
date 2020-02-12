@@ -5,7 +5,9 @@
     text-align: center;
   }
   .block-minicart{
+    max-height: 600px;
     padding: 25px 20px 15px;
+    overflow: overlay;
     .block-content{
       .items-total{
         line-height: normal;
