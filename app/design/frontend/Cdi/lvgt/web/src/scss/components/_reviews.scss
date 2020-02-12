@@ -10,3 +10,19 @@
     width: 100%;
   }
 }
+
+.customer-review{
+  .product-media{
+    margin: 0;
+  }
+  .product-details{
+    text-align: left;
+    float: left;
+  }
+  .review-details{
+    text-align: left;
+    .review-content{
+      margin-bottom: 0;
+    }
+  }
+}
