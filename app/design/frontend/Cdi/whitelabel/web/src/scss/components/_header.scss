@@ -41,11 +41,20 @@ header{
         float: none;
       }
       .header-branding{
+        @media only screen and (max-width: $mobile){
+          z-index: 10;
+        }
         .logo{
           width: 100%;
           max-width: 100%;
           margin: 0;
           float: left;
+          @media only screen and (max-width: $desktop){
+            width: auto;
+            margin: 0 auto;
+            display: inline-block;
+            float: none;
+          }
           img{
             width: auto;
             height: 60px;

@@ -5,9 +5,7 @@
  */
 
 // @codingStandardsIgnoreFile
-/*print_r(get_class_methods($block));
-print_r($block->getLoadedProductCollection());
-die('succes');*/
+
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <div class="checkout-success">
@@ -35,7 +33,24 @@ die('succes');*/
     </div>
 </div>
 <?php
-/*    $order = $block->escapeHtml($block->getOrderId());
+/* XCB GTM */
+$_productCollection = $block->getLoadedProductCollection();
+$final_price = $block->getFinalPrice();
+$qty = $_productCollection->count();
+foreach ($_productCollection as $_product){
+    $producto = "{
+        'id': '{$_productCollection->getSku()}',
+        'name': '{$_product->getName()}',
+        'price': '{$_product->getFinalPrice()}',
+        'brand': 'HOM',
+        'category': '{$_product->getName()}',
+        'variant': 'productVariant',
+        'quantity': {$_product->getQty()},
+        'coupon': ''
+    }";
+    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
+}
+$order = $block->getOrderId();
 echo <<<JG
 <script>
     "dataLayer.push({
@@ -45,34 +60,17 @@ echo <<<JG
                 'actionField': {
                     'id': {$order},
                     'affiliation': HOM,
-                    'revenue': orderTotal,
+                    'revenue': {$final_price},
                     'tax': orderTax,
                     'shipping': orderShipping,
                     'coupon': orderCoupon
                 },
-                'products': [{
-                    'id': productSku,
-                    'name': productName,
-                    'price': productPrice,
-                    'brand': productName,
-                    'category': productCategory,
-                    'variant': productVarian,
-                    'quantity': productQty,
-                    'coupon': productCoupon
-                },
-                {
-                    'id': 'MM101HOM24',
-                    'name': 'NO BOUNDS XL SIGNATURE GREY', 
-                    'price': '3959',
-                    'brand': 'MARLEY', 
-                    'category': 'PARLANTES',
-                    'variant': 'BLANCO',
-                    'quantity': 2,
-                    'coupon': 'AEIOU'
-                }]
+                'products': [{$gtm_prods}]
             }
         }
     });
+    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});
 </script>
-JG;*/
+JG;
+/* XCB END */
 ?>
