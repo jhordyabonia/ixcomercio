@@ -91,6 +91,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                                     <div class="actions-primary">
                                                         <?php if ($_item->isSaleable()): ?>
                                                             <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
+                                                                <?php $postParams = $block->getAddToCartPostParams($_item); ?>
                                                                 <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
 																	<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
 																	<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">

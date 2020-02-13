@@ -98,15 +98,17 @@ if ($items = $block->getProductCollection()) : ?>
                                                     <span><?= __('Add to Cart') ?></span>
                                                 </button>
                                             <?php else : ?>
-                                                <?php
-                                                $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-                                                $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
-                                                ?>
-                                                <button class="action tocart primary mageplaza-product-slider-button"
-                                                        data-post='<?= $postData; ?>'
-                                                        type="button" title="<?= __('Add to Cart') ?>">
-                                                    <span><?= __('Add to Cart') ?></span>
-                                                </button>
+                                                <?php $postParams = $block->getAddToCartPostParams($_item); ?>
+                                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                                    <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                                    <input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
+                                                    <?php echo $block->getBlockHtml('formkey')?>
+                                                    <button type="submit"
+                                                            title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+                                                            class="action tocart primary">
+                                                        <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                    </button>
+                                                </form>
                                             <?php endif; ?>
                                         <?php else : ?>
                                             <?php if ($_item->getIsSalable()) : ?>
