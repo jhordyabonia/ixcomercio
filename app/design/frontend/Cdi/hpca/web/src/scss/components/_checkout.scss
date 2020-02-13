@@ -196,6 +196,17 @@
           padding-left: 0;
         }
       }
+      .product.options {
+        text-align: left;
+        .content {
+          .label{
+            color: #000;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+          }
+        }
+      }
     }
     .product-item{
       .price{
