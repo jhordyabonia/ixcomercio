@@ -41,7 +41,7 @@ if ($items = $block->getProductCollection()) : ?>
                 <?php foreach ($items as $_item) :             
                     $discount = $_helperCdi->getDiscount($_item);
                 ?>
-                    <?= ($iterator++ == 1) ? '<li class="item"">' : '</li><li class="item"">' ?>
+                    <?= ($iterator++ == 1) ? '<li class="item product"">' : '</li><li class="item product"">' ?>
                     <div class="product-item-info">
                         <a href="<?= $block->getProductUrl($_item) ?>"
                            class="product-item-photo">
