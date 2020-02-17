@@ -44,7 +44,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             <?php foreach ($items as $_item):                              
                                 $discount = $_helperCdi->getDiscount($_item);
                             ?>                            
-                                <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item product">' : '</li><li class="item product">' ?>
+                                <?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="item">' : '</li><li class="item">' ?>
                                 <div class="product-item-info">
                                     <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>" class="product-item-photo">
                                         <?php echo $block->getImage($_item, $image)->toHtml(); ?>
@@ -62,7 +62,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                     <?php if ($_helperCdi->checkBestseller($_item)): ?>
                                         <span class="product-tag bestseller-tag"></span>
                                     <?php endif; ?>
-                                    <div class="product-item-details">
+                                    <div class="product-item-details product-info_main">
                                         <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
                                         $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
                                         <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
@@ -77,7 +77,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                         <strong class="product-item-name">
                                             <a title="<?php echo $block->escapeHtml($_item->getName()) ?>"
                                                href="<?php /* @escapeNotVerified */ echo $block->getProductUrl($_item) ?>"
-                                               class="product-item-link">
+                                               class="product-item-link product-name">
                                                 <?php echo $block->escapeHtml($_item->getName()) ?>
                                             </a>
                                         </strong>
@@ -90,18 +90,13 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                                 <?php if ($showCart): ?>
                                                     <div class="actions-primary">
                                                         <?php if ($_item->isSaleable()): ?>
-                                                            <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
-                                                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
-																	<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
-																	<input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
-																	<?php echo $block->getBlockHtml('formkey')?>
-																	<button type="submit"
-																			title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
-																			class="action tocart primary">
-																		<span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
-																	</button>
-																</form>
-                                                            <?php else: ?>
+                                                            <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)) : ?>
+                                                                <button class="action tocart primary mageplaza-product-slider-button"
+                                                                        data-mage-init='{"redirectUrl": {"url": "<?= $block->getAddToCartUrl($_item) ?>"}}'
+                                                                        type="button" title="<?= __('Add to Cart') ?>">
+                                                                    <span><?= __('Add to Cart') ?></span>
+                                                                </button>
+                                                            <?php else : ?>
 																<?php $postParams = $block->getAddToCartPostParams($_item); ?>
 																<form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
 																	<input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
@@ -155,11 +150,11 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
             <!--</div>
         </div>
     </section>-->
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {}
+        }
+    }
+    </script>
 <?php endif;?>
-<script type="text/x-magento-init">
-{
-	"[data-role=tocart-form], .form.map.checkout": {
-		"catalogAddToCart": {}
-	}
-}
-</script>
