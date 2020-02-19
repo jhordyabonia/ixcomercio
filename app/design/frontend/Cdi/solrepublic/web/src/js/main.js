@@ -179,10 +179,15 @@ function ($, Component) {
 		        dataType: 'json',
 		        success: function(res) {
 			        $(fieldCity).find('option:not([value=""])').remove();
-			        $.each(res, function(i, val){
-			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
-			    	});
-
+			        if($('select[name="country_id"]').val()=="GT"){
+						$.each(res, function(i, val){
+				            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Name+"'>"+val.Name+"</option>");
+				    	});
+					}else{
+						$.each(res, function(i, val){
+				            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
+				    	});
+					}
 			    	$('body').trigger('processStop');
 
 		        }
