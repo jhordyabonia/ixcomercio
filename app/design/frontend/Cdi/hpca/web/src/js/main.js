@@ -513,10 +513,16 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('option').remove();
                   				$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
-							  	$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-							  	});
-
+                  				if($('select[name="country_id"]').val()=="GT"){
+									$.each(resCity, function(iResCity, valResCity){
+								    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.Name+"'>"+valResCity.Name+"</option>");
+								  	});
+								}else{
+									$.each(resCity, function(iResCity, valResCity){
+								    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+								  	});
+								}
+							  	
 							  	$('body').trigger('processStop');
 							}
 						});
