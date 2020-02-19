@@ -182,7 +182,7 @@ function ($, Component) {
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
-
+			        
 			    	$('body').trigger('processStop');
 
 		        }
@@ -208,9 +208,16 @@ function ($, Component) {
 				dataType: 'json',
 				success: function(resCity) {
 					$(fieldZoneStreet).find('select option:not([value=""])').remove();
-				  	$.each(resCity, function(iResCity, valResCity){
-				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-				  	});
+					$(fieldZoneStreet).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+					if($('select[name="country_id"]').val()=="GT"){
+						$.each(resCity, function(iResCity, valResCity){
+					    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.Name+"'>"+valResCity.Name+"</option>");
+					  	});
+					}else{
+						$.each(resCity, function(iResCity, valResCity){
+					    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+					  	});
+					}
 
 				  	$('body').trigger('processStop');
 
@@ -347,10 +354,16 @@ function ($, Component) {
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('option').remove();
                   				$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
-							  	$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-							  	});
-
+                  				if($('select[name="country_id"]').val()=="GT"){
+									$.each(resCity, function(iResCity, valResCity){
+								    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.Name+"'>"+valResCity.Name+"</option>");
+								  	});
+								}else{
+									$.each(resCity, function(iResCity, valResCity){
+								    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+								  	});
+								}
+							  	
 							  	$('body').trigger('processStop');
 
 							}

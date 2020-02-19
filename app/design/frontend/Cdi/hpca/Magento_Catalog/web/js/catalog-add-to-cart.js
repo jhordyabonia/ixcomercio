@@ -167,7 +167,7 @@ define([
                     //popup code start
                     var titleProduct;
                     if($(form).parents('.item.product').length){
-                        titleProduct = $(form).parents('.item.product').find('.product-name').text();
+                        titleProduct = $(form).parents('.item.product').find('.product-item-name').text();
                     }else if($(form).parents('.product-info_main').length){
                         titleProduct = $(form).parents('.product-info_main').find('.product-name').text();
                     }
