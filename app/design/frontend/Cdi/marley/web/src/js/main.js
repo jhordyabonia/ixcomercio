@@ -295,6 +295,7 @@ function ($, Component) {
           dataType: 'json',
           success: function(resCity) {
             $(fieldZoneStreet).find('select option:not([value=""])').remove();
+            $(fieldZoneStreet).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
             if($('select[name="country_id"]').val()=="GT"){
               $.each(resCity, function(iResCity, valResCity){
                 $(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.Name+"'>"+valResCity.Name+"</option>");
