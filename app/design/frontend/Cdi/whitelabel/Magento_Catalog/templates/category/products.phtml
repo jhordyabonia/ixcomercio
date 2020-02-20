@@ -15,6 +15,7 @@
  */
 ?>
 <?php
+    $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     $_category  = $block->getCurrentCategory();
     $count = 0;
     foreach ($_category->getChildrenCategories() as $key => $_subcategoryData):
@@ -36,16 +37,17 @@
                     <div class="col-sm-6">
                         <?php
                             $category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcategory->getId());
+                            $desc = $_helper->categoryAttribute($category, $category->getDescription(), "description");
+                            $desc = $_helperCdi->truncate($desc, 150);
                             $_imgHtml   = '';
                             if ($_imgUrl = $category->getImageUrl()) {
                                 $_img = '<img src="' . $_imgUrl . '" alt="' . $block->escapeHtml($category->getName()) . '" title="' . $block->escapeHtml($category->getName()) . '" class="image" />';
                                 $_img = $_helper->categoryAttribute($category, $_img, 'image');
-
                                 $_imgHtml = '<div class="category-image">
                                     <div class="category-data">
                                         <a href="'.$category->getUrl().'">
                                             <h2>'.$category->getName().'</h2>
-                                            <p>'.$_helper->categoryAttribute($category, $category->getDescription(), "description").'</p>
+                                            <p>'.$desc.'</p>
                                         </a>
                                     </div>'.$_img.'</div>';
 
@@ -55,7 +57,7 @@
                                 <a href="<?php echo $category->getUrl() ?>">
                                     <div class="category-data">
                                     <h2><?php echo $category->getName(); ?></h2>
-                                    <p><?php echo $_helper->categoryAttribute($category, $category->getDescription(), 'description'); ?></p>
+                                    <p><?php echo $desc; ?></p>
                                     </div>
                                 </a>
                                 <?php

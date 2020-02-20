@@ -26,6 +26,7 @@ use Mageplaza\Productslider\Block\AbstractSlider;
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+$blockList = $block->getLayout()->createBlock('Magento\CatalogWidget\Block\Product\ProductsList');
 $mode = 'grid';
 $title = $block->getTitle();
 $type = 'widget-product-grid';
@@ -60,7 +61,7 @@ if ($items = $block->getProductCollection()) : ?>
                         <?php if ($_helperCdi->checkBestseller($_item)): ?>
                             <span class="product-tag bestseller-tag"></span>
                         <?php endif; ?>
-                        <div class="product-item-details">
+                        <div class="product-item-details product-info_main">
                             <?php if ($block->canShowReview()) : ?>
                                 <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
                                 $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
@@ -78,7 +79,7 @@ if ($items = $block->getProductCollection()) : ?>
                             <strong class="product-item-name">
                                 <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                    href="<?= $block->getProductUrl($_item) ?>"
-                                   class="product-item-link">
+                                   class="product-item-link product-name">
                                     <?= $block->escapeHtml($_item->getName()) ?>
                                 </a>
                             </strong>
@@ -98,7 +99,7 @@ if ($items = $block->getProductCollection()) : ?>
                                                     <span><?= __('Add to Cart') ?></span>
                                                 </button>
                                             <?php else : ?>
-                                                <?php $postParams = $block->getAddToCartPostParams($_item); ?>
+                                                <?php $postParams = $blockList->getAddToCartPostParams($_item); ?>
                                                 <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
                                                     <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
                                                     <input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
@@ -144,5 +145,12 @@ if ($items = $block->getProductCollection()) : ?>
         require(['jquery', 'mageplaza/core/owl.carousel'], function ($) {
             $('#mp-list-items-<?= $block->getSliderId(); ?>').owlCarousel(<?= $block->getAllOptions()?>);
         });
+    </script>
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {}
+        }
+    }
     </script>
 <?php endif; ?>

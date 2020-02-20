@@ -3,6 +3,7 @@ namespace Cdi\Custom\Helper;
  
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Model\PageFactory;
+use Magento\Framework\Filter\Truncate;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
 
@@ -13,21 +14,41 @@ class Data extends AbstractHelper{
     /**
      * @var TimezoneInterface
      */
-    protected $localeDate;
+	protected $localeDate;
+	/**
+     * @var Truncate
+     */
+    protected $filter;
     /**
      * @var BestSellersCollectionFactory
      */
     protected $_bestSellersCollectionFactory;
 	
 	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-	TimezoneInterface $localeDate,
+	TimezoneInterface $localeDate, Truncate $filter,
 	BestSellersCollectionFactory $bestSellersCollectionFactory){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
-        $this->localeDate = $localeDate;	
+		$this->localeDate = $localeDate;	
+		$this->filter = $filter;
         $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
 	}
 	
+	/**
+	* Corta un string en un límite de caracteres
+	* @param string
+	* @return string
+	*/
+	public function truncate($string, $length = 80, $etc = '...', $breakWords = true){
+		$string = strip_tags($string);
+		$getlength = strlen($string);
+		if ($getlength > $length) {
+			$string = substr($string, 0, strrpos($string, ' ', $length-$getlength));
+			$string.= $etc;
+		}
+		return $string;
+	}
+
 	public function getStoreConfig($key){
 		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
