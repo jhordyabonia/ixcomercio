@@ -47,6 +47,11 @@ section{
         .actions{
           width: 120px;
           display: inline-block;
+          @media only screen and (max-width: $mobile){
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+          }
           .action{
             width: 100%;
             height: 46px;
@@ -54,6 +59,9 @@ section{
             text-transform: uppercase;
             border-radius: 0 5px 5px 0;
             background: #0b6270;
+            @media only screen and (max-width: $mobile){
+              border-radius: 5px;
+            }
           }
         }
       }
