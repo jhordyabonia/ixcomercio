@@ -66,6 +66,9 @@
           float: none;
         }
       }
+      .payment-option.discount-code{
+        display: none!important;
+      }
     }
   }
   .opc-summary-wrapper{
