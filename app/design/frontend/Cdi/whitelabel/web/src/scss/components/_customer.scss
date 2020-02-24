@@ -1,0 +1,18 @@
+.customer-main-wrapper{
+  .sidebar{
+    div[data-content-type="buttons"]{
+      padding-top: 0;
+      .pagebuilder-button-link{
+        width: 100%;
+        color: #000;
+        font-size: 16px;
+        font-weight: 400;
+        text-decoration: none;
+        text-align: left!important;
+        border-top: 1px solid #ddd;
+        padding: 14px 15px;
+        margin: 0;
+      }
+    }
+  }
+}
