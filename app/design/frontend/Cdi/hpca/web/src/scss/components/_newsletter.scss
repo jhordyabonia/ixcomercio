@@ -24,7 +24,7 @@ section{
           display: inline-block;
         }
         .field.newsletter{
-          width: 400px;
+          width: 75%;
           float: left;
           @media only screen and (max-width: $mobile){
             width: 100%;
@@ -47,7 +47,7 @@ section{
           }
         }
         .actions{
-          width: 120px;
+          width: 25%;
           display: inline-block;
           @media only screen and (max-width: $mobile){
             width: 100%;
