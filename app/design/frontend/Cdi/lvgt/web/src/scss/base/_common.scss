@@ -85,6 +85,7 @@ section{
 }
 .container {
   width: 100%!important;
+  margin: 0 auto;
   @media (min-width: 1200px){
     max-width: 1140px;
   }
