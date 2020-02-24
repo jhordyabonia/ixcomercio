@@ -176,6 +176,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    function toggleMenuMobile(){
 	    	var hNavMobile = w_height - ($(".page-header").innerHeight());
 			$('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
+			$('body').toggleClass("open-menu");
 
 			$('header .wrapper-nav .nav-sections').css('minHeight', hNavMobile);
 			$('#iconBurgerButton').toggleClass("close");
