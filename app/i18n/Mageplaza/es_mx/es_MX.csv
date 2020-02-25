@@ -3297,7 +3297,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Incl. Tax,""Impuestos incl."",module,Magento_Checkout";;
 "Your order number is: %1.,""Su n煤mero de pedido es: %1."",module,Magento_Checkout";;
 "Your order # is: <span>%1</span>.,""Su n潞 de pedido es: <span>%1</span>."",module,Magento_Checkout";;
-"We'll email you an order confirmation with details and tracking info.,""Te enviaremos un email de confirmaci贸n con los detalles y informaci贸n del env铆o."",module,Magento_Checkout";;
+"We'll email you an order confirmation with details and tracking info.,""Te enviaremos un correo elctronico de confirmaci贸n con los detalles y la informaci贸n del env铆o."",module,Magento_Checkout";;
 "Payment Transaction Failed Reminder,""Recordatorio de error de transacci贸n de pago"",module,Magento_Checkout";;
 "Payment Transaction Failed,""Ha fallado la operaci贸n de pago"",module,Magento_Checkout";;
 "Reason,""Raz贸n:聽"",module,Magento_Checkout";;
@@ -3379,7 +3379,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Payment,""Pago"",module,Magento_Checkout";;
 "Not yet calculated,""A煤n no se ha calculado"",module,Magento_Checkout";;
 "We received your order!,""隆Hemos recibido tu pedido!"",module,Magento_Checkout";;
-"Thank you for your purchase!,""Gracias por su compra!"",module,Magento_Checkout";;
+"Thank you for your purchase!,""racias por su compra!"",module,Magento_Checkout";;
 "Minimum order amount is %1,""Cantidad de pedido m铆nima es de %1"",module,Magento_Checkout";;
 "Unable to save address. Please, check input data.,""No se puede guardar la direcci贸n. Por favor, comprueba los datos introducidos."",module,Magento_Checkout";;
 "Unable to save shipping information. Please, check input data.,""No se puede guardar la informaci贸n de env铆o. Por favor, comprueba los datos introducidos."",module,Magento_Checkout";;
@@ -8438,7 +8438,7 @@ it will make no affect on Price filter.,""S贸lo se puede utilizar con el tipo de
 "We could only complete part of your order.,""Solo pudimos completar parte de su pedido."",module,Magento_Multishipping";;
 "We were unable to complete your order.,""No hemos podido completar su pedido."",module,Magento_Multishipping";;
 "Select Shipping Method,""Versandart ausw盲hlen"",module,Magento_Multishipping";;
-"Thank you for your purchase!,""Gracias por su compra!"",module,Magento_Multishipping";;
+"Thank you for your purchase!,""racias por su compra!"",module,Magento_Multishipping";;
 "Thanks for your order. We'll email you order details and tracking information.,""Gracias por su pedido. Te enviaremos por email detalles del pedido y la informaci贸n de seguimiento."",module,Magento_Multishipping";;
 "Your order numbers are: ,""Los n煤meros de sus pedidos son: "",module,Magento_Multishipping";;
 "Your order number is: ,""Su n煤mero de pedido es: "",module,Magento_Multishipping";;
@@ -16417,3 +16417,4 @@ settings/placeholder"",""settings/placeholder"",module,Magento_Ui";;
 "Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.,""Debido a las mejoras continuas del producto, las im谩genes en el sitio web pueden diferir ligeramente del producto real que recibe."",lib,web";;
 "Free Shipping,""Env胦 Gratis"",module,Magento_Checkout";;
 "Free,""Gratis"",module,Magento_Checkout";;
+"Payment error: The transaction has been rejected,""Error pago: La transacci贸n ha sido rechazada"",module,Magento_CompanyPayment";;
