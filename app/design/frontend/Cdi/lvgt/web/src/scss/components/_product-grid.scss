@@ -147,6 +147,9 @@
               color: #ccc;
               &:before{
                 color: #bbb;
+                &:hover{
+                  color: $mainColor;
+                }
               }
               &.towishlist{
                 &:before{
