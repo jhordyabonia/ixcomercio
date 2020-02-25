@@ -269,8 +269,7 @@ class GetStock {
                         $product->setStockData($data);
                     }
                     $product->save();
-                    $this->logger->info(print_r($data, true));
-                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode);
+                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
                 }
             } catch(Exception $e){
                 $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());

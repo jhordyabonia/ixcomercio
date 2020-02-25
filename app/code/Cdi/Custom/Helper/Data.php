@@ -3,7 +3,6 @@ namespace Cdi\Custom\Helper;
  
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Model\PageFactory;
-use Magento\Framework\Filter\Truncate;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
 
@@ -15,22 +14,20 @@ class Data extends AbstractHelper{
      * @var TimezoneInterface
      */
 	protected $localeDate;
-	/**
-     * @var Truncate
-     */
-    protected $filter;
     /**
      * @var BestSellersCollectionFactory
      */
     protected $_bestSellersCollectionFactory;
 	
-	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-	TimezoneInterface $localeDate, Truncate $filter,
-	BestSellersCollectionFactory $bestSellersCollectionFactory){
+	public function __construct(
+		PageFactory $pageFactory, 
+		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+		TimezoneInterface $localeDate, 
+		BestSellersCollectionFactory $bestSellersCollectionFactory
+	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
 		$this->localeDate = $localeDate;	
-		$this->filter = $filter;
         $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
 	}
 	
