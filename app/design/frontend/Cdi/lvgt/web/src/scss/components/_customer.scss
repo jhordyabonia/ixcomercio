@@ -23,9 +23,10 @@
           top: 50%;
           right: 10px;
           color: $mainColor;
+          content: '\e608';
           font-size: 32px;
           font-weight: bold;
-          content: '\e608';
+          line-height: normal;
           font-family: 'icons-blank-theme';
           vertical-align: middle;
           display: inline-block;
