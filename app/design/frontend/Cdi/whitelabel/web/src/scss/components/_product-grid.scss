@@ -144,11 +144,13 @@
               float: left;
               width: 100%;
               color: #ccc;
-              &:before{
-                color: #bbb;
-                &:hover{
+              &:hover{
+                &:before{
                   color: $mainColor;
                 }
+              }
+              &:before{
+                color: #bbb;
               }
               &.towishlist{
                 &:before{
