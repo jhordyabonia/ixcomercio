@@ -66,12 +66,12 @@
               margin: 0;
             }
           }
-          &.action-primary{
+          &.action-primary, &.action.primary{
             color: #fff;
             background: $mainColor;
             border: 2px solid $mainColor;
           }
-          &.action-secondary{
+          &.action-secondary, &.action.secondary{
             color: $mainColor;
             border: 2px solid $mainColor;
             &:hover{
