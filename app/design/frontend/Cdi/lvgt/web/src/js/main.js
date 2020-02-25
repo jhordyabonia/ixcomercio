@@ -362,15 +362,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				dataType: 'json',
 				success: function(resCity) {
 					$(fieldZoneStreet).find('select option:not([value=""])').remove();
-					if($('select[name="country_id"]').val()=="GT"){
-						$.each(resCity, function(iResCity, valResCity){
-					    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.Name+"'>"+valResCity.Name+"</option>");
-					  	});
-					}else{
-						$.each(resCity, function(iResCity, valResCity){
-					    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-					  	});
-					}
+					
+					$.each(resCity, function(iResCity, valResCity){
+				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+				  	});
+					
 				  	
 				  	$('body').trigger('processStop');
 				}
@@ -391,7 +387,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	$('body').trigger('processStart');
 	    	var valStreet = $(fieldZoneStreet).find('option:selected');
 			
-	    	if($(valStreet).attr('postalcode') != 'null'){
+	    	if($(valStreet).attr('postalcode') != 'null' && $('#zip').hasClass('required-entry')){
 				$('#zip').val($(valStreet).attr('postalcode'));
 	    		$('#zip').keyup();	
 			}
