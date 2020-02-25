@@ -36,6 +36,13 @@
         border-radius: 0;
         box-shadow: none;
         border: 0;
+        form {
+          font-size: 14px;
+          font-weight: 400;
+          &.form .fieldset>.field {
+            margin-bottom: 15px;
+          }
+        }
       }
       .modal-footer{
         text-align: center;
