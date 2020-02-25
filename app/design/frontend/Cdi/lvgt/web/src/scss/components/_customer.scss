@@ -6,7 +6,9 @@
     div[data-content-type="buttons"]{
       padding-top: 0;
       &:last-child{
-        border-bottom: 1px solid #ddd;
+        .pagebuilder-button-link:last-child{
+          border-bottom: 1px solid #ddd;
+        }
       }
       .pagebuilder-button-link{
         width: 100%;
