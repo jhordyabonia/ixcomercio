@@ -562,10 +562,10 @@ section{
   &.action-update {
     color: #999;
     background: none;
-    text-transform: uppercase;
     transition: .5s all ease;
     font-weight: 400;
-    border: 2px solid #999;
+    border: 1px solid #ccc;
+    border-radius: 3px;
     &:hover{
       color: #fff;
       background: #000;
