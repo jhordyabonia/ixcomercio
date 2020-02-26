@@ -129,10 +129,12 @@
     .actions-toolbar{
       .primary{
         min-width: 120px;
-        background: #64A81B;
+        background: $mainColor;
         border-radius: 3px;
         &:hover {
-          background: #000;
+          background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
         }
         @media (min-width: $tablet){
           float: left;
@@ -151,9 +153,9 @@
         min-width: 180px;
         border-radius: 0;
         &:hover{
-          color: #fff;
-          background: #000;
-          border-color: #000;
+          background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
         }
       }
     }
