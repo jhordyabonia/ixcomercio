@@ -547,7 +547,7 @@ section{
 }
 /*---BUTTONS---*/
 .action{
-  &.primary, &.primary:active{
+  &.primary, &.primary:active, &.primary:focus{
     width: 100%;
     background: $mainColor;
     text-transform: uppercase;
