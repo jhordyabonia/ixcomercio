@@ -148,6 +148,11 @@
               float: left;
               width: 100%;
               color: #ccc;
+              &:hover{
+                &:before{
+                  color: $mainColor;
+                }
+              }
               &:before{
                 color: #bbb;
               }

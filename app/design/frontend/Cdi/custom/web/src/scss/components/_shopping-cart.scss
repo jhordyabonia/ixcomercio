@@ -261,6 +261,9 @@
       padding-left: 0;
     }
     .block{
+      &.giftcard{
+        display: none;
+      }
       >.title{
         strong[role='heading']{
           font-size: 1.3rem;

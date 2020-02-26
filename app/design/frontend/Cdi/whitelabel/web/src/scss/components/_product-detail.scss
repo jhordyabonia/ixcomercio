@@ -311,8 +311,11 @@
               border-top: 1px solid #e5e5e5;
             }
             .label, .control{
-              width: 50%;
+              width: auto;
               display: inline-block;
+              @media only screen and (max-width: $tablet){
+                width: 50%;
+              }
             }
             .control{
               width: auto!important;

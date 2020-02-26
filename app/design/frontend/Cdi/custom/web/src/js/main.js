@@ -264,7 +264,8 @@ function ($, Component) {
 			        $.each(res, function(i, val){
 			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
-			    	$('body').trigger('processStop');
+			        
+			        $('body').trigger('processStop');
 		        }
 	      	});
 
@@ -288,10 +289,11 @@ function ($, Component) {
 				dataType: 'json',
 				success: function(resCity) {
 					$(fieldZoneStreet).find('select option:not([value=""])').remove();
-				  	$.each(resCity, function(iResCity, valResCity){
+					
+					$.each(resCity, function(iResCity, valResCity){
 				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
-
+					
 				  	$('body').trigger('processStop');
 				}
 			});
@@ -310,7 +312,7 @@ function ($, Component) {
 	    	$('body').trigger('processStart');
 	    	var valStreet = $(fieldZoneStreet).find('option:selected');
 			
-	    	if($(valStreet).attr('postalcode') != 'null'){
+	    	if($(valStreet).attr('postalcode') != 'null' && $('#zip').hasClass('required-entry')){
 				$('#zip').val($(valStreet).attr('postalcode'));
 	    		$('#zip').keyup();	
 			}
@@ -440,10 +442,11 @@ function ($, Component) {
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('option').remove();
 								$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
+								
 								$.each(resCity, function(iResCity, valResCity){
 									$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
-
+								
 							  	$('body').trigger('processStop');
 							}
 						});
@@ -460,7 +463,7 @@ function ($, Component) {
 						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 
-						if($(valStreetCheckout).attr('postalCode') != 'null'){
+						if($(valStreetCheckout).attr('postalCode') != 'null' && $('input[name="postcode"]').hasClass('required-entry')){
 							$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
 							$('input[name="postcode"]').keyup();
 						}

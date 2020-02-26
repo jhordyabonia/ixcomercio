@@ -149,6 +149,9 @@
 .account-nav{
   text-align: left;
   .item{
+    &:nth-child(5){
+      display: none;
+    }
     &.current {
       a, strong{
         color: #000;
