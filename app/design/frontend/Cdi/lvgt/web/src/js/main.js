@@ -418,6 +418,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
+
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -537,7 +538,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
-    			fieldStateCheckout = $('form .fieldset.address input[name="region"]');
+    			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout();
 		          	clearInterval(intervalState);
