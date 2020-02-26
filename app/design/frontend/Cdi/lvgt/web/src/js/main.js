@@ -408,7 +408,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
 		    
-		    //$(fieldStreetCheckout).find('input').hide();
+		    $(fieldStreetCheckout).find('input').hide();
 
 	    	fieldCityCheckout = $('form .fieldset > .field input[name="city"]').parent();
 
@@ -523,7 +523,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 
-				    	if($(valStreetCheckout).attr('postalCode') != 'null' && $('input[name="postcode"]').hasClass('required-entry')){
+				    	if($(valStreetCheckout).attr('postalCode') != 'null'){
 							$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
 				    		$('input[name="postcode"]').keyup();
 						}
