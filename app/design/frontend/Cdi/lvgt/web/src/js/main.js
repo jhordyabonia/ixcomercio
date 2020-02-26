@@ -407,13 +407,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	$('input[name="postcode"]').val('');
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
-		    /*var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
-							'<option data-title="" value="">Please select a zone.</option>'+
-							'</select>';*/
-			//$(fieldStreetCheckout).append(htmlStreetCheckout);
+		    
 		    $(fieldStreetCheckout).find('input').hide();
 
-	    	fieldCityCheckout = $('form .fieldset > .field[name="shippingAddress.city"] .control');
+	    	fieldCityCheckout = $('form .fieldset > .field input[name="city"]').parent();
 
 	    	$.ajax({
 			    url: '/places/search/',
@@ -421,6 +418,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
+
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -528,10 +526,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    	if($(valStreetCheckout).attr('postalCode') != 'null' && $('input[name="postcode"]').hasClass('required-entry')){
 							$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
 				    		$('input[name="postcode"]').keyup();
-						}else{
-							$('input[name="postcode"]').val('');
-							$('input[name="postcode"]').keyup();
-							console.log('keyup postcode');
 						}
 
 				    	$('body').trigger('processStop');
@@ -544,7 +538,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
-    			fieldStateCheckout = $('form .fieldset > .field[name="shippingAddress.region"] .control');
+    			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout();
 		          	clearInterval(intervalState);
