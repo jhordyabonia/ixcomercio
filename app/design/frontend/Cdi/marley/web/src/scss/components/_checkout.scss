@@ -151,6 +151,11 @@
         }
       }
     }
+    .checkout-payment-method {
+      .payment-option.giftcardaccount{
+        display: none!important;
+      }
+    }
   }
   .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
     font-size: 36px;
@@ -168,6 +173,9 @@
     background: none;
     >.title{
       font-size: 1.3rem;  
+    }
+    .minicart-items-wrapper {
+      max-height: none;
     }
     .minicart-items{
       .product-item-inner{
@@ -187,6 +195,17 @@
         .label{
           color: #000;
           padding-left: 0;
+        }
+      }
+      .product.options {
+        text-align: left;
+        .content {
+          .label{
+            color: #000;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+          }
         }
       }
     }

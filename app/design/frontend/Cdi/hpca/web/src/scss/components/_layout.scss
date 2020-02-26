@@ -571,7 +571,7 @@ section{
 }
 /*---BUTTONS---*/
 .action{
-  &.primary, &.action-apply{
+  &.primary, &.primary:active, &.primary:focus, &.action-apply{
     width: 100%;
     color: #fff;
     background: $mainColor;

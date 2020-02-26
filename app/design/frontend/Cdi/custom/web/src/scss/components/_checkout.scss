@@ -82,6 +82,9 @@
             float: none;
           }
         }
+        .payment-option.giftcardaccount{
+          display: none!important;
+        }
       }
       form {
         float: left;
@@ -126,6 +129,9 @@
     background: none;
     >.title{
       font-size: 1.3rem;  
+    }
+    .minicart-items-wrapper {
+      max-height: none;
     }
     .minicart-items{
       .product-item-inner{

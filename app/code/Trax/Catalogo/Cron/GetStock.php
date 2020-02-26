@@ -259,18 +259,17 @@ class GetStock {
                         } else {
                             $stock = 1;
                         }
-                        $product->setStockData(
-                            array(
-                                'use_config_manage_stock' => 0,
-                                'manage_stock' => 1,
-                                'is_in_stock' => $stock,
-                                'min_sale_qty' => 1,
-                                'qty' => $catalog->InStock
-                            )
+                        $data = array(
+                            'use_config_manage_stock' => 0,
+                            'manage_stock' => 1,
+                            'is_in_stock' => $stock,
+                            'min_sale_qty' => 1,
+                            'qty' => $catalog->InStock
                         );
+                        $product->setStockData($data);
                     }
                     $product->save();
-                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode);
+                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
                 }
             } catch(Exception $e){
                 $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
