@@ -560,16 +560,16 @@ section{
     }
   }
   &.action-update {
-    color: $mainColor;
+    color: #999;
     background: none;
     text-transform: uppercase;
     transition: .5s all ease;
     font-weight: 400;
-    border-radius: 0 8px !important;
-    border: 2px solid $mainColor;
+    border: 2px solid #999;
     &:hover{
       color: #fff;
-      background: $mainColor;
+      background: #000;
+      border-color: #000;
     }
   }
 }
