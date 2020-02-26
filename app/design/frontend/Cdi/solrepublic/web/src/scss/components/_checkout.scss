@@ -66,6 +66,9 @@
           float: none;
         }
       }
+      .payment-option.giftcardaccount{
+        display: none!important;
+      }
     }
   }
   .opc-summary-wrapper{
@@ -80,6 +83,9 @@
     background: none;
     >.title{
       font-size: 1.3rem;  
+    }
+    .minicart-items-wrapper {
+      max-height: none;
     }
     .minicart-items{
       .product-item-inner{
@@ -99,6 +105,17 @@
         .label{
           color: #000;
           padding-left: 0;
+        }
+      }
+      .product.options {
+        text-align: left;
+        .content {
+          .label{
+            color: #000;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+          }
         }
       }
     }

@@ -13,21 +13,39 @@ class Data extends AbstractHelper{
     /**
      * @var TimezoneInterface
      */
-    protected $localeDate;
+	protected $localeDate;
     /**
      * @var BestSellersCollectionFactory
      */
     protected $_bestSellersCollectionFactory;
 	
-	public function __construct(PageFactory $pageFactory, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-	TimezoneInterface $localeDate,
-	BestSellersCollectionFactory $bestSellersCollectionFactory){
+	public function __construct(
+		PageFactory $pageFactory, 
+		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+		TimezoneInterface $localeDate, 
+		BestSellersCollectionFactory $bestSellersCollectionFactory
+	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
-        $this->localeDate = $localeDate;	
+		$this->localeDate = $localeDate;	
         $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
 	}
 	
+	/**
+	* Corta un string en un límite de caracteres
+	* @param string
+	* @return string
+	*/
+	public function truncate($string, $length = 80, $etc = '...', $breakWords = true){
+		$string = strip_tags($string);
+		$getlength = strlen($string);
+		if ($getlength > $length) {
+			$string = substr($string, 0, strrpos($string, ' ', $length-$getlength));
+			$string.= $etc;
+		}
+		return $string;
+	}
+
 	public function getStoreConfig($key){
 		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
@@ -46,7 +64,14 @@ class Data extends AbstractHelper{
 			default: 
 				return 'cms';
 		}
-    }
+	}
+	
+	public function customerHasPassword($cid){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();  
+        $customerFactory = $objectManager->get('\Magento\Customer\Model\CustomerFactory')->create();
+		$customer = $customerFactory->load($cid);
+		return $customer->getPasswordHash();
+	}
 	
     public function getAttributeArrayFromJson($json){
 		$fields = array();

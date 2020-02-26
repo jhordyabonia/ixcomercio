@@ -26,12 +26,13 @@ use Mageplaza\Productslider\Block\AbstractSlider;
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+$blockList = $block->getLayout()->createBlock('Magento\CatalogWidget\Block\Product\ProductsList');
 $mode = 'grid';
 $title = $block->getTitle();
 $type = 'widget-product-grid';
 if ($items = $block->getProductCollection()) : ?>
     <div class="header-section col-xs-12">
-        <h2 class="title-section"><?= $block->getDescription(); //$block->getTitle(); ?></h2>
+        <h2 class="title-section"><?= $block->getHeading(); ?></h2>
         <p><?= $block->getDescription(); ?></p>
     </div>
     <div class="block-content col-xs-12">
@@ -60,7 +61,7 @@ if ($items = $block->getProductCollection()) : ?>
                         <?php if ($_helperCdi->checkBestseller($_item)): ?>
                             <span class="product-tag bestseller-tag"></span>
                         <?php endif; ?>
-                        <div class="product-item-details">
+                        <div class="product-item-details product-info_main">
                             <?php if ($block->canShowReview()) : ?>
                                 <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
                                 $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
@@ -78,7 +79,7 @@ if ($items = $block->getProductCollection()) : ?>
                             <strong class="product-item-name">
                                 <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                    href="<?= $block->getProductUrl($_item) ?>"
-                                   class="product-item-link">
+                                   class="product-item-link product-name">
                                     <?= $block->escapeHtml($_item->getName()) ?>
                                 </a>
                             </strong>
@@ -98,15 +99,17 @@ if ($items = $block->getProductCollection()) : ?>
                                                     <span><?= __('Add to Cart') ?></span>
                                                 </button>
                                             <?php else : ?>
-                                                <?php
-                                                $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-                                                $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
-                                                ?>
-                                                <button class="action tocart primary mageplaza-product-slider-button"
-                                                        data-post='<?= $postData; ?>'
-                                                        type="button" title="<?= __('Add to Cart') ?>">
-                                                    <span><?= __('Add to Cart') ?></span>
-                                                </button>
+                                                <?php $postParams = $blockList->getAddToCartPostParams($_item); ?>
+                                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                                    <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                                    <input type="hidden" name="uenc" value="<?php /* @escapeNotVerified */ echo $postParams['data']['uenc']; ?>">
+                                                    <?php echo $block->getBlockHtml('formkey')?>
+                                                    <button type="submit"
+                                                            title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+                                                            class="action tocart primary">
+                                                        <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                    </button>
+                                                </form>
                                             <?php endif; ?>
                                         <?php else : ?>
                                             <?php if ($_item->getIsSalable()) : ?>
@@ -142,5 +145,12 @@ if ($items = $block->getProductCollection()) : ?>
         require(['jquery', 'mageplaza/core/owl.carousel'], function ($) {
             $('#mp-list-items-<?= $block->getSliderId(); ?>').owlCarousel(<?= $block->getAllOptions()?>);
         });
+    </script>
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {}
+        }
+    }
     </script>
 <?php endif; ?>

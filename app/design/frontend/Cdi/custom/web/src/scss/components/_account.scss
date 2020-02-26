@@ -1,12 +1,40 @@
 .account{
   .page-title-wrapper{
     margin: 40px 0 60px;
+    .page-title {
+      margin: 0;
+    }
+    .order-status, .order-date {
+      width: 100%;
+      float: left;
+      line-height: normal;
+      margin: 0 0 10px;
+    }
+    .order-date{
+      .label{
+        color: #000;
+      }
+    }
+    .order-actions-toolbar {
+      width: 100%;
+      padding: 0 15px; 
+      line-height: normal;
+      float: left;
+      a{
+        display: inline-block;
+        margin: 0 20px;
+        float: none;
+      }
+    }
   }
   .column.main{
     form, .block:not(.widget), .table-wrapper{
       text-align: left;
       border: 1px solid #e8e8e8;
       padding: 40px;
+      .mark, mark {
+        background: none;
+      }
     }
     .block:not(.widget){
       .block-title{
@@ -22,8 +50,10 @@
         }
       }
       .action{
-        text-decoration: underline;
         margin-right: 20px;
+        &:not(.primary) {
+          text-decoration: underline;
+        }
       }
     }
     form {
@@ -98,6 +128,9 @@
 .account-nav{
   text-align: left;
   .item{
+    &:nth-child(5){
+      display: none;
+    }
     &.current {
       a, strong{
         border-color: $redcolor;

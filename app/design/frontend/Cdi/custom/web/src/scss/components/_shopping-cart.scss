@@ -135,7 +135,7 @@
                 @media (max-width: $tablet){
                   &.col{
                     right: 0;
-                    top: 8px;
+                    padding-top: 25px;
                     position: absolute;
                   }
                 }
@@ -143,7 +143,7 @@
                   margin-top: 0;
                   padding-top: 0;
                 }
-                .action-edit{
+                .action-edit, .action-towishlist{
                   display: none !important;
                 }
                 .action-delete{
@@ -261,6 +261,9 @@
       padding-left: 0;
     }
     .block{
+      &.giftcard{
+        display: none;
+      }
       >.title{
         strong[role='heading']{
           font-size: 1.3rem;

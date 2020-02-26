@@ -137,6 +137,11 @@
             filter: brightness(100%) !important;
           }
         }
+        .MagicScroll-bullets {
+          > div a[target="_blank"], > span a[target="_blank"] {
+            display: none;
+          }
+        }
       }
     }
   }
