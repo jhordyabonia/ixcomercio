@@ -529,7 +529,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
 				    		$('input[name="postcode"]').keyup();
 						}else{
+							$('input[name="postcode"]').val('');
 							$('input[name="postcode"]').keyup();
+							console.log('keyup postcode');
 						}
 
 				    	$('body').trigger('processStop');
