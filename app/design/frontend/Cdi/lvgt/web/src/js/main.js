@@ -317,7 +317,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    var fieldCity = $('form .fieldset > .field.city #city_id');
 	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
-	    
+
 	    fieldState.on('change', function (e) {
 	    	$('body').trigger('processStart');
 	    	$('#zip').val('');
