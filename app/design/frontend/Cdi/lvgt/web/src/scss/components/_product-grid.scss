@@ -147,7 +147,9 @@
               color: #ccc;
               &:hover{
                 &:before{
-                  color: $mainColor;
+                  background: $secondColor;
+                  color: $colorHover;
+                  border: 1px solid #1976a1;
                 }
               }
               &:before{

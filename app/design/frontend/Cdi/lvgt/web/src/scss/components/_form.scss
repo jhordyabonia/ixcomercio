@@ -106,7 +106,9 @@ form{
 			background: #258EBF;
 			border-radius: 3px;
 			&:hover{
-				background: #000;
+				background: $secondColor;
+				border: 1px solid #1976a1;
+				color: #1976a1 !important;
 			}
 		}
 	}
@@ -155,8 +157,9 @@ form{
 				    line-height: 30px;
 				    font-weight: normal;
 				    &:hover{
-				    	color: #fff;
-				    	background: #000;
+				    	background: $secondColor;
+          				color: $colorHover;
+          				border: 1px solid #1976a1;
 				    }
 				}
 			}
@@ -197,8 +200,9 @@ form{
 			    cursor: pointer;
 			    float: right;
 			    &:hover{
-			    	color: #fff;
-    				background: #000;
+			    	background: $secondColor;
+          			color: $colorHover;
+          			border: 1px solid #1976a1;
 			    }
 			}
 		}

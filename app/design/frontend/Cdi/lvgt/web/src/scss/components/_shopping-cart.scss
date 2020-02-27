@@ -234,9 +234,9 @@
             line-height: 28px;
           }
           &:hover{
-            color: #fff;
-            background: #000;
-            border-color: #000;
+            background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
           }
         }
       }
@@ -322,7 +322,7 @@
     button.action.primary{
       width: 100%;
       min-width: 140px;
-      background: #64A81B;
+      background: $mainColor;
       display: inline-block;
       border: 0;
       color: #FFFFFF;
@@ -336,7 +336,9 @@
       padding: 14px 17px;
       margin: 0;
       &:hover{
-        background: #000;
+        background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
       }
     }
   }
