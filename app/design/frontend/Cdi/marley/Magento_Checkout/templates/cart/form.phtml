@@ -71,9 +71,6 @@
         </button>
         <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update=""/>
     </div>
-</form>
-<?= $block->getChildHtml('checkout.cart.order.actions') ?>
-<?= $block->getChildHtml('shopping.cart.table.after') ?>
 <?php
 /* XCB GTM */
 $_productCollection = $block->getLoadedProductCollection();
@@ -106,3 +103,6 @@ echo <<<JG
 JG;
 /* XCB END */
 ?>
+</form>
+<?= $block->getChildHtml('checkout.cart.order.actions') ?>
+<?= $block->getChildHtml('shopping.cart.table.after') ?>
