@@ -4,38 +4,6 @@
  * See COPYING.txt for license details.
  */
 -->
-<?php
-/* XCB GTM */
-$_productCollection = $block->getLoadedProductCollection();
-$final_price = $block->getFinalPrice();
-foreach ($_productCollection as $_product){
-    $producto = "{
-        'id': '{$_productCollection->getSku()}',
-        'name': '{$_product->getName()}',
-        'price': '{$_product->getFinalPrice()}',
-        'brand': 'HOM',
-        'category': '{$_product->getName()}',
-        'variant': '',
-        'quantity': {$_product->getQty()},
-        'coupon': ''
-    }";
-    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-}
-$order = $block->getOrderId();
-echo <<<JG
-<script>
-    "dataLayer.push({
-        'event': 'checkout',
-        'ecommerce': {
-			'actionField': {'step': stepObj, 'option': stepOption},
-			'products': [{$gtm_prods}]
-        }
-    });
-    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});
-</script>
-JG;
-/* XCB END */
-?>
 <form method="post" id="shipping-zip-form">
     <fieldset class="fieldset estimate">
         <legend class="legend">
