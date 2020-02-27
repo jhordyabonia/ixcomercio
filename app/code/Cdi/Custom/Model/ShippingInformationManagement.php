@@ -39,6 +39,8 @@ class ShippingInformationManagement extends \Magento\Checkout\Model\ShippingInfo
 
         try {
             $billingAddress = $addressInformation->getBillingAddress();
+            if(!is_numeric($billingAddress->getPostcode())) $billingAddress->setPostcode('')->save();
+            $this->logger->error('billingAddress: ' . $billingAddress->getPostcode());
             if ($billingAddress) {
                 if (!$billingAddress->getCustomerAddressId()) {
                     $billingAddress->setCustomerAddressId(null);
@@ -65,7 +67,7 @@ class ShippingInformationManagement extends \Magento\Checkout\Model\ShippingInfo
 
         $shippingAddress = $quote->getShippingAddress();
         if(!is_numeric($shippingAddress->getPostcode())) $shippingAddress->setPostcode('')->save();
-        $this->logger->error($shippingAddress->getPostcode());
+        $this->logger->error('shippingAddress: ' . $shippingAddress->getPostcode());
 
         if (!$shippingAddress->getShippingRateByCode($shippingAddress->getShippingMethod())) {
             throw new NoSuchEntityException(
