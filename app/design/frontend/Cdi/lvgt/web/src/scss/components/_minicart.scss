@@ -1,11 +1,13 @@
 .minicart-wrapper{
   @media only screen and (max-width: $tablet){
     width: 100%;
-    margin: 0;
+    margin: 0 0 0 13px;
     text-align: center;
   }
   .block-minicart{
+    max-height: 600px;
     padding: 25px 20px 15px;
+    overflow: overlay;
     .block-content{
       .items-total{
         line-height: normal;

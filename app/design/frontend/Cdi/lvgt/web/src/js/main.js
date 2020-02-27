@@ -1,4 +1,4 @@
-require(['jquery', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
@@ -153,25 +153,44 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    // Toggle search
 	    // =============================================
 
-		jQuery('.icon-search-button').click(function(){
-			jQuery('.block-search').toggleClass("open");
-			jQuery(this).toggleClass("close");
-		});
+	    function toggleSearch(){
+	    	jQuery('.block-search').toggleClass("open");
+			jQuery('.icon-search-button').toggleClass("close");
 
+			if($('#iconBurgerButton').hasClass('close')){
+				toggleMenuMobile();
+			}
+	    }
+
+		jQuery('.icon-search-button').click(function(){
+			toggleSearch();
+		});
+		
 
 		// =============================================
 	    // Toggle menu mobile
 	    // =============================================
 
-		$('#iconBurgerButton').click(function(){
+	    function toggleMenuMobile(){
+	    	var hNavMobile = w_height - ($(".page-header").innerHeight());
 			$('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
-			$('header .wrapper-nav .nav-sections').css('minHeight', w_height);
-			$(this).toggleClass("close");
+			$('body').toggleClass("open-menu");
+
+			$('header .wrapper-nav .nav-sections').css('minHeight', hNavMobile);
+			$('#iconBurgerButton').toggleClass("close");
 
 			setTimeout(function(){
 				$('header .wrapper-nav .nav-sections .nav-sections-items').toggleClass("open");
 			},200);
+	    }
+
+		$('#iconBurgerButton').click(function(){
+			if($('.icon-search-button').hasClass('close')){
+				toggleSearch();
+			}
+			toggleMenuMobile();
 		});
+
 
 		// =============================================
 	    // Toggle submenu mobile
@@ -185,9 +204,35 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
+	    // Open minicart mobile
+	    // =============================================
+		$('header .header-toplinks a').click(function(){
+		    if($('.icon-search-button').hasClass('close')){
+		        toggleSearch();
+		    }
+		    if($('#iconBurgerButton').hasClass('close')){
+		        toggleMenuMobile();
+		    }
+		});
+
+
+		// =============================================
+	    // Toggle language
+	    // =============================================
+	    $('header .switcher-language .action.switcher-trigger').click(function(){
+		    if($('.icon-search-button').hasClass('close')){
+		        toggleSearch();
+		    }
+		    if($('#iconBurgerButton').hasClass('close')){
+		        toggleMenuMobile();
+		    }
+		});
+
+
+		// =============================================
 	    // Create carousel product grid
 	    // =============================================
-		/*
+		
 		if($('.products-grid .owl-carousel').length){
 			$('.products-grid .owl-carousel').owlCarousel({
 				nav: true,
@@ -208,7 +253,18 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			    }
 			});
 		}
-		*/
+
+
+		// =============================================
+	    // Add menu account mobile
+	    // =============================================
+	    if($('.header-account-mobile').length){
+	    	var menuAccountMobile = $('.header-account-mobile');
+	    	var parent = $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items');
+
+	    	$(parent).append(menuAccountMobile);
+	    }
+		
 
 		// =============================================
 	    // Get states
@@ -220,6 +276,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	    function getStates(){
 	    	$('body').trigger('processStart');
+	    	$('#zip').val('');
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
@@ -227,7 +284,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 			    success: function(res) {
 			    	$(fieldState).find('option:not([value=""])').remove();
 			    	$.each(res, function(iRes, valRes){
-			    		$(fieldState).append("<option value='"+valRes.Id+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
+			    		$(fieldState).append("<option value='"+valRes.Name+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
 			        });
 			        $(fieldState).show();
 			        $(fieldState).attr("disabled", false);
@@ -269,17 +326,18 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	    fieldState.on('change', function (e) {
 	    	$('body').trigger('processStart');
+	    	$('#zip').val('');
 	      	$.ajax({
 		        url: '/places/search/',
-		        data: 'parentId='+fieldState.find('option:selected').attr('parentId'),
+		        data: 'parentId='+fieldState.find('option:selected').attr('parentid'),
 		        type: 'GET',
 		        dataType: 'json',
 		        success: function(res) {
 			        $(fieldCity).find('option:not([value=""])').remove();
 			        $.each(res, function(i, val){
-			            $(fieldCity).append("<option value='"+val.Id+"' parentId='"+val.Id+"'>"+val.Name+"</option>");
+			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
 			    	});
-
+			        
 			    	$('body').trigger('processStop');
 		        }
 	      	});
@@ -296,20 +354,27 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 
 	    $('#city_id').on('change', function (e) {
 	    	$('body').trigger('processStart');
+	    	$('#zip').val('');
 	    	$.ajax({
 				url: '/places/search/',
-				data: 'parentId='+$('#city_id').find('option:selected').attr('parentId'),
+				data: 'parentId='+$('#city_id').find('option:selected').attr('parentid'),
 				type: 'GET',
 				dataType: 'json',
 				success: function(resCity) {
 					$(fieldZoneStreet).find('select option:not([value=""])').remove();
-				  	$.each(resCity, function(iResCity, valResCity){
-				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+					
+					$.each(resCity, function(iResCity, valResCity){
+				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 				  	});
-
+				  	
 				  	$('body').trigger('processStop');
 				}
 			});
+
+			var valCity = $('#city_id').find('option:selected');
+			$('#city_id').parent().find('input').val($(valCity).text());
+			$('#city_id').parent().find('input').keyup();
+			console.log("test");
 	    });
 
 
@@ -317,14 +382,15 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    // Print postal code
 	    // =============================================
 
-	    $('#fieldSelectStreet').on('change', function (e) {
+	    fieldZoneStreet.on('change', function (e) {
 	    	$('body').trigger('processStart');
-	    	var valStreet = $('#fieldSelectStreet').find('option:selected');
-			$(fieldStreet).find('input').val($(valStreet).text());
-			$(fieldStreet).find('input').keyup();
+	    	var valStreet = $(fieldZoneStreet).find('option:selected');
+			
+	    	if($(valStreet).attr('postalcode') != 'null' && $('#zip').hasClass('required-entry')){
+				$('#zip').val($(valStreet).attr('postalcode'));
+	    		$('#zip').keyup();	
+			}
 
-	    	$('#zip').val($(valStreet).attr('postalCode'));
-	    	$('#zip').find('input').keyup();
 	    	$('body').trigger('processStop');
 	    });
 
@@ -338,7 +404,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 	    function getStatesCheckout(){
 
 	    	$('body').trigger('processStart');
-
+	    	$('input[name="postcode"]').val('');
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
 		    /*var htmlStreetCheckout = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
@@ -395,6 +461,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 				    var selectStateCheckout = $(fieldStateCheckout).find('select');
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
+				    	$('input[name="postcode"]').val('');
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -424,6 +491,7 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 				    // =============================================
 				    $('#fieldCityCheckout').on('change', function (e) {
 				    	$('body').trigger('processStart');
+				    	$('input[name="postcode"]').val('');
 						var valCity = $(fieldCityCheckout).find('select option:selected');
 						$(fieldCityCheckout).find('input').val($(valCity).text());
 						$(fieldCityCheckout).find('input').keyup();
@@ -436,10 +504,11 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('option').remove();
                   				$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
-							  	$.each(resCity, function(iResCity, valResCity){
+                  				
+								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
-
+							  	
 							  	$('body').trigger('processStop');
 							}
 						});
@@ -456,8 +525,11 @@ require(['jquery', 'mainJs', 'domReady!'], function($) {
 						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 
-				    	$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
-				    	$('input[name="postcode"]').keyup();
+				    	if($(valStreetCheckout).attr('postalCode') != 'null' && $('input[name="postcode"]').hasClass('required-entry')){
+							$('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
+				    		$('input[name="postcode"]').keyup();
+						}
+
 				    	$('body').trigger('processStop');
 				    });
 				    

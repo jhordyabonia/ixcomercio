@@ -61,6 +61,9 @@ body[data-container='body']{
   text-align: center;
   font-family: 'HpRegular';
   line-height: 2;
+  &.open-menu{
+    overflow: hidden;
+  }
 }
 ul, ol {
   list-style: none;
@@ -110,6 +113,7 @@ section{
 }
 .container {
   width: 100%!important;
+  margin: 0 auto;
   @media (min-width: 1200px){
     max-width: 1140px;
   }

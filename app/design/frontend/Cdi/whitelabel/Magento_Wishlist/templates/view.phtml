@@ -34,7 +34,7 @@
                       <?= $block->getChildHtml('control_buttons') ?>
                   </div>
                   <div class="secondary">
-                      <a href="<?= $block->escapeUrl($block->getBackUrl()) ?>" class="action back">
+                      <a href="javascript:history.back()" class="action back">
                           <span><?= $block->escapeHtml(__('Back')) ?></span>
                       </a>
                   </div>

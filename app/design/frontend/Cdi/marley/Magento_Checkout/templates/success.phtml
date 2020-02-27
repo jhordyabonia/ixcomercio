@@ -59,11 +59,11 @@ echo <<<JG
             'purchase': {
                 'actionField': {
                     'id': {$order},
-                    'affiliation': HOM,
+                    'affiliation': 'HOM',
                     'revenue': {$final_price},
-                    'tax': orderTax,
-                    'shipping': orderShipping,
-                    'coupon': orderCoupon
+                    'tax': 'orderTax',
+                    'shipping': 'orderShipping',
+                    'coupon': 'orderCoupon'
                 },
                 'products': [{$gtm_prods}]
             }

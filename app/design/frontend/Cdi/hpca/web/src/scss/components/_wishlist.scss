@@ -19,6 +19,7 @@
       width: 100%;
       padding-bottom: 20px;
       border-bottom: 1px solid #e5e5e5;
+      margin-left: 0;
       @media (min-width: $tablet){
         width: 100%;
         margin: 0 0 20px;
@@ -28,18 +29,43 @@
         margin: 0;
         position: relative;
         float: left;
+        @media (max-width: $tablet){
+          padding-left: 40%;
+          float: left;
+        }
         .product-item-photo{
+          top: 0;
+          left: 0;
           width: 20%;
           float: left;
           padding-right: 20px;
           margin-bottom: 0;
+          @media (max-width: $desktop){
+            width: 30%;
+            padding-right: 0;
+          }
+          @media (max-width: $tablet){
+            margin: 0;
+            width: 40%;
+            max-width: 40%;
+            position: absolute;
+          }
           .product-image-container {
             float: left;
+            @media (max-width: $tablet){
+              max-width: 80%;
+            }
           }
         }
         .product-item-name, .product-reviews-summary {
           width: 80%;
           float: right;
+          @media (max-width: $desktop){
+            width: 100%;
+          }
+          @media (max-width: $tablet){
+            margin-left: 0;
+          }
         }
         .product-item-name {
           a{
@@ -49,6 +75,9 @@
             line-height: 1.42857143;
             margin-top: 6px;
             float: left;
+            @media (max-width: $tablet){
+              width: 100%;
+            }
           }
         }
         .product-reviews-summary {
@@ -71,6 +100,19 @@
           position: absolute;
           text-align: center;
           padding: 0 15px;
+          @media (max-width: $desktop){
+            left: 30%;
+            width: 25%;
+            margin: 0;
+          }
+          @media (max-width: $tablet){
+            left: 0;
+            width: 100%;
+            padding: 0;
+            position: relative;
+            text-align: left;
+            float: left;
+          }
           .price-label{
             display: none;
           }
@@ -93,10 +135,25 @@
           left: 60%;
           width: 40%;
           position: absolute;
+          @media (max-width: $desktop){
+            left: 55%;
+            width: 45%;
+          }
+          @media (max-width: $tablet){
+            left: 0;
+            width: 100%;
+            padding: 0;
+            position: relative;
+          }
           .comment-box {
             display: none;
           }
           .box-tocart {
+            @media (max-width: $tablet){
+              margin: 0;
+              width: 100%;
+              float: left;
+            }
             .fieldset {
               margin-bottom: 6px;
             }
@@ -106,8 +163,16 @@
               vertical-align: middle;
               position: relative;
               margin: 0;
+              @media (max-width: $tablet) {
+                margin: 20px 0;
+              }
               .label {
                 display: none;
+              }
+              .control{
+                @media (min-width: $tablet){
+                  width: 100%;
+                }
               }
               .control-qty, .input-text.qty {
                 display: inline-block;
@@ -144,15 +209,26 @@
             .field.qty, .product-item-actions {
               width: 50%;
               float: left;
-              @media (min-width: $tablet) {
-                margin: 0;
+              @media (max-width: $tablet) {
+                width: 100%;
+                max-width: 50%;
+                min-width: 140px;
+                display: block;
+                float: none;
+              }
+              @media (max-width: $mobilex) {
+                max-width: 100%;
               }
             }
             .product-item-actions {
               text-align: center;
+              margin: 0;
               .actions-primary {
                 width: 140px;
                 display: inline-block;
+                @media (max-width: $desktop){
+                  width: 100%;
+                }
               } 
             }
           }
@@ -161,6 +237,10 @@
             margin: 0;
             float: right;
             text-align: center;
+            @media (max-width: $tablet){
+              width: 100%;
+              float: left;
+            }
             .action-secondary {
               width: 140px;
               height: 42px;
@@ -182,6 +262,17 @@
                 color: #fff;
                 background: #000;
                 border: 1px solid #000;
+              }
+              @media (max-width: $desktop){
+                width: 100%;
+              }
+              @media (max-width: $tablet) {
+                max-width: 50%;
+                min-width: 140px;
+                display: block;
+              }
+              @media (max-width: $mobilex) {
+                max-width: 100%;
               }
             }
           }
