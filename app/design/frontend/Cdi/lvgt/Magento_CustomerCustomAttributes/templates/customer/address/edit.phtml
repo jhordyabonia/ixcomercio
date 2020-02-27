@@ -23,6 +23,20 @@
         <input type="hidden" name="success_url" value="<?= $block->escapeUrl($block->getSuccessUrl()) ?>">
         <input type="hidden" name="error_url" value="<?= $block->escapeUrl($block->getErrorUrl()) ?>">
         <?= $block->getNameBlockHtml() ?>
+        
+        <div class="field identification required">
+            <label for="identification" class="label">
+                <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('identification') ?></span>
+            </label>
+            <div class="control">
+            <input type="text"
+                name="identification"
+                value=""
+                title=""
+                id="identification"
+                class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('identification')) ?>">
+            </div>
+        </div>
 
         <?php if ($_company->isEnabled()): ?>
             <?= $_company->setCompany($block->getAddress()->getCompany())->toHtml() ?>
@@ -149,7 +163,7 @@
             </div>
         <?php endif; ?>
         
-        <div class="field zip required" style="display: none;">
+        <div class="field zip required">
             <label class="label" for="zip">
                 <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?></span>
             </label>
