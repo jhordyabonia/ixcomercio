@@ -515,9 +515,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    // =============================================
 				    // Print postal code
 				    // =============================================
-				    $('select[name="custom_attributes[zone_id]"]').on('change', function (e) {
+				    $(fieldZoneCheckout).find('select').on('change', function (e) {
 				    	$('body').trigger('processStart');
-				    	var valStreetCheckout = $('select[name="custom_attributes[zone_id]"]').find('option:selected');
+				    	var valStreetCheckout = $(fieldZoneCheckout).find('select option:selected');
+				    	$(fieldZoneCheckout).find('input').val($(this).text());
 						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 
