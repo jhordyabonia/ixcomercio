@@ -620,6 +620,22 @@ form.form{
     margin-bottom: 20px;
   }
 }
+/*---BUTTONS---*/
+.action{
+  &.action-update {
+    color: #999;
+    background: none;
+    transition: .5s all ease;
+    font-weight: 400;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    &:hover{
+      color: #fff;
+      background: #000;
+      border-color: #000;
+    }
+  }
+}
 .form-note p {
   line-height: 1.5em;
   font-size: .9em;
