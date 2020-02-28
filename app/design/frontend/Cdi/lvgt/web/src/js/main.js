@@ -403,7 +403,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
 	    	$(fieldZoneCheckout).attr("disabled", true);
 		    
-		    $(fieldStreetCheckout).find('input').hide();
+		    //$(fieldStreetCheckout).find('input').hide();
 
 	    	fieldCityCheckout = $('form .fieldset > .field input[name="city"]').parent();
 
@@ -439,15 +439,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				        });
 			    	}
 			    	
+			    	/*
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false" disabled>'+
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
+	    			*/
 
 	    			$('body').trigger('processStop');
 
-
+	    			/*
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
@@ -477,8 +479,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
+				    */
 
-
+				    /*
 				    // =============================================
 				    // Print select street checkout
 				    // =============================================
@@ -507,8 +510,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							}
 						});
 				    });
+				    */
 
-
+				    /*
 				    // =============================================
 				    // Print postal code
 				    // =============================================
@@ -529,12 +533,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 				    	$('body').trigger('processStop');
 				    });
+				    */
 				    
 			    }
 			});
 	    }
 
-	    /*
+	    
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
@@ -546,7 +551,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	      	}, 1000);
 	    }
 		
-
+	    /*
 	    $('input[name="billing-address-same-as-shipping"]').on('change', function(e){
 		    if($(this).prop('checked') == false){
 		        var fieldStateCheckout;
