@@ -400,10 +400,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	$('body').trigger('processStart');
 	    	$('input[name="postcode"]').val('');
 	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
-	    	var fieldZoneCheckout = $('form .fieldset > .field select[name="custom_attributes[zone_id]"]');
-	    	$(fieldZoneCheckout).attr("disabled", true);
-		    
-		    //$(fieldStreetCheckout).find('input').hide();
+	    	var fieldZoneCheckout = $('form .fieldset > .field input[name="custom_attributes[zone_id]"]').parent();
+
+		    $(fieldStreetCheckout).find('input').hide();
+		    $(fieldZoneCheckout).find('input').hide();
 
 	    	fieldCityCheckout = $('form .fieldset > .field input[name="city"]').parent();
 
@@ -467,6 +467,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
 
+								var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
+	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'</select>';
+	    						$(fieldZoneCheckout).append(htmlZones);
+
 								$('body').trigger('processStop');
 							}
 						});
@@ -494,12 +499,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
-								$(fieldZoneCheckout).attr("disabled", false);
-								$(fieldZoneCheckout).find('option').remove();
-                  				$(fieldZoneCheckout).append('<option data-title="" value="" selected>Please select a zone.</option>');
+								$(fieldZoneCheckout).find('select').attr("disabled", false);
+								$(fieldZoneCheckout).find('select option').remove();
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
                   				
 								$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldZoneCheckout).append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
 							  	
 							  	$('body').trigger('processStop');
@@ -510,7 +515,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    // =============================================
 				    // Print postal code
 				    // =============================================
-
 				    $('select[name="custom_attributes[zone_id]"]').on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	var valStreetCheckout = $('select[name="custom_attributes[zone_id]"]').find('option:selected');
