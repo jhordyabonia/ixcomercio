@@ -534,6 +534,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			});
 	    }
 
+	    /*
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
@@ -544,6 +545,18 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 	      	}, 1000);
 	    }
+		
+
+	    $('input[name="billing-address-same-as-shipping"]').on('change', function(e){
+		    if($(this).prop('checked') == false){
+		        var fieldStateCheckout;
+		        fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
+		        if($(fieldStateCheckout).length >= 1){
+		            getStatesCheckout('form fieldset[data-form="billing-new-address"]');
+		        }
+		    }
+		});
+		*/
 
 
 	    // =============================================
