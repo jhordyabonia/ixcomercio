@@ -448,7 +448,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    			$('body').trigger('processStop');
 
-	    			/*
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
@@ -478,8 +477,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
-				    */
-
+				    
 				    /*
 				    // =============================================
 				    // Print select street checkout
