@@ -127,7 +127,7 @@
       }
     }
     .actions-toolbar{
-      .primary{
+      div.primary{
         @media (min-width: $tablet){
           float: left;
           margin: 0 0 10px;
