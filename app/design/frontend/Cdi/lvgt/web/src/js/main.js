@@ -518,8 +518,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    $(fieldZoneCheckout).find('select').on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	var valStreetCheckout = $(fieldZoneCheckout).find('select option:selected');
-				    	$(fieldZoneCheckout).find('input').val($(this).text());
-						$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
+				    	$(fieldZoneCheckout).find('input').val($(this).find('option:selected').text());
+				    	$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
 						$(fieldStreetCheckout).find('input').keyup();
 
 				    	if($(valStreetCheckout).attr('postalCode') != 'null'){
