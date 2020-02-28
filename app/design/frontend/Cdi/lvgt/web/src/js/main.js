@@ -444,6 +444,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    							'<option data-title="" value="">Please select a city.</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
+
+	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
+	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'</select>';
+	    			$(fieldZoneCheckout).append(htmlZones);
 	    			
 
 	    			$('body').trigger('processStop');
@@ -466,11 +471,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 								$.each(resState, function(iState, valState){
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
-
-								var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a zone.</option>'+
-	    							'</select>';
-	    						$(fieldZoneCheckout).append(htmlZones);
 
 								$('body').trigger('processStop');
 							}
