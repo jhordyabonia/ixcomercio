@@ -543,11 +543,7 @@ section{
 }
 /*---BUTTONS---*/
 .action{
-<<<<<<< HEAD
-  &.primary, &.primary:active, &.primary:focus{
-=======
   &.primary, &.primary:active, &.primary:focus, &.action-apply{
->>>>>>> origin/develop
     width: 100%;
     background: $mainColor;
     text-transform: uppercase;
