@@ -455,6 +455,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$('input[name="postcode"]').val('');
+				    	$(fieldCityCheckout).find('input').val($(this).val());
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -478,7 +479,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 					    
 				    });
 				    
-				    /*
 				    // =============================================
 				    // Print select street checkout
 				    // =============================================
@@ -507,8 +507,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							}
 						});
 				    });
-				    */
-
+				    
 				    /*
 				    // =============================================
 				    // Print postal code
