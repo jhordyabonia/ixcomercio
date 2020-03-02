@@ -557,13 +557,23 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    var flagBillingForm = 0;
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
-	    	flagBillingForm += 1;
-	        if($(this).prop('checked') == false){
-		        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
-		        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-                	getStatesCheckout($('.billing-address-form form fieldset.address'));
-		        }
-		    }
+	    	if($('.field-select-billing select').length == 0){
+	    		flagBillingForm += 1;
+		        if($(this).prop('checked') == false){
+			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
+			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
+	                	getStatesCheckout($('.billing-address-form form fieldset.address'));
+			        }
+			    }
+	    	}
+	    });
+
+	    $(document).on('change',"[name='billing_address_id']",function(){
+	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
+	        if(flagBillingForm <= 1){
+            	getStatesCheckout($('.billing-address-form form fieldset.address'));
+            	flagBillingForm += 1;
+	        }
 	    });
 
 
