@@ -542,6 +542,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    
 	    if (window.location.href.indexOf("checkout") > -1) {
+	    	console.log($('input[name="billing-address-same-as-shipping"]').length);
 	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
