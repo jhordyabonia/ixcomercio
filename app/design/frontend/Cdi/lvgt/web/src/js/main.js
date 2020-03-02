@@ -554,10 +554,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	      	}, 1000);
 	    }
 
+	    var flagBillingForm = 0;
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
+	    	flagBillingForm += 1;
 	        if($(this).prop('checked') == false){
 		        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
-		        if($(fieldStateCheckout).length >= 1){
+		        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
                 	getStatesCheckout($('.billing-address-form form fieldset.address'));
 		        }
 		    }
