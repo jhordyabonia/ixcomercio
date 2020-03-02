@@ -15,6 +15,10 @@ class LayoutProcessor implements LayoutProcessorInterface
         ['billing-step']['children']['payment']['children']
         ['payments-list']['children']['checkmo-form']['children']
         ['form-fields']['children']['country_id']['sortOrder'] = 81;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info(print_r($jsLayout, true));
         return $jsLayout;
     }
 }
