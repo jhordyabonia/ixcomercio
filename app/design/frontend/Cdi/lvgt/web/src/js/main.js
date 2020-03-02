@@ -413,7 +413,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
-			    		console.log($(fieldStateCheckout).find('input').attr('name'));
+			    		console.log($(fieldStateCheckout).parents('fieldset').attr('data-form'));
 
 			    		$(fieldStateCheckout).find('input').hide();
 
