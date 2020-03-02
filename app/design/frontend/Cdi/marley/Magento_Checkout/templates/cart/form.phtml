@@ -78,7 +78,6 @@
 /* XCB GTM */
 $_productCollection = $block->getLoadedProductCollection();
 $final_price = $block->getFinalPrice();
-$qty = $_productCollection->count();
 foreach ($_productCollection as $_product){
     $producto = "{
         'id': '{$_productCollection->getSku()}',
@@ -98,7 +97,7 @@ echo <<<JG
     "dataLayer.push({
         'event': 'checkout',
         'ecommerce': {
-			'actionField': {'step': stepObj, 'option': stepOption},
+			'actionField': {'step': 'stepObj', 'option': 'stepOption'},
 			'products': [{$gtm_prods}]
         }
     });
