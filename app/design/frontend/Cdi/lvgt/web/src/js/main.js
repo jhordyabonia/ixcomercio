@@ -395,17 +395,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // Print select Address checkout
 	    // =============================================
 	    var fieldCityCheckout;
-	    function getStatesCheckout(){
+	    function getStatesCheckout(obj){
 
 	    	$('body').trigger('processStart');
-	    	$('input[name="postcode"]').val('');
-	    	var fieldStreetCheckout = $('form .fieldset > .field.street .control .additional .control');
-	    	var fieldZoneCheckout = $('form .fieldset > .field input[name="custom_attributes[zone_id]"]').parent();
+	    	$(obj).find('input[name="postcode"]').val('');
+	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
+	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
 
 		    $(fieldStreetCheckout).find('input').hide();
 		    $(fieldZoneCheckout).find('input').hide();
 
-	    	fieldCityCheckout = $('form .fieldset > .field input[name="city"]').parent();
+	    	fieldCityCheckout = $(obj).find('> .field input[name="city"]').parent();
 
 	    	$.ajax({
 			    url: '/places/search/',
@@ -459,7 +459,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    var selectStateCheckout = $(fieldStateCheckout).find('select');
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
-				    	$('input[name="postcode"]').val('');
+				    	$(obj).find('input[name="postcode"]').val('');
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -486,16 +486,16 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				    // =============================================
 				    // Print select street checkout
 				    // =============================================
-				    $('#fieldCityCheckout').on('change', function (e) {
+				    $(obj).find('#fieldCityCheckout').on('change', function (e) {
 				    	$('body').trigger('processStart');
-				    	$('input[name="postcode"]').val('');
+				    	$(obj).find('input[name="postcode"]').val('');
 						var valCity = $(fieldCityCheckout).find('select option:selected');
 						$(fieldCityCheckout).find('input').val($(valCity).text());
 						$(fieldCityCheckout).find('input').keyup();
 
 						$.ajax({
 							url: '/places/search/',
-							data: 'parentId='+$('#fieldCityCheckout').find('option:selected').attr('parentId'),
+							data: 'parentId='+$(this).find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
@@ -546,23 +546,21 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
-		        	getStatesCheckout();
+		        	getStatesCheckout('form .fieldset.address');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
 	    }
 		
-	    /*
 	    $('input[name="billing-address-same-as-shipping"]').on('change', function(e){
 		    if($(this).prop('checked') == false){
 		        var fieldStateCheckout;
-		        fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
+		        fieldStateCheckout = $('form fieldset[data-form="billing-new-address"] input[name="region"]').parent();
 		        if($(fieldStateCheckout).length >= 1){
-		            getStatesCheckout('form fieldset[data-form="billing-new-address"]');
+                	getStatesCheckout($('form fieldset[data-form="billing-new-address"]'));
 		        }
 		    }
 		});
-		*/
 
 
 	    // =============================================
