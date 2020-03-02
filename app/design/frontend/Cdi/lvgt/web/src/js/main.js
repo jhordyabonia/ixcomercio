@@ -540,6 +540,18 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			});
 	    }
 
+
+	    function billingAddressForm(){
+			console.log("change input");
+			if($(this).prop('checked') == false){
+		        var fieldStateCheckout;
+		        fieldStateCheckout = $('form fieldset[data-form="billing-new-address"] input[name="region"]').parent();
+		        if($(fieldStateCheckout).length >= 1){
+                	getStatesCheckout($('form fieldset[data-form="billing-new-address"]'));
+		        }
+		    }	
+		}
+
 	    
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	console.log($('input[name="billing-address-same-as-shipping"]').length);
@@ -553,6 +565,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	      	}, 1000);
 	    }
 		
+		/*
 	    $('input[name="billing-address-same-as-shipping"]').on('change', function(e){
 		    if($(this).prop('checked') == false){
 		        var fieldStateCheckout;
@@ -562,6 +575,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 		    }
 		});
+		*/
 
 
 	    // =============================================
