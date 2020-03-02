@@ -557,9 +557,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
 	        if($(this).prop('checked') == false){
 		        var fieldStateCheckout;
-		        fieldStateCheckout = $('form fieldset[data-form="billing-new-address"] input[name="region"]').parent();
+		        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 		        if($(fieldStateCheckout).length >= 1){
-                	getStatesCheckout($('form fieldset[data-form="billing-new-address"]'));
+                	getStatesCheckout($('.billing-address-form form fieldset.address'));
 		        }
 		    }
 	    });
