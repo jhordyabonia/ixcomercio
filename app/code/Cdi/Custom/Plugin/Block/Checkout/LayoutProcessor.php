@@ -14,17 +14,13 @@ class LayoutProcessor
         )){
             foreach ($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['payment']['children']['payments-list']['children'] as $key => $payment) {
-
                 /* company */
                 if (isset($payment['children']['form-fields']['children']['company'])) {
                     $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                     ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
                     ['company']['sortOrder'] = 10;
                 }
-
-
-            }       
-
+            }
         }
         return $jsLayout;
     }
