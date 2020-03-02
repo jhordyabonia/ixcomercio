@@ -394,10 +394,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj){
 
 	    	$('body').trigger('processStart');
+	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
@@ -413,6 +415,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
+			    		console.log($(fieldStateCheckout));
+			    		console.log($(fieldStateCheckout).find('input'));
 
 			    		$(fieldStateCheckout).find('input').hide();
 
@@ -540,22 +544,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			});
 	    }
 
-
-	    function billingAddressForm(){
-			console.log("change input");
-			if($(this).prop('checked') == false){
-		        var fieldStateCheckout;
-		        fieldStateCheckout = $('form fieldset[data-form="billing-new-address"] input[name="region"]').parent();
-		        if($(fieldStateCheckout).length >= 1){
-                	getStatesCheckout($('form fieldset[data-form="billing-new-address"]'));
-		        }
-		    }	
-		}
-
 	    
 	    if (window.location.href.indexOf("checkout") > -1) {
-	    	console.log($('input[name="billing-address-same-as-shipping"]').length);
-	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
@@ -564,18 +554,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 	      	}, 1000);
 	    }
-		
-		/*
-	    $('input[name="billing-address-same-as-shipping"]').on('change', function(e){
-		    if($(this).prop('checked') == false){
-		        var fieldStateCheckout;
-		        fieldStateCheckout = $('form fieldset[data-form="billing-new-address"] input[name="region"]').parent();
-		        if($(fieldStateCheckout).length >= 1){
-                	getStatesCheckout($('form fieldset[data-form="billing-new-address"]'));
+
+	    var flagBillingForm = 0;
+	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
+	    	flagBillingForm += 1;
+	        if($(this).prop('checked') == false){
+		        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
+		        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
+                	getStatesCheckout($('.billing-address-form form fieldset.address'));
 		        }
 		    }
-		});
-		*/
+	    });
 
 
 	    // =============================================
