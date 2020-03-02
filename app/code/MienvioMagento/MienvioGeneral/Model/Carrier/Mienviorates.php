@@ -210,7 +210,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $addressFromResp = json_decode($this->_curl->getBody());
             $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
-            if(isset($addressFromResp->{'error'})) throw new Exception($addressFromResp->{'error'});
+            if(isset($addressFromResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressFromId = $addressFromResp->{'address'}->{'object_id'};
 
             $this->_logger->debug('Request');
@@ -218,7 +218,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $addressToResp = json_decode($this->_curl->getBody());
             $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
-            if(isset($addressToResp->{'error'})) throw new Exception($addressFromResp->{'error'});
+            if(isset($addressToResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressToId = $addressToResp->{'address'}->{'object_id'};
 
             $itemsMeasures = $this->getOrderDefaultMeasures($request->getAllItems());

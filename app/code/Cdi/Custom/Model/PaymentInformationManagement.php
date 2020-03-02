@@ -28,9 +28,9 @@ class PaymentInformationManagement extends \Magento\Checkout\Model\PaymentInform
             $logger = new \Zend\Log\Logger();
             $logger->addWriter($writer);
             if(!is_numeric($billingAddress->getPostcode())){
-                $logger->info('Ingresa postcode: ' . $billingAddress->getPostcode());
+                $logger->info('Ingresa postcode (billing 2): ' . $billingAddress->getPostcode());
                 $billingAddress->setPostcode('');
-                $logger->info('Retorna postcode: ' . $billingAddress->getPostcode());
+                $logger->info('Retorna postcode (billing 2): ' . $billingAddress->getPostcode());
             }
             /** @var \Magento\Quote\Api\CartRepositoryInterface $quoteRepository */
             $quoteRepository = $this->getCartRepository();
