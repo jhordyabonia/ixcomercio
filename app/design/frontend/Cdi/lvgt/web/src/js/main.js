@@ -564,6 +564,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        }
 	      	}, 1000);
 	    }
+
+	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
+	        alert("Hi");
+	    });
 		
 		/*
 	    $('input[name="billing-address-same-as-shipping"]').on('change', function(e){
