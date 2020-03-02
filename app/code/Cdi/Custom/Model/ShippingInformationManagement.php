@@ -39,8 +39,15 @@ class ShippingInformationManagement extends \Magento\Checkout\Model\ShippingInfo
 
         try {
             $billingAddress = $addressInformation->getBillingAddress();
-            if(!is_numeric($address->getPostcode())) $address->setPostcode('');//->save();
-            $this->logger->error('billingAddress: ' . $address->getPostcode());
+            //Jhonatan Holguin: Verifica y actualiza el código postal
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/postcode.log');
+            $logger = new \Zend\Log\Logger();
+            $logger->addWriter($writer);
+            if(!is_numeric($address->getPostcode())){
+                $logger->info('Ingresa postcode: ' . $address->getPostcode());
+                $address->setPostcode('');
+                $logger->info('Retorna postcode: ' . $address->getPostcode());
+            }
             if ($billingAddress) {
                 if (!$billingAddress->getCustomerAddressId()) {
                     $billingAddress->setCustomerAddressId(null);

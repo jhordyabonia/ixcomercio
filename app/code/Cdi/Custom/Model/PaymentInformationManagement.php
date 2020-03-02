@@ -24,7 +24,7 @@ class PaymentInformationManagement extends \Magento\Checkout\Model\PaymentInform
     ) {
         if ($billingAddress) {
             //Jhonatan Holguin: Verifica y actualiza el código postal
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/postcode.log');
             $logger = new \Zend\Log\Logger();
             $logger->addWriter($writer);
             if(!is_numeric($billingAddress->getPostcode())){
