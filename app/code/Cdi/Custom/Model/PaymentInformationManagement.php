@@ -12,16 +12,26 @@ use Psr\Log\LoggerInterface as Logger;
 class PaymentInformationManagement extends \Magento\Checkout\Model\PaymentInformationManagement
 {
 
+    /**
+     * @var \Magento\Quote\Api\CartRepositoryInterface
+     */
+    private $cartRepository;
+
     public function savePaymentInformation(
         $cartId,
         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
         \Magento\Quote\Api\Data\AddressInterface $billingAddress = null
     ) {
         if ($billingAddress) {
+            //Jhonatan Holguin: Verifica y actualiza el código postal
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
             $logger = new \Zend\Log\Logger();
             $logger->addWriter($writer);
-            $logger->info($billingAddress->getPostcode());
+            if(!is_numeric($billingAddress->getPostcode())){
+                $logger->info('Ingresa postcode: ' . $billingAddress->getPostcode());
+                $billingAddress->setPostcode('');
+                $logger->info('Retorna postcode: ' . $billingAddress->getPostcode());
+            }
             /** @var \Magento\Quote\Api\CartRepositoryInterface $quoteRepository */
             $quoteRepository = $this->getCartRepository();
             /** @var \Magento\Quote\Model\Quote $quote */
