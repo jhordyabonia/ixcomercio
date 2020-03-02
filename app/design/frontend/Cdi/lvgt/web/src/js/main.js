@@ -565,14 +565,19 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	                	getStatesCheckout($('.billing-address-form form fieldset.address'));
 			        }
 			    }
+	    	}else {
+	    		console.log("existe select");
+	    		flagBillingForm = 0;
 	    	}
 	    });
 
 	    $(document).on('change',"[name='billing_address_id']",function(){
+	    	console.log("change select");
+	    	flagBillingForm += 1;
 	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 	        if(flagBillingForm <= 1){
+	        	console.log("lanza fn");
             	getStatesCheckout($('.billing-address-form form fieldset.address'));
-            	flagBillingForm += 1;
 	        }
 	    });
 
