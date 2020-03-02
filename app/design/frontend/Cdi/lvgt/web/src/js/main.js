@@ -566,12 +566,13 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			        }
 			    }
 	    	}
+	    	console.log(flagBillingForm);
 	    });
 
-	    $(document).on('change',"select[name='billing_address_id']",function(){
+	    $(document).on('change',"[name='billing_address_id']",function(){
 	    	flagBillingForm += 1;
 	        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
-	        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 0){
+	        if(flagBillingForm == 1){
             	getStatesCheckout($('.billing-address-form form fieldset.address'));
 	        }
 	    });
