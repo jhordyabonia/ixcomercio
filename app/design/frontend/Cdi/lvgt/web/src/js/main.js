@@ -566,12 +566,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			        }
 			    }
 	    	}
-	    	console.log(flagBillingForm);
 	    });
 
 	    $(document).on('change',"[name='billing_address_id']",function(){
 	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
-	        if(flagBillingForm == 0){
+	        if(flagBillingForm <= 1){
             	getStatesCheckout($('.billing-address-form form fieldset.address'));
             	flagBillingForm += 1;
 	        }
