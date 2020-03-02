@@ -399,7 +399,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    function getStatesCheckout(obj){
 
 	    	$('body').trigger('processStart');
-	    	$(obj).find('input[name="postcode"]').hide();
+	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
