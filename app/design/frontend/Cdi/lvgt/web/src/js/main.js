@@ -394,6 +394,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj){
 
@@ -544,7 +545,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    
 	    if (window.location.href.indexOf("checkout") > -1) {
-	    	var fieldStateCheckout;
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
@@ -556,7 +556,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
 	        if($(this).prop('checked') == false){
-		        var fieldStateCheckout;
 		        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 		        if($(fieldStateCheckout).length >= 1){
                 	getStatesCheckout($('.billing-address-form form fieldset.address'));
