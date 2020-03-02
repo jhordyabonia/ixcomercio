@@ -557,7 +557,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    var flagBillingForm = 0;
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
-	    	if($('.field-select-billing').length == 0){
+	    	if($('.field-select-billing select').length == 0){
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
 			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
