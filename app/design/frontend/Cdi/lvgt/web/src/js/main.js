@@ -567,7 +567,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    });
 
 	    $(document).on('change',"select[name='billing_address_id']",function(){
-	    	flagBillingForm = 0;
+	    	flagBillingForm += 1;
 	        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 	        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 0){
             	getStatesCheckout($('.billing-address-form form fieldset.address'));
