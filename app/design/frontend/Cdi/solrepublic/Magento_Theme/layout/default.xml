@@ -13,6 +13,9 @@
 		<referenceContainer name="header.container">
 			<referenceBlock name="header.panel.wrapper" remove="true" />
 			<container name="header.row.container" as="header_row_container" before="-" htmlTag="div" htmlClass="header-container">
+				<container name="header.country.wrapper" as="header_country_wrapper" before="-" htmlTag="div" htmlClass="country-header-wrapper">
+					<block class="Magento\Framework\View\Element\Template" name="header.account.country" template="Magento_Theme::html/header-country.phtml" cacheable="false"/>
+				</container>
 				<container name="header.row.container.freeshipping" as="header_row_container_freeshipping" before="header.row.wrapper" htmlTag="div" htmlClass="header-freeshipping">
 					<block class="Magento\Framework\View\Element\Template" name="header.freeshipping.block" template="Magento_Theme::html/free_shipping.phtml"/>
 				</container>
@@ -35,7 +38,6 @@
 		<!--Bloque de menu lateral desplegable-->
 		<referenceContainer name="main.content">
 			<block class="Magento\Framework\View\Element\Template" name="tooglevav" as="tooglevav" before="-" template="Magento_Theme::html/tooglenav.phtml">
-				<block class="Magento\Framework\View\Element\Template" name="header.account.country" template="Magento_Theme::html/header-country.phtml" cacheable="false"/>
 				<block class="Magento\Theme\Block\Html\Topmenu" name="tooglevav.tooglenav" as="tooglevav_tooglenav" template="Magento_Theme::html/topmenu.phtml" ttl="3600"/>
 				<block class="Magento\Framework\View\Element\Template" name="tooglevav.social" as="tooglevav_social" template="Magento_Theme::html/social.phtml"/>
 				<block class="Magento\Framework\View\Element\Template" name="customer.options" as="customer_options" template="Magento_Theme::html/customer.phtml" before="tooglevav_social"/>
