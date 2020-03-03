@@ -93,7 +93,10 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->request = $request;
         $this->checkoutSession = $checkoutSession;
         $this->orderRepository = $orderRepository;
-        $this->logger = $logger_interface;        
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getplaces.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
         $this->resultRedirect = $result;
