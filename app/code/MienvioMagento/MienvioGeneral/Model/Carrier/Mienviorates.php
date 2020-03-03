@@ -55,7 +55,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->lbs_kg = 0.45359237;
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $this->_logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral_mienviorates.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
         $this->directoryHelper = $directoryHelper;

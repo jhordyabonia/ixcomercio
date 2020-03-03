@@ -34,7 +34,10 @@ class ObserverSuccess implements ObserverInterface
         $this->collectionFactory = $collectionFactory;
         $this->quoteRepository = $quoteRepository;
         $this->_code = 'mienviocarrier';
-        $this->_logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
     }
