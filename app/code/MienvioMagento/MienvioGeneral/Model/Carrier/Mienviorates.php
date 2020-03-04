@@ -27,7 +27,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private $directoryHelper;
     private $quoteRepository;
-    private $_logger;
+    protected $_logger;
     const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
 
     /**
