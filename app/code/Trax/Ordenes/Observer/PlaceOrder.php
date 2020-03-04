@@ -65,7 +65,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Grid\Model\GridFactory $gridFactory
     )
     {
-        $this->logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->order = $order;     

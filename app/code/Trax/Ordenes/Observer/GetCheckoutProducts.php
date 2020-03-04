@@ -56,7 +56,10 @@ class GetCheckoutProducts implements \Magento\Framework\Event\ObserverInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Trax\Catalogo\Helper\Email $email, \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,     \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory
     )
     {
-        $this->logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getcheckoutproducts.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->helper = $email;
         $this->_cacheTypeList = $cacheTypeList;

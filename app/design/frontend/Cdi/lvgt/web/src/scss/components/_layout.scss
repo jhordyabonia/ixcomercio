@@ -559,7 +559,7 @@ section{
       border: none;
     }
   }
-  &.action-update {
+  &.action-update, &.action-edit-address {
     color: #999;
     background: none;
     transition: .5s all ease;

@@ -3,11 +3,9 @@
     <preference for="Magento\Catalog\Block\Category\View" type="Cdi\Custom\Block\Category\View" />
     <preference for="Magento\Theme\Block\Html\Footer" type="Cdi\Custom\Block\Html\Footer" />
     <preference for="Magento\Checkout\Model\ShippingInformationManagement" type="Cdi\Custom\Model\ShippingInformationManagement" />
-    <type name="Magento\Checkout\Block\Onepage">
-        <arguments>
-            <argument name="layoutProcessors" xsi:type="array">
-                <item name="checkoutFieldsReorder" xsi:type="object">Cdi\Custom\Block\LayoutProcessor</item>
-            </argument>
-        </arguments>
+    <preference for="Magento\Checkout\Model\PaymentInformationManagement" type="Cdi\Custom\Model\PaymentInformationManagement" />
+    <preference for="Magento\Checkout\Model\GuestPaymentInformationManagement" type="Cdi\Custom\Model\GuestPaymentInformationManagement" />
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin disabled="false" name="Cdi_Custom_Plugin_Block_Checkout_LayoutProcessor" sortOrder="100" type="Cdi\Custom\Plugin\Block\Checkout\LayoutProcessor"/>
     </type>
 </config>

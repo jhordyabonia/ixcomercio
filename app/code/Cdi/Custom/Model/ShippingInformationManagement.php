@@ -39,13 +39,26 @@ class ShippingInformationManagement extends \Magento\Checkout\Model\ShippingInfo
 
         try {
             $billingAddress = $addressInformation->getBillingAddress();
-            if(!is_numeric($address->getPostcode())) $address->setPostcode('');//->save();
-            $this->logger->error('billingAddress: ' . $address->getPostcode());
+            //Jhonatan Holguin: Verifica y actualiza el código postal
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/postcode.log');
+            $logger = new \Zend\Log\Logger();
+            $logger->addWriter($writer);
+            if(!is_numeric($address->getPostcode())){
+                $logger->info('Ingresa postcode (shipping): ' . $address->getPostcode());
+                $address->setPostcode('');
+                $logger->info('Retorna postcode (shipping): ' . $address->getPostcode());
+            }
             if ($billingAddress) {
                 if (!$billingAddress->getCustomerAddressId()) {
                     $billingAddress->setCustomerAddressId(null);
                 }
                 $this->addressValidator->validateForCart($quote, $billingAddress);
+                //Jhonatan Holguin: Verifica y actualiza el código postal
+                if(!is_numeric($billingAddress->getPostcode())){
+                    $logger->info('Ingresa postcode (billing 1): ' . $billingAddress->getPostcode());
+                    $billingAddress->setPostcode('');
+                    $logger->info('Retorna postcode (billing 1): ' . $billingAddress->getPostcode());
+                }
                 $quote->setBillingAddress($billingAddress);
             }
 
@@ -66,8 +79,6 @@ class ShippingInformationManagement extends \Magento\Checkout\Model\ShippingInfo
         }
 
         $shippingAddress = $quote->getShippingAddress();
-        if(!is_numeric($shippingAddress->getPostcode())) $shippingAddress->setPostcode('');//->save();
-        $this->logger->error('shippingAddress: ' . $shippingAddress->getPostcode());
 
         if (!$shippingAddress->getShippingRateByCode($shippingAddress->getShippingMethod())) {
             throw new NoSuchEntityException(
