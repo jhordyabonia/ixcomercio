@@ -27,7 +27,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private $directoryHelper;
     private $quoteRepository;
-
+    private $_logger;
     const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
 
     /**
@@ -56,8 +56,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral_mienviorates.log');
-        $this->logger = new \Zend\Log\Logger();
-        $this->logger->addWriter($writer);
+        $this->_logger = new \Zend\Log\Logger();
+        $this->_logger->addWriter($writer);
         //$this->logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
