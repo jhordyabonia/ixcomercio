@@ -44,7 +44,10 @@ class GetPlaces {
     \Trax\Places\Model\TraxPlacesCitiesFactory $traxPlacesCities,
     \Trax\Places\Model\TraxPlacesLocalitiesFactory $traxPlacesLocalities,
     \Trax\Catalogo\Helper\Email $email) {
-        $this->logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getplaces_cron.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
         $this->_cacheTypeList = $cacheTypeList;

@@ -55,7 +55,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->lbs_kg = 0.45359237;
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $this->_logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral_mienviorates.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
         $this->directoryHelper = $directoryHelper;
@@ -210,7 +213,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $addressFromResp = json_decode($this->_curl->getBody());
             $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
-            if(isset($addressFromResp->{'error'})) throw new Exception($addressFromResp->{'error'});
+            if(isset($addressFromResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressFromId = $addressFromResp->{'address'}->{'object_id'};
 
             $this->_logger->debug('Request');
@@ -218,7 +221,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $addressToResp = json_decode($this->_curl->getBody());
             $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
-            if(isset($addressToResp->{'error'})) throw new Exception($addressFromResp->{'error'});
+            if(isset($addressToResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressToId = $addressToResp->{'address'}->{'object_id'};
 
             $itemsMeasures = $this->getOrderDefaultMeasures($request->getAllItems());
