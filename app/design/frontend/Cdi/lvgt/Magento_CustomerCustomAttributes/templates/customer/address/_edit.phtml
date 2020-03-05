@@ -163,7 +163,7 @@
             </div>
         <?php endif; ?>
         
-        <div class="field zip required" style="display:none">
+        <div class="field zip required">
             <label class="label" for="zip">
                 <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?></span>
             </label>
@@ -174,7 +174,7 @@
                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>"
                        id="zip"
                        class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode')) ?>">
-                <div role="alert" class="message warning" style="display:none">
+                <div role="alert" class="message warning">
                     <span></span>
                 </div>
             </div>

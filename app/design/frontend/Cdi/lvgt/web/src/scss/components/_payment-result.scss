@@ -3,11 +3,15 @@ table{
     text-align: left;
   }
 }
-.checkout-success{
+.checkout-success, #registration{
 	.actions-toolbar{
+		text-align: center;
 		.primary{
 			float: none;
 			display: inline-block;
+		}
+		.action {
+			border-radius: 3px;
 		}
 	}
 }
