@@ -36,7 +36,8 @@
     </div>
 </div>
 <script>
-dataLayer.push({
+$('document').ready(function(){
+    dataLayer.push({
   'event': 'transaction',
   'ecommerce': {
     'purchase': {
@@ -62,6 +63,7 @@ dataLayer.push({
         }]
     }
   }
+    });
 });
 </script>
 <?php
