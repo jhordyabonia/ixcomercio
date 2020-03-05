@@ -34,6 +34,7 @@
 </div>
 <?php
 /* XCB GTM */
+/*
 $_productCollection = $block->getLoadedProductCollection();
 $final_price = $block->getFinalPrice();
 $qty = $_productCollection->count();
@@ -50,11 +51,11 @@ foreach ($_productCollection as $_product){
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
-$order = $block->getOrderId();
+$order = $block->getOrderId();*/
 echo <<<JG
 <script>
     alert("finaliza");
-    $('document').ready(function(){
+    /*$('document').ready(function(){
     "dataLayer.push({
         'event': 'transaction',
         'ecommerce': {
@@ -72,7 +73,7 @@ echo <<<JG
         }
     });
 });
-    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});
+    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});*/
 </script>
 JG;
 /* XCB END */
