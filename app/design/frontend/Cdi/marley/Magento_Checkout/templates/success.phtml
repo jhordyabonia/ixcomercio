@@ -53,6 +53,8 @@ foreach ($_productCollection as $_product){
 $order = $block->getOrderId();
 echo <<<JG
 <script>
+    alert("finaliza");
+    $('document').ready(function(){
     "dataLayer.push({
         'event': 'transaction',
         'ecommerce': {
@@ -69,6 +71,7 @@ echo <<<JG
             }
         }
     });
+});
     dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});
 </script>
 JG;
