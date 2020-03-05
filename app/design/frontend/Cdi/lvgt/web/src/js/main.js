@@ -397,10 +397,15 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj){
-
 	    	$('body').trigger('processStart');
-	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
+
+	    	if($(obj).find("select[name='country_id']").val() == "GT"){
+	    		$(obj).find('input[name="postcode"]').parents('.field').hide();
+	    	}else{
+	    		$(obj).find('input[name="postcode"]').parents('.field').show();
+	    	}
 	    	$(obj).find('input[name="postcode"]').val('');
+
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
 
@@ -415,9 +420,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
-			    		console.log($(fieldStateCheckout));
-			    		console.log($(fieldStateCheckout).find('input'));
-
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -453,7 +455,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    							'<option data-title="" value="">Please select a zone.</option>'+
 	    							'</select>';
 	    			$(fieldZoneCheckout).append(htmlZones);
-	    			
 
 	    			$('body').trigger('processStop');
 
@@ -479,7 +480,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 								$('body').trigger('processStop');
 							}
 						});
-
 
 						var valueState = $(fieldStateCheckout).find('select option:selected');
 						$(fieldStateCheckout).find('input').val($(valueState).text());
@@ -539,7 +539,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 				    	$('body').trigger('processStop');
 				    });
-				    
 			    }
 			});
 	    }
@@ -566,19 +565,24 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			        }
 			    }
 	    	}else {
-	    		console.log("existe select");
 	    		flagBillingForm = 0;
 	    	}
 	    });
 
 	    $(document).on('change',"[name='billing_address_id']",function(){
-	    	console.log("change select");
 	    	flagBillingForm += 1;
 	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 	        if(flagBillingForm <= 1){
-	        	console.log("lanza fn");
-            	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	        	getStatesCheckout($('.billing-address-form form fieldset.address'));
 	        }
+	    });
+
+	    $(document).on('change',"[name='country_id']",function(){
+	    	if($(this).val() == "GT"){
+	    		$('input[name="postcode"]').parents('.field').hide();
+	    	}else{
+	    		$('input[name="postcode"]').parents('.field').show();
+	    	}
 	    });
 
 
