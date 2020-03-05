@@ -14,7 +14,7 @@
             <div class="col-xs-12">        
                 <?php if ($block->getOrderId()):?>
                     <?php if ($block->getCanViewOrder()) :?>
-                        <p><?= __('Your Pedido number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
                     <?php  else :?>
                         <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
                     <?php endif;?>
@@ -32,49 +32,3 @@
         </div>
     </div>
 </div>
-<?php
-/* XCB GTM */
-/*
-$_productCollection = $block->getLoadedProductCollection();
-$final_price = $block->getFinalPrice();
-$qty = $_productCollection->count();
-foreach ($_productCollection as $_product){
-    $producto = "{
-        'id': '{$_productCollection->getSku()}',
-        'name': '{$_product->getName()}',
-        'price': '{$_product->getFinalPrice()}',
-        'brand': 'HOM',
-        'category': '{$_product->getName()}',
-        'variant': 'productVariant',
-        'quantity': {$_product->getQty()},
-        'coupon': ''
-    }";
-    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-}
-$order = $block->getOrderId();*/
-echo <<<JG
-<script>
-    alert("finaliza");
-    /*$('document').ready(function(){
-    "dataLayer.push({
-        'event': 'transaction',
-        'ecommerce': {
-            'purchase': {
-                'actionField': {
-                    'id': {$order},
-                    'affiliation': 'HOM',
-                    'revenue': {$final_price},
-                    'tax': 'orderTax',
-                    'shipping': 'orderShipping',
-                    'coupon': 'orderCoupon'
-                },
-                'products': [{$gtm_prods}]
-            }
-        }
-    });
-});
-    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});*/
-</script>
-JG;
-/* XCB END */
-?>

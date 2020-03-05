@@ -9,7 +9,7 @@
             </div>
             <table class="col-xs-12 col-md-8 col-md-offset-2">
                 <tr>
-                    <td><b>Orden #</b></td>
+                    <td><b>Pedido #</b></td>
                     <td><?php echo $this->getReference() ?></td>
                 </tr>
                 <tr>
@@ -35,4 +35,48 @@
         </div>
     </div>
 </div>
+<?php
+/* XCB GTM */
+$_productCollection = $block->getLoadedProductCollection();
+$final_price = $block->getFinalPrice();
+$qty = $_productCollection->count();
+foreach ($_productCollection as $_product){
+    $producto = "{
+        'id': '{$_productCollection->getSku()}',
+        'name': '{$_product->getName()}',
+        'price': '{$_product->getFinalPrice()}',
+        'brand': 'HOM',
+        'category': '{$_product->getName()}',
+        'variant': 'productVariant',
+        'quantity': {$_product->getQty()},
+        'coupon': ''
+    }";
+    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
+}
+$order = $block->getOrderId();
+echo <<<JG
+<script>
+    $('document').ready(function(){
+    dataLayer.push({
+        'event': 'transaction',
+        'ecommerce': {
+            'purchase': {
+                'actionField': {
+                    'id': {$order},
+                    'affiliation': 'HOM',
+                    'revenue': {$final_price},
+                    'tax': 'orderTax',
+                    'shipping': 'orderShipping',
+                    'coupon': 'orderCoupon'
+                },
+                'products': [{$gtm_prods}]
+            }
+        }
+    });
+});
+    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});
+</script>
+JG;
+/* XCB END */
+?>
 <?php } ?>
