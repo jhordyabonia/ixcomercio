@@ -415,9 +415,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    dataType: 'json',
 			    success: function(res) {
 			    	if($(fieldStateCheckout).find('input').length){
-			    		console.log($(fieldStateCheckout));
-			    		console.log($(fieldStateCheckout).find('input'));
-
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
@@ -453,7 +450,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    							'<option data-title="" value="">Please select a zone.</option>'+
 	    							'</select>';
 	    			$(fieldZoneCheckout).append(htmlZones);
-	    			
 
 	    			$('body').trigger('processStop');
 
@@ -479,7 +475,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 								$('body').trigger('processStop');
 							}
 						});
-
 
 						var valueState = $(fieldStateCheckout).find('select option:selected');
 						$(fieldStateCheckout).find('input').val($(valueState).text());
@@ -539,7 +534,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 				    	$('body').trigger('processStop');
 				    });
-				    
 			    }
 			});
 	    }
