@@ -404,10 +404,15 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj){
-
 	    	$('body').trigger('processStart');
-	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
+
+	    	if($("select[name='country_id']").val() == "GT"){
+	    		$(obj).find('input[name="postcode"]').parents('.field').hide();
+	    	}else{
+	    		$(obj).find('input[name="postcode"]').parents('.field').show();
+	    	}
 	    	$(obj).find('input[name="postcode"]').val('');
+	    	
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
 	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
 		    
