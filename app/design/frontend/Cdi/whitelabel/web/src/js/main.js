@@ -406,7 +406,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    function getStatesCheckout(obj){
 	    	$('body').trigger('processStart');
 
-	    	if($("select[name='country_id']").val() == "GT"){
+	    	if($(obj).find("select[name='country_id']").val() == "GT"){
 	    		$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	}else{
 	    		$(obj).find('input[name="postcode"]').parents('.field').show();
@@ -582,6 +582,14 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	        if(flagBillingForm <= 1){
 	        	getStatesCheckout($('.billing-address-form form fieldset.address'));
 	        }
+	    });
+
+	    $(document).on('change',"[name='country_id']",function(){
+	    	if($(this).val() == "GT"){
+	    		$('input[name="postcode"]').parents('.field').hide();
+	    	}else{
+	    		$('input[name="postcode"]').parents('.field').show();
+	    	}
 	    });
 
 
