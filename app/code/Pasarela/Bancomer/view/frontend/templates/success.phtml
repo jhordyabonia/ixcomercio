@@ -9,7 +9,7 @@
             </div>
             <table class="col-xs-12 col-md-8 col-md-offset-2">
                 <tr>
-                    <td><b>Pedido #</b></td>
+                    <td><b>Order #</b></td>
                     <td><?php echo $this->getReference() ?></td>
                 </tr>
                 <tr>
@@ -37,6 +37,7 @@
 </div>
 <script>
 $('document').ready(function(){
+    alert('hola mundo');
     dataLayer.push({
   'event': 'transaction',
   'ecommerce': {
