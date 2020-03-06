@@ -355,6 +355,9 @@ header{
               }
             }
           }
+          select.language{
+            display: none;
+          }
           .nav-sections{
             width: auto;
             background: none;
@@ -397,6 +400,11 @@ header{
                   margin: 0;
                   padding: 0;
                 }
+              }
+            }
+            @media only screen and (max-width: $mobile){
+              .nav-sections-items{
+                padding: 20px 0 70px;
               }
             }
             .navigation{
@@ -504,7 +512,7 @@ header{
               }
             }
             &.open {
-              .header-account-mobile {
+              .header-account-mobile, select.language{
                 @media only screen and (max-width: $mobile){
                   display: block;
                 }
