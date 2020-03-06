@@ -366,6 +366,19 @@ header{
             @media only screen and (max-width: $mobile){
               display: block;
             }
+            &:after{
+              font-size: 42px;
+              line-height: 36px;
+              color: #999;
+              content: '\e622';
+              font-family: 'icons-blank-theme';
+              font-weight: normal;
+              speak: none;
+              position: absolute;
+              top: 0;
+              right: 15px;
+              pointer-events: none;
+            }
             select{
               background: #fff;
               border-radius: 3px;
