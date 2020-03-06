@@ -57,11 +57,11 @@ echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order')->load($lid);
 $items          = $order->getAllItems();
-//print_r(get_class_methods($order));
-//die('<hr>');
+print_r(get_class_methods($items));
+die('<hr>');
 foreach ($items as $i)
 {
-    print_r($i->getProductId());
+    //print_r($i->getProductId());
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     //print_r($_product);
     $producto = "{
