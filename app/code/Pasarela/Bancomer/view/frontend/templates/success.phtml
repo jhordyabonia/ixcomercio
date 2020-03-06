@@ -52,7 +52,8 @@ foreach ($block as $_product){
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
 */
-$lid            = $this->getReference();
+//$lid            = $this->getReference();
+$lid            = $this->getOrderId();
 echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order')->load(187);
