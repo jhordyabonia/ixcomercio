@@ -230,33 +230,6 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 
 		// =============================================
-	    // Create language mobile
-	    // =============================================
-	    if($('#switcher-language').length){
-	    	var html = '<select class="language">'+
-	    					'<option>'+$('#switcher-language .switcher-label span').text()+'</option>'+
-	    					'<option selected>'+$('#switcher-language #switcher-language-trigger').text()+'</option>';
-
-	    	var optLanguage = $('#switcher-language .switcher-dropdown li');
-	        $.each(optLanguage, function(i, val){
-	        	html += '<option value="'+$(val).find('a').attr("href")+'">'+$(val).find('a').text()+'</option>';
-	        });
-
-	        html += '</select>';
-
-	        $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items').append(html);
-
-	        $('.nav-sections-items select.language').on('change', function () {
-		        var url = $(this).val(); // get selected value
-		        if (url) { // require a URL
-		        	window.location = url; // redirect
-		        }
-		        return false;
-			});
-	    }
-
-
-		// =============================================
 	    // Create carousel product grid
 	    // =============================================
 		
@@ -290,6 +263,34 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	var parent = $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items');
 
 	    	$(parent).append(menuAccountMobile);
+	    }
+
+
+	    // =============================================
+	    // Create language mobile
+	    // =============================================
+	    if($('#switcher-language').length){
+	    	var html = '<div class="wrapper-select-language">'+
+	    					'<select class="language">'+
+	    						'<option>'+$('#switcher-language .switcher-label span').text()+'</option>'+
+	    						'<option selected>'+$('#switcher-language #switcher-language-trigger').text()+'</option>';
+
+	    	var optLanguage = $('#switcher-language .switcher-dropdown li');
+	        $.each(optLanguage, function(i, val){
+	        	html += '<option value="'+$(val).find('a').attr("href")+'">'+$(val).find('a').text()+'</option>';
+	        });
+
+	        html += '</select></div>';
+
+	        $('header.page-header .header-wrapper-nav .wrapper-nav .nav-sections .nav-sections-items').append(html);
+
+	        $('.nav-sections-items select.language').on('change', function () {
+		        var url = $(this).val(); // get selected value
+		        if (url) { // require a URL
+		        	window.location = url; // redirect
+		        }
+		        return false;
+			});
 	    }
 
 

@@ -355,8 +355,17 @@ header{
               }
             }
           }
-          select.language{
+          .wrapper-select-language{
+            left: 0;
+            bottom: 0;
             display: none;
+            padding: 0 15px 10px;
+            position: absolute;
+            select{
+              background: #fff;
+              border: 1px solid #ddd;
+              -webkit-appearance: none;
+            }
           }
           .nav-sections{
             width: auto;
@@ -512,7 +521,7 @@ header{
               }
             }
             &.open {
-              .header-account-mobile, select.language{
+              .header-account-mobile, .wrapper-select-language{
                 @media only screen and (max-width: $mobile){
                   display: block;
                 }
