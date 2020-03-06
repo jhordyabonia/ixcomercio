@@ -56,7 +56,7 @@ foreach ($block as $_product){
 $lid            = $this->getOrderId();
 echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
-$order          = $objectManager->create('Magento\Sales\Model\Order')->load(187);
+$order          = $objectManager->create('Magento\Sales\Model\Order')->load($lid ); #187
 $items          = $order->getAllItems();
 //print_r(get_class_methods($items));
 //die('<hr>');
