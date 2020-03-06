@@ -26,7 +26,7 @@ class Success extends \Magento\Framework\View\Element\Template
 	/*
 	Add to class for get order details
 	xcb GTM 
-	*/
+	
 	public function getOrderCollectionByCustomerId($customerId){
        $collection = $this->_orderCollectionFactory()->create($customerId)
          ->addFieldToSelect('*')

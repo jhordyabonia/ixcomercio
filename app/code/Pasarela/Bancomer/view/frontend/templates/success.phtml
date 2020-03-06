@@ -70,15 +70,15 @@
 </script>-->
 <?php
 /* XCB GTM */
-$_productCollection = $block->getOrderCollectionByCustomerId();
-//print_r(get_class_methods($this));
-print_r(get_class_methods($_productCollection));
+//$_productCollection = $block->getLoadedProductCollection();
+print_r(get_class_methods($block));
+//print_r(get_class_methods($_productCollection));
 //echo $block->getStoreName();
 
 $final_price = $this->getAmount();
-foreach ($_productCollection as $_product){
+foreach ($block as $_product){
     $producto = "{
-        'id': '{$_productCollection->getSku()}',
+        'id': '{$block->getSku()}',
         'name': '{$_product->getName()}',
         'price': '{$_product->getFinalPrice()}',
         'brand': 'HOM',
