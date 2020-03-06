@@ -45,8 +45,8 @@ class Success extends \Magento\Framework\View\Element\Template
 	/*
 	Add to class for get order details
 	xcb GTM 
-	*/
+	
 	public function getStoreName(){
 		return $this->_storeManager->getStore()->getName();
-	}
+	}*/
 }
