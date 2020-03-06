@@ -272,7 +272,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    if($('#switcher-language').length){
 	    	var html = '<div class="wrapper-select-language">'+
 	    					'<select class="language">'+
-	    						'<option value="">'+$('#switcher-language .switcher-label span').text()+'</option>'+
+	    						'<option value="" disabled>'+$('#switcher-language .switcher-label span').text()+'</option>'+
 	    						'<option value="" selected>'+$('#switcher-language #switcher-language-trigger').text()+'</option>';
 
 	    	var optLanguage = $('#switcher-language .switcher-dropdown li');

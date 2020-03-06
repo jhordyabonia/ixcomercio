@@ -112,6 +112,7 @@ header{
             @media only screen and (max-width: $mobile){
               border: 0;
               padding: 0;
+              display: none;
             }
             .options .action.toggle{
               &:after, &.active:after{
