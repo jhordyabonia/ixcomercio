@@ -11,18 +11,18 @@ class Success extends \Magento\Framework\View\Element\Template
 	/*
 	Add to class for get order details
 	xcb GTM
-	*/
+	
 	public function getOrderCollection(){
 		$collection = $this->_orderCollectionFactory->create()
          ->addAttributeToSelect('*')
 		 ->addFieldToFilter($field, $condition); //Add condition if you wish
 		 return $collection;
 	}
-	
+	*/
 	/*
 	Add to class for get order details
 	xcb GTM 
-	*/
+	
 	public function getOrderCollectionByCustomerId($customerId){
        $collection = $this->_orderCollectionFactory()->create($customerId)
          ->addFieldToSelect('*')
@@ -37,7 +37,7 @@ class Success extends \Magento\Framework\View\Element\Template
      return $collection;
 
     }
-	
+	*/
 	/*
 	Add to class for get order details
 	xcb GTM 
