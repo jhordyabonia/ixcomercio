@@ -66,7 +66,7 @@ JG;
                 <?php endif;?>
                 <?php if ($messages = $block->getMessages()): ?>
                     <?php foreach ($messages as $message): ?>
-                        <?php echo "<script>dataLayer.push({'event':'ga_event','category':'Header','action':'".$message['type']."','label':'".$message['text']."'})</script>"; # XCB GTM ?>
+                        <?php echo "<script>dataLayer.push({'event':'ga_event','category':'Header','action':'".$message['type']."','label':'".$message['text']."'});</script>"; # XCB GTM ?>
                         <div class="cart item message <?= /* @escapeNotVerified */ $message['type'] ?>"><div><?= $block->escapeHtml($message['text']) ?></div></div>
                     <?php endforeach; ?>
                 <?php endif; ?>
