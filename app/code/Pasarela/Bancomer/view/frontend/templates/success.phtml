@@ -70,10 +70,11 @@
 </script>-->
 <?php
 /* XCB GTM */
-$_productCollection = $this->getOrderCollection();
-//print_r(get_class_methods($block));
-print_r(get_class_methods($this));
-print_r(get_class_methods($_productCollection));
+//$_productCollection = $block->getLoadedProductCollection();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$order = $objectManager->create('Magento\Sales\Model\Order')->load($this->getReference());
+print_r(get_class_methods($blorder));
+//print_r(get_class_methods($_productCollection));
 //echo $block->getStoreName();
 die;
 $final_price = $this->getAmount();
