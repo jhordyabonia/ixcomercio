@@ -52,12 +52,13 @@ foreach ($block as $_product){
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
 */
-//$lid            = $this->getReference();
-$lid            = $this->getOrderId();
+$lid            = $this->getReference();
+//lid            = $this->getOrderId();
 echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
-$order          = $objectManager->create('Magento\Sales\Model\Order')->load($lid ); #187
-$items          = $order->getAllItems();
+$order          = $objectManager->create('Magento\Sales\Model\Order'); #187
+$orderInfo      = $order->loadByIncrementId($lid);
+$items          = $orderInfo->getAllItems();
 //print_r(get_class_methods($items));
 //die('<hr>');
 foreach ($items as $i)
