@@ -37,21 +37,6 @@
 </div>
 <?php
 /* XCB GTM */
-/*
-foreach ($block as $_product){
-    $producto = "{
-        'id': '{$block->getSku()}',
-        'name': '{$_product->getName()}',
-        'price': '{$_product->getFinalPrice()}',
-        'brand': 'HOM',
-        'category': '{$_product->getName()}',
-        'variant': 'productVariant',
-        'quantity': {$_product->getQty()},
-        'coupon': ''
-    }";
-    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-}
-*/
 $lid            = $this->getReference();
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
@@ -60,7 +45,6 @@ $items          = $orderInfo->getAllItems();
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
-    print_r(get_class_methods($_product));
     $producto = "{
 
         'id': '{$_product->getSku()}',
