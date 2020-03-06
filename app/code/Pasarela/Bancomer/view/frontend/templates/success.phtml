@@ -35,9 +35,9 @@
         </div>
     </div>
 </div>
-<script>
+<!--<script>
 //$('document').ready(function(){
-    setTimeout(function(){ 
+     
     alert('hola mundo');
     dataLayer.push({
         'event': 'transaction',
@@ -67,16 +67,11 @@
     });
 }, 3000); 
 //});
-</script>
+</script>-->
 <?php
 /* XCB GTM */
 $_productCollection = $block->getLoadedProductCollection();
 $final_price = $block->getFinalPrice();
-echo '<pre>';
-print_r($_productCollection);
-print_r($final_price);
-echo '</pre>';
-/*
 foreach ($_productCollection as $_product){
     $producto = "{
         'id': '{$_productCollection->getSku()}',
@@ -93,7 +88,7 @@ foreach ($_productCollection as $_product){
 $order = $block->getOrderId();
 echo <<<JG
 <script>
-    $('document').ready(function(){
+    setTimeout(function(){
     dataLayer.push({
         'event': 'transaction',
         'ecommerce': {
