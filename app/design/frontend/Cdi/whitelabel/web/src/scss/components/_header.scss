@@ -361,6 +361,9 @@ header{
             display: none;
             padding: 0 15px 10px;
             position: absolute;
+            @media only screen and (max-width: $mobile){
+              display: block;
+            }
             select{
               background: #fff;
               border: 1px solid #ddd;
@@ -521,7 +524,7 @@ header{
               }
             }
             &.open {
-              .header-account-mobile, .wrapper-select-language{
+              .header-account-mobile{
                 @media only screen and (max-width: $mobile){
                   display: block;
                 }
