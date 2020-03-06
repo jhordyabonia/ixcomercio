@@ -53,17 +53,12 @@ foreach ($block as $_product){
 }
 */
 $lid            = $this->getReference();
-//lid            = $this->getOrderId();
-echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
-$order          = $objectManager->create('Magento\Sales\Model\Order'); #187
+$order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 $items          = $orderInfo->getAllItems();
-//print_r(get_class_methods($items));
-//die('<hr>');
 foreach ($items as $i)
 {
-    //print_r($i->getProductId());
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     print_r(get_class_methods($_product));
     $producto = "{
@@ -74,14 +69,12 @@ foreach ($items as $i)
         'brand': 'HOM',
         'category': '{$_product->getName()}',
         'variant': 'productVariant',
-        'quantity': ".$_product->getData('qty_ordered').",
+        'quantity': {$_product->getQty()},
         'coupon': ''
         
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
-//print_r($gtm_prods);
-//die('<hr>');
 $final_price = $this->getAmount();
 $order = $this->getReference();
 echo <<<JG
