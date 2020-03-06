@@ -36,41 +36,47 @@
     </div>
 </div>
 <script>
-$('document').ready(function(){
+//$('document').ready(function(){
+    setTimeout(function(){ 
     alert('hola mundo');
     dataLayer.push({
-  'event': 'transaction',
-  'ecommerce': {
-    'purchase': {
-      'actionField': {
-        'id': 'orderID',
-        'affiliation': 'storeName',
-        'revenue': 'orderTotal',
-        'tax': 'orderTax',
-        'shipping': 'orderShipping',
-        'coupon': 'orderCoupon',
-        'discountAmount': 'discountAmount'
-
-      },
-      'products': [{
-          'id': 'MM101HOM24',
-          'name': 'NO BOUNDS XL SIGNATURE GREY', 
-        'price': '3959',
-        'brand': 'MARLEY', 
-        'category': 'PARLANTES',
-        'variant': 'BLANCO',
-        'quantity': 2,
-        'coupon': 'AEIOU'                
-        }]
-    }
-  }
+        'event': 'transaction',
+        'ecommerce': {
+            'purchase': {
+                'actionField': {
+                    'id': 'orderID',
+                    'affiliation': 'storeName',
+                    'revenue': 'orderTotal',
+                    'tax': 'orderTax',
+                    'shipping': 'orderShipping',
+                    'coupon': 'orderCoupon',
+                    'discountAmount': 'discountAmount'
+                },
+                'products': [{
+                    'id': 'MM101HOM24',
+                    'name': 'NO BOUNDS XL SIGNATURE GREY',
+                    'price': '3959',
+                    'brand': 'MARLEY',
+                    'category': 'PARLANTES',
+                    'variant': 'BLANCO',
+                    'quantity': 2,
+                    'coupon': 'AEIOU'
+                }]
+            }
+        }
     });
-});
+}, 3000); 
+//});
 </script>
 <?php
-/* XCB GTM 
+/* XCB GTM */
 $_productCollection = $block->getLoadedProductCollection();
 $final_price = $block->getFinalPrice();
+echo '<pre>';
+print_r($_productCollection);
+print_r($final_price);
+echo '</pre>';
+/*
 foreach ($_productCollection as $_product){
     $producto = "{
         'id': '{$_productCollection->getSku()}',
