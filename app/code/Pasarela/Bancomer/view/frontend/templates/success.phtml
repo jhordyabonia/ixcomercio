@@ -70,13 +70,12 @@
 </script>-->
 <?php
 /* XCB GTM */
-$_productCollection = $block->imprimir();
+$_productCollection = $block->getOrderCollection();
 print_r(get_class_methods($this));
 print_r($_productCollection);
 //echo $block->getStoreName();
-die;
 
-$final_price = $block->getFinalPrice();
+$final_price = $this->getAmount();
 foreach ($_productCollection as $_product){
     $producto = "{
         'id': '{$_productCollection->getSku()}',
@@ -90,7 +89,7 @@ foreach ($_productCollection as $_product){
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
-$order = $block->getOrderId();
+$order = $this->getReference();
 echo <<<JG
 <script>
     setTimeout(function(){
