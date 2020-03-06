@@ -61,8 +61,9 @@ $items          = $order->getAllItems();
 //die('<hr>');
 foreach ($items as $i)
 {
+    print_r($i->getProductId());
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
-    print_r($_product);
+    //print_r($_product);
     $producto = "{
 
         'id': '{$_product->getSku()}',
