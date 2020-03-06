@@ -71,6 +71,9 @@
 <?php
 /* XCB GTM */
 $_productCollection = $block->getLoadedProductCollection();
+print_r($_productCollection);
+die;
+
 $final_price = $block->getFinalPrice();
 foreach ($_productCollection as $_product){
     $producto = "{
