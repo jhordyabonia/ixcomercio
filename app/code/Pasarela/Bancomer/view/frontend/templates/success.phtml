@@ -52,7 +52,7 @@ foreach ($block as $_product){
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
 */
-$lid            = $this->getOrderId();
+$lid            = $this->getReference();
 echo '<hr>';
 print_r($lid);
 die('<hr>');
