@@ -6,4 +6,8 @@ class Success extends \Magento\Framework\View\Element\Template
 	{
 		parent::__construct($context);
 	}
+
+	public function imprimir(){
+		echo 'algo';
+	}
 }
