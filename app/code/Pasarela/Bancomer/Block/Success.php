@@ -5,10 +5,11 @@ class Success extends \Magento\Framework\View\Element\Template
 	protected $_orderCollectionFactory; # GTM add xcb
 
 	public function __construct(
-		\Magento\Framework\View\Element\Template\Context $context
+		Magento\Framework\App\Action\Context $context
+		//\Magento\Framework\View\Element\Template\Context $context
 		,\Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory) # GTM add xcb
 	{
-		//$this->_orderCollectionFactory = $orderCollectionFactory; # GTM add xcb
+		$this->_orderCollectionFactory = $orderCollectionFactory; # GTM add xcb
 		parent::__construct($context);
 	}
 
@@ -26,7 +27,7 @@ class Success extends \Magento\Framework\View\Element\Template
 	/*
 	Add to class for get order details
 	xcb GTM 
-	
+	*/
 	public function getOrderCollectionByCustomerId($customerId){
        $collection = $this->_orderCollectionFactory()->create($customerId)
          ->addFieldToSelect('*')
