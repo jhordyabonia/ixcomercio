@@ -272,8 +272,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    if($('#switcher-language').length){
 	    	var html = '<div class="wrapper-select-language">'+
 	    					'<select class="language">'+
-	    						'<option>'+$('#switcher-language .switcher-label span').text()+'</option>'+
-	    						'<option selected>'+$('#switcher-language #switcher-language-trigger').text()+'</option>';
+	    						'<option value="">'+$('#switcher-language .switcher-label span').text()+'</option>'+
+	    						'<option value="" selected>'+$('#switcher-language #switcher-language-trigger').text()+'</option>';
 
 	    	var optLanguage = $('#switcher-language .switcher-dropdown li');
 	        $.each(optLanguage, function(i, val){
@@ -286,7 +286,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	        $('.nav-sections-items select.language').on('change', function () {
 		        var url = $(this).val(); // get selected value
-		        if (url) { // require a URL
+		        if (url != "") { // require a URL
 		        	window.location = url; // redirect
 		        }
 		        return false;

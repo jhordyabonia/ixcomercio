@@ -358,14 +358,16 @@ header{
           .wrapper-select-language{
             left: 0;
             bottom: 0;
-            display: none;
+            width: 100%;
             padding: 0 15px 10px;
             position: absolute;
+            display: none;
             @media only screen and (max-width: $mobile){
               display: block;
             }
             select{
               background: #fff;
+              border-radius: 3px;
               border: 1px solid #ddd;
               -webkit-appearance: none;
             }
