@@ -70,9 +70,10 @@
 </script>-->
 <?php
 /* XCB GTM */
-//$_productCollection = $block->getLoadedProductCollection();
-print_r(get_class_methods($block));
-//print_r(get_class_methods($_productCollection));
+$_productCollection = $this->getOrderCollectionByCustomerId();
+//print_r(get_class_methods($block));
+print_r(get_class_methods($this));
+print_r(get_class_methods($_productCollection));
 //echo $block->getStoreName();
 die;
 $final_price = $this->getAmount();
