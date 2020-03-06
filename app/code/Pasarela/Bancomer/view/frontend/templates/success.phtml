@@ -35,49 +35,9 @@
         </div>
     </div>
 </div>
-<!--<script>
-//$('document').ready(function(){
-     
-    alert('hola mundo');
-    dataLayer.push({
-        'event': 'transaction',
-        'ecommerce': {
-            'purchase': {
-                'actionField': {
-                    'id': 'orderID',
-                    'affiliation': 'storeName',
-                    'revenue': 'orderTotal',
-                    'tax': 'orderTax',
-                    'shipping': 'orderShipping',
-                    'coupon': 'orderCoupon',
-                    'discountAmount': 'discountAmount'
-                },
-                'products': [{
-                    'id': 'MM101HOM24',
-                    'name': 'NO BOUNDS XL SIGNATURE GREY',
-                    'price': '3959',
-                    'brand': 'MARLEY',
-                    'category': 'PARLANTES',
-                    'variant': 'BLANCO',
-                    'quantity': 2,
-                    'coupon': 'AEIOU'
-                }]
-            }
-        }
-    });
-}, 3000); 
-//});
-</script>-->
 <?php
 /* XCB GTM */
-//$_productCollection = $block->getLoadedProductCollection();
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$order = $objectManager->create('Magento\Sales\Model\Order')->load($this->getReference());
-print_r(get_class_methods($blorder));
-//print_r(get_class_methods($_productCollection));
-//echo $block->getStoreName();
-die;
-$final_price = $this->getAmount();
+/*
 foreach ($block as $_product){
     $producto = "{
         'id': '{$block->getSku()}',
@@ -91,6 +51,8 @@ foreach ($block as $_product){
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
+*/
+$final_price = $this->getAmount();
 $order = $this->getReference();
 echo <<<JG
 <script>
@@ -107,12 +69,11 @@ echo <<<JG
                     'shipping': 'orderShipping',
                     'coupon': 'orderCoupon'
                 },
-                'products': [{$gtm_prods}]
+                'products': [{}]
             }
         }
     });
 });
-    dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});
 </script>
 JG;
 /* XCB END */
