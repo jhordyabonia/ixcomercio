@@ -55,9 +55,9 @@ foreach ($block as $_product){
 $lid            = $this->getReference();
 echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
-print_r(get_class_methods($objectManager));
-die('<hr>');
 $order          = $objectManager->create('Magento\Sales\Model\Order')->load($lid);
+print_r(get_class_methods($order));
+die('<hr>');
 $items          = $order->getAllItems();
 foreach ($items as $i)
 {
