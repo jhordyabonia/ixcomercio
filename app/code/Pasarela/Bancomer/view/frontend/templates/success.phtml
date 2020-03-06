@@ -57,8 +57,8 @@ echo '<hr>';
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order')->load(187);
 $items          = $order->getAllItems();
-print_r(get_class_methods($items));
-die('<hr>');
+//print_r(get_class_methods($items));
+//die('<hr>');
 foreach ($items as $i)
 {
     //print_r($i->getProductId());
