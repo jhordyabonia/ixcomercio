@@ -16,6 +16,15 @@
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 			</referenceContainer>
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-md-6"/>
+			
+			<referenceBlock name="product.info.details">
+	            <referenceBlock name="product.info.description">
+	                <arguments>
+	                    <argument name="title" translate="true" xsi:type="string">Technical specifications</argument>
+	                </arguments>
+	            </referenceBlock>
+	        </referenceBlock>
+
 			<block ifconfig="catalog/review/active" class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
                     <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" after="-"/>
                     <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
