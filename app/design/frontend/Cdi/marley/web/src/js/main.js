@@ -328,8 +328,6 @@ function ($, Component) {
       });
 
 
-
-
       // =============================================
       // Print select Address checkout
       // =============================================
@@ -338,11 +336,7 @@ function ($, Component) {
       function getStatesCheckout(obj){
         $('body').trigger('processStart');
 
-        if($(obj).find("select[name='country_id']").val() == "GT"){
-          $(obj).find('input[name="postcode"]').parents('.field').hide();
-        }else{
-          $(obj).find('input[name="postcode"]').parents('.field').show();
-        }
+        $(obj).find('input[name="postcode"]').parents('.field').hide();
         $(obj).find('input[name="postcode"]').val('');
 
         var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
@@ -405,57 +399,56 @@ function ($, Component) {
               $('body').trigger('processStart');
               $(obj).find('input[name="postcode"]').val('');
               $.ajax({
-                url: '/places/search/',
-                data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
-                type: 'GET',
-                dataType: 'json',
-                success: function(resState) {
-                  $(fieldCityCheckout).find('select').attr("disabled", false);
-                  $(fieldCityCheckout).find('select option:not([value=""])').remove();
-                  $.each(resState, function(iState, valState){
-                      $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
-                  });
+              url: '/places/search/',
+              data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
+              type: 'GET',
+              dataType: 'json',
+              success: function(resState) {
+                $(fieldCityCheckout).find('select').attr("disabled", false);
+                $(fieldCityCheckout).find('select option:not([value=""])').remove();
+                $.each(resState, function(iState, valState){
+                    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
+                });
 
-                  $('body').trigger('processStop');
-                }
-              });
-
-              var valueState = $(fieldStateCheckout).find('select option:selected');
-              $(fieldStateCheckout).find('input').val($(valueState).text());
-              $(fieldStateCheckout).find('input').keyup();
-              
+                $('body').trigger('processStop');
+              }
             });
 
-
+            var valueState = $(fieldStateCheckout).find('select option:selected');
+            $(fieldStateCheckout).find('input').val($(valueState).text());
+            $(fieldStateCheckout).find('input').keyup();
+              
+            });
+            
             // =============================================
             // Print select street checkout
             // =============================================
             $(obj).find('#fieldCityCheckout').on('change', function (e) {
               $('body').trigger('processStart');
               $(obj).find('input[name="postcode"]').val('');
-              var valCity = $(fieldCityCheckout).find('select option:selected');
-              $(fieldCityCheckout).find('input').val($(valCity).text());
-              $(fieldCityCheckout).find('input').keyup();
+            var valCity = $(fieldCityCheckout).find('select option:selected');
+            $(fieldCityCheckout).find('input').val($(valCity).text());
+            $(fieldCityCheckout).find('input').keyup();
 
-              $.ajax({
-                url: '/places/search/',
-                data: 'parentId='+$(this).find('option:selected').attr('parentId'),
-                type: 'GET',
-                dataType: 'json',
-                success: function(resCity) {
-                  $(fieldZoneCheckout).find('select').attr("disabled", false);
-                  $(fieldZoneCheckout).find('select option').remove();
-                            $(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
-                            
-                  $.each(resCity, function(iResCity, valResCity){
-                      $(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-                    });
-                    
-                    $('body').trigger('processStop');
-                }
-              });
+            $.ajax({
+              url: '/places/search/',
+              data: 'parentId='+$(this).find('option:selected').attr('parentId'),
+              type: 'GET',
+              dataType: 'json',
+              success: function(resCity) {
+                $(fieldZoneCheckout).find('select').attr("disabled", false);
+                $(fieldZoneCheckout).find('select option').remove();
+                          $(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                          
+                $.each(resCity, function(iResCity, valResCity){
+                    $(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+                  });
+                  
+                  $('body').trigger('processStop');
+              }
             });
-
+            });
+            
             // =============================================
             // Print postal code
             // =============================================
@@ -470,11 +463,13 @@ function ($, Component) {
             $(fieldStreetCheckout).find('input').keyup();
 
               if($(valStreetCheckout).attr('postalCode') != 'null'){
-              $('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
-                $('input[name="postcode"]').keyup();
+                $(obj).find('input[name="postcode"]').show();
+              $(obj).find('input[name="postcode"]').val($(valStreetCheckout).attr('postalCode'));
+                $(obj).find('input[name="postcode"]').keyup();
             }else{
-              $('input[name="postcode"]').val($(valStreetCheckout).text());
-                $('input[name="postcode"]').keyup();
+              $(obj).find('input[name="postcode"]').hide();
+              $(obj).find('input[name="postcode"]').val($(valStreetCheckout).text());
+                $(obj).find('input[name="postcode"]').keyup();
             }
 
               $('body').trigger('processStop');
