@@ -18,7 +18,7 @@
 			<referenceContainer name="product.info.media" htmlClass="product-info_media col-md-6"/>
 			
 			<referenceBlock name="product.info.details">
-	            <referenceBlock name="product.info.adittional">
+	            <referenceBlock name="product.info.additional">
 	                <arguments>
 	                    <argument name="title" translate="true" xsi:type="string">Technical specifications</argument>
 	                </arguments>
