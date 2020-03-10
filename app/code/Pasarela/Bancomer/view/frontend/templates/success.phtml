@@ -42,7 +42,7 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 echo '<pre>';
-
+print_r(get_class_methods($order));
 echo '<hr>';
 $temp = $this->itemFactory->create()->getCollection()->addFieldToFilter('order_id', $lid);
 foreach($temp as $a){
