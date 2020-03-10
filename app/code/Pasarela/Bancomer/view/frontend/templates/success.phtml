@@ -44,9 +44,9 @@ $orderInfo      = $order->loadByIncrementId($lid);
 echo '<pre>';
 print_r(get_class_methods($order));
 
-print_r($order->getBaseDiscountTaxCompensationAmount());
-print_r($order->getBaseDiscountTaxCompensationInvoiced());
-print_r($order->getBaseDiscountTaxCompensationRefunded());
+#print_r($order->getBaseDiscountTaxCompensationAmount());
+#print_r($order->getBaseDiscountTaxCompensationInvoiced());
+print_r($order->getBaseDiscountTaxCompensationRefunded());/*
 print_r($order->getBaseShippingDiscountTaxCompensationAmnt());
 print_r($order->getBaseShippingInclTax());
 print_r($order->getBaseShippingTaxAmount());
@@ -65,7 +65,7 @@ print_r($order->getShippingInclTax());
 print_r($order->getShippingTaxAmount());
 print_r($order->getShippingTaxRefunded());
 print_r($order->getSubtotalInclTax());
-print_r($order->getSubtotalInclTax());
+print_r($order->getSubtotalInclTax());*/
 /*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
