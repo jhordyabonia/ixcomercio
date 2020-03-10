@@ -31,7 +31,7 @@
                     </block>
 			-->
             </block>
-			<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.  bestseller" template="productslider.phtml" after="-">
+			<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.bestseller" template="productslider.phtml" after="-">
 				<arguments>
 					<argument name="products_count" xsi:type="number">8</argument>
 					<argument name="margin" xsi:type="string">5</argument>
