@@ -42,6 +42,8 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 print_r(get_class_methods($order));
+echo 'cantidad: ';
+print_r(get_class_methods($order->getTotalQtyOrdered()));
 /*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
@@ -72,6 +74,9 @@ foreach ($items as $i)
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
 $final_price = $this->getAmount();
+$tax = $order->getTaxAmount();
+$shipping = $order->getShippingAmount();
+$coupon = $order->getCouponCode();
 $order = $this->getReference();
 echo <<<JG
 <script type="text/javascript">
@@ -84,9 +89,9 @@ echo <<<JG
                     'id': {$order},
                     'affiliation': 'HOM',
                     'revenue': {$final_price},
-                    'tax': 'orderTax',
-                    'shipping': 'orderShipping',
-                    'coupon': 'orderCoupon'
+                    'tax': {$tax},
+                    'shipping': {$shipping},
+                    'coupon': '{$coupon}'
                 },
                 'products': [{$gtm_prods}]
             }
