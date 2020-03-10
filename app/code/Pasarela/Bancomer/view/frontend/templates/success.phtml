@@ -41,7 +41,7 @@ $lid            = $this->getReference();
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
-//print_r(get_class_methods($order));
+print_r(get_class_methods($order));
 echo 'tax: ';
 print_r(get_class_methods($order->getTaxAmount()));
 /*
