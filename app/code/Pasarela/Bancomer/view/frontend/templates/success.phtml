@@ -41,9 +41,9 @@ $lid            = $this->getReference();
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
-print_r(get_class_methods($order));
-echo 'cantidad: ';
-print_r(get_class_methods($order->getTotalQtyOrdered()));
+//print_r(get_class_methods($order));
+echo 'tax: ';
+print_r(get_class_methods($order->getTaxAmount()));
 /*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
@@ -61,7 +61,6 @@ foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     $producto = "{
-
         'id': '{$_product->getSku()}',
         'name': '{$_product->getName()}',
         'price': '{$_product->getFinalPrice()}',
