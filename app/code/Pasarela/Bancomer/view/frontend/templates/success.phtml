@@ -42,30 +42,37 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 echo '<pre>';
+
+echo '<hr>';
+$temp = $this->itemFactory->create()->getCollection()->addFieldToFilter('order_id', $lid);
+foreach($temp as $a){
+    print_r($a);
+}
+die;
 print_r(get_class_methods($order));
 
 #print_r($order->getBaseDiscountTaxCompensationAmount());
 #print_r($order->getBaseDiscountTaxCompensationInvoiced());
-print_r($order->getBaseDiscountTaxCompensationRefunded());/*
+#print_r($order->getBaseDiscountTaxCompensationRefunded());
 print_r($order->getBaseShippingDiscountTaxCompensationAmnt());
-print_r($order->getBaseShippingInclTax());
-print_r($order->getBaseShippingTaxAmount());
-print_r($order->getBaseShippingTaxRefunded());
-print_r($order->getBaseSubtotalInclTax());
-print_r($order->getBaseTaxAmount());
-print_r($order->getBaseTaxCanceled());
-print_r($order->getBaseTaxInvoiced());
-print_r($order->getBaseTaxRefunded());
-print_r($order->getCustomerTaxvat());
-print_r($order->getDiscountTaxCompensationAmount());
-print_r($order->getDiscountTaxCompensationInvoiced());
-print_r($order->getDiscountTaxCompensationRefunded());
-print_r($order->getShippingDiscountTaxCompensationAmount());
-print_r($order->getShippingInclTax());
-print_r($order->getShippingTaxAmount());
-print_r($order->getShippingTaxRefunded());
-print_r($order->getSubtotalInclTax());
-print_r($order->getSubtotalInclTax());*/
+#print_r($order->getBaseShippingInclTax());
+#print_r($order->getBaseShippingTaxAmount());
+#print_r($order->getBaseShippingTaxRefunded());
+#print_r($order->getBaseSubtotalInclTax());
+#print_r($order->getBaseTaxAmount());
+#print_r($order->getBaseTaxCanceled());
+#print_r($order->getBaseTaxInvoiced());
+#print_r($order->getBaseTaxRefunded());
+#print_r($order->getCustomerTaxvat());
+#print_r($order->getDiscountTaxCompensationAmount());
+#print_r($order->getDiscountTaxCompensationInvoiced());
+#print_r($order->getDiscountTaxCompensationRefunded());
+#print_r($order->getShippingDiscountTaxCompensationAmount());
+#print_r($order->getShippingInclTax());
+#print_r($order->getShippingTaxAmount());
+#print_r($order->getShippingTaxRefunded());
+#print_r($order->getSubtotalInclTax());
+#print_r($order->getSubtotalInclTax());*/
 /*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
@@ -79,7 +86,6 @@ foreach(get_class_methods($order) as $metod){
 echo '</pre>';
 die;
 $items          = $orderInfo->getAllItems();
-echo count($items);
 
 foreach ($items as $i)
 {
