@@ -48,6 +48,7 @@ foreach ($items as $i)
     foreach(get_class_methods($_product) as $metod){
         echo '<hr>';
         if ($metod != '__construct'){
+            echo ('<p>'.$metod.'</p>');
             print_r($_product->$metod());
         }
         echo '<hr>';
