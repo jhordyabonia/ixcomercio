@@ -47,7 +47,9 @@ foreach ($items as $i)
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     foreach(get_class_methods($_product) as $metod){
         echo '<hr>';
-        print_r($_product::$metod());
+        if ($metod != '__construct'){
+            print_r($_product::$metod());
+        }
         echo '<hr>';
     }
     die;
