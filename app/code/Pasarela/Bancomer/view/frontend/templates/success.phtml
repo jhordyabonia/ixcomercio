@@ -42,9 +42,6 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 print_r(get_class_methods($order));
-echo 'tax: ';
-print_r(get_class_methods($order->getBaseDiscountTaxCompensationAmount()));
-/*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
     if ($metod != '__construct'){
@@ -53,10 +50,10 @@ foreach(get_class_methods($order) as $metod){
     }
     echo '<hr>';
 }
-*/
+die;
 $items          = $orderInfo->getAllItems();
 echo count($items);
-die;
+
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
