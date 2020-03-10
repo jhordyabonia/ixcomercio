@@ -41,8 +41,30 @@ $lid            = $this->getReference();
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
+echo '<pre>';
 print_r(get_class_methods($order));
-//print_r(get_class_methods($order));
+print_r(get_class_methods($order->getBaseDiscountTaxCompensationAmount));
+print_r(get_class_methods($order->getBaseDiscountTaxCompensationInvoiced));
+print_r(get_class_methods($order->getBaseDiscountTaxCompensationRefunded));
+print_r(get_class_methods($order->getBaseShippingDiscountTaxCompensationAmnt));
+print_r(get_class_methods($order->getBaseShippingInclTax));
+print_r(get_class_methods($order->getBaseShippingTaxAmount));
+print_r(get_class_methods($order->getBaseShippingTaxRefunded));
+print_r(get_class_methods($order->getBaseSubtotalInclTax));
+print_r(get_class_methods($order->getBaseTaxAmount));
+print_r(get_class_methods($order->getBaseTaxCanceled));
+print_r(get_class_methods($order->getBaseTaxInvoiced));
+print_r(get_class_methods($order->getBaseTaxRefunded));
+print_r(get_class_methods($order->getCustomerTaxvat));
+print_r(get_class_methods($order->getDiscountTaxCompensationAmount));
+print_r(get_class_methods($order->getDiscountTaxCompensationInvoiced));
+print_r(get_class_methods($order->getDiscountTaxCompensationRefunded));
+print_r(get_class_methods($order->getShippingDiscountTaxCompensationAmount));
+print_r(get_class_methods($order->getShippingInclTax));
+print_r(get_class_methods($order->getShippingTaxAmount));
+print_r(get_class_methods($order->getShippingTaxRefunded));
+print_r(get_class_methods($order->getSubtotalInclTax));
+print_r(get_class_methods($order->getSubtotalInclTax));9
 /*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
@@ -53,6 +75,7 @@ foreach(get_class_methods($order) as $metod){
     echo '<hr>';
 }
 */
+echo '</pre>';
 die;
 $items          = $orderInfo->getAllItems();
 echo count($items);
