@@ -54,9 +54,9 @@ foreach(get_class_methods($order) as $metod){
     echo '<hr>';
 }
 */
-die;
 $items          = $orderInfo->getAllItems();
 count($items);
+die;
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
