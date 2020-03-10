@@ -42,18 +42,13 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 echo '<pre>';
-print_r(get_class_methods($order));
-print_r(get_class_methods($orderInfo));
 echo '<hr>';
-$temp = $orderInfo->getItemsCollection();
-print_r(get_class_methods($temp));
-print_r($temp->getQty());
 /*foreach(get_class_methods($temp) as $a){
     print_r($a);
 }*/
-die;
-print_r(get_class_methods($order));
 
+print_r($orderInfo->getTotalQtyOrdered());
+die;
 #print_r($order->getBaseDiscountTaxCompensationAmount());
 #print_r($order->getBaseDiscountTaxCompensationInvoiced());
 #print_r($order->getBaseDiscountTaxCompensationRefunded());
