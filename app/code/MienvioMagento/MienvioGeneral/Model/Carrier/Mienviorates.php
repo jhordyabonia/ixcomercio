@@ -27,7 +27,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private $directoryHelper;
     private $quoteRepository;
-
+    protected $_logger;
     const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
 
     /**
@@ -55,7 +55,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->lbs_kg = 0.45359237;
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $this->_logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral_mienviorates.log');
+        $this->_logger = new \Zend\Log\Logger();
+        $this->_logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
         $this->directoryHelper = $directoryHelper;
@@ -205,14 +208,20 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
             $this->_curl->setOptions($options);
 
+            $this->_logger->debug('Request');
             $this->_curl->post($createAddressUrl, json_encode($fromData));
             $addressFromResp = json_decode($this->_curl->getBody());
+            $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
+            if(isset($addressFromResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressFromId = $addressFromResp->{'address'}->{'object_id'};
 
+            $this->_logger->debug('Request');
             $this->_curl->post($createAddressUrl, json_encode($toData));
             $addressToResp = json_decode($this->_curl->getBody());
+            $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
+            if(isset($addressToResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressToId = $addressToResp->{'address'}->{'object_id'};
 
             $itemsMeasures = $this->getOrderDefaultMeasures($request->getAllItems());

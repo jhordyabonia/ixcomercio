@@ -5,7 +5,7 @@
  */
 -->
 <theme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/theme.xsd">
-    <title>Samsung Costa Rica</title>
+	<title>Samsung Costa Rica / BORRAR</title>
     <parent>Magento/blank</parent>
     <!--
 	<media>

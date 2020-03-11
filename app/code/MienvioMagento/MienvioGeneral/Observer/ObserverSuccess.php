@@ -12,6 +12,7 @@ class ObserverSuccess implements ObserverInterface
 {
     private $collectionFactory;
     private $quoteRepository;
+    private $_logger;
     const XML_PATH_Street_store = 'shipping/origin/street_line2';
 
     /**
@@ -34,7 +35,10 @@ class ObserverSuccess implements ObserverInterface
         $this->collectionFactory = $collectionFactory;
         $this->quoteRepository = $quoteRepository;
         $this->_code = 'mienviocarrier';
-        $this->_logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral.log');
+        $this->_logger = new \Zend\Log\Logger();
+        $this->_logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
     }

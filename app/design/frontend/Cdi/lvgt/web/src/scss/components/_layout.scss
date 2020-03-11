@@ -547,7 +547,7 @@ section{
 }
 /*---BUTTONS---*/
 .action{
-  &.primary, &.primary:active, &.primary:focus{
+  &.primary, &.primary:active, &.primary:focus, &.action-apply{
     width: 100%;
     background: $mainColor;
     text-transform: uppercase;
@@ -557,6 +557,19 @@ section{
     &:hover{
       background: #000;
       border: none;
+    }
+  }
+  &.action-update, &.action-edit-address {
+    color: #999;
+    background: none;
+    transition: .5s all ease;
+    font-weight: 400;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    &:hover{
+      color: #fff;
+      background: #000;
+      border-color: #000;
     }
   }
 }

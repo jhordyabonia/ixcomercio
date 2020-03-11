@@ -127,7 +127,13 @@
       }
     }
     .actions-toolbar{
-      .primary{
+      div.primary{
+        @media (min-width: $tablet){
+          float: left;
+          margin: 0 0 10px;
+        }
+      }
+      .action.primary{
         min-width: 120px;
         background: $mainColor;
         border-radius: 3px;
@@ -135,10 +141,6 @@
           background: $secondColor;
           color: $colorHover;
           border: 1px solid #1976a1;
-        }
-        @media (min-width: $tablet){
-          float: left;
-          margin: 0 0 10px;
         }
       }
       .secondary .action{
