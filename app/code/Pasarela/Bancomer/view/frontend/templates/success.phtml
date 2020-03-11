@@ -43,16 +43,12 @@ $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 echo '<pre>';
 echo '<hr>';
-/*foreach(get_class_methods($temp) as $a){
-    print_r($a);
-}*/
-
-print_r($orderInfo->getTotalQtyOrdered());
+print_r($orderInfo->getBaseTaxAmount());
 die;
 #print_r($order->getBaseDiscountTaxCompensationAmount());
 #print_r($order->getBaseDiscountTaxCompensationInvoiced());
 #print_r($order->getBaseDiscountTaxCompensationRefunded());
-print_r($order->getBaseShippingDiscountTaxCompensationAmnt());
+#print_r($order->getBaseShippingDiscountTaxCompensationAmnt());
 #print_r($order->getBaseShippingInclTax());
 #print_r($order->getBaseShippingTaxAmount());
 #print_r($order->getBaseShippingTaxRefunded());
@@ -70,7 +66,7 @@ print_r($order->getBaseShippingDiscountTaxCompensationAmnt());
 #print_r($order->getShippingTaxAmount());
 #print_r($order->getShippingTaxRefunded());
 #print_r($order->getSubtotalInclTax());
-#print_r($order->getSubtotalInclTax());*/
+#print_r($order->getSubtotalInclTax());
 /*
 foreach(get_class_methods($order) as $metod){
     echo '<hr>';
