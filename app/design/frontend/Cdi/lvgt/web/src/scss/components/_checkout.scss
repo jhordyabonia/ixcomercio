@@ -135,7 +135,7 @@
       }
       .action.primary{
         min-width: 120px;
-        background: #1976a1;
+        background: $mainColor;
         border-radius: 3px;
         &:hover {
           background: $secondColor;
