@@ -424,6 +424,29 @@ class UpgradeData implements UpgradeDataInterface{
 				)
 			);
 		}
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+		$connection = $resource->getConnection();
+		if(version_compare($context->getVersion(), '1.0.17', '<')){			
+			$tableName = $resource->getTableName('theme');
+			//Verifica si existe el theme whitelabel
+			$sql = "SELECT * FROM {$tableName} where code = 'Cdi/whitelabel'";
+			$result = $connection->fetchAll($sql); 
+			if($result && count($result)){
+				$id = (isset($result[0]['theme_id'])) ? $result[0]['theme_id'] : false;
+				if($id){
+					$themes = "('Cdi/hpca', 'Cdi/lvgt')";
+					$sql = "UPDATE {$tableName} SET parent_id = {$id} WHERE code IN {$themes}";
+					$connection->query($sql);
+				}
+			}
+		}
+
+		if(version_compare($context->getVersion(), '1.0.18', '<')){
+			$tableName = $resource->getTableName('directory_country_region');
+			$sql = "DELETE FROM {$tableName} where country_id = 'MX'";
+			$connection->query($sql);
+		}
 		
 		if(count($attsToAdd)){
 			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
