@@ -48,8 +48,8 @@ foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     echo '<hr>';
-    print_r(get_class_methods($i));
-    print_r(get_class_methods($_product));
+    //print_r(get_class_methods($i));
+    print_r($_product->getQty());
     echo '</pre>';
     $producto = "{
         'id': '{$_product->getSku()}',
@@ -64,7 +64,7 @@ foreach ($items as $i)
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
-die;
+//die;
 $final_price = $this->getAmount();
 $order = $this->getReference();
 
