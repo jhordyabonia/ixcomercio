@@ -42,26 +42,15 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 echo '<pre>';
-echo '<hr>';
-print_r($orderInfo->getShippingAmount());
-die;
-/*
-foreach(get_class_methods($order) as $metod){
-    echo '<hr>';
-    if ($metod != '__construct'){
-        echo ('<p>'.$metod.'</p>');
-        print_r($_product->$metod());
-    }
-    echo '<hr>';
-}
-*/
-echo '</pre>';
-die;
 $items          = $orderInfo->getAllItems();
 
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
+    echo '<hr>';
+    print_r(get_class_methods($i));
+    print_r(get_class_methods($_product));
+    echo '</pre>';
     $producto = "{
         'id': '{$_product->getSku()}',
         'name': '{$_product->getName()}',
@@ -75,6 +64,7 @@ foreach ($items as $i)
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
+die;
 $final_price = $this->getAmount();
 $order = $this->getReference();
 
