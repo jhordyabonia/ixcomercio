@@ -148,7 +148,7 @@
           border: 0 !important;
           background: none !important;
         }
-        .MagicScroll-bullets {
+        .MagicScroll-bullets, .MagicScroll-arrows-inside {
           > div a[target="_blank"], > span a[target="_blank"] {
             display: none;
           }
