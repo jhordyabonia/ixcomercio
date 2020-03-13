@@ -1,10 +1,5 @@
 .login-container{
   text-align: left;
-  .fieldset:after{
-    width: 100%;
-    font-size: 12px;
-    float: left;
-  }
   .form {
     .fieldset{
       >.field{
@@ -40,6 +35,20 @@
       float: left;
       .primary{
         float: left;
+        &:after{
+          width: 100%;
+          font-size: 12px;
+          float: left;
+          margin: 10px 0 0;
+          content: attr(data-hasrequired);
+          display: block;
+          letter-spacing: normal;
+          word-spacing: normal;
+          color: #e02b27;
+          @media only screen and (min-width: $tablet){
+            margin-left: 0;
+          }
+        }
       }
     }
   }
