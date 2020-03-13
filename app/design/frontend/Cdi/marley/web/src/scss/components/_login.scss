@@ -5,11 +5,6 @@
       font-size: 1.3rem;
     }
   }
-  .fieldset:after{
-    width: 100%;
-    font-size: 12px;
-    float: left;
-  }
   .form {
     .fieldset{
       >.field{
@@ -84,6 +79,23 @@
         margin: 0 5px 0 0;
         border: 2px solid #000;
         text-decoration: none;
+      }
+    }
+  }
+  > .primary{
+    &:before{
+      width: 100%;
+      font-size: 12px;
+      float: left;
+      margin: 0 0 30px;
+      content: attr(data-hasrequired);
+      display: block;
+      letter-spacing: normal;
+      word-spacing: normal;
+      color: #e02b27;
+      text-align: left;
+      @media only screen and (min-width: $tablet){
+        margin-left: 0;
       }
     }
   }

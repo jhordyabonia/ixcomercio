@@ -7,11 +7,6 @@
       font-family: 'HpBold';
     }
   }
-  .fieldset:after{
-    width: 100%;
-    font-size: 12px;
-    float: left;
-  }
   .form {
     .fieldset{
       >.field{
@@ -47,6 +42,23 @@
       float: left;
       .primary{
         float: left;
+      }
+      > .primary{
+        &:before{
+          width: 100%;
+          font-size: 12px;
+          float: left;
+          margin: 0 0 30px;
+          content: attr(data-hasrequired);
+          display: block;
+          letter-spacing: normal;
+          word-spacing: normal;
+          color: #e02b27;
+          text-align: left;
+          @media only screen and (min-width: $tablet){
+            margin-left: 0;
+          }
+        }
       }
     }
   }
