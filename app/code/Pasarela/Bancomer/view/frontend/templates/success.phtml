@@ -42,6 +42,9 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 $items          = $orderInfo->getAllItems();
+echo '<pre>';
+print_r($orderInfo->getCouponCode());
+die;
 
 $skuQty = 0;
 foreach($items as $i){
@@ -52,7 +55,7 @@ foreach($items as $i){
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
-
+    
     $producto = "{
         'id': '{$_product->getSku()}',
         'name': '{$_product->getName()}',
