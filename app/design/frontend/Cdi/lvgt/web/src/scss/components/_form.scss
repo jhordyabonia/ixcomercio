@@ -106,7 +106,9 @@ form{
 			background: #258EBF;
 			border-radius: 3px;
 			&:hover{
-				background: #000;
+				background: $secondColor;
+				border: 1px solid #1976a1;
+				color: #1976a1 !important;
 			}
 		}
 	}
@@ -114,13 +116,6 @@ form{
 .column{
 	&:not(.sidebar-main) form.form, &:not(.sidebar-additional) form.form, form.form{
 		.actions-toolbar{}
-	}
-}
-.login-container{
-	form .fieldset:after{
-		@media only screen and (min-width: $tablet){
-			margin-left: 0;
-		}
 	}
 }
 .customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword, .sendfriend-product-send{
@@ -155,8 +150,9 @@ form{
 				    line-height: 30px;
 				    font-weight: normal;
 				    &:hover{
-				    	color: #fff;
-				    	background: #000;
+				    	background: $secondColor;
+          				color: $colorHover;
+          				border: 1px solid #1976a1;
 				    }
 				}
 			}
@@ -197,8 +193,9 @@ form{
 			    cursor: pointer;
 			    float: right;
 			    &:hover{
-			    	color: #fff;
-    				background: #000;
+			    	background: $secondColor;
+          			color: $colorHover;
+          			border: 1px solid #1976a1;
 			    }
 			}
 		}

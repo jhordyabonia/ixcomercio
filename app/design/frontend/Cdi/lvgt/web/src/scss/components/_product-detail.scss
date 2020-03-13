@@ -148,7 +148,7 @@
           border: 0 !important;
           background: none !important;
         }
-        .MagicScroll-bullets {
+        .MagicScroll-bullets, .MagicScroll-arrows-inside {
           > div a[target="_blank"], > span a[target="_blank"] {
             display: none;
           }
@@ -398,8 +398,9 @@
             width: auto;
             white-space: normal;
             &:hover{
-              color: #fff;
-              background: #000;
+              background: $secondColor;
+            color: $colorHover;
+            border: 1px solid #1976a1;
             }
             @media only screen and (max-width: $mobile){
               width: 100%;
@@ -425,6 +426,8 @@
     .ept-social-share {
       width: 100%;
       float: left;
+      visibility: hidden;
+      margin: 20px 0 5px;
     }
     .product-social-links {
       width: auto;
