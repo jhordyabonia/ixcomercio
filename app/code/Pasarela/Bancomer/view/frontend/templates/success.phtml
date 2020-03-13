@@ -46,7 +46,7 @@ $items          = $orderInfo->getAllItems();
 $skuQty = 0;
 foreach($items as $i){
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
-    $sku[$_product->getSku()] = $sku[$_product->getSku()]+1;
+    $skuQty[$_product->getSku()] = $skuQty[$_product->getSku()]+1;
 }
 
 foreach ($items as $i)
@@ -59,9 +59,9 @@ foreach ($items as $i)
         'price': '{$_product->getFinalPrice()}',
         'brand': 'HOM',
         'category': '{$_product->getName()}',
-        'variant': 'productVariant',
-        'quantity': {$skuQty[$_product->getSku()]},
-        'coupon': ''
+        'variant': '',
+        'quantity': ".$skuQty[$_product->getSku()].",
+        'coupon': '{$orderInfo->getCouponCode()}'
         
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
