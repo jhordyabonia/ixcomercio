@@ -148,7 +148,7 @@
           border: 0 !important;
           background: none !important;
         }
-        .MagicScroll-bullets {
+        .MagicScroll-bullets, .MagicScroll-arrows-inside {
           > div a[target="_blank"], > span a[target="_blank"] {
             display: none;
           }
@@ -391,6 +391,7 @@
           padding: 15px 0;
           button, .action.towishlist{
             margin-bottom: 10px;
+            margin-right: 10px;
             vertical-align: middle;
             min-height: 40px;
             line-height: 40px;
@@ -431,6 +432,8 @@
     .ept-social-share {
       width: 100%;
       float: left;
+      visibility: hidden;
+      margin: 20px 0 5px;
     }
     .product-social-links {
       width: auto;

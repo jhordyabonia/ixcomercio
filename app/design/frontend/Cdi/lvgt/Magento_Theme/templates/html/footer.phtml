@@ -22,6 +22,13 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 					</a>
 				</li>
 			<?php } ?>
+			<?php if($instagram){ ?>
+				<li>
+					<a href="<?php echo $instagram?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/instagram.png");?>" alt="Instagram" title="Instagram" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
 			<?php if($twitter){ ?>
 				<li>
 					<a href="<?php echo $twitter?>" target="_blank">
@@ -32,28 +39,21 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 			<?php if($youtube){ ?>
 				<li>
 					<a href="<?php echo $youtube?>" target="_blank">
-						<img src="<?php echo $this->getViewFileUrl("images/social/youtube.png");?>" alt="Twitter" title="Twitter" _secure="true">
-					</a>
-				</li>
-			<?php } ?>
-			<?php if($instagram){ ?>
-				<li>
-					<a href="<?php echo $instagram?>" target="_blank">
-						<img src="<?php echo $this->getViewFileUrl("images/social/instagram.png");?>" alt="Twitter" title="Twitter" _secure="true">
-					</a>
-				</li>
-			<?php } ?>
-			<?php if($spotify){ ?>
-				<li>
-					<a href="<?php echo $spotify?>" target="_blank">
-						<img src="<?php echo $this->getViewFileUrl("images/social/spotify.png");?>" alt="Twitter" title="Twitter" _secure="true">
+						<img src="<?php echo $this->getViewFileUrl("images/social/youtube.png");?>" alt="Youtube" title="Youtube" _secure="true">
 					</a>
 				</li>
 			<?php } ?>
 			<?php if($pinterest){ ?>
 				<li>
 					<a href="<?php echo $pinterest?>" target="_blank">
-						<img src="<?php echo $this->getViewFileUrl("images/social/pinterest.png");?>" alt="Twitter" title="Twitter" _secure="true">
+						<img src="<?php echo $this->getViewFileUrl("images/social/pinterest.png");?>" alt="Pinterest" title="Pinterest" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($spotify){ ?>
+				<li>
+					<a href="<?php echo $spotify?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/spotify.png");?>" alt="Spotify" title="Spotify" _secure="true">
 					</a>
 				</li>
 			<?php } ?>

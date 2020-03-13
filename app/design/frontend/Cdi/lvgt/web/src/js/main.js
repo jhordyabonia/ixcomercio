@@ -111,6 +111,9 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    		var html = $('.catalog-product-view .product-info_main .product-social-links');
 	    		$('.catalog-product-view .product-info_main .ept-social-share').append(html);
 	    	}
+	    	var htmlEpt = $('.catalog-product-view .product-info_main .ept-social-share');
+	    	$(".product-view .product-info_main .product-add-form .box-tocart .field.qty").after(htmlEpt);
+	    	$(htmlEpt).css("visibility", "visible")
 	    }
 
 
