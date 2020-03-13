@@ -39,7 +39,7 @@
 			<container name="bestsellersection" as="bestsellersection" htmlTag="section" htmlClass="block widget block-products-list grid">
 				<container name="bestsellercont" as="bestsellercont" htmlTag="div" htmlClass="container">
 					<container name="bestsellerrow" as="bestsellerrow" htmlTag="div" htmlClass="row">
-				 		<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.  bestseller" template="productslider.phtml" after="-">
+				 		<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.bestseller" template="productslider.phtml" after="-">
 							<arguments>
 								<argument name="products_count" xsi:type="number">8</argument>
 								<argument name="margin" xsi:type="string">5</argument>

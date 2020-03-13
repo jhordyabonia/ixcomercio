@@ -27,11 +27,6 @@
           }
         }
       }
-      &:after{
-        float: left;
-        width: 100%;
-        margin-top: 25px;
-      }
     }
     .actions-toolbar{
       width: 100%;
@@ -50,6 +45,26 @@
           }
         }
       }
+      > .primary{
+        &:before{
+          width: 100%;
+          font-size: 12px;
+          float: left;
+          margin: 0 0 30px;
+          content: attr(data-hasrequired);
+          display: block;
+          letter-spacing: normal;
+          word-spacing: normal;
+          color: #e02b27;
+          text-align: left;
+          @media only screen and (min-width: $tablet){
+            margin-left: 0;
+          }
+        }
+      }
     }
+  }
+  .block .block-title{
+    font-family: 'Graphik-bold', 'Helvetica', sans-serif;
   }
 }

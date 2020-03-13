@@ -148,7 +148,7 @@
           border: 0 !important;
           background: none !important;
         }
-        .MagicScroll-bullets {
+        .MagicScroll-bullets, .MagicScroll-arrows-inside {
           > div a[target="_blank"], > span a[target="_blank"] {
             display: none;
           }
@@ -426,6 +426,8 @@
     .ept-social-share {
       width: 100%;
       float: left;
+      visibility: hidden;
+      margin: 20px 0 5px;
     }
     .product-social-links {
       width: auto;

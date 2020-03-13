@@ -115,13 +115,6 @@ form{
 		.actions-toolbar{}
 	}
 }
-.login-container{
-	form .fieldset:after{
-		@media only screen and (min-width: $tablet){
-			margin-left: 0;
-		}
-	}
-}
 .customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword, .sendfriend-product-send{
 	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset, .send.friend{
 		text-align: left;
