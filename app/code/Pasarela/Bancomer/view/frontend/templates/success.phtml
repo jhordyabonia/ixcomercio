@@ -42,16 +42,13 @@ $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
 $items          = $orderInfo->getAllItems();
-echo '<pre>';
-print_r($orderInfo->getCouponCode());
-die;
 
 $skuQty = 0;
 foreach($items as $i){
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     $skuQty[$_product->getSku()] = $skuQty[$_product->getSku()]+1;
 }
-
+die('bien');
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
