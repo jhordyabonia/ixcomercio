@@ -122,7 +122,7 @@
 "Shopping cart management is disabled for this customer.","La gestión del carrito de compras está deshabilitada para este cliente.",module,Magento_AdvancedCheckout
 "We can't find this store.","No podemos encontrar esta tienda.",module,Magento_AdvancedCheckout
 "Customers","Clientes",module,Magento_AdvancedCheckout
-"Shopping Cart","Cesta",module,Magento_AdvancedCheckout
+"Shopping Cart","Carrito de compras",module,Magento_AdvancedCheckout
 "Sorry, something went wrong. You can find out more in the error log.","Lo sentimos, algo salió mal. Encontrarás más información en el registro de errores.",module,Magento_AdvancedCheckout
 "You do not have access to this.","No tienes acceso a esto.",module,Magento_AdvancedCheckout
 "Ordered item id is not received.","No se recibió la id del artículo solicitado.",module,Magento_AdvancedCheckout
@@ -135,7 +135,7 @@
 "You cannot configure a product.","No puede configurar un artículo.",module,Magento_AdvancedCheckout
 "You removed the items.","Eliminó los elementos.",module,Magento_AdvancedCheckout
 "You removed the item.","Eliminó el elemento.",module,Magento_AdvancedCheckout
-"You added %1 to your shopping cart.","Añadiste %1 a tu cesta.",module,Magento_AdvancedCheckout
+"You added %1 to your shopping cart.","Añadiste %1 a tu carrito de compras.",module,Magento_AdvancedCheckout
 "You cannot add a product.","No puede agregar un artículo.",module,Magento_AdvancedCheckout
 "Order by SKU","Comprar por SKU",module,Magento_AdvancedCheckout
 "The SKU was not found in the catalog.","El SKU no fue encontrado en el catálogo.",module,Magento_AdvancedCheckout
@@ -2236,15 +2236,15 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Manage Stock","Gestionar existencias",module,Magento_Catalog
 "Qty","Cantidad",module,Magento_Catalog
 "Out-of-Stock Threshold","Umbral fuera de Stock",module,Magento_Catalog
-"Minimum Qty Allowed in Shopping Cart","Cantidad Mínima Permitida en la Cesta de Compra",module,Magento_Catalog
-"Maximum Qty Allowed in Shopping Cart","Cantidad Máxima Permitida en la Cesta del Carrito",module,Magento_Catalog
+"Minimum Qty Allowed in Shopping Cart","Cantidad Mínima Permitida en el carrito de Compra",module,Magento_Catalog
+"Maximum Qty Allowed in Shopping Cart","Cantidad Máxima Permitida en el Carrito",module,Magento_Catalog
 "Qty Uses Decimals","La Cantidad Usa Decimales",module,Magento_Catalog
 "Backorders","Pedidos pendientes",module,Magento_Catalog
 "Notify for Quantity Below","Notificar cuando la cantidad sea inferior a",module,Magento_Catalog
 "Enable Qty Increments","Habilitar incrementos de cantidad",module,Magento_Catalog
 "Qty Increments","Incrementos de cantidad",module,Magento_Catalog
 "Stock Availability","Disponibilidad de inventario",module,Magento_Catalog
-"In Stock","En existencias",module,Magento_Catalog
+"In Stock","En existencia",module,Magento_Catalog
 "Out of Stock","Fuera de existencias",module,Magento_Catalog
 "Add Product To Websites","Añadir artículo a sitios web",module,Magento_Catalog
 "Remove Product From Websites","Eliminar el artículo de los sitios de Internet",module,Magento_Catalog
@@ -2307,7 +2307,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Add to Compare","Añadir para comparar",module,Magento_Catalog
 "We found other products you might like!","¡Hemos encontrado otros productos que te pueden gustar!",module,Magento_Catalog
 "More Choices:","Más opciones:",module,Magento_Catalog
-"Check items to add to the cart or","Comprueba los artículos para añadir a la cesta o",module,Magento_Catalog
+"Check items to add to the cart or","Comprueba los artículos para añadir al carrito o",module,Magento_Catalog
 "select all","seleccionar todo",module,Magento_Catalog
 "Items %1-%2 of %3","Artículos %1-%2 de %3",module,Magento_Catalog
 "%1 Item","%1 artículo",module,Magento_Catalog
@@ -2771,7 +2771,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_Catalog
 "No Backorders","No hay pedidos pendientes",module,Magento_CatalogInventory
 "Allow Qty Below 0","Permitir cantidad menor que 0",module,Magento_CatalogInventory
 "Allow Qty Below 0 and Notify Customer","Permitir cantidad menor que 0 y notificar al cliente",module,Magento_CatalogInventory
-"In Stock","En existencias",module,Magento_CatalogInventory
+"In Stock","En existencia",module,Magento_CatalogInventory
 "Out of Stock","Fuera de existencias",module,Magento_CatalogInventory
 "Unable to save Stock Item","No se puede guardar el artículo de stock",module,Magento_CatalogInventory
 "Stock Item with id ""%1"" does not exist.","El producto con id ""%1"" no existe.",module,Magento_CatalogInventory
@@ -3201,7 +3201,7 @@ Time in seconds between the widget updates.,module,Magento_CatalogWidget
 Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidget
 <br/>Si no está establecido, valor por defecto de 86400 segundos (24 horas). Para actualizar un widget de manera instantánea, vaya a Gestión de Caché y limpie la caché Salida HTML de Bloques.,module,Magento_CatalogWidget
 <br/>Los widgets no mostrarán productos que comiencen a coincidir con las condiciones especificadas hasta que la caché sea refrescada.                ",module,Magento_CatalogWidget
-"Shopping Cart","Cesta",module,Magento_Checkout
+"Shopping Cart","Carrito de compras",module,Magento_Checkout
 "Invalid method: %1","Método inválido: %1",module,Magento_Checkout
 "City","Ciudad",module,Magento_Checkout
 "Country","País",module,Magento_Checkout
@@ -3209,12 +3209,12 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Zip/Postal Code","Código Postal",module,Magento_Checkout
 "My Cart (1 item)","Mi carrito (1 producto)",module,Magento_Checkout
 "My Cart (%1 items)","Mi carrito (%1 artículos)",module,Magento_Checkout
-"My Cart","Mi cesta",module,Magento_Checkout
+"My Cart","Mi carrito",module,Magento_Checkout
 "For delivery questions.","Para preguntas de entrega.",module,Magento_Checkout
 "Customer is already registered","Cliente ya está registrado",module,Magento_Checkout
 "Your session has expired","Tu sesión ha caducado",module,Magento_Checkout
 "A letter with further instructions will be sent to your email.","Se enviara un correo con mas instrucciones a su cuenta de correo.",module,Magento_Checkout
-"You added %1 to your shopping cart.","Añadiste %1 a tu cesta.",module,Magento_Checkout
+"You added %1 to your shopping cart.","Añadiste %1 a tu carrito.",module,Magento_Checkout
 "We can't add this item to your shopping cart right now.","No podemos añadir este artículo a su carrito de compras ahora mismo.",module,Magento_Checkout
 "Out of stock","No está disponible",module,Magento_Checkout
 "We can't find the quote item.","No podemos encontrar el artículo cotizado.",module,Magento_Checkout
@@ -3399,7 +3399,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Method Title","Título del método",module,Magento_Checkout
 "Carrier Title","Título del transportista",module,Magento_Checkout
 "Next","Siguiente",module,Magento_Checkout
-"Sorry, no quotes are available for this order at this time","Lo sentimos, no hay cotizaciones disponibles para este pedido en este momento",module,Magento_Checkout
+"Sorry, no quotes are available for this order at this time","Lo sentimos, no tenemos cubrimiento para este destino",module,Magento_Checkout
 "Item in Cart","Producto en el carrito",module,Magento_Checkout
 "Items in Cart","Artículos en el carrito",module,Magento_Checkout
 "Require Customer To Be Logged In To Checkout","Kundenanmeldung für Bestellvorgang erforderlich",module,Magento_Checkout
@@ -3883,7 +3883,9 @@ o equipos primero.",module,Magento_Company
 "City","Ciudad",module,Magento_Company
 "Country","País",module,Magento_Company
 "State/Province","Estado/provincia",module,Magento_Company
-"Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Company
+"Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_Company
+"Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Company
+"Please select a zone.","Por favor selecciona una zona.",module,Magento_Company
 "ZIP/Postal Code","Código Postal",module,Magento_Company
 "Phone Number","Número de teléfono",module,Magento_Company
 "Identification","Identificación",module,Magento_Company
@@ -4777,7 +4779,7 @@ new products will be created. Use this step to customize images and price for yo
 "Order Total","Total del pedido",module,Magento_Customer
 "Purchase Point","Punto de compra",module,Magento_Customer
 "Customer View","Vista cliente",module,Magento_Customer
-"There are no items in customer's shopping cart.","No hay productos en la cesta de la compra del cliente.",module,Magento_Customer
+"There are no items in customer's shopping cart.","No hay productos en el carrito de compras del cliente.",module,Magento_Customer
 "Qty","Cantidad",module,Magento_Customer
 "Confirmed","Confirmado",module,Magento_Customer
 "Confirmation Required","Confirmación necesaria",module,Magento_Customer
@@ -5047,7 +5049,9 @@ new products will be created. Use this step to customize images and price for yo
 "VAT Number","Número de IVA",module,Magento_Customer
 "City","Ciudad",module,Magento_Customer
 "State/Province","Estado/provincia",module,Magento_Customer
-"Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Customer
+"Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_Customer
+"Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Customer
+"Please select a zone.","Por favor selecciona una zona.",module,Magento_Customer
 "Zip/Postal Code","Código Postal",module,Magento_Customer
 "Country","País",module,Magento_Customer
 "It's a default billing address.","Es una dirección de facturación predeterminada.",module,Magento_Customer
@@ -5537,7 +5541,9 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "VAT Number","Número de IVA",module,Magento_CustomerCustomAttributes
 "City","Ciudad",module,Magento_CustomerCustomAttributes
 "State/Province","Estado/provincia",module,Magento_CustomerCustomAttributes
-"Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_CustomerCustomAttributes
+"Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_CustomerCustomAttributes
+"Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_CustomerCustomAttributes
+"Please select a zone.","Por favor selecciona una zona.",module,Magento_CustomerCustomAttributes
 "Zip/Postal Code","Código Postal",module,Magento_CustomerCustomAttributes
 "Country","País",module,Magento_CustomerCustomAttributes
 "This is your default billing address.","Esta es tu dirección de facturación predeterminada.",module,Magento_CustomerCustomAttributes
@@ -5723,7 +5729,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "was","fue",module,Magento_CustomerSegment
 "was not","no fue",module,Magento_CustomerSegment
 "If Product %1 %2 and matches %3 of these Conditions:","Si producto %1 %2 y %3 coincide con una de estas condiciones:",module,Magento_CustomerSegment
-"Shopping Cart","Cesta",module,Magento_CustomerSegment
+"Shopping Cart","Carrito de compras",module,Magento_CustomerSegment
 "Wish List","Lista de deseos",module,Magento_CustomerSegment
 "found","encontrado",module,Magento_CustomerSegment
 "not found","no encontrado",module,Magento_CustomerSegment
@@ -5998,7 +6004,9 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Please correct the country code: %1.","Por favor, corregir el código del país: %1.",module,Magento_Directory
 "Country and Format Type combination should be unique","La combinación de tipo de formato y país debe ser única",module,Magento_Directory
 "Please correct the rates received","Por favor corregir las tarifas recibidas",module,Magento_Directory
-"Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Directory
+"Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_Directory
+"Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Directory
+"Please select a zone.","Por favor selecciona una zona.",module,Magento_Directory
 "Currency","Moneda",module,Magento_Directory
 "Your current currency is: %1.","La moneda actual es: %1.",module,Magento_Directory
 "Continue","Continuar",module,Magento_Directory
@@ -9019,7 +9027,7 @@ information on installing the agent is available <a target=""_blank"" href=""%1"
 "Are you sure you want to delete this template?","¿Realmente quiere borrar esta plantilla?",module,Magento_Newsletter
 "Sign Up for Our Newsletter:","Inscríbase a nuestro boletín de noticias:",module,Magento_Newsletter
 "Enter your email address","Registra tu dirección de correo electrónico",module,Magento_Newsletter
-"Subscribe","Suscribirse",module,Magento_Newsletter
+"Subscribe","Suscríbete",module,Magento_Newsletter
 "Newsletter subscription confirmation","Confirmación de la suscripción al boletín informativo",module,Magento_Newsletter
 "Thank you for subscribing to our newsletter.","Gracias por suscribirte a nuestro boletín.",module,Magento_Newsletter
 "To begin receiving the newsletter, you must first confirm your subscription by clicking on the following link:","Antes de recibir los boletines, debes confirmar la suscripción haciendo click en el siguiente enlace:",module,Magento_Newsletter
@@ -9050,7 +9058,7 @@ information on installing the agent is available <a target=""_blank"" href=""%1"
 "Status","Estatus",module,Magento_Newsletter
 "Processed","Procesado",module,Magento_Newsletter
 "Recipients","Recipientes",module,Magento_Newsletter
-"Unsubscribe","Desuscribirse",module,Magento_Newsletter
+"Unsubscribe","Desuscríbete",module,Magento_Newsletter
 "Delete","Borrar",module,Magento_Newsletter
 "CSV","CSV",module,Magento_Newsletter
 "Excel XML","Excel XML",module,Magento_Newsletter
@@ -10631,7 +10639,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Virtual Only","Virtual únicamente",module,Magento_Reminder
 "Shopping cart %1 only virtual items","Carrito de compras %1 sólo articulos virtuales",module,Magento_Reminder
 "Wish List","Lista de deseos",module,Magento_Reminder
-"Shopping Cart","Cesta",module,Magento_Reminder
+"Shopping Cart","Carrito de compras",module,Magento_Reminder
 "The wish list is not empty and abandoned %1 %2 days and %3 of these conditions match:","La lista de deseos no está vacía y abandonada %1 %2 días y %3 de estas condiciones coinciden:",module,Magento_Reminder
 "The root wish list condition should have a days value of 1 or greater.","La condición de lista de deseos de raíz debe tener un valor de días de 1 o mayor.",module,Magento_Reminder
 "Product Attributes","Atributos del artículo",module,Magento_Reminder
@@ -10816,7 +10824,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Orders Report","Informe de pedidos",module,Magento_Reports
 "Shipping Report","Reporte de envíos",module,Magento_Reports
 "Tax Report","Reporte de impuestos",module,Magento_Reports
-"Shopping Cart","Cesta",module,Magento_Reports
+"Shopping Cart","Carrito de compras",module,Magento_Reports
 "Abandoned Carts","Carritos abandonados",module,Magento_Reports
 "Customer Shopping Carts","Carros de compras del cliente",module,Magento_Reports
 "Products in Carts","Artikel in Warenkörben",module,Magento_Reports
@@ -11812,7 +11820,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "Shipping Address","Dirección de envío",module,Magento_Sales
 "Shipping Method","Método de envío",module,Magento_Sales
 "Update Changes","Actualizar los cambios",module,Magento_Sales
-"Shopping Cart","Cesta",module,Magento_Sales
+"Shopping Cart","Carrito de compras",module,Magento_Sales
 "Are you sure you want to delete all items from shopping cart?","¿Realmente quiere eliminar todos los artículos del carrito de compras?",module,Magento_Sales
 "Clear Shopping Cart","Vaciar el carrito",module,Magento_Sales
 "Products in Comparison List","Artículos en la lista de comparación",module,Magento_Sales
@@ -16029,7 +16037,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "We can't specify a product.","No podemos especificar un producto.",module,Magento_Wishlist
 "We can't add the item to Wish List right now: %1.","No se puede añadir el elemento a lista de deseos ahora mismo: %1.",module,Magento_Wishlist
 "We can't add the item to Wish List right now.","No se puede añadir el elemento a lista de deseos ahora mismo.",module,Magento_Wishlist
-"You added %1 to your shopping cart.","Añadiste %1 a tu cesta.",module,Magento_Wishlist
+"You added %1 to your shopping cart.","Añadiste %1 a tu carrito de compras.",module,Magento_Wishlist
 "This product(s) is out of stock.","Este producto está fuera de stock.",module,Magento_Wishlist
 "We can't add the item to the cart right now.","No se puede añadir el producto al carrito de compras ahora mismo.",module,Magento_Wishlist
 "We can't load the Wish List item right now.","No se puede cargar la lista de deseos ahora mismo.",module,Magento_Wishlist
@@ -16418,3 +16426,9 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Free Shipping","Envío Gratis",module,Magento_Checkout
 "Free","Gratis",module,Magento_Checkout
 "Payment error: The transaction has been rejected","Error pago: La transacción ha sido rechazada",module,Magento_CompanyPayment
+"Select Quantity","Selecciona la cantidad",,module,Magento_Catalog
+"Select Quantity","Selecciona la cantidad",,module,Magento_CatalogInventory
+"Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_Checkout
+"Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Checkout
+"Please select a zone.","Por favor selecciona una zona.",module,Magento_Checkout
+"Your search returned no results test.","Tu búsqueda no generó resultados.",module,Magento_CatalogSearch
