@@ -48,7 +48,6 @@ foreach($items as $i){
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
     $skuQty[$_product->getSku()] = empty($skuQty[$_product->getSku()])? 1 : $skuQty[$_product->getSku()] + 1;
 }
-die('bien');
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
