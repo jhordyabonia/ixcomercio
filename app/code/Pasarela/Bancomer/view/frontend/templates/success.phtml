@@ -41,16 +41,18 @@ $lid            = $this->getReference();
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
-echo '<pre>';
 $items          = $orderInfo->getAllItems();
+
+$skuQty = 0;
+foreach($items as $i){
+    $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
+    $sku[$_product->getSku()] = $sku[$_product->getSku()]+1;
+}
 
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
-    echo '<hr>';
-    //print_r(get_class_methods($i));
-    print_r($_product->getQty());
-    echo '</pre>';
+
     $producto = "{
         'id': '{$_product->getSku()}',
         'name': '{$_product->getName()}',
@@ -58,13 +60,12 @@ foreach ($items as $i)
         'brand': 'HOM',
         'category': '{$_product->getName()}',
         'variant': 'productVariant',
-        'quantity': {$_product->getQty()},
+        'quantity': {$skuQty[$_product->getSku()]},
         'coupon': ''
         
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
-//die;
 $final_price = $this->getAmount();
 $order = $this->getReference();
 
