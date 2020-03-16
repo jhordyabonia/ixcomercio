@@ -1,6 +1,8 @@
-require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
+
+		alert($.mage.__('Test'));
 
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
@@ -450,7 +452,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
-	    					'<option data-title="" value="">Please select a region, state or province.</option>';
+	    					'<option data-title="" value="">'+$.mage.__("Please select a region, state or province.")+'</option>';
 
 				        $.each(res, function(iRes, valRes){
 				        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
