@@ -3296,8 +3296,8 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Product Name","Nombre del producto",module,Magento_Checkout
 "Incl. Tax","Impuestos incl.",module,Magento_Checkout
 "Your order number is: %1.","Su número de pedido es: %1.",module,Magento_Checkout
-"Your order # is: <span>%1</span>.","Su nº de pedido es: <span>%1</span>.",module,Magento_Checkout
-"We'll email you an order confirmation with details and tracking info.","Te enviaremos un email de confirmación con los detalles y información del envío.",module,Magento_Checkout
+"Your order # is: <span>%1</span>.","Tu número de pedido es: <span>%1</span>.",module,Magento_Checkout
+"We'll email you an order confirmation with details and tracking info.","Te enviaremos un correo electrónico de confirmación con los detalles y la información del envío.",module,Magento_Checkout
 "Payment Transaction Failed Reminder","Recordatorio de error de transacción de pago",module,Magento_Checkout
 "Payment Transaction Failed","Ha fallado la operación de pago",module,Magento_Checkout
 "Reason","Razón: ",module,Magento_Checkout
@@ -3379,7 +3379,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Payment","Pago",module,Magento_Checkout
 "Not yet calculated","Aún no se ha calculado",module,Magento_Checkout
 "We received your order!","¡Hemos recibido tu pedido!",module,Magento_Checkout
-"Thank you for your purchase!","Gracias por su compra!",module,Magento_Checkout
+"Thank you for your purchase!","¡Gracias por tu compra!",module,Magento_Checkout
 "Minimum order amount is %1","Cantidad de pedido mínima es de %1",module,Magento_Checkout
 "Unable to save address. Please, check input data.","No se puede guardar la dirección. Por favor, comprueba los datos introducidos.",module,Magento_Checkout
 "Unable to save shipping information. Please, check input data.","No se puede guardar la información de envío. Por favor, comprueba los datos introducidos.",module,Magento_Checkout
@@ -8446,7 +8446,7 @@ esto no afectará al filtro de precios.",module,Magento_LayeredNavigation
 "We could only complete part of your order.","Solo pudimos completar parte de su pedido.",module,Magento_Multishipping
 "We were unable to complete your order.","No hemos podido completar su pedido.",module,Magento_Multishipping
 "Select Shipping Method","Versandart auswählen",module,Magento_Multishipping
-"Thank you for your purchase!","Gracias por su compra!",module,Magento_Multishipping
+"Thank you for your purchase!","¡Gracias por tu compra!",module,Magento_Multishipping
 "Thanks for your order. We'll email you order details and tracking information.","Gracias por su pedido. Te enviaremos por email detalles del pedido y la información de seguimiento.",module,Magento_Multishipping
 "Your order numbers are: ","Los números de sus pedidos son: ",module,Magento_Multishipping
 "Your order number is: ","Su número de pedido es: ",module,Magento_Multishipping
@@ -16432,3 +16432,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Checkout
 "Please select a zone.","Por favor selecciona una zona.",module,Magento_Checkout
 "Your search returned no results test.","Tu búsqueda no generó resultados.",module,Magento_CatalogSearch
+"You can select your payment product in the next step.","Puedes seleccionar tu forma de pago en el siguiente paso",module,Magento_Checkout
+"Payment status:","Estado de la compra",module,Magento_Checkout
