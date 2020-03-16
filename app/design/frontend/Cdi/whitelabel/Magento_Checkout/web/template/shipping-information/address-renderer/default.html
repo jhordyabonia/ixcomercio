@@ -25,7 +25,7 @@
                 </ifnot>
             </if>
             <if args="typeof element[attribute] === 'string'">
-                <text args="element[attribute]"/>
+                <text args="getCustomData(element[attribute])"/>
             </if><br/>
         </each>
     </each>
