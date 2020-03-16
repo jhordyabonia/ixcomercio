@@ -2,8 +2,6 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
     
 	jQuery(document).ready(function() {
 
-		alert($.mage.__('Test'));
-
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
 
@@ -461,6 +459,7 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+		    			$(fieldStateCheckout).append("<span>"+$.mage.__("Please select a region, state or province.")+"</span>");
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
