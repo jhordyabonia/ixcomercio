@@ -1,4 +1,4 @@
-require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], function($, $t) {
     
 	jQuery(document).ready(function() {
 
