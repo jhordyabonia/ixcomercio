@@ -62,7 +62,7 @@ header{
           img{
             width: auto;
             height: 60px;
-            max-width: 100%;
+            max-width: none;
             margin: 0 auto;
             float: left;
             @media only screen and (max-width: $desktop){
