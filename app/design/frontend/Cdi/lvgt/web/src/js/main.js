@@ -2,8 +2,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 	return function(config, element){
 
-		console.log(config);
-		console.log(element);
+		console.log("config:" + config);
+		console.log("element:" + element);
 
 	}
     
