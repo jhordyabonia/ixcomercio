@@ -1,11 +1,4 @@
 require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $t) {
-
-	return function(config, element){
-
-		console.log("config:" + config);
-		console.log("element:" + element);
-
-	}
     
 	jQuery(document).ready(function() {
 
