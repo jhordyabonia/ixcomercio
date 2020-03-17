@@ -22,19 +22,6 @@ define([
          */
         getCountryName: function (countryId) {
             return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
-        }, 
-
-        /**
-         * @param {*} string
-         * @return {String}
-         */
-        getCustomData: function (string) {
-            if(string == 'identification'){
-                return '';
-            }else if(string == 'zone_id'){
-                return '';
-            }
-            return string;
         }
     });
 });
