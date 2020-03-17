@@ -16425,12 +16425,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe.",lib,web
 "Free Shipping","Envío Gratis",module,Magento_Checkout
 "Free","Gratis",module,Magento_Checkout
-"Payment error: The transaction has been rejected","Error pago: La transacción ha sido rechazada",module,Magento_CompanyPayment
-"Select Quantity","Selecciona la cantidad",,module,Magento_Catalog
-"Select Quantity","Selecciona la cantidad",,module,Magento_CatalogInventory
-"Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_Checkout
-"Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Checkout
-"Please select a zone.","Por favor selecciona una zona.",module,Magento_Checkout
-"Your search returned no results test.","Tu búsqueda no generó resultados.",module,Magento_CatalogSearch
-"You can select your payment product in the next step.","Puedes seleccionar tu forma de pago en el siguiente paso",module,Magento_Checkout
-"Payment status:","Estado de la compra",module,Magento_Checkout
+"Text to translate 1:","Texto para traducir 1",module,Magento_Checkout
+"Text to translate 2:","Texto para traducir 2",module,Magento_Checkout

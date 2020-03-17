@@ -1,4 +1,4 @@
-require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], function($, $t) {
     
 	jQuery(document).ready(function() {
 
@@ -450,7 +450,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
-	    					'<option data-title="" value="">Please select a region, state or province.</option>';
+	    					'<option data-title="" value="">'+$.mage.__("Please select a region, state or province.")+'</option>';
 
 				        $.each(res, function(iRes, valRes){
 				        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
@@ -459,6 +459,8 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+		    			$(fieldStateCheckout).append("<span data-bind=\"i18n: \'Text to translate 1\'\">"+$.mage.__("Text to translate 1")+"</span>");
+		    			$(fieldStateCheckout).append("<span data-bind=\"i18n: \'Text to translate 1\'\">"+$t('Text to translate 2')+"</span>");
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
