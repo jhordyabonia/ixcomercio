@@ -1,6 +1,12 @@
-require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], function($, $t) {
+require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $t) {
     
 	jQuery(document).ready(function() {
+
+		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">"+$.mage.__("Text to translate 1")+"</span><br>");
+		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">Text to translate 2</span><br>");
+		$('html').append("<span translate=\"\'Text to translate\'\">"+$.mage.__("Text to translate 3")+"</span><br>");
+		$('html').append("<span translate=\"\'Text to translate\'\">Text to translate 4</span><br>");
+		$('html').append("<span>"+$.mage.__('Text to translate 5')+"</span><br>");
 
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
@@ -459,8 +465,6 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
-		    			$(fieldStateCheckout).append("<span data-bind=\"i18n: \'Text to translate 1\'\">"+$.mage.__("Text to translate 1")+"</span>");
-		    			$(fieldStateCheckout).append("<span data-bind=\"i18n: \'Text to translate 1\'\">"+$t('Text to translate 2')+"</span>");
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
