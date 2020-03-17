@@ -6,7 +6,7 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
 		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">Text to translate 2</span><br>");
 		$('html').append("<span translate=\"\'Text to translate\'\">"+$.mage.__("Text to translate 3")+"</span><br>");
 		$('html').append("<span translate=\"\'Text to translate\'\">Text to translate 4</span><br>");
-		$('html').append("<span>"+$.mage.__('<string>')+"</span><br>");
+		$('html').append("<span>"+$.mage.__('Text to translate 5')+"</span><br>");
 
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
