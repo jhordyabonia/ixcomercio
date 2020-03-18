@@ -14,8 +14,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		$('html').append("<span translate=\"\'Technical specifications\'\">Technical specifications</span><br>");
 		$('html').append("<span>"+$.mage.__('Technical specifications')+"</span><br>");
 
-		console.log("v7");
-		alert($tr('Technical specifications'));
+		alert($.mage.__('Technical specifications'));
     	
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
