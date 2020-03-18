@@ -1,6 +1,6 @@
-require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], function($, $t) {
-    
-	jQuery(document).ready(function() {
+require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $tr) {
+
+    jQuery(document).ready(function() {
 
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
@@ -459,8 +459,6 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
-		    			$(fieldStateCheckout).append("<span data-bind=\"i18n: \'Text to translate 1\'\">"+$.mage.__("Text to translate 1")+"</span>");
-		    			$(fieldStateCheckout).append("<span data-bind=\"i18n: \'Text to translate 1\'\">"+$t('Text to translate 2')+"</span>");
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
@@ -476,12 +474,12 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
 			    	
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a city.</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Please select a city.")+'</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
 
 	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
 	    							'</select>';
 	    			$(fieldZoneCheckout).append(htmlZones);
 
@@ -534,7 +532,7 @@ require(['jquery', 'mage/translate', 'owlCarouselJs', 'mainJs', 'domReady!'], fu
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
-                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>'+$.mage.__("Please select a zone.")+'</option>');
                   				
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
