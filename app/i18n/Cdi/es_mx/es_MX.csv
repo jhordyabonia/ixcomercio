@@ -16417,5 +16417,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe.",lib,web
 "Free Shipping","Envío Gratis",module,Magento_Checkout
 "Free","Gratis",module,Magento_Checkout
-"Text to translate 1:","Texto para traducir 1",module,Magento_Checkout
-"Text to translate 2:","Texto para traducir 2",module,Magento_Checkout
+"Text to translate","Texto para traducir",lib,web
