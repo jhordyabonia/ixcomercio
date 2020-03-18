@@ -3884,6 +3884,8 @@ o equipos primero.",module,Magento_Company
 "Country","País",module,Magento_Company
 "State/Province","Estado/provincia",module,Magento_Company
 "Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Company
+"Please select a city.","Por favor seleccione una ciudad.",module,Magento_Company
+"Please select a zone.","Por favor seleccione una zona.",module,Magento_Company
 "ZIP/Postal Code","Código Postal",module,Magento_Company
 "Phone Number","Número de teléfono",module,Magento_Company
 "Identification","Identificación",module,Magento_Company
@@ -16417,5 +16419,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.","Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe.",lib,web
 "Free Shipping","Envío Gratis",module,Magento_Checkout
 "Free","Gratis",module,Magento_Checkout
-"Text to translate 1:","Texto para traducir 1",module,Magento_Checkout
-"Text to translate 2:","Texto para traducir 2",module,Magento_Checkout
+"Text to translate","Texto para traducir",lib,web
