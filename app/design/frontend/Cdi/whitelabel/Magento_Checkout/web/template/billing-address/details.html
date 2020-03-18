@@ -22,8 +22,10 @@
                 </ifnot>
             </if>
             <if args="typeof element[attribute] === 'string'">
-                <text args="element[attribute]"/>
-            </if><br/>
+                <if args="$parents[1].customLabelVisible(element[attribute])">
+                    <text args="$parents[1].getCustomText(element[attribute])"/><br/>
+                </if>
+            </if>
         </each>
     </each>
 
