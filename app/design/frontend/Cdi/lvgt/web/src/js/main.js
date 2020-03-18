@@ -2,20 +2,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
     jQuery(document).ready(function() {
 
-		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">"+$.mage.__("Text to translate")+"</span><br>");
-		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">Text to translate</span><br>");
-		$('html').append("<span translate=\"\'Text to translate\'\">"+$.mage.__("Text to translate")+"</span><br>");
-		$('html').append("<span translate=\"\'Text to translate\'\">Text to translate</span><br>");
-		$('html').append("<span>"+$.mage.__('Text to translate')+"</span><br><br><br><br>");
-
-		$('html').append("<span data-bind=\"i18n: \'Technical specifications\'\">"+$.mage.__("Technical specifications")+"</span><br>");
-		$('html').append("<span data-bind=\"i18n: \'Technical specifications\'\">Technical specifications</span><br>");
-		$('html').append("<span translate=\"\'Technical specifications\'\">"+$.mage.__("Technical specifications")+"</span><br>");
-		$('html').append("<span translate=\"\'Technical specifications\'\">Technical specifications</span><br>");
-		$('html').append("<span>"+$.mage.__('Technical specifications')+"</span><br>");
-
-		alert($.mage.__('Technical specifications'));
-    	
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
 
@@ -488,12 +474,12 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			    	
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a city.</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Please select a city.")+'</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
 
 	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
 	    							'</select>';
 	    			$(fieldZoneCheckout).append(htmlZones);
 
@@ -546,7 +532,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
-                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>'+$.mage.__("Please select a zone.")+'</option>');
                   				
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
