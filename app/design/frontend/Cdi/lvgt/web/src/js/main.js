@@ -6,7 +6,13 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">Text to translate 2</span><br>");
 		$('html').append("<span translate=\"\'Text to translate\'\">"+$.mage.__("Text to translate 3")+"</span><br>");
 		$('html').append("<span translate=\"\'Text to translate\'\">Text to translate 4</span><br>");
-		$('html').append("<span>"+$.mage.__('Text to translate 5')+"</span><br>");
+		$('html').append("<span>"+$.mage.__('Text to translate 5')+"</span><br><br><br><br>");
+
+		$('html').append("<span data-bind=\"i18n: \'Technical specifications\'\">"+$.mage.__("Technical specifications")+"</span><br>");
+		$('html').append("<span data-bind=\"i18n: \'Technical specifications\'\">Technical specifications</span><br>");
+		$('html').append("<span translate=\"\'Technical specifications\'\">"+$.mage.__("Technical specifications")+"</span><br>");
+		$('html').append("<span translate=\"\'Technical specifications\'\">Technical specifications</span><br>");
+		$('html').append("<span>"+$.mage.__('Technical specifications')+"</span><br>");
 
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
