@@ -21,7 +21,17 @@ define([
          * @return {String}
          */
         getCountryName: function (countryId) {
-            return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
+            return '4';
+            //return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
+        },
+
+        /**
+         * @param {*} text
+         * @return {String}
+         */
+        getCustomText: function (text) {
+            return 'cuadtro' + text;
+            //return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
         }
     });
 });
