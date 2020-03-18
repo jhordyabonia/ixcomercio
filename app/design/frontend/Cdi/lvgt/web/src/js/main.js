@@ -1,6 +1,8 @@
 require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $t) {
 
-	alert($t('Technical specifications'));
+	$(window).load(function() {
+        alert($t('Technical specifications'));
+    });
     
 	jQuery(document).ready(function() {
 
