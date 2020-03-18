@@ -3884,6 +3884,8 @@ o equipos primero.",module,Magento_Company
 "Country","País",module,Magento_Company
 "State/Province","Estado/provincia",module,Magento_Company
 "Please select a region, state or province.","Por favor seleccione región, estado o provincia.",module,Magento_Company
+"Please select a city.","Por favor seleccione una ciudad.",module,Magento_Company
+"Please select a zone.","Por favor seleccione una zona.",module,Magento_Company
 "ZIP/Postal Code","Código Postal",module,Magento_Company
 "Phone Number","Número de teléfono",module,Magento_Company
 "Identification","Identificación",module,Magento_Company
