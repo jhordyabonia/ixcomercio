@@ -1,11 +1,6 @@
 require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $tr) {
 
-	
-    alert($tr('Technical specifications'));
-    console.log("v6");
-    
-    
-	jQuery(document).ready(function() {
+    jQuery(document).ready(function() {
 
 		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">"+$.mage.__("Text to translate 1")+"</span><br>");
 		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">Text to translate 2</span><br>");
@@ -19,6 +14,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		$('html').append("<span translate=\"\'Technical specifications\'\">Technical specifications</span><br>");
 		$('html').append("<span>"+$.mage.__('Technical specifications')+"</span><br>");
 
+		console.log("v7");
+		alert($tr('Technical specifications'));
+    	
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
 
