@@ -10,6 +10,7 @@ define([
     'use strict';
 
     var countryData = customerData.get('directory-data');
+    var lastLabel = '';
 
     return Component.extend({
         defaults: {
@@ -21,8 +22,19 @@ define([
          * @return {String}
          */
         getCountryName: function (countryId) {
-            return '4';
-            //return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
+            return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
+        },
+
+        /**
+         * @param {*} text
+         * @return {String}
+         */
+        customLabelVisible: function (text) {
+            if(text == 'zone_id' || text == 'identification'){
+                lastLabel = text;
+                return false;
+            }
+            return true;
         },
 
         /**
@@ -30,8 +42,10 @@ define([
          * @return {String}
          */
         getCustomText: function (text) {
-            return 'cuadtro' + text;
-            //return countryData()[countryId] != undefined ? countryData()[countryId].name : ''; //eslint-disable-line
+            if(lastLabel == 'zone_id'){
+                //
+            }
+            return text; 
         }
     });
 });
