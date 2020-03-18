@@ -1,8 +1,8 @@
 require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $t) {
-    
-	jQuery(document).ready(function($, $t) {
 
-		alert($t('Technical specifications'));
+	alert($t('Technical specifications'));
+    
+	jQuery(document).ready(function() {
 
 		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">"+$.mage.__("Text to translate 1")+"</span><br>");
 		$('html').append("<span data-bind=\"i18n: \'Text to translate\'\">Text to translate 2</span><br>");
