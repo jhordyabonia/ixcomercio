@@ -39,7 +39,8 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
     </div>
     <script type="text/javascript">
         $(document).ready(function(){
-          $('#ui-id-2 li a').click(function(e){
+          $('.ui-menu ui-widget ui-widget-content ui-corner-all li a').click(function(e){
+            alert("mensaje");
             debugger;
           });
         });
