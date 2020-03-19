@@ -17,7 +17,7 @@
     href="<?= $block->getUrl('') ?>"
     title="<?= /* @escapeNotVerified */ $storeName ?>"
     aria-label="store logo"
-    onclick="mensaje()">
+    onclick="dataLayer.push({'event':'ga_event','category':'Header','action':'Logo','label':'Home'});">
     <img src="<?= /* @escapeNotVerified */ $block->getLogoSrc() ?>"
          title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
          alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
@@ -25,9 +25,4 @@
          <?= $block->getLogoHeight() ? 'height="' . $block->getLogoHeight() . '"' : '' ?>
     />
 </a>
-<script type="text/javascript">
-  function mensaje (){
-    alert("El mensaje funciona");
-  }
-  dataLayer.push({'event':'ga_event','category':'Header','action':'Logo','label':'Home'});
-</script>
+
