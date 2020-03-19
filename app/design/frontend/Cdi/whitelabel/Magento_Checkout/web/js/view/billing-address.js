@@ -41,6 +41,7 @@ function (
 
     var lastSelectedBillingAddress = null,
         countryData = customerData.get('directory-data'),
+        lastLabel = '',
         addressOptions = addressList().filter(function (address) {
             return address.getType() === 'customer-address';
         });
