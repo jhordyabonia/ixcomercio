@@ -38,15 +38,8 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         </div>
     </div>
     <script type="text/javascript">
-        //$(document).ready(function(){
-          //$('#items_en_uso span').click(function(){
-            //alert($(this).attr('id'))
-          //})
-        //})
-
-        $('#store.menu li a').on('click', function(){
-            alert("funciona!");
-            alert($(this).val());
+        $('.ui-corner-all').on('click', function(e){
+            debugger;
         });
     </script>
 <?php endif; ?>
