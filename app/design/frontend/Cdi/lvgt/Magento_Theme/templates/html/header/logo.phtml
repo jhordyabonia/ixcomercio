@@ -16,12 +16,18 @@
     class="logo"
     href="<?= $block->getUrl('') ?>"
     title="<?= /* @escapeNotVerified */ $storeName ?>"
-    aria-label="store logo">
+    aria-label="store logo"
+    onclick="mensaje()">
     <img src="<?= /* @escapeNotVerified */ $block->getLogoSrc() ?>"
          title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
          alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
          <?= $block->getLogoWidth() ? 'width="' . $block->getLogoWidth() . '"' : '' ?>
          <?= $block->getLogoHeight() ? 'height="' . $block->getLogoHeight() . '"' : '' ?>
     />
-    texto html
 </a>
+<script type="text/javascript">
+  function mensaje (){
+    alert("El mensaje funciona");
+  }
+  dataLayer.push({'event':'ga_event','category':'Header','action':'Logo','label':'Home'});
+</script>
