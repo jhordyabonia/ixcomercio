@@ -38,8 +38,11 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         </div>
     </div>
     <script type="text/javascript">
-        $('#ui-id-1').on('click', function(e){
+        $(document).ready(function(){
+          $('#ui-id-1').on('click', function(e){
             debugger;
+          });
         });
+        
     </script>
 <?php endif; ?>
