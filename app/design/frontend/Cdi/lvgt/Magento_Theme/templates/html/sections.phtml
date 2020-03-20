@@ -38,10 +38,12 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
+        /*$(document).ready(function(){
           $('.showcart').click(function(e){
             alert("mensaje");
           });
-        });
+        });*/
+
+        document.getElementsByClassName('showcart').onclick = alert("se hizo click");
     </script>
 <?php endif; ?>
