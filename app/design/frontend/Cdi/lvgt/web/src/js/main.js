@@ -1,7 +1,7 @@
 require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($, $tr) {
 
     jQuery(document).ready(function() {
-
+alert('test');
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
 
