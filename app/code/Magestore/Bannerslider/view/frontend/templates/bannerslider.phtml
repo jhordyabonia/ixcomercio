@@ -25,12 +25,19 @@
     <?php echo $block->getChildHtml(); ?>
 </div>
 <script type="text/javascript">
-    (function(){
+    var elemento = document.getElementsByClassName('flex-prev');
+    elemento.addEventListener("click", saludo);
+    
+    function saludo(){
+        alert("Banner anterior");
+    };
+
+    /*(function(){
         var saludo = function(){
             alert("Banner anterior");
         };
-        
+
         var elemento = document.getElementsByClassName('flex-prev');
         elemento.addEventListener("click", saludo);
-    })
+    })*/
 </script>
