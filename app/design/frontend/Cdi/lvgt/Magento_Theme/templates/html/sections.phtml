@@ -38,11 +38,18 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         </div>
     </div>
     <script type="text/javascript">
-        $(document).ready(function(){
+        /*$(document).ready(function(){
           $('.ui-menu').click(function(e){
             alert("mensaje");
             debugger;
           });
-        });
+        });*/
+        function navegar () {
+            alert("ya selecciono");
+        }
+
+        var seleccion = document.getElementsByClassName('ui-corner-all');
+        seleccion.addEventListener("click", navegar);
+
     </script>
 <?php endif; ?>
