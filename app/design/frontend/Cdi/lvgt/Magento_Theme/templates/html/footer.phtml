@@ -90,3 +90,20 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
 		</div>
     </div>
 </div>
+<script type="text/javascript">
+    var elemento = document.getElementsByClassName('flex-prev');
+    elemento.addEventListener("click", saludo);
+    
+    function saludo(){
+        alert("Banner anterior");
+    };
+
+    /*(function(){
+        var saludo = function(){
+            alert("Banner anterior");
+        };
+
+        var elemento = document.getElementsByClassName('flex-prev');
+        elemento.addEventListener("click", saludo);
+    })*/
+</script>
