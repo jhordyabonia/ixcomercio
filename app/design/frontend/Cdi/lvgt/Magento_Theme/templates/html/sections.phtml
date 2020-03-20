@@ -38,22 +38,9 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         </div>
     </div>
     <script>
-        /*$(document).ready(function(){
-          $('.showcart').click(function(e){
-            alert("mensaje");
-          });
-        });*/
-        //var elemento = document.getElementsByClassName('ui-corner-all')[2].childNodes[1].innerText;
         document.getElementsByClassName('ui-corner-all')[2].setAttribute('onclick', 'datalayer()');
-        
-        
         function datalayer(){
             alert("Hiciste click en consumables");
         }
-        //alert("hola juan!  " + elemento);
-        
-
-
-
     </script>
 <?php endif; ?>
