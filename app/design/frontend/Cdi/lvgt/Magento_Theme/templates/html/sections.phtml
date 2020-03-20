@@ -45,7 +45,8 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         });*/
         //var elemento = document.getElementsByClassName('ui-corner-all')[2].childNodes[1].innerText;
         var elemento = document.getElementsByClassName('ui-corner-all')[2];
-        elemento.addEventListener("click", datalayer);
+        elemento.setAttribute('onclick', 'datalayer()');
+        
         function datalayer(){
             alert("Hiciste click en consumables");
         }
