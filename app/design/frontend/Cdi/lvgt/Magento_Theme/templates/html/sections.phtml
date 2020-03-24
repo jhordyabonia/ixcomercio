@@ -44,12 +44,13 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         function datalayer(){
             alert("Hiciste click en consumables");
         }*/
-        $(document).ready(function(){
-            /*$( ".navigation" ).change(function() {
-                alert( "Handler for .change() called." );
-            });*/
-            alert("si usa jquery");
-        })
+       
+        require(['jquery'], function($){
+            $(document).ready(function () {
+                alert("si usa jquery");
+                });
+        });
+            
         
     </script>
 <?php endif; ?>
