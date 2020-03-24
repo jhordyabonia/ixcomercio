@@ -38,9 +38,17 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
         </div>
     </div>
     <script>
-        document.getElementsByClassName('ui-corner-all')[2].setAttribute('onclick', 'datalayer()');
+        //var elemento = document.getElementsByClassName('ui-corner-all')[2].childNodes[1].innerText;
+        /*document.getElementsByClassName('ui-corner-all')[2].setAttribute('onclick', 'datalayer()');
+        
         function datalayer(){
             alert("Hiciste click en consumables");
-        }
+        }*/
+        $(document).ready(function(){
+            $( ".navigation" ).change(function() {
+                alert( "Handler for .change() called." );
+            });
+        })
+        
     </script>
 <?php endif; ?>
