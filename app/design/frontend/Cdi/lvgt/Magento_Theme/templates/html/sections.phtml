@@ -47,10 +47,11 @@ $groupBehavior = $block->getGroupBehaviour() ? $block->getGroupBehaviour() : '{"
        
         require(['jquery'], function($){
             $(document).ready(function () {
-                alert("si usa jquery");
+                $("#store.menu").click(function(){
+                    alert("Seleccionaste el menu");
                 });
+                //alert("si usa jquery");
+            });
         });
-            
-        
     </script>
 <?php endif; ?>
