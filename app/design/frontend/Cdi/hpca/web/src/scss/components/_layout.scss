@@ -341,7 +341,7 @@ section{
       .column.main{
         margin-top: 40px;
         @media only screen and (min-width: $tablet){
-          min-height: none;
+          min-height: auto;
         }
       }
       .column.main, .sidebar-main{
