@@ -362,8 +362,13 @@ class GetCatalog {
             }
             if($catalog->Category->Subcategories && count($catalog->Category->Subcategories)>0){
                 $categoryTmp->setIsAnchor(0);
-                $categoryTmp->setCustomLayoutUpdate('1column');
+                $categoryTmp->setPageLayout('1column');
             }
+            //Corrige error de layout
+            if($categoryTmp->getCustomLayoutUpdate() == '1column'){
+                $categoryTmp->setCustomLayoutUpdate('');
+            }
+
             $categoryTmp->setIwsId($catalog->Category->CategoryId);
             $categoryTmp->setStoreId($storeId);
             try{
