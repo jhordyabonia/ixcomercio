@@ -41,67 +41,37 @@ $lid            = $this->getReference();
 $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
 $order          = $objectManager->create('Magento\Sales\Model\Order');
 $orderInfo      = $order->loadByIncrementId($lid);
-echo '<pre>';
-echo '<hr>';
-print_r($orderInfo->getBaseTaxAmount());
-die;
-#print_r($order->getBaseDiscountTaxCompensationAmount());
-#print_r($order->getBaseDiscountTaxCompensationInvoiced());
-#print_r($order->getBaseDiscountTaxCompensationRefunded());
-#print_r($order->getBaseShippingDiscountTaxCompensationAmnt());
-#print_r($order->getBaseShippingInclTax());
-#print_r($order->getBaseShippingTaxAmount());
-#print_r($order->getBaseShippingTaxRefunded());
-#print_r($order->getBaseSubtotalInclTax());
-#print_r($order->getBaseTaxAmount());
-#print_r($order->getBaseTaxCanceled());
-#print_r($order->getBaseTaxInvoiced());
-#print_r($order->getBaseTaxRefunded());
-#print_r($order->getCustomerTaxvat());
-#print_r($order->getDiscountTaxCompensationAmount());
-#print_r($order->getDiscountTaxCompensationInvoiced());
-#print_r($order->getDiscountTaxCompensationRefunded());
-#print_r($order->getShippingDiscountTaxCompensationAmount());
-#print_r($order->getShippingInclTax());
-#print_r($order->getShippingTaxAmount());
-#print_r($order->getShippingTaxRefunded());
-#print_r($order->getSubtotalInclTax());
-#print_r($order->getSubtotalInclTax());
-/*
-foreach(get_class_methods($order) as $metod){
-    echo '<hr>';
-    if ($metod != '__construct'){
-        echo ('<p>'.$metod.'</p>');
-        print_r($_product->$metod());
-    }
-    echo '<hr>';
-}
-*/
-echo '</pre>';
-die;
 $items          = $orderInfo->getAllItems();
 
+$skuQty = array();
+foreach($items as $i){
+    $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
+    $skuQty[$_product->getSku()] = empty($skuQty[$_product->getSku()])? 1 : $skuQty[$_product->getSku()] + 1;
+}
 foreach ($items as $i)
 {
     $_product = $objectManager->create('Magento\Catalog\Model\Product')->load($i->getProductId());
+    
     $producto = "{
         'id': '{$_product->getSku()}',
         'name': '{$_product->getName()}',
         'price': '{$_product->getFinalPrice()}',
         'brand': 'HOM',
         'category': '{$_product->getName()}',
-        'variant': 'productVariant',
-        'quantity': {$_product->getQty()},
-        'coupon': ''
+        'variant': '',
+        'quantity': ".$skuQty[$_product->getSku()].",
+        'coupon': '{$orderInfo->getCouponCode()}'
         
     }";
     $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
 }
 $final_price = $this->getAmount();
-$tax = $order->getTaxAmount();
-$shipping = $order->getShippingAmount();
-$coupon = $order->getCouponCode();
 $order = $this->getReference();
+
+$tax = $orderInfo->getBaseTaxAmount();
+$shipping = $orderInfo->getShippingAmount();
+$coupon = $orderInfo->getCouponCode();
+
 echo <<<JG
 <script type="text/javascript">
     setTimeout(function(){
