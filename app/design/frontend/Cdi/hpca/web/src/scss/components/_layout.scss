@@ -336,29 +336,24 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
-  .container{
-    width: 96%!important;
-    @media only screen and (max-width: 1200px) and (min-width: 769px){
-      max-width: 90%!important;
-    }
-  }
   .page-wrapper{
     .page-main{
+      .column.main{
+        margin-top: 40px;
+        @media only screen and (min-width: $tablet){
+          min-height: auto;
+        }
+      }
+      .column.main, .sidebar-main{
+        width: 100%;
+      }
       .sidebar-main{
+        width: 100%;
         @media only screen and (max-width: $desktop){
           padding: 0;
-          float: left;
-          width: 100%;
-        }
-        @media only screen and (min-width: $tablet){
-          width: 25%;
         }
       }
-      .column.main{
-        @media only screen and (min-width: $tablet){
-          width: 75%;
-        }
-      }
+
     }
   }
 }

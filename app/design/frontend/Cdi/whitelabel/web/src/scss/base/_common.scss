@@ -73,6 +73,9 @@ section{
   width: 100%;
   padding: 20px 0;
   float: left;
+  &.block{
+    margin-bottom: 0;
+  }
   &.section-main-slider{
     padding-top: 0;
   }

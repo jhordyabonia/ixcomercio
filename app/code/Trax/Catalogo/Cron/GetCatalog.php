@@ -61,7 +61,10 @@ class GetCatalog {
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
     \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
-        $this->logger = $logger;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/catCatalog.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        //$this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
         $this->_cacheTypeList = $cacheTypeList;
@@ -362,8 +365,13 @@ class GetCatalog {
             }
             if($catalog->Category->Subcategories && count($catalog->Category->Subcategories)>0){
                 $categoryTmp->setIsAnchor(0);
-                $categoryTmp->setCustomLayoutUpdate('1column');
+                $categoryTmp->setPageLayout('1column');
             }
+            //Corrige error de layout
+            if($categoryTmp->getCustomLayoutUpdate() == '1column'){
+                $categoryTmp->setCustomLayoutUpdate('');
+            }
+
             $categoryTmp->setIwsId($catalog->Category->CategoryId);
             $categoryTmp->setStoreId($storeId);
             try{
