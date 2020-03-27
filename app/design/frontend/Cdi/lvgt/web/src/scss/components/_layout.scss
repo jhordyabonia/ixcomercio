@@ -570,6 +570,11 @@ section{
       border: none;
     }
   }
+  &.action-apply{
+    width: 100%;
+    color: #fff;
+    border-radius: 3px;
+  }
   &.action-update, &.action-edit-address {
     color: #999;
     background: none;
