@@ -551,6 +551,7 @@ class GetCatalog {
         $product->setTaxClassId($configData['tax_id']); // Tax class id
         $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
         $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
+        $product->setData('mpn',$catalog->Mpn); // Add Mpn
         switch($catalog->Type){
             case 'Physical':
                 $product->setTypeId('simple');
