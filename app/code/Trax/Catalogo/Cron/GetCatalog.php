@@ -61,7 +61,7 @@ class GetCatalog {
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
     \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/catCatalog.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getCatalog.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
         //$this->logger = $logger;
@@ -98,9 +98,9 @@ class GetCatalog {
                     $configData = $this->getConfigParams($storeScope, $store->getCode());    
                     //Se carga el servicio por curl
                     if($configData['datos_iws']){  
+                        $this->logger->info('GetCatalog - El website '.$website->getCode().' con store '.$website->getCode().' tiene habilitada la conexión con IWS para obtener el catalogo.');
                         $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
                         if($serviceUrl && !array_key_exists($store->getId(), $storeArray)){ 
-                            echo "store id: ".$store->getId().", code: ".$store->getCode()." - ";
                             $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, 0); 
                             $storeArray[$store->getId()] = $store->getId();
                             //Se reindexa                            
@@ -187,7 +187,9 @@ class GetCatalog {
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        if($data['status']){     
+        $this->logger->info('Response:');
+        $this->logger->info($data);
+        if($data['status']){
             $this->loadCatalogData($data['resp'], $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
             if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
@@ -223,8 +225,8 @@ class GetCatalog {
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
         curl_close($curl);    
-        $this->logger->info('GetCatalog - status code: '.$status_code);
         $this->logger->info('GetCatalog - '.$serviceUrl);
+        $this->logger->info('GetCatalog - status code: '.$status_code);
         $this->logger->info('GetCatalog - curl errors: '.$curl_errors);
         if ($status_code == '200'){
             $response = array(
@@ -238,7 +240,6 @@ class GetCatalog {
             );
         }
         return $response;
-
     }
 
     //Reindexa los productos despues de consultar el catalogo de un store view
