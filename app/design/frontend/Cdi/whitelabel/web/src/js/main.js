@@ -300,7 +300,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		// =============================================
 	    // Get states
 	    // =============================================
-
+/*
 	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
 	    var intervalState;
@@ -344,21 +344,21 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    $( fieldCountry ).change(function() {
 		  	getStates();
 		});
-
+*/
 
 		// =============================================
 	    // Get cities
 	    // =============================================
 
-	    var fieldCity = $('form .fieldset > .field.city #city_id');
-	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
+//	    var fieldCity = $('form .fieldset > .field.city #city_id');
+//	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
 	    /*var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
 	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 						'<option data-title="" value="">Please select a zone.</option>'+
 						'</select>';
 		$(fieldStreet).append(htmlStreet);
 	    $(fieldStreet).find('input').hide();*/
-
+/*
 	    fieldState.on('change', function (e) {
 	    	$('body').trigger('processStart');
 	    	$('#zip').val('');
@@ -428,7 +428,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	
 	    	$('body').trigger('processStop');
 	    });
-
+*/
 
 
 
