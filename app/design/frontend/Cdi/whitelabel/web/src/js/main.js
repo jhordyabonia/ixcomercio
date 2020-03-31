@@ -307,7 +307,10 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 
 	    function getStates(){
 	    	$('body').trigger('processStart');
-	    	$('#zip').val('');
+
+	    	$('input[name="postcode"]').parents('.field').hide();
+	    	$('input[name="postcode"]').val('');
+
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
@@ -434,14 +437,14 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
-	    function getStatesCheckout(obj){
+	    function getStatesCheckout(obj, zone){
 	    	$('body').trigger('processStart');
 
 	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
-	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
+	    	var fieldZoneCheckout = $(obj).find(zone).parent();
 
 		    $(fieldStreetCheckout).find('input').hide();
 		    $(fieldZoneCheckout).find('input').hide();
@@ -584,7 +587,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
-		        	getStatesCheckout('form .fieldset.address');
+		        	getStatesCheckout('form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
@@ -597,7 +600,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        if($(this).prop('checked') == false){
 			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-	                	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	                	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
@@ -609,7 +612,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	flagBillingForm += 1;
 	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 	        if(flagBillingForm <= 1){
-	        	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	        	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 	        }
 	    });
 
