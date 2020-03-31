@@ -509,6 +509,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							dataType: 'json',
 							success: function(resState) {
 								$(fieldCityCheckout).find('select').attr("disabled", false);
+								console.log('city disabled');
 								$(fieldCityCheckout).find('select option:not([value=""])').remove();
 								$.each(resState, function(iState, valState){
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
