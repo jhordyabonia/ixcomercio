@@ -440,6 +440,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    function getStatesCheckout(obj, zone){
 	    	$('body').trigger('processStart');
 
+	    	console.log('inicia getStatesCheckout');
+
 	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 
