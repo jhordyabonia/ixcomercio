@@ -502,7 +502,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
-				    	console.log("select " + $(selectStateCheckout));
+				    	console.log("select " + $(selectStateCheckout).attr('id'));
 				    	console.log("parentId " + $(selectStateCheckout).find('option:selected').attr('parentId'));
 				    	$.ajax({
 							url: '/places/search/',
