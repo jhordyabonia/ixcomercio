@@ -596,6 +596,19 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	      	}, 1000);
 	    }
 
+
+	    if (window.location.href.indexOf("customer") > -1) {
+	    	alert('test');
+	    	intervalState = setInterval(function(){
+    			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
+    			if($(fieldStateCheckout).length >= 1){
+		        	getStatesCheckout('form.form-address-edit .fieldset', '> .field input[name="zone_id"]');
+		          	clearInterval(intervalState);
+		        }
+	      	}, 1000);
+	    }
+
+
 	    var flagBillingForm = 0;
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
 	    	if($('.field-select-billing select').length == 0){
