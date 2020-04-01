@@ -598,7 +598,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    if (window.location.href.indexOf("customer") > -1) {
-	    	alert('test');
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
