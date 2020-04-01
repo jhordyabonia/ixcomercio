@@ -356,6 +356,8 @@ section{
             position: relative;
             margin: 0;
             strong, a{
+              width: 100%;
+              display: inline-block;
               &:after{
                 top: 50%;
                 right: 10px;
