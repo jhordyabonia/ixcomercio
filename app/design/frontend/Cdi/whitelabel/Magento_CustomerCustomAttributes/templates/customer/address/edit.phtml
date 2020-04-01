@@ -15,6 +15,7 @@
  */
 /** @var \Magento\Customer\Helper\Address $addressHelper */
 $addressHelper = $this->helper('Magento\Customer\Helper\Address');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked');
 ?>
 <form class="form-address-edit" action="<?= /* @escapeNotVerified */ $block->getSaveUrl() ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>">
@@ -51,6 +52,40 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
     </fieldset>
     <fieldset class="fieldset">
         <legend class="legend"><span><?= /* @escapeNotVerified */ __('Address') ?></span></legend><br>
+        <?php if ($addressHelper->isVatAttributeVisible()) : ?>
+            <div class="field taxvat">
+                <label class="label" for="vat_id"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('vat_id') ?></span></label>
+                <div class="control">
+                    <input type="text" name="vat_id" value="<?= $block->escapeHtml($block->getAddress()->getVatId()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('vat_id') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('vat_id') ?>" id="vat_id"/>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="field country required">
+            <label class="label" for="country"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('country_id') ?></span></label>
+            <div class="control">
+                <?= $block->getCountryHtmlSelect() ?>
+            </div>
+        </div>
+        <div class="field region required">
+            <label class="label" for="region_id"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?></span></label>
+            <div class="control">
+                <select id="region_id" name="region_id" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="validate-select region_id" <?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>>
+                    <option value=""><?= /* @escapeNotVerified */ __('Please select a region, state or province.') ?></option>
+                </select>
+                <input type="text" id="region" name="region" value="<?= $block->escapeHtml($block->getRegion()) ?>"  title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
+            </div>
+        </div>
+        <?php
+        if($block->getAddress() && $block->getAddress()->getId()){
+            $_helperCdi->getAddressData($block->getAddress()->getId());
+        }
+        ?>
+        <div class="field city required">
+            <label class="label" for="city"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?></span></label>
+            <div class="control">
+                <input type="text" name="city" value="<?= $block->escapeHtml($block->getAddress()->getCity()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city"/>
+            </div>
+        </div>
         <?php $_streetValidationClass = $addressHelper->getAttributeValidationClass('street'); ?>
         <div class="field street required">
             <label for="street_1" class="label"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?></span></label>
@@ -71,30 +106,6 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
                 </div>
             </div>
         </div>
-
-        <?php if ($addressHelper->isVatAttributeVisible()) : ?>
-            <div class="field taxvat">
-                <label class="label" for="vat_id"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('vat_id') ?></span></label>
-                <div class="control">
-                    <input type="text" name="vat_id" value="<?= $block->escapeHtml($block->getAddress()->getVatId()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('vat_id') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('vat_id') ?>" id="vat_id"/>
-                </div>
-            </div>
-        <?php endif; ?>
-        <div class="field city required">
-            <label class="label" for="city"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?></span></label>
-            <div class="control">
-                <input type="text" name="city" value="<?= $block->escapeHtml($block->getAddress()->getCity()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city') ?>" id="city"/>
-            </div>
-        </div>
-        <div class="field region required">
-            <label class="label" for="region_id"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?></span></label>
-            <div class="control">
-                <select id="region_id" name="region_id" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="validate-select region_id" <?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>>
-                    <option value=""><?= /* @escapeNotVerified */ __('Please select a region, state or province.') ?></option>
-                </select>
-                <input type="text" id="region" name="region" value="<?= $block->escapeHtml($block->getRegion()) ?>"  title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="input-text <?= /* @escapeNotVerified */ $this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region') ?>"<?= (!$block->getConfig('general/region/display_all')) ? ' disabled="disabled"' : '';?>/>
-            </div>
-        </div>
         <div class="field zip required">
             <label class="label" for="zip"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?></span></label>
             <div class="control">
@@ -102,12 +113,6 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
                 <div role="alert" class="message warning" style="display:none">
                     <span></span>
                 </div>
-            </div>
-        </div>
-        <div class="field country required">
-            <label class="label" for="country"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('country_id') ?></span></label>
-            <div class="control">
-                <?= $block->getCountryHtmlSelect() ?>
             </div>
         </div>
 
