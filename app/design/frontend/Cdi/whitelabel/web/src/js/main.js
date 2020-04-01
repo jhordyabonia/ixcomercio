@@ -598,9 +598,12 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    if (window.location.href.indexOf("customer") > -1) {
+	    	console.log("entra if");
 	    	intervalState = setInterval(function(){
+	    		console.log("entra interval");
     			fieldStateCheckout = $('form .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
+    				console.log("llama fn");
 		        	getStatesCheckout('form.form-address-edit .fieldset', '> .field input[name="zone_id"]');
 		          	clearInterval(intervalState);
 		        }
