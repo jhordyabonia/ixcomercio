@@ -599,7 +599,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 	    if (window.location.href.indexOf("customer") > -1) {
 	    	intervalState = setInterval(function(){
-    			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
+    			fieldStateCheckout = $('form .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout('form.form-address-edit .fieldset', '> .field input[name="zone_id"]');
 		          	clearInterval(intervalState);
