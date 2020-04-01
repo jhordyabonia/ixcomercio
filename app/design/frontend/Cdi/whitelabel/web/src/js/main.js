@@ -440,8 +440,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    function getStatesCheckout(obj, zone){
 	    	$('body').trigger('processStart');
 
-	    	console.log('inicia getStatesCheckout');
-
 	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 
@@ -504,6 +502,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
+				    	console.log($(selectStateCheckout).find('option:selected').attr('parentId'));
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -598,13 +597,10 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    if (window.location.href.indexOf("customer") > -1) {
-	    	console.log("entra if");
 	    	intervalState = setInterval(function(){
-	    		console.log("entra interval");
-    			fieldStateCheckout = $('form .fieldset input[name="region"]').parent();
+	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
-    				console.log("llama fn");
-		        	getStatesCheckout('form.form-address-edit .fieldset', '> .field input[name="zone_id"]');
+    				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
