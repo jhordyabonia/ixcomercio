@@ -1,4 +1,4 @@
-require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
@@ -300,14 +300,17 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		// =============================================
 	    // Get states
 	    // =============================================
-
+/*
 	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
 	    var intervalState;
 
 	    function getStates(){
 	    	$('body').trigger('processStart');
-	    	$('#zip').val('');
+
+	    	$('input[name="postcode"]').parents('.field').hide();
+	    	$('input[name="postcode"]').val('');
+
 	    	$.ajax({
 			    url: '/places/search/',
 			    type: 'GET',
@@ -341,21 +344,21 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    $( fieldCountry ).change(function() {
 		  	getStates();
 		});
-
+*/
 
 		// =============================================
 	    // Get cities
 	    // =============================================
 
-	    var fieldCity = $('form .fieldset > .field.city #city_id');
-	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
+//	    var fieldCity = $('form .fieldset > .field.city #city_id');
+//	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
 	    /*var fieldStreet = $('form .fieldset > .field.street .control .nested .additional .control');
 	    var htmlStreet = '<select id="fieldSelectStreet" class="select" name="street2_id" aria-required="true" aria-invalid="false">'+
 						'<option data-title="" value="">Please select a zone.</option>'+
 						'</select>';
 		$(fieldStreet).append(htmlStreet);
 	    $(fieldStreet).find('input').hide();*/
-
+/*
 	    fieldState.on('change', function (e) {
 	    	$('body').trigger('processStart');
 	    	$('#zip').val('');
@@ -425,7 +428,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	
 	    	$('body').trigger('processStop');
 	    });
-
+*/
 
 
 
@@ -434,14 +437,14 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
-	    function getStatesCheckout(obj){
+	    function getStatesCheckout(obj, zone){
 	    	$('body').trigger('processStart');
 
 	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
-	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
+	    	var fieldZoneCheckout = $(obj).find(zone).parent();
 
 		    $(fieldStreetCheckout).find('input').hide();
 		    $(fieldZoneCheckout).find('input').hide();
@@ -457,7 +460,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
-	    					'<option data-title="" value="">Please select a region, state or province.</option>';
+	    					'<option data-title="" value="">'+$.mage.__("Please select a region, state or province.")+'</option>';
 
 				        $.each(res, function(iRes, valRes){
 				        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
@@ -481,12 +484,12 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 			    	
 			    	$(fieldCityCheckout).find('input').hide();
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a city.</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Please select a city.")+'</option>'+
 	    							'</select>';
 	    			$(fieldCityCheckout).append(htmlCities);
 
 	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">Please select a zone.</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
 	    							'</select>';
 	    			$(fieldZoneCheckout).append(htmlZones);
 
@@ -495,10 +498,11 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
-				    var selectStateCheckout = $(fieldStateCheckout).find('select');
+				    var selectStateCheckout = $(fieldStateCheckout).find('select#fieldStateCheckout');
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
+				    	console.log("parentId " + $(selectStateCheckout).find('option:selected').attr('parentId'));
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -506,6 +510,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 							dataType: 'json',
 							success: function(resState) {
 								$(fieldCityCheckout).find('select').attr("disabled", false);
+								console.log('city disabled');
 								$(fieldCityCheckout).find('select option:not([value=""])').remove();
 								$.each(resState, function(iState, valState){
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
@@ -584,11 +589,23 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
-		        	getStatesCheckout('form .fieldset.address');
+		        	getStatesCheckout('form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
 	    }
+
+
+	    if (window.location.href.indexOf("customer") > -1) {
+	    	intervalState = setInterval(function(){
+	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
+    			if($(fieldStateCheckout).length >= 1){
+    				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
+		          	clearInterval(intervalState);
+		        }
+	      	}, 1000);
+	    }
+
 
 	    var flagBillingForm = 0;
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
@@ -597,7 +614,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 		        if($(this).prop('checked') == false){
 			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-	                	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	                	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
@@ -609,7 +626,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    	flagBillingForm += 1;
 	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 	        if(flagBillingForm <= 1){
-	        	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	        	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 	        }
 	    });
 
