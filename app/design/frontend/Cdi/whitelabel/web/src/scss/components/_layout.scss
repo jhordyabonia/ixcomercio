@@ -343,6 +343,26 @@ section{
       }
       .column.main, .sidebar-main{
         width: 100%;
+        .cms-menu{
+          li{
+            width: 100%;
+            color: #000;
+            font-size: 16px;
+            font-weight: 400;
+            text-decoration: none;
+            text-align: left!important;
+            border-top: 1px solid #ddd;
+            padding: 20px 15px;
+            position: relative;
+            margin: 0;
+            strong{
+
+            }
+            a{
+
+            }
+          }
+        }
       }
       .sidebar-main{
         width: 100%;
