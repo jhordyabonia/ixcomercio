@@ -355,11 +355,27 @@ section{
             padding: 20px 15px;
             position: relative;
             margin: 0;
-            strong{
-
+            strong, a{
+              &:after{
+                top: 50%;
+                right: 10px;
+                color: $mainColor;
+                content: '\e608';
+                font-size: 32px;
+                font-weight: bold;
+                line-height: normal;
+                font-family: 'icons-blank-theme';
+                vertical-align: middle;
+                display: inline-block;
+                position: absolute;
+                margin-top: -16px;
+              }
+              &:hover{
+                color: $mainColor;
+              }
             }
             a{
-
+              color: #000;
             }
           }
         }
