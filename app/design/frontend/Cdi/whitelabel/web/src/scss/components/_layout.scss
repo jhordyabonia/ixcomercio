@@ -337,6 +337,10 @@ section{
     .columns{
       .pull-right{
         text-align: left;
+        ol, ul{
+          list-style: inherit;
+          list-style-position: inside;
+        }
       }
     }
   }
