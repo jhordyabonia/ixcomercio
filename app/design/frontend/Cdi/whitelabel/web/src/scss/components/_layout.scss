@@ -352,12 +352,15 @@ section{
               border-top: 1px solid #ddd;
             }
             &:after{
-              font-size: 26px;
-              line-height: 22px;
+              top: 50%;
+              right: 15px;
               color: #d5d5d5;
               content: '\e622';
-              font-family: 'icons-blank-theme';
+              font-size: 26px;
+              line-height: 22px;
               font-weight: normal;
+              font-family: 'icons-blank-theme';
+              transform: translateY(-50%);
               speak: none;
               position: absolute;
             }
@@ -372,9 +375,7 @@ section{
           }
           div[data-role="content"]{
             padding: 20px 15px;
-            &:last-child{
-              border-bottom: 1px solid #e5e5e5;
-            }
+            border-bottom: 1px solid #e5e5e5;
           }
         }
       }
