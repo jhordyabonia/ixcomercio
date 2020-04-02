@@ -1,38 +1,9 @@
-<div data-mage-init='{"hello": {"message": "HELLO WORLD!"}}'>
-    Content
-    <?php
+<?php
     $_helper = $this->helper('FlixMedia\Js\Helper\Data');
-    var_dump("helper",$_helper,$_helper->getSku());
-    $_product = $block->getProduct();
-    var_dump("product",$_product,$_product->getSku());
-    ?>
+    $_product = $_helper->getProduct(); 
+?>
+<div data-mage-init='{"hello": {"message": "<?= $_product->getMpn() ?>"}}'>
+    Content
+    <div id="flix-minisite"></div>
+    <div id="flix-inpage"></div>  
 </div>
-
-<script>
-$( document ).ready(function() {
-    var product_mpn =  jQuery('#product-attribute-specs-table').find('.label').each(function(){
-    if(jQuery(this).text()==='MPN')
-        (jQuery(this).next('.data').text())
-    });
-    var product_brand =  jQuery('#product-attribute-specs-table').find('.label').each(function(){
-        if(jQuery(this).text()==='Manufacturer')
-        (jQuery(this).next('.data').text())
-    });
-    var headID = document.getElementsByTagName("head")[0];
-    var flixScript = document.createElement('script');
-    flixScript.type = 'text/javascript';
-    flixScript.src = '//media.flixfacts.com/js/loader.js';
-    flixScript.setAttribute('data-flix-distributor', {distributor_id});
-    flixScript.setAttribute('data-flix-language', {language_code});
-    flixScript.setAttribute('data-flix-brand', {brand});
-    flixScript.setAttribute('data-flix-ean', '{ean}');
-    flixScript.setAttribute('data-flix-mpn', {mpn});
-    flixScript.setAttribute('data-flix-button', 'flix-minisite');
-    flixScript.setAttribute('data-flix-inpage', 'flix-inpage');
-    flixScript.setAttribute('data-flix-price', '');
-    flixScript.setAttribute('data-flix-fallback-language', 'en');
-    headID.appendChild(flixScript);
-});
-</script>
-<div id="flix-minisite"></div>
-<div id="flix-inpage"></div>

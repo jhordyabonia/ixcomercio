@@ -1,30 +1,24 @@
 <?php
 namespace FlixMedia\Js\Helper;
 
-use Magento\Framework\Registry;
+use Magento\Framework\App\Helper\AbstractHelper;
 
 class Data extends AbstractHelper{
 
-	/**
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry;
+	protected $_coreRegistry;
 	
-	/**
-	 * @param \Magento\Framework\Registry $registry
-	 */
 	public function __construct(
-		Registry $registry
+		\Magento\Catalog\Block\Product\Context $productContext
 	){
-		$this->registry = $registry;	
+		$this->_coreRegistry = $productContext->getRegistry();	
 	}
 	
 	/**
      * Get current product
      * @return mixed
      */
-    public function getProduct()
+	public function getProduct()
     {
-        return $this->registry->registry('current_product');
+        return $this->_coreRegistry->registry('product');
     }
 }
