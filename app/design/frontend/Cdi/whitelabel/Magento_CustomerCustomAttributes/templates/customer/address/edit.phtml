@@ -76,8 +76,9 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
             </div>
         </div>
         <?php
+        $addressWSData = false;
         if($block->getAddress() && $block->getAddress()->getId()){
-            $_helperCdi->getAddressData($block->getAddress()->getId());
+            $addressWSData = $_helperCdi->getAddressData($block);
         }
         ?>
         <div class="field city required">
@@ -178,5 +179,18 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
                 "countriesWithOptionalZip": <?= /* @escapeNotVerified */ $this->helper('Magento\Directory\Helper\Data')->getCountriesWithOptionalZip(true) ?>
             }
         }
-    }
+    };
+</script>
+<script>
+    require(['jquery'], function ($) {
+        <?php if($addressWSData): ?>
+            var addressAdditional = <?php echo json_encode($addressWSData);?>;
+            var zoneId = $('#zone_id').val();
+            //TOMAR ESTAS VARIABLES
+            console.log('country: ' + addressAdditional.country);
+            console.log('region: ' + addressAdditional.region);
+            console.log('city: ' + addressAdditional.city);
+            console.log('zoneid: ' + zoneId);
+        <?php endif; ?>    
+    });
 </script>

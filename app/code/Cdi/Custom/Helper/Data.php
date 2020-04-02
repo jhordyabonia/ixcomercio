@@ -212,10 +212,23 @@ class Data extends AbstractHelper{
 	/*
 	 * Retorna la información de una direcicón según su id
 	*/
-	public function getAddressData($id){
-		echo '<pre>';
-        var_dump($id);
-        echo '</pre>';
+	public function getAddressData($block){
+		if($block->getAddress()){
+			//clean region
+			$region = $block->getRegion();
+			if($region){
+				$_region = explode('.', $region);
+				$region = (count($_region) == 2) ? $_region[1] : $region;
+			}
+			//data
+			$data = array(
+				'country' => $block->getAddress()->getCountryId(),
+				'region' => $region,
+				'city' => $block->getAddress()->getCity(),
+			);
+			return $data;
+		}
+		return false;
 	}
  
 }
