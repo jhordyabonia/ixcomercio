@@ -333,6 +333,13 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
+  &.cms-page-view{
+    .columns{
+      .pull-right{
+        text-align: left;
+      }
+    }
+  }
   .page-wrapper{
     .page-main{
       .column.main{
@@ -378,6 +385,10 @@ section{
             }
             a{
               color: #000;
+              text-decoration: none;
+            }
+            strong{
+              color: $mainColor;
             }
           }
         }
