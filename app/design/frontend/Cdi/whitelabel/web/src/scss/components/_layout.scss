@@ -341,6 +341,41 @@ section{
           list-style: inherit;
           list-style-position: inside;
         }
+        .accordion{
+          margin-top: 20px;
+          div[data-role="collapsible"]{
+            padding: 10px 15px;
+            background: #f5f5f5;
+            font-weight: 500;
+            &:after{
+              font-size: 26px;
+              line-height: 22px;
+              color: #d5d5d5;
+              content: '\e622';
+              font-family: 'icons-blank-theme';
+              margin: 0;
+              vertical-align: top;
+              display: inline-block;
+              font-weight: normal;
+              overflow: hidden;
+              speak: none;
+              text-align: center;
+            }
+            &[aria-expanded="true"]{
+              color: white;
+              background: $mainColor;
+              &:after{
+                color: white;
+              }
+            }
+          }
+          div[data-role="content"]{
+            padding: 20px 15px;
+            &:last-child{
+              border-bottom: 1px solid #e5e5e5;
+            }
+          }
+        }
       }
     }
   }
