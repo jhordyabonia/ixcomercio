@@ -1,7 +1,7 @@
 var config = {
     map: {
         '*': {
-            hello:           'FlixMedia_Js/js/hello',
+            data: 'FlixMedia_Js/js/data',
         }
     }
 };
