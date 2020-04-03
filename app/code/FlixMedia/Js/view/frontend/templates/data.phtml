@@ -2,7 +2,14 @@
     $_helper = $this->helper('FlixMedia\Js\Helper\Data');
     $_product = $_helper->getProduct(); 
 ?>
-<div data-mage-init='{"data": {"mpn": "<?= $_product->getMpn() ?>"}}'>
-    <button id="flix-minisite"></button>
+<div data-mage-init='
+{"data": 
+{
+    "mpn": "<?= $_product->getMpn() ?>",
+    "sku": "<?= $_product->getSku() ?>",
+    "brand": "Samsung",
+    "distributor": "9040",
+    "language":"cr"
+}}'>
     <div id="flix-inpage"></div>
 </div>

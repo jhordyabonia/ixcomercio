@@ -6,10 +6,10 @@ define([
             $(document).ready(function() {
                 $('#flix-inpage').detach().appendTo($('#description'));
                 var product_mpn = config.mpn;
-                var product_ean = ""; 
-                var product_brand = "Samsung";
-                var distributor = "9040";
-                var language = "cr";
+                var product_ean = config.sku; 
+                var product_brand = config.brand;
+                var distributor = config.distributor;
+                var language = config.language;
                 var headID = document.getElementsByTagName("head")[0];
                 var flixScript = document.createElement('script'); 
                 flixScript.type = 'text/javascript'; 
