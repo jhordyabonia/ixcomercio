@@ -436,10 +436,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    // =============================================
 		function sendWSData(country, region, city, zone){
 			arrWSData = [country , region, city, zone];
+			console.log(arrWSData);
 		};
-
-		console.log(addressAdditional);
-		console.log(arrWSData);
+		
 
 
 	    // =============================================
