@@ -469,6 +469,15 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+
+		    			if (arrWSData.length != 0) {
+							var options = $('#fieldStateCheckout option');
+							$.each(options, function(iO, valO){
+								if($(valO).text() == arrWSData[1]){
+									$(val).prop('selected', true)
+								}
+							});
+						}
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
