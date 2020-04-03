@@ -430,13 +430,15 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    });
 */
 
+
 		// =============================================
 	    // Data Edit Address
 	    // =============================================
 		var arrWSData = [];
-		sendWSData(country, region, city, zone){
+		function sendWSData(country, region, city, zone){
 			arrWSData = [country , region, city, zone];
-		}
+		};
+
 
 	    // =============================================
 	    // Print select Address checkout
