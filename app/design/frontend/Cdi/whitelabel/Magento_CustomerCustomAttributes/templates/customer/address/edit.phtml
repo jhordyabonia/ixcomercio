@@ -188,7 +188,7 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
             var zoneId = $('#zone_id').val();
             //TOMAR ESTAS VARIABLES
 
-            var arrWSData = [addressAdditional.country , addressAdditional.region, addressAdditional.city, zoneId];
+            sendWSData();
             console.log('data: ' + arrWSData);
             /*
             console.log('country: ' + addressAdditional.country);
