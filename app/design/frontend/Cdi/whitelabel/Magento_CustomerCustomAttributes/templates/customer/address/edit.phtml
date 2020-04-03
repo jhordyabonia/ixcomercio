@@ -191,12 +191,9 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
             // =============================================
             // Data Edit Address
             // =============================================
-            var arrWSData = [];
-            function sendWSData(country, region, city, zone){
-                arrWSData = [country , region, city, zone];
-                return arrWSData;
-                console.log('data: ' + arrWSData);
-            };
+            var arrWSData = [addressAdditional.country , addressAdditional.region, addressAdditional.city, zoneId];
+            return arrWSData;
+            
             
             /*
             console.log('country: ' + addressAdditional.country);
