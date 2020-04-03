@@ -342,12 +342,13 @@ section{
           list-style-position: inside;
         }
         .accordion{
-          margin-top: 20px;
+          margin: 30px 0;
           div[data-role="collapsible"]{
             padding: 10px 15px;
             font-weight: 500;
             border-bottom: 1px solid #ddd;
             position: relative;
+            cursor: pointer;
             &:first-child{
               border-top: 1px solid #ddd;
             }
@@ -361,8 +362,9 @@ section{
               font-weight: normal;
               font-family: 'icons-blank-theme';
               transform: translateY(-50%);
-              speak: none;
+              pointer-events: none;
               position: absolute;
+              speak: none;
             }
             &[aria-expanded="true"]{
               color: white;

@@ -600,6 +600,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	intervalState = setInterval(function(){
 	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
+    				$('.form-address-edit .field-name-firstname').before($('.field-identification'));
     				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
 		          	clearInterval(intervalState);
 		        }
