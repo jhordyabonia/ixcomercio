@@ -4,6 +4,7 @@ define([
         "use strict";
         return function(config, element) {
             $(document).ready(function() {
+                $('#flix-inpage').detach().appendTo($('#description'));
                 var product_mpn = config.mpn;
                 var product_ean = ""; 
                 var product_brand = "Samsung";
