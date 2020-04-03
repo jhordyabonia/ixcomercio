@@ -195,8 +195,9 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
             function sendWSData(country, region, city, zone){
                 arrWSData = [country , region, city, zone];
                 return arrWSData;
+                console.log('data: ' + arrWSData);
             };
-            console.log('data: ' + arrWSData);
+            
             /*
             console.log('country: ' + addressAdditional.country);
             console.log('region: ' + addressAdditional.region);
