@@ -438,6 +438,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			arrWSData = [country , region, city, zone];
 		};
 
+		console.log(addressAdditional);
+		console.log(arrWSData);
+
 
 	    // =============================================
 	    // Print select Address checkout
