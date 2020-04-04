@@ -584,7 +584,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							  	});
 
 							  	if (arrWSData.length != 0) {
-									var options = $(fieldZoneCheckout).find('select option')
+									var options = $(fieldZoneCheckout).find('select option');
 									$.each(options, function(i, val){
 										if($(val).attr('postalcode') == arrWSData[3]){
 											$(val).prop('selected', true);
