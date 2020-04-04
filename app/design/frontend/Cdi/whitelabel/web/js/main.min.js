@@ -485,7 +485,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							$.each(options, function(i, val){
 								if($(val).text() == arrWSData[1]){
 									$(val).prop('selected', true);
-									$(val).trigger('change');
+									$('#fieldStateCheckout').trigger('change');
 								}
 							});
 						}
@@ -536,11 +536,11 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								});
 
 								if (arrWSData.length != 0) {
-									var options = $(fieldCityCheckout).find('select option')
+									var options = $(fieldCityCheckout).find('select option');
 									$.each(options, function(i, val){
 										if($(val).text() == arrWSData[2]){
 											$(val).prop('selected', true);
-											$(val).trigger('change');
+											$(fieldCityCheckout).find('select').trigger('change');
 										}
 									});
 								}
@@ -584,7 +584,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 									$.each(options, function(i, val){
 										if($(val).attr('postalcode') == arrWSData[3]){
 											$(val).prop('selected', true);
-											$(val).trigger('change');
+											$(fieldZoneCheckout).find('select').trigger('change');
 										}
 									});
 								}
