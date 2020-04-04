@@ -482,8 +482,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 		    			if (arrWSData.length != 0) {
 							var options = $('#fieldStateCheckout option');
-							$.each(options, function(iO, valO){
-								if($(valO).text() == arrWSData[1]){
+							$.each(options, function(i, val){
+								if($(val).text() == arrWSData[1]){
 									$(val).prop('selected', true)
 								}
 							});
