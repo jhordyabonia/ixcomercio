@@ -485,7 +485,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							$.each(options, function(i, val){
 								if($(val).text() == arrWSData[1]){
 									$(val).prop('selected', true);
-									$('#fieldStateCheckout').trigger('change');
+									setTimeout(function(){
+										$('#fieldStateCheckout').trigger('change');
+									},500);
 								}
 							});
 						}
