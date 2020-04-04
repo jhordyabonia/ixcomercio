@@ -484,7 +484,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							var options = $('#fieldStateCheckout option');
 							$.each(options, function(i, val){
 								if($(val).text() == arrWSData[1]){
-									$(val).prop('selected', true)
+									$(val).prop('selected', true);
+									$(val).trigger('change');
 								}
 							});
 						}
@@ -521,7 +522,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
-				    	console.log("parentId " + $(selectStateCheckout).find('option:selected').attr('parentId'));
+				    	
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -529,11 +530,20 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							dataType: 'json',
 							success: function(resState) {
 								$(fieldCityCheckout).find('select').attr("disabled", false);
-								console.log('city disabled');
 								$(fieldCityCheckout).find('select option:not([value=""])').remove();
 								$.each(resState, function(iState, valState){
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
+
+								if (arrWSData.length != 0) {
+									var options = $(fieldCityCheckout).find('select option')
+									$.each(options, function(i, val){
+										if($(val).text() == arrWSData[2]){
+											$(val).prop('selected', true);
+											$(val).trigger('change');
+										}
+									});
+								}
 
 								$('body').trigger('processStop');
 							}
@@ -568,6 +578,16 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
+
+							  	if (arrWSData.length != 0) {
+									var options = $(fieldZoneCheckout).find('select option')
+									$.each(options, function(i, val){
+										if($(val).attr('postalcode') == arrWSData[3]){
+											$(val).prop('selected', true);
+											$(val).trigger('change');
+										}
+									});
+								}
 							  	
 							  	$('body').trigger('processStop');
 							}
