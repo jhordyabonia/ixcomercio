@@ -434,11 +434,12 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		// =============================================
 	    // Data Edit Address
 	    // =============================================
-		function sendWSData(country, region, city, zone){
-			arrWSData = [country , region, city, zone];
-			console.log(arrWSData);
+	    var arrWSData;
+		function getWSData(){
+			arrWSData = $('#arrWSData').text();
+			arrWSData = arrWSData.split(',');
 		};
-		
+
 
 
 	    // =============================================
@@ -618,6 +619,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	intervalState = setInterval(function(){
 	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
+    				getWSData();
     				$('.form-address-edit .field-name-firstname').before($('.field-identification'));
     				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
 		          	clearInterval(intervalState);
