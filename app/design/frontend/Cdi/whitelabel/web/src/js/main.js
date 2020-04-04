@@ -542,7 +542,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 									$.each(options, function(i, val){
 										if($(val).text() == arrWSData[2]){
 											$(val).prop('selected', true);
-											$(fieldCityCheckout).find('select').trigger('change');
+											setTimeout(function(){
+												$(fieldCityCheckout).find('select').trigger('change');
+											},500);
 										}
 									});
 								}
@@ -586,7 +588,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 									$.each(options, function(i, val){
 										if($(val).attr('postalcode') == arrWSData[3]){
 											$(val).prop('selected', true);
-											$(fieldZoneCheckout).find('select').trigger('change');
+											setTimeout(function(){
+												$(fieldZoneCheckout).find('select').trigger('change');
+											},500);
 										}
 									});
 								}
