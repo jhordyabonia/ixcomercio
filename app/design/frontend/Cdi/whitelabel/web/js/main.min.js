@@ -442,6 +442,30 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 
+		function setValueWsElement(elementSrc, elementDest, type){
+			if($(elementSrc).length && elementDest.length){
+				var val = $(elementSrc).val();
+				var options = $(elementDest).find('option');
+				if(options.length){
+					if(type == 'text'){
+						$.each(options, function(iO, valO){
+							if($(valO).text() == val){
+								console.log($(valO).text() + ' == ' + val);
+								$(valO).prop('selected', true);
+								$(elementDest).trigger('change');
+							}
+						});
+					}else if(type == 'val'){
+
+					}
+				}else{
+					console.log('el ws no retornó opciones para ' + $(elementDest).attr('id'));
+				}
+			}
+		}
+
+
+
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
@@ -479,7 +503,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
-
+						/*
 		    			if (arrWSData.length != 0) {
 							var options = $('#fieldStateCheckout option');
 							$.each(options, function(i, val){
@@ -491,6 +515,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								}
 							});
 						}
+						*/
+						setValueWsElement($(obj).find('#region'), $(obj).find('#fieldStateCheckout'), 'text');
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
@@ -536,7 +562,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								$.each(resState, function(iState, valState){
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
-
+/*
 								if (arrWSData.length != 0) {
 									var options = $(fieldCityCheckout).find('select option');
 									$.each(options, function(i, val){
@@ -548,12 +574,14 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 										}
 									});
 								}
+*/
+								setValueWsElement('#city', '#fieldCityCheckout', 'text');
 
 								$('body').trigger('processStop');
 							}
 						});
 
-						var valueState = $(fieldStateCheckout).find('select option:selected');
+						var valueState = $(fieldStateCheckout).find('select#fieldStateCheckout option:selected');
 						$(fieldStateCheckout).find('input').val($(valueState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
@@ -582,7 +610,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
-
+/*
 							  	if (arrWSData.length != 0) {
 									var options = $(fieldZoneCheckout).find('select option');
 									$.each(options, function(i, val){
@@ -594,6 +622,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 										}
 									});
 								}
+*/
+								setValueWsElement('#zone_id', '#fieldZoneCheckout', 'text');
 							  	
 							  	$('body').trigger('processStop');
 							}
