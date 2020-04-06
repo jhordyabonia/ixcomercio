@@ -703,6 +703,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	}else {
 	    		flagBillingForm = 0;
 	    	}
+	    	console.log('flagBillingForm '+flagBillingForm);
 	    });
 
 	    $(document).on('change',"[name='billing_address_id']",function(){
