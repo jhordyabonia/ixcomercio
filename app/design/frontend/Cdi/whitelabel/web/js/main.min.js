@@ -508,7 +508,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 				        html += '</select>';
 
-				        if($(obj).find('#fieldStateCheckout').length != 0){
+				        if($(obj).find('#fieldStateCheckout').length == 0){
 				        	$(fieldStateCheckout).append(html);	
 				        }
 		    			
@@ -544,7 +544,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    							'<option data-title="" value="">'+$.mage.__("Please select a city.")+'</option>'+
 	    							'</select>';
 
-	    			if($(obj).find('#fieldCityCheckout').length != 0){
+	    			if($(obj).find('#fieldCityCheckout').length == 0){
 	    				$(fieldCityCheckout).append(htmlCities);
 	    			}
 
@@ -552,7 +552,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
 	    							'</select>';
 
-	    			if($(obj).find('#fieldZoneCheckout').length != 0){
+	    			if($(obj).find('#fieldZoneCheckout').length == 0){
 	    				$(fieldZoneCheckout).append(htmlZones);
 	    			}
 
