@@ -444,13 +444,13 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 		function setValueWsElement(elementSrc, elementDest, type){
 			if($(elementSrc).length && elementDest.length){
-				var val = $(elementSrc).val();
+				var valSrc = $(elementSrc).val();
 				var options = $(elementDest).find('option');
 				if(options.length){
 					if(type == 'text'){
 						$.each(options, function(iO, valO){
-							if($(valO).text() == val){
-								console.log($(valO).text() + ' == ' + val);
+							if($(valO).text() == valSrc){
+								console.log($(valO).text() + ' == ' + valSrc);
 								$(valO).prop('selected', true);
 								$(elementDest).trigger('change');
 							}
