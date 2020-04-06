@@ -86,5 +86,9 @@
         <!-- Remove pipeline account navigation links -->
         <referenceBlock name="customer-account-navigation-delimiter-1" remove="true"/>
         <referenceBlock name="customer-account-navigation-delimiter-2" remove="true"/>
+        <referenceContainer name="div.col.right">
+            <container name="div.col.right.columnmain" htmlTag="div" htmlClass="column main" before="-" />
+        </referenceContainer>
+        <move element="content" destination="div.col.right.columnmain" />
     </body>
 </page>
