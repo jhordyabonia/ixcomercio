@@ -2,7 +2,6 @@
     $_helper = $this->helper('FlixMedia\Js\Helper\Data');
     $_product = $_helper->getProduct();
     $_config = $_helper->getConfigParams();
-    var_dump($_config);
 ?>
 <div data-mage-init='
 {"data": 
@@ -10,8 +9,8 @@
     "mpn": "<?= $_product->getMpn() ?>",
     "sku": "<?= $_product->getSku() ?>",
     "brand": "Samsung",
-    "distributor": "9040",
-    "language":"cr"
+    "distributor": "<?= $_config["id"] ?>",
+    "language":"<?= $_config["language"] ?>"
 }}'>
     <div id="flix-inpage"></div>
     <div id="flix-minisite" style="display:none"></div>

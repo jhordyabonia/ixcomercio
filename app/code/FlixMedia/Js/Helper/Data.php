@@ -5,7 +5,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 
 class Data extends AbstractHelper{
 
-	const ID = 'flix_general/catalogo_retailer/apikey';
+	const ID = 'flix_general/catalogo_retailer/id';
 	const LANGUAGE = 'flix_general/catalogo_retailer/language';
 
 	protected $_coreRegistry;
