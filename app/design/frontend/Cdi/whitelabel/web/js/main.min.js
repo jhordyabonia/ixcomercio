@@ -438,6 +438,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		function getWSData(){
 			arrWSData = $('#arrWSData').text();
 			arrWSData = arrWSData.split(',');
+			console.log(arrWSData);
 		};
 
 
