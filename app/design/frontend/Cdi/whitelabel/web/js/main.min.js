@@ -508,7 +508,10 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 				        html += '</select>';
 
-		    			$(fieldStateCheckout).append(html);
+				        if($(obj).find('#fieldStateCheckout').length != 0){
+				        	$(fieldStateCheckout).append(html);	
+				        }
+		    			
 						/*
 		    			if (arrWSData.length != 0) {
 							var options = $('#fieldStateCheckout option');
@@ -540,12 +543,18 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false" disabled>'+
 	    							'<option data-title="" value="">'+$.mage.__("Please select a city.")+'</option>'+
 	    							'</select>';
-	    			$(fieldCityCheckout).append(htmlCities);
+
+	    			if($(obj).find('#fieldCityCheckout').length != 0){
+	    				$(fieldCityCheckout).append(htmlCities);
+	    			}
 
 	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
 	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
 	    							'</select>';
-	    			$(fieldZoneCheckout).append(htmlZones);
+
+	    			if($(obj).find('#fieldZoneCheckout').length != 0){
+	    				$(fieldZoneCheckout).append(htmlZones);
+	    			}
 
 	    			$('body').trigger('processStop');
 
@@ -678,7 +687,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    if (window.location.href.indexOf("customer") > -1) {
-	    	alert("test");
 	    	intervalState = setInterval(function(){
 	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
@@ -696,8 +704,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
 			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
-			        var inputsRemove = $('.billing-address-form form fieldset.address').find('#fieldStateCheckout, #fieldCityCheckout, #fieldZoneCheckout');
-			        $(inputsRemove).remove();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
 			        	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 			        }
