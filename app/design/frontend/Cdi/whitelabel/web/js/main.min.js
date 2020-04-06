@@ -457,7 +457,14 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							}
 						});
 					}else if(type == 'val'){
-
+						$.each(options, function(iO, valO){
+                            if($(valO).attr('value') == valSrc){
+								$(valO).prop('selected', true);
+								setTimeout(function(){
+									$(elementDest).trigger('change');
+								},500);
+							}
+						});
 					}
 				}else{
 					console.log('el ws no retornó opciones para ' + $(elementDest).attr('id'));
@@ -624,7 +631,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 									});
 								}
 */
-								setValueWsElement('#zone_id', '#fieldZoneCheckout', 'text');
+								setValueWsElement('#zone_id', '#fieldZoneCheckout', 'val');
 							  	
 							  	$('body').trigger('processStop');
 							}
