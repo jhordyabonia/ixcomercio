@@ -1,6 +1,8 @@
 <?php
     $_helper = $this->helper('FlixMedia\Js\Helper\Data');
-    $_product = $_helper->getProduct(); 
+    $_product = $_helper->getProduct();
+    $_config = $_helper->getConfigParams();
+    var_dump($_config);
 ?>
 <div data-mage-init='
 {"data": 
@@ -12,4 +14,5 @@
     "language":"cr"
 }}'>
     <div id="flix-inpage"></div>
+    <div id="flix-minisite" style="display:none"></div>
 </div>
