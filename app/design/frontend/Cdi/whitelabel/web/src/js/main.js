@@ -696,10 +696,10 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
 			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
+			        var inputsRemove = $('.billing-address-form form fieldset.address').find('#fieldStateCheckout, #fieldCityCheckout, #fieldZoneCheckout');
+			        $(inputsRemove).remove();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	var inputsRemove = $('.billing-address-form form fieldset.address').find('#fieldStateCheckout, #fieldCityCheckout, #fieldZoneCheckout');
-			        	$(inputsRemove).remove();
-	                	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
+			        	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
