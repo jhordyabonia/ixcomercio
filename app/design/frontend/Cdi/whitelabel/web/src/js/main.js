@@ -431,6 +431,16 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 */
 
 
+		// =============================================
+	    // Data Edit Address
+	    // =============================================
+	    var arrWSData;
+		function getWSData(){
+			arrWSData = $('#arrWSData').text();
+			arrWSData = arrWSData.split(',');
+		};
+
+
 
 	    // =============================================
 	    // Print select Address checkout
@@ -469,6 +479,18 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+
+		    			if (arrWSData.length != 0) {
+							var options = $('#fieldStateCheckout option');
+							$.each(options, function(i, val){
+								if($(val).text() == arrWSData[1]){
+									$(val).prop('selected', true);
+									setTimeout(function(){
+										$('#fieldStateCheckout').trigger('change');
+									},500);
+								}
+							});
+						}
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
@@ -502,7 +524,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
-				    	console.log("parentId " + $(selectStateCheckout).find('option:selected').attr('parentId'));
+				    	
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -510,11 +532,22 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							dataType: 'json',
 							success: function(resState) {
 								$(fieldCityCheckout).find('select').attr("disabled", false);
-								console.log('city disabled');
 								$(fieldCityCheckout).find('select option:not([value=""])').remove();
 								$.each(resState, function(iState, valState){
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
+
+								if (arrWSData.length != 0) {
+									var options = $(fieldCityCheckout).find('select option');
+									$.each(options, function(i, val){
+										if($(val).text() == arrWSData[2]){
+											$(val).prop('selected', true);
+											setTimeout(function(){
+												$(fieldCityCheckout).find('select').trigger('change');
+											},500);
+										}
+									});
+								}
 
 								$('body').trigger('processStop');
 							}
@@ -549,6 +582,18 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
+
+							  	if (arrWSData.length != 0) {
+									var options = $(fieldZoneCheckout).find('select option');
+									$.each(options, function(i, val){
+										if($(val).attr('postalcode') == arrWSData[3]){
+											$(val).prop('selected', true);
+											setTimeout(function(){
+												$(fieldZoneCheckout).find('select').trigger('change');
+											},500);
+										}
+									});
+								}
 							  	
 							  	$('body').trigger('processStop');
 							}
@@ -600,6 +645,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	intervalState = setInterval(function(){
 	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
+    				getWSData();
+    				$('.form-address-edit .field-name-firstname').before($('.field-identification'));
     				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
 		          	clearInterval(intervalState);
 		        }

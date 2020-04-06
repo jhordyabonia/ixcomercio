@@ -185,12 +185,15 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
     require(['jquery'], function ($) {
         <?php if($addressWSData): ?>
             var addressAdditional = <?php echo json_encode($addressWSData);?>;
-            var zoneId = $('#zone_id').val();
-            //TOMAR ESTAS VARIABLES
+            var zoneId = $('#zip').val();
+
+            $('html').append('<div id="arrWSData" style="display:none;">'+addressAdditional.country+','+addressAdditional.region+','+addressAdditional.city+','+zoneId+'</div>');
+            /*
             console.log('country: ' + addressAdditional.country);
             console.log('region: ' + addressAdditional.region);
             console.log('city: ' + addressAdditional.city);
             console.log('zoneid: ' + zoneId);
+            */
         <?php endif; ?>    
     });
 </script>

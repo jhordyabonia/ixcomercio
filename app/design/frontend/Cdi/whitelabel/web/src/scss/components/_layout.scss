@@ -333,6 +333,56 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
+  &.cms-page-view{
+    .columns{
+      .pull-right{
+        text-align: left;
+        ol, ul{
+          list-style: inherit;
+          list-style-position: inside;
+        }
+        .accordion{
+          margin: 30px 0;
+          div[data-role="collapsible"]{
+            padding: 10px 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            cursor: pointer;
+            &:first-child{
+              border-top: 1px solid #ddd;
+            }
+            &:after{
+              top: 50%;
+              right: 15px;
+              color: #999;
+              content: '\e622';
+              font-size: 32px;
+              line-height: 22px;
+              font-weight: normal;
+              font-family: 'icons-blank-theme';
+              transform: translateY(-50%);
+              pointer-events: none;
+              position: absolute;
+              speak: none;
+            }
+            &[aria-expanded="true"]{
+              color: white;
+              background: $mainColor;
+              &:after{
+                color: white;
+                content: '\e621';
+              }
+            }
+          }
+          div[data-role="content"]{
+            padding: 20px 15px;
+            border-bottom: 1px solid #e5e5e5;
+          }
+        }
+      }
+    }
+  }
   .page-wrapper{
     .page-main{
       .column.main{
@@ -378,6 +428,10 @@ section{
             }
             a{
               color: #000;
+              text-decoration: none;
+            }
+            strong{
+              color: $mainColor;
             }
           }
         }

@@ -27,7 +27,7 @@
       }
     }
   }
-  .column.main{
+  .columns .pull-right{
     form, .block:not(.widget), .table-wrapper{
       text-align: left;
       border: 1px solid #e8e8e8;
@@ -43,10 +43,15 @@
     }
     .block:not(.widget){
       .block-title{
+        font-size: 20px;
         border-bottom: 1px solid #e8e8e8;
         padding-bottom: 12px;
+        margin-bottom: 20px;
         > strong{
-          font-weight: 400;
+          font-weight: 700;
+        }
+        a{
+          font-size: 14px;
         }
       }
       .block-content{
