@@ -450,9 +450,10 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 					if(type == 'text'){
 						$.each(options, function(iO, valO){
 							if($(valO).text() == valSrc){
-								console.log($(valO).text() + ' == ' + valSrc);
 								$(valO).prop('selected', true);
-								$(elementDest).trigger('change');
+								setTimeout(function(){
+									$(elementDest).trigger('change');
+								},500);
 							}
 						});
 					}else if(type == 'val'){
