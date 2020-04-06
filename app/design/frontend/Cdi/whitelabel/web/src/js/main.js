@@ -440,8 +440,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			arrWSData = arrWSData.split(',');
 		};
 
-
-
 		function setValueWsElement(elementSrc, elementDest, type){
 			if($(elementSrc).length && elementDest.length){
 				var valSrc = $(elementSrc).val();
