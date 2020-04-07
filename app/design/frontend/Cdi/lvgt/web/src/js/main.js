@@ -297,128 +297,39 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    }
 	    
 
-		// =============================================
-	    // Get states
-	    // =============================================
-
-	    var fieldState = $('form .fieldset > .field.region #region_id');
-	    var stateOptions;
-	    var intervalState;
-
-	    function getStates(){
-	    	$('body').trigger('processStart');
-	    	$('#zip').val('');
-	    	$.ajax({
-			    url: '/places/search/',
-			    type: 'GET',
-			    dataType: 'json',
-			    success: function(res) {
-			    	$(fieldState).find('option:not([value=""])').remove();
-			    	$.each(res, function(iRes, valRes){
-			    		$(fieldState).append("<option value='"+valRes.Name+"' parentid='"+valRes.Id+"'>"+valRes.Name+"</option>");
-			        });
-			        $(fieldState).show();
-			        $(fieldState).attr("disabled", false);
-			        $("input#region").hide();
-
-			        $('body').trigger('processStop');
-			    }
-			});
-	    }
-
-	    if($(fieldState).length){
-	      intervalState = setInterval(function(){
-	        stateOptions = $(fieldState).find('option');
-	        if($(stateOptions).length >= 1){
-	          getStates();
-	          clearInterval(intervalState);
-	        }
-	      }, 1000);
-	    }
-	    
-	    var fieldCountry = $('form .fieldset > .field.country #country');
-	    $( fieldCountry ).change(function() {
-		  	getStates();
-		});
-
-
-		// =============================================
-	    // Get cities
-	    // =============================================
-
-	    var fieldCity = $('form .fieldset > .field.city #city_id');
-	    var fieldZoneStreet = $('form .fieldset > .field.street-zone .control');
-
-	    fieldState.on('change', function (e) {
-	    	$('body').trigger('processStart');
-	    	$('#zip').val('');
-	      	$.ajax({
-		        url: '/places/search/',
-		        data: 'parentId='+fieldState.find('option:selected').attr('parentid'),
-		        type: 'GET',
-		        dataType: 'json',
-		        success: function(res) {
-			        $(fieldCity).find('option:not([value=""])').remove();
-			        $.each(res, function(i, val){
-			            $(fieldCity).append("<option value='"+val.Id+"' parentid='"+val.Id+"'>"+val.Name+"</option>");
-			    	});
-			        
-			    	$('body').trigger('processStop');
-		        }
-	      	});
-
-	      	var valState = $(fieldState).find('option:selected');
-			$(fieldState).parent().find('input').val($(valState).text());
-			$(fieldState).parent().find('input').keyup();
-	    });
-
 
 	    // =============================================
-	    // Print select street
+	    // Data Edit Address
 	    // =============================================
-
-	    $('#city_id').on('change', function (e) {
-	    	$('body').trigger('processStart');
-	    	$('#zip').val('');
-	    	$.ajax({
-				url: '/places/search/',
-				data: 'parentId='+$('#city_id').find('option:selected').attr('parentid'),
-				type: 'GET',
-				dataType: 'json',
-				success: function(resCity) {
-					$(fieldZoneStreet).find('select option:not([value=""])').remove();
-					
-					$.each(resCity, function(iResCity, valResCity){
-				    	$(fieldZoneStreet).find('select').append("<option value='"+valResCity.ParentId+"' parentid='"+valResCity.ParentId+"' postalcode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
-				  	});
-				  	
-				  	$('body').trigger('processStop');
+		function setValueWsElement(elementSrc, elementDest, type){
+			if($(elementSrc).length && elementDest.length){
+				var valSrc = $(elementSrc).val();
+				var options = $(elementDest).find('option');
+				if(options.length){
+					if(type == 'text'){
+						$.each(options, function(iO, valO){
+							if($(valO).text() == valSrc){
+								$(valO).prop('selected', true);
+								setTimeout(function(){
+									$(elementDest).trigger('change');
+								},500);
+							}
+						});
+					}else if(type == 'val'){
+						$.each(options, function(iO, valO){
+                            if($(valO).attr('value') == valSrc){
+								$(valO).prop('selected', true);
+								setTimeout(function(){
+									$(elementDest).trigger('change');
+								},500);
+							}
+						});
+					}
+				}else{
+					console.log('el ws no retornó opciones para ' + $(elementDest).attr('id'));
 				}
-			});
-
-			var valCity = $('#city_id').find('option:selected');
-			$('#city_id').parent().find('input').val($(valCity).text());
-			$('#city_id').parent().find('input').keyup();
-			console.log("test");
-	    });
-
-
-	    // =============================================
-	    // Print postal code
-	    // =============================================
-
-	    fieldZoneStreet.on('change', function (e) {
-	    	$('body').trigger('processStart');
-	    	var valStreet = $(fieldZoneStreet).find('option:selected');
-			
-	    	if($(valStreet).attr('postalcode') != 'null' && $('#zip').hasClass('required-entry')){
-				$('#zip').val($(valStreet).attr('postalcode'));
-	    		$('#zip').keyup();	
 			}
-
-	    	$('body').trigger('processStop');
-	    });
-
+		}
 
 
 
@@ -427,14 +338,14 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    // =============================================
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
-	    function getStatesCheckout(obj){
+	    function getStatesCheckout(obj, zone){
 	    	$('body').trigger('processStart');
 
 	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
 	    	$(obj).find('input[name="postcode"]').val('');
 
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
-	    	var fieldZoneCheckout = $(obj).find('> .field input[name="custom_attributes[zone_id]"]').parent();
+	    	var fieldZoneCheckout = $(obj).find(zone).parent();
 
 		    $(fieldStreetCheckout).find('input').hide();
 		    $(fieldZoneCheckout).find('input').hide();
@@ -459,6 +370,8 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				        html += '</select>';
 
 		    			$(fieldStateCheckout).append(html);
+
+						setValueWsElement($(obj).find('#region'), $(obj).find('#fieldStateCheckout'), 'text');
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
@@ -488,10 +401,11 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    			// =============================================
 				    // Print select City checkout
 				    // =============================================
-				    var selectStateCheckout = $(fieldStateCheckout).find('select');
+				    var selectStateCheckout = $(fieldStateCheckout).find('select#fieldStateCheckout');
 				    $(selectStateCheckout).on('change', function (e) {
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
+				    	
 				    	$.ajax({
 							url: '/places/search/',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
@@ -504,11 +418,13 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
 								});
 
+								setValueWsElement('#city', '#fieldCityCheckout', 'text');
+
 								$('body').trigger('processStop');
 							}
 						});
 
-						var valueState = $(fieldStateCheckout).find('select option:selected');
+						var valueState = $(fieldStateCheckout).find('select#fieldStateCheckout option:selected');
 						$(fieldStateCheckout).find('input').val($(valueState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
@@ -532,11 +448,13 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
-                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>'+$.mage.__("Please select a zone.")+'</option>');
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
                   				
 								$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.ParentId+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.PostalCode+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
+
+								setValueWsElement('#zone_id', '#fieldZoneCheckout', 'val');
 							  	
 							  	$('body').trigger('processStop');
 							}
@@ -572,16 +490,30 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			});
 	    }
 
-	    
+
 	    if (window.location.href.indexOf("checkout") > -1) {
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
-		        	getStatesCheckout('form .fieldset.address');
+		        	getStatesCheckout('form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
 	    }
+
+
+	    if (window.location.href.indexOf("customer") > -1) {
+	    	alert("test");
+	    	intervalState = setInterval(function(){
+	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
+    			if($(fieldStateCheckout).length >= 1){
+    				$('.form-address-edit .field-name-firstname').before($('.field-identification'));
+    				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
+		          	clearInterval(intervalState);
+		        }
+	      	}, 1000);
+	    }
+
 
 	    var flagBillingForm = 0;
 	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
@@ -590,7 +522,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		        if($(this).prop('checked') == false){
 			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-	                	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	                	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
@@ -602,7 +534,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	flagBillingForm += 1;
 	    	fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
 	        if(flagBillingForm <= 1){
-	        	getStatesCheckout($('.billing-address-form form fieldset.address'));
+	        	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 	        }
 	    });
 
