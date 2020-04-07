@@ -708,7 +708,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		        	console.log('parentForm ' +parentForm);
 			        fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	getStatesCheckout($(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
+			        	getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
