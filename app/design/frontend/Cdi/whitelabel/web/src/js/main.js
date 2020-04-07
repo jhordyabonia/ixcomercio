@@ -596,8 +596,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							}
 						});
 
-						var valueState = $(fieldStateCheckout).find('select#fieldStateCheckout option:selected');
-						$(fieldStateCheckout).find('input').val($(valueState).text());
+						$(fieldStateCheckout).find('input').val($(this).find('option:selected').text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
@@ -655,7 +654,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    	$(fieldZoneCheckout).find('input').val($(this).find('option:selected').text());
 				    	$(fieldZoneCheckout).find('input').keyup();
 
-				    	$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
+				    	$(fieldStreetCheckout).find('input').val($(this).find('option:selected').text());
 						$(fieldStreetCheckout).find('input').keyup();
 
 				    	if($(valStreetCheckout).attr('postalCode') != 'null'){
