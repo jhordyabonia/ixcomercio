@@ -238,6 +238,7 @@ function ($, Component) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var intervalState;
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj, zone){

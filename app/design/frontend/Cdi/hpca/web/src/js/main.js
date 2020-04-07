@@ -337,6 +337,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var intervalState;
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj, zone){
