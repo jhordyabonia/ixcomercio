@@ -369,7 +369,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 				        html += '</select>';
 
-		    			$(fieldStateCheckout).append(html);
+				        if($(obj).find('#fieldStateCheckout').length == 0){
+				        	$(fieldStateCheckout).append(html);	
+				        }
 
 						setValueWsElement($(obj).find('#region'), $(obj).find('#fieldStateCheckout'), 'text');
 			    	}else{
@@ -389,12 +391,18 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			    	var htmlCities = '<select id="fieldCityCheckout" class="select" name="cities_id" aria-required="true" aria-invalid="false" disabled>'+
 	    							'<option data-title="" value="">'+$.mage.__("Please select a city.")+'</option>'+
 	    							'</select>';
-	    			$(fieldCityCheckout).append(htmlCities);
+
+	    			if($(obj).find('#fieldCityCheckout').length == 0){
+	    				$(fieldCityCheckout).append(htmlCities);
+	    			}
 
 	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
 	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
 	    							'</select>';
-	    			$(fieldZoneCheckout).append(htmlZones);
+
+	    			if($(obj).find('#fieldZoneCheckout').length == 0){
+	    				$(fieldZoneCheckout).append(htmlZones);
+	    			}
 
 	    			$('body').trigger('processStop');
 
@@ -424,8 +432,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							}
 						});
 
-						var valueState = $(fieldStateCheckout).find('select#fieldStateCheckout option:selected');
-						$(fieldStateCheckout).find('input').val($(valueState).text());
+						$(fieldStateCheckout).find('input').val($(this).find('option:selected').text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
 				    });
@@ -437,7 +444,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
 						var valCity = $(fieldCityCheckout).find('select option:selected');
-						$(fieldCityCheckout).find('input').val($(valCity).text());
+						$(fieldCityCheckout).find('input').val($(this).find('option:selected').text());
 						$(fieldCityCheckout).find('input').keyup();
 
 						$.ajax({
@@ -471,7 +478,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    	$(fieldZoneCheckout).find('input').val($(this).find('option:selected').text());
 				    	$(fieldZoneCheckout).find('input').keyup();
 
-				    	$(fieldStreetCheckout).find('input').val($(valStreetCheckout).text());
+				    	$(fieldStreetCheckout).find('input').val($(this).find('option:selected').text());
 						$(fieldStreetCheckout).find('input').keyup();
 
 				    	if($(valStreetCheckout).attr('postalCode') != 'null'){
@@ -503,7 +510,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    if (window.location.href.indexOf("customer") > -1) {
-	    	alert("test");
 	    	intervalState = setInterval(function(){
 	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
@@ -520,10 +526,12 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	if($('.field-select-billing select').length == 0){
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
-			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
+		        	var parentForm = $('.payment-method._active .billing-address-form form fieldset.address');
+		        	fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
+		        	console.log('fieldStateCheckout '+fieldStateCheckout);
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-	                	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
-			        }
+			        	getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
+			    	}
 			    }
 	    	}else {
 	    		flagBillingForm = 0;
