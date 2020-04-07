@@ -597,7 +597,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 						});
 
 						var valueState = $(fieldStateCheckout).find('select#fieldStateCheckout option:selected');
-						console.log('valueState '+$(valueState).text());
 						$(fieldStateCheckout).find('input').val($(valueState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
@@ -610,7 +609,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				    	$('body').trigger('processStart');
 				    	$(obj).find('input[name="postcode"]').val('');
 						var valCity = $(fieldCityCheckout).find('select option:selected');
-						$(fieldCityCheckout).find('input').val($(valCity).text());
+						$(fieldCityCheckout).find('input').val($(this).find('option:selected').text());
 						$(fieldCityCheckout).find('input').keyup();
 
 						$.ajax({
