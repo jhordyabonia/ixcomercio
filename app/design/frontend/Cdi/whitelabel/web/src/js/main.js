@@ -597,7 +597,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 						});
 
 						var valueState = $(fieldStateCheckout).find('select#fieldStateCheckout option:selected');
-						console.log('valueState '+valueState);
 						$(fieldStateCheckout).find('input').val($(valueState).text());
 						$(fieldStateCheckout).find('input').keyup();
 					    
@@ -704,9 +703,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	if($('.field-select-billing select').length == 0){
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
-			        fieldStateCheckout = $('.billing-address-form form fieldset.address input[name="region"]').parent();
+			        fieldStateCheckout = $('.payment-method._active .billing-address-form form fieldset.address input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	getStatesCheckout($('.billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
+			        	getStatesCheckout($('.payment-method._active .billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
