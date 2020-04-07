@@ -343,7 +343,12 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    function getStatesCheckout(obj, zone){
 	    	$('body').trigger('processStart');
 
-	    	$(obj).find('input[name="postcode"]').parents('.field').hide();
+	    	if($('[name="country_id"]').val() == "GT"){
+	    		$(obj).find('input[name="postcode"]').parents('.field').hide();
+	    	}else{
+	    		$(obj).find('input[name="postcode"]').parents('.field').show();
+	    	}
+	    	
 	    	$(obj).find('input[name="postcode"]').val('');
 
 	    	var fieldStreetCheckout = $(obj).find('> .field.street .control .additional .control');
