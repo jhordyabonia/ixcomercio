@@ -1,6 +1,4 @@
-require([
-    'jquery'
-],
+require(['jquery', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'],
 function ($, Component) {
   'use strict';
 
