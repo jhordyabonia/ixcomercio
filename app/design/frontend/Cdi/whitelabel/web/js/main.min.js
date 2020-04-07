@@ -704,15 +704,16 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	if($('.field-select-billing select').length == 0){
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
-			        fieldStateCheckout = $('.payment-method._active .billing-address-form form fieldset.address input[name="region"]').parent();
+		        	var parentForm = $('.payment-method._active .billing-address-form form fieldset.address');
+		        	console.log('parentForm ' +parentForm);
+			        fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	getStatesCheckout($('.payment-method._active .billing-address-form form fieldset.address'), '> .field input[name="custom_attributes[zone_id]"]');
+			        	getStatesCheckout($(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
 			        }
 			    }
 	    	}else {
 	    		flagBillingForm = 0;
 	    	}
-	    	console.log('flagBillingForm '+flagBillingForm);
 	    });
 
 	    $(document).on('change',"[name='billing_address_id']",function(){
