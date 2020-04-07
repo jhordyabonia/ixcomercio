@@ -706,9 +706,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		        if($(this).prop('checked') == false){
 		        	var parentForm = $('.payment-method._active .billing-address-form form fieldset.address');
 		        	fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
+		        	console.log('fieldStateCheckout '+fieldStateCheckout);
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	console.log('fieldStateCheckout ' +fieldStateCheckout);
-			        	getStatesCheckout($(parentForm), '> .field input[name="custom_attributes[zone_id]"]');
+			        	getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
 			    	}
 			    }
 	    	}else {
