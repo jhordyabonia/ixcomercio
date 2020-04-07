@@ -115,6 +115,18 @@ function ($, Component) {
 
 
 	    // =============================================
+	    // Add * to input required
+	    // =============================================
+
+	    var required = $('input.required-entry, select.required-entry');
+	    $.each(required, function(i, val){
+	      if(!$(val).parents('.field').hasClass('required')){
+	        $(val).parents('.field').addClass('required');
+	      }
+	    });
+
+
+	    // =============================================
 	    // Data Edit Address
 	    // =============================================
 		function setValueWsElement(elementSrc, elementDest, type){
