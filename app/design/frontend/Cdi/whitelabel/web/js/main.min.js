@@ -705,11 +705,11 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    		flagBillingForm += 1;
 		        if($(this).prop('checked') == false){
 		        	var parentForm = $('.payment-method._active .billing-address-form form fieldset.address');
-		        	console.log('parentForm ' +parentForm);
-			        fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
+		        	fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
 			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
-			        }
+			        	console.log('fieldStateCheckout ' +fieldStateCheckout);
+			        	getStatesCheckout($(parentForm), '> .field input[name="custom_attributes[zone_id]"]');
+			    	}
 			    }
 	    	}else {
 	    		flagBillingForm = 0;
