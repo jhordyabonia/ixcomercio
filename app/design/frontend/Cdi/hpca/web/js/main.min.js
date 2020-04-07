@@ -1,4 +1,4 @@
-require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
+require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($) {
     
 	jQuery(document).ready(function() {
 
@@ -337,6 +337,7 @@ require(['jquery', 'owlCarouselJs', 'mainJs', 'domReady!'], function($) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var intervalState;
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj, zone){

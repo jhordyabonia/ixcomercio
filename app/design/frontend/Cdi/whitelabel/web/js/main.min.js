@@ -303,8 +303,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 /*
 	    var fieldState = $('form .fieldset > .field.region #region_id');
 	    var stateOptions;
-	    var intervalState;
-
+	    
 	    function getStates(){
 	    	$('body').trigger('processStart');
 
@@ -475,6 +474,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var intervalState;
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj, zone){
@@ -704,8 +704,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		        if($(this).prop('checked') == false){
 		        	var parentForm = $('.payment-method._active .billing-address-form form fieldset.address');
 		        	fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
-		        	console.log('fieldStateCheckout '+fieldStateCheckout);
-			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
+		        	if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
 			        	getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
 			    	}
 			    }

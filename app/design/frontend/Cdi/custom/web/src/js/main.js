@@ -1,6 +1,4 @@
-require([
-    'jquery'
-],
+require(['jquery', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'],
 function ($, Component) {
     'use strict';
     
@@ -12,6 +10,18 @@ function ($, Component) {
 	var w_width = jQuery( window ).width();
 
 	$(document).ready(function(){
+
+		// =============================================
+	    // Add * to input required
+	    // =============================================
+
+	    var required = $('input.required-entry, select.required-entry');
+	    $.each(required, function(i, val){
+	      if(!$(val).parents('.field').hasClass('required')){
+	        $(val).parents('.field').addClass('required');
+	      }
+	    });
+	    
 
 		// =============================================
 	    // Menu mobile append elements
@@ -238,6 +248,7 @@ function ($, Component) {
 	    // =============================================
 	    // Print select Address checkout
 	    // =============================================
+	    var intervalState;
 	    var fieldStateCheckout;
 	    var fieldCityCheckout;
 	    function getStatesCheckout(obj, zone){
