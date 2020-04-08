@@ -335,8 +335,12 @@ section{
 .page-layout-2columns-left{
   &.cms-page-view{
     .columns{
+      margin-top: 40px;
       .pull-right{
         text-align: left;
+        .column.main{
+          margin-top: 0;
+        }
         ol, ul{
           list-style: inherit;
           list-style-position: inside;
