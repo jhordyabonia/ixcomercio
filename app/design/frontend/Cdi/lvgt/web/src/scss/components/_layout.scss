@@ -339,12 +339,8 @@ section{
 .page-layout-2columns-left{
   &.cms-page-view{
     .columns{
-      margin-top: 40px;
       .pull-right{
         text-align: left;
-        .column.main{
-          margin-top: 0;
-        }
         ol, ul{
           list-style: inherit;
           list-style-position: inside;
@@ -391,10 +387,12 @@ section{
       }
     }
   }
+  .columns{
+    margin-top: 40px;
+  }
   .page-wrapper{
     .page-main{
       .column.main{
-        margin-top: 40px;
         @media only screen and (min-width: $tablet){
           min-height: auto;
         }
