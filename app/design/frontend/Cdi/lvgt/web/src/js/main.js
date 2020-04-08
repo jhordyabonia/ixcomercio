@@ -516,8 +516,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    if ($('body').hasClass('checkout-cart-index')) {
-	    	alert("deploy");
-            intervalState = setInterval(function(){
+	    	intervalState = setInterval(function(){
                 fieldStateCheckout = $('form .fieldset.estimate input[name="region"]').parent();
                 if($(fieldStateCheckout).length >= 1){
                     getStatesCheckout('form .fieldset.estimate', '> .field input[name="custom_attributes[zone_id]"]');
