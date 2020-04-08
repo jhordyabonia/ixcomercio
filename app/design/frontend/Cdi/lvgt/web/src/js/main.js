@@ -379,7 +379,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				        	$(fieldStateCheckout).append(html);	
 				        }
 
-						setValueWsElement($(obj).find('#region'), $(obj).find('#fieldStateCheckout'), 'text');
+						setValueWsElement($(obj).find('#fieldStateCheckout').parent().find('input'), $(obj).find('#fieldStateCheckout'), 'text');
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
