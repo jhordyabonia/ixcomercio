@@ -342,6 +342,7 @@ function ($, Component) {
 	      	}, 1000);
 	    }
 
+
 	    if ($('body').hasClass('checkout-cart-index')) {
             intervalState = setInterval(function(){
                 fieldStateCheckout = $('form .fieldset.estimate input[name="region"]').parent();

@@ -420,11 +420,22 @@ function ($, Component) {
       }
 
 
-      if (window.location.href.indexOf("checkout") > -1) {
+      if ($('body').hasClass('checkout-index-index')) {
         intervalState = setInterval(function(){
           fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
           if($(fieldStateCheckout).length >= 1){
               getStatesCheckout('form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
+                clearInterval(intervalState);
+            }
+          }, 1000);
+      }
+
+
+      if ($('body').hasClass('checkout-cart-index')) {
+            intervalState = setInterval(function(){
+                fieldStateCheckout = $('form .fieldset.estimate input[name="region"]').parent();
+                if($(fieldStateCheckout).length >= 1){
+                    getStatesCheckout('form .fieldset.estimate', '> .field input[name="custom_attributes[zone_id]"]');
                 clearInterval(intervalState);
             }
           }, 1000);
