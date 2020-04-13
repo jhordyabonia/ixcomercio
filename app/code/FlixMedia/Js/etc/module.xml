@@ -3,6 +3,7 @@
 	<module name="FlixMedia_Js" setup_version="1.0.0">
 		<sequence>
             <module name="Magento_Store"/>
+			<module name="Magento_Catalog"/>
         </sequence>
 	</module>
 </config>
