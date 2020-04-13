@@ -336,16 +336,110 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
+  &.cms-page-view{
+    .columns{
+      .pull-right{
+        text-align: left;
+        ol, ul{
+          list-style: inherit;
+          list-style-position: inside;
+        }
+        .accordion{
+          margin: 30px 0;
+          div[data-role="collapsible"]{
+            padding: 10px 15px;
+            font-weight: 500;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+            cursor: pointer;
+            &:first-child{
+              border-top: 1px solid #ddd;
+            }
+            &:after{
+              top: 50%;
+              right: 15px;
+              color: #999;
+              content: '\e622';
+              font-size: 32px;
+              line-height: 22px;
+              font-weight: normal;
+              font-family: 'icons-blank-theme';
+              transform: translateY(-50%);
+              pointer-events: none;
+              position: absolute;
+              speak: none;
+            }
+            &[aria-expanded="true"]{
+              color: white;
+              background: $mainColor;
+              &:after{
+                color: white;
+                content: '\e621';
+              }
+            }
+          }
+          div[data-role="content"]{
+            padding: 20px 15px;
+            border-bottom: 1px solid #e5e5e5;
+          }
+        }
+      }
+    }
+  }
+  .columns{
+    margin-top: 40px;
+  }
   .page-wrapper{
     .page-main{
       .column.main{
-        margin-top: 40px;
         @media only screen and (min-width: $tablet){
           min-height: auto;
         }
       }
       .column.main, .sidebar-main{
         width: 100%;
+        .cms-menu{
+          li{
+            width: 100%;
+            color: #000;
+            font-size: 16px;
+            font-weight: 400;
+            text-decoration: none;
+            text-align: left!important;
+            border-top: 1px solid #ddd;
+            padding: 20px 15px;
+            position: relative;
+            margin: 0;
+            strong, a{
+              width: 100%;
+              display: inline-block;
+              &:after{
+                top: 50%;
+                right: 10px;
+                color: $mainColor;
+                content: '\e608';
+                font-size: 32px;
+                font-weight: bold;
+                line-height: normal;
+                font-family: 'icons-blank-theme';
+                vertical-align: middle;
+                display: inline-block;
+                position: absolute;
+                margin-top: -16px;
+              }
+              &:hover{
+                color: $mainColor;
+              }
+            }
+            a{
+              color: #000;
+              text-decoration: none;
+            }
+            strong{
+              color: $mainColor;
+            }
+          }
+        }
       }
       .sidebar-main{
         width: 100%;

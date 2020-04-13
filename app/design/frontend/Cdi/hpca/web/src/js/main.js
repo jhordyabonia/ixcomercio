@@ -380,7 +380,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				        	$(fieldStateCheckout).append(html);	
 				        }
 
-						setValueWsElement($(obj).find('#region'), $(obj).find('#fieldStateCheckout'), 'text');
+						setValueWsElement($(obj).find('#fieldStateCheckout').parent().find('input'), $(obj).find('#fieldStateCheckout'), 'text');
 			    	}else{
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
@@ -505,11 +505,22 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    }
 
 
-	    if (window.location.href.indexOf("checkout") > -1) {
+	    if ($('body').hasClass('checkout-index-index')) {
 	    	intervalState = setInterval(function(){
     			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
 		        	getStatesCheckout('form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
+		          	clearInterval(intervalState);
+		        }
+	      	}, 1000);
+	    }
+
+
+	    if ($('body').hasClass('checkout-cart-index')) {
+            intervalState = setInterval(function(){
+                fieldStateCheckout = $('form .fieldset.estimate input[name="region"]').parent();
+                if($(fieldStateCheckout).length >= 1){
+                    getStatesCheckout('form .fieldset.estimate', '> .field input[name="custom_attributes[zone_id]"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
@@ -521,6 +532,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    		fieldStateCheckout = $('form.form-address-edit .fieldset input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
     				$('.form-address-edit .field-name-firstname').before($('.field-identification'));
+    				$('.form-address-edit .field-zone_id').after($('.field.zip'));
     				getStatesCheckout('form.form-address-edit .fieldset', '.field input[name="zone_id"]');
 		          	clearInterval(intervalState);
 		        }

@@ -383,10 +383,12 @@ section{
       }
     }
   }
+  .columns{
+    margin-top: 40px;
+  }
   .page-wrapper{
     .page-main{
       .column.main{
-        margin-top: 40px;
         @media only screen and (min-width: $tablet){
           min-height: auto;
         }
