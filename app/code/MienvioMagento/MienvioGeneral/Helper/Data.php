@@ -14,6 +14,7 @@ class Data extends AbstractHelper
     const XML_PATH_API_KEY = 'carriers/mienviocarrier/apikey';
     const XML_PATH_IS_ENABLE_MIENVIO = 'carriers/mienviocarrier/active';
     const XML_PATH_ENVIRONMENT = 'carriers/mienviocarrier/environment';
+    const XML_MEASURES = 'carriers/mienviocarrier/measures';
     const XML_PATH_FREE_SHIPPING = 'carriers/mienviocarrier/freeshipping';
     const XML_PATH_TITLE_METHOD_FREE = 'carriers/mienviocarrier/titlemethodfree';
     const XML_PATH_SERVICE_LEVEL = 'carriers/mienviocarrier/servicelevel';
@@ -104,6 +105,24 @@ class Data extends AbstractHelper
     public function getOriginCity($storeId = null)
     {
         return $this->getConfigValue(self::XML_PATH_city_store , $storeId);
+    }
+    public function getMeasures($storeId = null)
+    {
+        $measures = $this->getConfigValue(self::XML_MEASURES , $storeId);
+        $result = '';
+        switch ($measures){
+            case 0://Sistema Imperial
+                $result = 0;
+                break;
+            case 1: //Sistema Internacional
+                $result = 1;
+                break;
+            default:
+                $result = 0;
+                break;
+        }
+        return $result;
+
     }
 
 }
