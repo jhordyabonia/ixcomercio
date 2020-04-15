@@ -43,8 +43,8 @@
 							<arguments>
 								<argument name="products_count" xsi:type="number">8</argument>
 								<argument name="margin" xsi:type="string">5</argument>
-								<argument name="heading" xsi:type="string" translate="true">Best Seller</argument>
-								<argument name="description" xsi:type="string" translate="true">Best Seller</argument>
+								<argument name="heading" xsi:type="string" translate="true">Recommended</argument>
+								<!--<argument name="description" xsi:type="string" translate="true">Best Seller</argument>-->
 							</arguments>
 						</block>
 					</container>

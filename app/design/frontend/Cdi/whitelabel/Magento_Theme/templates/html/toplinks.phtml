@@ -1,4 +1,7 @@
 <?php
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$wlEnabled = $_helperCdi->getStoreConfig('wishlist/general/active');
+
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
 <div class="custom-top-links">
@@ -12,11 +15,13 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
                 <a href="<?php echo $this->getUrl('customer/account/logout') ?>"><li><?php echo __('Sign Out') ?></li></a>
             </ul>
         </ul>
-        <span data-bind="scope: 'wishlist'" class="link wishlist">
-            <a href="<?php echo $this->getUrl('wishlist') ?>">
-                <?php echo __('My Wishlist') ?><span data-bind="text: wishlist().counter" class="counter qty"></span>
-            </a>
-        </span>
+        <?php if($wlEnabled):?>
+            <span data-bind="scope: 'wishlist'" class="link wishlist">
+                <a href="<?php echo $this->getUrl('wishlist') ?>">
+                    <?php echo __('My Wishlist') ?><span data-bind="text: wishlist().counter" class="counter qty"></span>
+                </a>
+            </span>
+        <?php endif;?>
     <?php } else { ?>
         <a href="<?php echo $this->getUrl('customer/account/login') ?>"><span class="sign-in-label"><?php echo __('Sign In')?></span><span class="sign-in-icon"></span></a>
     <?php } ?>

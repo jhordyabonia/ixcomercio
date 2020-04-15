@@ -314,7 +314,7 @@ class PlaceOrder extends AbstractHelper
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
-            'TaxRegistrationNumber' => $billing->getIdentification(),
+            'TaxRegistrationNumber' => $this->getIdentification($billing,$shipping),
             'InvoiceRequested' => false,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
@@ -376,5 +376,22 @@ class PlaceOrder extends AbstractHelper
         } catch (\Exception $e) {
             $this->logger->info('PlaceOrder - Error al guardar comentario en orden con ID: '.$orderId);
         }
-	}
+    }
+
+   /*
+    * When the billing and shipping address are different, the identification must be sent to IWS as null
+    * @author Germán Cárdenas
+    * @param \Magento\Sales\Model\Order\Address $billing  Object with the data of the billing address
+    * @param \Magento\Sales\Model\Order\Address $shipping Object with the data of the shipping address 
+    * @return string Customer identification
+    */
+    public function getIdentification($billing,$shipping)
+    {
+        if(strcmp($billing->getCountryId(),'GT')==0){
+            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){
+                return null;
+            }    
+        }
+        return $billing->getIdentification();    
+    } 
 }

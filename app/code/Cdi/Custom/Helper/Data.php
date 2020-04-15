@@ -5,6 +5,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Model\PageFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
+use Magento\Customer\Api\AddressRepositoryInterface;
 
 class Data extends AbstractHelper{
  
@@ -17,17 +18,24 @@ class Data extends AbstractHelper{
     /**
      * @var BestSellersCollectionFactory
      */
+	/**
+     * @var AddressRepositoryInterface
+     */
+	private $addressRepository;
+	
     protected $_bestSellersCollectionFactory;
 	
 	public function __construct(
 		PageFactory $pageFactory, 
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
 		TimezoneInterface $localeDate, 
-		BestSellersCollectionFactory $bestSellersCollectionFactory
+		BestSellersCollectionFactory $bestSellersCollectionFactory,
+		AddressRepositoryInterface $addressRepository
 	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
 		$this->localeDate = $localeDate;	
+		$this->addressRepository = $addressRepository;
         $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
 	}
 	
@@ -199,6 +207,28 @@ class Data extends AbstractHelper{
         }
 
 		return false;
-    }
+	}
+	
+	/*
+	 * Retorna la información de una direcicón según su id
+	*/
+	public function getAddressData($block){
+		if($block->getAddress()){
+			//clean region
+			$region = $block->getRegion();
+			if($region){
+				$_region = explode('.', $region);
+				$region = (count($_region) == 2) ? $_region[1] : $region;
+			}
+			//data
+			$data = array(
+				'country' => $block->getAddress()->getCountryId(),
+				'region' => $region,
+				'city' => $block->getAddress()->getCity(),
+			);
+			return $data;
+		}
+		return false;
+	}
  
 }
