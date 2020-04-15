@@ -27,7 +27,7 @@ form{
 			}
 			&:not(.choice){
 				> .label{
-					color: #95989A;
+					color: $colorText;
 					font-size: 13px;
 			    	margin: 0 0 10px;
 			    	font-weight: 700;
