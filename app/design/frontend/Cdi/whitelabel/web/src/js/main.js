@@ -235,7 +235,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 		// =============================================
 	    // Create carousel product grid
 	    // =============================================
-		
+		/*
 		if($('.products-grid .owl-carousel').length){
 			$('.products-grid .owl-carousel').owlCarousel({
 				nav: true,
@@ -256,7 +256,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 			    }
 			});
 		}
-
+		*/
 
 		// =============================================
 	    // Add menu account mobile
