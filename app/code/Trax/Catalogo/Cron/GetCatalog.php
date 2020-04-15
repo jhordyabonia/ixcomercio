@@ -417,12 +417,11 @@ class GetCatalog {
                 if($configData['product_price']){
                     $product->setPrice($catalog->Price->UnitPrice);
                 }
-                if(!empty($catalog->Mpn)){
-                    $product->setData('mpn',$catalog->Mpn);
-                    $product->setCustomAttribute('mpn',$catalog->Mpn );
-                }else{
-                    $this->logger->info('Error: MPN vacio SKU: ' .  $catalog->Sku);
-                }
+                
+                $product->setData('mpn',$catalog->Mpn);
+                $product->setCustomAttribute('mpn',$catalog->Mpn );
+                $this->logger->info('MPN vacio SKU: ' .  $catalog->Sku);
+
                 if($configData['product_stock']){
                     if($catalog->InStock == 0){
                         $stock = 0;

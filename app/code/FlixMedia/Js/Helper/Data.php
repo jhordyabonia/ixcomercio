@@ -35,9 +35,10 @@ class Data extends AbstractHelper{
 	//Obtiene los parámetros de configuración desde el cms
     public function getConfigParams() 
     {
-        //Se obtienen parametros de configuración por Store
-        $configData['id'] = $this->scopeConfig->getValue(self::ID);
-		$configData['language'] = $this->scopeConfig->getValue(self::LANGUAGE);
+		//Se obtienen parametros de configuración por Store
+		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $configData['id'] = $this->scopeConfig->getValue(self::ID, $storeScope);
+		$configData['language'] = $this->scopeConfig->getValue(self::LANGUAGE, $storeScope);
 		return $configData;
 	}
 }
