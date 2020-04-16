@@ -23,17 +23,16 @@
 .page-title-wrapper{
   margin: 40px 0 20px;
   .page-title{
-    color: #666;
-    font-size: 30px;
     font-weight: bold;
-    text-transform: uppercase;
+    color: #000;
     margin: 0;
     @media only screen and (max-width: $tablet){
       font-size: 30px;
-    }
+    } 
   }
 }
 .category-description{
+  color: #666666;
   p{
     font-size: 18px;
     line-height: 24px;
@@ -56,15 +55,12 @@ section{
     text-align: left;
     .title-section{
       color: #000;
-      font-size: 30px;
-      text-transform: uppercase;
+      font-size: 34px;
+      font-family: 'SamsungSharpSans-Bold';
       font-weight: bold;
       margin: 0;
       @media only screen and (max-width: $tablet){
         font-size: 30px;
-      }
-      @media only screen and (max-width: $mobile){
-        font-size: 24px;
       }
       ~ p {
         margin: 15px 0 0;
@@ -81,7 +77,7 @@ section{
     }
     a{
       min-width: 200px;
-      color: $mainColor;
+      color: $redcolor;
       font-weight: 400;
       font-size: 1.4rem;
       text-transform: uppercase;
@@ -126,7 +122,7 @@ section{
       transform: translateY(-50%) translateX(0%);
     }
     h1, h1 span{
-      font-family: 'Frankfurter W05 Regular';
+      font-family: 'SamsungSharpSans-Bold';
       font-weight: normal;
       font-size: 72px;
       line-height: .9em;
@@ -212,7 +208,7 @@ section{
   max-height: 620px;
   height: 240px;
   float: left;
-  @media only screen and (min-width: $tablet){
+  @media only screen and (min-width: 768px){
     height: 400px;
   }
   @media only screen and (min-width: 1280px){
@@ -337,118 +333,29 @@ section{
   padding: 0!important;
 }
 .page-layout-2columns-left{
-  &.cms-page-view{
-    .columns{
-      .pull-right{
-        text-align: left;
-        ol, ul{
-          list-style: inherit;
-          list-style-position: inside;
-        }
-        .accordion{
-          margin: 30px 0;
-          div[data-role="collapsible"]{
-            padding: 10px 15px;
-            font-weight: 500;
-            border-bottom: 1px solid #ddd;
-            position: relative;
-            cursor: pointer;
-            &:first-child{
-              border-top: 1px solid #ddd;
-            }
-            &:after{
-              top: 50%;
-              right: 15px;
-              color: #999;
-              content: '\e622';
-              font-size: 32px;
-              line-height: 22px;
-              font-weight: normal;
-              font-family: 'icons-blank-theme';
-              transform: translateY(-50%);
-              pointer-events: none;
-              position: absolute;
-              speak: none;
-            }
-            &[aria-expanded="true"]{
-              color: white;
-              background: $mainColor;
-              &:after{
-                color: white;
-                content: '\e621';
-              }
-            }
-          }
-          div[data-role="content"]{
-            padding: 20px 15px;
-            border-bottom: 1px solid #e5e5e5;
-          }
-        }
-      }
+  .container{
+    width: 96%!important;
+    @media only screen and (max-width: 1200px) and (min-width: 769px){
+      max-width: 90%!important;
     }
-  }
-  .columns{
-    margin-top: 40px;
   }
   .page-wrapper{
     .page-main{
-      .column.main{
-        @media only screen and (min-width: $tablet){
-          min-height: auto;
-        }
-      }
-      .column.main, .sidebar-main{
-        width: 100%;
-        .cms-menu{
-          li{
-            width: 100%;
-            color: #000;
-            font-size: 16px;
-            font-weight: 400;
-            text-decoration: none;
-            text-align: left!important;
-            border-top: 1px solid #ddd;
-            padding: 20px 15px;
-            position: relative;
-            margin: 0;
-            strong, a{
-              width: 100%;
-              display: inline-block;
-              &:after{
-                top: 50%;
-                right: 10px;
-                color: $mainColor;
-                content: '\e608';
-                font-size: 32px;
-                font-weight: bold;
-                line-height: normal;
-                font-family: 'icons-blank-theme';
-                vertical-align: middle;
-                display: inline-block;
-                position: absolute;
-                margin-top: -16px;
-              }
-              &:hover{
-                color: $mainColor;
-              }
-            }
-            a{
-              color: #000;
-              text-decoration: none;
-            }
-            strong{
-              color: $mainColor;
-            }
-          }
-        }
-      }
       .sidebar-main{
-        width: 100%;
         @media only screen and (max-width: $desktop){
           padding: 0;
+          float: left;
+          width: 100%;
+        }
+        @media only screen and (min-width: $tablet){
+          width: 100%;
         }
       }
-
+      .column.main{
+        @media only screen and (min-width: $tablet){
+          width: 75%;
+        }
+      }
     }
   }
 }
@@ -463,7 +370,8 @@ section{
     .panel{
       border-radius: 0;
       box-shadow: none;
-      border-bottom: 0;
+      border: 0;
+      border-top: 1px solid #ddd;
       &.panel-default{
         >.panel-heading{
           text-align: left;
@@ -487,6 +395,9 @@ section{
                 background: url(../images/arrow-up-maincolor.png) no-repeat 95% center;
                 background-size: 14px;
               }
+              &:hover{
+                color: $mainColor;
+              }
             }
           }
         }
@@ -498,6 +409,8 @@ section{
             text-align: left;
             .items{
               .item{
+                position: relative;
+                padding-right: 25px;
                 a{
                   color: #000;
                   .count{
@@ -505,20 +418,22 @@ section{
                     font-size: 12px;
                   }
                   .icon-check{
-                    width: 15px;
-                    height: 15px;
-                    background: none;
-                    border: 1px solid #bbb;
-                    border-radius: 2px;
-                    margin: 5px 5px 0 0;
+                    width: 18px;
+                    height: 18px;
+                    background: #fff;
+                    border: 1px solid $mainColor;
+                    margin: 5px 0 0;
                     float: left;
+                    position: absolute;
+                    right: 0;
+                    border-radius: 50%;
                   }
                 }
                 &.mana-selected{
                   a .icon-check{
-                    background: url(../images/check-white.png) no-repeat center;
+                    background: url(../images/check-blue.png) no-repeat center;
+                    background-color: #fff;
                     background-size: 10px;
-                    background-color: $mainColor;
                     border: 1px solid $mainColor;
                   }
                 }
@@ -546,7 +461,7 @@ section{
         @media only screen and (min-width: $tablet){
           &.product-item{
             &:nth-child(n){
-              margin-left: 1.66%;
+              margin-left: 1.66%; 
             }
           }
         }
@@ -572,6 +487,9 @@ section{
   }
   .toolbar-products{
     width: 100%;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
     margin: 0;
     float: left;
     .pages{
@@ -648,38 +566,39 @@ section{
     padding: 8px 25px 8px 8px;
     background: url(../images/arrow-down-black.png) no-repeat 95% center;
     background-size: 14px;
+    border-radius: 6px;
   }
 }
 /*---BUTTONS---*/
 .action{
   &.primary, &.primary:active, &.primary:focus, &.action-apply{
     width: 100%;
+    color: #fff;
     background: $mainColor;
     text-transform: uppercase;
     transition: .5s all ease;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+    font-family: 'SamsungSharpSans-Bold';
     font-weight: 400;
+    border-radius: 5px !important;
     border: 0;
     &:hover{
       background: #000;
       border: none;
     }
   }
-  &.action-apply{
-    width: 100%;
-    color: #fff;
-    border-radius: 3px;
-  }
-  &.action-update, &.action-edit-address {
-    color: #999;
+  &.action-update {
+    color: $mainColor;
     background: none;
+    text-transform: uppercase;
     transition: .5s all ease;
     font-weight: 400;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 5px !important;
+    border: 2px solid $mainColor;
     &:hover{
       color: #fff;
-      background: #000;
-      border-color: #000;
+      background: $mainColor;
     }
   }
 }

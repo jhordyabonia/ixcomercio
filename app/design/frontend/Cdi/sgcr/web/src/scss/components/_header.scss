@@ -11,7 +11,7 @@ header{
     position: sticky;
     z-index: 99;
     .header-freeshipping{
-      background: #000;
+      background: $bgColorSecond;
       padding: 5px 15px;
       @media only screen and (max-width: $mobile){
         font-size: 12px;
@@ -61,12 +61,15 @@ header{
           }
           img{
             width: auto;
-            height: 40px;
-            max-width: none;
+            height: auto;
+            max-width: 100%;
             margin: 0 auto;
             float: left;
             @media only screen and (max-width: $desktop){
               float: none;
+            }
+            @media only screen and (max-width: $mobile){
+              height: 40px;
             }
           }
         }
@@ -83,6 +86,9 @@ header{
           height: 100%;
           position: absolute;
           z-index: 1;
+        }
+        @media only screen and (max-width: $mobile){
+          z-index: 9;
         }
         .header-toplinks{
           width: auto;
@@ -109,7 +115,6 @@ header{
             @media only screen and (max-width: $mobile){
               border: 0;
               padding: 0;
-              display: none;
             }
             .options .action.toggle{
               &:after, &.active:after{
@@ -197,6 +202,8 @@ header{
                   margin: 0 12px 0 0;
                 }
                 @media only screen and (max-width: $mobile){
+                  /*margin: 0;
+                  padding: 0 25px 4px 0;*/
                   display: none;
                 }
                 &:before{
@@ -210,6 +217,9 @@ header{
                   vertical-align: middle;
                   display: inline-block;
                   position: absolute;
+                  @media only screen and (max-width: $mobile){
+                    width: 100%;
+                  }
                 }
                 > a{
                   display: none;
@@ -231,7 +241,7 @@ header{
                   top: 100%;
                   display: none;
                   background: #fff;
-                  border-radius: 0 0 5px 5px;
+                  border-radius: 5px;
                   text-align: center;
                   padding: 10px 0;
                   position: absolute;
@@ -353,36 +363,6 @@ header{
               }
             }
           }
-          .wrapper-select-language{
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            padding: 0 15px 10px;
-            position: absolute;
-            display: none;
-            @media only screen and (max-width: $mobile){
-              display: block;
-            }
-            &:after{
-              font-size: 42px;
-              line-height: 36px;
-              color: #999;
-              content: '\e622';
-              font-family: 'icons-blank-theme';
-              font-weight: normal;
-              speak: none;
-              position: absolute;
-              top: 0;
-              right: 15px;
-              pointer-events: none;
-            }
-            select{
-              background: #fff;
-              border-radius: 3px;
-              border: 1px solid #ddd;
-              -webkit-appearance: none;
-            }
-          }
           .nav-sections{
             width: auto;
             background: none;
@@ -425,11 +405,6 @@ header{
                   margin: 0;
                   padding: 0;
                 }
-              }
-            }
-            @media only screen and (max-width: $mobile){
-              .nav-sections-items{
-                padding: 20px 0 70px;
               }
             }
             .navigation{
@@ -482,7 +457,7 @@ header{
                         &:after{
                           font-size: 35px;
                           @media only screen and (min-width: $desktop){
-                            color: #8E8E93;
+                            color: #000;
                             font-size: 28px;
                             font-weight: bold;
                           }
@@ -491,11 +466,12 @@ header{
                     }  
                   }
                   > .level-top{
-                    color: #8E8E93;
+                    color:$colorText;
                     font-size: 16px;
                     line-height: normal;
                     transition: .3s all ease;
                     border: 0;
+                    text-transform: uppercase;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
                       line-height: 36px;
@@ -537,7 +513,7 @@ header{
               }
             }
             &.open {
-              .header-account-mobile{
+              .header-account-mobile {
                 @media only screen and (max-width: $mobile){
                   display: block;
                 }

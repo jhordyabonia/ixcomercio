@@ -224,7 +224,7 @@
               text-align: center;
               margin: 0;
               .actions-primary {
-                width: 100%;
+                width: 140px;
                 display: inline-block;
                 @media (max-width: $desktop){
                   width: 100%;
@@ -242,7 +242,7 @@
               float: left;
             }
             .action-secondary {
-              width: 100%;
+              width: 140px;
               height: 42px;
               color: #999;
               font-size: 1.4rem;
