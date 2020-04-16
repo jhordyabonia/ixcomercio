@@ -256,7 +256,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 				      	}
 				    }
 				});
-			},2000);
+			},800);
 		}
 
 

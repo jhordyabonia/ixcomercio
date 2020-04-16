@@ -237,24 +237,26 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    // =============================================
 		
 		if($('.products-grid .owl-carousel').length){
-			$('.products-grid .owl-carousel').owlCarousel({
-				nav: true,
-				dots: true,
-				navSpeed: 800,
-				loop: true,
-				margin: 30,
-				responsive:{
-					0:{
-						items: 1
-					},
-					650:{
-				      	items: 3
-			      	},
-			    	992:{
-				      	items: 4
-			      	}
-			    }
-			});
+			setTimeout(function(){
+				$('.products-grid .owl-carousel').owlCarousel({
+					nav: true,
+					dots: true,
+					navSpeed: 800,
+					loop: true,
+					margin: 30,
+					responsive:{
+						0:{
+							items: 1
+						},
+						650:{
+					      	items: 3
+				      	},
+				    	992:{
+					      	items: 4
+				      	}
+				    }
+				});
+			},800);
 		}
 
 
