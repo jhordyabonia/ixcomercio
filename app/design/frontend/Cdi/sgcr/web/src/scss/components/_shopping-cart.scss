@@ -1,13 +1,9 @@
-
 .checkout-cart-index{
   .page-wrapper .page-main{
     max-width: 1300px;
     margin: 0 auto;
     @media (min-width: $tablet){
       width: 90%;
-      .page-title-wrapper{
-        text-align: left;
-      }
     }
   }
 }
@@ -88,7 +84,6 @@
                   }
                 }
                 .product-item-name{
-                  color: $mainColor;
                   font-weight: bold;
                   font-size: 16px;
                   display: block;
@@ -113,7 +108,6 @@
               }
               .cart-price{
                 .price{
-                  color: $colorText;
                   font-size: 18px;
                 } 
               }
@@ -125,11 +119,9 @@
                   background: $mainColor;
                   vertical-align: middle;
                   display: inline-block;
-                  border-radius: 100px;
+                  border-radius: 50%;
                   font-size: 18px;
                   font-weight: bold;
-                  text-align: center;
-                  line-height: 28px;
                   cursor: pointer;
                   @media (max-width: $tablet){
                     text-align: center;
@@ -139,10 +131,9 @@
                     background: #000;
                   }
                   &.disable{
-                    color: #fff;
-                    background: #ccc;
-                    line-height: 25px;
-                    border: none;
+                    color: #999;
+                    background: none;
+                    border: 1px solid #ccc;
                     pointer-events: none;
                   }
                 }
@@ -182,7 +173,7 @@
                   span{
                     display: none;
                   }
-                } 
+                }
               }
               &.col.item, &.col.price, &.col.qty, &.col.subtotal{
                 @media (max-width: $tablet){
@@ -231,42 +222,29 @@
       }
       .cart.main.actions{
         .action{
-          color: $bgColorSecond;
+          color: #999;
           background: none;
-          border: 1px solid $bgColorSecond;
+          border: 1px solid #ccc;
           padding: 7px 15px;
           height: 44px;
           font-size: 16px;
           line-height: 30px;
-          font-weight: bold;
-          &.continue{
-            color: $mainColor;
-            border: 1px solid $mainColor;
-            &:hover{
-              background: $bgColorSecond;
-              border-color: $bgColorSecond;
-            }
-          }
+          font-weight: normal;
           &.continue:before, &.update:before{
             line-height: 28px;
           }
           &:hover{
-            color: #fff;
-            background: $bgColorSecond;
-            border-color: $bgColorSecond;
+            background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
           }
         }
       }
     }
   }
-  #gift-options-cart{
-    display: none!important;
-  }
   .cart-summary{
     text-align: left;
     color: #000;
-    background: none;
-    border: 1px solid #ddd;
     @media (max-width: $tablet){
       top: 0!important;
       width: 100%;
@@ -358,7 +336,9 @@
       padding: 14px 17px;
       margin: 0;
       &:hover{
-        background: #000;
+        background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
       }
     }
   }

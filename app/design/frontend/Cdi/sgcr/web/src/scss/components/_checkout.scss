@@ -24,21 +24,20 @@
         font-size: 1rem;
       }
       &:after{
-        color: $mainColor;
+        color: #000;
         font-size: 1.3rem;
         line-height: 28px;
       }
     }
     &._active{
       &:before{
-        background: $mainColor;
+        background: #000;
       }
       >span{
         &:before{
-          background: $mainColor;
+          background: #000;
         }
         &:after{
-          color: $mainColor;
           font-size: 1.8rem;
         }
       }
@@ -134,6 +133,16 @@
           margin: 0 0 10px;
         }
       }
+      .action.primary{
+        min-width: 120px;
+        background: $mainColor;
+        border-radius: 3px;
+        &:hover {
+          background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
+        }
+      }
       .secondary .action{
         color: #999;
         background: none;
@@ -144,11 +153,11 @@
         line-height: 30px;
         font-weight: normal;
         min-width: 180px;
-        border-radius: 0 8px;
+        border-radius: 0;
         &:hover{
-          color: #fff;
-          background: #000;
-          border-color: #000;
+          background: $secondColor;
+          color: $colorHover;
+          border: 1px solid #1976a1;
         }
       }
     }
@@ -159,12 +168,8 @@
     }
   }
   .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
-    font-size: 26px;
+    font-size: 36px;
     font-weight: bold;
-    text-align: center;
-  }
-  .step-title{
-    color: $colorText;
   }
   .opc-summary-wrapper{
     .modal-content{
@@ -190,17 +195,15 @@
           display: block;
           padding: 0;
           .product-item-name{
-            color: $mainColor;
             font-weight: bold;
             font-size: 16px;
           }
         }
       }
       .details-qty{
-        color: #999999;
         font-size: 14px;
         .label{
-          color: #999999;
+          color: #000;
           padding-left: 0;
         }
       }
@@ -218,7 +221,6 @@
     }
     .product-item{
       .price{
-        color: $colorText;
         font-size: 14px;
         font-weight: bold;
       }
@@ -239,10 +241,5 @@
     .shipping-information-content{
       text-align: left;
     }
-  }
-  .continue.primary{
-    background:transparent;
-    color:$colorText;
-    border:
   }
 }

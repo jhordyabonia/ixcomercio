@@ -43,16 +43,20 @@
     }
     .block:not(.widget){
       .block-title{
-        color: $mainColor;
+        color: #666;
         border-bottom: 1px solid #e8e8e8;
         padding-bottom: 12px;
+        text-transform: uppercase;
         > strong{
           font-weight: 400;
+        }
+        a {
+          text-transform: none;
         }
       }
       .block-content{
         .box-title{
-          color: #000;
+          color: #7A7A7A;
         }
       }
       .action{
@@ -98,6 +102,7 @@
               }
             }
           }
+          /*
           &.city{
             .control{
               input{
@@ -105,13 +110,14 @@
               }
             }
           }
+          */
         }
         >.legend{
           width: 100%;
           border-bottom: 1px solid #e8e8e8;
+          padding-bottom: 12px;
           font-weight: bold;
           font-size: 20px;
-          padding-bottom: 12px;
           float: none;
         }
       }

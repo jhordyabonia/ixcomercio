@@ -148,7 +148,7 @@
           border: 0 !important;
           background: none !important;
         }
-        .MagicScroll-bullets {
+        .MagicScroll-bullets, .MagicScroll-arrows-inside {
           > div a[target="_blank"], > span a[target="_blank"] {
             display: none;
           }
@@ -252,17 +252,13 @@
       margin: 10px 0;
       > span{
         display: inline-block;
-        margin-right: 20px;
-        &.special-price{
-          .price{
-            color: #c73615;
-          }
-        }
+        margin-right: 10px;
         &.old-price{
-          color: #8e8e8e;
+          color: $mainColor;
           .price{
-            color: #999;
+            color: $mainColor;
             font-size: 24px;
+            font-weight: normal;
           }
         }
       }
@@ -276,7 +272,7 @@
       }
       .price-final_price{
         .price{
-          color: $colorText;
+          color: #000;
         }
       }
     }
@@ -350,7 +346,7 @@
               background: $mainColor;
               vertical-align: middle;
               display: inline-block;
-              border-radius: 0 5px;
+              border-radius: 50%;
               font-size: 18px;
               font-weight: bold;
               text-align: center;
@@ -361,10 +357,10 @@
                 background: #000;
               }
               &.disable{
-                color: #fff;
-                background: #ccc;
+                color: #999;
+                background: none;
                 line-height: 25px;
-                border: none;
+                border: 2px solid #aaa;
                 pointer-events: none;
               }
             }
@@ -391,6 +387,7 @@
           padding: 15px 0;
           button, .action.towishlist{
             margin-bottom: 10px;
+            margin-right: 10px;
             vertical-align: middle;
             min-height: 40px;
             line-height: 40px;
@@ -400,12 +397,10 @@
             min-width: 160px;
             width: auto;
             white-space: normal;
-            &.primary{
-              background: $mainColor;
-            }
             &:hover{
-              color: #fff;
-              background: #000;
+              background: $secondColor;
+            color: $colorHover;
+            border: 1px solid #1976a1;
             }
             @media only screen and (max-width: $mobile){
               width: 100%;
@@ -416,10 +411,10 @@
           .action.towishlist {
             color: #999;
             height: 38px;
+            border: 1px solid #ccc;
             border-radius: 3px;
             &:hover{
-            background: transparent;
-            color:#000000;
+              border: 1px solid #000;
             }
           }
         }
@@ -431,42 +426,63 @@
     .ept-social-share {
       width: 100%;
       float: left;
+      visibility: hidden;
+      margin: 20px 0 5px;
     }
     .product-social-links {
       width: auto;
       display: inline-block;
-      border-left: 1px solid #e5e5e5;
-      padding-left: 15px;
-      margin-left: 10px;
+      a{
+        width: 40px;
+        height: 40px;
+        color: #fff;
+        line-height: 40px;
+        background: #6f6f6f;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin: 0;
+        @media only screen and (min-width: $mobile){
+          width: 30px;
+          height: 30px;
+          font-size: 18px;
+          line-height: 30px;
+        }
+        &:hover {
+          background: #5f5f5f;
+        }
+        &.action.mailto.friend:before{
+          font-size: 40px;
+          line-height: 40px;
+          @media only screen and (min-width: $mobile){
+            font-size: 30px;
+            line-height: 30px;
+          }
+        }
+        span {
+          display: none;
+        }
+      }
     }
     .ept-social-share.ept-product-page, .ept-social-share.ept-socialshare-page{
       .ept-social-buttons {
+        background: #6F6F6F;
         vertical-align: middle;
         margin-right: 8px;
         @media only screen and (min-width: $mobile){
           width: 30px;
           height: 30px;
         }
+        &:hover {
+          background: #5f5f5f;  
+        }
         a{
+          color: #fff;
           @media only screen and (min-width: $mobile){
             width: 100%;
             height: 100%;
+            font-size: 18px;
             line-height: 30px;
             float: left;
-          }
-        }
-      }
-      .facebook-share{
-        background: #3b5998;
-        .facebook-button{
-          color: #fff;
-        }
-      }
-      .whatsapp-button {
-        &:before {
-          font-size: 34px;
-          @media only screen and (max-width: $mobile){
-            font-size: 40px;
           }
         }
       }
@@ -519,12 +535,11 @@
 }
 .box-additional{
   padding: 60px 0;
-  background: #fff;
+  background: #efefef;
   .product-tabs{
     width: 100%;
     float: left;
     .product.data.items{
-      background: #e8e8e8;
       @media only screen and (max-width: $tablet){
         text-align: left;
       }
@@ -536,19 +551,19 @@
           border-top: 1px solid #d5d5d5;
         }
         >.switch {
-          color: $mainColor;
+          color: #333;
           font-size: 1em;
           line-height: 3em;
           background-color: #e5e4e4;
           font-weight: bold;
           height: auto;
-          padding: 0 15px;
+          padding: 0 10px;
           border: 1px solid transparent;
           @media only screen and (min-width: $tablet){
-            color: $mainColor;
+            color: #333;
             position: relative;
             &:visited{
-              color: $mainColor;
+              color: #333;
             }
           }
           &:hover{
@@ -562,7 +577,7 @@
             color: $mainColor;
             margin-bottom: -1px;
             background-color: #fff;
-            border-bottom: 3px solid $mainColor;
+            border-bottom: 2px solid $mainColor;
             padding-bottom: 0;
             &:hover {
               background-color: #fff;
@@ -590,6 +605,14 @@
           width: 100%;
           margin-top: 0;
           float: left;
+        }
+        figure{
+          figcaption{
+            font-weight: bold;
+            font-size: 12px;
+            font-style: italic;
+            text-align: center;
+          }
         }
       }
     }
