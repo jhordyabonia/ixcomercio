@@ -6,6 +6,17 @@ form{
     		min-width: inherit!important;
 		}
 	}
+	&.review-form{
+		width: 100%;
+	}
+	&.contact {
+		margin: 0 auto;
+	    max-width: 500px;
+	    min-width: 300px;
+	    @media only screen and (max-width: $tablet){
+	    	width: 90%!important;
+	    }
+	}
 	.label{
 		color: #000;
 	}
@@ -16,7 +27,7 @@ form{
 			}
 			&:not(.choice){
 				> .label{
-					color: #000;
+					color: $colorText;
 					font-size: 13px;
 			    	margin: 0 0 10px;
 			    	font-weight: 700;
@@ -70,11 +81,8 @@ form{
 			}
 		}
 		>.legend{
-			color: #666;
 			font-size: 1.3rem;
 			text-align: left;
-			font-weight: bold;
-			text-transform: uppercase;
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }
@@ -101,21 +109,17 @@ form{
 	.field-error, div.mage-error[generated]{
 		font-size: 12px;
 	}
-	&.form-create-account{
-		.action.primary {
-			background: #258EBF;
-			border-radius: 3px;
-			&:hover{
-				background: $secondColor;
-				border: 1px solid #1976a1;
-				color: #1976a1 !important;
-			}
-		}
-	}
 }
 .column{
 	&:not(.sidebar-main) form.form, &:not(.sidebar-additional) form.form, form.form{
 		.actions-toolbar{}
+	}
+}
+.login-container{
+	form .fieldset:after{
+		@media only screen and (min-width: $tablet){
+			margin-left: 0;
+		}
 	}
 }
 .customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword, .sendfriend-product-send{
@@ -150,9 +154,8 @@ form{
 				    line-height: 30px;
 				    font-weight: normal;
 				    &:hover{
-				    	background: $secondColor;
-          				color: $colorHover;
-          				border: 1px solid #1976a1;
+				    	color: #fff;
+				    	background: #000;
 				    }
 				}
 			}
@@ -193,9 +196,8 @@ form{
 			    cursor: pointer;
 			    float: right;
 			    &:hover{
-			    	background: $secondColor;
-          			color: $colorHover;
-          			border: 1px solid #1976a1;
+			    	color: #fff;
+    				background: #000;
 			    }
 			}
 		}

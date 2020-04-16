@@ -20,23 +20,21 @@
           .action{
             margin-left: 5px;
             min-width: 140px;
-            border-radius: 25px;
+            border-radius: 5px;
             background: $mainColor;
             display: inline-block;
             padding: 15px;
             border: 0;
             color: #FFFFFF;
             font-size: 13px;
-            font-weight: normal;
+            font-weight: bold;
             line-height: 19px;
             text-align: center;
             text-transform: uppercase;
             vertical-align: middle;
             white-space: nowrap;
             &:hover{
-              background:$secondColor;
-              border: 1px solid #1976a1;
-              color: #1976a1 !important;
+              background: #000;
             }
           }
         }
@@ -49,7 +47,9 @@
             text-align: left;
             .product-item-name{
               a{
-                color: #000;
+                color: $mainColor;
+                font-size: 16px;
+                font-weight: bold;
                 line-height: initial;
               }
             }
@@ -67,9 +67,10 @@
                 }
               }
             }
-            .product-item-pricing {
-              width: 100%;
-              float: left; 
+            .product-item-pricing{
+              .price{
+                color: $colorText;
+              }
             }
             .details-qty.qty{
               pointer-events: none;
@@ -97,6 +98,7 @@
               }
             }
           }
+
         }
       }
       .actions{
