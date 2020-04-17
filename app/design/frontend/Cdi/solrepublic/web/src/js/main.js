@@ -39,6 +39,7 @@ function ($, Component) {
 
 
 		jQuery(".SOLburger").on('click', function(){
+			console.log('click');
 			menuToggle();
 			jQuery(".SOLburger").toggleClass("is-clicked");
 		});
