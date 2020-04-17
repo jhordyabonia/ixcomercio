@@ -314,19 +314,20 @@ class GetCatalog {
         //Se recorre array        
         $allCategories = array();
         $allProducts = array();
+        //Se carga la categoria root del store
+        $rootNodeId = $store->getRootCategoryId();
+        /// Get Root Category
+        $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
+        $cat_info = $rootCat->load($rootNodeId);
+
         foreach ($data as $key => $catalog) {
             $this->logger->info('GetCatalog - lee datos '.$websiteCode);
-            //Se carga la categoria por atributo
-            
-            $rootNodeId = $store->getRootCategoryId();
-            /// Get Root Category
-            $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
-            $cat_info = $rootCat->load($rootNodeId);
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
             $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
+            
             if($categories->getSize()){
                 $collection = $objectManager->create('Magento\Catalog\Model\Category');
                 $categoryTmp = $collection->load($categories->getFirstItem()->getId(), $storeId);
@@ -345,7 +346,7 @@ class GetCatalog {
             $categoryTmp->setName($name);
             $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
-            if($existe == 0){
+            if($existe == 0){ 
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
                 $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
                 if($categoriesAll->getSize()){
@@ -404,7 +405,7 @@ class GetCatalog {
                 $newArrayCategory[$key1] = $category;
             }
         }
-        //$this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
+        $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
         $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
     }
@@ -621,7 +622,7 @@ class GetCatalog {
             ->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
         
         foreach ($categories as $category){
-            if(!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' &&$category->getIsActive()){
+            if((!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' && $category->getIsActive()) || ($category->getName() == '' || !$category->getName())){
                 $categoryFactoryData=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 $categoryTmp = $categoryFactoryData->create()->setStoreId($storeId)->load($category->getId());     
                 //Se deshabilita categoría            
