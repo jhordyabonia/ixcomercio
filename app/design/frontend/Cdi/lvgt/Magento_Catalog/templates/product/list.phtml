@@ -18,6 +18,7 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
+$productos = [];
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -71,7 +72,13 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                         <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
                         <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                         <?= $block->getProductDetailsHtml($_product) ?>
-
+                        <?php 
+                            $productos = [
+                                "nombre" => $_product->getName(),
+                                "sku"    => $_product->getSku(),
+                                "precio" => $block->getProductPrice($_product),
+                            ]
+                        ?>
                         <div class="product-item-inner">
                             <div class="product actions product-item-actions"<?= strpos($pos, $viewMode . '-actions') ? $position : '' ?>>
                                 <div class="actions-primary"<?= strpos($pos, $viewMode . '-primary') ? $position : '' ?>>
@@ -83,7 +90,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                             <?= $block->getBlockHtml('formkey') ?>
                                             <button type="submit"
                                                     title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
-                                                    class="action tocart primary" onclick="llamada()">
+                                                    class="action tocart primary" onclick="llamada(<?php $productos ?>)">
                                                 <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
                                             </button>
                                         </form>
@@ -116,7 +123,25 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
         </ol>
         <script type="text/javascript">
             function llamada (){
-                alert("Se agrego un producto al carrito");
+                //alert("Se agrego un producto al carrito");
+                dataLayer.push({
+                    'event': 'addToCart',
+                    'ecommerce': {
+                        'currencyCode': 'GTQ',
+                        'add': {
+                            'products': [{
+                            'name': productName,
+                            'id': productSku,
+                            'price': productPrice,
+                            'brand': productBrand,
+                            'category': productCategory,
+                            'variant': productVariant,
+                            'quantity': productQty
+                            }]
+                        }
+                    }
+                });
+
             }
         </script>
     </div>
