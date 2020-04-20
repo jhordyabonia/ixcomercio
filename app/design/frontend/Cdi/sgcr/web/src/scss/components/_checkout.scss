@@ -243,6 +243,9 @@
   .continue.primary{
     background:transparent;
     color:$colorText;
-    border:
+    border: 1px solid $bgColorSecond; 
+  &:hover{
+    background:$bgColorSecond;
+    color:#ffffff;
   }
 }
