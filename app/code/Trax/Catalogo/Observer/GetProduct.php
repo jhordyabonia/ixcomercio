@@ -241,6 +241,7 @@ class GetProduct implements \Magento\Framework\Event\ObserverInterface
             $product->setStatus(1); // Status on product enabled/ disabled 1/0
             $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
             $product->setTaxClassId($configData['tax_id']); // Tax class id
+            $product->setData('mpn',$catalog->Mpn); // Add Mpn
             switch($catalog->Type){
                 case 'Physical':
                     $product->setTypeId('simple');
