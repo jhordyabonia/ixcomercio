@@ -11,6 +11,7 @@ class Data extends AbstractHelper{
  
 	protected $pageFactory;
 	protected $_scopeConfig;
+	protected $_storeManager;
     /**
      * @var TimezoneInterface
      */
@@ -30,13 +31,15 @@ class Data extends AbstractHelper{
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
 		TimezoneInterface $localeDate, 
 		BestSellersCollectionFactory $bestSellersCollectionFactory,
-		AddressRepositoryInterface $addressRepository
+		AddressRepositoryInterface $addressRepository,
+		\Magento\Store\Model\StoreManagerInterface $storeManager
 	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
 		$this->localeDate = $localeDate;	
 		$this->addressRepository = $addressRepository;
-        $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
+		$this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;
+		$this->_storeManager = $storeManager;	
 	}
 	
 	/**
@@ -53,6 +56,10 @@ class Data extends AbstractHelper{
 		}
 		return $string;
 	}
+
+	public function getMediaUrl($path){
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
+    }
 
 	public function getStoreConfig($key){
 		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
