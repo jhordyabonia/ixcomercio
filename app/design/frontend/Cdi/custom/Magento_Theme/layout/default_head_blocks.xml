@@ -14,8 +14,8 @@
 		<css src="css/main.min.css" />
 		
 		<!--Custom Js
-		<link src="js/main.min.js"/>
 		-->
+		<link src="js/main.min.js"/>
 
 		<!--
 		<remove src="jquery.js"/>
