@@ -122,7 +122,7 @@ $productos = [];
             <?php endforeach; ?>
         </ol>
         <script type="text/javascript">
-            function llamada (){
+            function llamada (productatt){
                 //alert("Se agrego un producto al carrito");
                 dataLayer.push({
                     'event': 'addToCart',
@@ -130,13 +130,13 @@ $productos = [];
                         'currencyCode': 'GTQ',
                         'add': {
                             'products': [{
-                            'name': productName,
-                            'id': productSku,
-                            'price': productPrice,
-                            'brand': productBrand,
-                            'category': productCategory,
-                            'variant': productVariant,
-                            'quantity': productQty
+                                'name': productatt["nombre"],
+                                'id': productatt["sku"],
+                                'price': productatt["precio"],
+                                'brand': "Lenovo",
+                                'category': productCategory,
+                                'variant': productVariant,
+                                'quantity': productQty
                             }]
                         }
                     }
