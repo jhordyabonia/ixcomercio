@@ -76,7 +76,8 @@
             border: 2px solid $mainColor;
             &:hover{
               color: #fff;
-              background: $mainColor;
+              background: $bgColorSecond;
+              border: 2px solid $bgColorSecond;
             }
           }
         }

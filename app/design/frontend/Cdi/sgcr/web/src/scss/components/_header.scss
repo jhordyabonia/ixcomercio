@@ -69,7 +69,7 @@ header{
               float: none;
             }
             @media only screen and (max-width: $mobile){
-              height: 40px;
+              height: auto;
             }
           }
         }

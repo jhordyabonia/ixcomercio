@@ -81,8 +81,11 @@ form{
 			}
 		}
 		>.legend{
-			font-size: 1.3rem;
+			font-size: 20px;
 			text-align: left;
+			border:0;
+			text-transform: uppercase;
+			font-family: 'SamsungSharpSans-Medium';
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }
@@ -202,4 +205,14 @@ form{
 			}
 		}
 	}
+}
+.action.back{
+	color:#1428A0;
+	font-size: 18px;
+	&:hover{
+		color:$colorText;
+	}
+}
+.newsletter .span{
+	font-size: 14px;
 }
