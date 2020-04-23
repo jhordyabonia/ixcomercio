@@ -80,6 +80,7 @@ function (
                     isAddressDetailsVisible: quote.billingAddress() != null,
                     isAddressFormVisible: !customer.isLoggedIn() || !addressOptions.length,
                     isAddressSameAsShipping: false,
+                    isInvoiceSelected: false,
                     saveInAddressBook: 1
                 });
 
@@ -108,6 +109,10 @@ function (
             return !quote.isVirtual() && quote.shippingAddress() && quote.shippingAddress().canUseForBilling();
         }),
 
+        canUseInvoice: ko.computed(function () {
+            return true;
+        }),
+
         /**
          * @param {Object} address
          * @return {*}
@@ -132,6 +137,12 @@ function (
             }
             checkoutData.setSelectedBillingAddress(null);
 
+            return true;
+        },
+
+        useInvoice: function () {
+            this.updateAddresses();
+            this.isInvoiceSelected = true;
             return true;
         },
 
