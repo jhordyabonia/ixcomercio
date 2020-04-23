@@ -19,6 +19,9 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $productos = [];
+$gtm_prods =''; # GTM variable
+$producto = ''; # GTM variable
+$count = 0;
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -54,6 +57,21 @@ $productos = [];
                         $position = ' style="left:' . $productImage->getWidth() . 'px;'
                             . 'top:' . $productImage->getHeight() . 'px;"';
                     }
+                    ?>
+                    <?php
+                    /* XCB GTM */
+                    $count++;
+                    $producto = "{        
+                        'name': '{$_product->getName()}',
+                        'id': '{$_product->getSku()}',
+                        'price': '{$_product->getFinalPrice()}',
+                        'brand': 'HOM',
+                        'variant': 'productVariant',
+                        'list': '{}',
+                        'position': {$count}
+                    }";
+                    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
+                    /* XCB END */
                     ?>
                     <?php // Product Image ?>
                     <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
@@ -121,29 +139,7 @@ $productos = [];
             </li>
             <?php endforeach; ?>
         </ol>
-        <script type="text/javascript">
-            function llamada (productatt){
-                //alert("Se agrego un producto al carrito");
-                dataLayer.push({
-                    'event': 'addToCart',
-                    'ecommerce': {
-                        'currencyCode': 'GTQ',
-                        'add': {
-                            'products': [{
-                                'name': productatt["nombre"],
-                                'id': productatt["sku"],
-                                'price': productatt["precio"],
-                                'brand': "Lenovo",
-                                'category': productCategory,
-                                'variant': productVariant,
-                                'quantity': productQty
-                            }]
-                        }
-                    }
-                });
-
-            }
-        </script>
+        
     </div>
     <?= $block->getToolbarHtml() ?>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
@@ -158,3 +154,19 @@ $productos = [];
         </script>
     <?php endif; ?>
 <?php endif; ?>
+<?php
+/* XCB GTM */
+echo <<<JG
+<script type="text/javascript">
+    dataLayer.push({
+        'event': 'productImpressions',
+        'ecommerce': {
+            'currencyCode': 'COP',
+            'impressions': [$gtm_prods]
+        }
+    });
+
+</script>
+JG;
+/* XCB END */
+?>
