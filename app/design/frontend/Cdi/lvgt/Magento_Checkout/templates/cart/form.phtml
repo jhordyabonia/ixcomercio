@@ -78,10 +78,12 @@ echo "<script>dataLayer.push({'event':'ga_event','category':'Carrito de compras'
 
 <?php
 /* XCB GTM */
-$_productCollection = $block->getLoadedProductCollection();
+$gtm_prods = '';
+$_productCollection = $block->getItems();
+if(is_array($_productCollection))
 foreach ($_productCollection as $_product){
     $producto = "{
-        'id': '{$_productCollection->getSku()}',
+        'id': '{$_product->getSku()}',
         'name': '{$_product->getName()}',
         'price': '{$_product->getFinalPrice()}',
         'brand': 'HOM',
