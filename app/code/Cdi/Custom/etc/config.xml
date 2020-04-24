@@ -10,5 +10,19 @@
                 <custom_disable_checkout>0</custom_disable_checkout>
             </store_information>
         </general>
+        <customer>
+            <address>
+                <billing_name_label>Name</billing_name_label>
+                <billing_identification_label>Identification</billing_identification_label>
+                <billing_address_label>Address</billing_address_label>
+            </address>
+        </customer>
+        <checkout>
+            <options>
+                <show_invoice>1</show_invoice>
+                <invoice_default_value></invoice_default_value>
+                <invoice_label></invoice_label>
+            </options>
+        </checkout>
     </default>
 </config>
