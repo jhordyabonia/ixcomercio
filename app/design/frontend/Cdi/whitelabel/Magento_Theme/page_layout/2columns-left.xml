@@ -25,7 +25,7 @@
     </referenceContainer>
 
 	<!--Se agregan elementos al contenedor-->
-    <move element="main" destination="div.col.right" />
+    <move element="content" destination="div.col.right" />
     <move element="div.sidebar.main" destination="div.col.left" />
     <move element="div.sidebar.additional" destination="div.col.left" />
 </layout>

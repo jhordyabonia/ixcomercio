@@ -12,7 +12,6 @@ class ObserverSuccess implements ObserverInterface
 {
     private $collectionFactory;
     private $quoteRepository;
-    private $_logger;
     const XML_PATH_Street_store = 'shipping/origin/street_line2';
 
     /**
@@ -35,10 +34,7 @@ class ObserverSuccess implements ObserverInterface
         $this->collectionFactory = $collectionFactory;
         $this->quoteRepository = $quoteRepository;
         $this->_code = 'mienviocarrier';
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral.log');
-        $this->_logger = new \Zend\Log\Logger();
-        $this->_logger->addWriter($writer);
-        //$this->logger = $logger;
+        $this->_logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
     }
@@ -158,12 +154,12 @@ class ObserverSuccess implements ObserverInterface
 
             $toData = $this->createAddressDataStr(
                 $customerName,
-                substr($shippingAddress->getStreetLine(1), 0, 30),
-                substr($toStreet2, 0, 30),
+                $shippingAddress->getStreetLine(1),
+                $toStreet2,
                 $shippingAddress->getPostcode(),
                 $customermail,
                 $customerPhone,
-                substr($shippingAddress->getStreetLine(3), 0, 30),
+                $shippingAddress->getStreetLine(3),
                 $countryId
             );
 
@@ -317,11 +313,18 @@ class ObserverSuccess implements ObserverInterface
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
             $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+            if($this->_mienvioHelper->getMeasures() === 1){
+                $length = $product->getData('ts_dimensions_length');
+                $width  = $product->getData('ts_dimensions_width');
+                $height = $product->getData('ts_dimensions_height');
+                $weight = $product->getData('weight');
 
-            $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
-            $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
-            $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
-            $weight = $this->convertWeight($product->getData('weight'));
+            }else{
+                $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+                $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+                $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+                $weight = $this->convertWeight($product->getData('weight'));
+            }
 
             $orderLength += $length;
             $orderWidth  += $width;
@@ -481,10 +484,7 @@ class ObserverSuccess implements ObserverInterface
      */
     private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode)
     {
-        $street = substr($street, 0, 35);
-        $street2 = substr($street2, 0, 35);
-        $name = substr($name, 0, 80);
-        $phone = substr($phone, 0, 20);
+
         $data = [
             'object_type' => 'PURCHASE',
             'name' => $name,
@@ -586,12 +586,12 @@ class ObserverSuccess implements ObserverInterface
 
             $toData = $this->createAddressDataStr(
                 $customerName,
-                substr($shippingAddress->getStreetLine(1), 0, 30),
-                substr($toStreet2, 0, 30),
+                $shippingAddress->getStreetLine(1),
+                $toStreet2,
                 $shippingAddress->getPostcode(),
                 $customermail,
                 $customerPhone,
-                substr($shippingAddress->getStreetLine(3), 0, 30),
+                $shippingAddress->getStreetLine(3),
                 $countryId
             );
 

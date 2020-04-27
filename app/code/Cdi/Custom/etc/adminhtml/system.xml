@@ -38,6 +38,10 @@
 					<label>Sales enabled</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
+                <field id="custom_log_layout" translate="label" type="select" sortOrder="991" showInDefault="1" showInWebsite="1" showInStore="1">
+					<label>Layout debug enabled</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
             </group>
         </section>
     </system>
