@@ -238,6 +238,7 @@ class GetCartProducts implements \Magento\Framework\Event\ObserverInterface
         $products = $productFactory->create();
         $product = $products->loadByAttribute('sku', $catalog->Sku);
         if($product){
+            $product->setData('mpn',$catalog->Mpn); // Add Mpn
             if($configData['product_price']){
                 $product->setPrice($catalog->Price->UnitPrice);
             }

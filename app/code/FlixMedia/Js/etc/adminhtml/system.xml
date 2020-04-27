@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="flix" translate="label" sortOrder="1">
+            <label>FlixMedia</label>
+        </tab>
+        <section id="flix_general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Configuración</label>
+            <tab>flix</tab>
+            <resource>FlixMedia_Js::config_catalogo</resource>
+            <group id="catalogo_retailer" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración General</label>
+                <field id="id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>ID</label>
+                    <comment>ID proporcionada por FlixMedia para la cuenta del cliente.</comment>
+                </field>
+                <field id="language" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Language</label>
+                    <comment>Language Ej: cr.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

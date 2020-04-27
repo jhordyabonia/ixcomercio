@@ -2,20 +2,14 @@
 namespace MienvioMagento\MienvioGeneral\Model\Carrier;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\DataObject;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
-use Magento\Shipping\Model\Config;
 use Magento\Shipping\Model\Rate\ResultFactory;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory;
-use Magento\Quote\Model\Quote\Address\RateResult\Method;
 use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Psr\Log\LoggerInterface;
 use MienvioMagento\MienvioGeneral\Helper\Data as Helper;
-use Magento\Quote\Model\QuoteRepository;
-use \Magento\Checkout\Controller\Index\Index;
 
 
 
@@ -27,7 +21,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private $directoryHelper;
     private $quoteRepository;
-    protected $_logger;
+
     const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
 
     /**
@@ -55,10 +49,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->lbs_kg = 0.45359237;
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienviogeneral_mienviorates.log');
-        $this->_logger = new \Zend\Log\Logger();
-        $this->_logger->addWriter($writer);
-        //$this->logger = $logger;
+        $this->_logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
         $this->directoryHelper = $directoryHelper;
@@ -193,12 +184,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             $toData = $this->createAddressDataStr(
                 'usuario temporal',
-                substr($fullAddressProcessed['street'], 0, 30),
-                substr($fullAddressProcessed['suburb'], 0, 30),
+                $fullAddressProcessed['street'],
+                $fullAddressProcessed['suburb'],
                 $destPostcode,
                 "ventas@mienvio.mx",
                 "5551814040",
-                substr($fullAddressProcessed['suburb'], 0, 30),
+                $fullAddressProcessed['suburb'],
                 $destCountryId,
                 $destRegion,
                 $destRegionCode,
@@ -208,20 +199,14 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
             $this->_curl->setOptions($options);
 
-            $this->_logger->debug('Request');
             $this->_curl->post($createAddressUrl, json_encode($fromData));
             $addressFromResp = json_decode($this->_curl->getBody());
-            $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
-            if(isset($addressFromResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressFromId = $addressFromResp->{'address'}->{'object_id'};
 
-            $this->_logger->debug('Request');
             $this->_curl->post($createAddressUrl, json_encode($toData));
             $addressToResp = json_decode($this->_curl->getBody());
-            $this->_logger->debug('Response');
             $this->_logger->debug($this->_curl->getBody());
-            if(isset($addressToResp->{'error'})) throw new \Exception($addressFromResp->{'error'});
             $addressToId = $addressToResp->{'address'}->{'object_id'};
 
             $itemsMeasures = $this->getOrderDefaultMeasures($request->getAllItems());
@@ -550,10 +535,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
-        $street = substr($street, 0, 35);
-        $street2 = substr($street2, 0, 35);
-        $name = substr($name, 0, 80);
-        $phone = substr($phone, 0, 20);
+
 
         $data = [
             'object_type' => 'PURCHASE',
@@ -618,11 +600,19 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
             $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+            if($this->_mienvioHelper->getMeasures() === 1){
+                $length = $product->getData('ts_dimensions_length');
+                $width  = $product->getData('ts_dimensions_width');
+                $height = $product->getData('ts_dimensions_height');
+                $weight = $product->getData('weight');
 
-            $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
-            $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
-            $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
-            $weight = $this->convertWeight($product->getData('weight'));
+            }else{
+                $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+                $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+                $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+                $weight = $this->convertWeight($product->getData('weight'));
+            }
+
 
             $orderLength += $length;
             $orderWidth  += $width;

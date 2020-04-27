@@ -5,11 +5,13 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Cms\Model\PageFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
+use Magento\Customer\Api\AddressRepositoryInterface;
 
 class Data extends AbstractHelper{
  
 	protected $pageFactory;
 	protected $_scopeConfig;
+	protected $_storeManager;
     /**
      * @var TimezoneInterface
      */
@@ -17,18 +19,27 @@ class Data extends AbstractHelper{
     /**
      * @var BestSellersCollectionFactory
      */
+	/**
+     * @var AddressRepositoryInterface
+     */
+	private $addressRepository;
+	
     protected $_bestSellersCollectionFactory;
 	
 	public function __construct(
 		PageFactory $pageFactory, 
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
 		TimezoneInterface $localeDate, 
-		BestSellersCollectionFactory $bestSellersCollectionFactory
+		BestSellersCollectionFactory $bestSellersCollectionFactory,
+		AddressRepositoryInterface $addressRepository,
+		\Magento\Store\Model\StoreManagerInterface $storeManager
 	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
 		$this->localeDate = $localeDate;	
-        $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;	
+		$this->addressRepository = $addressRepository;
+		$this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;
+		$this->_storeManager = $storeManager;	
 	}
 	
 	/**
@@ -45,6 +56,10 @@ class Data extends AbstractHelper{
 		}
 		return $string;
 	}
+
+	public function getMediaUrl($path){
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
+    }
 
 	public function getStoreConfig($key){
 		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -164,8 +179,9 @@ class Data extends AbstractHelper{
 				break;
 			default:
 				$regularPrice = $_product->getPriceInfo()->getPrice('regular_price')->getValue();
-				$specialPrice = $_product->getPriceInfo()->getPrice('special_price')->getValue();
-		}  
+				$specialPrice = $_product->getPriceInfo()->getPrice('final_price')->getValue();
+		}
+
 		if($regularPrice != $specialPrice){
 			$discount = ($specialPrice * 100) / $regularPrice;
 			return round($discount);
@@ -199,6 +215,28 @@ class Data extends AbstractHelper{
         }
 
 		return false;
-    }
+	}
+	
+	/*
+	 * Retorna la información de una direcicón según su id
+	*/
+	public function getAddressData($block){
+		if($block->getAddress()){
+			//clean region
+			$region = $block->getRegion();
+			if($region){
+				$_region = explode('.', $region);
+				$region = (count($_region) == 2) ? $_region[1] : $region;
+			}
+			//data
+			$data = array(
+				'country' => $block->getAddress()->getCountryId(),
+				'region' => $region,
+				'city' => $block->getAddress()->getCity(),
+			);
+			return $data;
+		}
+		return false;
+	}
  
 }
