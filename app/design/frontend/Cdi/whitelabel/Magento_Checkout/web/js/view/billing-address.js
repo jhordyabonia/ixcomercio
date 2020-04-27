@@ -110,7 +110,11 @@ function (
         }),
 
         canUseInvoice: ko.computed(function () {
-            return true;
+            return window.enableInvoice
+        }),
+
+        invoiceLabel: ko.computed(function () {
+            return window.invoiceLabel
         }),
 
         /**

@@ -47,13 +47,13 @@
         <section id="customer">
             <tab>customer</tab>
             <group id="address">
-                <field id="billing_name_label" translate="label" type="text" sortOrder="970" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="billing_name_label" translate="label" type="text" sortOrder="970" showInDefault="0" showInWebsite="1" showInStore="1">
                     <label>Billing name label</label>
                 </field>
-                <field id="billing_identification_label" translate="label" type="text" sortOrder="970" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="billing_identification_label" translate="label" type="text" sortOrder="970" showInDefault="0" showInWebsite="1" showInStore="1">
                     <label>Billing identification label</label>
                 </field>
-                <field id="billing_address_label" translate="label" type="text" sortOrder="970" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="billing_address_label" translate="label" type="text" sortOrder="970" showInDefault="0" showInWebsite="1" showInStore="1">
                     <label>Billing address label</label>
                 </field>
             </group>

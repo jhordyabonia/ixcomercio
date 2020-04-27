@@ -7,9 +7,12 @@
 <div class="checkout-billing-address">
     <div class="billing-address-invoice-block field choice" data-bind="visible: canUseInvoice()">
         <input type="checkbox" name="billing-address-invoice"
-               data-bind="checked: isInvoiceSelected, click: useInvoice, attr: {id: 'billing-address-invoice-' + getCode($parent)}"/>
+               data-bind="checked: isInvoiceSelected, click: useInvoice, attr: {
+                    id: 'billing-address-invoice-' + getCode($parent),
+                    name: 'payment[billing-address-invoice-' + getCode($parent) + ']'
+                }"/>
         <label data-bind="attr: {for: 'billing-address-invoice-' + getCode($parent)}"><span
-                data-bind="i18n: 'Invoice'"></span></label>
+                data-bind="i18n: invoiceLabel()"></span></label>
     </div>
     <div class="billing-address-same-as-shipping-block field choice" data-bind="visible: canUseShippingAddress()">
         <input type="checkbox" name="billing-address-same-as-shipping"
