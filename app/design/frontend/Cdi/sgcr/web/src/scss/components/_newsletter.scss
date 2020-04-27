@@ -60,7 +60,7 @@ section{
             position: relative;
             text-transform: uppercase;
             border-radius: 0 5px 5px 0;
-            background: #0b6270;
+            background: $mainColor;
             @media only screen and (max-width: $mobile){
               border-radius: 5px;
             }

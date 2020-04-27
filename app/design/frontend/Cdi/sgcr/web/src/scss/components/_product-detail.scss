@@ -276,7 +276,7 @@
       }
       .price-final_price{
         .price{
-          color: #d7410b;
+          color: $colorText;
         }
       }
     }
@@ -350,7 +350,7 @@
               background: $mainColor;
               vertical-align: middle;
               display: inline-block;
-              border-radius: 0 5px;
+              border-radius:50%;
               font-size: 18px;
               font-weight: bold;
               text-align: center;
@@ -401,7 +401,7 @@
             width: auto;
             white-space: normal;
             &.primary{
-              background: #008424;
+              background: $mainColor;
             }
             &:hover{
               color: #fff;
@@ -416,10 +416,10 @@
           .action.towishlist {
             color: #999;
             height: 38px;
-            border: 1px solid #ccc;
             border-radius: 3px;
             &:hover{
-              border: 1px solid #000;
+            background: transparent;
+            color:#000000;
             }
           }
         }
