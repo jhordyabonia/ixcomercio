@@ -245,7 +245,8 @@
     color:$colorText;
     border: 1px solid $bgColorSecond; 
   }
-  &:hover{
+  .continue.primary:hover{
     background:$bgColorSecond;
     color:#ffffff;
   }
+}
