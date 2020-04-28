@@ -145,8 +145,12 @@ function (
         },
 
         useInvoice: function () {
-            this.updateAddresses();
-            this.isInvoiceSelected = true;
+            if (this.isInvoiceSelected()) {
+                this.isInvoiceSelected(true);
+            }else{
+                this.isInvoiceSelected(false);
+            }
+            this.updateAddress();            
             return true;
         },
 

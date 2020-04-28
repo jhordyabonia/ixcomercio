@@ -105,11 +105,6 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 $elements[$code]['label'] = __($label);
             }
         }
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/elements.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $logger->info($elements);
-
         return $elements;
     }
 

@@ -12,9 +12,9 @@
         </general>
         <customer>
             <address>
-                <billing_name_label>Name</billing_name_label>
-                <billing_identification_label>Identification</billing_identification_label>
-                <billing_address_label>Address</billing_address_label>
+                <billing_name_label></billing_name_label>
+                <billing_identification_label></billing_identification_label>
+                <billing_address_label></billing_address_label>
             </address>
         </customer>
         <checkout>

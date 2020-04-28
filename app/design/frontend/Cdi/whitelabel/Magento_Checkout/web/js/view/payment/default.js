@@ -188,6 +188,15 @@ define([
          * Get payment method data
          */
         getData: function () {
+            if($('#billing-address-invoice-' + this.item.method).length){
+                return {
+                    'method': this.item.method,
+                    'po_number': null,
+                    'additional_data': {
+                        useinvoice: $('#billing-address-invoice-' + this.item.method).val()
+                    }
+                };
+            }
             return {
                 'method': this.item.method,
                 'po_number': null,
