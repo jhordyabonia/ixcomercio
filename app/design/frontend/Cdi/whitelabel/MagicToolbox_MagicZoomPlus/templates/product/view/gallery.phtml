@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @var $block \MagicToolbox\MagicZoomPlus\Block\Product\View\Gallery
+ */
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$_product = $block->getProduct();
+$discount = $_helperCdi->getDiscount($_product);
+?>
+<?php if ($discount != 0): 
+    $discount = 100 - $discount; ?>
+    <span class="product-tag disccount-tag">-<?php echo $discount ?>%</span>
+<?php endif; ?>
+<?php if ($_helperCdi->isNew($_product)): ?>
+    <span class="product-tag new-tag"><?php /* @escapeNotVerified */ echo __('New') ?></span>
+<?php endif; ?>
+<?php if ($_product->getTypeId() == 'virtual'): ?>
+    <span class="product-tag download-tag"></span>
+<?php endif; ?>
+<?php if ($_helperCdi->checkBestseller($_product)): ?>
+    <span class="product-tag bestseller-tag"></span>
+<?php endif;
+echo $block->getRenderedHtml();

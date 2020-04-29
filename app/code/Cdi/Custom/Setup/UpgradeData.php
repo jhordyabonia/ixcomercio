@@ -398,7 +398,6 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 		
-		
 		if(version_compare($context->getVersion(), '1.0.16', '<')){
 			// ADD ATTRIBUTES
 			$attsToAdd['product_attributes'] = array(
@@ -424,9 +423,11 @@ class UpgradeData implements UpgradeDataInterface{
 				)
 			);
 		}
+
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		$connection = $resource->getConnection();
+
 		if(version_compare($context->getVersion(), '1.0.17', '<')){			
 			$tableName = $resource->getTableName('theme');
 			//Verifica si existe el theme whitelabel
@@ -446,6 +447,34 @@ class UpgradeData implements UpgradeDataInterface{
 			$tableName = $resource->getTableName('directory_country_region');
 			$sql = "DELETE FROM {$tableName} where country_id = 'MX'";
 			$connection->query($sql);
+		}
+
+		if(version_compare($context->getVersion(), '1.0.19', '<')){
+			$quote = 'quote';
+			$orderTable = 'sales_order';
+			$attributeOrder = 'useinvoice';
+			$setup->getConnection()
+			->addColumn(
+				$setup->getTable($quote),
+				$attributeOrder,
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					'length' => 50,
+					'comment' =>'RequireInvoice'
+				]
+			);
+			//Order table
+			$setup->getConnection()
+			->addColumn(
+				$setup->getTable($orderTable),
+				$attributeOrder,
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					'length' => 50,
+					'comment' =>'RequireInvoice'
+				]
+			);
+
 		}
 		
 		if(count($attsToAdd)){
