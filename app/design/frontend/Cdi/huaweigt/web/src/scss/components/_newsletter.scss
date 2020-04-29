@@ -59,6 +59,9 @@ section{
             text-transform: uppercase;
             border-radius: 0 5px 5px 0;
             background: $colorSecond;
+            &:hover{
+              background: $mainColor;
+            }
             @media only screen and (max-width: $mobile){
               border-radius: 5px;
             }

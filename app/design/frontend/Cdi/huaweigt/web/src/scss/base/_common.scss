@@ -17,7 +17,7 @@
 @font-face {
   font-family: 'HuaweiFont-Bold';
   src: url('../fonts/huawei/HuaweiFont-Bold.eot?#iefix') format('embedded-opentype'), 
-       url('../fonts/huawei/HuaweiFont-Bold.woff') format('woff'),
+       url('../fonts/huawei/HuweiFont-Bold.woff') format('woff'),
        url('../fonts/huawei/HuaweiFont-Bold.ttf')  format('truetype'),
        url('../fonts/huawei/HuaweiFont-Bold.svg#HuaweiFont-Bold') format('svg');
   font-weight: normal;
@@ -65,7 +65,7 @@ html a {
   color:$mainColor;
   text-decoration: none;
   cursor: pointer;
-  &:hover{
+  &:hover, &:visited, &:focus{
     color: $colorHover;
     text-decoration: none;
   }
@@ -219,4 +219,5 @@ h1, .h1{
   font-style: normal;
   line-height: 1.2;
   text-rendering: optimizeLegibility;
+  font-family: 'HuaweiFont-Bold';
 }

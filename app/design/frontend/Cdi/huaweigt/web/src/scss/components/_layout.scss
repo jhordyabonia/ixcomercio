@@ -657,6 +657,7 @@ section{
     transition: .5s all ease;
     font-weight: 400;
     border: 0;
+    font-family: 'HuaweiFont';
     &:hover{
       background: $colorHover;
       border: none;
@@ -669,6 +670,7 @@ section{
     font-weight: 400;
     border: 1px solid #ccc;
     border-radius: 3px;
+    font-family: 'HuaweiFont';
     &:hover{
       color: #fff;
       background: $colorHover;

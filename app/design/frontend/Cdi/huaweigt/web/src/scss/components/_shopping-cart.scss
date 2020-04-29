@@ -128,7 +128,7 @@
                   }
                   &:not(.disable):hover{
                     color: #fff;
-                    background: #000;
+                    background: $colorHover;
                   }
                   &.disable{
                     color: #999;

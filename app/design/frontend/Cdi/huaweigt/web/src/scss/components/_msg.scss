@@ -70,10 +70,6 @@
             color: #fff;
             background: $mainColor;
             border: 2px solid $mainColor;
-            &:hover{
-              color: #fff;
-              background: $colorHover;
-              border: 2px solid $colorHover;
           }
           &.action-secondary, &.action.secondary{
             color: $mainColor;
@@ -86,7 +82,7 @@
           }
         }
       }
+      }
     }
   }
-}
 }
