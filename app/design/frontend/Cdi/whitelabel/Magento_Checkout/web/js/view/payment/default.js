@@ -193,7 +193,7 @@ define([
                     'method': this.item.method,
                     'po_number': null,
                     'additional_data': {
-                        useinvoice: $('#billing-address-invoice-' + this.item.method).val()
+                        useinvoice: $('#billing-address-invoice-' + this.item.method).is(':checked')
                     }
                 };
             }

@@ -16,22 +16,14 @@ class PaymentAdditionalDataAssignObserver extends AbstractDataAssignObserver
     public function execute(Observer $observer)
     {
         $data = $this->readDataArgument($observer);
-
         $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
 
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/paymentInvoice.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $logger->info($additionalData);
-
-        if (!is_array($additionalData) || !isset($additionalData[self::MY_FIELD_NAME_INDEX])) {
-            return;
-        }
-        
-        $paymentInfo = $this->readPaymentModelArgument($observer);
-        $paymentInfo->setAdditionalInformation(
-            self::MY_FIELD_NAME_INDEX,
-            $additionalData[self::MY_FIELD_NAME_INDEX]
-        );
+        if(is_array($additionalData) && isset($additionalData[self::MY_FIELD_NAME_INDEX])) {
+            $paymentInfo = $this->readPaymentModelArgument($observer);
+            $paymentInfo->setAdditionalInformation(
+                self::MY_FIELD_NAME_INDEX,
+                $additionalData[self::MY_FIELD_NAME_INDEX]
+            );
+        }        
     }
 }
