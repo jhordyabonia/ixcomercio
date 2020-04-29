@@ -36,6 +36,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     const PORCENTAJE_IMPUESTO = 'trax_ordenes/ordenes_general/porcentaje_impuesto';
 
     const PRODUCTO_IMPUESTO = 'trax_ordenes/ordenes_general/producto_impuesto';
+
+    const INVOICE_ENABLED = "checkout/options/show_invoice";
+
+    const INVOICE_DEFAULT = "checkout/options/invoice_default_value";
     
     private $helper;
 	
@@ -224,13 +228,42 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         } else {
             $this->logger->info('PlaceOrder - Se produjo un error al guardar la orden de IWS: '.$orderNumber);
         }
-	}
+    }
+    
+    public function checkInvoice($paymentAdditional){
+        $this->logger->info('Información de factura');
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+        $invoiceEnable = $this->scopeConfig->getValue(self::INVOICE_ENABLED, $storeScope, $storeManager->getStore()->getCode());
+        $invoiceDefault = $this->scopeConfig->getValue(self::INVOICE_DEFAULT, $storeScope, $storeManager->getStore()->getCode());
+        $this->logger->info('Invoice habilitado: ' . $invoiceEnable);
+        $this->logger->info('Invoice valor por defecto: ' . $invoiceDefault);
+        //Si no está habilitado el invoice para el sitio, retorna el valor por defecto
+        if(!$invoiceEnable) return $invoiceDefault;
+        //Si está habilitado, busca el estado que llegó en la información de pago
+        $this->logger->info('Información en payment info:');
+        $this->logger->info($paymentAdditional);
+        if(is_array($paymentAdditional) && isset($paymentAdditional['useinvoice'])){            
+            if($paymentAdditional['useinvoice']){
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Laod Payload request
 	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto, $configItemImpuesto) 
 	{        
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
+        
+        $payment = $order->getPayment();
+        $paymentAdditional = $payment->getAdditionalInformation();
+        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional);
+        $this->logger->info('Require Invpice, se envía a trax:');
+        $this->logger->info($requireInvoice);
+
         $orderItems = $order->getAllItems();
         $coupon = array();
         $configDataImpuesto = $configDataImpuesto/100;
@@ -332,7 +365,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
             'TaxRegistrationNumber' => $billing->getIdentification(),
-            'InvoiceRequested' => false,
+            'InvoiceRequested' => $requireInvoice,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
                 array(
