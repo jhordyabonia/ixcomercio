@@ -1,8 +1,4 @@
-<?php
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
-
-<a href="#header-account" data-target-element="#header-account" class="skip-link skip-account">
+<div onclick="location.href='<?php echo $block->getUrl('customer/account/login/'); ?>'"  class="skip-link skip-account">
     <span class="icon"></span>
     <span class="label">Account</span>
-</a>
+</div>
