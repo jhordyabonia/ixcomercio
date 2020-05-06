@@ -84,7 +84,9 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $this->request = $request;
         $this->checkoutSession = $checkoutSession;
         $this->orderRepository = $orderRepository;
-        $this->logger = $logger_interface;        
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienvio_api.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer); 
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
         $this->resultRedirect = $result;
@@ -105,6 +107,25 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         return true;
     }
 
+    private function getBodyWebhook(){
+        $validCalls = ['shipment.status', 'shipment.upload'];
+        //Se obtiene el body
+        $json = file_get_contents('php://input');
+        $json = '{"type":"shipment.status","body":{"quote_id":28486},"version":""}';
+        $this->logger->info($json);
+        $body = @json_decode($json, false);
+        //Verifica el body
+        if($body === null && json_last_error() !== JSON_ERROR_NONE){
+            throw new \Exception('no fue posible leer el json de entrada: ' . json_last_error());
+        }
+        //Verifica que se trate de una entrada válida
+        if(!isset($body->type) || !in_array($body->type, $validCalls)){
+            throw new \Exception('Tipo de entrada no válida');
+        }
+        $this->logger->info($body->type);
+        return $body;
+    }
+
     /**
      * Load the page defined in view/frontend/layout/bancomer_index_webhook.xml
      * URL /openpay/payment/success
@@ -112,24 +133,44 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
      * @url https://magento.stackexchange.com/questions/197310/magento-2-redirect-to-final-checkout-page-checkout-success-failed?rq=1
      * @return \Magento\Framework\View\Result\Page
      */
-    public function execute() {   
-        //Se obtienen las cabeceras
-        $headers = array();
-        foreach (getallheaders() as $name => $value) {
-            $headers[$name] = $value;
-        } 
+    public function execute() {
+        $this->logger->info('INICIA PROCESO DE API');
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->jsonResultFactory->create();
-        //Se verifica si hay una cabecera asociada al token
-        if(isset($headers['token'])){
+        try{
+            //Se obtienen las cabeceras
+            $headers = array();
+            foreach (getallheaders() as $name => $value) {
+                $headers[$name] = $value;
+            }
+            //Se obtiene el body
+            $body = $this->getBodyWebhook();
+            //Obtiene la configuración
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
             $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-            //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+            $this->logger->info(print_r($configData, true));
+            $this->updateMienvioData($body->type, $body->body->quote_id);
+            $result->setHttpResponseCode(200);
+            $result->setData(['success_message' => __('Updated data')]);
+        }catch(\Exception $e){
+            echo $e->getMessage();die();
+            $this->logger->info("Error: {$e->getMessage()}");
+            $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
+            $result->setData(['error_message' => __('Error:' . $e->getMessage())]);
+        }
+        $this->logger->info('FINALIZA PROCESO DE API');
+        return $result;
+        
+        
+        
+        //Se verifica si hay una cabecera asociada al token
+        if(isset($headers['token'])){
+            
             if(hash('sha256', $configData['user'].','.$configData['password']) == $headers['token']){
                 $body = json_decode(file_get_contents('php://input'));
-                $result = $this->checkBody($body);
+                
             } else{
                 $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
                 $result->setData(['error_message' => __('Unauthorized')]);
@@ -138,7 +179,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
             $result->setData(['error_message' => __('Unauthorized')]);
         }
-        return $result;
+        
     }
 
     //Obtiene los parámetros de configuración desde el cms
@@ -151,6 +192,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     }
 
     //Se verifica body de la petición
+    //DELETE
     public function checkBody($body) 
     {
         $result = $this->updateMienvioData($body->type, $body->body->quote_id);
@@ -159,46 +201,29 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
 
     //Agrega notificación de guía
     public function updateMienvioData($type, $quote_id) 
-    {        
+    {
         $order_id = $this->loadOrderInformation($quote_id);
-        $result = $this->jsonResultFactory->create();
-        if($order_id){
-            $notification = $this->saveMienvioData($type, $order_id);
-            if($notification){
-                $result->setHttpResponseCode(200);
-                $result->setData(['success_message' => __('Updated data')]);
-            } else{
-                $result->setHttpResponseCode(204);
-                $result->setData(['success_message' => __('Information not found')]);
-            }
-        } else {
-            $result->setHttpResponseCode(204);
-            $result->setData(['success_message' => __('No Content')]);
-        }
-        return $result;
+        $notification = $this->saveMienvioData($type, $order_id);
     }
 
     //Se carga la orden relacionada a la cotización
     public function loadOrderInformation($quote_id) 
     {
-		try {
-            $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
-            if($collection->getSize()){
-                $data = $collection->getFirstItem();
-                return $data->getEntityId();
-            }
-        } catch (\Exception $e) {
-            $this->logger->info('Mienviowebhook - Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
+        $this->logger->info("Mienvio quote_id: {$quote_id}");
+        $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
+        if(!$collection->getSize()){
+            throw new \Exception('Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
         }
-        return false;
+        $order = $collection->getFirstItem();
+        $this->logger->info("Magento order_id: {$order->getEntityId()}");
+        return $order->getEntityId();
 	}
 
     //Se guarda información de IWS en tabla custom
     public function saveMienvioData($type, $order_id) 
     {
         $orders = $this->_iwsOrder->create();
-        $orders->getResource()
-            ->load($orders, $order_id, 'order_id');
+        $orders->getResource()->load($orders, $order_id, 'order_id');
         if($orders->getId()){
             $update = 0;
             try{
