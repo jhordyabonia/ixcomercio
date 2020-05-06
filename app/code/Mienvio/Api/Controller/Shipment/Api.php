@@ -111,7 +111,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $validCalls = ['shipment.status', 'shipment.upload'];
         //Se obtiene el body
         $json = file_get_contents('php://input');
-        $json = '{"type":"shipment.status","body":{"quote_id":28486},"version":""}';
+        //$json = '{"type":"shipment.status","body":{"quote_id":28486},"version":""}';
         $this->logger->info($json);
         $body = @json_decode($json, false);
         //Verifica el body
