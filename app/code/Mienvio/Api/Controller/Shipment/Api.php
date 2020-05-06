@@ -155,7 +155,6 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             $result->setHttpResponseCode(200);
             $result->setData(['success_message' => __('Updated data')]);
         }catch(\Exception $e){
-            echo $e->getMessage();die();
             $this->logger->info("Error: {$e->getMessage()}");
             $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
             $result->setData(['error_message' => __('Error:' . $e->getMessage())]);
