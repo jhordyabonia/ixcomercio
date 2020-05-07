@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Catalog\Block\Category\View" type="Cdi\Custom\Block\Category\View" />
+    <preference for="Magento\Checkout\Block\Checkout\LayoutProcessor" type="Cdi\Custom\Block\Checkout\LayoutProcessor" />
     <preference for="Magento\Theme\Block\Html\Footer" type="Cdi\Custom\Block\Html\Footer" />
     <preference for="Magento\Checkout\Model\ShippingInformationManagement" type="Cdi\Custom\Model\ShippingInformationManagement" />
     <preference for="Magento\Checkout\Model\PaymentInformationManagement" type="Cdi\Custom\Model\PaymentInformationManagement" />

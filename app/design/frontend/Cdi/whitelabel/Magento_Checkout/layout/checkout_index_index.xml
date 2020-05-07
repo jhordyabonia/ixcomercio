@@ -9,7 +9,6 @@
     <body>    
         <referenceBlock name="header.row.container.iconsearch" remove="true"/>
         <referenceBlock name="top.search" remove="true"/>
-        <referenceBlock name="navigation.sections" remove="true"/>
         <referenceBlock name="checkout.root">
         <arguments>
             <argument name="jsLayout" xsi:type="array">

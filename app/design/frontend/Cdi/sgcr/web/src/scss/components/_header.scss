@@ -11,7 +11,7 @@ header{
     position: sticky;
     z-index: 99;
     .header-freeshipping{
-      background: $mainColor;
+      background: $bgColorSecond;
       padding: 5px 15px;
       @media only screen and (max-width: $mobile){
         font-size: 12px;
@@ -61,7 +61,7 @@ header{
           }
           img{
             width: auto;
-            height: 60px;
+            height: auto;
             max-width: 100%;
             margin: 0 auto;
             float: left;
@@ -69,7 +69,7 @@ header{
               float: none;
             }
             @media only screen and (max-width: $mobile){
-              height: 40px;
+              height: auto;
             }
           }
         }
@@ -241,7 +241,7 @@ header{
                   top: 100%;
                   display: none;
                   background: #fff;
-                  border-radius: 0 0 5px 5px;
+                  border-radius: 5px;
                   text-align: center;
                   padding: 10px 0;
                   position: absolute;
@@ -466,11 +466,12 @@ header{
                     }  
                   }
                   > .level-top{
-                    color: #111;
+                    color:$colorText;
                     font-size: 16px;
                     line-height: normal;
                     transition: .3s all ease;
                     border: 0;
+                    text-transform: uppercase;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
                       line-height: 36px;

@@ -159,12 +159,12 @@
     }
   }
   .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
-    font-size: 36px;
+    font-size: 26px;
     font-weight: bold;
-    text-align: left;
+    text-align: center;
   }
   .step-title{
-    color: $mainColor;
+    color: $colorText;
   }
   .opc-summary-wrapper{
     .modal-content{
@@ -218,7 +218,7 @@
     }
     .product-item{
       .price{
-        color: #D7410B;
+        color: $colorText;
         font-size: 14px;
         font-weight: bold;
       }
@@ -239,5 +239,14 @@
     .shipping-information-content{
       text-align: left;
     }
+  }
+  .continue.primary{
+    background:transparent;
+    color:$colorText;
+    border: 1px solid $bgColorSecond; 
+  }
+  .continue.primary:hover{
+    background:$bgColorSecond;
+    color:#ffffff;
   }
 }

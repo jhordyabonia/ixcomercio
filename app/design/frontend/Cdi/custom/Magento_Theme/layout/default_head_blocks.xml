@@ -13,7 +13,8 @@
 		<!--Custom Css-->
 		<css src="css/main.min.css" />
 		
-		<!--Custom Js-->
+		<!--Custom Js
+		-->
 		<link src="js/main.min.js"/>
 
 		<!--

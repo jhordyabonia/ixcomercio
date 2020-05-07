@@ -147,7 +147,7 @@
     }
     &.current {
       a, strong{
-        color: #000;
+        color: $mainColor;
         border-color: $mainColor;
       }
     }
@@ -162,7 +162,8 @@
 .sidebar.sidebar-additional{
   text-align: left;
   .block-title strong{
-    font-weight: 400;
+    font-family: 'SamsungSharpSans-Medium';
+    font-size: 20px;
   }
   .actions-toolbar{
     text-align: left;
