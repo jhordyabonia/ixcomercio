@@ -96,10 +96,10 @@
           .product-item-name{
             font-size: 20px;
             line-height: normal;
-            font-family: 'HpRegular';
+            font-family: 'SamsungSharpSans-Medium';
             min-height: 60px;
             a{
-              color: $mainColor;
+              color: $colorLink;
               font-weight: bold;
             }
           }
@@ -125,7 +125,7 @@
               display: none;
             }
             > .price-final_price, .special-price .price-final_price{
-              color: #D7410B;
+              color: $colorText;
               .price{
                 font-size: 24px;
               }
@@ -148,6 +148,11 @@
               float: left;
               width: 100%;
               color: #ccc;
+              &:hover{
+                &:before{
+                  color: $mainColor;
+                }
+              }
               &:before{
                 color: #bbb;
               }
@@ -161,6 +166,22 @@
               }
             }
           }
+        }
+      }
+    }
+    .owl-dots {
+      width: 100%;
+      text-align: center;
+      margin: 30px 0 0;
+      .owl-dot {
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        background: #ddd;
+        border-radius: 50%;
+        margin: 0 5px;
+        &.active{
+          background: $mainColor;
         }
       }
     }

@@ -1,6 +1,6 @@
 form{
 	text-align: left;
-	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search{
+	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search, &.send.friend{
 		@media only screen and (min-width: $tablet){
 			width: 100%!important;
     		min-width: inherit!important;
@@ -27,7 +27,7 @@ form{
 			}
 			&:not(.choice){
 				> .label{
-					color: #95989A;
+					color: $colorText;
 					font-size: 13px;
 			    	margin: 0 0 10px;
 			    	font-weight: 700;
@@ -44,7 +44,7 @@ form{
 				    }
 				}
 				> .control{
-					width: 100%;
+					width: 100%!important;
 					&._with-tooltip{
 						input{
 							width: 100%;
@@ -81,8 +81,11 @@ form{
 			}
 		}
 		>.legend{
-			font-size: 1.3rem;
+			font-size: 20px;
 			text-align: left;
+			border:0;
+			text-transform: uppercase;
+			font-family: 'SamsungSharpSans-Medium';
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }
@@ -122,8 +125,8 @@ form{
 		}
 	}
 }
-.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword{
-	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset{
+.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword, .sendfriend-product-send{
+	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset, .send.friend{
 		text-align: left;
 		@media only screen and (min-width: $tablet){
 			width: 100%;
@@ -144,6 +147,20 @@ form{
 			}
 			.secondary{
 				text-align: center;
+				.add{
+					color: #999;
+				    background: none;
+				    border: 1px solid #ccc;
+				    padding: 7px 15px;
+				    height: 44px;
+				    font-size: 16px;
+				    line-height: 30px;
+				    font-weight: normal;
+				    &:hover{
+				    	color: #fff;
+				    	background: #000;
+				    }
+				}
 			}
 		}
 	}
@@ -188,4 +205,14 @@ form{
 			}
 		}
 	}
+}
+.action.back{
+	color:#1428A0;
+	font-size: 18px;
+	&:hover{
+		color:$colorText;
+	}
+}
+.newsletter .span{
+	font-size: 14px;
 }

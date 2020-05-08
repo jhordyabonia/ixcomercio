@@ -1,3 +1,4 @@
+
 .checkout-cart-index{
   .page-wrapper .page-main{
     max-width: 1300px;
@@ -112,7 +113,7 @@
               }
               .cart-price{
                 .price{
-                  color: #D7410B;
+                  color: $colorText;
                   font-size: 18px;
                 } 
               }
@@ -124,7 +125,7 @@
                   background: $mainColor;
                   vertical-align: middle;
                   display: inline-block;
-                  border-radius: 0 5px;
+                  border-radius: 50%;
                   font-size: 18px;
                   font-weight: bold;
                   text-align: center;
@@ -156,11 +157,11 @@
                 @media (max-width: $tablet){
                   &.col{
                     right: 0;
-                    top: 8px;
+                    padding-top: 25px;
                     position: absolute;
                   }
                 }
-                .action-edit{
+                .action-edit, .action-towishlist{
                   display: none !important;
                 }
                 .action-delete{
@@ -230,20 +231,20 @@
       }
       .cart.main.actions{
         .action{
-          color: $mainColor;
+          color: $bgColorSecond;
           background: none;
-          border: 1px solid $mainColor;
+          border: 1px solid $bgColorSecond;
           padding: 7px 15px;
           height: 44px;
           font-size: 16px;
           line-height: 30px;
           font-weight: bold;
           &.continue{
-            color: #008424;
-            border: 1px solid #008424;
+            color: $mainColor;
+            border: 1px solid $mainColor;
             &:hover{
-              background: #008424;
-              border-color: #008424;
+              background: $bgColorSecond;
+              border-color: $bgColorSecond;
             }
           }
           &.continue:before, &.update:before{
@@ -251,8 +252,8 @@
           }
           &:hover{
             color: #fff;
-            background: $mainColor;
-            border-color: $mainColor;
+            background: $bgColorSecond;
+            border-color: $bgColorSecond;
           }
         }
       }
@@ -286,6 +287,9 @@
       padding-left: 0;
     }
     .block{
+      &.giftcard{
+        display: none;
+      }
       >.title{
         strong[role='heading']{
           font-size: 1.3rem;

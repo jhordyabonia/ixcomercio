@@ -11,7 +11,7 @@ header{
     position: sticky;
     z-index: 99;
     .header-freeshipping{
-      background: $mainColor;
+      background: $bgColorSecond;
       padding: 5px 15px;
       @media only screen and (max-width: $mobile){
         font-size: 12px;
@@ -43,6 +43,7 @@ header{
       .header-branding{
         @media only screen and (max-width: $mobile){
           z-index: 10;
+          pointer-events: none;
         }
         .logo{
           width: 100%;
@@ -55,9 +56,12 @@ header{
             display: inline-block;
             float: none;
           }
+          @media only screen and (max-width: $mobile){
+            pointer-events: auto;
+          }
           img{
             width: auto;
-            height: 60px;
+            height: auto;
             max-width: 100%;
             margin: 0 auto;
             float: left;
@@ -65,7 +69,7 @@ header{
               float: none;
             }
             @media only screen and (max-width: $mobile){
-              height: 40px;
+              height: auto;
             }
           }
         }
@@ -105,9 +109,12 @@ header{
             @media only screen and (max-width: $desktop){
               font-size: 16px;
             }
+            @media only screen and (max-width: $tablet){
+              padding-right: 6px;
+            }
             @media only screen and (max-width: $mobile){
               border: 0;
-              padding-right: 6px;
+              padding: 0;
             }
             .options .action.toggle{
               &:after, &.active:after{
@@ -140,6 +147,9 @@ header{
             border-right: 1px solid #e5e5e5;
             font-size: 14px;
             float: left;
+            @media only screen and (max-width: $tablet){
+              padding: 0 12px;
+            }
             @media only screen and (max-width: $mobile){
               padding: 0 6px;
               border-right: 0;
@@ -188,9 +198,13 @@ header{
                 @media only screen and (max-width: $desktop){
                   padding-top: 0;
                 }
+                @media only screen and (max-width: $tablet){
+                  margin: 0 12px 0 0;
+                }
                 @media only screen and (max-width: $mobile){
-                  margin: 0;
-                  padding: 0 25px 4px 0;
+                  /*margin: 0;
+                  padding: 0 25px 4px 0;*/
+                  display: none;
                 }
                 &:before{
                   top: 0;
@@ -227,7 +241,7 @@ header{
                   top: 100%;
                   display: none;
                   background: #fff;
-                  border-radius: 0 0 5px 5px;
+                  border-radius: 5px;
                   text-align: center;
                   padding: 10px 0;
                   position: absolute;
@@ -256,16 +270,13 @@ header{
             .wishlist{
               float: left;
               margin-top: 3px;
-              @media only screen and (max-width: $mobile){
-                display: none;    
-              }
               a{
                 width: 20px;
                 height: 20px;
                 background: url(../images/icons/wishlist.png) no-repeat center;
                 background-size: 100%;
                 overflow: hidden;
-                text-indent: 100%;
+                text-indent: 200%;
               }
             }
           }
@@ -373,10 +384,12 @@ header{
                 display: block;
                 transition: .5s all ease;
                 pointer-events: auto;
+                overflow: overlay;
               }
               .nav-sections-items{
                 width: 75%;
-                height: 100%;
+                height: auto;
+                min-height: 100%;
                 padding: 20px 0;
                 background: #f5f5f5;
                 position: absolute;
@@ -453,11 +466,12 @@ header{
                     }  
                   }
                   > .level-top{
-                    color: #111;
+                    color:$colorText;
                     font-size: 16px;
                     line-height: normal;
                     transition: .3s all ease;
                     border: 0;
+                    text-transform: uppercase;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
                       line-height: 36px;

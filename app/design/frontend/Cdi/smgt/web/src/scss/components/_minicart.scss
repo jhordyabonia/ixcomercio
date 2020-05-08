@@ -1,11 +1,13 @@
 .minicart-wrapper{
   @media only screen and (max-width: $tablet){
     width: 100%;
-    margin: 0;
+    margin: 0 0 0 13px;
     text-align: center;
   }
   .block-minicart{
+    max-height: 600px;
     padding: 25px 20px 15px;
+    overflow: overlay;
     .block-content{
       .items-total{
         line-height: normal;
@@ -18,7 +20,7 @@
           .action{
             margin-left: 5px;
             min-width: 140px;
-            border-radius: 0 10px;
+            border-radius: 5px;
             background: $mainColor;
             display: inline-block;
             padding: 15px;
@@ -67,7 +69,7 @@
             }
             .product-item-pricing{
               .price{
-                color: #D7410B;
+                color: $colorText;
               }
             }
             .details-qty.qty{
