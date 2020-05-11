@@ -68,15 +68,16 @@
           }
           &.action-primary, &.action.primary{
             color: #fff;
-            background: #000;
-            border: 2px solid #000;
+            background: $mainColor;
+            border: 2px solid $mainColor;
           }
           &.action-secondary, &.action.secondary{
-            color: #000;
-            border: 2px solid #000;
+            color: $mainColor;
+            border: 2px solid $mainColor;
             &:hover{
               color: #fff;
-              background: #000;
+              background: $colorHover;
+              border: 2px solid $colorHover;
             }
           }
         }
