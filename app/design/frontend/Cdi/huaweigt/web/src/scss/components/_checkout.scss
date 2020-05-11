@@ -24,18 +24,18 @@
         font-size: 1rem;
       }
       &:after{
-        color: #000;
+        color: $mainColor;
         font-size: 1.3rem;
         line-height: 28px;
       }
     }
     &._active{
       &:before{
-        background: #000;
+        background: $mainColor;
       }
       >span{
         &:before{
-          background: #000;
+          background: $mainColor;
         }
         &:after{
           font-size: 1.8rem;
@@ -57,7 +57,7 @@
           width: 18px;
           height: 18px;
           line-height: 18px;
-          background: red;
+          background: $colorSecond;
           border-radius: 50%;
         }
       }
@@ -146,8 +146,8 @@
         border-radius: 0;
         &:hover{
           color: #fff;
-          background: #000;
-          border-color: #000;
+          background:$colorHover;
+          border-color:$colorHover;
         }
       }
     }

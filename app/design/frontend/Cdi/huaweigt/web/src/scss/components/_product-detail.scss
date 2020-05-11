@@ -399,7 +399,7 @@
             white-space: normal;
             &:hover{
               color: #fff;
-              background: #000;
+              background: $colorHover;
             }
             @media only screen and (max-width: $mobile){
               width: 100%;
@@ -413,7 +413,8 @@
             border: 1px solid #ccc;
             border-radius: 3px;
             &:hover{
-              border: 1px solid #000;
+              border: 1px solid $colorHover;
+              background: $colorHover;
             }
           }
         }
