@@ -24,8 +24,9 @@
   margin: 40px 0 20px;
   .page-title{
     font-weight: bold;
-    color: #000;
+    color: $colorTitle;
     margin: 0;
+    font-family: $fontTextTitle;
     @media only screen and (max-width: $tablet){
       font-size: 30px;
     }
@@ -53,9 +54,10 @@ section{
   .header-section{
     text-align: left;
     .title-section{
-      color: #000;
+      color:$colorTitleHead;
       font-size: 36px;
       margin: 0;
+      font-family:$fontTextTitle;
       @media only screen and (max-width: $tablet){
         font-size: 30px;
       }
@@ -82,14 +84,14 @@ section{
       font-size: 1.4rem;
       text-transform: uppercase;
       transition: .5s all ease;
-      border: 1px solid #89170b;
+      border: 1px solid $mainColor;
       display: inline-block;
       padding: 7px 15px;
       border-radius: 3px;
       &:hover{
         color: #fff;
-        background: #000;
-        border-color: #000;
+        background: $colorHover;
+        border-color: $colorHover;
       }
     }
   }
@@ -122,7 +124,7 @@ section{
       transform: translateY(-50%) translateX(0%);
     }
     h1, h1 span{
-      font-family: 'Frankfurter W05 Regular';
+      font-family: $fontText;
       font-weight: normal;
       font-size: 72px;
       line-height: .9em;
@@ -235,7 +237,7 @@ section{
   }
 }
 .button, .cart-table .product-cart-actions .button, #co-shipping-method-form .buttons-set .button, .footer .button{
-  background: #E73C3E;
+  background: $mainColor;
   display: inline-block;
   padding: 7px 15px;
   border: 0;
@@ -249,7 +251,7 @@ section{
   white-space: nowrap;
   &:hover{
     color: #fff;
-    background: #e42528;
+    background: $colorHover;
     cursor: pointer;
     border: 0;
   }
@@ -263,10 +265,10 @@ section{
   font-size: 13px;
   text-transform: uppercase;
   &.stock{
-    color: #11B400;
+    color:$colorThird;
   }
   &.out-of-stock {
-    color: #DF280A;
+    color: $colorHover;
   }
 }
 .loader img{
@@ -501,11 +503,11 @@ section{
                     font-size: 12px;
                   }
                   .icon-check{
-                    width: 15px;
-                    height: 15px;
+                    width: 18px;
+                    height: 18px;
                     background: none;
                     border: 1px solid #bbb;
-                    border-radius: 2px;
+                    border-radius: 3px;
                     margin: 5px 5px 0 0;
                     float: left;
                   }
@@ -655,22 +657,24 @@ section{
     transition: .5s all ease;
     font-weight: 400;
     border: 0;
+    font-family: 'HuaweiFont';
     &:hover{
-      background: #000;
+      background: $colorHover;
       border: none;
     }
   }
   &.action-update {
-    color: #999;
+    color: $colorText;
     background: none;
     transition: .5s all ease;
     font-weight: 400;
     border: 1px solid #ccc;
     border-radius: 3px;
+    font-family: 'HuaweiFont';
     &:hover{
       color: #fff;
-      background: #000;
-      border-color: #000;
+      background: $colorHover;
+      border-color: $colorHover;
     }
   }
 }

@@ -3,45 +3,74 @@
     <system>
         <section id="general">
             <tab>general</tab>
-            <group id="store_information">
-                <field id="sitemap" translate="label" type="text" sortOrder="925" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Sitemap Link</label>
+                <group id="store_information">
+                    <field id="sitemap" translate="label" type="text" sortOrder="925" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sitemap Link</label>
+                    </field>
+                    <field id="privacypolicy" translate="label" type="text" sortOrder="930" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Privacy Policy Link</label>
+                    </field>
+                    <field id="termsofuse" translate="label" type="text" sortOrder="935" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Terms of Use Link</label>
+                    </field>
+                    <field id="contacts" translate="label" type="text" sortOrder="940" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Contacts Link</label>
+                    </field>
+                    <field id="facebook_link" translate="label" type="text" sortOrder="945" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Facebook link</label>
+                    </field>
+                    <field id="twitter_link" translate="label" type="text" sortOrder="950" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Twitter link</label>
+                    </field>
+                    <field id="youtube_link" translate="label" type="text" sortOrder="955" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Youtube link</label>
+                    </field>
+                    <field id="instagram_link" translate="label" type="text" sortOrder="960" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Instagram link</label>
+                    </field>
+                    <field id="spotify_link" translate="label" type="text" sortOrder="965" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Spotify</label>
+                    </field>
+                    <field id="pinterest_link" translate="label" type="text" sortOrder="970" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Pinterest link</label>
+                    </field>
+                    <field id="custom_disable_checkout" translate="label" type="select" sortOrder="990" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sales enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="custom_log_layout" translate="label" type="select" sortOrder="991" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Layout debug enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+        </section>
+        <section id="customer">
+            <tab>customer</tab>
+            <group id="address">
+                <field id="billing_name_label" translate="label" type="text" sortOrder="970" showInDefault="0" showInWebsite="1" showInStore="1">
+                    <label>Billing name label</label>
                 </field>
-				<field id="privacypolicy" translate="label" type="text" sortOrder="930" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Privacy Policy Link</label>
+                <field id="billing_identification_label" translate="label" type="text" sortOrder="970" showInDefault="0" showInWebsite="1" showInStore="1">
+                    <label>Billing identification label</label>
                 </field>
-				<field id="termsofuse" translate="label" type="text" sortOrder="935" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Terms of Use Link</label>
+                <field id="billing_address_label" translate="label" type="text" sortOrder="970" showInDefault="0" showInWebsite="1" showInStore="1">
+                    <label>Billing address label</label>
                 </field>
-				<field id="contacts" translate="label" type="text" sortOrder="940" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Contacts Link</label>
+            </group>
+        </section>
+        <section id="checkout">
+            <group id="options">
+                <field id="show_invoice" translate="label" type="select" sortOrder="990" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show invoice checkbox</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-				<field id="facebook_link" translate="label" type="text" sortOrder="945" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Facebook link</label>
+                <field id="invoice_default_value" translate="label" type="select" sortOrder="994" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Invoice default value</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-				<field id="twitter_link" translate="label" type="text" sortOrder="950" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Twitter link</label>
+                <field id="invoice_label" translate="label" type="text" sortOrder="995" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Invoice label</label>
                 </field>
-				<field id="youtube_link" translate="label" type="text" sortOrder="955" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Youtube link</label>
-                </field>
-				<field id="instagram_link" translate="label" type="text" sortOrder="960" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Instagram link</label>
-                </field>
-				<field id="spotify_link" translate="label" type="text" sortOrder="965" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Spotify</label>
-                </field>
-				<field id="pinterest_link" translate="label" type="text" sortOrder="970" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Pinterest link</label>
-                </field>
-				<field id="custom_disable_checkout" translate="label" type="select" sortOrder="990" showInDefault="1" showInWebsite="1" showInStore="1">
-					<label>Sales enabled</label>
-					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-				</field>
-                <field id="custom_log_layout" translate="label" type="select" sortOrder="991" showInDefault="1" showInWebsite="1" showInStore="1">
-					<label>Layout debug enabled</label>
-					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-				</field>
             </group>
         </section>
     </system>
