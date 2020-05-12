@@ -1,3 +1,4 @@
+<?php $_mienvioHelper = $this->helper('Mienvio\Api\Helper\Data');?>
 <div class="block">
     <div class="block-title">
         <strong><?php echo $this->getTitle() ?></strong>
@@ -7,33 +8,35 @@
         <div class="block-content">
             <div class="canceled-progress-bar">
                 <div class="processed">
-                    <?php echo __('Confirmed order') ?>
-                </div>
-                <div class="processed">
                     <?php echo __('Order canceled') ?>
                 </div>
             </div>
         </div>
     <?php } else {?>
         <div class="block-content">
-            <div class="normal-progress-bar">
-                <div class="processed">
-                    <?php echo __('Confirmed order') ?>
-                </div>
-                <div class="<?php echo ($this->getOrderStatus() == 'processing' ? 'processed' : 'no-processed') ?>">
-                    <?php echo __('Payment Processed') ?>
+            <div class="<?php echo ($this->getOrderDelivery() == 1 ? 'processed' : 'no-processed') ?>">
+                <strong class="box-title"><?php echo __('Shipment status') ?></strong>
+                <div class="guide-generated">
+                    <?php $deliveryInfo = $this->getDeliveryData(); ?>
+                    <?php if($this->getOrderDelivery() == 1 && is_array($deliveryInfo) && !empty($deliveryInfo)){ ?>
+                        <span>
+                            <?php echo $_mienvioHelper->getCommentByStatus($deliveryInfo['status'])['frontlabel'];?>
+                        </span>
+                    <?php }else{ ?>
+                        <span><?php echo __('Tracking information is not available. Try again later') ?></span>
+                    <?php } ?>
                 </div>
             </div>
-            
             <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
-                <strong class="box-title"><?php echo __('Guide generated') ?></strong>
                 <?php if($this->getOrderGuide() == 1){ ?>
+                    <strong class="box-title"><?php echo __('Guide information') ?></strong>
                     <div class="guide-generated">
-                        <?php if($this->getMienvioDataStatus()){ ?>
-                            <span><?php echo __('Tracking number') ?>: <?php echo $this->getMienvioData()->tracking_number ?></span>
+                        <?php if(is_array($this->getGuideData()) && !empty($this->getGuideData())){ ?>
+                            <?php $guideInfo = $this->getGuideData(); ?>
+                            <span><?php echo __('Tracking number') ?>: <?php echo $guideInfo['tracking_number'] ?></span>
                             <ul class="tracking-detail">
-                                <a class="action" href="<?php echo $this->getMienvioData()->tracking_url ?>" target="_blank"><?php echo __('Tracking url') ?></a>
-                                <a class="action" href="<?php echo $this->getMienvioData()->label_url ?>" target="_blank"><?php echo __('PDF Information') ?></a>
+                                <a class="action" href="<?php echo $guideInfo['tracking_url'] ?>" target="_blank"><?php echo __('Tracking url') ?></a>
+                                <a class="action" href="<?php echo $guideInfo['label_url'] ?>" target="_blank"><?php echo __('PDF Information') ?></a>
                             </ul>
                         <?php } else{ ?>
                             <span><?php echo __('Tracking information is not available. Try again later') ?></span>
@@ -41,9 +44,7 @@
                     </div>
                 <?php } ?>
             </div>
-            <div class="<?php echo ($this->getOrderDelivery() == 1 ? 'processed' : 'no-processed') ?>">
-                <?php echo __('Order delivered') ?>
-            </div>
+            
         </div>
     <?php } ?>
 </div>
