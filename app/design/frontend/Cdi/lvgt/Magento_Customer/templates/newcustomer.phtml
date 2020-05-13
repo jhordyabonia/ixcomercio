@@ -22,4 +22,8 @@
         </div>
     </div>
 </div>
-<?php endif; ?>
+<?php endif; 
+echo "<script>dataLayer.push({'event':'ga_event_login','category':'Login','action':'Iniciar sesión','label':'[Exitoso | Fallido]','userID':'".md5(__('Email'))."'});</script>"; # XCB GTM  
+?>
+
+
