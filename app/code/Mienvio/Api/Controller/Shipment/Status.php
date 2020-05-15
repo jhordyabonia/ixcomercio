@@ -144,7 +144,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                         }        
                         return $resultPage;
                     } else {
-                        $this->messageManager->addError( __('There was an error checking the order information.') );
+                        $this->messageManager->addError( __("The order can't be tracked. Invalid shipping method.") );
                         $this->_redirect('sales/order/history');                 
                     }
                 } else {

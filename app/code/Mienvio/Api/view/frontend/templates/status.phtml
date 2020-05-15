@@ -2,8 +2,7 @@
 <div class="block">
     <div class="block-title">
         <strong><?php echo $this->getTitle() ?></strong>
-    </div>
-    
+    </div> 
     <?php if($this->getOrderStatus() == 'canceled'){ ?>
         <div class="block-content">
             <div class="canceled-progress-bar">
@@ -28,18 +27,16 @@
                 </div>
             </div>
             <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
-                <strong class="box-title"><?php echo __('Guide information') ?></strong>
-                <div class="guide-generated">
-                    <?php if($this->getOrderGuide() == 1 && is_array($guideData) && !empty($guideData)){ ?>
-                        <span><?php echo __('Tracking number') ?>: <?php echo $guideData['tracking_number'] ?></span>
-                        <ul class="tracking-detail">
-                            <a class="action" href="<?php echo $guideData['tracking_url'] ?>" target="_blank"><?php echo __('Tracking url') ?></a>
-                            <a class="action" href="<?php echo $guideData['label_url'] ?>" target="_blank"><?php echo __('PDF Information') ?></a>
-                        </ul>
-                    <?php } else{ ?>
-                        <span><?php echo __('Tracking information is not available. Try again later') ?></span>
-                    <?php } ?>
-                </div>
+                <?php if($this->getOrderGuide() == 1 && is_array($guideData) && !empty($guideData)){ ?>
+                    <strong class="box-title"><?php echo __('Guide information') ?></strong>
+                    <div class="guide-generated">
+                            <span><?php echo __('Tracking number') ?>: <?php echo $guideData['tracking_number'] ?></span>
+                            <ul class="tracking-detail">
+                                <a class="action" href="<?php echo $guideData['tracking_url'] ?>" target="_blank"><?php echo __('Tracking url') ?></a>
+                                <a class="action" href="<?php echo $guideData['label_url'] ?>" target="_blank"><?php echo __('PDF Information') ?></a>
+                            </ul>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     <?php } ?>
