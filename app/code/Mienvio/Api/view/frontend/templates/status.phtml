@@ -13,14 +13,14 @@
             </div>
         </div>
     <?php } else {?>
+        <?php $guideData = $this->getGuideData();?>
         <div class="block-content">
-            <div class="<?php echo ($this->getOrderDelivery() == 1 ? 'processed' : 'no-processed') ?>">
+            <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
                 <strong class="box-title"><?php echo __('Shipment status') ?></strong>
                 <div class="guide-generated">
-                    <?php $deliveryInfo = $this->getDeliveryData(); ?>
-                    <?php if($this->getOrderDelivery() == 1 && is_array($deliveryInfo) && !empty($deliveryInfo)){ ?>
+                    <?php if($this->getOrderGuide() == 1 && is_array($guideData) && !empty($guideData)){ ?>
                         <span>
-                            <?php echo $_mienvioHelper->getCommentByStatus($deliveryInfo['status'])['frontlabel'];?>
+                            <?php echo $_mienvioHelper->getCommentByStatus($guideData)['frontlabel'];?>
                         </span>
                     <?php }else{ ?>
                         <span><?php echo __('Tracking information is not available. Try again later') ?></span>
@@ -28,23 +28,19 @@
                 </div>
             </div>
             <div class="<?php echo ($this->getOrderGuide() == 1 ? 'processed' : 'no-processed') ?>">
-                <?php if($this->getOrderGuide() == 1){ ?>
-                    <strong class="box-title"><?php echo __('Guide information') ?></strong>
-                    <div class="guide-generated">
-                        <?php if(is_array($this->getGuideData()) && !empty($this->getGuideData())){ ?>
-                            <?php $guideInfo = $this->getGuideData(); ?>
-                            <span><?php echo __('Tracking number') ?>: <?php echo $guideInfo['tracking_number'] ?></span>
-                            <ul class="tracking-detail">
-                                <a class="action" href="<?php echo $guideInfo['tracking_url'] ?>" target="_blank"><?php echo __('Tracking url') ?></a>
-                                <a class="action" href="<?php echo $guideInfo['label_url'] ?>" target="_blank"><?php echo __('PDF Information') ?></a>
-                            </ul>
-                        <?php } else{ ?>
-                            <span><?php echo __('Tracking information is not available. Try again later') ?></span>
-                        <?php } ?>
-                    </div>
-                <?php } ?>
+                <strong class="box-title"><?php echo __('Guide information') ?></strong>
+                <div class="guide-generated">
+                    <?php if($this->getOrderGuide() == 1 && is_array($guideData) && !empty($guideData)){ ?>
+                        <span><?php echo __('Tracking number') ?>: <?php echo $guideData['tracking_number'] ?></span>
+                        <ul class="tracking-detail">
+                            <a class="action" href="<?php echo $guideData['tracking_url'] ?>" target="_blank"><?php echo __('Tracking url') ?></a>
+                            <a class="action" href="<?php echo $guideData['label_url'] ?>" target="_blank"><?php echo __('PDF Information') ?></a>
+                        </ul>
+                    <?php } else{ ?>
+                        <span><?php echo __('Tracking information is not available. Try again later') ?></span>
+                    <?php } ?>
+                </div>
             </div>
-            
         </div>
     <?php } ?>
 </div>

@@ -137,9 +137,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                             $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Order Status");     
                             $resultPage->getLayout()->getBlock('mienvio_status')->setOrderStatus($order->getStatus());     
                             $resultPage->getLayout()->getBlock('mienvio_status')->setOrderGuide($iws_order->getMienvioGuide()); 
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setOrderDelivery($iws_order->getMienvioDelivery()); 
                             $resultPage->getLayout()->getBlock('mienvio_status')->setGuideData(unserialize($iws_order->getMienvioUploadResp())); 
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setDeliveryData(unserialize($iws_order->getMienvioUpdateResp()));
                         } catch (\Exception $e) {
                             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
                             $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
