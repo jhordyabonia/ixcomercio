@@ -151,7 +151,9 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $validCalls = array_keys($this->getValidCalls());
         //Se obtiene el body
         $json = file_get_contents('php://input');
-        //$json = '{"type":"shipment.upload","body":{"quote_id":28945},"version":""}';
+        //PENDIENTE
+        //$json = '{"type":"shipment.upload","body":{"quote_id":29556},"version":""}';
+        //$json = '{"type":"shipment.upload","triggerTime":{"date":"2020-05-14 21:02:14.359139","timezone_type":3,"timezone":"America\/Mexico_City"},"body":{"quote_id":29556},"version":"2020.05.14"}';
         $this->logger->info($json);
         $body = @json_decode($json, false);
         //Verifica el body
@@ -283,12 +285,11 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $mienvio_data = $this->loadMienvioData($configData, $order->getMienvioQuoteId());
         if(isset($mienvio_data['resp']->purchase) && count($mienvio_data['resp']->purchase->shipments)>0){
             $shipment = reset($mienvio_data['resp']->purchase->shipments);
-            //Retorno para upload, info de la guía
-            if($type == 'shipment.upload' && isset($shipment->label)){
-                $mienvio_data_array = (array) $shipment->label;
-            }elseif($type == 'shipment.status'){
-                $mienvio_data_array['object_purpose'] = $shipment->object_purpose;
-                $mienvio_data_array['status'] = $shipment->status;
+            $mienvio_data_array['object_purpose'] = $shipment->object_purpose;
+            $mienvio_data_array['status'] = $shipment->status;
+            if(isset($shipment->label)){
+                $label = (array) $shipment->label;
+                $mienvio_data_array = array_merge($mienvio_data_array, $label);
             }
         }
         $this->logger->info('Información recibida del WS');
@@ -307,61 +308,39 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             try{
                 switch($type){
                     case 'shipment.upload':
+                    case 'shipment.status':                
+                        $data = $this->getWSData($type, $order);
                         if($orders->getMienvioGuide() == 0){
                             $orders->setMienvioGuide(1);
-                            $data = $this->getWSData($type, $order);
-                            $orders->setMienvioUploadResp(serialize($data));
-                            $this->addOrderComment(
-                                $order, 
-                                sprintf(
-                                    //@TODO: cambiar texto de guía
-                                    __("Se ha generado la guía de envío para la orden.\n\nTracking id: %s\nPara dar seguimiento al envío: %s\n Para ver el pdf con la guía: %s"),
-                                    $data['tracking_number'],
-                                    $data['tracking_url'],
-                                    $data['label_url']
-                                ),
-                                true,
-                                false
-                            );
-                            $update = 1;
-                        }
-                        break;
-                    case 'shipment.status':
-                        //Inicia los datos
-                        $data = $this->getWSData($type, $order);
-                        if($orders->getMienvioDelivery()==0){
-                            $orders->setMienvioDelivery(1);
                             $saved = array('status' => '');
                         }else{
-                            $saved = unserialize($orders->getMienvioUpdateResp());
+                            $saved = unserialize($orders->getMienvioUploadResp());
                         }
                         //Obtiene el estado
                         if($saved['status'] != $data['status']){
                             //Si el estado es diferente lo guarda y envía mensaje
-                            $comment = $this->_mienvioHelper->getCommentByStatus($data['status']);
-                            $orders->setMienvioUpdateResp(serialize($data));
+                            $comment = $this->_mienvioHelper->getCommentByStatus($data);
                             $this->addOrderComment(
                                 $order, 
                                 $comment['msg'],
                                 $comment['notify'],
                                 $comment['newstatus']
                             );
-                            $update = 1;
+                            $orders->setMienvioUploadResp(serialize($data));
+                            $orders->save();
+                            $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
+                        }else{
+                            $this->logger->info('Mienviowebhook - La orden con id : '.$orders->getId().' ya se encontraba actualizada');
                         }
                         break;
-                
-                }
-                if($update == 1){
-                    $orders->save();
-                    $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
-                } else {
-                    $this->logger->info('Mienviowebhook - La orden con id : '.$orders->getId().' ya se encontraba actualizada');
                 }
                 return true;
             } catch (\Exception $e) {
                 $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$orders->getId());
                 throw $e;
             }
+        }else{
+            throw new \Exception("La orden {$order->getEntityId()} no cuenta con id IWS.");
         }
         return false;
     }
