@@ -74,7 +74,7 @@ if ($items = $block->getProductCollection()) : ?>
                                 <?php if ($block->canShowReview()) : ?>
                                     <?php $reviewFactory->getEntitySummary($_item, $_product->getStore()->getId());
                                     $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
-                                    <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                                    <div class="rating-summary" itemprop="reviewRating" itemscope="" >
                                         <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
                                             <meta itemprop="worstRating" content="1">
                                             <meta itemprop="bestRating" content="100">
