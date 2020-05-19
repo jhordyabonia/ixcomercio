@@ -1,0 +1,44 @@
+.customer-main-wrapper{
+  .pagebuilder-column-group {
+    margin-top: 40px;
+  }
+  .sidebar{
+    div[data-content-type="buttons"]{
+      padding-top: 0;
+      &:last-child{
+        div:last-child a{
+          border-bottom: 1px solid #ddd;
+        }
+      }
+      .pagebuilder-button-link{
+        width: 100%;
+        color: #000;
+        font-size: 16px;
+        font-weight: 400;
+        text-decoration: none;
+        text-align: left!important;
+        border-top: 1px solid #ddd;
+        padding: 20px 15px;
+        position: relative;
+        margin: 0;
+        &:hover{
+          color: $mainColor;
+        }
+        &:after{
+          top: 50%;
+          right: 10px;
+          color: $mainColor;
+          content: '\e608';
+          font-size: 32px;
+          font-weight: bold;
+          line-height: normal;
+          font-family: 'icons-blank-theme';
+          vertical-align: middle;
+          display: inline-block;
+          position: absolute;
+          margin-top: -16px;
+        }
+      }
+    }
+  }
+}
