@@ -65,7 +65,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                     <div class="product-item-details product-info_main">
                                         <?php $reviewFactory->getEntitySummary($_item, $_item->getStore()->getId());
                                         $ratingSummary = (int)$_item->getRatingSummary()->getRatingSummary(); ?>
-                                        <div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+                                        <div class="rating-summary" itemprop="reviewRating" itemscope="" >
                                             <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
                                                 <meta itemprop="worstRating" content="1">
                                                 <meta itemprop="bestRating" content="100">
