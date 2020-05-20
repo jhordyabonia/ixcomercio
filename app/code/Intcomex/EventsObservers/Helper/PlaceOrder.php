@@ -388,13 +388,9 @@ class PlaceOrder extends AbstractHelper
     public function getIdentification($billing,$shipping)
     {
         if(strcmp($billing->getCountryId(),'GT')==0){
-            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){
-                $this->logger->info('PlaceOrder GT - El cliente tiene direccion IDENTICAS');
+            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){                
                 return null;
-            } 
-            else
-                $this->logger->info('PlaceOrder GT - El cliente tiene direccion DIFERENTES');
-    
+            }
         }
         return $billing->getIdentification();    
     } 
