@@ -1,5 +1,5 @@
 <?php
-namespace Mienvio\Api\Helper;
+namespace Trax\Taxid\Helper;
  
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;

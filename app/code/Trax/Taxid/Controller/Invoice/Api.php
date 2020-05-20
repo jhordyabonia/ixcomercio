@@ -6,7 +6,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Mienvio\Api\Controller\Shipment;
+namespace Trax\Taxid\Controller\Invoice;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -17,7 +17,7 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Sales\Model;
-use Mienvio\Api\Helper\Data;
+use Trax\Taxid\Helper\Data;
 use Cdi\Custom\Helper\Api as CdiApi;
 
 /**
@@ -26,7 +26,7 @@ use Cdi\Custom\Helper\Api as CdiApi;
 class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
-    const USER = 'shipping/mienvio_api/user';    
+    const USER = 'shipping/mienvio_api/user';
     const PASSWORD = 'shipping/mienvio_api/password';
     const TOKEN = 'carriers/mienviocarrier/apikey';
 	const ENVIROMENT = 'shipping/mienvio_api/apuntar_a';
@@ -45,7 +45,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     /** @var \Magento\Framework\Controller\Result\JsonFactory */
     protected $jsonResultFactory;
     protected $_orderCollectionFactory;
-    protected $_mienvioHelper;
+    protected $_taxidHelper;
     protected $_cdiHelper;
     
     /**
@@ -75,7 +75,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
             \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory,
             \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
-            \Mienvio\Api\Helper\Data $mienvioHelper,
+            \Trax\Taxid\Helper\Data $taxidHelper,
             \Cdi\Custom\Helper\Api $cdiHelper
     ) {
         parent::__construct($context);
@@ -83,16 +83,16 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $this->request = $request;
         $this->checkoutSession = $checkoutSession;
         $this->orderRepository = $orderRepository;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mienvio_api.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/tax_id_api.log');
         $this->logger = new \Zend\Log\Logger();
-        $this->logger->addWriter($writer); 
+        $this->logger->addWriter($writer);
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
         $this->resultRedirect = $result;
         $this->_iwsOrder = $iwsOrder;
         $this->jsonResultFactory = $jsonResultFactory;
         $this->_orderCollectionFactory = $orderCollectionFactory;
-        $this->_mienvioHelper = $mienvioHelper;	
+        $this->_taxidHelper = $taxidHelper;	
         $this->_cdiHelper = $cdiHelper;	
     }
 
