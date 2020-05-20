@@ -364,7 +364,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
-            'TaxRegistrationNumber' => $billing->getIdentification(),
+            'TaxRegistrationNumber' => $this->getIdentification($billing,$shipping),
             'InvoiceRequested' => $requireInvoice,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
@@ -437,9 +437,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     public function getIdentification($billing,$shipping)
     {
         if(strcmp($billing->getCountryId(),'GT')==0){
-            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){
+            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){                
                 return null;
-            }    
+            }
         }
         return $billing->getIdentification();    
     } 
