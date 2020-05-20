@@ -2,25 +2,11 @@
 namespace Trax\Taxid\Helper;
  
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class Data extends AbstractHelper{
  
-	protected $_scopeConfig;
-	protected $_storeManager;
-    /**
-     * @var TimezoneInterface
-     */
-	protected $localeDate;
-	
-	public function __construct(
-		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-		TimezoneInterface $localeDate,
-		\Magento\Store\Model\StoreManagerInterface $storeManager
-	){
-		$this->_scopeConfig = $scopeConfig;
-		$this->localeDate = $localeDate;
-		$this->_storeManager = $storeManager;	
+	public function __construct(){
+		
 	}
 	
 	public function getCommentByStatus($st){

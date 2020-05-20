@@ -162,8 +162,6 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute(){
-        $this->_cdiHelper->getConfigParams(array('user' => self::USER,'password' => self::PASSWORD));
-
         $this->logger->info('INICIA PROCESO DE API');
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->jsonResultFactory->create();
