@@ -26,13 +26,6 @@ use Cdi\Custom\Helper\Api as CdiApi;
 class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
 
-    const USER = 'shipping/mienvio_api/user';
-    const PASSWORD = 'shipping/mienvio_api/password';
-    const TOKEN = 'carriers/mienviocarrier/apikey';
-	const ENVIROMENT = 'shipping/mienvio_api/apuntar_a';
-	const URL_STAGING = 'shipping/mienvio_api/url_staging';
-	const URL_PRODUCCION = 'shipping/mienvio_api/url_produccion';
-
     protected $resultPageFactory;
     protected $request;
     protected $payment;
@@ -106,35 +99,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         return true;
     }
 
-    private function getValidCalls($type = null){
-        $data = array(
-            'shipment.status' => array(
-                'ws_config' => array(
-                    'user' => self::USER,
-                    'password' => self::PASSWORD,
-                    'token' => self::TOKEN,
-                    'enviroment' => self::ENVIROMENT,
-                    'url_stagging' => self::URL_STAGING,
-                    'url_prod' => self::URL_PRODUCCION
-                ) 
-            ),
-            'shipment.upload' => array(
-                'ws_config' => array(
-                    'user' => self::USER,
-                    'password' => self::PASSWORD,
-                    'token' => self::TOKEN,
-                    'enviroment' => self::ENVIROMENT,
-                    'url_stagging' => self::URL_STAGING,
-                    'url_prod' => self::URL_PRODUCCION
-                )
-            ),
-        );
-        if($type && isset($data[$type])) return $data[$type];
-        return $data;
-    }
-
     private function getBodyWebhook(){
-        $validCalls = array_keys($this->getValidCalls());
+        $validCalls = array_keys($this->_taxidHelper->getValidCalls());
         //Se obtiene el body
         $json = file_get_contents('php://input');
         //PENDIENTE
@@ -173,9 +139,6 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             }
             //Se obtiene el body
             $body = $this->getBodyWebhook();
-            //Obtiene la configuración
-            $configData = $this->_cdiHelper->getConfigParams(array('user' => self::USER,'password' => self::PASSWORD));
-            $this->logger->info(print_r($configData, true));
             //Actualiza la información
             $this->updateMienvioData($body->type, $body->body->quote_id);
             $result->setHttpResponseCode(200);
@@ -211,40 +174,16 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
 
     //Consume el WS
     //Se consume el servicio de mi envio para quotes
-    public function loadMienvioData($configData, $quote_id){     
-        $this->logger->info('Inicia consulta del WS');
-        $curl = curl_init();
-        // Set some options - we are passing in a useragent too here
-        curl_setopt_array($curl, array(
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $configData['url'].$quote_id,
-        ));
-        $this->logger->info('endpoint - '.$configData['url'].$quote_id);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer '.$configData['token'])
-        );
-        // Send the request & save response to $resp
-        $resp = curl_exec($curl);
-        // Close request to clear up some resources
-        $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        $curl_errors = curl_error($curl);
-        curl_close($curl);
-        $this->logger->info('status code: '.$status_code);
-        $this->logger->info('curl errors: '.$curl_errors);
-        if($status_code == '200'){
-            return array(
-                'status' => true,
-                'resp' => json_decode($resp)
-            );
-        }
-        throw new \Exception('no fue posible realizar la consulta, código: ' . $status_code);
-	}
+    public function loadMienvioData($configData, $quote_id){
+        $header = $this->_taxidHelper->getOutcommingHeader($configData);
+        $wsdl = $configData['url'].$quote_id;
+        return $this->_cdiHelper->makeCurl($wsdl, $header, $this->logger);
+    }
     
     //Obtiene la información del WS
     private function getWSData($type, $order){
         //Parámetros de configuración del WS
-        $configKeys = $this->getValidCalls($type);
+        $configKeys = $this->_taxidHelper->getValidCalls($type);
         $configData = $this->_cdiHelper->getConfigParams($configKeys['ws_config']);
         if(!$configData['enviroment']){
             $configData['url'] = $configData['url_stagging'];

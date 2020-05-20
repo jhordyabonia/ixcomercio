@@ -57,4 +57,56 @@ class Api extends AbstractHelper{
             $this->logger->info('Error al guardar comentario en orden con ID: '.$order->getEntityId());
         }
 	}
+
+	/* Valida si un código http es válido */
+	private function isValidCode($code){
+		$valid = array(0, 1, 2 , 3);
+		$code = substr($code, 0, 1);
+		return in_array($code, $valid);
+	}
+
+	/*Consulta proceso cUrl */
+	public function makeCurl($wsdl, $header, $logger){
+		//Inicia Curl
+        $logger->info('Inicia consulta del WS');
+		$logger->info('endpoint - '.$wsdl);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $wsdl,
+        ));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		
+		//Ejecuta Curl
+		$resp = curl_exec($curl);
+        $curl_errors = curl_error($curl);
+		$status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		curl_close($curl);
+		
+		//Valida errores
+		if($curl_errors){
+			throw new \Exception(sprintf('Curl error: %s', $curl_errors));
+		}
+		
+		//Verifica si el código es válido
+        $logger->info('status code: '.$status_code);
+		if(!$this->isValidCode($status_code)){
+			throw new \Exception(sprintf('http status code error %s', $status_code));
+		}
+
+		//Decodifica el json
+		$resp = json_decode($resp);
+
+		//Verifica la respuesta es un json válido
+		if(json_last_error() != JSON_ERROR_NONE){
+			$er = json_last_error_msg();
+			$code = json_last_error();
+			throw new \Exception(sprintf('Server responds an invalid json. %s (%s)', $er, $code));
+		}
+	
+		return array(
+			'status' => true,
+			'resp' => $resp
+		);
+	}
 }
