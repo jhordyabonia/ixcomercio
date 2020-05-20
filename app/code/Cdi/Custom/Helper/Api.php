@@ -26,21 +26,35 @@ class Api extends AbstractHelper{
 		foreach($fields as $key => $path){
 			$configData[$key] = $this->_scopeConfig->getValue($path, $storeScope, $websiteCode);
 		}
-		echo "<pre>";
-		var_dump($configData);
-		die();
 		return $configData;
 	}
 
 	/*Retorna objectManager vacío, o una clase construida*/
-	public function getObjectManager($class = ''){
+	public function getObjectManager($class = null){
 		if(is_null($this->_objectManager)){
 			$this->_objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
 		}
-		if($class == ''){
+		if(is_null($class)){
 			return $this->_objectManager;
 		}
 		//'\Magento\Store\Model\StoreManagerInterface'
 		return $this->_objectManager->get($class);
+	}
+
+	//Se añade comentario interno a orden
+    public function addOrderComment($order, $comment, $notify = false, $status = false) 
+    {		
+        $status = ($status) ? $status : $order->getStatus();
+		try {
+            $history = $order->addStatusHistoryComment($comment, $status);
+            $history->setIsVisibleOnFront(false);
+            $history->setIsCustomerNotified($notify);
+            $history->save();
+            $order->save();
+			$orderCommentSender = $this->getObjectManager(\Magento\Sales\Model\Order\Email\Sender\OrderCommentSender::class);
+			$orderCommentSender->send($order, $notify, $comment);
+        }catch(\Exception $e){
+            $this->logger->info('Error al guardar comentario en orden con ID: '.$order->getEntityId());
+        }
 	}
 }

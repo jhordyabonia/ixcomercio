@@ -139,7 +139,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $json = file_get_contents('php://input');
         //PENDIENTE
         //$json = '{"type":"shipment.upload","body":{"quote_id":29556},"version":""}';
-        //$json = '{"type":"shipment.upload","triggerTime":{"date":"2020-05-14 21:02:14.359139","timezone_type":3,"timezone":"America\/Mexico_City"},"body":{"quote_id":29556},"version":"2020.05.14"}';
+        $json = '{"type":"shipment.upload","triggerTime":{"date":"2020-05-14 21:02:14.359139","timezone_type":3,"timezone":"America\/Mexico_City"},"body":{"quote_id":29556},"version":"2020.05.14"}';
         $this->logger->info($json);
         $body = @json_decode($json, false);
         //Verifica el body
@@ -289,10 +289,10 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
                             $saved = unserialize($orders->getMienvioUploadResp());
                         }
                         //Obtiene el estado
-                        if($saved['status'] != $data['status']){
+                        if($saved['status'] != $data['status'] || true){
                             //Si el estado es diferente lo guarda y envía mensaje
                             $comment = $this->_mienvioHelper->getCommentByStatus($data);
-                            $this->addOrderComment(
+                            $this->_cdiHelper->addOrderComment(
                                 $order, 
                                 $comment['msg'],
                                 $comment['notify'],
@@ -316,22 +316,4 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         }
         return false;
     }
-    
-    //Se añade comentario interno a orden
-    public function addOrderComment($order, $comment, $notify = false, $status = false) 
-    {
-        $status = ($status) ? $status : $order->getStatus();
-		try {
-            $history = $order->addStatusHistoryComment($comment, $status);
-            $history->setIsVisibleOnFront(false);
-            $history->setIsCustomerNotified($notify);
-            $history->save();
-            $order->save();
-            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-            $orderCommentSender = $objectManager->create(\Magento\Sales\Model\Order\Email\Sender\OrderCommentSender::class);
-            $orderCommentSender->send($order, $notify, $comment);
-        } catch (\Exception $e) {
-            $this->logger->info('Mienviowebhook - Error al guardar comentario en orden con ID: '.$orderId);
-        }
-	}
 }
