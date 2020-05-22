@@ -2332,7 +2332,7 @@ form {
   form .label {
     color: #000; }
   form .fieldset > .field[name="shippingAddress.postcode"] {
-    display: none; }
+    display: none !important; }
   form .fieldset > .field:not(.choice) > .label {
     color: #000000;
     font-size: 13px;
