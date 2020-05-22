@@ -33,6 +33,7 @@
                 <product_height>1</product_height>
                 <product_price>1</product_price>
                 <product_stock>1</product_stock>
+                <product_mpn>1</product_mpn>
             </catalogo_iws>
         </trax_catalogo>
     </default>
