@@ -25,7 +25,6 @@ use Cdi\Custom\Helper\Api as CdiApi;
  */
 class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface
 {
-
     protected $resultPageFactory;
     protected $request;
     protected $payment;
@@ -34,12 +33,11 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     protected $logger;
     protected $_invoiceService;
     protected $transactionBuilder;
-    protected $_iwsOrder;
     /** @var \Magento\Framework\Controller\Result\JsonFactory */
     protected $jsonResultFactory;
-    protected $_orderCollectionFactory;
     protected $_taxidHelper;
     protected $_cdiHelper;
+    protected $_simulate = array('json' => true, 'validate' => true);
     
     /**
      * 
@@ -65,9 +63,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             \Magento\Sales\Model\Service\InvoiceService $invoiceService,
             \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
             \Magento\Framework\Controller\ResultFactory $result,
-            \Trax\Ordenes\Model\IwsOrderFactory $iwsOrder,
             \Magento\Framework\Controller\Result\JsonFactory $jsonResultFactory,
-            \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
             \Trax\Taxid\Helper\Data $taxidHelper,
             \Cdi\Custom\Helper\Api $cdiHelper
     ) {
@@ -82,11 +78,13 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $this->_invoiceService = $invoiceService;
         $this->transactionBuilder = $transactionBuilder;
         $this->resultRedirect = $result;
-        $this->_iwsOrder = $iwsOrder;
         $this->jsonResultFactory = $jsonResultFactory;
-        $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_taxidHelper = $taxidHelper;	
         $this->_cdiHelper = $cdiHelper;	
+    }
+
+    private function dump($obj, $die = true, $title = null){
+        $this->_cdiHelper->dump($obj, $die, $title);
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
@@ -104,10 +102,12 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         //Se obtiene el body
         $json = file_get_contents('php://input');
         //PENDIENTE
-        //$json = '{"type":"shipment.upload","body":{"quote_id":29556},"version":""}';
-        $json = '{"type":"shipment.upload","triggerTime":{"date":"2020-05-14 21:02:14.359139","timezone_type":3,"timezone":"America\/Mexico_City"},"body":{"quote_id":29556},"version":"2020.05.14"}';
+        if($this->_simulate['json']){
+            $json = '{"type": "invoice.upload", "body": {"orderId": "179"}}';
+        }
         $this->logger->info($json);
         $body = @json_decode($json, false);
+
         //Verifica el body
         if($body === null && json_last_error() !== JSON_ERROR_NONE){
             throw new \Exception('no fue posible leer el json de entrada: ' . json_last_error());
@@ -140,7 +140,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             //Se obtiene el body
             $body = $this->getBodyWebhook();
             //Actualiza la información
-            $this->updateMienvioData($body->type, $body->body->quote_id);
+            $this->updateTraxData($body->type, $body->body->orderId);
             $result->setHttpResponseCode(200);
             $result->setData(['success_message' => __('Updated data')]);
         }catch(\Exception $e){
@@ -153,35 +153,34 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     }
 
     //Agrega notificación de guía
-    public function updateMienvioData($type, $quote_id) 
+    public function updateTraxData($type, $orderId)
     {
-        $order = $this->loadOrderInformation($quote_id);
-        $notification = $this->saveMienvioData($type, $order);
+        list($order, $iwsOrder) = $this->loadOrderInformation($orderId);
+        $notification = $this->saveMienvioData($type, $order, $iwsOrder);
     }
 
     //Se carga la orden relacionada a la cotización
-    public function loadOrderInformation($quote_id) 
+    public function loadOrderInformation($orderId)
     {
-        $this->logger->info("Mienvio quote_id: {$quote_id}");
-        $collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('mienvio_quote_id', $quote_id);
-        if(!$collection->getSize()){
-            throw new \Exception('Error al obtener información de la orden con mienvio_quote_id: '.$quote_id);
-        }
-        $order = $collection->getFirstItem();
-        $this->logger->info("Magento order_id: {$order->getEntityId()}");
-        return $order;
+        $iwsOrder = $this->_cdiHelper->getIwsOrderBy('iws_order', $orderId, $this->logger); //order_increment_id|iws_order
+        $order = $this->_cdiHelper->getMagentoOrderBy(array(array('entity_id', $iwsOrder->getOrderId())), $this->logger);
+        return array($order, $iwsOrder);
     }
 
     //Consume el WS
     //Se consume el servicio de mi envio para quotes
-    public function loadMienvioData($configData, $quote_id){
-        $header = $this->_taxidHelper->getOutcommingHeader($configData);
-        $wsdl = $configData['url'].$quote_id;
-        return $this->_cdiHelper->makeCurl($wsdl, $header, $this->logger);
+    public function loadTraxData($configData, $iwsOrderId){
+        
+        $params = array('orderNumber' => $iwsOrderId);
+        $wsdl = $this->_cdiHelper->prepateTraxUrl('getinvoice', $configData, $params, $this->logger);
+        $try = 3; $sleep = 3;
+        $data = $this->_cdiHelper->makeCurl($wsdl, false, $this->logger, $try, $sleep);
+        $this->dump($data);
+        return '';
     }
     
     //Obtiene la información del WS
-    private function getWSData($type, $order){
+    private function getWSData($type, $iwsOrder){
         //Parámetros de configuración del WS
         $configKeys = $this->_taxidHelper->getValidCalls($type);
         $configData = $this->_cdiHelper->getConfigParams($configKeys['ws_config']);
@@ -192,66 +191,60 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         }
         unset($configData['url_stagging'], $configData['url_prod']);
         //Consume el WS
-        $mienvio_data_array = array();
-        $mienvio_data = $this->loadMienvioData($configData, $order->getMienvioQuoteId());
-        if(isset($mienvio_data['resp']->purchase) && count($mienvio_data['resp']->purchase->shipments)>0){
-            $shipment = reset($mienvio_data['resp']->purchase->shipments);
-            $mienvio_data_array['object_purpose'] = $shipment->object_purpose;
-            $mienvio_data_array['status'] = $shipment->status;
+        $trax_data_array = array();
+        $trax_data = $this->loadTraxData($configData, $iwsOrder->getIwsOrder());
+        if(isset($trax_data['resp']->purchase) && count($trax_data['resp']->purchase->shipments)>0){
+            $shipment = reset($trax_data['resp']->purchase->shipments);
+            $trax_data_array['object_purpose'] = $shipment->object_purpose;
+            $trax_data_array['status'] = $shipment->status;
             if(isset($shipment->label)){
                 $label = (array) $shipment->label;
-                $mienvio_data_array = array_merge($mienvio_data_array, $label);
+                $trax_data_array = array_merge($trax_data_array, $label);
             }
         }
         $this->logger->info('Información recibida del WS');
-        $this->logger->info(print_r($mienvio_data_array, true));
-        if(empty($mienvio_data_array)) throw new \Exception("No se pudo obtener información del WS de mi envío");
-        return $mienvio_data_array;
+        $this->logger->info(print_r($trax_data_array, true));
+        if(empty($trax_data_array)) throw new \Exception("No se pudo obtener información del WS de mi envío");
+        return $trax_data_array;
     }
 
     //Se guarda información de IWS en tabla custom
-    public function saveMienvioData($type, $order) 
+    public function saveMienvioData($type, $order, $iwsOrder) 
     {
-        $orders = $this->_iwsOrder->create();
-        $orders->getResource()->load($orders, $order->getEntityId(), 'order_id');
-        if($orders->getId()){
-            $update = 0;
-            try{
-                switch($type){
-                    case 'shipment.upload':
-                    case 'shipment.status':                
-                        $data = $this->getWSData($type, $order);
-                        if($orders->getMienvioGuide() == 0){
-                            $orders->setMienvioGuide(1);
-                            $saved = array('status' => '');
-                        }else{
-                            $saved = unserialize($orders->getMienvioUploadResp());
-                        }
-                        //Obtiene el estado
-                        if($saved['status'] != $data['status'] || true){
-                            //Si el estado es diferente lo guarda y envía mensaje
-                            $comment = $this->_taxidHelper->getCommentByStatus($data);
-                            $this->_cdiHelper->addOrderComment(
-                                $order, 
-                                $comment['msg'],
-                                $comment['notify'],
-                                $comment['newstatus']
-                            );
-                            $orders->setMienvioUploadResp(serialize($data));
-                            $orders->save();
-                            $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$orders->getId());
-                        }else{
-                            $this->logger->info('Mienviowebhook - La orden con id : '.$orders->getId().' ya se encontraba actualizada');
-                        }
-                        break;
-                }
-                return true;
-            } catch (\Exception $e) {
-                $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$orders->getId());
-                throw $e;
+        $update = 0;
+        try{
+            switch($type){
+                
+                case 'invoice.upload':               
+                    $data = $this->getWSData($type, $iwsOrder);
+                    if($iwsOrder->getMienvioGuide() == 0){
+                        $iwsOrder->setMienvioGuide(1);
+                        $saved = array('status' => '');
+                    }else{
+                        $saved = unserialize($iwsOrder->getMienvioUploadResp());
+                    }
+                    //Obtiene el estado
+                    if($saved['status'] != $data['status'] || $this->_simulate['validate']){
+                        //Si el estado es diferente lo guarda y envía mensaje
+                        $comment = $this->_taxidHelper->getCommentByStatus($data);
+                        $this->_cdiHelper->addOrderComment(
+                            $order, 
+                            $comment['msg'],
+                            $comment['notify'],
+                            $comment['newstatus']
+                        );
+                        $iwsOrder->setMienvioUploadResp(serialize($data));
+                        $iwsOrder->save();
+                        $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$iwsOrder->getId());
+                    }else{
+                        $this->logger->info('Mienviowebhook - La orden con id : '.$iwsOrder->getId().' ya se encontraba actualizada');
+                    }
+                    break;
             }
-        }else{
-            throw new \Exception("La orden {$order->getEntityId()} no cuenta con id IWS.");
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$iwsOrder->getId());
+            throw $e;
         }
         return false;
     }

@@ -5,12 +5,13 @@ use Magento\Framework\App\Helper\AbstractHelper;
 
 class Data extends AbstractHelper{
 	
-	const USER = 'shipping/mienvio_api/user';
-    const PASSWORD = 'shipping/mienvio_api/password';
-    const TOKEN = 'carriers/mienviocarrier/apikey';
-	const ENVIROMENT = 'shipping/mienvio_api/apuntar_a';
-	const URL_STAGING = 'shipping/mienvio_api/url_staging';
-	const URL_PRODUCCION = 'shipping/mienvio_api/url_produccion';
+	const API_KEY = 'trax_general/catalogo_retailer/apikey';
+	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
+	const ENVIROMENT = 'trax_general/catalogo_retailer/apuntar_a';
+	const URL_DESARROLLO = 'trax_general/catalogo_retailer/url_desarrollo';
+	const URL_PRODUCCION = 'trax_general/catalogo_retailer/url_produccion';
+	const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+	const ERRORES = 'trax_general/catalogo_retailer/errores';
 
 	public function __construct(){
 
@@ -18,26 +19,17 @@ class Data extends AbstractHelper{
 
 	public function getValidCalls($type = null){
         $data = array(
-            'shipment.status' => array(
+            'invoice.upload' => array(
                 'ws_config' => array(
-                    'user' => self::USER,
-                    'password' => self::PASSWORD,
-                    'token' => self::TOKEN,
+                    'apikey' => self::API_KEY,
+                    'accesskey' => self::ACCESS_KEY,
                     'enviroment' => self::ENVIROMENT,
-                    'url_stagging' => self::URL_STAGING,
-                    'url_prod' => self::URL_PRODUCCION
+                    'url_stagging' => self::URL_DESARROLLO,
+                    'url_prod' => self::URL_PRODUCCION,
+                    'timeout' => self::TIMEOUT,
+                    'errores' => self::ERRORES,
                 ) 
-            ),
-            'shipment.upload' => array(
-                'ws_config' => array(
-                    'user' => self::USER,
-                    'password' => self::PASSWORD,
-                    'token' => self::TOKEN,
-                    'enviroment' => self::ENVIROMENT,
-                    'url_stagging' => self::URL_STAGING,
-                    'url_prod' => self::URL_PRODUCCION
-                )
-            ),
+            )
         );
         if($type && isset($data[$type])) return $data[$type];
         return $data;

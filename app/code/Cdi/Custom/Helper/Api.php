@@ -8,20 +8,59 @@ class Api extends AbstractHelper{
 	protected $_scopeConfig;
 	protected $_storeManager;
 	protected $_objectManager;
+	protected $_orderCollectionFactory;
+	protected $_iwsOrder;
 
 	public function __construct(
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-		\Magento\Store\Model\StoreManagerInterface $storeManager
+		\Magento\Store\Model\StoreManagerInterface $storeManager,
+		\Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+		\Trax\Ordenes\Model\IwsOrderFactory $iwsOrder
 	){
 		$this->_scopeConfig = $scopeConfig;
-		$this->_storeManager = $storeManager;	
+		$this->_storeManager = $storeManager;
+		$this->_orderCollectionFactory = $orderCollectionFactory;
+		$this->_iwsOrder = $iwsOrder;
+	}
+
+	public function getCurrentStore($codeOnly = false){
+		$store = $this->_storeManager->getStore();
+		if($codeOnly) return $store->getCode();
+		return $store;
+	}
+
+	/* Genera la url para consultas de TRAX */
+	public function prepateTraxUrl($method, $configData, $params, $logger){
+		$logger->info('Inicia contrucción de url TRAX');
+		$storeCode = $this->getCurrentStore(true);
+		//Valida que el api key no esté vacío
+		if($configData['apikey'] == '')
+            throw new \Exception("Empty api key");
+        
+		$utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
+		$signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
+		$signature = hash('sha256', $signature);
+		//Contruye la url
+		$serviceUrl = "{$configData['url']}{$method}";
+		//Obtiene los parámetros de la url
+		$params['locale'] = 'en';
+		$params['apiKey'] = $configData['apikey'];
+		$params['utcTimeStamp'] = $utcTime;
+		$params['signature'] = $signature;
+		$params['tag'] = '';
+		$params['generateTokens'] = 'false';
+		$paramsStr = http_build_query($params);
+		//Retorna la url final
+		$serviceUrl.= "?{$paramsStr}";
+		$logger->info("Retorna la url de servicio {$serviceUrl}");
+        return $serviceUrl;
 	}
 
 	//Obtiene los parámetros de configuración desde el cms
 	public function getConfigParams($fields)
 	{
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-		$websiteCode = $this->_storeManager->getStore()->getCode();
+		$websiteCode = $this->getCurrentStore(true);
 		$configData = array();
 		foreach($fields as $key => $path){
 			$configData[$key] = $this->_scopeConfig->getValue($path, $storeScope, $websiteCode);
@@ -39,6 +78,37 @@ class Api extends AbstractHelper{
 		}
 		//'\Magento\Store\Model\StoreManagerInterface'
 		return $this->_objectManager->get($class);
+	}
+
+	/* Retorna una orden según los filtros indicados*/
+	public function getMagentoOrderBy($fieldFilter, $logger){
+		$logger->info("Realiza búsqueda de objeto sales_order");
+		$collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*');
+		foreach($fieldFilter as $filter){
+			$field = $filter[0];
+			$val = $filter[1];
+			$logger->info("Filtro: {$field} => {$val}");
+			$collection->addFieldToFilter($field, $val);
+		}
+		
+        if(!$collection->getSize())
+			throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+			
+        $order = $collection->getFirstItem();
+        $logger->info("Magento order_id: {$order->getEntityId()}");
+        return $order;
+	}
+
+	/* Retorna información de la tabla IWS_order según los filtros indicados*/
+	public function getIwsOrderBy($field, $val, $logger){
+		$logger->info("Realiza búsqueda de registro en iws_order");
+		$logger->info("Filtro: {$field} => {$val}");
+		$iwsOrder = $this->_iwsOrder->create();
+		$iwsOrder->getResource()->load($iwsOrder, $val, $field);
+		if(!$iwsOrder || !$iwsOrder->getId())
+			throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+		$logger->info("iws_order table id: {$iwsOrder->getId()}");
+		return $iwsOrder;
 	}
 
 	//Se añade comentario interno a orden
@@ -65,17 +135,65 @@ class Api extends AbstractHelper{
 		return in_array($code, $valid);
 	}
 
+	/* Permite realizar dump */
+	public function dump($obj, $die = true, $title = null){
+		echo "<pre>";
+		if(!is_null($title)) echo "<h2>{$title}</h2>";
+		if(is_array($obj)){
+			print_r($obj);
+		}elseif(is_string($obj)){
+			echo $obj;
+		}else{
+			var_dump($obj);
+		}
+		echo "<pre>";
+		if($die) die();
+	}
+
 	/*Consulta proceso cUrl */
-	public function makeCurl($wsdl, $header, $logger){
+	public function makeCurl($wsdl, $header = false, $logger, $retry = 0, $sleep = 3){
 		//Inicia Curl
-        $logger->info('Inicia consulta del WS');
+		$logger->info('Inicia consulta del WS');
+		
+		//Verifica el cUrl
+		if(!extension_loaded("cURL"))
+			throw new \Exception('An error occurred and processing, please verify local CURL extension');
+		
 		$logger->info('endpoint - '.$wsdl);
-        $curl = curl_init();
+		
+		//Cantidad máxima de intentos: un intento + los reintentos parametrizados
+		$maxTry = 1 + $retry;
+		$try = 1;
+		$resp = null;
+		while(is_null($resp)){
+			try{
+				$logger->info("Intento {$try} de {$maxTry}");
+				$resp = $this->curl($wsdl, $header, $logger);
+			}catch(\Exception $e){
+				$logger->info("Ocurrió un error: {$e->getMessage()}");
+				if($try < $maxTry){
+					$try++;
+					sleep($sleep);
+				}else{
+					throw $e;
+				}				
+			}
+		}	
+		return array(
+			'status' => true,
+			'resp' => $resp
+		);
+	}
+	
+	private function curl($wsdl, $header, $logger){
+		$curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $wsdl,
-        ));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		));
+		//Agrega la cabecera si es necesario
+		if(is_array($header))
+        	curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
 		
 		//Ejecuta Curl
 		$resp = curl_exec($curl);
@@ -103,10 +221,7 @@ class Api extends AbstractHelper{
 			$code = json_last_error();
 			throw new \Exception(sprintf('Server responds an invalid json. %s (%s)', $er, $code));
 		}
-	
-		return array(
-			'status' => true,
-			'resp' => $resp
-		);
+
+		return $resp;
 	}
 }
