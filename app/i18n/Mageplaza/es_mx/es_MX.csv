@@ -7973,7 +7973,7 @@ e.g. var/export, var/import, var/export/some/dir,""Para tipo """"Servidor Local"
 "Position of attribute in layered navigation block.,""Posición de atributo en el bloque de navegación en capas."",module,Magento_LayeredNavigation";;
 "item,""artículo"",module,Magento_LayeredNavigation";;
 "items,""artículos"",module,Magento_LayeredNavigation";;
-"Now Shopping by,""Ahora comprando por"",module,Magento_LayeredNavigation";;
+"Now Shopping by,""Filtrando por"",module,Magento_LayeredNavigation";;
 "Previous,""Anterior"",module,Magento_LayeredNavigation";;
 "Remove,""Eliminar"",module,Magento_LayeredNavigation";;
 "Remove This Item,""Eliminar este artículo"",module,Magento_LayeredNavigation";;
@@ -16218,7 +16218,7 @@ settings/placeholder"",""settings/placeholder"",module,Magento_Ui";;
 "Menu,""Menú"",theme,frontend\Magento\blank";;
 "Account,""Cuenta"",theme,frontend\Magento\blank";;
 "Settings,""Configuración"",theme,frontend\Magento\blank";;
-"Now Shopping by,""Ahora comprando por"",theme,frontend\Magento\luma";;
+"Now Shopping by,""Filtrando por"",theme,frontend\Magento\luma";;
 "Previous,""Anterior"",theme,frontend\Magento\luma";;
 "Remove,""Eliminar"",theme,frontend\Magento\luma";;
 "Remove This Item,""Eliminar este artículo"",theme,frontend\Magento\luma";;
@@ -16418,4 +16418,4 @@ settings/placeholder"",""settings/placeholder"",module,Magento_Ui";;
 "Free Shipping,""Env�o Gratis"",module,Magento_Checkout";;
 "Free,""Gratis"",module,Magento_Checkout";;
 "Payment error: The transaction has been rejected,""Error pago: La transacción ha sido rechazada"",module,Magento_CompanyPayment";;
-"Follow us","Síguenos";;
+"Follow us","Síguenos"
