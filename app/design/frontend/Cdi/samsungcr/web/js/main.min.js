@@ -403,7 +403,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    			}
 
 	    			var htmlZones = '<select id="fieldZoneCheckout" class="select" name="zone_id" aria-required="true" aria-invalid="false" disabled>'+
-	    							'<option data-title="" value="">'+$.mage.__("Please select a zone.")+'</option>'+
+	    							'<option data-title="" value="">'+$.mage.__("Por favor seleccione una zona.")+'</option>'+
 	    							'</select>';
 
 	    			if($(obj).find('#fieldZoneCheckout').length == 0){
@@ -461,7 +461,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
-                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Por favor seleccione una zona.</option>');
                   				
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.PostalCode+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
