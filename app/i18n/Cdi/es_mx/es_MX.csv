@@ -16427,3 +16427,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Free","Gratis",module,Magento_Checkout
 "Text to translate","Texto para traducir",lib,web
 "Follow us","Síguenos"
+"You can select your payment product in the next step.","Puede seleccionar su producto de pago en el siguiente paso."
