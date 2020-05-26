@@ -16426,3 +16426,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Free Shipping","Envío Gratis",module,Magento_Checkout
 "Free","Gratis",module,Magento_Checkout
 "Text to translate","Texto para traducir",lib,web
+"Follow us","Síguenos"

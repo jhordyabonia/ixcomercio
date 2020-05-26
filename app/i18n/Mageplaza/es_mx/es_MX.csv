@@ -16418,4 +16418,4 @@ settings/placeholder"",""settings/placeholder"",module,Magento_Ui";;
 "Free Shipping,""Env�o Gratis"",module,Magento_Checkout";;
 "Free,""Gratis"",module,Magento_Checkout";;
 "Payment error: The transaction has been rejected,""Error pago: La transacción ha sido rechazada"",module,Magento_CompanyPayment";;
-"Follow us,""Síguenos";;
+"Follow us","Síguenos";;
