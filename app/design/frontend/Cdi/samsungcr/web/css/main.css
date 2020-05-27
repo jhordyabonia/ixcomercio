@@ -1580,7 +1580,7 @@ section {
         font-size: 20px;
         line-height: normal;
         font-family: 'SamsungSharpSans-Medium';
-        min-height: 100px!important; }
+        min-height: 60px; }
         .products-grid .product-items .item:not(.rating-summary) .product-item-info .product-item-details .product-item-name a {
           color: #212428;
           font-weight: bold; }
@@ -2332,7 +2332,7 @@ form {
   form .label {
     color: #000; }
   form .fieldset > .field[name="shippingAddress.postcode"] {
-    display: none !important; }
+    display: none; }
   form .fieldset > .field:not(.choice) > .label {
     color: #000000;
     font-size: 13px;
