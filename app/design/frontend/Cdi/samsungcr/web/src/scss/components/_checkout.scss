@@ -1,4 +1,7 @@
 .checkout-index-index{
+  .field[name="shippingAddress.postcode"] {
+    display: none;
+  }
   .page-wrapper .page-main .columns .column.main{
     max-width: 1300px;
     margin: 0 auto;
