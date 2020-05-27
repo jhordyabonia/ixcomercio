@@ -132,6 +132,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Determina si acepta el inventario del producto desde IWS</comment>
                 </field>
+                <field id="product_mpn" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mpn</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Determina si acepta el MPN del producto desde IWS</comment>
+                </field>
             </group>
         </section>
     </system>
