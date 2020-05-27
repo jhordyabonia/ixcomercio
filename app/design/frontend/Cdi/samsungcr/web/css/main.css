@@ -1580,7 +1580,7 @@ section {
         font-size: 20px;
         line-height: normal;
         font-family: 'SamsungSharpSans-Medium';
-        min-height: 75px; }
+        min-height: 100px!important; }
         .products-grid .product-items .item:not(.rating-summary) .product-item-info .product-item-details .product-item-name a {
           color: #212428;
           font-weight: bold; }
