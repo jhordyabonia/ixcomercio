@@ -460,9 +460,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							dataType: 'json',
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
-								$(fieldZoneCheckout).find('select option').remove();
-                  				//$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
-                  				
+								$(fieldZoneCheckout).find('select option:not([value=""])').remove();
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.PostalCode+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
 							  	});
