@@ -57,13 +57,17 @@ class Data extends AbstractHelper{
 		return $string;
 	}
 
-	public function getMediaUrl($path){
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
-    }
+	
 
 	public function getStoreConfig($key){
 		return $this->_scopeConfig->getValue($key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
     }
+	
+	public function getMediaUrlStore($path){
+		$website = $this->_storeManager->getStore()->getId();
+		$path =  str_replace(".", "-".$website.".", $path);
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
+	}
 	
 	public function getWeightUnit(){
 		return $this->_scopeConfig->getValue(
