@@ -64,9 +64,9 @@ class Data extends AbstractHelper{
     }
 	
 	public function getMediaUrlStore($path){
-		$website = $this->_storeManager->getStore()->getId();
-		$path =  str_replace(".", "-".$website.".", $path);
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
+		$store = $this->_storeManager->getStore()->getCode();
+		$pathS =  str_replace(".", "-".$store.".", $path);
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $pathS;
 	}
 	
 	public function getWeightUnit(){
