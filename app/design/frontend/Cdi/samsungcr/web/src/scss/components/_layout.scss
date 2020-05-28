@@ -392,6 +392,7 @@ section{
               transition: .5s all ease;
               background: url(../images/arrow-down-black.png) no-repeat 95% center;
               background-size: 14px;
+              font-size:18px;
               &[aria-expanded="true"]{
                 background: url(../images/arrow-up-maincolor.png) no-repeat 95% center;
                 background-size: 14px;
@@ -579,7 +580,7 @@ section{
     transition: .5s all ease;
     font-size: 1.7rem;
     letter-spacing: 1px;
-    font-family: 'SamsungSharpSans-Bold';
+    font-family: 'SamsungSharpSans-Medium';
     font-weight: 400;
     border-radius: 5px !important;
     border: 0;

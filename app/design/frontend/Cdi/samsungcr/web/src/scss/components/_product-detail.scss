@@ -284,7 +284,7 @@
       width: 100%;
       margin: 15px 0;
       color: #000;
-      font-size: 14px;
+      font-size: 12px;
       line-height: 20px;
       letter-spacing: .5px;
       float: left;
@@ -394,7 +394,7 @@
             vertical-align: middle;
             min-height: 40px;
             line-height: 40px;
-            font-size: 16px;
+            font-size: 17px;
             padding: 0 30px;
             float: left;
             min-width: 160px;
@@ -519,18 +519,19 @@
 }
 .box-additional{
   padding: 60px 0;
-  background: #fff;
+  background: #F9F9F9;
   .product-tabs{
     width: 100%;
     float: left;
     .product.data.items{
-      background: #e8e8e8;
+      
       @media only screen and (max-width: $tablet){
         text-align: left;
       }
       >.item.title{
         float: left;
         margin: 0 0 -1px;
+        font-size:18px;
         @media only screen and (max-width: $tablet){
           margin: 0;
           border-top: 1px solid #d5d5d5;
@@ -582,7 +583,7 @@
         color: #666666;
         font-weight: 500;
         text-align: left;
-        margin-top: 46px;
+        margin-top: 56px;
         margin-bottom: 0;
         padding: 20px;
         border: 0;
