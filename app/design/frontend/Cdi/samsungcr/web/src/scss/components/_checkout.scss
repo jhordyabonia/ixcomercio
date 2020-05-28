@@ -1,4 +1,7 @@
 .checkout-index-index{
+  .field[name="shippingAddress.postcode"] {
+    display: none!important;
+  }
   .page-wrapper .page-main .columns .column.main{
     max-width: 1300px;
     margin: 0 auto;
@@ -249,4 +252,9 @@
     background:$bgColorSecond;
     color:#ffffff;
   }
+}
+
+.checkout-onepage-success form .actions-toolbar{
+  text-align: center;
+    margin: 0 auto !important;
 }
