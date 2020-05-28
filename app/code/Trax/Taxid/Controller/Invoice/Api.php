@@ -214,7 +214,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
                 case 'invoice.upload':               
                     $data = $this->getWSData($type, $iwsOrder);
                     //si no tiene info de factura, genera y guarda
-                    if(!$iwsOrder->getTraInvoice() || $this->_simulate['validate']){
+                    if(!$iwsOrder->getTraxInvoice() || $this->_simulate['validate']){
                         $comment = $this->_cdiHelper->getCommentByStatus($data, 'invoice');
                         $this->_cdiHelper->addOrderComment(
                             $order, 
@@ -222,7 +222,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
                             $comment['notify'],
                             $comment['newstatus']
                         );
-                        $iwsOrder->setTraInvoice(serialize($data));
+                        $iwsOrder->setTraxInvoice(serialize($data));
                         $iwsOrder->save();
                         $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$iwsOrder->getId());
                     }

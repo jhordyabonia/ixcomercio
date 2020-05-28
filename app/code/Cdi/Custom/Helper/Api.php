@@ -100,14 +100,20 @@ class Api extends AbstractHelper{
 	}
 
 	/* Retorna información de la tabla IWS_order según los filtros indicados*/
-	public function getIwsOrderBy($field, $val, $logger){
-		$logger->info("Realiza búsqueda de registro en iws_order");
-		$logger->info("Filtro: {$field} => {$val}");
+	public function getIwsOrderBy($field, $val, $logger, $throw = true){
+		if($logger) $logger->info("Realiza búsqueda de registro en iws_order");
+		if($logger) $logger->info("Filtro: {$field} => {$val}");
 		$iwsOrder = $this->_iwsOrder->create();
 		$iwsOrder->getResource()->load($iwsOrder, $val, $field);
-		if(!$iwsOrder || !$iwsOrder->getId())
-			throw new \Exception('No fue posible obtener una orden con los filtros indicados');
-		$logger->info("iws_order table id: {$iwsOrder->getId()}");
+		if(!$iwsOrder || !$iwsOrder->getId()){
+			if($throw){
+				throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+			}else{
+				return false;
+			}
+
+		}
+		if($logger) $logger->info("iws_order table id: {$iwsOrder->getId()}");
 		return $iwsOrder;
 	}
 

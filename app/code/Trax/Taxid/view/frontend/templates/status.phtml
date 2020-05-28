@@ -1,0 +1,39 @@
+<?php $_mienvioHelper = $this->helper('Mienvio\Api\Helper\Data');?>
+<?php $_cdiHelper = $this->helper('Cdi\Custom\Helper\Api');?>
+<div class="block">
+    <div class="block-title">
+        <strong><?php echo $this->getTitle() ?></strong>
+    </div> 
+    <?php if($this->getOrderStatus() == 'canceled'){ ?>
+        <div class="block-content">
+            <div class="canceled-progress-bar">
+                <div class="processed">
+                    <?php echo __('Order canceled') ?>
+                </div>
+            </div>
+        </div>
+    <?php } else {?>
+        <?php $invoiceData = $this->getInvoiceData();?>
+        <pre>
+        <?php var_dump($invoiceData);?>
+        </pre>
+        <div class="block-content">
+            <div class="processed">
+                <?php if(is_array($invoiceData) && !empty($invoiceData)){ ?>
+                    <strong class="box-title"><?php echo __('Invoice information') ?></strong>
+                    <div class="guide-generated">
+                        <span><?php echo __('Invoice number') ?>: <?php echo $invoiceData['InvoiceNumber'] ?></span>
+                        <span><?php echo __('Another invoice number') ?>: <?php echo $invoiceData['TaxRegistrationNumber'] ?></span>
+                        <ul class="tracking-detail">
+                            <?php if(!empty($invoiceData['InvoiceUrl'])){ ?>
+                                <a class="action" href="<?php echo $invoiceData['InvoiceUrl'] ?>" target="_blank"><?php echo __('Invoice url') ?></a>
+                            <?php }else{ ?>
+                                <span><?php echo __('An error ocurred generating invoice url. Please try again later.') ?></span>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+</div>
