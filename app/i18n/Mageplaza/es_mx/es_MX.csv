@@ -3319,7 +3319,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Cancel,""Cancelar"",module,Magento_Checkout";;
 "Save in address book,""Guardar en libreta de direcciones"",module,Magento_Checkout";;
 "Estimated Total,""Total estimado"",module,Magento_Checkout";;
-"You can create an account after checkout.,""Puedes crear una cuenta después del cobro."",module,Magento_Checkout";;
+"You can create an account after checkout.,""Puedes crear una cuenta más adelante"",module,Magento_Checkout";;
 "You already have an account with us. Sign in or continue as guest.,""Ya tienes una cuenta con nosotros. Ingresar o continuar como invitado."",module,Magento_Checkout";;
 "Login,""Entrar"",module,Magento_Checkout";;
 "See Details,""Ver información"",module,Magento_Checkout";;
@@ -3379,7 +3379,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Payment,""Pago"",module,Magento_Checkout";;
 "Not yet calculated,""Aún no se ha calculado"",module,Magento_Checkout";;
 "We received your order!,""¡Hemos recibido tu pedido!"",module,Magento_Checkout";;
-"Thank you for your purchase!,""�Gracias por su compra!"",module,Magento_Checkout";;
+"Thank you for your purchase!,""�Gracias por su compra!"",module,Magento_Checkout";;
 "Minimum order amount is %1,""Cantidad de pedido mínima es de %1"",module,Magento_Checkout";;
 "Unable to save address. Please, check input data.,""No se puede guardar la dirección. Por favor, comprueba los datos introducidos."",module,Magento_Checkout";;
 "Unable to save shipping information. Please, check input data.,""No se puede guardar la información de envío. Por favor, comprueba los datos introducidos."",module,Magento_Checkout";;
@@ -7973,7 +7973,7 @@ e.g. var/export, var/import, var/export/some/dir,""Para tipo """"Servidor Local"
 "Position of attribute in layered navigation block.,""Posición de atributo en el bloque de navegación en capas."",module,Magento_LayeredNavigation";;
 "item,""artículo"",module,Magento_LayeredNavigation";;
 "items,""artículos"",module,Magento_LayeredNavigation";;
-"Now Shopping by,""Ahora comprando por"",module,Magento_LayeredNavigation";;
+"Now Shopping by,""Filtrando por"",module,Magento_LayeredNavigation";;
 "Previous,""Anterior"",module,Magento_LayeredNavigation";;
 "Remove,""Eliminar"",module,Magento_LayeredNavigation";;
 "Remove This Item,""Eliminar este artículo"",module,Magento_LayeredNavigation";;
@@ -8438,7 +8438,7 @@ it will make no affect on Price filter.,""Sólo se puede utilizar con el tipo de
 "We could only complete part of your order.,""Solo pudimos completar parte de su pedido."",module,Magento_Multishipping";;
 "We were unable to complete your order.,""No hemos podido completar su pedido."",module,Magento_Multishipping";;
 "Select Shipping Method,""Versandart auswählen"",module,Magento_Multishipping";;
-"Thank you for your purchase!,""�Gracias por su compra!"",module,Magento_Multishipping";;
+"Thank you for your purchase!,""�Gracias por su compra!"",module,Magento_Multishipping";;
 "Thanks for your order. We'll email you order details and tracking information.,""Gracias por su pedido. Te enviaremos por email detalles del pedido y la información de seguimiento."",module,Magento_Multishipping";;
 "Your order numbers are: ,""Los números de sus pedidos son: "",module,Magento_Multishipping";;
 "Your order number is: ,""Su número de pedido es: "",module,Magento_Multishipping";;
@@ -13142,7 +13142,7 @@ Usage limit enforced for logged in customers only.,module,Magento_SalesRule
 "Search Terms Report,""Informe de términos de búsqueda"",module,Magento_Search";;
 "You saved the search term.,""Guardaste el término de búsqueda."",module,Magento_Search";;
 "Something went wrong while saving the search query.,""Algo salió mal al guardar la consulta de búsqueda."",module,Magento_Search";;
-"You already have an identical search term query.,""Ya tiene una consulta de término de búsqueda idéntica."",module,Magento_Search";;
+"You already have agit branchn identical search term query.,""Ya tiene una consulta de término de búsqueda idéntica."",module,Magento_Search";;
 "Your search query can't be longer than %1, so we shortened your query.,""La consulta de búsqueda no puede ser más larga que %1, por lo que se acortó su solicitud."",module,Magento_Search";;
 "Synonym group with id %1 cannot be deleted. %2,""El grupo de sinónimos con id %1 no se puede eliminar. %2"",module,Magento_Search";;
 "Merge conflict with existing synonym group(s): %1,""Fusionar conflicto con grupos de sinónimos existentes: %1"",module,Magento_Search";;
@@ -13152,7 +13152,7 @@ Usage limit enforced for logged in customers only.,module,Magento_SalesRule
 "Delete,""Borrar"",module,Magento_Search";;
 "Are you sure you want to delete synonym group with id: %1?,""¿Seguro que quieres eliminar el grupo de sinónimos con id: %1?"",module,Magento_Search";;
 "View/Edit,""Ver/Editar"",module,Magento_Search";;
-"Search entire store here...,""Busca aquí por toda la tienda..."",module,Magento_Search";;
+"Search entire store here...,""Buscar en toda la tienda"",module,Magento_Search";;
 "There are no search terms available.,""No hay términos de búsqueda disponibles."",module,Magento_Search";;
 "Search Engine,""Motor de búsqueda"",module,Magento_Search";;
 "CSV,""CSV"",module,Magento_Search";;
@@ -16218,7 +16218,7 @@ settings/placeholder"",""settings/placeholder"",module,Magento_Ui";;
 "Menu,""Menú"",theme,frontend\Magento\blank";;
 "Account,""Cuenta"",theme,frontend\Magento\blank";;
 "Settings,""Configuración"",theme,frontend\Magento\blank";;
-"Now Shopping by,""Ahora comprando por"",theme,frontend\Magento\luma";;
+"Now Shopping by,""Filtrando por"",theme,frontend\Magento\luma";;
 "Previous,""Anterior"",theme,frontend\Magento\luma";;
 "Remove,""Eliminar"",theme,frontend\Magento\luma";;
 "Remove This Item,""Eliminar este artículo"",theme,frontend\Magento\luma";;
@@ -16415,6 +16415,7 @@ settings/placeholder"",""settings/placeholder"",module,Magento_Ui";;
 "The password can't be the same as the email address. Create a new password and try again.,""La contraseña no puede ser la misma que la dirección de correo electrónico. Crear una nueva contraseña y vuelva a intentarlo."",lib,web";;
 "Back to home,""Regresar"",lib,web";;
 "Due to continuous product improvements, the images on the website may differ slightly from the actual product that you receive.,""Debido a las mejoras continuas del producto, las imágenes en el sitio web pueden diferir ligeramente del producto real que recibe."",lib,web";;
-"Free Shipping,""Env�o Gratis"",module,Magento_Checkout";;
+"Free Shipping,""Env�o Gratis"",module,Magento_Checkout";;
 "Free,""Gratis"",module,Magento_Checkout";;
 "Payment error: The transaction has been rejected,""Error pago: La transacción ha sido rechazada"",module,Magento_CompanyPayment";;
+"Follow us","Síguenos"

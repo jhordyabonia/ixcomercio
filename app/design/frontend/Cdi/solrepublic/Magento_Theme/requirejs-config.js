@@ -6,9 +6,9 @@ var config = {
 		}
 	},
     paths: {
-    	"bootstrap": "Magento_Theme/js/bootstrap.bundle",
-      "zoomJs": "Magento_Theme/js/jquery.zoom.min",
-      "mainJs": "Magento_Theme/js/main.min"
+        "bootstrap": "Magento_Theme/js/bootstrap.bundle",
+        "zoomJs": "Magento_Theme/js/jquery.zoom.min",
+        "mainJs": "Magento_Theme/js/main.min"
     },
     shim: {
         'bootstrap': {

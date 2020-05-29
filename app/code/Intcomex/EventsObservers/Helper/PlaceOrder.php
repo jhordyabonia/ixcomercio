@@ -388,9 +388,9 @@ class PlaceOrder extends AbstractHelper
     public function getIdentification($billing,$shipping)
     {
         if(strcmp($billing->getCountryId(),'GT')==0){
-            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){
+            if( strcmp($billing->getIdentification(),$shipping->getIdentification()) == 0){                
                 return null;
-            }    
+            }
         }
         return $billing->getIdentification();    
     } 

@@ -1,7 +1,7 @@
 require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'domReady!'], function($) {
 
     jQuery(document).ready(function() {
-
+alert('test');
 		var w_width = $( window ).width();
 		var w_height = $( window ).height();
 
@@ -237,24 +237,26 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    // =============================================
 		
 		if($('.products-grid .owl-carousel').length){
-			$('.products-grid .owl-carousel').owlCarousel({
-				nav: true,
-				dots: true,
-				navSpeed: 800,
-				loop: true,
-				margin: 30,
-				responsive:{
-					0:{
-						items: 1
-					},
-					650:{
-				      	items: 3
-			      	},
-			    	992:{
-				      	items: 4
-			      	}
-			    }
-			});
+			setTimeout(function(){
+				$('.products-grid .owl-carousel').owlCarousel({
+					nav: true,
+					dots: true,
+					navSpeed: 800,
+					loop: true,
+					margin: 30,
+					responsive:{
+						0:{
+							items: 1
+						},
+						650:{
+					      	items: 3
+				      	},
+				    	992:{
+					      	items: 4
+				      	}
+				    }
+				});
+			},800);
 		}
 
 
@@ -461,7 +463,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 							success: function(resCity) {
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
-                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>'+$.mage.__("Please select a zone.")+'</option>');
                   				
 								$.each(resCity, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.PostalCode+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");

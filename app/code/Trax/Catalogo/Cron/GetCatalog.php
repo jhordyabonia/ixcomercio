@@ -47,6 +47,8 @@ class GetCatalog {
     const PRODUCT_PRICE = 'trax_catalogo/catalogo_iws/product_price';
 
     const PRODUCT_STOCK = 'trax_catalogo/catalogo_iws/product_stock';
+
+    const PRODUCT_MPN = 'trax_catalogo/catalogo_iws/product_mpn';
     
     private $helper;
 	
@@ -151,6 +153,7 @@ class GetCatalog {
         $configData['product_height'] = $this->scopeConfig->getValue(self::PRODUCT_HEIGHT, $storeScope, $websiteCode);
         $configData['product_price'] = $this->scopeConfig->getValue(self::PRODUCT_PRICE, $storeScope, $websiteCode);
         $configData['product_stock'] = $this->scopeConfig->getValue(self::PRODUCT_STOCK, $storeScope, $websiteCode);
+        $configData['product_mpn'] = $this->scopeConfig->getValue(self::PRODUCT_MPN, $storeScope, $websiteCode);
         return $configData;
     }
 
@@ -314,19 +317,20 @@ class GetCatalog {
         //Se recorre array        
         $allCategories = array();
         $allProducts = array();
+        //Se carga la categoria root del store
+        $rootNodeId = $store->getRootCategoryId();
+        /// Get Root Category
+        $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
+        $cat_info = $rootCat->load($rootNodeId);
+
         foreach ($data as $key => $catalog) {
             $this->logger->info('GetCatalog - lee datos '.$websiteCode);
-            //Se carga la categoria por atributo
-            
-            $rootNodeId = $store->getRootCategoryId();
-            /// Get Root Category
-            $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
-            $cat_info = $rootCat->load($rootNodeId);
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
             $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
+            
             if($categories->getSize()){
                 $collection = $objectManager->create('Magento\Catalog\Model\Category');
                 $categoryTmp = $collection->load($categories->getFirstItem()->getId(), $storeId);
@@ -345,7 +349,7 @@ class GetCatalog {
             $categoryTmp->setName($name);
             $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
-            if($existe == 0){
+            if($existe == 0){ 
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
                 $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id','all_categories')->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
                 if($categoriesAll->getSize()){
@@ -404,7 +408,7 @@ class GetCatalog {
                 $newArrayCategory[$key1] = $category;
             }
         }
-        //$this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
+        $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
         $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
     }
@@ -427,9 +431,13 @@ class GetCatalog {
                     $product->setPrice($catalog->Price->UnitPrice);
                 }
                 
-                $product->setData('mpn',$catalog->Mpn);
-                $product->setCustomAttribute('mpn',$catalog->Mpn );
-                $this->logger->info('MPN vacio SKU: ' .  $catalog->Sku);
+                if($configData['product_mpn']){
+                    $product->setData('mpn',$catalog->Mpn);
+                    $product->setCustomAttribute('mpn',$catalog->Mpn );
+                    if(empty($catalog->Mpn)){
+                        $this->logger->info('MPN vacio SKU: ' .  $catalog->Sku);
+                    }
+                }
 
                 if($configData['product_stock']){
                     if($catalog->InStock == 0){
@@ -565,8 +573,10 @@ class GetCatalog {
         $product->setTaxClassId($configData['tax_id']); // Tax class id
         $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
         $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
-        $product->setData('mpn',$catalog->Mpn); // Add Mpn
-        $product->setCustomAttribute('mpn',$catalog->Mpn); // add Mpn
+        if($configData['product_mpn']){
+            $product->setData('mpn',$catalog->Mpn); // Add Mpn
+            $product->setCustomAttribute('mpn',$catalog->Mpn); // add Mpn
+        }
         switch($catalog->Type){
             case 'Physical':
                 $product->setTypeId('simple');
@@ -628,7 +638,7 @@ class GetCatalog {
             ->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
         
         foreach ($categories as $category){
-            if(!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' &&$category->getIsActive()){
+            if((!array_key_exists($category->getId(), $allCategories) && $category->getIwsId()!= '' && $category->getIwsId()!= 'N/A' && $category->getIwsId()!= 'all_categories' && $category->getIsActive()) || ($category->getName() == '' || !$category->getName())){
                 $categoryFactoryData=$objectManager->get('\Magento\Catalog\Model\CategoryFactory');
                 $categoryTmp = $categoryFactoryData->create()->setStoreId($storeId)->load($category->getId());     
                 //Se deshabilita categoría            
