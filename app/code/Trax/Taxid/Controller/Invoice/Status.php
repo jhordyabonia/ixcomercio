@@ -6,7 +6,7 @@
  * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
  */
 
-namespace Mienvio\Api\Controller\Shipment;
+namespace Trax\Taxid\Controller\Invoice;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -21,8 +21,8 @@ use Magento\Framework\App\Request\InvalidRequestException;
  * Webhook class  
  */
 class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface 
-{ 
-
+{
+    
     private $helper;
 	
     /**
@@ -122,17 +122,16 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                         $resultPage->getConfig()->getTitle()->set((__('Order' . ' # '.$order->getRealOrderId())));
                         $resultPage->getLayout()->initMessages();          
                         try {               
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Order Status");     
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setOrderStatus($order->getStatus());     
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setOrderGuide($iws_order->getMienvioGuide()); 
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setGuideData(unserialize($iws_order->getMienvioUploadResp())); 
+                            $resultPage->getLayout()->getBlock('invoice_status')->setTitle("Order Status");     
+                            $resultPage->getLayout()->getBlock('invoice_status')->setOrderStatus($order->getStatus());     
+                            $resultPage->getLayout()->getBlock('invoice_status')->setInvoiceData(unserialize($iws_order->getTraxInvoice())); 
                         } catch (\Exception $e) {
                             $this->logger->error('#SUCCESS', array('message' => $e->getMessage(), 'code' => $e->getCode(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()));
-                            $resultPage->getLayout()->getBlock('mienvio_status')->setTitle("Error");
+                            $resultPage->getLayout()->getBlock('invoice_status')->setTitle("Error");
                         }        
                         return $resultPage;
                     } else {
-                        $this->messageManager->addError( __("The order can't be tracked. Invalid shipping method.") );
+                        $this->messageManager->addError( __("The order has not an invoice.") );
                         $this->_redirect('sales/order/history');                 
                     }
                 } else {
@@ -144,7 +143,7 @@ class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareAc
                 $this->_redirect('sales/order/history');
             }
         } else {
-            $this->messageManager->addError( __('To check the tracking information of your order you must login.') );
+            $this->messageManager->addError( __('To check the invoice information of your order you must login.') );
             $this->_redirect('customer/account/');
         }
     }
