@@ -7,6 +7,7 @@
 // @codingStandardsIgnoreFile
 
 ?>
+<?php $_cdiHelper = $this->helper('Cdi\Custom\Helper\Api');?>
 <?php $_orders = $block->getOrders(); ?>
 <?= $block->getChildHtml('info') ?>
 <?php if ($_orders && count($_orders)): ?>
@@ -26,6 +27,7 @@
             </thead>
             <tbody>
                 <?php foreach ($_orders as $_order): ?>
+                    <?php $iwsOrder = $_cdiHelper->getIwsOrderBy('order_id', $_order->getEntityId(), false, false);?>
                     <tr>
                         <td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col id"><?= /* @escapeNotVerified */ $_order->getRealOrderId() ?></td>
                         <td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?= /* @escapeNotVerified */ $block->formatDate($_order->getCreatedAt()) ?></td>
@@ -49,9 +51,25 @@
                                     <span><?= /* @escapeNotVerified */ __('Reorder') ?></span>
                                 </a>
                             <?php endif ?>
-                            <a href="<?php echo $this->getUrl('mienvio/shipment/status/order_id/'.$_order->getId()) ?>" class="action view">
-                                <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
-                            </a>
+                            <?php if($iwsOrder && $iwsOrder->getId()):?>
+                                <?php $guideData = unserialize($iwsOrder->getMienvioUploadResp());?>
+                                <?php if(is_array($guideData) && !empty($guideData)):?>
+                                    <a class="action tracking view" 
+                                    href="<?php echo $this->getUrl('mienvio/shipment/status/order_id/'.$_order->getId()) ?>"
+                                    >
+                                        <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
+                                    </a>
+                                <?php endif;?>
+
+                                <?php $invoiceData = unserialize($iwsOrder->getTraxInvoice());?>
+                                <?php if(is_array($invoiceData) && !empty($invoiceData)):?>
+                                    <a class="action tracking view"
+                                    href="<?php echo $this->getUrl('taxid/invoice/status/order_id/'.$_order->getId()) ?>"
+                                    >
+                                        <span><?= /* @escapeNotVerified */ __('Invoice') ?></span>
+                                    </a>
+                                <?php endif;?>
+                            <?php endif;?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
