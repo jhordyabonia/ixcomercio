@@ -255,8 +255,9 @@ class Api extends AbstractHelper{
 					$trakStr = sprintf(
 						__(
 							//@TODO: texto para visualización de factura
-							"Verifica tu factura aquí:\n%s"
+							"Tu número de factura es N° %s\n\nVerifica tu factura aquí:\n%s"
 						),
+						$st['InvoiceNumber'],
 						$st['InvoiceUrl']
 					);
 				}
@@ -270,7 +271,7 @@ class Api extends AbstractHelper{
 					$trakStr
 				),
                 'notify' => true,
-				'newstatus' => false,//'processing',
+				'newstatus' => false,
 				'frontlabel' => __('¡Hemos generado la factura de tu pedido!')
             ),
 			'LABEL_CREATED' => array(

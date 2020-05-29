@@ -14,16 +14,12 @@
         </div>
     <?php } else {?>
         <?php $invoiceData = $this->getInvoiceData();?>
-        <pre>
-        <?php var_dump($invoiceData);?>
-        </pre>
         <div class="block-content">
             <div class="processed">
                 <?php if(is_array($invoiceData) && !empty($invoiceData)){ ?>
                     <strong class="box-title"><?php echo __('Invoice information') ?></strong>
                     <div class="guide-generated">
                         <span><?php echo __('Invoice number') ?>: <?php echo $invoiceData['InvoiceNumber'] ?></span>
-                        <span><?php echo __('Another invoice number') ?>: <?php echo $invoiceData['TaxRegistrationNumber'] ?></span>
                         <ul class="tracking-detail">
                             <?php if(!empty($invoiceData['InvoiceUrl'])){ ?>
                                 <a class="action" href="<?php echo $invoiceData['InvoiceUrl'] ?>" target="_blank"><?php echo __('Invoice url') ?></a>

@@ -38,7 +38,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     protected $jsonResultFactory;
     protected $_mienvioHelper;
     protected $_cdiHelper;
-    protected $_simulate = array('json' => true, 'validate' => true);
+    protected $_simulate = array('json' => false, 'validate' => false);
     
     /**
      * 

@@ -54,7 +54,7 @@
                             <?php if($iwsOrder && $iwsOrder->getId()):?>
                                 <?php $guideData = unserialize($iwsOrder->getMienvioUploadResp());?>
                                 <?php if(is_array($guideData) && !empty($guideData)):?>
-                                    <a class="action tracking view"
+                                    <a class="action tracking view" 
                                     href="<?php echo $this->getUrl('mienvio/shipment/status/order_id/'.$_order->getId()) ?>"
                                     >
                                         <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
