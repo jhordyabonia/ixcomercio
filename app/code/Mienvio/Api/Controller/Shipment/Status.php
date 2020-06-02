@@ -21,20 +21,8 @@ use Magento\Framework\App\Request\InvalidRequestException;
  * Webhook class  
  */
 class Status extends \Magento\Framework\App\Action\Action implements CsrfAwareActionInterface 
-{
+{ 
 
-    const USER = 'shipping/mienvio_api/user';
-
-	const PASSWORD = 'shipping/mienvio_api/password';
-
-	const TOKEN = 'carriers/mienviocarrier/apikey';
-
-	const ENVIROMENT = 'shipping/mienvio_api/apuntar_a';
-
-	const URL_STAGING = 'shipping/mienvio_api/url_staging';
-
-	const URL_PRODUCCION = 'shipping/mienvio_api/url_produccion';
-    
     private $helper;
 	
     /**
