@@ -69,7 +69,7 @@ class Post extends \Magento\Contact\Controller\Index\Post
             );
             $this->dataPersistor->set('contact_us', $this->getRequest()->getParams());
         }
-        return $this->resultRedirectFactory->create()->setPath('customer-care/contact-us');
+        return $this->resultRedirectFactory->create()->setPath('contact');
     }
 
     /**

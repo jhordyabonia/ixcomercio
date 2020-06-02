@@ -68,6 +68,30 @@ class UpgradeData implements UpgradeDataInterface
 					'after' => 'mienvio_guide'
 				]
 			);
+        }
+
+        if(version_compare($context->getVersion(), '0.0.2', '<')){
+            $conn = $setup->getConnection();
+            $setup->getConnection()->addColumn(
+				$setup->getTable( 'iws_order' ),
+				'mienvio_upload_resp',
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					'nullable' => true,
+					'default' => '',
+					'comment' => 'json response from mienvio::upload'
+				]
+			);
+            $setup->getConnection()->addColumn(
+				$setup->getTable('iws_order'),
+				'mienvio_update_resp',
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					'nullable' => true,
+					'default' => '',
+					'comment' => 'json response from mienvio::update'
+				]
+			);
 		}	
         $setup->endSetup();
     }

@@ -149,8 +149,7 @@ function (
                 this.isInvoiceSelected(true);
             }else{
                 this.isInvoiceSelected(false);
-            }
-            this.updateAddress();            
+            }           
             return true;
         },
 

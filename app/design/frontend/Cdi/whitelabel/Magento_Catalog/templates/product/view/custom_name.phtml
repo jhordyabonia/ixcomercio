@@ -9,7 +9,7 @@ $ratingSummary = (int)$_product->getRatingSummary()->getRatingSummary();
 	<span class="label"><?php echo __('SKU:')?></span>
 	<span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
 </div>
-<div class="rating-summary item" itemprop="reviewRating" itemscope="" >
+<div class="rating-summary" itemprop="reviewRating" itemscope="" >
     <div class="rating-result" title="<?php echo $ratingSummary; ?>%">
         <meta itemprop="worstRating" content="1">
         <meta itemprop="bestRating" content="100">

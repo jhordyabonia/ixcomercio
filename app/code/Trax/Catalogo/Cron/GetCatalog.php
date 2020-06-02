@@ -47,6 +47,8 @@ class GetCatalog {
     const PRODUCT_PRICE = 'trax_catalogo/catalogo_iws/product_price';
 
     const PRODUCT_STOCK = 'trax_catalogo/catalogo_iws/product_stock';
+
+    const PRODUCT_MPN = 'trax_catalogo/catalogo_iws/product_mpn';
     
     private $helper;
 	
@@ -151,6 +153,7 @@ class GetCatalog {
         $configData['product_height'] = $this->scopeConfig->getValue(self::PRODUCT_HEIGHT, $storeScope, $websiteCode);
         $configData['product_price'] = $this->scopeConfig->getValue(self::PRODUCT_PRICE, $storeScope, $websiteCode);
         $configData['product_stock'] = $this->scopeConfig->getValue(self::PRODUCT_STOCK, $storeScope, $websiteCode);
+        $configData['product_mpn'] = $this->scopeConfig->getValue(self::PRODUCT_MPN, $storeScope, $websiteCode);
         return $configData;
     }
 
@@ -428,9 +431,13 @@ class GetCatalog {
                     $product->setPrice($catalog->Price->UnitPrice);
                 }
                 
-                $product->setData('mpn',$catalog->Mpn);
-                $product->setCustomAttribute('mpn',$catalog->Mpn );
-                $this->logger->info('MPN vacio SKU: ' .  $catalog->Sku);
+                if($configData['product_mpn']){
+                    $product->setData('mpn',$catalog->Mpn);
+                    $product->setCustomAttribute('mpn',$catalog->Mpn );
+                    if(empty($catalog->Mpn)){
+                        $this->logger->info('MPN vacio SKU: ' .  $catalog->Sku);
+                    }
+                }
 
                 if($configData['product_stock']){
                     if($catalog->InStock == 0){
@@ -566,8 +573,10 @@ class GetCatalog {
         $product->setTaxClassId($configData['tax_id']); // Tax class id
         $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
         $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
-        $product->setData('mpn',$catalog->Mpn); // Add Mpn
-        $product->setCustomAttribute('mpn',$catalog->Mpn); // add Mpn
+        if($configData['product_mpn']){
+            $product->setData('mpn',$catalog->Mpn); // Add Mpn
+            $product->setCustomAttribute('mpn',$catalog->Mpn); // add Mpn
+        }
         switch($catalog->Type){
             case 'Physical':
                 $product->setTypeId('simple');
