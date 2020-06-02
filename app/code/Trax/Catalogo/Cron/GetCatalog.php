@@ -427,7 +427,12 @@ class GetCatalog {
             if(!$product || $product->getStatus()!=1){
                 $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. El producto no existe');
             } else {
-                if($configData['product_price']){
+                $basePrice = $product->getAttributeDefaultValue('price');
+                $price = $product->getPrice();
+
+                $this->logger->info('GetCatalogDefaultPrice - SKU '.$catalog->Sku.' Value default :'.$basePrice.' price: '.$price);
+
+                if($configData['product_price'] && $basePrice === true){
                     $product->setPrice($catalog->Price->UnitPrice);
                 }
                 
