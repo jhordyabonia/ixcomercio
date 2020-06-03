@@ -74,7 +74,7 @@ class BestSellerProducts extends AbstractSlider
     {
         $productIds = [];
         $bestSellers = $this->_bestSellersCollectionFactory->create()
-            ->setPeriod('month');
+            ->setPeriod('monthly');
 
         foreach ($bestSellers as $product) {
             $productIds[] = $product->getProductId();
