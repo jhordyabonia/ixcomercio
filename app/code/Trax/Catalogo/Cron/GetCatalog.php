@@ -398,6 +398,7 @@ class GetCatalog {
                 //Se valida si tiene subcategorias
                 if($catalog->Category->Subcategories && count($catalog->Category->Subcategories)>0){
                     $arrayCategories = $this->loadSubcategoriesData($catalog->Category->Subcategories, $websiteCode, $store, $storeId, $categoryTmp->getId(), $arrayCategories);
+                    $rootCat->load($rootNodeId);
                 }
                 //Se valida producto y se asocia a categoria
                 $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId, $arrayCategories, $configData);
