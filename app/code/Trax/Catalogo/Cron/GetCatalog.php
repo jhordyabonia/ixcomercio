@@ -377,7 +377,11 @@ class GetCatalog {
                     $categoryTmp->setParentId($rootCat->getId());        
                     $this->logger->info('GetCatalog - No asigna parent: '.$rootCat->getId());
                 }
+            }else{
+                $categoryTmp->setPath($rootCat->getPath());
+                $categoryTmp->setParentId($rootCat->getId());
             }
+
             if($catalog->Category->Subcategories && count($catalog->Category->Subcategories)>0){
                 $categoryTmp->setIsAnchor(0);
                 $categoryTmp->setPageLayout('1column');
@@ -525,7 +529,10 @@ class GetCatalog {
             if($existe==0){
                 $categoryTmp->setParentId($rootCat->getId());
                 $categoryTmp->setPath($rootCat->getPath());
+            }else{
+                $categoryTmp->setPath($rootCat->getPath());
             }
+            
             $categoryTmp->setIwsId($catId);
             $categoryTmp->setStoreId($storeId);  
             try{
