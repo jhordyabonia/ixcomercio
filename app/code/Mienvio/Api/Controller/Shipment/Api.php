@@ -39,6 +39,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     protected $_mienvioHelper;
     protected $_cdiHelper;
     protected $_simulate = array('json' => false, 'validate' => false);
+    private $_dump;
+    private $_externalLog;
     
     /**
      * 
@@ -81,11 +83,39 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         $this->resultRedirect = $result;
         $this->jsonResultFactory = $jsonResultFactory;
         $this->_mienvioHelper = $mienvioHelper;	
-        $this->_cdiHelper = $cdiHelper;	
+        $this->_cdiHelper = $cdiHelper;
+        $this->_dump = false;
+        $this->_externalLog = false;
     }
 
-    private function dump($obj, $die = true, $title = null){
+    /**
+     * Genera dump para depuración web
+     */
+    private function dump($obj, $die = false, $title = null){
         $this->_cdiHelper->dump($obj, $die, $title);
+    }
+
+    /**
+     * Retorna el objeto logger, verifica si es el local
+     * o si debe retornar uno externo.
+     */
+    private function getLoggerObj(){
+        if($this->_externalLog){
+            $logger = $this->_externalLog;
+        }else{
+            $logger = $this->logger;
+        }
+        return $logger;
+    }
+
+    /**
+     * Agrega registros al log
+     */
+    private function log($str){
+        $logger = $this->getLoggerObj();
+        $str = ($this->_externalLog) ? "MIENVIO API: {$str}" : $str;
+        $logger->info($str);
+        if($this->_dump) echo "{$str}<br/>";
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
@@ -106,7 +136,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         if($this->_simulate['json']){
             $json = '{"type":"shipment.upload","triggerTime":{"date":"2020-05-14 21:02:14.359139","timezone_type":3,"timezone":"America\/Mexico_City"},"body":{"quote_id":29563},"version":"2020.05.14"}';
         }
-        $this->logger->info($json);
+        $this->log($json);
         $body = @json_decode($json, false);
         //Verifica el body
         if($body === null && json_last_error() !== JSON_ERROR_NONE){
@@ -116,7 +146,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
         if(!isset($body->type) || !in_array($body->type, $validCalls)){
             throw new \Exception('Tipo de entrada no válida');
         }
-        $this->logger->info($body->type);
+        $this->log($body->type);
         return $body;
     }
 
@@ -128,7 +158,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute(){
-        $this->logger->info('INICIA PROCESO DE API');
+        $this->log('INICIA PROCESO DE API');
         /** @var \Magento\Framework\Controller\Result\Json $result */
         $result = $this->jsonResultFactory->create();
         try{
@@ -144,11 +174,11 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             $result->setHttpResponseCode(200);
             $result->setData(['success_message' => __('Updated data')]);
         }catch(\Exception $e){
-            $this->logger->info("Error: {$e->getMessage()}");
+            $this->log("Error: {$e->getMessage()}");
             $result->setHttpResponseCode(\Magento\Framework\Webapi\Exception::HTTP_FORBIDDEN);
             $result->setData(['error_message' => __('Error:' . $e->getMessage())]);
         }
-        $this->logger->info('FINALIZA PROCESO DE API');
+        $this->log('FINALIZA PROCESO DE API');
         return $result;        
     }
 
@@ -162,8 +192,8 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     //Se carga la orden relacionada a la cotización
     public function loadOrderInformation($quote_id) 
     {
-        $order = $this->_cdiHelper->getMagentoOrderBy(array(array('mienvio_quote_id', $quote_id)), $this->logger);
-        $iwsOrder = $this->_cdiHelper->getIwsOrderBy('order_id', $order->getEntityId(), $this->logger);
+        $order = $this->_cdiHelper->getMagentoOrderBy(array(array('mienvio_quote_id', $quote_id)), $this->getLoggerObj());
+        $iwsOrder = $this->_cdiHelper->getIwsOrderBy('order_id', $order->getEntityId(), $this->getLoggerObj());
         return array($order, $iwsOrder);
     }
 
@@ -172,7 +202,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     public function loadMienvioData($configData, $quote_id){     
         $header = $this->_mienvioHelper->getOutcommingHeader($configData);
         $wsdl = $configData['url'].$quote_id;
-        return $this->_cdiHelper->makeCurl($wsdl, $header, $this->logger);   
+        return $this->_cdiHelper->makeCurl($wsdl, $header, $this->getLoggerObj());   
 	}
     
     //Obtiene la información del WS
@@ -198,16 +228,17 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
                 $mienvio_data_array = array_merge($mienvio_data_array, $label);
             }
         }
-        $this->logger->info('Información recibida del WS');
-        $this->logger->info(print_r($mienvio_data_array, true));
+        $this->log('Información recibida del WS');
+        $this->log(print_r($mienvio_data_array, true));
         if(empty($mienvio_data_array)) throw new \Exception("No se pudo obtener información del WS de mi envío");
         return $mienvio_data_array;
     }
 
     //Se guarda información de IWS en tabla custom
-    public function saveMienvioData($type, $order, $iwsOrder) 
+    public function saveMienvioData($type, $order, $iwsOrder, $externalLog = false) 
     {
-        $update = 0;
+        //Si se consume la función desde un proceso externo, registra el log en ese proceso
+        $this->_externalLog = $externalLog;
         try{
             switch($type){
                 case 'shipment.upload':
@@ -231,15 +262,23 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
                         );
                         $iwsOrder->setMienvioUploadResp(serialize($data));
                         $iwsOrder->save();
-                        $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$iwsOrder->getId());
+                        if($externalLog){
+                            return [true, $comment['newstatus']];
+                        }else{
+                            $this->log("Se actualizo la orden : {$iwsOrder->getId()}, nuevo estado: {$comment['newstatus']}");
+                        }
                     }else{
-                        $this->logger->info('Mienviowebhook - La orden con id : '.$iwsOrder->getId().' ya se encontraba actualizada');
+                        if($externalLog){
+                            return [false, false];
+                        }else{
+                            $this->log('La orden con id : '.$iwsOrder->getId().' ya se encontraba actualizada');
+                        }
                     }
                     break;
             }
             return true;
         } catch (\Exception $e) {
-            $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$iwsOrder->getId());
+            if(!$externalLog) $this->log('Error al actualizar la orden con id: '.$iwsOrder->getId());
             throw $e;
         }
         return false;
