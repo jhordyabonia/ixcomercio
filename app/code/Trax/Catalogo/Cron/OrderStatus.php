@@ -21,7 +21,8 @@ class OrderStatus {
 
     private $failOrders = [
         'noiws' => [], //Órdenes que no se encuentran en la tabla IWS
-        'noMienvio' => [] //Órdenes que no tienen id de mienvio
+        'noMienvio' => [], //Órdenes que no tienen id de mienvio
+        'noTraxWS' => [], //Órdenes que no se encuentran en trax al consultar el WS
     ];
 
     public function __construct(
@@ -99,7 +100,7 @@ class OrderStatus {
             $this->log("La orden {$order->getEntityId()} tiene el id IWS #{$iwsOrder['iws_order']}");
             return $iwsOrder;
         }catch(\Exception $e){
-            $this->failOrders['noIws'][$order->getEntityId()] = $order;
+            $this->failOrders['noIws'][$order->getIncrementId()] = $order;
             throw $e;
         }
     }
@@ -112,7 +113,7 @@ class OrderStatus {
             $this->log("Verifica estado en mienvio");
             $mienvioQuoteId = (int) $order->getMienvioQuoteId();
             if(!$mienvioQuoteId){
-                $this->failOrders['noMienvio'][$order->getEntityId()] = $order;
+                $this->failOrders['noMienvio'][$order->getIncrementId()] = $order;
                 $this->log("La orden no tiene id de mienvio, no se consulta.");
                 return;
             }
@@ -137,35 +138,35 @@ class OrderStatus {
      * Consula el estado de la orden en IWS getOrder
      */
     function getOrderInfo($order, $iwsOrder){
+        $this->log('Inicia consulta del WS getOrder de trax');
         try{
-            $data = $this->getWSData($iwsOrder);
-            die('tester');
+            $data = $this->getWSData($iwsOrder, $order);
             //si no tiene info de factura, genera y guarda
-            if(!$iwsOrder->getTraxInvoice() || $this->_simulate['validate']){
-                $comment = $this->_cdiHelper->getCommentByStatus($data, 'invoice');
+            $comment = $this->_cdiHelper->getCommentByStatus($data, 'invoice_curl');
+            if(is_array($comment)){
                 $this->_cdiHelper->addOrderComment(
                     $order, 
                     $comment['msg'],
                     $comment['notify'],
                     $comment['newstatus']
                 );
-                $iwsOrder->setTraxInvoice(serialize($data));
-                $iwsOrder->save();
-                $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$iwsOrder->getId());
+                $this->log('Se actualiza el estado de la orden a ' . $comment['newstatus']);
+            }else{
+                $this->log('no se realizan cambios sobre la orden');
             }
-            return true;
         } catch (\Exception $e) {
-            $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$iwsOrder->getId());
+            $this->failOrders['noTraxWS'][$order->getIncrementId()] = $order;
+            $this->log('Error al actualizar la orden con id: '.$iwsOrder->getId());
             throw $e;
         }
     }
 
         //Obtiene la información del WS
-    private function getWSData($iwsOrder){
+    private function getWSData($iwsOrder, $order){
+        $orderStore = $order->getStore();
         //Parámetros de configuración del WS
-        $configKeys = $this->_ordersHelper->getConfigFields($type);
-        $this->dump($configKeys, true);
-        $configData = $this->_cdiHelper->getConfigParams($configKeys['ws_config']);
+        $configKeys = $this->_ordersHelper->getConfigFields();
+        $configData = $this->_cdiHelper->getConfigParams($configKeys, $orderStore->getCode());
         if(!$configData['enviroment']){
             $configData['url'] = $configData['url_stagging'];
         }else{
@@ -177,22 +178,31 @@ class OrderStatus {
         $trax_data = $this->loadTraxData($configData, $iwsOrder->getIwsOrder());
         if(isset($trax_data['status']) && $trax_data['status']){
             $obj = $trax_data['resp'];
-            $trax_data_array['status'] = 'INVOICE_CREATED';
-            $trax_data_array['InvoiceNumber'] = $obj->InvoiceNumber;
-            $trax_data_array['InvoiceDate'] = $obj->InvoiceDate;
-            $trax_data_array['TaxRegistrationNumber'] = $obj->TaxRegistrationNumber;
-            $trax_data_array['InvoiceUrl'] = $obj->InvoiceUrl;
+
+            $trax_data_array['status'] = $obj->Status->Description;
+            $trax_data_array['statusCode'] = $obj->Status->StatusCode;
         }
-        $this->logger->info('Información recibida del WS');
-        $this->logger->info(print_r($trax_data_array, true));
+        $this->log('Información recibida del WS');
+        $this->log(print_r($trax_data_array, true));
         if(empty($trax_data_array)) throw new \Exception("No se pudo obtener información del WS de factura");
         return $trax_data_array;
+    }
+
+    /**
+     * Realiza el consumo del WS
+     */
+    public function loadTraxData($configData, $iwsOrderId){
+        $params = array('orderNumber' => $iwsOrderId);
+        $wsdl = $this->_cdiHelper->prepateTraxUrl('getorder', $configData, $params, $this->logger);
+        $try = 0; $sleep = 3;
+        return $this->_cdiHelper->makeCurl($wsdl, false, $this->logger, $try, $sleep);
     }
 
     /**
      * Realiza consulta del WS para la orden y verifica su estado
      */
     private function processOrder($order){
+        $this->log('Se consulta con datos del Store ' . $order->getStore()->getCode());
         //IWS
         $iwsOrder = $this->getIwsOrder($order);
         //Mienvío
@@ -211,8 +221,10 @@ class OrderStatus {
             //Mensaje de cancelación personalizado
             switch($type){
                 case 'noIws':
-                    $msg = 'No se registró la orden en IWS';
+                    $msg = 'La orden no tiene id de IWS en la tabla iws_orders';
                     break;
+                case 'noTraxWS':
+                    $msg = 'La orden cuenta con id de IWS en la tabla iws_orders, pero no se encuentra al consultar el WS.';
                 default:
                     $msg = false;
             }
