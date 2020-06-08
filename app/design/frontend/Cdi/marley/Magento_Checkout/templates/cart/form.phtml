@@ -78,6 +78,7 @@ echo "<script>dataLayer.push({'event':'ga_event','category':'Carrito de compras'
 <?php
 /* XCB GTM */
 $_productCollection = $block->getLoadedProductCollection();
+if(is_array($_productCollection))
 foreach ($_productCollection as $_product){
     $producto = "{
         'id': '{$_productCollection->getSku()}',
