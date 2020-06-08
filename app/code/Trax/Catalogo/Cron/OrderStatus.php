@@ -23,6 +23,7 @@ class OrderStatus {
         'noiws' => [], //Órdenes que no se encuentran en la tabla IWS
         'noMienvio' => [], //Órdenes que no tienen id de mienvio
         'noTraxWS' => [], //Órdenes que no se encuentran en trax al consultar el WS
+        'noMienvioWs' => [] //Órdenes que tienen id de mienvio, pero no se encuentran al consultar el WS
     ];
 
     public function __construct(
@@ -42,7 +43,7 @@ class OrderStatus {
         $this->_cdiHelper = $cdiHelper;
         $this->_mienvioApi = $mienvioApi;
         $this->_ordersHelper = $ordersHelper;
-        $this->_dump = true;
+        $this->_dump = false;
     }
 
 /**
@@ -87,6 +88,8 @@ class OrderStatus {
                 $this->log($e->getMessage());
             }
         }
+        //Cancel fail orders
+        $this->cancelFailOrders();
         $this->log('Finaliza Cron de órdenes');
     }
 
@@ -130,6 +133,7 @@ class OrderStatus {
                 $this->log("Se encontró actualización en mienvio. Nuevo estado: {$newStatus}");
             }
         }catch(\Exception $e){
+            $this->failOrders['noMienvioWs'][$order->getIncrementId()] = $order;
             $this->log('Error en mi envío al actualizar la orden con id iws: '.$iwsOrder->getId());
         }
     }
@@ -209,22 +213,29 @@ class OrderStatus {
         $this->processMienvio($order, $iwsOrder);
         //Obtiene la información de trax del método getOrder
         $this->getOrderInfo($order, $iwsOrder);
-        //Cancel fail orders
-        $this->cancelFailOrders();
     }
 
     /**
      * Cancela las órdenes que no se registraron en IWS
      */
     private function cancelFailOrders(){
+        $this->log('Órdenes que no se encuentran en la tabla IWS');
+        $this->log(print_r(array_keys($this->failOrders['noiws']), true));
+        $this->log('Órdenes que no tienen id de mienvio');
+        $this->log(print_r(array_keys($this->failOrders['noMienvio']), true));
+        $this->log('Órdenes que no se encuentran en trax al consultar el WS');
+        $this->log(print_r(array_keys($this->failOrders['noTraxWS']), true));
+        $this->log('Órdenes que tienen id de mienvio, pero no se encuentran al consultar el WS');
+        $this->log(print_r(array_keys($this->failOrders['noMienvioWs']), true));
+
         foreach($this->failOrders as $type => $orders){
             //Mensaje de cancelación personalizado
             switch($type){
                 case 'noIws':
                     $msg = 'La orden no tiene id de IWS en la tabla iws_orders';
                     break;
-                case 'noTraxWS':
-                    $msg = 'La orden cuenta con id de IWS en la tabla iws_orders, pero no se encuentra al consultar el WS.';
+                //case 'noTraxWS':
+                    //$msg = 'La orden cuenta con id de IWS en la tabla iws_orders, pero no se encuentra al consultar el WS.';
                 default:
                     $msg = false;
             }
