@@ -3,6 +3,7 @@ namespace Trax\Catalogo\Cron;
 
 use \Psr\Log\LoggerInterface;
 use Cdi\Custom\Helper\Api as CdiApi;
+use Trax\Catalogo\Helper\Api as TraxApi;
 use Mienvio\Api\Controller\Shipment\Api;
 
 class OrderStatus {
@@ -15,6 +16,7 @@ class OrderStatus {
     protected $logger;
     protected $_cdiHelper;
     protected $_mienvioApi;
+    protected $_ordersHelper;
     protected $_dump;
 
     private $failOrders = [
@@ -26,7 +28,8 @@ class OrderStatus {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
         \Cdi\Custom\Helper\Api $cdiHelper,
-        \Mienvio\Api\Controller\Shipment\Api $mienvioApi
+        \Mienvio\Api\Controller\Shipment\Api $mienvioApi,
+        \Trax\Catalogo\Helper\Api $ordersHelper
     ) {
         //Define el log
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/cronOrderStatus.log');
@@ -37,6 +40,7 @@ class OrderStatus {
         $this->scopeConfig = $scopeConfig;
         $this->_cdiHelper = $cdiHelper;
         $this->_mienvioApi = $mienvioApi;
+        $this->_ordersHelper = $ordersHelper;
         $this->_dump = true;
     }
 
@@ -130,6 +134,62 @@ class OrderStatus {
     }
 
     /**
+     * Consula el estado de la orden en IWS getOrder
+     */
+    function getOrderInfo($order, $iwsOrder){
+        try{
+            $data = $this->getWSData($iwsOrder);
+            die('tester');
+            //si no tiene info de factura, genera y guarda
+            if(!$iwsOrder->getTraxInvoice() || $this->_simulate['validate']){
+                $comment = $this->_cdiHelper->getCommentByStatus($data, 'invoice');
+                $this->_cdiHelper->addOrderComment(
+                    $order, 
+                    $comment['msg'],
+                    $comment['notify'],
+                    $comment['newstatus']
+                );
+                $iwsOrder->setTraxInvoice(serialize($data));
+                $iwsOrder->save();
+                $this->logger->info('Mienviowebhook - Se actualizo la orden : '.$iwsOrder->getId());
+            }
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->info('Mienviowebhook - Error al actualizar la orden con id: '.$iwsOrder->getId());
+            throw $e;
+        }
+    }
+
+        //Obtiene la información del WS
+    private function getWSData($iwsOrder){
+        //Parámetros de configuración del WS
+        $configKeys = $this->_ordersHelper->getConfigFields($type);
+        $this->dump($configKeys, true);
+        $configData = $this->_cdiHelper->getConfigParams($configKeys['ws_config']);
+        if(!$configData['enviroment']){
+            $configData['url'] = $configData['url_stagging'];
+        }else{
+            $configData['url'] = $configData['url_prod'];
+        }
+        unset($configData['url_stagging'], $configData['url_prod']);
+        //Consume el WS
+        $trax_data_array = array();
+        $trax_data = $this->loadTraxData($configData, $iwsOrder->getIwsOrder());
+        if(isset($trax_data['status']) && $trax_data['status']){
+            $obj = $trax_data['resp'];
+            $trax_data_array['status'] = 'INVOICE_CREATED';
+            $trax_data_array['InvoiceNumber'] = $obj->InvoiceNumber;
+            $trax_data_array['InvoiceDate'] = $obj->InvoiceDate;
+            $trax_data_array['TaxRegistrationNumber'] = $obj->TaxRegistrationNumber;
+            $trax_data_array['InvoiceUrl'] = $obj->InvoiceUrl;
+        }
+        $this->logger->info('Información recibida del WS');
+        $this->logger->info(print_r($trax_data_array, true));
+        if(empty($trax_data_array)) throw new \Exception("No se pudo obtener información del WS de factura");
+        return $trax_data_array;
+    }
+
+    /**
      * Realiza consulta del WS para la orden y verifica su estado
      */
     private function processOrder($order){
@@ -137,6 +197,8 @@ class OrderStatus {
         $iwsOrder = $this->getIwsOrder($order);
         //Mienvío
         $this->processMienvio($order, $iwsOrder);
+        //Obtiene la información de trax del método getOrder
+        $this->getOrderInfo($order, $iwsOrder);
         //Cancel fail orders
         $this->cancelFailOrders();
     }
