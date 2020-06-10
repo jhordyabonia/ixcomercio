@@ -264,16 +264,16 @@ class Api extends AbstractHelper{
 				break; 
 		}
         $status = array(
-			'Canceled' => array(
-				//@TODO: texto de estado de la orden: cancelada cron
+			'Closed' => array(
+				//@TODO: texto de estado de la orden: cerrada cron
                 'msg' => sprintf(
-					__("Se cancela la orden vía cron_trax. Estado %s (%s)"),
+					__("Se cierra la orden vía cron_trax. Estado %s (%s)"),
 					$st['status'],
 					$st['statusCode']
 				),
                 'notify' => false,
-				'newstatus' => 'canceled',
-				'frontlabel' => __('Orden cancelada vía cron_trax.')
+				'newstatus' => 'closed',
+				'frontlabel' => __('Orden cerrada vía cron_trax.')
 			),
 			'INVOICE_CREATED' => array(
                 //@TODO: texto de estado de la orden: tránsito

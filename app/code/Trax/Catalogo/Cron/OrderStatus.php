@@ -219,23 +219,32 @@ class OrderStatus {
      * Cancela las órdenes que no se registraron en IWS
      */
     private function cancelFailOrders(){
-        $this->log('Órdenes que no se encuentran en la tabla IWS');
-        $this->log(print_r(array_keys($this->failOrders['noiws']), true));
-        $this->log('Órdenes que no tienen id de mienvio');
-        $this->log(print_r(array_keys($this->failOrders['noMienvio']), true));
-        $this->log('Órdenes que no se encuentran en trax al consultar el WS');
-        $this->log(print_r(array_keys($this->failOrders['noTraxWS']), true));
-        $this->log('Órdenes que tienen id de mienvio, pero no se encuentran al consultar el WS');
-        $this->log(print_r(array_keys($this->failOrders['noMienvioWs']), true));
+        if(count($this->failOrders['noiws'])){
+            $this->log('Órdenes que no se encuentran en la tabla IWS');
+            $this->log(print_r(array_keys($this->failOrders['noiws']), true));
+        }
+        if(count($this->failOrders['noMienvio'])){
+            $this->log('Órdenes que no tienen id de mienvio');
+            $this->log(print_r(array_keys($this->failOrders['noMienvio']), true));
+        }
+        if(count($this->failOrders['noTraxWS'])){
+            $this->log('Órdenes que no se encuentran en trax al consultar el WS');
+            $this->log(print_r(array_keys($this->failOrders['noTraxWS']), true));
+        }
+        if(count($this->failOrders['noMienvioWs'])){
+            $this->log('Órdenes que tienen id de mienvio, pero no se encuentran al consultar el WS');
+            $this->log(print_r(array_keys($this->failOrders['noMienvioWs']), true));
+        }
 
         foreach($this->failOrders as $type => $orders){
             //Mensaje de cancelación personalizado
             switch($type){
-                case 'noIws':
-                    $msg = 'La orden no tiene id de IWS en la tabla iws_orders';
-                    break;
+                //case 'noIws':
+                    //$msg = 'La orden no tiene id de IWS en la tabla iws_orders';
+                    //break;
                 //case 'noTraxWS':
                     //$msg = 'La orden cuenta con id de IWS en la tabla iws_orders, pero no se encuentra al consultar el WS.';
+                    //break;
                 default:
                     $msg = false;
             }
