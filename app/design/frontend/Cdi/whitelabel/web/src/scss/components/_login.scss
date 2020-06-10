@@ -35,6 +35,7 @@
       float: left;
       .primary{
         float: left;
+        width: 100%;
       }
       > .primary{
         &:before{
@@ -47,9 +48,10 @@
           letter-spacing: normal;
           word-spacing: normal;
           color: #e02b27;
-          text-align: left;
+          text-align: center;
           @media only screen and (min-width: $tablet){
             margin-left: 0;
+            text-align: left;
           }
         }
       }

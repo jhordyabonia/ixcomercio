@@ -179,7 +179,10 @@ require(['jquery', 'loader', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'ma
 			$('header.page-header .wrapper-nav .nav-sections').toggleClass("open");
 			$('body').toggleClass("open-menu");
 
-			$('header .wrapper-nav .nav-sections').css('minHeight', hNavMobile);
+			$('header .wrapper-nav .nav-sections').css({
+				'maxHeight': hNavMobile,
+				'top': $(".page-header").innerHeight()
+			});
 			$('#iconBurgerButton').toggleClass("close");
 
 			setTimeout(function(){

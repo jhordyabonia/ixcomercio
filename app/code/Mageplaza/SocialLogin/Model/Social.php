@@ -128,6 +128,7 @@ class Social extends AbstractModel
     public function getCustomerBySocial($identify, $type)
     {
         $customer = $this->customerFactory->create();
+        $currWebsiteId = $this->storeManager->getWebsite()->getId();
 
         $socialCustomer = $this->getCollection()
             ->addFieldToFilter('social_id', $identify)
@@ -135,6 +136,12 @@ class Social extends AbstractModel
             ->getFirstItem();
         if ($socialCustomer && $socialCustomer->getId()) {
             $customer->load($socialCustomer->getCustomerId());
+            if($customer->getId()){
+                //Si el usuario existe en un website diferente, envía vacío
+                if($customer->getWebsiteId() != $currWebsiteId){
+                    $customer = $this->customerFactory->create();
+                }
+            }
         }
 
         return $customer;
