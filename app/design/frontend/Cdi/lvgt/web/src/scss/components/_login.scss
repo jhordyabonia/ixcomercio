@@ -39,6 +39,7 @@
     .actions-toolbar{
       .action.primary{
         float: left;
+        width: 100%;
         background: #258EBF ;
         border-radius: 3px;
         &:hover {
@@ -56,9 +57,10 @@
           letter-spacing: normal;
           word-spacing: normal;
           color: #e02b27;
-          text-align: left;
+          text-align: center;
           @media only screen and (min-width: $tablet){
             margin-left: 0;
+            text-align: left;
           }
           strong {
             font-weight: bold;
