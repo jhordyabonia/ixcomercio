@@ -140,7 +140,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
             //Se obtiene el body
             $body = $this->getBodyWebhook();
             //Actualiza la información
-            $this->updateTraxData($body->type, $body->body->orderId);
+            $this->updateTraxData($body->type, $body->body->orderid);
             $result->setHttpResponseCode(200);
             $result->setData(['success_message' => __('Updated data')]);
         }catch(\Exception $e){
@@ -156,7 +156,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     public function updateTraxData($type, $orderId)
     {
         list($order, $iwsOrder) = $this->loadOrderInformation($orderId);
-        $notification = $this->saveMienvioData($type, $order, $iwsOrder);
+        $notification = $this->saveInvoiceData($type, $order, $iwsOrder);
     }
 
     //Se carga la orden relacionada a la cotización
@@ -205,7 +205,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
     }
 
     //Se guarda información de IWS en tabla custom
-    public function saveMienvioData($type, $order, $iwsOrder) 
+    public function saveInvoiceData($type, $order, $iwsOrder) 
     {
         $update = 0;
         try{
