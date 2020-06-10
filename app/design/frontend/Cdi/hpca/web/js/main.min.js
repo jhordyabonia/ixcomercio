@@ -181,7 +181,7 @@ require(['jquery', 'loader', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'ma
 
 			$('header .wrapper-nav .nav-sections').css({
 				'maxHeight': hNavMobile,
-				'top': $(".page-header").innerHeight();
+				'top': $(".page-header").innerHeight()
 			});
 			$('#iconBurgerButton').toggleClass("close");
 
