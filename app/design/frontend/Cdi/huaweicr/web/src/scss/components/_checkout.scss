@@ -232,4 +232,7 @@
       text-align: left;
     }
   }
+  form .fieldset>.field[name="shippingAddress.postcode"]{
+    display:none !important
+  } 
 }
