@@ -57,13 +57,13 @@ class Api extends AbstractHelper{
 	}
 
 	//Obtiene los parámetros de configuración desde el cms
-	public function getConfigParams($fields)
+	public function getConfigParams($fields, $store = false)
 	{
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-		$websiteCode = $this->getCurrentStore(true);
+		$storeCode = ($store) ? $store : $this->getCurrentStore(true);
 		$configData = array();
 		foreach($fields as $key => $path){
-			$configData[$key] = $this->_scopeConfig->getValue($path, $storeScope, $websiteCode);
+			$configData[$key] = $this->_scopeConfig->getValue($path, $storeScope, $storeCode);
 		}
 		return $configData;
 	}
@@ -264,6 +264,28 @@ class Api extends AbstractHelper{
 				break; 
 		}
         $status = array(
+			'Invoiced/Closed' => array(
+				//@TODO: texto de estado de la orden: cerrada cron
+                'msg' => sprintf(
+					__("Se cierra la orden vía cron_trax. Estado %s (%s)"),
+					$st['status'],
+					$st['statusCode']
+				),
+                'notify' => false,
+				'newstatus' => 'closed',
+				'frontlabel' => __('Orden cerrada vía cron_trax.')
+			),
+			'Canceled' => array(
+				//@TODO: texto de estado de la orden: cerrada cron
+                'msg' => sprintf(
+					__("Se cancela la orden vía cron_trax. Estado %s (%s)"),
+					$st['status'],
+					$st['statusCode']
+				),
+                'notify' => false,
+				'newstatus' => 'canceled',
+				'frontlabel' => __('Orden cancelada vía cron_trax.')
+			),
 			'INVOICE_CREATED' => array(
                 //@TODO: texto de estado de la orden: tránsito
                 'msg' => sprintf(
@@ -306,12 +328,16 @@ class Api extends AbstractHelper{
             ),
         );
         if(isset($st['status'], $status[$st['status']])) return $status[$st['status']];
-        return array(
-            //@TODO: texto de estado de la orden: desconocido
-            'msg' => __('Estado desconocido'),
-            'notify' => false,
-            'newstatus' => false,
-			'frontlabel' => __('Error al obtener el estado del pedido, contacte al administrador.')
-        );
+		if($type == 'invoice_curl'){
+			return false;
+		}else{
+			return array(
+				//@TODO: texto de estado de la orden: desconocido
+				'msg' => __('Estado desconocido'),
+				'notify' => false,
+				'newstatus' => false,
+				'frontlabel' => __('Error al obtener el estado del pedido, contacte al administrador.')
+			);
+		}
 	}
 }
