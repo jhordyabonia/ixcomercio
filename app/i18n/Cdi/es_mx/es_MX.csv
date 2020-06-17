@@ -9027,7 +9027,7 @@ information on installing the agent is available <a target=""_blank"" href=""%1"
 "Are you sure you want to delete this template?","¿Realmente quiere borrar esta plantilla?",module,Magento_Newsletter
 "Sign Up for Our Newsletter:","Inscríbase a nuestro boletín de noticias:",module,Magento_Newsletter
 "Enter your email address","Registra tu dirección de correo electrónico",module,Magento_Newsletter
-"Subscribe","Suscríbete",module,Magento_Newsletter
+"Subscribe","Suscribete",module,Magento_Newsletter
 "Newsletter subscription confirmation","Confirmación de la suscripción al boletín informativo",module,Magento_Newsletter
 "Thank you for subscribing to our newsletter.","Gracias por suscribirte a nuestro boletín.",module,Magento_Newsletter
 "To begin receiving the newsletter, you must first confirm your subscription by clicking on the following link:","Antes de recibir los boletines, debes confirmar la suscripción haciendo click en el siguiente enlace:",module,Magento_Newsletter
