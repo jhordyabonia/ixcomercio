@@ -184,7 +184,7 @@ class ObserverSuccess implements ObserverInterface
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
                 $mienvioResponse = $this->createQuoteFromItems(
-                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
+                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
                 $order->setMienvioQuoteId($mienvioQuoteId);
@@ -616,7 +616,7 @@ class ObserverSuccess implements ObserverInterface
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
                $response = $this->createQuoteFromItems(
-                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
+                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
 
 
