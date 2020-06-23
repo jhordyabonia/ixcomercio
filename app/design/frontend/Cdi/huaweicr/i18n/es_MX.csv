@@ -2302,7 +2302,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Clear All","Eliminar todo",module,Magento_Catalog
 "Prev","Prev",module,Magento_Catalog
 "Next","Siguiente",module,Magento_Catalog
-"We can't find products matching the selection.","Los productos que estás buscando se han agotado, Visitá otra de nuestras secciones para que conozcaás lo último en tecnología para vos.",module,Magento_Catalog
+"We can't find products matching the selection.","Los productos que estás buscando se han agotado. Visitá otra de nuestras secciones para que conozcás lo último en tecnología para vos.",module,Magento_Catalog
 "Learn More","Saber más",module,Magento_Catalog
 "Add to Compare","Añadir para comparar",module,Magento_Catalog
 "We found other products you might like!","¡Hemos encontrado otros productos que te pueden gustar!",module,Magento_Catalog
