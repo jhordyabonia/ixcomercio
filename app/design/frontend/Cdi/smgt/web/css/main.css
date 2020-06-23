@@ -787,8 +787,8 @@ footer .footer-social {
         margin-right: 0; }
 
 footer .footer-bottom .footer-nav {
-  color: #767676;
-  background: #F2F2F2;
+  color: #8E8E93;
+  background: #F4F4F4;
   padding: 40px 0; }
   @media only screen and (max-width: 768px) {
     footer .footer-bottom .footer-nav {
@@ -849,7 +849,7 @@ footer .footer-bottom .footer-nav {
       footer .footer-bottom .footer-nav .link-block ul li {
         line-height: 2em; }
         footer .footer-bottom .footer-nav .link-block ul li a {
-          color: #212428; }
+          color: #8E8E93; }
     @media only screen and (max-width: 991px) {
       footer .footer-bottom .footer-nav .link-block:last-child h4:after {
         display: none; } }
@@ -1452,7 +1452,7 @@ section {
 .action.action-update {
   color: #1428A0;
   background: none;
-  text-transform: uppercase;
+  text-transform: none;
   -webkit-transition: .5s all ease;
   -o-transition: .5s all ease;
   transition: .5s all ease;
@@ -1462,6 +1462,16 @@ section {
   .action.action-update:hover {
     color: #fff;
     background: #1428A0; }
+
+.checkout-index-index .action.action-update {
+  font-size: 16px;
+  font-weight: 700px;
+  background: #1428A0;
+  color: #ffffff; }
+
+.checkout-index-index .action.action-update:hover {
+  background: #000000;
+  border-color: #000000; }
 
 .catalog-category-view .category-list .category-image {
   position: relative;
@@ -1873,7 +1883,8 @@ section {
           margin: 0; }
           .product-view .product-info_main .product-add-form .box-tocart .field.qty {
             padding: 20px 0;
-            border-bottom: 1px solid #e5e5e5; }
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 15px; }
             @media only screen and (min-width: 768px) {
               .product-view .product-info_main .product-add-form .box-tocart .field.qty {
                 display: block; } }
@@ -2181,7 +2192,8 @@ section {
         width: 25%;
         color: #000;
         font-size: 100%;
-        display: table-cell; }
+        display: table-cell;
+        text-align: left; }
 
 section.newsletter .header-section {
   text-align: center; }
@@ -2637,6 +2649,9 @@ form {
     .sidebar.sidebar-additional .actions-toolbar > div {
       text-align: left;
       float: left; }
+
+.customer-account-create .action.back {
+  font-size: 15px; }
 
 @media only screen and (max-width: 768px) {
   .minicart-wrapper {

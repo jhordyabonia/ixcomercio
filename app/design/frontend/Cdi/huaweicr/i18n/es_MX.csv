@@ -2302,7 +2302,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Clear All","Eliminar todo",module,Magento_Catalog
 "Prev","Prev",module,Magento_Catalog
 "Next","Siguiente",module,Magento_Catalog
-"We can't find products matching the selection.","No podemos encontrar productos que coincida con la selección.",module,Magento_Catalog
+"We can't find products matching the selection.","Los productos que estás buscando se han agotado. Visitá otra de nuestras secciones para que conozcás lo último en tecnología para vos.",module,Magento_Catalog
 "Learn More","Saber más",module,Magento_Catalog
 "Add to Compare","Añadir para comparar",module,Magento_Catalog
 "We found other products you might like!","¡Hemos encontrado otros productos que te pueden gustar!",module,Magento_Catalog
@@ -9027,7 +9027,7 @@ information on installing the agent is available <a target=""_blank"" href=""%1"
 "Are you sure you want to delete this template?","¿Realmente quiere borrar esta plantilla?",module,Magento_Newsletter
 "Sign Up for Our Newsletter:","Inscríbase a nuestro boletín de noticias:",module,Magento_Newsletter
 "Enter your email address","Registra tu dirección de correo electrónico",module,Magento_Newsletter
-"Subscribe","Suscríbete",module,Magento_Newsletter
+"Subscribe","Suscribete",module,Magento_Newsletter
 "Newsletter subscription confirmation","Confirmación de la suscripción al boletín informativo",module,Magento_Newsletter
 "Thank you for subscribing to our newsletter.","Gracias por suscribirte a nuestro boletín.",module,Magento_Newsletter
 "To begin receiving the newsletter, you must first confirm your subscription by clicking on the following link:","Antes de recibir los boletines, debes confirmar la suscripción haciendo click en el siguiente enlace:",module,Magento_Newsletter
@@ -16429,5 +16429,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Follow us","Síguenos",module,Magento_Theme
 "You can select your payment product in the next step.","Puedes seleccionar su producto de pago en el siguiente paso.",module,Magento_Checkout
 "Have an account? Login here","¿Tienes una cuenta? Entre aquí",module,Magento_Customer
-"Sign up to our newsletter","SUSCRÍBASE A NUESTRO BOLETÍN DE NOTICIAS",module,Magento_Theme
+"Sign up to our newsletter","¡REGISTRATE Y RECIBE OFERTAS EXCLUSIVAS!",module,Magento_Theme
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme
