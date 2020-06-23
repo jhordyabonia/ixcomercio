@@ -16429,5 +16429,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Follow us","Síguenos",module,Magento_Theme
 "You can select your payment product in the next step.","Puedes seleccionar su producto de pago en el siguiente paso.",module,Magento_Checkout
 "Have an account? Login here","¿Tienes una cuenta? Entre aquí",module,Magento_Customer
-"Sign up to our newsletter","SUSCRÍBASE A NUESTRO BOLETÍN DE NOTICIAS",module,Magento_Theme
+"Sign up to our newsletter","¡REGISTRATE Y RECIBE OFERTAS EXCLUSIVAS!",module,Magento_Theme
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme

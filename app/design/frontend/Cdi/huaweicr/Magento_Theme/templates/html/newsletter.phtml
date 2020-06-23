@@ -1,0 +1,11 @@
+<?php $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');?>
+<section class="newsletter bg-image-dark" style="background: url(<?php echo $_helperCdi->getMediaUrlStore("bg-newsletter.jpg")?>)">
+    <div class="container">
+        <div class="row">
+            <div class="header-section">
+                <h2 class="title-section"><?php echo __('Sign up to our newsletter')?></h2>
+            </div>
+            <?php echo $block->getLayout()->createBlock('Magento\Newsletter\Block\Subscribe')->setTemplate('subscribe.phtml')->toHtml();?>
+        </div>
+    </div>
+</section>
