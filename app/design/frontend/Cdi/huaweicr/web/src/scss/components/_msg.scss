@@ -1,13 +1,15 @@
 .message{
   &.info{
     color: #000;
-    text-align: center;
+    text-align: left;
+    font-weight: bold;
     background: none;
     margin: 20px auto;
     padding: 15px 20px 15px 40px;
     border: 1px solid #000;
     >*:first-child:before{
-      top: 25px;
+      top: 25px; 
+      display: none;
       color: #000;
       font-size: 40px;
     }
