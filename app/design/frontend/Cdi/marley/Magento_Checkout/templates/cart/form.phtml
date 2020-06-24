@@ -77,34 +77,36 @@ echo "<script>dataLayer.push({'event':'ga_event','category':'Carrito de compras'
 <?= $block->getChildHtml('shopping.cart.table.after') ?>
 <?php
 /* XCB GTM */
-$_productCollection = $block->getLoadedProductCollection();
-if(is_array($_productCollection))
-foreach ($_productCollection as $_product){
-    $producto = "{
-        'id': '{$_productCollection->getSku()}',
-        'name': '{$_product->getName()}',
-        'price': '{$_product->getFinalPrice()}',
-        'brand': 'HOM',
-        'category': '{$_product->getName()}',
-        'variant': '',
-        'quantity': {$_product->getQty()},
-        'coupon': ''
-    }";
-    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-}
-//$order = $block->getOrderId();
-echo <<<JG
-<script>
-    dataLayer.push({
-        'event': 'checkout',
-        'ecommerce': {
-			'actionField': {'step': 'stepObj', 'option': 'stepOption'},
-			'products': [{$gtm_prods}]
-        }
-    });
-    
-</script>
-JG;
+$gtm_prods = '';
+$_productCollection = $block->getItems();
+if(is_array($_productCollection)){
+    foreach ($_productCollection as $_product)
+        $producto = "{
+            'id': '{$_product->getSku()}',
+            'name': '{$_product->getName()}',
+            'price': '{$_product->getFinalPrice()}',
+            'brand': 'HOM',
+            'category': '{$_product->getName()}',
+            'variant': '',
+            'quantity': {$_product->getQty()},
+            'coupon': ''
+        }";
+        $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
+    }
+    echo <<<JG
+    <script>
+        dataLayer.push({
+            'event': 'checkout',
+            'ecommerce': {
+                'actionField': {'step': 'stepObj', 'option': 'stepOption'},
+                'products': [{$gtm_prods}]
+            }
+        });
+        
+    </script>
+    JG;
+
+
 
 /* XCB END */
 ?>
