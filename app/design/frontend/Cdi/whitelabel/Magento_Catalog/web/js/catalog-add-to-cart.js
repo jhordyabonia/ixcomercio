@@ -8,7 +8,7 @@ define([
     'mage/translate',
     'underscore',
     'Magento_Catalog/js/product/view/product-ids-resolver',
-    'jquery/ui'
+    'jquery/ui',
 ], function ($, $t, _, idsResolver) {
     'use strict';
 
@@ -176,7 +176,7 @@ define([
                         //title: $.mage.__("No Title"),
                         buttons: [
                             {
-                                text: $.mage.__('Continue Shopping'),
+                                text: $t('Continue Shopping'),
                                 class: 'action-secondary',
                                 click: function () {
                                     this.closeModal();
