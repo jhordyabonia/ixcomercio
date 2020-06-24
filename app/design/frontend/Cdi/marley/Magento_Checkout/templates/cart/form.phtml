@@ -80,7 +80,7 @@ echo "<script>dataLayer.push({'event':'ga_event','category':'Carrito de compras'
 $gtm_prods = '';
 $_productCollection = $block->getItems();
 if(is_array($_productCollection)){
-    foreach ($_productCollection as $_product)
+    foreach ($_productCollection as $_product){
         $producto = "{
             'id': '{$_product->getSku()}',
             'name': '{$_product->getName()}',
@@ -102,9 +102,9 @@ if(is_array($_productCollection)){
                 'products': [{$gtm_prods}]
             }
         });
-        
     </script>
-    JG;
+JG;
+}
 
 
 
