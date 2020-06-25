@@ -6007,6 +6007,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Please select a region, state or province.","Por favor selecciona región, estado o provincia.",module,Magento_Directory
 "Please select a city.","Por favor selecciona ciudad o municipio.",module,Magento_Directory
 "Please select a zone.","Por favor selecciona una zona.",module,Magento_Directory
+"Please select a zone","Por favor selecciona una zona"
 "Currency","Moneda",module,Magento_Directory
 "Your current currency is: %1.","La moneda actual es: %1.",module,Magento_Directory
 "Continue","Continuar",module,Magento_Directory
@@ -16427,7 +16428,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Free","Gratis",module,Magento_Checkout
 "Text to translate","Texto para traducir",lib,web
 "Follow us","Síguenos",module,Magento_Theme
-"You can select your payment product in the next step.","Puedes seleccionar su producto de pago en el siguiente paso.",module,Magento_Checkout
+"You can select your payment product in the next step.","Puedes seleccionar tu metodo de pago en el siguiente paso."
 "Have an account? Login here","¿Tienes una cuenta? Entre aquí",module,Magento_Customer
 "Sign up to our newsletter","¡REGISTRATE Y RECIBE OFERTAS EXCLUSIVAS!",module,Magento_Theme
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme
