@@ -63,14 +63,7 @@
     	<referenceBlock name="catalog.compare.sidebar" remove="true"/>
 		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
 
-		<!--Newsletter-->
-		<referenceContainer name="content.aside">
-			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
-			<referenceContainer name="newsletter-container-custom">
-				<block class="Magento\Framework\View\Element\Template" name="product.newsletter" template="Magento_Theme::html/newsletter.phtml" />
-			</referenceContainer> 
-        </referenceContainer>
-
+		
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
 		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
