@@ -3275,7 +3275,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Price","Precio",module,Magento_Checkout
 "Qty","Cantidad",module,Magento_Checkout
 "Subtotal","Subtotal",module,Magento_Checkout
-"has been added to cart","se ha agreagdo al carrito",module,Magento_Checkout
+"has been added to cart.","se ha agreagdo al carrito",module,Magento_Checkout
 "Continue Shopping","Continuar comprando",module,Magento_Checkout
 "Clear Shopping Cart","Vaciar el carrito",module,Magento_Checkout
 "Update Shopping Cart","Actualizar carrito",module,Magento_Checkout
