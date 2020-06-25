@@ -5,6 +5,7 @@ define(
     [
         'jquery',
         'ko',
+        'mage/translate',
         'Magento_Checkout/js/view/payment/default',
         'uiLayout',
         'Magento_Checkout/js/action/redirect-on-success',
@@ -236,7 +237,7 @@ define(
                         parent: this.name,
                         component: 'uiElement',
                         template: 'Ingenico_Connect/payment/redirect-notice',
-                        text: 'You can select your payment product in the next step.',
+                        text: $.mage.__('You can select your payment product in the next step.'),
                     });
                 } else {
                     components.push({
