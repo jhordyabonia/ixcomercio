@@ -169,7 +169,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $fullAddressProcessed = $this->processFullAddress($destFullStreet);
             $destCity       = $request->getDestCity();
             $destPostcode   = $request->getDestPostcode();
-
             $fromData = $this->createAddressDataStr(
                 "MIENVIO DE MEXICO",
                 $this->_mienvioHelper->getOriginStreet(),
@@ -544,7 +543,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'street2' => $street2,
             'email' => $email,
             'phone' => $phone,
-            'reference' => ''
+            'reference' => '',
+            'country' => $countryCode
         ];
 
         $location = $this->_mienvioHelper->getLocation();
@@ -560,6 +560,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $data['zipcode'] = $zipcode;
             } else {
                 $data['level_1'] = $street2;
+                $data['level_2'] = $destCity;
             }
 
         }else if($location == 'zipcode' ){
@@ -567,6 +568,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $data['zipcode'] = $zipcode;
             } else {
                 $data['level_1'] = $zipcode;
+                $data['level_2'] = $destCity;
             }
 
         }else{
@@ -574,6 +576,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $data['zipcode'] = $zipcode;
             } else {
                 $data['level_1'] = $zipcode;
+                $data['level_2'] = $destCity;
             }
         }
 

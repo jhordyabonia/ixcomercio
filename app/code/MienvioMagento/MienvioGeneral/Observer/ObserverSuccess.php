@@ -142,7 +142,10 @@ class ObserverSuccess implements ObserverInterface
                 "ventas@mienvio.mx",
                 "4422876138",
                 '',
-                $countryId
+                $countryId,
+                '',
+                '',
+                $this->_mienvioHelper->getOriginCity()
             );
 
             $customerName  = $shippingAddress->getName();
@@ -160,7 +163,10 @@ class ObserverSuccess implements ObserverInterface
                 $customermail,
                 $customerPhone,
                 $shippingAddress->getStreetLine(3),
-                $countryId
+                $countryId,
+                '',
+                '',
+                $shippingAddress->getCity()
             );
 
             $this->_logger->info("Addresses data", ["to" => $toData, "from" => $fromData]);
@@ -184,7 +190,7 @@ class ObserverSuccess implements ObserverInterface
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
                 $mienvioResponse = $this->createQuoteFromItems(
-                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
+                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
                 $order->setMienvioQuoteId($mienvioQuoteId);
@@ -482,7 +488,7 @@ class ObserverSuccess implements ObserverInterface
      * @param  string $countryCode
      * @return string
      */
-    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode)
+    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
         $data = [
@@ -498,6 +504,9 @@ class ObserverSuccess implements ObserverInterface
         $location = $this->_mienvioHelper->getLocation();
         $this->_logger->debug('LOCATION: '.$location);
         $this->_logger->debug('STREET2: '.$street2);
+        $this->_logger->debug('DestRegion: '.$destRegion);
+        $this->_logger->debug('DestRegionCode: '.$destRegionCode);
+        $this->_logger->debug('DesCity: '.$destCity);
 
         if($location == 'street2' ){
 
@@ -505,6 +514,7 @@ class ObserverSuccess implements ObserverInterface
                 $data['zipcode'] = $zipcode;
             } else {
                 $data['level_1'] = $street2;
+                $data['level_2'] = $destCity;
             }
 
         }else if($location == 'zipcode' ){
@@ -512,6 +522,7 @@ class ObserverSuccess implements ObserverInterface
                 $data['zipcode'] = $zipcode;
             } else {
                 $data['level_1'] = $zipcode;
+                $data['level_2'] = $destCity;
             }
 
         }else{
@@ -519,6 +530,7 @@ class ObserverSuccess implements ObserverInterface
                 $data['zipcode'] = $zipcode;
             } else {
                 $data['level_1'] = $zipcode;
+                $data['level_2'] = $destCity;
             }
         }
 
@@ -574,7 +586,10 @@ class ObserverSuccess implements ObserverInterface
                 "ventas@mienvio.mx",
                 "4422876138",
                 '',
-                $countryId
+                $countryId,
+                '',
+                '',
+                $this->_mienvioHelper->getOriginCity()
             );
 
             $customerName  = $shippingAddress->getName();
@@ -592,7 +607,10 @@ class ObserverSuccess implements ObserverInterface
                 $customermail,
                 $customerPhone,
                 $shippingAddress->getStreetLine(3),
-                $countryId
+                $countryId,
+                '',
+                '',
+                $shippingAddress->getCity()
             );
 
             $this->_logger->info("Addresses data", ["to" => $toData, "from" => $fromData]);
@@ -616,7 +634,7 @@ class ObserverSuccess implements ObserverInterface
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
                $response = $this->createQuoteFromItems(
-                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $quoteId
+                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
 
 
