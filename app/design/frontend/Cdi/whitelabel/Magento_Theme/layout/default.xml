@@ -63,6 +63,7 @@
     	<referenceBlock name="catalog.compare.sidebar" remove="true"/>
 		<referenceBlock name="sale.reorder.sidebar" remove="true"/>
 
+		
 		<!--Reemplaza el footer-->
 		<referenceBlock name="footer-container" remove="true" />
 		<container name="footer-container-custom" as="footer_custom" before="before.body.end" label="Page Footer Container" htmlTag="footer" htmlClass="footer-container"/>
