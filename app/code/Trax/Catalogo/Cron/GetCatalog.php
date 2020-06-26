@@ -324,9 +324,16 @@ class GetCatalog {
         $cat_info = $rootCat->load($rootNodeId);
 
         foreach ($data as $key => $catalog) {
+
+            $catId = $catalog->Category->CategoryId;
+
+            if($catId == "" || $catId == null){
+                $catId = "Def".$websiteCode;
+            }
+
             $this->logger->info('GetCatalog - lee datos '.$websiteCode);
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->Category->CategoryId)->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catId)->addAttributeToFilter('path',array('like' => $rootCat->getPath().'%'));
             //Se valida si la categoría existe
             $arrayCategories = array();
             $existe = 0;
@@ -342,10 +349,13 @@ class GetCatalog {
                 $categoryTmp->setIsActive(false);
             }
             //Se asocian campos
-            $url=strtolower($catalog->Category->Description.'-'.$catalog->Category->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.'-'.rand(0,1000));
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $categoryTmp->setUrlKey($cleanurl);
             $name=ucfirst($catalog->Category->Description);
+            if($name == "" || $name == null){
+                $name = "default";
+            }
+            $url=strtolower($name.'-'.$catId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.'-'.rand(0,1000));        
+            $cleanurl = html_entity_decode(strip_tags($url));
+            $categoryTmp->setUrlKey($cleanurl);            
             $categoryTmp->setName($name);
             $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
@@ -377,7 +387,7 @@ class GetCatalog {
                 $categoryTmp->setCustomLayoutUpdate('');
             }
 
-            $categoryTmp->setIwsId($catalog->Category->CategoryId);
+            $categoryTmp->setIwsId($catId);
             $categoryTmp->setStoreId($storeId);
             try{
                 $categoryTmp->save();            
@@ -388,6 +398,7 @@ class GetCatalog {
                 //Se valida si tiene subcategorias
                 if($catalog->Category->Subcategories && count($catalog->Category->Subcategories)>0){
                     $arrayCategories = $this->loadSubcategoriesData($catalog->Category->Subcategories, $websiteCode, $store, $storeId, $categoryTmp->getId(), $arrayCategories);
+                    $rootCat->load($rootNodeId);
                 }
                 //Se valida producto y se asocia a categoria
                 $product_id = $this->loadProductsData($catalog, $objectManager, $storeId, $websiteId, $arrayCategories, $configData);
@@ -472,9 +483,15 @@ class GetCatalog {
         $appState = $objectManager->get('\Magento\Framework\App\State');
         //Se recorre array
         foreach ($data as $key => $catalog) {
+            $catId = $catalog->CategoryId;
+
+            if($catId == "" || $catId == null){
+                $catId = "SubDef".$websiteCode;
+            }
+
             //Se carga la categoria por atributo
             $categoryCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
-            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catalog->CategoryId)->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
+            $categories = $categoryCollection->create()->addAttributeToFilter('iws_id',$catId)->addAttributeToFilter('parent_id',array('eq' => $rootNodeId));
             $existe = 0;
             //Se valida si la categoría existe
             if($categories->getSize()){
@@ -493,7 +510,10 @@ class GetCatalog {
 
             //Se asocian campos
             $name=ucfirst($catalog->Description);
-            $url=strtolower($catalog->Description.'-'.$catalog->CategoryId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
+            if($name == "" || $name == null){
+                $name = "default";
+            }
+            $url=strtolower($name.'-'.$catId.'-'.$rootNodeId.'-'.$storeId.'-'.$key.rand(0,1000));
             $cleanurl = html_entity_decode(strip_tags($url));
             $categoryTmp->setName($name);
             $categoryTmp->setUrlKey($cleanurl);
@@ -502,7 +522,7 @@ class GetCatalog {
                 $categoryTmp->setParentId($rootCat->getId());
                 $categoryTmp->setPath($rootCat->getPath());
             }
-            $categoryTmp->setIwsId($catalog->CategoryId);
+            $categoryTmp->setIwsId($catId);
             $categoryTmp->setStoreId($storeId);  
             try{
                 $categoryTmp->save();
