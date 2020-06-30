@@ -1,4 +1,5 @@
 <?php $_mienvioHelper = $this->helper('Mienvio\Api\Helper\Data');?>
+<?php $_cdiHelper = $this->helper('Cdi\Custom\Helper\Api');?>
 <div class="block">
     <div class="block-title">
         <strong><?php echo $this->getTitle() ?></strong>
@@ -19,7 +20,7 @@
                 <div class="guide-generated">
                     <?php if($this->getOrderGuide() == 1 && is_array($guideData) && !empty($guideData)){ ?>
                         <span>
-                            <?php echo $_mienvioHelper->getCommentByStatus($guideData)['frontlabel'];?>
+                            <?php echo $_cdiHelper->getCommentByStatus($guideData, 'shipment')['frontlabel'];?>
                         </span>
                     <?php }else{ ?>
                         <span><?php echo __('Tracking information is not available. Try again later') ?></span>

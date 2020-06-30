@@ -7,8 +7,12 @@
 // @codingStandardsIgnoreFile
 
 ?>
+<?php $_cdiHelper = $this->helper('Cdi\Custom\Helper\Api');?>
 <div class="actions">
-    <?php  $_order = $block->getOrder() ?>
+    <?php  
+    $_order = $block->getOrder();
+    $iwsOrder = $_cdiHelper->getIwsOrderBy('order_id', $_order->getEntityId(), false, false);
+    ?>
     <?php if ($this->helper('Magento\Sales\Helper\Reorder')->canReorder($_order->getEntityId())) : ?>
         <a href="#" data-post='<?php /* @escapeNotVerified */ echo
         $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
@@ -22,10 +26,24 @@
        onclick="this.target='_blank';">
         <span><?= /* @escapeNotVerified */ __('Print Order') ?></span>
     </a>
-    <a class="action tracking"
-       href="<?php echo $this->getUrl('mienvio/shipment/status/order_id/'.$_order->getId()) ?>"
-       >
-        <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
-    </a>
+    <?php if($iwsOrder && $iwsOrder->getId()):?>
+        <?php $guideData = unserialize($iwsOrder->getMienvioUploadResp());?>
+        <?php if(is_array($guideData) && !empty($guideData)):?>
+            <a class="action tracking"
+            href="<?php echo $this->getUrl('mienvio/shipment/status/order_id/'.$_order->getId()) ?>"
+            >
+                <span><?= /* @escapeNotVerified */ __('Tracking') ?></span>
+            </a>
+        <?php endif;?>
+
+        <?php $invoiceData = unserialize($iwsOrder->getTraxInvoice());?>
+        <?php if(is_array($invoiceData) && !empty($invoiceData)):?>
+            <a class="action tracking"
+            href="<?php echo $this->getUrl('taxid/invoice/status/order_id/'.$_order->getId()) ?>"
+            >
+                <span><?= /* @escapeNotVerified */ __('Invoice') ?></span>
+            </a>
+        <?php endif;?>
+    <?php endif;?>
     <?= $block->getChildHtml() ?>
 </div>
