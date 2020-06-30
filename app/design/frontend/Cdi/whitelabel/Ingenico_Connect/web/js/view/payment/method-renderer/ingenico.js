@@ -17,7 +17,8 @@ define(
         'Magento_Checkout/js/model/quote',
         'Ingenico_Connect/js/model/payment/payment-data',
         'Ingenico_Connect/js/model/validation/product-field',
-        'Ingenico_Connect/js/model/validation/ingenico'
+        'Ingenico_Connect/js/model/validation/ingenico',
+        'mage/translate'
     ],
     function ($, ko, Component, layout, redirectOnSuccessAction, productList,
               productGroups, fetchProduct, createPayload, preloadComponents,
@@ -236,7 +237,7 @@ define(
                         parent: this.name,
                         component: 'uiElement',
                         template: 'Ingenico_Connect/payment/redirect-notice',
-                        text: 'Puedes seleccionar tu método de pago en el siguiente paso.',
+                        text: $.mage.__('Test')
                     });
                 } else {
                     components.push({
