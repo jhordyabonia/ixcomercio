@@ -237,7 +237,7 @@ define(
                         parent: this.name,
                         component: 'uiElement',
                         template: 'Ingenico_Connect/payment/redirect-notice',
-                        text: $.mage.__('Test')
+                        text: $.mage.__('You can select your payment product in the next step.')
                     });
                 } else {
                     components.push({
