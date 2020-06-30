@@ -424,10 +424,11 @@ class GetCatalog {
         $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
     }
 
-    //Carga la información de precios e inventario del catalogo
+    //Carga la información de precios
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData) 
     {
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $attributes     = array();     
         //Se recorre array
         foreach ($data as $key => $catalog) {
             $this->logger->info('GetCatalogSalesData - Lee datos. Website: '.$websiteCode);
@@ -438,36 +439,13 @@ class GetCatalog {
             if(!$product || $product->getStatus()!=1){
                 $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. El producto no existe');
             } else {
-                if($configData['product_price']){
-                    $product->setPrice($catalog->Price->UnitPrice);
-                }
                 
-                if($configData['product_mpn']){
-                    $product->setData('mpn',$catalog->Mpn);
-                    $product->setCustomAttribute('mpn',$catalog->Mpn );
-                    if(empty($catalog->Mpn)){
-                        $this->logger->info('MPN vacio SKU: ' .  $catalog->Sku);
-                    }
+                if($configData['product_price']){
+                    $attributes['Price'] = $catalog->Price->UnitPrice;
                 }
 
-                if($configData['product_stock']){
-                    if($catalog->InStock == 0){
-                        $stock = 0;
-                    } else {
-                        $stock = 1;
-                    }
-                    $product->setStockData(
-                        array(
-                            'use_config_manage_stock' => 0,
-                            'manage_stock' => 1,
-                            'is_in_stock' => $stock,
-                            'min_sale_qty' => 1,
-                            'qty' => $catalog->InStock
-                        )
-                    );
-                }
                 try{
-                    $product->save();
+                    $this->setStoreViewDataProduct($product->getId(),$sku,$storeId,$attibutes);
                     $this->logger->info('GetCatalogSalesData - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode);
                 } catch(Exception $e){
                     $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
@@ -543,76 +521,68 @@ class GetCatalog {
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
+
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
-            $product->setStatus(0); // Status on product enabled/ disabled 1/0
-            /*
-            * Jhonatan Holguín
-            * Agrega url solo cuando se crea el producto, para productos preexistentes, deja la que está parametrizada.
-            */
-            $url=strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000));
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $product->setUrlKey($cleanurl);
-        }
-        $iwsDescription = explode("- ", $catalog->Description);
-        $name = $iwsDescription[0];
-        $description = "";
-        if(isset($iwsDescription[1])){
-            $name .= $iwsDescription[1];
-        }
-        if(isset($iwsDescription[2])){
-            $name .= $iwsDescription[2];
-            for($i = 3; $i < count($iwsDescription); $i++){
-                $description .= $iwsDescription[$i];
+            $product->setStatus(0); // Status on product enabled/ disabled 1/0           
+            $product->setUrlKey(html_entity_decode(strip_tags(strtolower($catalog->Description.'-'.$catalog->Sku.'-'.$storeId.'-'.rand(0,1000)))));
+            $iwsDescription = explode("- ", $catalog->Description);
+            $name = $iwsDescription[0];
+            $description = "";
+            if(isset($iwsDescription[1])){
+                $name .= $iwsDescription[1];
             }
-        }        
-        $categoryIds = array_unique(
-            array_merge(
-                $product->getCategoryIds(),
-                $categoryIds
-            )
-        );    
-        $websiteIds = array_unique(
-            array_merge(
-                $product->getWebsiteIds(),
-                array($websiteId)
-            )
-        );
-        $product->setCategoryIds($categoryIds);        
-        if($configData['product_name']){
-            $product->setName($name); // Name of Product        
-        }   
-        if($configData['product_description']){
-            $product->setDescription($description); // Description of Product      
-        }
-        $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
-        $product->setWebsiteIds($websiteIds);
-        $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
-        $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
-        $product->setTaxClassId($configData['tax_id']); // Tax class id
-        $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
-        $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
-        if($configData['product_mpn']){
-            $product->setData('mpn',$catalog->Mpn); // Add Mpn
-            $product->setCustomAttribute('mpn',$catalog->Mpn); // add Mpn
-        }
-        switch($catalog->Type){
-            case 'Physical':
-                $product->setTypeId('simple');
-                break;
-            case 'License':
-                $product->setTypeId('virtual');
-                break;
-            case 'Warranty':
-                $product->setTypeId('configurable');
-                break;
-            case 'Downloadable':
-                $product->setTypeId('downloadable');
-                break;
-        } // type of product (simple/virtual/downloadable/configurable)
-        try{
-            $product->save();
+            if(isset($iwsDescription[2])){
+                $name .= $iwsDescription[2];
+                for($i = 3; $i < count($iwsDescription); $i++){
+                    $description .= $iwsDescription[$i];
+                }
+            }        
+            $categoryIds = array_unique(
+                array_merge(
+                    $product->getCategoryIds(),
+                    $categoryIds
+                )
+            );    
+            $websiteIds = array_unique(
+                array_merge(
+                    $product->getWebsiteIds(),
+                    array($websiteId)
+                )
+            );
+            $product->setCategoryIds($categoryIds);        
+            if($configData['product_name']){
+                $product->setName($name); // Name of Product        
+            }   
+            if($configData['product_description']){
+                $product->setDescription($description); // Description of Product      
+            }
+            $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
+            $product->setWebsiteIds($websiteIds);
+            $this->logger->info('GetCatalog - Se asocia website a producto: '.$websiteId);
+            $product->setVisibility(4); // visibilty of product (catalog / search / catalog, search / Not visible individually)
+            $product->setTaxClassId($configData['tax_id']); // Tax class id
+            $this->logger->info('GetCatalog - Atribute id: '.$configData['attribute_id']);
+            $this->logger->info('GetCatalog - Tax id: '.$configData['tax_id']);
+            if($configData['product_mpn']){
+                $product->setData('mpn',$catalog->Mpn); // Add Mpn
+                $product->setCustomAttribute('mpn',$catalog->Mpn); // add Mpn
+            }
+            switch($catalog->Type){
+                case 'Physical':
+                    $product->setTypeId('simple');
+                    break;
+                case 'License':
+                    $product->setTypeId('virtual');
+                    break;
+                case 'Warranty':
+                    $product->setTypeId('configurable');
+                    break;
+                case 'Downloadable':
+                    $product->setTypeId('downloadable');
+                    break;
+            } // type of product (simple/virtual/downloadable/configurable)
             //Set product dimensions
             if(isset($catalog->Freight)){
                 if(isset($catalog->Freight->Item)){
@@ -636,13 +606,65 @@ class GetCatalog {
                     }
                 }
             }
-            $product->save();
-            $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
-            return $product->getSku();
-        } catch (Exception $e){
-            $this->logger->info('GetCatalog - Se ha producido un error al guardar el producto con sku '.$catalog->Sku.'. Error: '.$e->getMessage());
-            return false;
+            //Set Stock 
+            if($configData['product_stock']){
+                if($catalog->InStock == 0){
+                    $stock = 0;
+                } else {
+                    $stock = 1;
+                }
+                $data = array(
+                    'use_config_manage_stock' => 0,
+                    'manage_stock' => 1,
+                    'is_in_stock' => $stock,
+                    'min_sale_qty' => 1,
+                    'qty' => $catalog->InStock
+                );
+                $product->setStockData($data);
+            }           
+            try{
+                $product->save();
+                $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
+                return $product->getSku();
+            } catch (Exception $e){
+                $this->logger->info('GetCatalog - Se ha producido un error al guardar el producto con sku '.$catalog->Sku.'. Error: '.$e->getMessage());
+                return false;
+            }
         }
+        else{
+
+            $attibutes = array();
+            
+            $iwsDescription = explode("- ", $catalog->Description);
+            $name = $iwsDescription[0];
+            $description = "";
+            if(isset($iwsDescription[1])){
+                $name .= $iwsDescription[1];
+            }
+            if(isset($iwsDescription[2])){
+                $name .= $iwsDescription[2];
+                for($i = 3; $i < count($iwsDescription); $i++){
+                    $description .= $iwsDescription[$i];
+                }
+            }        
+              
+            if($configData['product_name']){
+                $attibutes ['Name'] = $name; // Name of Product        
+            }   
+            if($configData['product_description']){
+                $attibutes ['Description'] = $description; // Description of Product      
+            }
+            
+            try{
+                $this->setStoreViewDataProduct( $product->getId(),$catalog->Sku,$storeId,$attibutes);
+                $this->logger->info('GetCatalog - Se actualiza producto '.$product->getSku().' en el store: '.$storeId);
+                return $product->getSku();
+            } catch (Exception $e){
+                $this->logger->info('GetCatalog - Se ha producido un error al actualizar el producto con sku '.$catalog->Sku.'. Error: '.$e->getMessage());
+                return false;
+            }
+        }
+  
     }
 
     //Deshabilita las categorias no retornadas en el servicio
@@ -699,4 +721,34 @@ class GetCatalog {
         }
     }
 
+    /*
+    * Update of products by store
+    * @param $productId unique product identifier
+    * @param $sku product sku
+    * @param $storeId store id
+    * @param $attibutes list of fields and values ​​to be updated
+    * @author GDCP <german.cardenas@intcomex.com>
+    * @return boolean
+    */
+    public function setStoreViewDataProduct($productId,$sku,$storeId,$attibutes)
+    {
+        $objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
+        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
+        $product        = $productFactory->create();
+
+        $productResourceModel = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product');
+        $productResourceModel->load($product, $productId);
+               
+        $product->setStoreId($storeId);
+        
+        foreach($attibutes as $name => $value){
+
+            $product->'set'.$name($value);
+            $productResourceModel->saveAttribute($product, strtolower($name));
+            
+        }
+
+        return true;
+        
+    }
 }
