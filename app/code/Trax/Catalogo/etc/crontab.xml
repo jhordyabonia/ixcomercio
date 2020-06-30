@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <!--<group id="iws_catalog">
         <job name="custom_cronjob" instance="Trax\Catalogo\Cron\GetCatalog" method="execute">
-            <schedule>0 5 * * *</schedule>
+            <schedule>29 5,9,10,17,19,21 * * *</schedule>
         </job>
     </group>-->
     <group id="iws_stock">
