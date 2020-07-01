@@ -657,7 +657,13 @@ class GetCatalog {
         }
         else{
 
-            $websitesData[]=['product_id' => $product->getId(), 'website_id' => $websiteId];
+            $categoryIds = [];
+            foreach ($categoryIds as $categoryId )
+                $categoriesData[] = ['product_id' => $product->getId(), 'category_id' => $categoryId, 'position' => 0];
+
+            $this->_saveProductCategories($categoriesData);    
+           
+            $websitesData[] = ['product_id' => $product->getId(), 'website_id' => $websiteId];
 
             $this->_saveProductWebsites($websitesData);
 
@@ -805,6 +811,27 @@ class GetCatalog {
             $this->_connection->insertOnDuplicate($tableName, $websitesData);            
         }
 
-        return true;
+        return $this;
+    }
+
+    /**
+     * Save product categories.
+     *
+     * @param array $categoriesData
+     * @return $this
+     */
+    protected function _saveProductCategories(array $categoriesData)
+    {
+        static $tableName = null;
+
+        if (!$tableName) {
+            $tableName = $this->_resourceFactory->create()->getProductCategoryTable();
+        }
+
+        if ($categoriesData) {
+            $this->_connection->insertOnDuplicate($tableName, $categoriesData, ['product_id', 'category_id']);        
+        }
+
+        return $this;
     }
 }
