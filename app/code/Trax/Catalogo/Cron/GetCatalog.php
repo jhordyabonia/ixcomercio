@@ -74,15 +74,26 @@ class GetCatalog {
      */
     protected $_connection;
 
-    public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email,
+    /**
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
+     */
+    protected $stockRegistry;
+
+    public function __construct(LoggerInterface $logger, 
+    \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, 
+    \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,    
+    \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+    \Magento\Indexer\Model\IndexerFactory $indexerFactory,     
+    \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, 
+    \Trax\Catalogo\Helper\Email $email,
     \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory,
-    ResourceConnection $resource
+    ResourceConnection $resource,
+    StockRegistryInterface $stockRegistry
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getCatalog.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
-        //$this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
         $this->productRepository = $productRepository;
         $this->_cacheTypeList = $cacheTypeList;
@@ -92,7 +103,7 @@ class GetCatalog {
         $this->helper = $email;
         $this->_resourceFactory = $resourceFactory;
         $this->_connection = $resource->getConnection();
-        
+        $this->stockRegistry = $stockRegistry;        
     }
 
 /**
@@ -633,11 +644,28 @@ class GetCatalog {
                     $stock = 1;
                 }
                 $data = array(
-                    'use_config_manage_stock' => 0,
                     'manage_stock' => 1,
-                    'is_in_stock' => $stock,
+                    'use_config_manage_stock' => 1,
+                    'qty' => $catalog->InStock,
+                    'min_qty' => 0,
+                    'use_config_min_qty' => 1,
                     'min_sale_qty' => 1,
-                    'qty' => $catalog->InStock
+                    'use_config_min_sale_qty' => 1,
+                    'max_sale_qty' => 10000,
+                    'use_config_max_sale_qty' => 1,
+                    'is_qty_decimal' => 0,
+                    'backorders' => 0,
+                    'use_config_backorders' => 1,
+                    'notify_stock_qty' => 1,
+                    'use_config_notify_stock_qty' => 1,
+                    'enable_qty_increments' => 0,
+                    'use_config_enable_qty_inc' => 1,
+                    'qty_increments' => 0,
+                    'use_config_qty_increments' => 1,
+                    'is_in_stock' => $stock,
+                    'low_stock_date' => null,
+                    'stock_status_changed_auto' => 0,
+                    'is_decimal_divided' => 0,
                 );
                 $product->setStockData($data);
             }      
@@ -655,14 +683,16 @@ class GetCatalog {
                 return false;
             }
         }
+        //Save product by store
         else{
-
+            //Set Categories
             $categoryIds = [];
             foreach ($categoryIds as $categoryId )
                 $categoriesData[] = ['product_id' => $product->getId(), 'category_id' => $categoryId, 'position' => 0];
 
             $this->_saveProductCategories($categoriesData);    
            
+            //Set WebSites
             $websitesData[] = ['product_id' => $product->getId(), 'website_id' => $websiteId];
 
             $this->_saveProductWebsites($websitesData);
@@ -681,17 +711,34 @@ class GetCatalog {
                     $description .= $iwsDescription[$i];
                 }
             }        
-              
+            
+            // Set Name
             if($configData['product_name']){
-                $attibutes ['Name'] = $name; // Name of Product        
+                $attibutes ['Name'] = $name;        
             }   
 
+            // Set Description
             if($configData['product_description']){
-                $attibutes ['Description'] = $description; // Description of Product      
+                $attibutes ['Description'] = $description;     
             }
 
+            // Set Price
             if($configData['product_price']){
                 $attributes['Price'] = $catalog->Price->UnitPrice;
+            }
+
+            //Set Tax Class
+            $attibutes ['tax_class_id'] = $configData['tax_id'];
+
+            //Set Stock
+            if($configData['product_stock']){
+                if($catalog->InStock == 0){
+                    $is_in_stock = 0;
+                } else {
+                    $is_in_stock = 1;
+                }
+
+                $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock)
             }
             
             try{
@@ -834,4 +881,30 @@ class GetCatalog {
 
         return $this;
     }
+
+    /**
+     * Save product stock.
+     *
+     * @param $sku
+     * @param $sku
+     * @param $storeId
+     * @param $is_in_stock
+     * @param $qty
+     * @return $this
+     */
+    public function _setStoreViewStock($sku,$storeId,$is_in_stock,$qty)
+    {
+        $stockItem = $this->stockRegistry->getStockItemBySku($sku, $storeId);
+
+        $stockItem->setStoreId($storeId);
+
+        $stockItem->setQty($qty);
+
+        $stockItem->setIsInStock((bool)$is_in_stock);
+
+        $this->stockRegistry->updateStockItemBySku($sku, $stockItem);
+
+        return $this;
+    }
+
 }
