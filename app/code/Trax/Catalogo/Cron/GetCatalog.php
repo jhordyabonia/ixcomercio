@@ -2,6 +2,7 @@
 namespace Trax\Catalogo\Cron;
 use \Psr\Log\LoggerInterface;
 use Magento\Framework\App\ResourceConnection;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
 
 class GetCatalog {
 

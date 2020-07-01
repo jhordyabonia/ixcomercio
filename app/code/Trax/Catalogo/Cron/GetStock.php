@@ -1,6 +1,7 @@
 <?php
 namespace Trax\Catalogo\Cron;
 use \Psr\Log\LoggerInterface;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
 
 class GetStock {
 
@@ -57,10 +58,17 @@ class GetStock {
     
     protected $logger;
 
-    protected  $productRepository;     
+    protected  $productRepository;   
+    
+    /**
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
+     */
+    protected $stockRegistry;
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email,
+    StockRegistryInterface $stockRegistry
+    ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -72,6 +80,7 @@ class GetStock {
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
         $this->helper = $email;
+        $this->stockRegistry = $stockRegistry;   
     }
 
 /**
@@ -262,17 +271,11 @@ class GetStock {
                         } else {
                             $stock = 1;
                         }
-                        $data = array(
-                            'use_config_manage_stock' => 0,
-                            'manage_stock' => 1,
-                            'is_in_stock' => $stock,
-                            'min_sale_qty' => 1,
-                            'qty' => $catalog->InStock
-                        );
-                        $product->setStockData($data);
+
+                        $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock);
+                        $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
                     }
-                    $product->save();
-                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
+                    
                 }
             } catch(Exception $e){
                 $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
@@ -290,6 +293,32 @@ class GetStock {
         $idx = $this->_indexerFactory->create()->load($id);
         $idx->reindexAll($id); 
         $this->logger->info('GetStock - Se reindexa');
+    }
+
+     /**
+     * Save product stock.
+     *
+     * @param $sku
+     * @param $sku
+     * @param $storeId
+     * @param $is_in_stock
+     * @param $qty
+     * @author GDCP <german.cardenas@intcomex.com>
+     * @return $this
+     */
+    public function _setStoreViewStock($sku,$storeId,$is_in_stock,$qty)
+    {
+        $stockItem = $this->stockRegistry->getStockItemBySku($sku, $storeId);
+
+        $stockItem->setStoreId($storeId);
+
+        $stockItem->setQty($qty);
+
+        $stockItem->setIsInStock((bool)$is_in_stock);
+
+        $this->stockRegistry->updateStockItemBySku($sku, $stockItem);
+
+        return $this;
     }
 
 }
