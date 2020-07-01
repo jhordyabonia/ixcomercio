@@ -1,6 +1,7 @@
 <?php
 namespace Trax\Catalogo\Cron;
 use \Psr\Log\LoggerInterface;
+use Magento\Framework\App\ResourceConnection;
 
 class GetCatalog {
 
@@ -66,9 +67,17 @@ class GetCatalog {
     */
     protected $_resourceFactory;
 
+    /**
+     * DB connection.
+     *
+     * @var \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    protected $_connection;
+
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
     \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email,
-    \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory
+    \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory,
+    ResourceConnection $resource
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getCatalog.log');
         $this->logger = new \Zend\Log\Logger();
@@ -82,6 +91,7 @@ class GetCatalog {
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
         $this->helper = $email;
         $this->_resourceFactory = $resourceFactory;
+        $this->_connection = $resource->getConnection();
         
     }
 
