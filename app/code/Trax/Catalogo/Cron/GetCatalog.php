@@ -59,10 +59,17 @@ class GetCatalog {
     
     protected $logger;
 
-    protected  $productRepository;     
+    protected  $productRepository;   
+    
+    /**
+    * @var \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory
+    */
+    protected $_resourceFactory;
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email,
+    \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory
+    ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getCatalog.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -74,6 +81,8 @@ class GetCatalog {
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
         $this->helper = $email;
+        $this->_resourceFactory = $resourceFactory;
+        
     }
 
 /**
@@ -180,7 +189,7 @@ class GetCatalog {
             $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
-            $serviceUrl = $configData['url'].$url.'?locale='.$locale.'&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&includePriceData=false&includeInventoryData=false'; 
+            $serviceUrl = $configData['url'].$url.'?locale='.$locale.'&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&includePriceData=true&ncludeInventoriyData=true'; 
         }
         return $serviceUrl;
     }
@@ -445,7 +454,7 @@ class GetCatalog {
                 }
 
                 try{
-                    $this->setStoreViewDataProduct($product->getId(),$sku,$storeId,$attibutes);
+                    $this->setStoreViewDataProduct($product->getId(),$catalog->Sku,$storeId,$attributes);
                     $this->logger->info('GetCatalogSalesData - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode);
                 } catch(Exception $e){
                     $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
@@ -520,7 +529,7 @@ class GetCatalog {
     {        
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
-        $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
+        $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);     
 
         if(!$product){
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
@@ -621,7 +630,12 @@ class GetCatalog {
                     'qty' => $catalog->InStock
                 );
                 $product->setStockData($data);
-            }           
+            }      
+            //Set Price
+            if($configData['product_price']){
+                $product->setPrice($catalog->Price->UnitPrice);
+            }
+
             try{
                 $product->save();
                 $this->logger->info('GetCatalog - Se guarda producto '.$product->getSku().' en el store: '.$storeId);
@@ -633,8 +647,12 @@ class GetCatalog {
         }
         else{
 
+            $websitesData[]=['product_id' => $product->getId(), 'website_id' => $websiteId];
+
+            $this->_saveProductWebsites($websitesData);
+
             $attibutes = array();
-            
+
             $iwsDescription = explode("- ", $catalog->Description);
             $name = $iwsDescription[0];
             $description = "";
@@ -651,8 +669,13 @@ class GetCatalog {
             if($configData['product_name']){
                 $attibutes ['Name'] = $name; // Name of Product        
             }   
+
             if($configData['product_description']){
                 $attibutes ['Description'] = $description; // Description of Product      
+            }
+
+            if($configData['product_price']){
+                $attributes['Price'] = $catalog->Price->UnitPrice;
             }
             
             try{
@@ -721,7 +744,7 @@ class GetCatalog {
         }
     }
 
-    /*
+    /**
     * Update of products by store
     * @param $productId unique product identifier
     * @param $sku product sku
@@ -743,12 +766,35 @@ class GetCatalog {
         
         foreach($attibutes as $name => $value){
 
-            $product->'set'.$name($value);
+            $method = 'set'.$name;
+            $product->$method($value);
             $productResourceModel->saveAttribute($product, strtolower($name));
-            
+           
         }
 
         return true;
         
+    }
+
+    /**
+     * Save product websites.
+     *
+     * @param array $websiteData
+     * @author GDCP <german.cardenas@intcomex.com>
+     * @return boolean
+     */
+    protected function _saveProductWebsites(array $websitesData)
+    {
+        static $tableName = null;
+
+        if (!$tableName) {
+            $tableName = $this->_resourceFactory->create()->getProductWebsiteTable();
+        }
+
+        if ($websitesData) {
+            $this->_connection->insertOnDuplicate($tableName, $websitesData);            
+        }
+
+        return true;
     }
 }
