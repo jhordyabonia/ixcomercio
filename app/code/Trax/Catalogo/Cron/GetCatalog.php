@@ -458,7 +458,7 @@ class GetCatalog {
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData) 
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-        $attributes     = array();     
+          
         //Se recorre array
         foreach ($data as $key => $catalog) {
             $this->logger->info('GetCatalogSalesData - Lee datos. Website: '.$websiteCode);
@@ -469,9 +469,23 @@ class GetCatalog {
             if(!$product || $product->getStatus()!=1){
                 $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. El producto no existe');
             } else {
+
+                $attributes = array();  
                 
+                // Set Price
                 if($configData['product_price']){
                     $attributes['Price'] = $catalog->Price->UnitPrice;
+                }
+
+                //Set Stock
+                if($configData['product_stock']){
+                    if($catalog->InStock == 0){
+                        $is_in_stock = 0;
+                    } else {
+                        $is_in_stock = 1;
+                    }
+
+                    $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock);
                 }
 
                 try{
@@ -686,7 +700,7 @@ class GetCatalog {
         //Save product by store
         else{
             //Set Categories
-            $categoryIds = [];
+            $categoriesData = [];
             foreach ($categoryIds as $categoryId )
                 $categoriesData[] = ['product_id' => $product->getId(), 'category_id' => $categoryId, 'position' => 0];
 
@@ -722,13 +736,13 @@ class GetCatalog {
                 $attibutes ['Description'] = $description;     
             }
 
+            //Set Tax Class
+            $attibutes ['tax_class_id'] = $configData['tax_id'];
+
             // Set Price
             if($configData['product_price']){
                 $attributes['Price'] = $catalog->Price->UnitPrice;
             }
-
-            //Set Tax Class
-            $attibutes ['tax_class_id'] = $configData['tax_id'];
 
             //Set Stock
             if($configData['product_stock']){
@@ -738,7 +752,7 @@ class GetCatalog {
                     $is_in_stock = 1;
                 }
 
-                $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock)
+                $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock);
             }
             
             try{
@@ -865,6 +879,7 @@ class GetCatalog {
      * Save product categories.
      *
      * @param array $categoriesData
+     * @author GDCP <german.cardenas@intcomex.com>
      * @return $this
      */
     protected function _saveProductCategories(array $categoriesData)
@@ -890,6 +905,7 @@ class GetCatalog {
      * @param $storeId
      * @param $is_in_stock
      * @param $qty
+     * @author GDCP <german.cardenas@intcomex.com>
      * @return $this
      */
     public function _setStoreViewStock($sku,$storeId,$is_in_stock,$qty)
