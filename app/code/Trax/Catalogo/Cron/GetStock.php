@@ -267,9 +267,9 @@ class GetStock {
                 } else {
                     if($configData['product_stock']){
                         if($catalog->InStock == 0){
-                            $stock = 0;
+                            $is_in_stock = 0;
                         } else {
-                            $stock = 1;
+                            $is_in_stock = 1;
                         }
 
                         $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock);
