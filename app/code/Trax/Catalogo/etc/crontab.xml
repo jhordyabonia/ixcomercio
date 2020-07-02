@@ -10,9 +10,9 @@
             <schedule>40 * * * *</schedule>
         </job>
     </group>
-    <group id="iws_orders">
+    <!--<group id="iws_orders">
         <job name="custom_cronjob_orders" instance="Trax\Catalogo\Cron\OrderStatus" method="execute">
             <schedule>40 0 * * *</schedule>
         </job>
-    </group>
+    </group>-->
 </config>
