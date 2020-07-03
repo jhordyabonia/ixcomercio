@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Magento\Framework\Console\Cli;
 use Trax\Catalogo\Cron\GetStock;
 use Trax\Catalogo\Cron\GetCatalog;
+use \Magento\Framework\App\State;
 
 /**
 * Class Commands
@@ -27,10 +28,17 @@ class Commands extends Command
     */
     private $_catalog;
 
-   public function __construct(GetStock $stock, GetCatalog $catalog)
+    /**
+    * @var \Magento\Framework\App\State
+    */
+    protected $_appState;
+
+   public function __construct(GetStock $stock, GetCatalog $catalog,State $$appState)
    {
         $this->_stock   = $stock;
         $this->_catalog = $catalog;
+        $this->_appState = $appState; 
+
 
         parent::__construct();    
    }
@@ -62,6 +70,8 @@ class Commands extends Command
     */
    protected  function execute(InputInterface $input, OutputInterface $output)
    {
+        $this->_appState->setAreaCode('adminhtml');
+
         $name = $input->getOption(self::NAME);
 
         $output->writeln("Starting Get Trax " . $name . " " .  date('Y-m-d H:i:s'));
