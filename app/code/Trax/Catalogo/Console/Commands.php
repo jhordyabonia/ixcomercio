@@ -12,12 +12,12 @@ use Trax\Catalogo\Cron\GetCatalog;
 /**
 * @var Trax\Catalogo\Cron\GetStock
 */
-private $_stock;
+protected $_stock;
 
 /**
 * @var Trax\Catalogo\Cron\GetCatalog
 */
-private $_catalog;
+protected $_catalog;
  
 class Commands extends Command 
 {
