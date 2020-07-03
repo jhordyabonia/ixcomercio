@@ -174,7 +174,7 @@ class GetCatalog
         $storeManager=$objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         $stores=$this->_storesRepository->getList();
         
-        foreach ($stores as $store){
+        foreach($stores as $store){
             
             $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
             $website=$storeManager->getWebsite($websiteId);
@@ -192,7 +192,7 @@ class GetCatalog
             } 
             else{
                 $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
-                $this->loadCatalogSales($configData, $website->getCode(), $website->getDefaultGroup(), $website->getDefaultGroup()->getDefaultStoreId());
+                $this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
             }
         }            
         
