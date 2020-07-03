@@ -8,15 +8,10 @@ use Magento\Framework\Console\Cli;
 use Trax\Catalogo\Cron\GetStock;
 use Trax\Catalogo\Cron\GetCatalog;
 
+const NAME = 'name';
 
-/**
-* @var Trax\Catalogo\Cron\GetStock
-*/
 private $_stock;
 
-/**
-* @var Trax\Catalogo\Cron\GetCatalog
-*/
 private $_catalog;
  
 class Commands extends Command 
