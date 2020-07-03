@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
-<configxmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-<typename="Magento\Framework\Console\CommandList">
-<arguments>
-<argumentname="commands"xsi:type="array">
-<itemname="uploadcatalog"xsi:type="object">Trax\Catalogo\Console\Commands</item>
-</argument>
-</arguments>
-</type>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="uploadcatalog" xsi:type="object">Trax\Catalogo\Console\Commands</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
-
