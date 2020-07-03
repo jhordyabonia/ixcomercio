@@ -118,6 +118,22 @@ class GetCatalog
      */
     protected $storesRepository;
 
+    /**
+     * class construct.
+     *
+     * @param $scopeConfig
+     * @param $cacheTypeList
+     * @param $cacheFrontendPool
+     * @param $cacheFrontendPool
+     * @param $indexerFactory
+     * @param $indexerCollectionFactory
+     * @param $email
+     * @param $resourceFactory
+     * @param $resource
+     * @param $stockRegistry
+     * @param $storesRepository     
+     * @author GDCP <german.cardenas@intcomex.com>
+     */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,        
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
@@ -147,36 +163,29 @@ class GetCatalog
         $this->storesRepository = $storesRepository;
     }
 
+    	    
     /**
      * Write to system.log
      *
      * @return void
      */
-
-    public function execute() 
-    {
-        //Se declaran variables de la tierra
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
-        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        
-        //Se obtienen todos los websites 
-        $stores = $this->_storesRepository->getList();
-        foreach ($stores as $store) {
-            $websiteId = $storeManager->getStore($store->getId())->getWebsiteId();
-            $website = $storeManager->getWebsite($websiteId);
+    public function execute()
+    {
+        $storeScope    = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+        
+        $stores = $this->_storesRepository->getList();
+        foreach ($stores as $store) {
+            $websiteId = $storeManager->getStore($store->getId())->getWebsiteId();
+            $website   = $storeManager->getWebsite($websiteId);
             //Se obtienen parametros de configuración por Store
             $configData = $this->getConfigParams($storeScope, $store->getCode()); 
             if ($configData['datos_iws']) {
                 $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
                 $serviceUrl = $this->getServiceUrl($configData, 1, $store->getCode());
-                if ($serviceUrl && !array_key_exists($store->getId(), $storeArray)) {
-                    $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, 0);
-                    $storeArray[$store->getId()] = $store->getId();
-                    //Se reindexa                            
-                    //$this->reindexData();
-                    //Se limpia cache
-                    
+                if ($serviceUrl) {
+                    $this->beginCatalogLoad($configData, $store, $serviceUrl, $website, 0);                    
                 } else {
                     $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());
                 }
@@ -184,11 +193,10 @@ class GetCatalog
                 $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
                 $this->loadCatalogSales($configData, $website->getCode(), $website->getDefaultGroup(), $website->getDefaultGroup()->getDefaultStoreId()); 
             }
-            
-        }
-        $this->cleanCache();     
-    } 
-    
+        }
+        $this->cleanCache();                   
+    }
+
     //Obtiene los parámetros de configuración desde el cms
     public function getConfigParams($storeScope, $websiteCode)
     {
