@@ -12,12 +12,12 @@ use Trax\Catalogo\Cron\GetCatalog;
 /**
 * @var Trax\Catalogo\Cron\GetStock
 */
-protected $_stock;
+private $_stock;
 
 /**
 * @var Trax\Catalogo\Cron\GetCatalog
 */
-protected $_catalog;
+private $_catalog;
  
 class Commands extends Command 
 {
@@ -25,6 +25,8 @@ class Commands extends Command
    {
         $this->_stock   = $stock;
         $this->_catalog = $catalog;
+
+        parent::__construct();    
    }
 
    protected  function configure()
