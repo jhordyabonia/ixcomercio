@@ -8,14 +8,22 @@ use Magento\Framework\Console\Cli;
 use Trax\Catalogo\Cron\GetStock;
 use Trax\Catalogo\Cron\GetCatalog;
 
-const NAME = 'name';
 
-private $_stock;
-
-private $_catalog;
- 
 class Commands extends Command 
 {
+   
+    const NAME = 'name';
+ 
+    /**
+    * @var Trax\Catalogo\Cron\GetStock
+    */
+    private $_stock;
+
+    /**
+    * @var Trax\Catalogo\Cron\GetCatalog
+    */
+    private $_catalog;
+
    public function __construct(GetStock $stock, GetCatalog $catalog)
    {
         $this->_stock   = $stock;
