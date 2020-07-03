@@ -172,27 +172,30 @@ class GetCatalog
 
         $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
         $storeManager=$objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        $stores=$this->_storesRepository->getList();
-        
-        foreach($stores as $store){
-            
-            $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
-            $website=$storeManager->getWebsite($websiteId);
-            $configData=$this->getConfigParams($storeScope,$store->getCode());
+        $storeScope=\Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 
-            if($configData['datos_iws']){
-             
-                $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
-                $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
-             
-                if($serviceUrl)
-                    $this->beginCatalogLoad($configData,$store,$serviceUrl,$website,0);
-                else
-                    $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());               
-            } 
-            else{
-                $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
-                $this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
+        foreach($this->_storesRepository->getList() as $store){
+
+            if ($store->isActive()) {
+            
+                $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
+                $website=$storeManager->getWebsite($websiteId);
+                $configData=$this->getConfigParams($storeScope,$store->getCode());
+
+                if($configData['datos_iws']){
+                
+                    $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
+                    $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
+                
+                    if($serviceUrl)
+                        $this->beginCatalogLoad($configData,$store,$serviceUrl,$website,0);
+                    else
+                        $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());               
+                } 
+                else{
+                    $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
+                    $this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
+                }
             }
         }            
         
@@ -524,13 +527,7 @@ class GetCatalog
 
                 //Set Stock
                 if ($configData['product_stock']) {
-                    if ($catalog->InStock == 0) {
-                        $is_in_stock = 0;
-                    } else {
-                        $is_in_stock = 1;
-                    }
-
-                    $this->_setStoreViewStock($catalog->Sku, $storeId, $is_in_stock, $catalog->InStock);
+                    $this->_setStoreViewStock($websiteCode,$catalog->Sku,$catalog->InStock)
                 }
 
                 try {
@@ -694,40 +691,7 @@ class GetCatalog
                         $product->setCustomAttribute('ts_dimensions_height', $catalog->Freight->Item->Height);
                     }
                 }
-            }
-            //Set Stock 
-            if ($configData['product_stock']) {
-                if ($catalog->InStock == 0) {
-                    $stock = 0;
-                } else {
-                    $stock = 1;
-                }
-                $data = array(
-                    'manage_stock' => 1,
-                    'use_config_manage_stock' => 1,
-                    'qty' => $catalog->InStock,
-                    'min_qty' => 0,
-                    'use_config_min_qty' => 1,
-                    'min_sale_qty' => 1,
-                    'use_config_min_sale_qty' => 1,
-                    'max_sale_qty' => 10000,
-                    'use_config_max_sale_qty' => 1,
-                    'is_qty_decimal' => 0,
-                    'backorders' => 0,
-                    'use_config_backorders' => 1,
-                    'notify_stock_qty' => 1,
-                    'use_config_notify_stock_qty' => 1,
-                    'enable_qty_increments' => 0,
-                    'use_config_enable_qty_inc' => 1,
-                    'qty_increments' => 0,
-                    'use_config_qty_increments' => 1,
-                    'is_in_stock' => $stock,
-                    'low_stock_date' => null,
-                    'stock_status_changed_auto' => 0,
-                    'is_decimal_divided' => 0,
-                );
-                $product->setStockData($data);
-            }
+            }            
             //Set Price
             if ($configData['product_price']) {
                 $product->setPrice($catalog->Price->UnitPrice);
@@ -940,7 +904,7 @@ class GetCatalog
     }
 
     /**
-     * Save product stock.
+     * Save product stock by source
      *
      * @param $sku
      * @param $sku
@@ -950,18 +914,27 @@ class GetCatalog
      * @author GDCP <german.cardenas@intcomex.com>
      * @return $this
      */
-    public function _setStoreViewStock($sku, $storeId, $is_in_stock, $qty)
-    {
-        $stockItem = $this->stockRegistry->getStockItemBySku($sku, $storeId);
+    public function _setStoreViewStock($websiteCode,$sku,$qty){
 
-        $stockItem->setStoreId($storeId);
-
-        $stockItem->setQty($qty);
-
-        $stockItem->setIsInStock((bool) $is_in_stock);
-
-        $this->stockRegistry->updateStockItemBySku($sku, $stockItem);
-
-        return $this;
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
+       
+        $objSourceItemInterfaceFactory = $objectManager->get('Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory');
+        $objSourceItemsSaveInterface   = $objectManager->get('Magento\InventoryApi\Api\SourceItemsSaveInterface');
+        
+        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
+        $objSourceItemInterface->setSku($sku);
+        $objSourceItemInterface->setSourceCode($websiteCode);
+        $objSourceItemInterface->setQuantity($qty);
+        $objSourceItemInterface->setStatus((($qty > 0)?1:0));
+                                
+        $arrSourceItemInterfaces = array();
+        $arrSourceItemInterfaces[] = $objSourceItemInterface; 
+                                
+        try{
+            $objSourceItemsSaveInterface->execute($arrSourceItemInterfaces);	
+            $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.' con un total de '.$qty.' unidades.');
+        }catch(Exception $e){
+            $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.'. Error: '.$e->getMessage());
+        }
     }
 }
