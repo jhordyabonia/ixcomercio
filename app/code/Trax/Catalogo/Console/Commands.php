@@ -64,7 +64,7 @@ class Commands extends Command
             break;
         }
 
-        $output->writeln("Ending Get Trax " $name . " " . date('Y-m-d H:i:s')); 
+        $output->writeln("Ending Get Trax " . $name . " " . date('Y-m-d H:i:s')); 
         
         return Cli::RETURN_SUCCESS;
     }
