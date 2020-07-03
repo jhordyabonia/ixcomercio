@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Magento\Framework\Console\Cli;
  
-class TraxCommands extends Command 
+class Commands extends Command 
 {
    protected  function configure()
    {
@@ -29,7 +29,7 @@ class TraxCommands extends Command
    {
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $name = $input->getOption(self::NAME)
+        $name = $input->getOption(self::NAME);
 
         switch($name){
             case 'stock'  : $entityManager = $objectManager->get('\Trax\Catalogo\Cron\GetStock');break;
