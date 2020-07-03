@@ -32,8 +32,12 @@ class Commands extends Command
         $name = $input->getOption(self::NAME);
 
         switch($name){
-            case 'stock'  : $entityManager = $objectManager->get('\Trax\Catalogo\Cron\GetStock');break;
-            case 'catalog': $entityManager = $objectManager->get('\Trax\Catalogo\Cron\GetCatalog');break;
+            case 'stock':
+                $entityManager = $objectManager->get('\Trax\Catalogo\Cron\GetStock');
+            break;
+            case 'catalog':
+                $entityManager = $objectManager->get('\Trax\Catalogo\Cron\GetCatalog');
+            break;
         }
 
         $output->writeln("Starting Get Trax " . $name . " " .  date('Y-m-d H:i:s'));
