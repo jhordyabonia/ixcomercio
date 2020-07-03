@@ -266,14 +266,7 @@ class GetStock {
                     $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con store id '.$storeId.'. El producto no existe');
                 } else {
                     if($configData['product_stock']){
-                        if($catalog->InStock == 0){
-                            $is_in_stock = 0;
-                        } else {
-                            $is_in_stock = 1;
-                        }
-
-                        $this->_setStoreViewStock($catalog->Sku,$storeId,$is_in_stock,$catalog->InStock);
-                        $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
+                        $this->_setStoreViewStock($websiteCode,$catalog->Sku,$catalog->InStock);
                     }
                     
                 }
@@ -296,7 +289,7 @@ class GetStock {
     }
 
      /**
-     * Save product stock.
+     * Save product stock by source
      *
      * @param $sku
      * @param $sku
@@ -306,19 +299,28 @@ class GetStock {
      * @author GDCP <german.cardenas@intcomex.com>
      * @return $this
      */
-    public function _setStoreViewStock($sku,$storeId,$is_in_stock,$qty)
-    {
-        $stockItem = $this->stockRegistry->getStockItemBySku($sku, $storeId);
+    public function _setStoreViewStock($websiteCode,$sku,$qty){
 
-        $stockItem->setStoreId($storeId);
-
-        $stockItem->setQty($qty);
-
-        $stockItem->setIsInStock((bool)$is_in_stock);
-
-        $this->stockRegistry->updateStockItemBySku($sku, $stockItem);
-
-        return $this;
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
+       
+        $objSourceItemInterfaceFactory = $objectManager->get('Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory');
+        $objSourceItemsSaveInterface   = $objectManager->get('Magento\InventoryApi\Api\SourceItemsSaveInterface');
+        
+        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
+        $objSourceItemInterface->setSku($sku);
+        $objSourceItemInterface->setSourceCode($websiteCode);
+        $objSourceItemInterface->setQuantity($qty);
+        $objSourceItemInterface->setStatus((($qty > 0)?1:0));
+                                
+        $arrSourceItemInterfaces = array();
+        $arrSourceItemInterfaces[] = $objSourceItemInterface; 
+                                
+        try{
+            $objSourceItemsSaveInterface->execute($arrSourceItemInterfaces);	
+            $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.' con un total de '.$qty.' unidades.');
+        }catch(Exception $e){
+            $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.'. Error: '.$e->getMessage());
+        }
     }
 
 }
