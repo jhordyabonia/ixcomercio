@@ -144,7 +144,7 @@ class GetCatalog
         \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory,
         \Magento\Framework\App\ResourceConnection $resource,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        \Magento\Store\Api\StoreRepositoryInterface $storesRepository 
+        \Magento\Store\Api\StoreRepositoryInterface $storesRepository
     ) {
         
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getCatalog.log');

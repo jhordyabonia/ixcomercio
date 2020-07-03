@@ -3,12 +3,15 @@ namespace Trax\Catalogo\Console;
  
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Magento\Framework\Console\Cli;
 use Trax\Catalogo\Cron\GetStock;
 use Trax\Catalogo\Cron\GetCatalog;
 
-
+/**
+* Class Commands
+*/
 class Commands extends Command 
 {
    
@@ -32,23 +35,31 @@ class Commands extends Command
         parent::__construct();    
    }
 
+   /**
+   * Define command attributes such as name, description, arguments
+   */
    protected  function configure()
    {
-        $options = [
+       $options = [
             new InputOption(
                 self::NAME,
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Name'
             )
-        ];
+       ];
        $this->setName('trax:upload');
        $this->setDescription('Upload TRAX Catalog');
-       $this->setDefinition($options);
-       
+       $this->setDefinition($options);       
        parent::configure();
    }
 
+   /**
+    * method will run when the command is called via console
+    * @param InputInterface $input
+    * @param OutputInterface $output
+    * @return int|void|null
+    */
    protected  function execute(InputInterface $input, OutputInterface $output)
    {
         $name = $input->getOption(self::NAME);
