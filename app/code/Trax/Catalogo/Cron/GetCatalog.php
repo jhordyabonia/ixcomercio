@@ -47,8 +47,6 @@ class GetCatalog
 
     const PRODUCT_PRICE = 'trax_catalogo/catalogo_iws/product_price';
 
-    const PRODUCT_STOCK = 'trax_catalogo/catalogo_iws/product_stock';
-
     const PRODUCT_MPN = 'trax_catalogo/catalogo_iws/product_mpn';
 
     /**
@@ -109,11 +107,6 @@ class GetCatalog
     protected $resource;
 
     /**
-     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
-     */
-    protected $stockRegistry;
-
-    /**
      * @var \Magento\Store\Api\StoreRepositoryInterface
      */
     protected $_storesRepository;
@@ -129,9 +122,8 @@ class GetCatalog
      * @param $indexerCollectionFactory
      * @param $email
      * @param $resourceFactory
-     * @param $resource
-     * @param $stockRegistry
-     * @param $storesRepository     
+     * @param $resource     
+    * @param $storesRepository     
      * @author GDCP <german.cardenas@intcomex.com>
      */
     public function __construct(
@@ -142,8 +134,7 @@ class GetCatalog
         \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,
         \Trax\Catalogo\Helper\Email $email,
         \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory,
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\Framework\App\ResourceConnection $resource,        
         \Magento\Store\Api\StoreRepositoryInterface $storesRepository
     ) {
         
@@ -158,8 +149,7 @@ class GetCatalog
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
         $this->help_email = $email;
         $this->_resourceFactory = $resourceFactory;
-        $this->_connection = $resource->getConnection();
-        $this->stockRegistry = $stockRegistry;
+        $this->_connection = $resource->getConnection();        
         $this->_storesRepository = $storesRepository;
     }
 
@@ -231,8 +221,7 @@ class GetCatalog
         $configData['product_length'] = $this->scopeConfig->getValue(self::PRODUCT_LENGTH, $storeScope, $websiteCode);
         $configData['product_width'] = $this->scopeConfig->getValue(self::PRODUCT_WIDTH, $storeScope, $websiteCode);
         $configData['product_height'] = $this->scopeConfig->getValue(self::PRODUCT_HEIGHT, $storeScope, $websiteCode);
-        $configData['product_price'] = $this->scopeConfig->getValue(self::PRODUCT_PRICE, $storeScope, $websiteCode);
-        $configData['product_stock'] = $this->scopeConfig->getValue(self::PRODUCT_STOCK, $storeScope, $websiteCode);
+        $configData['product_price'] = $this->scopeConfig->getValue(self::PRODUCT_PRICE, $storeScope, $websiteCode);        
         $configData['product_mpn'] = $this->scopeConfig->getValue(self::PRODUCT_MPN, $storeScope, $websiteCode);
         return $configData;
     }
@@ -525,11 +514,6 @@ class GetCatalog
                     $attributes['Price'] = $catalog->Price->UnitPrice;
                 }
 
-                //Set Stock
-                if ($configData['product_stock']) {
-                    $this->_setStoreViewStock($websiteCode,$catalog->Sku,$catalog->InStock)
-                }
-
                 try {
                     $this->setStoreViewDataProduct($product->getId(), $catalog->Sku, $storeId, $attributes);
                     $this->logger->info('GetCatalogSalesData - Se actualizan datos del producto con SKU ' . $catalog->Sku . ' en el Website: ' . $websiteCode);
@@ -753,17 +737,6 @@ class GetCatalog
                 $attributes['Price'] = $catalog->Price->UnitPrice;
             }
 
-            //Set Stock
-            if ($configData['product_stock']) {
-                if ($catalog->InStock == 0) {
-                    $is_in_stock = 0;
-                } else {
-                    $is_in_stock = 1;
-                }
-
-                $this->_setStoreViewStock($catalog->Sku, $storeId, $is_in_stock, $catalog->InStock);
-            }
-
             try {
                 $this->setStoreViewDataProduct($product->getId(), $catalog->Sku, $storeId, $attibutes);
                 $this->logger->info('GetCatalog - Se actualiza producto ' . $product->getSku() . ' en el store: ' . $storeId);
@@ -903,38 +876,4 @@ class GetCatalog
         return $this;
     }
 
-    /**
-     * Save product stock by source
-     *
-     * @param $sku
-     * @param $sku
-     * @param $storeId
-     * @param $is_in_stock
-     * @param $qty
-     * @author GDCP <german.cardenas@intcomex.com>
-     * @return $this
-     */
-    public function _setStoreViewStock($websiteCode,$sku,$qty){
-
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
-       
-        $objSourceItemInterfaceFactory = $objectManager->get('Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory');
-        $objSourceItemsSaveInterface   = $objectManager->get('Magento\InventoryApi\Api\SourceItemsSaveInterface');
-        
-        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
-        $objSourceItemInterface->setSku($sku);
-        $objSourceItemInterface->setSourceCode($websiteCode);
-        $objSourceItemInterface->setQuantity($qty);
-        $objSourceItemInterface->setStatus((($qty > 0)?1:0));
-                                
-        $arrSourceItemInterfaces = array();
-        $arrSourceItemInterfaces[] = $objSourceItemInterface; 
-                                
-        try{
-            $objSourceItemsSaveInterface->execute($arrSourceItemInterfaces);	
-            $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.' con un total de '.$qty.' unidades.');
-        }catch(Exception $e){
-            $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.'. Error: '.$e->getMessage());
-        }
-    }
 }
