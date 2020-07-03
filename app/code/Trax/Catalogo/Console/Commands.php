@@ -33,7 +33,7 @@ class Commands extends Command
     */
     protected $_appState;
 
-   public function __construct(GetStock $stock, GetCatalog $catalog,State $$appState)
+   public function __construct(GetStock $stock, GetCatalog $catalog,State $appState)
    {
         $this->_stock   = $stock;
         $this->_catalog = $catalog;
