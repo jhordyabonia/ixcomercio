@@ -92,7 +92,21 @@ class UpgradeData implements UpgradeDataInterface
 					'comment' => 'json response from mienvio::update'
 				]
 			);
-		}	
+		}
+
+		if(version_compare($context->getVersion(), '0.0.3', '<')){
+            $conn = $setup->getConnection();
+            $setup->getConnection()->addColumn(
+				$setup->getTable( 'iws_order' ),
+				'trax_invoice',
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					'nullable' => true,
+					'default' => '',
+					'comment' => 'json response from trax'
+				]
+			);
+		}
         $setup->endSetup();
     }
 }

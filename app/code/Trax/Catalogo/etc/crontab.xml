@@ -1,13 +1,18 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="iws_catalog">
+    <!--<group id="iws_catalog">
         <job name="custom_cronjob" instance="Trax\Catalogo\Cron\GetCatalog" method="execute">
-            <schedule>0 5 * * *</schedule>
+            <schedule>29 5,9,10,17,19,21 * * *</schedule>
         </job>
-    </group>
+    </group>-->
     <group id="iws_stock">
         <job name="custom_cronjob_stock" instance="Trax\Catalogo\Cron\GetStock" method="execute">
-            <schedule>*/15 * * * *</schedule>
+            <schedule>40 * * * *</schedule>
         </job>
     </group>
+    <!--<group id="iws_orders">
+        <job name="custom_cronjob_orders" instance="Trax\Catalogo\Cron\OrderStatus" method="execute">
+            <schedule>40 0 * * *</schedule>
+        </job>
+    </group>-->
 </config>

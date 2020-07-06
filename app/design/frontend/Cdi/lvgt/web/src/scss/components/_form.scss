@@ -201,3 +201,15 @@ form{
 		}
 	}
 }
+.abs-add-fields,
+.form-giftregistry-share,
+.form-giftregistry-edit,
+.form-add-invitations,
+.form-create-return,
+.form.send.friend{
+  .action.remove{
+  	left: inherit;
+  	right: 0!important;
+  	top: 0!important;
+  }
+}

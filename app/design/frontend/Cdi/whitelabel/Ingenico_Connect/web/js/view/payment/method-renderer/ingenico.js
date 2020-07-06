@@ -5,7 +5,6 @@ define(
     [
         'jquery',
         'ko',
-        'mage/translate',
         'Magento_Checkout/js/view/payment/default',
         'uiLayout',
         'Magento_Checkout/js/action/redirect-on-success',
@@ -18,7 +17,8 @@ define(
         'Magento_Checkout/js/model/quote',
         'Ingenico_Connect/js/model/payment/payment-data',
         'Ingenico_Connect/js/model/validation/product-field',
-        'Ingenico_Connect/js/model/validation/ingenico'
+        'Ingenico_Connect/js/model/validation/ingenico',
+        'mage/translate'
     ],
     function ($, ko, Component, layout, redirectOnSuccessAction, productList,
               productGroups, fetchProduct, createPayload, preloadComponents,
@@ -237,7 +237,7 @@ define(
                         parent: this.name,
                         component: 'uiElement',
                         template: 'Ingenico_Connect/payment/redirect-notice',
-                        text: $.mage.__('You can select your payment product in the next step.'),
+                        text: $.mage.__('You can select your payment product in the next step.')
                     });
                 } else {
                     components.push({

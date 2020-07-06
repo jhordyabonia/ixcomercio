@@ -1,7 +1,6 @@
 <?php
 namespace Trax\Catalogo\Cron;
 use \Psr\Log\LoggerInterface;
-use Magento\CatalogInventory\Api\StockRegistryInterface;
 
 class GetStock {
 
@@ -58,17 +57,10 @@ class GetStock {
     
     protected $logger;
 
-    protected  $productRepository;   
-    
-    /**
-     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
-     */
-    protected $stockRegistry;
+    protected  $productRepository;     
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email,
-    StockRegistryInterface $stockRegistry
-    ) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -80,7 +72,6 @@ class GetStock {
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
         $this->helper = $email;
-        $this->stockRegistry = $stockRegistry;   
     }
 
 /**
@@ -266,9 +257,22 @@ class GetStock {
                     $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con store id '.$storeId.'. El producto no existe');
                 } else {
                     if($configData['product_stock']){
-                        $this->_setStoreViewStock($websiteCode,$catalog->Sku,$catalog->InStock);
+                        if($catalog->InStock == 0){
+                            $stock = 0;
+                        } else {
+                            $stock = 1;
+                        }
+                        $data = array(
+                            'use_config_manage_stock' => 0,
+                            'manage_stock' => 1,
+                            'is_in_stock' => $stock,
+                            'min_sale_qty' => 1,
+                            'qty' => $catalog->InStock
+                        );
+                        $product->setStockData($data);
                     }
-                    
+                    $product->save();
+                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
                 }
             } catch(Exception $e){
                 $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
@@ -286,41 +290,6 @@ class GetStock {
         $idx = $this->_indexerFactory->create()->load($id);
         $idx->reindexAll($id); 
         $this->logger->info('GetStock - Se reindexa');
-    }
-
-     /**
-     * Save product stock by source
-     *
-     * @param $sku
-     * @param $sku
-     * @param $storeId
-     * @param $is_in_stock
-     * @param $qty
-     * @author GDCP <german.cardenas@intcomex.com>
-     * @return $this
-     */
-    public function _setStoreViewStock($websiteCode,$sku,$qty){
-
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
-       
-        $objSourceItemInterfaceFactory = $objectManager->get('Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory');
-        $objSourceItemsSaveInterface   = $objectManager->get('Magento\InventoryApi\Api\SourceItemsSaveInterface');
-        
-        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
-        $objSourceItemInterface->setSku($sku);
-        $objSourceItemInterface->setSourceCode($websiteCode);
-        $objSourceItemInterface->setQuantity($qty);
-        $objSourceItemInterface->setStatus((($qty > 0)?1:0));
-                                
-        $arrSourceItemInterfaces = array();
-        $arrSourceItemInterfaces[] = $objSourceItemInterface; 
-                                
-        try{
-            $objSourceItemsSaveInterface->execute($arrSourceItemInterfaces);	
-            $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.' con un total de '.$qty.' unidades.');
-        }catch(Exception $e){
-            $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$sku.' en el Source del Website: '.$websiteCode.'. Error: '.$e->getMessage());
-        }
     }
 
 }

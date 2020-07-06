@@ -605,10 +605,10 @@ section{
 .checkout-index-index .action.action-update{
     font-size: 16px;
     font-weight: 700px;
-    background: $mainColor;
-    color: #ffffff;
+    background: #ffffff;
+    color: #1428a0;
 }
 .checkout-index-index .action.action-update:hover{
-    background: $bgColorSecond;
-    border-color: $bgColorSecond;
+  background: #1428a0;
+  color: #ffffff; 
 }
