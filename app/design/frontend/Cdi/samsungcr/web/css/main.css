@@ -985,7 +985,7 @@ footer .footer-legal {
     .page-wrapper .page-main > .columns {
       float: left;
       width: 100%; }
-
+.ui-menu-item{float:left;}
 .columns .column.main {
   padding-bottom: 0; }
 
