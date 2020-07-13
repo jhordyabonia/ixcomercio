@@ -49,6 +49,7 @@ class GetStock {
     const PRODUCT_STOCK = 'trax_catalogo/catalogo_iws/product_stock';
     
     private $helper;
+
 	
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -60,7 +61,7 @@ class GetStock {
     protected  $productRepository;     
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -71,6 +72,8 @@ class GetStock {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_indexerFactory = $indexerFactory;
         $this->_indexerCollectionFactory = $indexerCollectionFactory;
+        $this->_storesRepository = $storesRepository;
+        $this->_sources = array();
         $this->helper = $email;
     }
 
@@ -86,22 +89,26 @@ class GetStock {
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+        $sourceRepository = $objectManager->get('\Magento\InventoryApi\Api\SourceRepositoryInterface');
         
-        //Se obtienen todos los websites 
-        $websites = $storeManager->getWebsites();
-        $storeArray = array();
-        foreach ($websites as $key => $website) {
-            foreach ($website->getGroups() as $group) {
-                $stores = $group->getStores();
-                foreach ($stores as $store) {
-                    //Se obtienen parametros de configuración por Store
-                    $configData = $this->getConfigParams($storeScope, $store->getCode());    
-                    //Se carga el servicio por curl
-                    $this->logger->info('GetStock - Se carga stock en el website '.$website->getCode().' con store '.$website->getCode());
-                    $this->loadCatalogSales($configData, $website->getCode(), $website->getDefaultStore(), $website->getDefaultStoreId());
-                }
-            }
+        $sources = $sourceRepository->getList()->getItems();
+        foreach ($sources as $source) {
+            $this->_sources[] = $source->getSourceCode();
         }
+        //Se obtienen todos los websites 
+        $stores = $this->_storesRepository->getList();
+        foreach ($stores as $store) {
+            $websiteId = $storeManager->getStore($store->getId())->getWebsiteId();
+            $website = $storeManager->getWebsite($websiteId);
+            //Se obtienen parametros de configuración por Store
+            $configData = $this->getConfigParams($storeScope, $store->getCode()); 
+            //Se carga el servicio por curl
+            $this->logger->info('GetStock - Se carga stock en el website '.$website->getCode().' con store '.$website->getCode());
+            $this->loadCatalogSales($configData, $website->getCode(), $website->getDefaultGroup(), $website->getDefaultGroup()->getDefaultStoreId()); 
+        }
+        //Se reindexa                            
+        $this->reindexCatalogData();
 
     }
 
@@ -143,14 +150,10 @@ class GetStock {
     * Si $type = 1 se obtiene la información general del catalogo
     * Si $type != 1 se obtiene el precio e inventario del catalogo
     */
-	public function getServiceUrl($configData, $type, $storeCode) 
+	public function getServiceUrl($configData, $storeCode) 
 	{
         $storeCode = explode("_", $storeCode);
-        if($type == 1){
-            $url = 'getcatalog';
-        } else {
-            $url = 'getcatalogsalesdata';
-        }
+        $url = 'getinventory';
         if($storeCode[count($storeCode)-1] == 'es'){
             $locale = 'es';
         } else {
@@ -205,7 +208,7 @@ class GetStock {
     public function loadCatalogSales($configData, $websiteCode, $store, $storeId) 
     {
         if($configData['datos_sales_iws']){
-            $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
+            $serviceUrl = $this->getServiceUrl($configData, $store->getCode());
             if($serviceUrl){
                 $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, 0);
             } else {
@@ -244,42 +247,54 @@ class GetStock {
     //Carga la información de precios e inventario del catalogo
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData) 
     {
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
-        //Se recorre array
-        foreach ($data as $key => $catalog) {
-            try{
-                $this->logger->info('GetStock - Lee datos. Website: '.$websiteCode);
-                $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
-                $products = $productFactory->create();
-                //Se carga producto por SKU
-                $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);            
-                if(!$product){
-                    $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con store id '.$storeId.'. El producto no existe');
-                } else {
-                    if($configData['product_stock']){
-                        if($catalog->InStock == 0){
-                            $stock = 0;
-                        } else {
-                            $stock = 1;
-                        }
-                        $data = array(
-                            'use_config_manage_stock' => 0,
-                            'manage_stock' => 1,
-                            'is_in_stock' => $stock,
-                            'min_sale_qty' => 1,
-                            'qty' => $catalog->InStock
-                        );
-                        $product->setStockData($data);
-                    }
-                    $product->save();
-                    $this->logger->info('GetStock - Se actualizan datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.' con un total de '.$catalog->InStock.' unidades.');
-                }
-            } catch(Exception $e){
-                $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
+        $arrSourceItemInterfaces = array();
+        $arrayProducts = array();
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();  
+        if(!in_array($websiteCode,$this->_sources)){
+            $this->logger->info('The source inventory with code '.$websiteCode.' does not exist');
+        }else{
+            $this->logger->info('GetStock - Lee datos. Website: '.$websiteCode);
+        
+            $productCollectionFactory = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+            $objSourceItemInterfaceFactory = $objectManager->get('Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory');
+            $products = $productCollectionFactory->create();
+            $products->addAttributeToSelect('*');
+            $products->addStoreFilter($storeId);
+            $productFix  = array();
+            foreach($products->getData() as $key => $value){
+                $productFix[$value['sku']] = $value;
             }
-        } 
-        //Se reindexa                            
-        $this->reindexCatalogData();
+        
+        
+            if($configData['product_stock']){
+                foreach ($data as $key => $catalog) {
+                    try{
+                    if(isset($productFix[$catalog->Sku])){
+                        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
+                        $objSourceItemInterface->setSku($catalog->Sku);
+                        $objSourceItemInterface->setSourceCode($websiteCode);
+                        $objSourceItemInterface->setQuantity($catalog->InStock);
+                        $objSourceItemInterface->setStatus((($catalog->InStock > 0)?1:0));
+                                                
+                        $arrSourceItemInterfaces[] = $objSourceItemInterface; 
+                        $arrayProducts[] = array(
+                            'sku' => $catalog->Sku,
+                            'websiteCode' => $websiteCode,
+                            'InStock' => $catalog->InStock,
+                            'Status' => (($catalog->InStock > 0)?1:0)
+                        );
+                    }
+                    } catch(Exception $e){
+                        $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
+                    }
+                } 
+            }
+
+        }
+        
+        if(!empty($arrayProducts)){
+            $this->_setStoreViewStock($arrSourceItemInterfaces,$arrayProducts);
+        }
     }
 
     //Reindexa los productos despues de consultar el catalogo de un store view
@@ -292,4 +307,17 @@ class GetStock {
         $this->logger->info('GetStock - Se reindexa');
     }
 
+    public function _setStoreViewStock($arrSourceItemInterfaces,$arrayProducts){
+
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();    
+       
+        $objSourceItemsSaveInterface   = $objectManager->get('Magento\InventoryApi\Api\SourceItemsSaveInterface');
+                                
+        try{
+             $objSourceItemsSaveInterface->execute($arrSourceItemInterfaces);    
+            $this->logger->info('GetStock - Se actualizan datos '.print_r($arrayProducts,true));
+        }catch(Exception $e){
+            $this->logger->info('GetStock - Se ha producido un error al actualizar los datos '.print_r($arrayProducts,true).' . Error: '.$e->getMessage());
+        }
+    }
 }

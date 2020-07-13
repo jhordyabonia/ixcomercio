@@ -7,7 +7,7 @@
     </group>-->
     <group id="iws_stock">
         <job name="custom_cronjob_stock" instance="Trax\Catalogo\Cron\GetStock" method="execute">
-            <schedule>40 * * * *</schedule>
+            <schedule>*/5 * * * *</schedule>
         </job>
     </group>
     <!--<group id="iws_orders">
