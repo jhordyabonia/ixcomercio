@@ -1,4 +1,7 @@
 <?php 
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
-echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($_helperCdi->getBlockStoreView("top_menu_"))->toHtml();
+$blockTopMenu = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($_helperCdi->getBlockStoreView("top_menu_"))->toHtml();
+if(isset($blockTopMenu) && !empty($blockTopMenu)){
+    echo $blockTopMenu;
+}
 ?>
