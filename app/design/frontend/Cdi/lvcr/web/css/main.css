@@ -1014,7 +1014,7 @@ footer .footer-bottom .footer-legal, footer .footer-bottom .footer-payment {
       font-size: 14px;
       line-height: 20px; } }
 
-div > .ui-menu-item {
+.ui-menu-item {
   float: left; }
 
 section {
