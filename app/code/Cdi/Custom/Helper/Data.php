@@ -242,5 +242,12 @@ class Data extends AbstractHelper{
 		}
 		return false;
 	}
+
+	public function getBlockStoreView($block){
+		$store = $this->_storeManager->getStore()->getCode();
+		if(!empty($block)){
+		        return $block . $store;
+		}
+	}
  
 }
