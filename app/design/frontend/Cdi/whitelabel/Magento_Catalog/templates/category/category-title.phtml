@@ -1,0 +1,27 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$enableCategoryTitle = $_helperCdi->getStoreConfig('catalog/frontend/show_category_title');
+?>
+<?php if(isset($enableCategoryTitle) && !empty($enableCategoryTitle)): ?>
+    <div class="page-title-wrapper">
+        <h1 class="page-title" id="page-title-heading" aria-labelledby="page-title-heading toolbar-amount">
+            <span class="base" data-ui-id="page-title-wrapper"><?php echo $category->getName(); ?></span>
+        </h1>
+    </div>
+<?php endif; ?>
+
+<script>
+    require([
+        'jquery',
+    ], function ($) {
+        $( document ).ready(function() {
+            $("#maincontent > .category-view").addClass("container");
+            if($(".category-description div").hasClass("pagebuilder-banner-wrapper")){
+                $(".page-title-wrapper").addClass("category-title");
+                $(".page-title").addClass("category-title-color");
+            }
+        });
+    });
+</script>
