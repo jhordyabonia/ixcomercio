@@ -43,10 +43,7 @@
 
                                 $_imgHtml = '<div class="category-image">
                                     <div class="category-data">
-                                        <a href="'.$category->getUrl().'">
-                                            <h2>'.$category->getName().'</h2>
-                                            <p>'.$_helper->categoryAttribute($category, $category->getDescription(), "description").'</p>
-                                        </a>
+                                        <a href="'.$category->getUrl().'"></a>
                                     </div>'.$_img.'</div>';
 
                                 /* @escapeNotVerified */ echo $_imgHtml;
