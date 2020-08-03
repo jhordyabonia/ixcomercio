@@ -380,7 +380,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'Items' => $items,
             'TaxesIncludedInPrice' => $configItemImpuesto
         );
-        return json_encode($payload);
+        $this->logger->info('Payload: \n'.json_encode($payload));
+        $payload = $this->helper->clearSpecialCharac(json_encode($payload));
+        $this->logger->info('Payload Clear Special Charac: \n'.$payload);
+        return $payload;
     }
 
     //Se Carga información de carrier
