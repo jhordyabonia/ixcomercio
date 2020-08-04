@@ -318,44 +318,44 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 'StoreId' => $configDataStoreId,
                 'StoreOrderNumber' => $order->getIncrementId(),
                 'Customer' => array(
-                    'FirstName' => $billing->getFirstname(),
-                    'LastName' => $billing->getLastname(),
+                    'FirstName' => $this->helper->clearSpecialCharac($billing->getFirstname()),
+                    'LastName' => $this->helper->clearSpecialCharac($billing->getLastname()),
                     'Email' => $billing->getEmail(),
-                    'Cellphone' => $billing->getTelephone(),
-                    'DocumentId' => $billing->getIdentification(),
+                    'Cellphone' => $this->helper->clearSpecialCharac($billing->getTelephone()),
+                    'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification()),
                 ),
                 'Billing' => array(
-                    'FirstName' => $billing->getFirstname(),
-                    'LastName' => $billing->getLastname(),
+                    'FirstName' => $this->helper->clearSpecialCharac($billing->getFirstname()),
+                    'LastName' => $this->helper->clearSpecialCharac($billing->getLastname()),
                     'Email' => $billing->getEmail(),
-                    'DocumentId' => $billing->getIdentification(),
-                    'Cellphone' => $billing->getTelephone(),
+                    'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification()),
+                    'Cellphone' => $this->helper->clearSpecialCharac($billing->getTelephone()),
                     'LandLinePhone' => '',
                     'OtherPhone' => '',
-                    'Address' => $billing->getStreetLine(1),
+                    'Address' => $this->helper->clearSpecialCharac($billing->getStreetLine(1)),
                     'SuiteNumber' => '',
                     'ComplexName' => '',
                     'LocalizationReference' => '',
-                    'State' => $billing->getRegion(),
-                    'City' => $billing->getCity(),
+                    'State' => $this->helper->clearSpecialCharac($billing->getRegion()),
+                    'City' => $this->helper->clearSpecialCharac($billing->getCity()),
                     'Neighborhood' => '',
                     'CountryId' => $billing->getCountryId(),
                     'PostalCode' => $billing->getPostCode(),
                 ),
                 'Shipping' => array(
-                    'FirstName' => $shipping->getFirstname(),
-                    'LastName' => $shipping->getLastname(),
+                    'FirstName' => $this->helper->clearSpecialCharac($shipping->getFirstname()),
+                    'LastName' => $this->helper->clearSpecialCharac($shipping->getLastname()),
                     'Email' => $shipping->getEmail(),
-                    'DocumentId' => $shipping->getIdentification(),
-                    'Cellphone' => $shipping->getTelephone(),
+                    'DocumentId' => $this->helper->clearSpecialCharac($shipping->getIdentification()),
+                    'Cellphone' => $this->helper->clearSpecialCharac($shipping->getTelephone()),
                     'LandLinePhone' => '',
                     'OtherPhone' => '',
-                    'Address' => $shipping->getStreetLine(1),
+                    'Address' => $this->helper->clearSpecialCharac($shipping->getStreetLine(1)),
                     'SuiteNumber' => '',
                     'ComplexName' => '',
                     'LocalizationReference' => '',
-                    'State' => $shipping->getRegion(),
-                    'City' => $shipping->getCity(),
+                    'State' => $this->helper->clearSpecialCharac($shipping->getRegion()),
+                    'City' => $this->helper->clearSpecialCharac($shipping->getCity()),
                     'Neighborhood' => '',
                     'CountryId' => $shipping->getCountryId(),
                     'PostalCode' => $shipping->getPostCode(),
@@ -380,10 +380,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'Items' => $items,
             'TaxesIncludedInPrice' => $configItemImpuesto
         );
-        $this->logger->info('Payload: \n'.json_encode($payload));
-        $payload = $this->helper->clearSpecialCharac(json_encode($payload));
         $this->logger->info('Payload Clear Special Charac: \n'.$payload);
-        return $payload;
+        return json_encode($payload);
     }
 
     //Se Carga información de carrier

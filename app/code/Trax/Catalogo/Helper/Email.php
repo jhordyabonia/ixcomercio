@@ -159,13 +159,13 @@ class Email extends AbstractHelper
         $String = str_replace(array('Ó','Ò','Ô','Õ','Ö'),"O",$String);
         $String = str_replace(array('ú','ù','û','ü'),"u",$String);
         $String = str_replace(array('Ú','Ù','Û','Ü'),"U",$String);
-        $String = str_replace(array('[','^','´','`','¨','~',']'),"",$String);
+        $String = str_replace(array('^','´','`','¨','~'),"",$String);
         $String = str_replace("ç","c",$String);
         $String = str_replace("Ç","C",$String);
-        $String = str_replace("ñ","n",$String);
-        $String = str_replace("Ñ","N",$String);
+        $String = str_replace("ñ","ene",$String);
+        $String = str_replace("Ñ","ene",$String);
         $String = str_replace("Ý","Y",$String);
-        $String = str_replace("ý","y",$String);   
+        $String = str_replace("ý","y",$String);
         $String = str_replace("&aacute;","a",$String);
         $String = str_replace("&Aacute;","A",$String);
         $String = str_replace("&eacute;","e",$String);
