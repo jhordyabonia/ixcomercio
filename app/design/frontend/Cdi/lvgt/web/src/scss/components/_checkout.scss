@@ -137,10 +137,11 @@
         min-width: 120px;
         background: $mainColor;
         border-radius: 3px;
+        *border: 1px solid $mainColor;
         &:hover {
           background: $secondColor;
           color: $colorHover;
-          border: 1px solid #1976a1;
+          *border: 1px solid #1976a1;
         }
       }
       .secondary .action{
