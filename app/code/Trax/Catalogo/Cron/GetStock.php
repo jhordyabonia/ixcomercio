@@ -228,18 +228,23 @@ class GetStock {
         if($data['status']){              
             $this->loadCatalogSalesData($data['resp'], $websiteCode, $store, $storeId, $configData);
         } else {
-            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+            $errors = explode(',',$configData['errores']);
+            if(in_array($data['status_code'],$errors)){
                 if($configData['catalogo_reintentos']>$attempts){
                     $attempts++;
-                    $this->logger->info('GetStock - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión');
+                    $this->logger->info('GetStock - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión - '.date('Y-m-d H:i:s'));
                     sleep($configData['timeout']);
-                    $this->logger->info('GetStock - Se reintenta conexión #'.$attempts.' con el servicio.');
+                    $this->logger->info('GetStock - Se reintenta conexión #'.$attempts.' con el servicio. - '.date('Y-m-d H:i:s'));
                     $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, $attempts);
                 } else{
                     $this->logger->info('GetStock - Error conexión: '.$serviceUrl);
                     $this->logger->info('GetStock - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['catalogo_correo']);
                     $this->helper->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
                 }
+            }else{
+                $this->logger->info('No se identifica el error de conexión');
+                $this->logger->info(print_r($data,true));
+                $this->logger->info('---');
             }
         } 
     }
