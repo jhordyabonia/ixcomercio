@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Pagalo admin configuration
+*
+* @category    Pagalo
+* @package     Pagalo
+* @author      Pagalo
+* @copyright   Pagalo (https://www.pagalo.com/)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="Pagalo" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pagalo</label>
+                <comment>
+                    <![CDATA[<a href="https://app.pagalocard.com/login" target="_blank">Click aquí para acceder a su cuenta Pagalo</a>]]>
+                </comment>
+                <field id="title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Módulo</label>
+                </field>
+				<field id="active" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Estatus</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="BusinessId" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>IdenEmpresa</label>
+                </field>
+                <field id="APIToken" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Token</label>
+                </field>
+                <field id="APIKey" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Llave Publica</label>
+                </field>
+                <field id="APISecret" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Llave Secreta</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
