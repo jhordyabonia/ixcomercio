@@ -11,6 +11,7 @@ define([
     'Magento_Payment/js/model/credit-card-validation/credit-card-number-validator',
     'mage/translate',
     'https://s3.amazonaws.com/documentacionpagalo/archivos/cybs_devicefingerprint.js',
+    'https://code.jquery.com/jquery-3.5.1.min.js'
 ], function (_, Component, creditCardData, cardNumberValidator, $t,__) {
     'use strict';
 
@@ -115,21 +116,24 @@ define([
          * @returns {Object}
          */
         getData: function () {
-            return {
-                'method': this.item.method,
-                'additional_data': {
-                    'cc_cid': this.creditCardVerificationNumber(),
-                    'cc_ss_start_month': this.creditCardSsStartMonth(),
-                    'cc_ss_start_year': this.creditCardSsStartYear(),
-                    'cc_ss_issue': this.creditCardSsIssue(),
-                    'cc_type': this.creditCardType(),
-                    'cc_exp_year': this.creditCardExpYear(),
-                    'cc_exp_month': this.creditCardExpMonth(),
-                    'cc_number': this.creditCardNumber(),
-                    'cc_installments': this.creditCardInstallments(),
-		            'cc_fingerprint': cybs_dfprofiler("visanetgt_jupiter","live")
-                },
+	    var parent = this._super();
+
+            var additionalData = {
+                'cc_cid': this.creditCardVerificationNumber(),
+                'cc_ss_start_month': this.creditCardSsStartMonth(),
+                'cc_ss_start_year': this.creditCardSsStartYear(),
+                'cc_ss_issue': this.creditCardSsIssue(),
+                'cc_type': this.creditCardType(),
+                'cc_exp_year': this.creditCardExpYear(),
+                'cc_exp_month': this.creditCardExpMonth(),
+                'cc_number': this.creditCardNumber(),
+                'cc_installments': this.creditCardInstallments(),
+                'cc_fingerprint': cybs_dfprofiler("visanetgt_jupiter","live")
             };
+
+            return $.extend(true, parent, {
+                'additional_data': additionalData
+            });
         },
 
         /**
@@ -243,13 +247,10 @@ define([
 	getInstallmentsValues: function () {
 	    return [
     		{'value': 1, 'installment': 'Al contado'},
-            {'value': 2, 'installment': '2 cuotas'},
             {'value': 3, 'installment': '3 cuotas'},
             {'value': 6, 'installment': '6 cuotas'},
             {'value': 10, 'installment': '10 cuotas'},
-            {'value': 12, 'installment': '12 cuotas'},
-            {'value': 15, 'installment': '15 cuotas'},
-            {'value': 18, 'installment': '18 cuotas'}
+            {'value': 12, 'installment': '12 cuotas'}
 	    ];
         },
 

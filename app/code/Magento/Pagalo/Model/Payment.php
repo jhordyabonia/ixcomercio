@@ -92,7 +92,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 'cc_ss_issue' => $additionalData->getCcSsIssue(),
                 'cc_ss_start_month' => $additionalData->getCcSsStartMonth(),
                 'cc_ss_start_year' => $additionalData->getCcSsStartYear(),
-		'cc_installments' => $additionalData->getData('cc_installments'),
+		        'cc_installments' => $additionalData->getData('cc_installments'),
             ]
         );
         return $this;
@@ -204,18 +204,10 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             global $installments;
 
             if ($installments > 1) {
-
                 $tarjetaPagalo = array(
-                    'nameCard'=> $billing->getName(),
-                    'accountNumber'=> str_replace(' ', '', $payment->getCcNumber()),
-                    'expirationMonth'=> str_replace(' ', '',sprintf('%02d',$payment->getCcExpMonth())),
-                    'expirationYear'=>  str_replace(' ', '', $payment->getCcExpYear()),
-                    'CVVCard'=> $payment->getCcCid(),
                     'nCuotas'=> $installments,
                 );    
-
                 $url = 'https://app.pagalocard.com/api/v1/integracionpg/' . $this->getConfigData('APIToken');
-
             }
 
             $str_empresa = json_encode($empresa);
@@ -227,14 +219,18 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 
             $str_data = json_encode($data);
 
-            
-
             $tarjetaPagalo_debug = array(
                     'accountNumber'=>  '**** **** **** ' . substr(str_replace(' ', '', $payment->getCcNumber()), -4),
                     'expirationMonth'=> str_replace(' ', '',sprintf('%02d',$payment->getCcExpMonth())),
                     'expirationYear'=>  str_replace(' ', '', $payment->getCcExpYear()),
-                    'nCuotas'=> $installments,
             );  
+
+            if ($installments > 1) {
+                $tarjetaPagalo_debug = array(
+                        'nCuotas'=> $installments,
+                );
+            }
+
             $str_tarjeta_debug = json_encode($tarjetaPagalo_debug);
             $debug_data = array('empresa' => $str_empresa, 'cliente' => $str_cliente, 'detalle' => $str_detalle, 'tarjetaPagalo' => $str_tarjeta_debug);
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
