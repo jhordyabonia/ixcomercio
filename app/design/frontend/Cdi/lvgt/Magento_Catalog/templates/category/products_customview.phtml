@@ -72,19 +72,3 @@ $producto = ''; # GTM variable
 		</div>		
 	</div>
 <?php endif; ?>
-<?php
-/* XCB GTM */
-echo <<<JG
-<script type="text/javascript">
-    dataLayer.push({
-        'event': 'product-list-impressions',
-        'ecommerce': {
-            'currencyCode': 'COP',
-            'impressions': [$gtm_prods]
-        }
-    });
-
-</script>
-JG;
-/* XCB END */
-?>

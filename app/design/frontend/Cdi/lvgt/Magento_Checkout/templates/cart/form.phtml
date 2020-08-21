@@ -7,7 +7,6 @@
 // @codingStandardsIgnoreFile
 
 /**  @var $block \Magento\Checkout\Block\Cart\Grid */
-echo "<script>dataLayer.push({'event':'ga_event','category':'Carrito de compras','action':'Label','label':'Continuar Comprando'});</script>";
 ?>
 <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
 <?= $block->getChildHtml('form_before') ?>
@@ -75,38 +74,3 @@ echo "<script>dataLayer.push({'event':'ga_event','category':'Carrito de compras'
 </form>
 <?= $block->getChildHtml('checkout.cart.order.actions') ?>
 <?= $block->getChildHtml('shopping.cart.table.after') ?>
-
-<?php
-/* XCB GTM */
-$gtm_prods = '';
-$_productCollection = $block->getItems();
-if(is_array($_productCollection))
-foreach ($_productCollection as $_product){
-    $producto = "{
-        'id': '{$_product->getSku()}',
-        'name': '{$_product->getName()}',
-        'price': '{$_product->getFinalPrice()}',
-        'brand': 'HOM',
-        'category': '{$_product->getName()}',
-        'variant': '',
-        'quantity': {$_product->getQty()},
-        'coupon': ''
-    }";
-    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-}
-//$order = $block->getOrderId();
-echo <<<JG
-<script>
-    dataLayer.push({
-        'event': 'checkout',
-        'ecommerce': {
-			'actionField': {'step': 'stepObj', 'option': 'stepOption'},
-			'products': [{$gtm_prods}]
-        }
-    });
-    
-</script>
-JG;
-
-/* XCB END */
-?>

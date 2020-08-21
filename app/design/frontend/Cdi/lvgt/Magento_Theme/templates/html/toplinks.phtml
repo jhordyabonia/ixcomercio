@@ -18,6 +18,6 @@ $customerSession = $objectManager->get('Magento\Customer\Model\Session'); ?>
             </a>
         </span>
     <?php } else { ?>
-        <a href="<?php echo $this->getUrl('customer/account/login') ?>" onclick="dataLayer.push({'event':'ga_event','category':'Header','action':'Menú Usuario','label':'[Iniciar Sesion]'});"><span class="sign-in-label"><?php echo __('Sign In')?></span><span class="sign-in-icon"></span></a>
+        <a href="<?php echo $this->getUrl('customer/account/login') ?>" ><span class="sign-in-label"><?php echo __('Sign In')?></span><span class="sign-in-icon"></span></a>
     <?php } ?>
 </div>

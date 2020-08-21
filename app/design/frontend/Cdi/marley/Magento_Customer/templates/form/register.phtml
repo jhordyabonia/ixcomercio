@@ -239,30 +239,3 @@ require([
         }
     }
 </script>
-<?php
-echo <<<JG
-<script>
-dataLayer.push({
-    'event': 'checkout',
-    'ecommerce': {
-      'checkout': {
-        'actionField': {'step': stepObj, 'option': stepOption},
-        'products': [{
-                        'id': productSku,
-                        'name': productName,
-                        'price': productPrice,
-                        'brand': productName,
-                        'category': productCategory,
-                        'variant': productVarian,
-                        'position': productPosition,
-                        'quantity': productQty
-                }]
-     }
-   },
-   'eventCallback': function() {
-      document.location = pageObj;
-   }
-  });
-</script>
-JG;
-?>

@@ -12,16 +12,3 @@
 		</ul>
 	</li>
 </ul>
-<?php
-# XCB GTM
-echo <<<JG
-<script>
-    $('document').ready(function(){
-       $('.cms-menu selected option').on('click',function(this){
-           dataLayer.push({'event':'ga_event','category':'Menú Principal','action':this,'label':this.value});
-       });
-    });
-</script>
-JG;
-# XCB GTM FIN
-?>
