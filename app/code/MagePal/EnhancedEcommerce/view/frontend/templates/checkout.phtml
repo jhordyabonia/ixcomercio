@@ -1,0 +1,20 @@
+<?php
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+?>
+
+<?php /** @var $block MagePal\EnhancedEcommerce\Block\Data\Checkout **/ ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "<?= $block->getComponentName() ?>": {
+            "dataLayerName": "<?= $block->getDataLayerName() ?>",
+            "products" : <?= $block->getCartJson() ?>,
+            "checkoutBehaviorSteps" : <?= $block->getCheckoutBehaviorStepsJson() ?>
+            }
+        }
+    }
+</script>

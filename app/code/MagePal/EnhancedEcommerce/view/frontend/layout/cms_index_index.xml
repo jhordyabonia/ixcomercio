@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceContainer name="before.body.end">
+			<block class="MagePal\EnhancedEcommerce\Block\Data\Home" name="catalogwidget_products_impression">
+				<arguments>
+					<argument name="list_type" xsi:type="string">Homepage Items</argument>
+					<argument name="show_category" xsi:type="boolean">false</argument>
+					<!--argument name="catalog_widget_block_list" xsi:type="array">
+						<item name="homepage" xsi:type="string">product\productslist_0</item>
+					</argument-->
+				</arguments>
+			</block>
+		</referenceContainer>
+	</body>
+</page>

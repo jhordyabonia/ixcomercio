@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="googletagmanager" translate="label" type="text" sortOrder="340" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="enhanced_ecommerce" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Enhanced Ecommerce</label>
+                <comment>
+                  <![CDATA[
+                    <div id="magepal-info-ee">
+                        Copyright © 2019 <a href="https://www.magepal.com/magento2/extensions.html?utm_source=gtmee&utm_medium=admin" target="_blank">MagePal, LLC</a>
+                        <a href="https://www.magepal.com/help/docs/google-analytics-enhanced-ecommerce-for-tag-manager/?utm_source=gtmee&utm_medium=admin#support">Support</a>
+                        <a href="https://www.magepal.com/help/docs/google-analytics-enhanced-ecommerce-for-tag-manager/?utm_source=gtmee&utm_medium=admin#documentation" target="_blank">Documentation</a>
+                        <a href="https://www.magepal.com/help/docs/google-analytics-enhanced-ecommerce-for-tag-manager?utm_source=gtmee&utm_medium=admin#current_version" target="_blank">Latest Version</a>
+                        <a href="https://www.magepal.com/enhanced-ecommerce-for-google-tag-manager.html?utm_source=gtmee&utm_medium=admin" target="_blank">About Extension</a>
+                    </div>
+                    <hr style="border-top: 1px solid #e3e3e3" />
+                     <script>
+                       if (document.getElementById("upgrade-to-enhanced-ecommerce")) {
+                            document.getElementById("upgrade-to-enhanced-ecommerce").style.display = "none";
+                        }
+                     </script>
+                  ]]>
+                </comment>
+                <field id="module_version" translate="label" type="label" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Module Version</label>
+                    <frontend_model>MagePal\EnhancedEcommerce\Block\Adminhtml\System\Config\Form\Module\Version</frontend_model>
+                </field>
+                <field id="composer_version" translate="label" type="label" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Composer Version</label>
+                    <frontend_model>MagePal\EnhancedEcommerce\Block\Adminhtml\System\Config\Form\Composer\Version</frontend_model>
+                </field>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="refund" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Admin Refund</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="admin_order_tracking" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Track Admin Order</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="homepage_widget" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>HomePage Category Widget</label>
+                <field id="use_widget_title" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Widget Title</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                    <depends>
+                        <field id="*/*/use_widget_title">1</field>
+                    </depends>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+            <group id="category_list" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category Product</label>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+            <group id="category_widget" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category Page Widget</label>
+                <field id="use_widget_title" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Widget Title</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                    <depends>
+                        <field id="*/*/use_widget_title">1</field>
+                    </depends>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+            <group id="upsell" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Detail Upsell</label>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+            <group id="related" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Detail Related</label>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+            <group id="crosssell" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Shopping Cart Cross Sell</label>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+
+            <group id="search_list" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Search Result</label>
+                <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>List Name</label>
+                </field>
+                <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Class Name</label>
+                </field>
+                <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Container Class Name</label>
+                </field>
+            </group>
+
+            <group id="checkout" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Checkout Behavior</label>
+                <field id="shipping_index" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Shipping Method Index</label>
+                    <validate>validate-number required-entry</validate>
+                    <frontend_class>validate-number required-entry</frontend_class>
+                </field>
+                <field id="payment_index" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment Method Index</label>
+                    <validate>validate-number required-entry</validate>
+                    <frontend_class>validate-number required-entry</frontend_class>
+                </field>
+            </group>
+
+            <group id="enhanced_success_page" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Enhanced Success Page</label>
+                <comment>
+                    <![CDATA[
+                        Design beautiful order confirmation page. Click here to learn more about our new
+                        <a href="https://www.magepal.com/magento2/extensions/enhanced-success-page-magento-2.html">
+                        Enhanced Success Page</a> extension.
+                    ]]>
+                </comment>
+                <group id="upsell" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Detail Upsell</label>
+                    <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>List Name</label>
+                    </field>
+                    <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Class Name</label>
+                    </field>
+                    <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Container Class Name</label>
+                    </field>
+                </group>
+                <group id="related" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Detail Related</label>
+                    <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>List Name</label>
+                    </field>
+                    <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Class Name</label>
+                    </field>
+                    <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Container Class Name</label>
+                    </field>
+                </group>
+                <group id="crosssell" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cross Sell</label>
+                    <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>List Name</label>
+                    </field>
+                    <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Class Name</label>
+                    </field>
+                    <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Container Class Name</label>
+                    </field>
+                </group>
+                <group id="recent_viewed" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Recently Viewed</label>
+                    <field id="list_type" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>List Name</label>
+                    </field>
+                    <field id="class_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Class Name</label>
+                    </field>
+                    <field id="container_class" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Container Class Name</label>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>
