@@ -77,6 +77,8 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 
 	global $installments;
 	global $device_fingerprint;
+    global $pagalo_data;
+    $pagalo_data = $additionalData->getData();
 	$installments = $additionalData->getData('cc_installments'); 
 	$device_fingerprint = $additionalData->getData('cc_fingerprint');
 	$additionalData->getData('cc_installments');
@@ -102,7 +104,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
     {
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
         $payment->setAdditionalInformation('visacuotas',$this->getConfigData('visacuotas'));
-        $payment->setAdditionalInformation('MerchantId',$this->getConfigData('MerchantId'));
+        $payment->setAdditionalInformation('requiredInvoice',$this->getConfigData('MerchantId'));
     }    
     /**
      * Payment capturing
@@ -124,6 +126,9 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $cvc = $payment->getCcCid();
             $card_name = $billing->getName();
 
+
+            $pg_token = $this->getConfigData('APIToken');
+
             if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
                 //check ip from share internet
                 $pg_ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -134,14 +139,26 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 $pg_ip = $_SERVER['REMOTE_ADDR'];
             }
 
-	    $payment->getAdditionalInformation();
+    	    $payment->getAdditionalInformation();
+
+            // cc data
+            $pg_nameCard = $billing->getName();
+            $pg_accountNumber = str_replace(' ', '', $payment->getCcNumber()); 
+            $pg_expirationMonth = str_replace(' ', '',sprintf('%02d',$payment->getCcExpMonth()));
+            $pg_expirationYear = str_replace(' ', '', $payment->getCcExpYear());
+            $pg_CVVCard = $payment->getCcCid();
+
+            global $installments, $device_fingerprint, $pagalo_data, $installments, $pagalo_data2;
+            $pagalo_data2 = $payment->getAdditionalInformation();
+
             $empresa= array(
                 'key_secret'=> $this->getConfigData('APISecret'),
                 'key_public'=> $this->getConfigData('APIKey'),
                 'idenEmpresa'=> $this->getConfigData('BusinessId'),
-                // $this->getConfigData('MerchantId');
             );
-	    global $installments, $device_fingerprint;
+            $str_empresa = json_encode($empresa);
+
+        
             $cliente= array(
                 'firstName' => html_entity_decode($billing->getFirstname(), ENT_QUOTES, 'UTF-8'),
                 'lastName' => html_entity_decode($billing->getLastname(), ENT_QUOTES, 'UTF-8'),
@@ -158,15 +175,13 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 'currency'          => $order->getBaseCurrencyCode(),
                 'deviceFingerprintID' => $device_fingerprint,
             );
+            $str_cliente = json_encode($cliente);
 
             $pg_products =  $order->getAllVisibleItems();   
 
             $detalle=[];
-
             foreach ( $pg_products as $pg_product ) {
-
-                if (!$pg_product->getData('has_children')) {
-                    
+                if (!$pg_product->getData('has_children')) {       
                     $detalle[] = array(
                         'id_producto'   => $pg_product->getProductId(),
                         'cantidad'      => $pg_product->getQtyOrdered(),
@@ -177,9 +192,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                     );
                 }
             }
-
             if ( $order->getShippingAmount() > 0 ) {
-                
                 $detalle[] = array(
                     'id_producto'   => 'shipping01',
                     'cantidad'      => '1',
@@ -189,55 +202,62 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                     'Subtotal'      => $order->getShippingAmount(),
                 );  
             }
-
-        
-            $tarjetaPagalo = array(
-                    'nameCard'=> $billing->getName(),
-                    'accountNumber'=> str_replace(' ', '', $payment->getCcNumber()),
-                    'expirationMonth'=> str_replace(' ', '',sprintf('%02d',$payment->getCcExpMonth())),
-                    'expirationYear'=>  str_replace(' ', '', $payment->getCcExpYear()),
-                    'CVVCard'=> $payment->getCcCid(),                        
-            );              
-        
-            $url = 'https://app.pagalocard.com/api/v1/integracion/' . $this->getConfigData('APIToken');
-	    
-            global $installments;
-
-            if ($installments > 1) {
-                $tarjetaPagalo = array(
-                    'nCuotas'=> $installments,
-                );    
-                $url = 'https://app.pagalocard.com/api/v1/integracionpg/' . $this->getConfigData('APIToken');
+            $str_detalle = json_encode($detalle);
+            
+            $url = 'https://app.pagalocard.com/api/v1/integracion/' . $pg_token;
+            if ($this->getConfigData('PGModalidad') == 'EPAY' ) {
+                $url = 'https://app.pagalocard.com/api/v1/integracionpg/' . $pg_token;
             }
 
-            $str_empresa = json_encode($empresa);
-            $str_cliente = json_encode($cliente);
-            $str_detalle = json_encode($detalle);
+            $tarjetaPagalo = array(
+                    'nameCard'=> $pg_nameCard,
+                    'accountNumber'=> $pg_accountNumber,
+                    'expirationMonth'=> $pg_expirationMonth,
+                    'expirationYear'=>  $pg_expirationYear,
+                    'CVVCard'=> $pg_CVVCard,                        
+            );
+            if ($installments > 1) {
+                $tarjetaPagalo = array(
+                    'nameCard'=> $pg_nameCard,
+                    'accountNumber'=> $pg_accountNumber,
+                    'expirationMonth'=> $pg_expirationMonth,
+                    'expirationYear'=>  $pg_expirationYear,
+                    'CVVCard'=> $pg_CVVCard,
+                    'nCuotas'=> $installments,
+                );    
+                $url = 'https://app.pagalocard.com/api/v1/integracionpg/' . $pg_token;
+            }
             $str_tarjeta = json_encode($tarjetaPagalo);
-            
-            $data = array('empresa' => $str_empresa, 'cliente' => $str_cliente, 'detalle' => $str_detalle, 'tarjetaPagalo' => $str_tarjeta);
 
+            $data = array(
+                'empresa' => $str_empresa,
+                'cliente' => $str_cliente,
+                'detalle' => $str_detalle,
+                'tarjetaPagalo' => $str_tarjeta
+            );
             $str_data = json_encode($data);
 
             $tarjetaPagalo_debug = array(
-                    'accountNumber'=>  '**** **** **** ' . substr(str_replace(' ', '', $payment->getCcNumber()), -4),
-                    'expirationMonth'=> str_replace(' ', '',sprintf('%02d',$payment->getCcExpMonth())),
-                    'expirationYear'=>  str_replace(' ', '', $payment->getCcExpYear()),
+                    'accountNumber'=>  '**** **** **** ' . substr($pg_accountNumber, -4),
+                    'expirationMonth'=> $pg_expirationMonth,
+                    'expirationYear'=>  $pg_expirationYear,
             );  
-
             if ($installments > 1) {
                 $tarjetaPagalo_debug = array(
-                        'nCuotas'=> $installments,
+                    'accountNumber'=>  '**** **** **** ' . substr($pg_accountNumber, -4),
+                    'expirationMonth'=> $pg_expirationMonth,
+                    'expirationYear'=>  $pg_expirationYear,
+                    'nCuotas'=> $installments,
                 );
             }
-
             $str_tarjeta_debug = json_encode($tarjetaPagalo_debug);
-            $debug_data = array('empresa' => $str_empresa, 'cliente' => $str_cliente, 'detalle' => $str_detalle, 'tarjetaPagalo' => $str_tarjeta_debug);
-            $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
-            $this->_pagaloLogger->info('URL: ' . $url );
 
-
-
+            $debug_data = array(
+                'empresa' => $str_empresa,
+                'cliente' => $str_cliente,
+                'detalle' => $str_detalle,
+                'tarjetaPagalo' => $str_tarjeta_debug
+            );
 
 
             $ch = curl_init($url);
@@ -256,43 +276,48 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $result = curl_exec($ch);
           
             $result = json_decode($result);
-
-            $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
             
             $json = array();
             //var_dump($response->responseCode);
 
+
+            /* Logs to var/log/pagalo.log */
+            $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
+            $this->_pagaloLogger->info('URL: ' . $url );
+            $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
+
             $errorMsg = '';
             $errorMsg_desc = '';
+            $customError = (string) $this->getConfigData('PGCustomErrorMsg');
+            $showCustomError = false;
+            if($customError != '') {
+                $showCustomError = true;
+            }
+            $this->_pagaloLogger->info($customError );
 
             if(property_exists($result, 'reasonCode')) {
 
                 if($result->reasonCode != '00' && $result->reasonCode != '100'){
+
                     $errorMsg = "Error al procesar el pago. ";
-                    if(property_exists($result, 'decision')) {
-                        $errorMsg .= "Desicion: " . $result->decision . '. ';
-                    }
-
-                    if(property_exists($result, 'descripcion')) {
-                        $errorMsg_desc = "Descripción: " . $result->descripcion . '. ';
-                    }
-
                     if(property_exists($result, 'reasonCode')) {
-                        $errorMsg .= "Codigo de error: " . $result->reasonCode . '. ';
-
                         switch ($result->reasonCode) {
                             case '101':
                                 $errorMsg .= "Transacción rechazada, falta uno o dos campos en la solicitud. ";
                                 break;
+                            
                             case '102':
                                 $errorMsg .= "Datos de la solicitidud invalidos. ";
                                 break;
+                            
                             case '104':
                                 $errorMsg .= "Transacción rechazada, intente nuevamente. ";
                                 break;
+                            
                             case '110':
                                 $errorMsg .= "Transacción no aprobada, intente nuevamente. ";
                                 break;
+                            
                             case '150':
                                 $errorMsg .= "Transacción invalida, contacte a soporte. ";
                                 break;
@@ -404,34 +429,161 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                             case '250':
                                 $errorMsg .= "Time out.";
                                 break;
+                            
                             case '251':
                                 $errorMsg .= "Insuficiente información del cliente/dirección. ";
                                 break;
+                            
                             case '254':
                                 $errorMsg .= "Transacción invalida, contacte a soporte. ";
                                 break;
+                            
                             case '461':
                                 $errorMsg .= "Datos no validos, contacte a soporte. ";
                                 break;
+                            
                             case '481':
                                 $errorMsg .= "Transacción rechazada posiblemente por varios intentos, contacte a soporte para mas detalles. ";
                                 break;
+                            
+                            case '00':
+                                $errorMsg .= "Transacción aprobada.";
+                                break;
+                            
+                            case '01':
+                                $errorMsg .= "Contacte a su banco emisor.";
+                                break;
+                            
+                            case '02':
+                                $errorMsg .= "Contacte a su banco emisor.";
+                                break;
+                            
+                            case '03':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            
+                            case '04':
+                                $errorMsg .= "Contacte a su banco emisor.";
+                                break;
+                            
+                            case '05':
+                                $errorMsg .= "Contacte a su banco emisor. Posible visacuota sin permisos del banco emisor.";
+                                break;
+                            
+                            case '07':
+                                $errorMsg .= "Transacción rechazada, retener tarjeta.";
+                                break;
+                            
+                            case '12':
+                                $errorMsg .= "Transacción invalida, intente nuevamente.";
+                                break;
+                            
+                            case '13':
+                                $errorMsg .= "Fondos insuficientes.";
+                                break;
+                            
+                            case '14':
+                                $errorMsg .= "Número de tarjeta invalido.";
+                                break;
+                            
+                            case '15':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            
+                            case '19':
+                                $errorMsg .= "Intenta nuevamente.";
+                                break;
+                            
+                            case '25':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            
+                            case '30':
+                                $errorMsg .= "Faltan datos obligatorios que enviar, contacte a soporte.";
+                                break;
+                            
+                            case '31':
+                                $errorMsg .= "Error al validar campos de la tarjeta";
+                                break;
+                            
+                            case '35':
+                                $errorMsg .= "Tarjeta invalida.";
+                                break;
+                            
+                            case '36':
+                                $errorMsg .= "Transacción invalida, intente nuevamente.";
+                                break;
+                            
+                            case '41':
+                                $errorMsg .= "Tarjeta reportada como perdida o robada.";
+                                break;
+                            
+                            case '43':
+                                $errorMsg .= "Tarjeta reportada como perdida o robada.";
+                                break;
+                            
+                            case '51':
+                                $errorMsg .= "Fondos insuficientes.";
+                                break;
+                            
+                            case '54':
+                                $errorMsg .= "Tarjeta de fecha expirada.";
+                                break;
+                            
+                            case '58':
+                                $errorMsg .= "Transacción rechazada, intente de nuevo.";
+                                break;
+                            
+                            case '61':
+                                $errorMsg .= "Fondos insuficientes.";
+                                break;
+                            
+                            case '62':
+                                $errorMsg .= "Tarjeta sin permisos, contacte su banco emisor.";
+                                break;
+                            
+                            case '65':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. Monto de afiliación.";
+                                break;
+                            
+                            case '78':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            
+                            case '85':
+                                $errorMsg .= "Transacción invalida, intente nuevamente.";
+                                break;
+                            
+                            case '89':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            
+                            case '91':
+                                $errorMsg .= "Emisor NO Disponible - TIME OUT";
+                                break;
+                            
+                            case '96':
+                                $errorMsg .= "Transacción rechazada, contacte a soporte.";
+                                break;
+                            
                             default:
-                               echo $errorMsg_desc;
+                               $errorMsg .= "Contacte al administrador de la tienda para más información o formas alternativas de pago.";
                         }
-
-
-
-
-
-
 
                     }
 
                     if(property_exists($result, 'mensaje')) {
                         $errorMsg .= "Mensaje: " . $result->mensaje . '. ';
                     }
-                    $this->_messageManager->addErrorMessage($errorMsg);
+
+                    if($showCustomError) {
+                        $this->_messageManager->addErrorMessage($customError);
+                
+                    }
+                    else {
+                        $this->_messageManager->addErrorMessage($errorMsg);
+                    }
+
                     Mage::throwException($errorMsg);
                 }
             }
@@ -439,27 +591,36 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             elseif(property_exists($result, 'codigo')) {
                     $errorMsg = "Error al procesar el pago. ";
 
-                    if(property_exists($result, 'codigo')) {
-                        $errorMsg .= "Codigo de error: " . $result->codigo . '. ';
-                    }
-
                     if(property_exists($result, 'mensaje')) {
-                        $errorMsg .= "Mensaje: " . $result->mensaje . '. ';
+                        $errorMsg .= $result->mensaje . '. ';
                     }
 
                     if(property_exists($result, 'descripcion')) {
-                        $errorMsg .= "Descripción: " . $result->descripcion . '. ';
+                        $errorMsg .= $result->descripcion . '. ';
                     }
 
-                    $this->_messageManager->addErrorMessage($errorMsg);
+                    if( $showCustomError ) {
+                        $this->_messageManager->addErrorMessage($customError);
+                    }
+                    else {
+                        $this->_messageManager->addErrorMessage($errorMsg);                        
+                    }
+
                     Mage::throwException($errorMsg);
             }
 
-             else {
+            else {
                 $errorMsg = __('Servicio de cobros de tarjeta de credito no disponible en este momento. Por favor contacta al administrador de la tienda para mas información y formas alternativas de pago');
-                $this->_messageManager->addErrorMessage($errorMsg);
+                if( $showCustomError ) {
+                    $this->_messageManager->addErrorMessage($customError);
+                }
+                else {
+                    $this->_messageManager->addErrorMessage($errorMsg);
+                }
                 Mage::throwException($errorMsg);
             }
+
+            $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg);
 
         } catch (\Exception $e) {
             $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);

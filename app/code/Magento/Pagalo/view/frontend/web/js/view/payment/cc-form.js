@@ -11,8 +11,10 @@ define([
     'Magento_Payment/js/model/credit-card-validation/credit-card-number-validator',
     'mage/translate',
     'https://s3.amazonaws.com/documentacionpagalo/archivos/cybs_devicefingerprint.js',
-    'https://code.jquery.com/jquery-3.5.1.min.js'
-], function (_, Component, creditCardData, cardNumberValidator, $t,__) {
+    'jquery',
+    'mage/storage',
+    'mage/url'
+], function (_, Component, creditCardData, cardNumberValidator, $t,__, $, storage, url) {
     'use strict';
 
     return Component.extend({
@@ -26,7 +28,46 @@ define([
             creditCardSsIssue: '',
             creditCardVerificationNumber: '',
             selectedCardType: null,
-            creditCardInstallments: '',
+            creditCardInstallments: '', 
+            template: 'Magento_Pagalo/payment/cc-form'
+        },
+        
+        getconfigValue: function () {
+            var serviceUrl = url.build('pagalo/custom/storeconfig');
+            storage.get(serviceUrl).done(
+                function (response) {
+                    if (response.success) {
+                        var pg_visacuotas_response = response.value.split(',');
+                    
+                        var newOptions = {
+                            "Forma de pago": "",
+                            "Al contado": 1,
+                        };
+
+                        for (var i = 0; i < pg_visacuotas_response.length; i++) {
+                            pg_visacuotas_response[i];
+                            newOptions[pg_visacuotas_response[i] + " cuotas"] = pg_visacuotas_response[i];
+                        }
+        
+                        var $pg_visacuotas_html = $(".field.installments select");
+                        $pg_visacuotas_html.empty();
+                        $.each(newOptions, function(key,value) {
+                            $pg_visacuotas_html.append($("<option></option>")
+                         .attr("value", value).text(key));
+                        });
+                        
+                        return response.value
+
+                    }
+                }
+            ).fail(
+                function (response) {
+                    return response.value
+                }
+            );
+            
+
+            return false;
         },
 
         /** @inheritdoc */
