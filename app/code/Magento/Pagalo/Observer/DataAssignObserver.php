@@ -28,7 +28,7 @@ class DataAssignObserver extends AbstractDataAssignObserver
         $paymentInfo = $this->readPaymentModelArgument($observer);
 
         foreach ($additionalData as $key => $value) {
-	       error_log("Evaluando $additionalInformationKey");
+	      // error_log("Evaluando $additionalInformationKey");
 
            if (is_object($value)) {
                continue;
