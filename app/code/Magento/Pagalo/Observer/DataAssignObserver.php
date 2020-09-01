@@ -21,50 +21,22 @@ class DataAssignObserver extends AbstractDataAssignObserver
         $data = $this->readDataArgument($observer);
 
         $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-        if (!is_array($additionalData)) {
+        if (!is_array($additionalData) || !isset($additionalData[Config::PRODUCT_ID_KEY])) {
             return;
         }
 
         $paymentInfo = $this->readPaymentModelArgument($observer);
 
         foreach ($additionalData as $key => $value) {
-	      // error_log("Evaluando $additionalInformationKey");
-
-           if (is_object($value)) {
-               continue;
-           }
-           
-           $paymentInfo->setAdditionalInformation(
-                    $key,
-                    $value
-                );
-        }
-    }
-
-/*
-
-
-    public function execute(Observer $observer)
-    {
-        $method = $this->readMethodArgument($observer);
-        $data = $this->readDataArgument($observer);
-        $paymentInfo = $method->getInfoInstance();
-
-
-
-
-        if ($data->getDataByKey('my_number') !== null) {
+            if (is_object($value)) {
+                // do not try to store objects into additional information
+                continue;
+            }
             $paymentInfo->setAdditionalInformation(
-                'my_number',
-                $data->getDataByKey('my_number')
+                $key,
+                $value
             );
         }
-
     }
-
-
-*/
-
-
 
 }
