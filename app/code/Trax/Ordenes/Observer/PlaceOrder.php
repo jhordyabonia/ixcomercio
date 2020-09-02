@@ -380,7 +380,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             'Items' => $items,
             'TaxesIncludedInPrice' => $configItemImpuesto
         );
-        $this->logger->info('Payload Clear Special Charac: \n'.$payload);
         return json_encode($payload);
     }
 
