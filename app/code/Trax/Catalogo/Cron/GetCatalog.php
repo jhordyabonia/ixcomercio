@@ -264,7 +264,8 @@ class GetCatalog
         if ($data['status']) {
             $this->loadCatalogData($data['resp'], $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
-            if (strpos((string) $configData['errores'], (string) $data['status_code']) !== false) {
+            $errors = explode(',',$configData['errores']);
+            if(in_array($data['status_code'],$errors)){ 
                 if ($configData['catalogo_reintentos'] > $attempts) {
                     $attempts++;
                     $this->logger->info('GetCatalog - Error conexión: ' . $serviceUrl . ' Se esperan ' . $configData['timeout'] . ' segundos para reintento de conexión');
@@ -276,6 +277,10 @@ class GetCatalog
                     $this->logger->info('GetCatalog - Se cumplieron el número de reintentos permitidos (' . $attempts . ') con el servicio: ' . $serviceUrl . ' se envia notificación al correo ' . $configData['catalogo_correo']);
                     $this->help_email->notify('Soporte Trax', $configData['catalogo_correo'], $configData['catalogo_reintentos'], $serviceUrl, 'N/A', $store->getId());
                 }
+            }else{
+                $this->logger->info('No se identifica el error de conexión');
+                $this->logger->info(print_r($data,true));
+                $this->logger->info('---');
             }
         }
     }
