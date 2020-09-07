@@ -336,19 +336,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'SuiteNumber' => '',
                     'ComplexName' => '',
                     'LocalizationReference' => '',
-<<<<<<< HEAD
-                    'State' => $billing->getRegion(),
-                    'City' => $billing->getCity(),
-                    'Neighborhood' => $billing->getZoneId(),
-                    'CountryId' => $billing->getCountryId(),
-                    'PostalCode' => $billing->getPostCode(),
-=======
                     'State' => $this->helper->clearSpecialCharac($billing->getRegion()),
                     'City' => $this->helper->clearSpecialCharac($billing->getCity()),
                     'Neighborhood' => $this->helper->clearSpecialCharac($billing->getZoneId()),
                     'CountryId' => $this->helper->clearSpecialCharac($billing->getCountryId()),
                     'PostalCode' => $this->helper->clearSpecialCharac($billing->getPostCode()),
->>>>>>> 108e2b18875a3f5ed645670293d2572a492ec949
                 ),
                 'Shipping' => array(
                     'FirstName' => $this->helper->clearSpecialCharac($shipping->getFirstname()),
@@ -362,19 +354,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'SuiteNumber' => '',
                     'ComplexName' => '',
                     'LocalizationReference' => '',
-<<<<<<< HEAD
-                    'State' => $shipping->getRegion(),
-                    'City' => $shipping->getCity(),
-                    'Neighborhood' => $shipping->getZoneId(),
-                    'CountryId' => $shipping->getCountryId(),
-                    'PostalCode' => $shipping->getPostCode(),
-=======
                     'State' => $this->helper->clearSpecialCharac($shipping->getRegion()),
                     'City' => $this->helper->clearSpecialCharac($shipping->getCity()),
                     'Neighborhood' => $this->helper->clearSpecialCharac($shipping->getZoneId()),
                     'CountryId' => $this->helper->clearSpecialCharac($shipping->getCountryId()),
                     'PostalCode' => $this->helper->clearSpecialCharac($shipping->getPostCode()),
->>>>>>> 108e2b18875a3f5ed645670293d2572a492ec949
                 ),
                 'DeliveryType' => $order->getShippingMethod(),
             ),
