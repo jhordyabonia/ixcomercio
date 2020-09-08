@@ -3314,7 +3314,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Email Address","Dirección de email",module,Magento_Checkout
 "Password","Contraseña",module,Magento_Checkout
 "Forgot Your Password?","¿Olvidó su contraseña?",module,Magento_Checkout
-"My billing and shipping address are the same","Mi direcciónes de facturación y de envío son las mismas",module,Magento_Checkout
+"My billing and shipping address are the same","Datos de mi factura como Consumidor Final (C/F)",module,Magento_Checkout
 "Update","Actualizar",module,Magento_Checkout
 "Cancel","Cancelar",module,Magento_Checkout
 "Save in address book","Guardar en libreta de direcciones",module,Magento_Checkout

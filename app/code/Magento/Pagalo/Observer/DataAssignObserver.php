@@ -27,6 +27,12 @@ class DataAssignObserver extends AbstractDataAssignObserver
 
         $paymentInfo = $this->readPaymentModelArgument($observer);
 
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        $this->logger->info(print_r($additionalData,true));
+
+
         foreach ($additionalData as $key => $value) {
             if (is_object($value)) {
                 // do not try to store objects into additional information
