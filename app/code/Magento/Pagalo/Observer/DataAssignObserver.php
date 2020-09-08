@@ -21,7 +21,7 @@ class DataAssignObserver extends AbstractDataAssignObserver
         $data = $this->readDataArgument($observer);
 
         $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-        if (!is_array($additionalData) || !isset($additionalData[Config::PRODUCT_ID_KEY])) {
+        if (!is_array($additionalData)) {
             return;
         }
 
