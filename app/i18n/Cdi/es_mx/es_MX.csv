@@ -16433,3 +16433,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Sign up to our newsletter","¡REGÍSTRATE Y RECIBE OFERTAS EXCLUSIVAS!",module,Magento_Theme
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme
 "No Payment Information Required","No se requiere información de pago"
+"Payment capturing error pagalo:","Error en el pago: "

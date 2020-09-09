@@ -517,8 +517,8 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg);
         } catch (\Exception $e) {
             $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);
-            $this->_logger->error(__('Payment capturing error.'.$e->getMessage()));
-            throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'.$e->getMessage()));
+            $this->_logger->error(__('Payment capturing error pagalo:'.$e->getMessage()));
+            throw new \Magento\Framework\Validator\Exception(__('Payment capturing error pagalo:'.$e->getMessage()));
         }
         return $this;
     }
