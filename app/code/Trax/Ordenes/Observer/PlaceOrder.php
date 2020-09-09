@@ -150,7 +150,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     }
 
     //Función recursiva para intentos de conexión
-    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts,$storeScope) {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
         if($data['status']){     
@@ -163,7 +163,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     $attempts++;
                     $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
                     sleep($configData['timeout']);
-                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts,$storeScope);
                 } else{
                     $this->logger->info('PlaceOrder - Error conexión: '.$serviceUrl);
                     $this->logger->info('PlaceOrder - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['ordenes_correo']);
