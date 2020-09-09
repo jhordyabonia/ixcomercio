@@ -1,0 +1,106 @@
+<?php
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$facebook = $_helperCdi->getStoreConfig('general/store_information/facebook_link');
+$instagram = $_helperCdi->getStoreConfig('general/store_information/instagram_link');
+$youtube = $_helperCdi->getStoreConfig('general/store_information/youtube_link');
+$twitter = $_helperCdi->getStoreConfig('general/store_information/twitter_link');
+$spotify = $_helperCdi->getStoreConfig('general/store_information/spotify_link');
+$pinterest = $_helperCdi->getStoreConfig('general/store_information/pinterest_link');
+$terms = $_helperCdi->getStoreConfig('general/store_information/termsofuse');
+$privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy');
+?>
+
+<a id="scroll-to-top" href="#top" class="show" title="Back to top"></a>
+
+<div class="footer-social col-md-6">
+    <div class="container">
+        <h5><?php echo __('Follow us')?></h5>
+        <ul class="social-icons">
+			<?php if($facebook){ ?>
+				<li>
+					<a href="<?php echo $facebook?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/facebook.png");?>" alt="Facebook" title="Facebook" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($instagram){ ?>
+				<li>
+					<a href="<?php echo $instagram?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/instagram.png");?>" alt="Instagram" title="Instagram" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($twitter){ ?>
+				<li>
+					<a href="<?php echo $twitter?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/twitter.png");?>" alt="Twitter" title="Twitter" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($youtube){ ?>
+				<li>
+					<a href="<?php echo $youtube?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/youtube.png");?>" alt="Youtube" title="Youtube" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($pinterest){ ?>
+				<li>
+					<a href="<?php echo $pinterest?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/pinterest.png");?>" alt="Pinterest" title="Pinterest" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+			<?php if($spotify){ ?>
+				<li>
+					<a href="<?php echo $spotify?>" target="_blank">
+						<img src="<?php echo $this->getViewFileUrl("images/social/spotify.png");?>" alt="Spotify" title="Spotify" _secure="true">
+					</a>
+				</li>
+			<?php } ?>
+        </ul>
+    </div>
+</div>
+
+<div class="footer-bottom">
+    <div class="footer-nav">
+        <div class="container">
+            <div class="row">
+				<div class="link-block col-sm-3">
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links1_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links1_es')->toHtml();?>
+				</div>
+				<div class="link-block col-sm-3">
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links2_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links2_es')->toHtml();?>
+				</div>
+				<div class="link-block col-sm-3">
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links3_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links3_es')->toHtml();?>
+				</div>
+				<div class="link-block col-sm-3">
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links4_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_footer_links4_es')->toHtml();?>
+					</ul>
+				</div>
+            </div>
+        </div>  
+    </div>
+    <div class="footer-payment">
+          <div class="container">
+            <div class="row">
+              <ul class="payment-icons">
+			  <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('huaweipa_payment_methods')->toHtml();?>
+              </ul>
+            </div>
+          </div>
+    </div>
+
+    <div class="footer-legal">
+          <div class="container">
+            <div class="row">
+              <span><?= /* @escapeNotVerified */ $block->getCopyright() ?></span>
+            </div>
+          </div>
+    </div>
+</div>
