@@ -279,7 +279,7 @@ class GetStock {
                         $objSourceItemInterface->setSku($catalog->Sku);
                         $objSourceItemInterface->setSourceCode($websiteCode);
                         $objSourceItemInterface->setQuantity($catalog->InStock);
-                        $objSourceItemInterface->setStatus((($catalog->InStock > 0)?1:0));
+                        $objSourceItemInterface->setStatus(1);
                                                 
                         $arrSourceItemInterfaces[] = $objSourceItemInterface; 
                         $arrayProducts[] = array(
