@@ -4,7 +4,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Magento\CatalogSearch\Controller\Result;
+namespace Cdi\CatalogSearch\Controller\Result;
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Catalog\Model\Layer\Resolver;
@@ -79,6 +79,8 @@ class Index extends \Magento\Framework\App\Action\Action implements HttpGetActio
      */
     public function execute()
     {
+        die('test data'); 
+
         $this->layerResolver->create(Resolver::CATALOG_LAYER_SEARCH);
 
         /* @var $query \Magento\Search\Model\Query */
