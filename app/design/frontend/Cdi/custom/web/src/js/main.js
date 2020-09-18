@@ -487,20 +487,6 @@ function ($, Component) {
 
 
 	    // =============================================
-	    // Zendesk link - footer
-	    // =============================================
-	    var linksFooter = $('footer a');
-
-	    $.each(linksFooter, function(i, val){
-	    	if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
-	        	var parentLi = $(this).parent();
-	        	$('footer .footer .footer-nav .second-nav').append(parentLi);
-	      	}
-	    });
-
-
-
-	    // =============================================
 	    // Sticky product nav
 	    // =============================================
 	    var stickyProductNav = $('.sticky-product-nav');
