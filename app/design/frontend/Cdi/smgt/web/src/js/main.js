@@ -576,7 +576,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    // =============================================
 	    // Zendesk link - footer
 	    // =============================================
-	    var linksFooter = $('footer a');
+		var linksFooter = $('footer a');
+		console.log('linksFooter --');
+		console.log(linksFooter);
 
 	    $.each(linksFooter, function(i, val){
 	    	if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
