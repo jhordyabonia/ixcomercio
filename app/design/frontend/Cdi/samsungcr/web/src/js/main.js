@@ -579,7 +579,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    $.each(linksFooter, function(i, val){
 	    	if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
 	        	var parentLi = $(this).parent();
-	        	$('footer .col-sm-3:eq(0) ul').append(parentLi);
+	        	$('footer .col-sm-3:eq(2) ul').append(parentLi);
 	      	}
 	    });
 
