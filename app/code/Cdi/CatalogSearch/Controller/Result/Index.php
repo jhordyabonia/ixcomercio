@@ -79,7 +79,7 @@ class Index extends \Magento\Framework\App\Action\Action implements HttpGetActio
      */
     public function execute()
     {
-        die('test data'); 
+       // die('test data'); 
 
         $this->layerResolver->create(Resolver::CATALOG_LAYER_SEARCH);
 
@@ -164,7 +164,7 @@ class Index extends \Magento\Framework\App\Action\Action implements HttpGetActio
         }
 
         $catalogSearchHelper->checkNotes();
-
+        //$handles[0] = 'catalogsearch_result_index';
         $this->_view->loadLayout($handles);
         $this->getResponse()->setNoCacheHeaders();
         $this->_view->renderLayout();

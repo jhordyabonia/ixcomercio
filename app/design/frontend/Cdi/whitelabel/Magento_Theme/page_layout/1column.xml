@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="1column"/>
+    <referenceContainer name="columns">
+        <container name="div.columns.container" htmlTag="div" htmlClass="container" before="-">
+            <container name="div.container.row" htmlTag="div" htmlClass="row" before="-">
+                <!--<container name="div.col.left" htmlTag="div" htmlClass="col-xs-12 col-md-3 pull-left" before="-" />-->
+                <container name="div.col.right" htmlTag="div" htmlClass="col-xs-12 col-md-12 pull-right" after="-" />
+            </container>
+        </container>
+
+        <container name="div.sidebar.main" htmlTag="div" htmlClass="sidebar sidebar-main" after="main">
+            <container name="sidebar.main" as="sidebar_main" label="Sidebar Main"/>
+        </container>
+        
+        <container name="div.sidebar.additional" htmlTag="div" htmlClass="sidebar sidebar-additional" after="div.sidebar.main">
+            <container name="sidebar.additional" as="sidebar_additional" label="Sidebar Additional"/>
+        </container>
+    </referenceContainer>
+
+	<!--Se agregan elementos al contenedor-->
+    <move element="content" destination="div.col.right" />
+    <move element="div.sidebar.main" destination="div.col.left" />
+    <move element="div.sidebar.additional" destination="div.col.left" />
+</layout>

@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<type name="Magento\CatalogSearch\Controller\Result\Index">
-    <plugin name="cdi_catalog_search_result" type="Cdi\CatalogSearch\Controller\Result" sortOrder="0"/>
-</type>
