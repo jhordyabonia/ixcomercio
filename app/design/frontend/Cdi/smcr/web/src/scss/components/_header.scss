@@ -496,6 +496,9 @@ header{
                     }
                   }
                 }
+                .ui-menu-item{
+                  float: inherit;
+                }
               }
             }
             &.open {
@@ -619,9 +622,6 @@ header{
           }
         }
       }
-    }
-    .ui-menu-item{
-      float: inherit;
     }
   }
 }
