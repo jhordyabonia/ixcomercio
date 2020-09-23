@@ -154,19 +154,3 @@ $count = 0;
         </script>
     <?php endif; ?>
 <?php endif; ?>
-<?php
-/* XCB GTM */
-echo <<<JG
-<script type="text/javascript">
-    dataLayer.push({
-        'event': 'productImpressions',
-        'ecommerce': {
-            'currencyCode': 'COP',
-            'impressions': [$gtm_prods]
-        }
-    });
-
-</script>
-JG;
-/* XCB END */
-?>

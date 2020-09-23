@@ -1,0 +1,17 @@
+<?php
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+?>
+
+<?php
+$json = $block->getJsonData();
+?>
+
+<?php if ($json !== null): ?>
+    <script>
+        <?= $block->getDataLayerName() ?>.push(<?php /* @escapeNotVerified */ echo $json; ?>);
+    </script>
+<?php endif; ?>

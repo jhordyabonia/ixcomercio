@@ -6,11 +6,6 @@
 // @codingStandardsIgnoreFile
 /**  @var $block \Magento\Checkout\Block\Cart */
 
-echo <<<JG
-<script>
-dataLayer.push{'event':'ga_event','category':'Ficha Carrito de compras','action':'Quitar artículo','label':'Eliminar'}
-</script>
-JG;
 ?>
 <div class="cart-empty">
     <?= $block->getChildHtml('checkout_cart_empty_widget') ?>

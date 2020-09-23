@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="MagePal\EnhancedEcommerce\Block\Adminhtml\Gtm" name="ee_gtm_code"
+                   template="MagePal_EnhancedEcommerce::gtm.phtml"/>
+
+            <block class="MagePal\EnhancedEcommerce\Block\Adminhtml\Tracking\Order" name="ee_order_tracking"
+                   template="MagePal_EnhancedEcommerce::datalayer.phtml"/>
+
+            <block class="MagePal\EnhancedEcommerce\Block\Adminhtml\Refund\CreditMemo" name="ee_creditmemo_tracking"
+                   template="MagePal_EnhancedEcommerce::datalayer.phtml"/>
+
+            <block class="MagePal\EnhancedEcommerce\Block\Adminhtml\Refund\CancelOrder" name="ee_cancel_tracking"
+                   template="MagePal_EnhancedEcommerce::datalayer.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

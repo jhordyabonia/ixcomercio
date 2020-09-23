@@ -14,12 +14,7 @@ $isVisibleProduct = $product->isVisibleInSiteVisibility();
 /** @var \Magento\Msrp\Helper\Data $helper */
 $helper = $this->helper('Magento\Msrp\Helper\Data');
 $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
-# XCB GTM
-echo <<<JG
-<script>
-dataLayer.push{'event':'ga_event','category':'Ficha Carrito de compras','action':'Label','label':'[Tramitar Pedido | Ver y editar carrito]'}
-</script>
-JG;
+
 ?>
 <tbody class="cart item">
     <tr class="item-info">

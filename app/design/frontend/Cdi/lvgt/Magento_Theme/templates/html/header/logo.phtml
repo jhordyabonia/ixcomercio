@@ -17,7 +17,7 @@
     href="<?= $block->getUrl('') ?>"
     title="<?= /* @escapeNotVerified */ $storeName ?>"
     aria-label="store logo"
-    onclick="dataLayer.push({'event':'ga_event','category':'Header','action':'Logo','label':'Home'});">
+    >
     <img src="<?= /* @escapeNotVerified */ $block->getLogoSrc() ?>"
          title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
          alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"

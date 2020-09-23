@@ -11,7 +11,7 @@
 
 <div data-block="minicart" class="minicart-wrapper">
     <a class="action showcart" href="<?= /* @escapeNotVerified */ $block->getShoppingCartUrl() ?>"
-       data-bind="scope: 'minicart_content'" onclick="dataLayer.push({'event':'ga_event','category':'Header','action':'Mi bolsa','label':'Abrir'});">
+       data-bind="scope: 'minicart_content'" >
         <span class="text"><?= /* @escapeNotVerified */ __('My Cart') ?></span>
         <span class="counter qty empty"
               data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">

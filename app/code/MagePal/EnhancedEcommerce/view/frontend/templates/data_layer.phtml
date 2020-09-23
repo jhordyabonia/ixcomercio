@@ -1,0 +1,35 @@
+<?php
+/**
+ *
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+*/
+?>
+<?php /** @var $block MagePal\EnhancedEcommerce\Block\DataLayer **/ ?>
+
+<!-- Start Enhanced E-commerce for Google Tag Manager by MagePal -->
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "enhancedDataLayer": {
+                "dataLayer": "<?= $block->getDataLayerName() ?>",
+                "data" : <?= $block->getDataLayerJson(); ?>
+            }
+        }
+    }
+</script>
+<!-- End Enhanced E-commerce for Google Tag Manager by MagePal -->
+
+<?php if ($block->hasImpressionList()) : ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "productClickDataLayer": {
+                "dataLayerName": "<?= $block->getDataLayerName() ?>",
+                "productLists" : <?= $block->getImpressionListJson() ?>
+            }
+        }
+    }
+</script>
+<?php endif; ?>

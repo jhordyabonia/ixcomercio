@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="MagePal\EnhancedEcommerce\Block\Data\Category" name="magepal_ee_block_category">
+                <arguments>
+                    <argument name="list_type" xsi:type="string">catalog</argument>
+                    <argument name="block_name" xsi:type="string">category.products.list</argument>
+                    <argument name="show_category" xsi:type="boolean">true</argument>
+                </arguments>
+            </block>
+            <block class="MagePal\EnhancedEcommerce\Block\JsComponent" template="MagePal_EnhancedEcommerce::js-component.phtml">
+                <arguments>
+                    <argument name="component_name" xsi:type="string">addToCartDataLayer</argument>
+                </arguments>
+            </block>
+            <block class="MagePal\EnhancedEcommerce\Block\Data\CatalogWidget" name="catalogwidget_products_impression">
+                <arguments>
+                    <argument name="list_type" xsi:type="string">Catalog Widget Items</argument>
+                    <argument name="show_category" xsi:type="boolean">false</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
