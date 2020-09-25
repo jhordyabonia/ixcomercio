@@ -1,0 +1,49 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="checkout-billing-address">
+    
+    <div class="billing-address-invoice-block field choice" data-bind="visible: canUseInvoice()">
+        <label ><span data-bind="text: invoiceLabel()"></span></label><br>
+        <input type="radio" id="billing-address-invoice-yes" name="billing-address-invoice" value="true" data-bind="click: showBilling(true)"
+                />
+        <label for="billing-address-invoice-yes" ><span data-bind="text: invoiceLabelYes()"></span></label>
+
+        <input type="radio" id="billing-address-invoice-no" name="billing-address-invoice" checked value="false" data-bind="click: showBilling(false)" />
+        <label for="billing-address-invoice-no" ><span data-bind="text: invoiceLabelNo()"></span></label>                
+    </div>
+
+    <!-- ko if: visibleBilling -->
+    <div class="billing-address-same-as-shipping-block choice" data-bind="visible: visibleBilling()" >
+
+        <label >
+            <span data-bind="i18n: 'My billing and shipping address are the same'"></span>
+        </label><br>
+
+        <input type="radio" id="billing-address-same-as-shipping-yes" name="billing-address-same-as-shipping" checked value="true" data-bind="click: useShippingAddress(true)"  />
+
+        <label for="billing-address-same-as-shipping-yes" ><span translate="'Yes'"></span></label> 
+        
+        <input type="radio" id="billing-address-same-as-shipping-no" name="billing-address-same-as-shipping" value="false" data-bind="click: useShippingAddress(false)" />
+
+        <label for="billing-address-same-as-shipping-no" ><span translate="'No'"></span></label>
+        
+        <div >
+            <render args="detailsTemplate" />
+        </div>
+        
+        
+        <fieldset class="fieldset" data-bind="visible: !isAddressDetailsVisible()">
+            <each args="getRegion('billing-address-list')" render="" />
+            <div data-bind="fadeVisible: isAddressFormVisible">
+                <render args="formTemplate"/>
+            </div>
+            <render args="actionsTemplate"/>
+        </fieldset>
+    </div>
+    <!-- /ko --> 
+</div>
