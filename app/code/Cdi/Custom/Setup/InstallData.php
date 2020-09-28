@@ -1,5 +1,5 @@
 <?php
-namespace Mageplaza\HelloWorld\Setup;
+namespace Cdi\Custom\Setup;
 
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
@@ -19,30 +19,36 @@ class InstallData implements InstallDataInterface
 	public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
 	{
 		$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+
+		$statusOptions = [
+			['label' => __('Si'), 'value' => 1],
+			['label' => __('No'), 'value' => 0]
+		];
+
 		$eavSetup->addAttribute(
 			\Magento\Catalog\Model\Product::ENTITY,
 			'activate_from_stock',
 			[
-				'type' => 'select',
-				'backend' => '',
-				'frontend' => '',
-				'label' => 'Activar por cron de stock',
-				'input' => 'select',
-				'class' => '',
-				'source' => '',
-				'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
-				'visible' => true,
-				'required' => true,
-				'user_defined' => false,
-				'default' => '',
-				'searchable' => false,
-				'filterable' => false,
-				'comparable' => false,
-				'visible_on_front' => false,
-				'used_in_product_listing' => true,
-				'unique' => false,
-				'apply_to' => ''
-			]
+                'type' => 'int',
+                'backend' => '',
+                'frontend' => '',
+                'label' => '',
+                'input' => 'select',
+                'class' => '',
+                'source' => $statusOptions,
+                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'visible' => true,
+                'required' => false,
+                'user_defined' => false,
+                'default' => '1',
+                'searchable' => false,
+                'filterable' => false,
+                'comparable' => false,
+                'is_used_in_grid' => true,
+                'visible_on_front' => false,
+                'used_in_product_listing' => true,
+                'unique' => false
+            ]
 		);
 	}
 }

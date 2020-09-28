@@ -267,6 +267,8 @@ class GetStock {
             $products->addStoreFilter($storeId);
             $productFix  = array();
             foreach($products->getData() as $key => $value){
+                $this->logger->info('$products->getData()');
+                $this->logger->info(print_r($value,true));
                 $productFix[$value['sku']] = $value;
             }
         
