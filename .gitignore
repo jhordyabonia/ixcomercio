@@ -89,6 +89,7 @@ Gruntfile.js.sample/
 .htaccess.sample 
 lib 
 LICENSE* 
+!app/code/Xtento/XtCore/Model/System/Config/Backend/License.php
 nginx.conf.sample 
 package.json.sample 
 .php_cs.dist 
