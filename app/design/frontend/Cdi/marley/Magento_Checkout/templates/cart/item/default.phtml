@@ -14,12 +14,7 @@ $isVisibleProduct = $product->isVisibleInSiteVisibility();
 /** @var \Magento\Msrp\Helper\Data $helper */
 $helper = $this->helper('Magento\Msrp\Helper\Data');
 $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
-# XCB GTM
-echo <<<JG
-<script>
-dataLayer.push{'event':'ga_event','category':'Ficha Carrito de compras','action':'Label','label':'[Tramitar Pedido | Ver y editar carrito]'}
-</script>
-JG;
+
 ?>
 <tbody class="cart item">
     <tr class="item-info">
@@ -66,7 +61,6 @@ JG;
                 <?php endif;?>
                 <?php if ($messages = $block->getMessages()): ?>
                     <?php foreach ($messages as $message): ?>
-                        <?php #echo "<script>dataLayer.push({'event':'ga_event','category':'Header','action':'".$message['type']."','label':'".$message['text']."'});</script>"; # XCB GTM ?>
                         <div class="cart item message <?= /* @escapeNotVerified */ $message['type'] ?>"><div><?= $block->escapeHtml($message['text']) ?></div></div>
                     <?php endforeach; ?>
                 <?php endif; ?>

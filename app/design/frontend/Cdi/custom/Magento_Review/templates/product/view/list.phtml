@@ -66,31 +66,3 @@ $format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
     </div>
 </div>
 <?php endif;?>
-<scrip>
-    "dataLayer.push({
-      'event': 'product-list-impressions',
-      'ecommerce': {
-      'currencyCode': 'COP',
-      'impressions': [{
-            
-                    'name': productName,     
-                    'id': productSku,        
-                    'price': productPrice,        
-                    'brand': productBrand,
-                    'category': productCategory,    
-                    'variant': productVariant,
-                    'list': productList,
-                    'position': productPosition
- },{ 
-                    'name': 'NO BOUNDS XL SIGNATURE GREY',     
-                    'id': 'MM101HOM24',        
-                    'price': '3959',        
-                    'brand': 'MARLEY',        
-                    'category': 'PARLANTES',    
-                    'variant': 'BLANCO',
-                    'list': 'PARLANTES',
-                    'position': 2
- }]
-         }
-    });"
-</scrip>

@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <googletagmanager>
+            <enhanced_ecommerce>
+                <active>1</active>
+                <refund>1</refund>
+                <admin_order_tracking>1</admin_order_tracking>
+            </enhanced_ecommerce>
+
+            <upsell>
+                <list_type>Upsell</list_type>
+                <class_name>.products-upsell .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </upsell>
+
+            <related>
+                <list_type>Related</list_type>
+                <class_name>.products-related .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </related>
+
+            <crosssell>
+                <list_type>Crosssell</list_type>
+                <class_name>.products-crosssell .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </crosssell>
+
+            <category_list>
+                <list_type>Catalog</list_type>
+                <class_name>.products-grid .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </category_list>
+
+            <search_list>
+                <list_type>Search Result</list_type>
+                <class_name>.products-grid .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </search_list>
+
+            <category_widget>
+                <use_widget_title>1</use_widget_title>
+                <list_type>Catalog Widget Items</list_type>
+                <class_name>.products-grid .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </category_widget>
+
+            <homepage_widget>
+                <use_widget_title>1</use_widget_title>
+                <list_type>Homepage Widget Items</list_type>
+                <class_name>.widget-product-grid .product-item a[class*="product-item-"]</class_name>
+                <container_class>li.product-item</container_class>
+            </homepage_widget>
+
+            <checkout>
+                <shipping_index>1</shipping_index>
+                <payment_index>2</payment_index>
+            </checkout>
+
+            <enhanced_success_page>
+                <upsell>
+                    <list_type>Upsell - Enhanced Success Page</list_type>
+                    <class_name>.products-upsell .product-item a[class*="product-item-"]</class_name>
+                    <container_class>li.product-item</container_class>
+                </upsell>
+
+                <related>
+                    <list_type>Related - Enhanced Success Page</list_type>
+                    <class_name>.products-related .product-item a[class*="product-item-"]</class_name>
+                    <container_class>li.product-item</container_class>
+                </related>
+
+                <crosssell>
+                    <list_type>Crosssell - Enhanced Success Page</list_type>
+                    <class_name>.products-crosssell .product-item a[class*="product-item-"]</class_name>
+                    <container_class>li.product-item</container_class>
+                </crosssell>
+
+                <recent_viewed>
+                    <list_type>Recent Viewed - Enhanced Success Page</list_type>
+                    <class_name>.products-grid .product-item a[class*="product-item-"]</class_name>
+                    <container_class>li.product-item</container_class>
+                </recent_viewed>
+            </enhanced_success_page>
+        </googletagmanager>
+    </default>
+</config>

@@ -408,22 +408,25 @@ section{
             border: 0;
             border-bottom: 1px solid #ccc;
             text-align: left;
+            padding-right: 0;
+            padding-left: 10px;
             .items{
               .item{
                 position: relative;
                 padding-right: 25px;
                 a{
                   color: #000;
+                  font-size:12px;
                   .count{
                     color: #999;
                     font-size: 12px;
                   }
                   .icon-check{
-                    width: 22px;
-                    height: 22px;
+                    width: 16px;
+                    height: 16px;
                     background: #fff;
                     border: 1px solid #707070;
-                    margin: 3px 5px 0 0;
+                    margin: 5px 5px 0 0;
                     float: left;
              
                     border-radius: 5px;

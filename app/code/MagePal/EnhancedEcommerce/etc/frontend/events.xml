@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MagePal LLC. All rights reserved.
+ * See COPYING.txt for license details.
+ * https://www.magepal.com | support@magepal.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_cart_update_items_after">
+        <observer name="magepal_enhancedecommerce_checkout_cart_update_items_after"
+                  instance="MagePal\EnhancedEcommerce\Observer\Frontend\CheckoutCartUpdateItemsAfterObserver" />
+    </event>
+    <event name="checkout_cart_update_item_complete">
+        <observer name="magepal_enhancedecommerce_checkout_cart_update_item_complete"
+                  instance="MagePal\EnhancedEcommerce\Observer\Frontend\CheckoutCartUpdateItemCompleteObserver" />
+    </event>
+    <event name="sales_quote_product_add_after">
+        <observer name="magepal_enhancedecommerce_checkout_cart_add_product_complete"
+                  instance="MagePal\EnhancedEcommerce\Observer\Frontend\SalesQuoteProductAddAfterObserver" />
+    </event>
+    <event name="sales_quote_remove_item">
+        <observer name="magepal_enhancedecommerce_sales_quote_remove_item"
+                  instance="MagePal\EnhancedEcommerce\Observer\Frontend\SalesQuoteRemoveItemObserver" />
+    </event>
+</config>

@@ -59,23 +59,6 @@ $prod_detail = "
         'variant': 'productVariant'
       }
 ";
-# GTM XCB
-echo <<<JG
-<script>
-dataLayer.push({
-    'event': 'product-detail',
-    'ecommerce': {
-        'detail': {
-            'actionField': {
-                'list': 'productList'
-            },
-            'products': [{$prod_detail}]
-        }
-    }
-});
-</script>
-JG;
-# GTM XCB FIN
 ?>
 <script type="text/x-magento-init">
     {
