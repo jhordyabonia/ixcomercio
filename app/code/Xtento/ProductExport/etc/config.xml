@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <productexport>
+            <advanced>
+                <collection_batch_size>500</collection_batch_size>
+                <memory_limit>2048</memory_limit>
+            </advanced>
+        </productexport>
+    </default>
+</config>
+<!--
+/**
+ * Product:       Xtento_ProductExport
+ * ID:            %!uniqueid!%
+ * Last Modified: 2019-11-19T10:53:43+00:00
+ * File:          etc/config.xml
+ * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ */
+-->
