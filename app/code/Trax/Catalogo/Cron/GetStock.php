@@ -61,7 +61,7 @@ class GetStock {
     protected  $productRepository;     
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository,\Magento\Eav\Model\Config $eavConfig) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -75,6 +75,7 @@ class GetStock {
         $this->_storesRepository = $storesRepository;
         $this->_sources = array();
         $this->helper = $email;
+        $this->_eavConfig = $eavConfig;
     }
 
 /**
@@ -266,12 +267,17 @@ class GetStock {
             $products->addAttributeToSelect('*');
             $products->addStoreFilter($storeId);
             $productFix  = array();
-            foreach($products->getData() as $key => $value){
-                $this->logger->info('$products->getData()');
-                $this->logger->info(print_r($value,true));
-                $productFix[$value['sku']] = $value;
+            
+            foreach($products as $product){
+                $sku = $product->getData('sku');
+                $attributes = $product->getAttributes();
+                foreach($attributes as $a){
+                    if($a->getName()=='activate_from_stock'){
+                        $attribute = $this->_eavConfig->getAttribute('catalog_product', $a->getName());
+                    }
+                }
+                $productFix[$sku] = array('activate_from_stock'=>$attribute->getFrontend()->getValue($product));
             }
-        
         
             if($configData['product_stock']){
                 foreach ($data as $key => $catalog) {
@@ -281,14 +287,19 @@ class GetStock {
                         $objSourceItemInterface->setSku($catalog->Sku);
                         $objSourceItemInterface->setSourceCode($websiteCode);
                         $objSourceItemInterface->setQuantity($catalog->InStock);
-                        $objSourceItemInterface->setStatus(1);
-                                                
+                        $productStatus = (($catalog->InStock > 0)?1:0);
+                        if($productFix[$catalog->Sku]['activate_from_stock']=='Si'){
+                            $productStatus = 1;
+                            $this->logger->info('Producto activado por defecto '.$catalog->Sku);
+                        }
+                        $objSourceItemInterface->setStatus($productStatus);
+                    
                         $arrSourceItemInterfaces[] = $objSourceItemInterface; 
                         $arrayProducts[] = array(
                             'sku' => $catalog->Sku,
                             'websiteCode' => $websiteCode,
                             'InStock' => $catalog->InStock,
-                            'Status' => (($catalog->InStock > 0)?1:0)
+                            'Status' => $productStatus
                         );
                     }
                     } catch(Exception $e){

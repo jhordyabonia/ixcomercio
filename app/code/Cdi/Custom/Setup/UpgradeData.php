@@ -424,6 +424,45 @@ class UpgradeData implements UpgradeDataInterface{
 			);
 		}
 
+		if(version_compare($context->getVersion(), '1.0.20', '<')){
+			// ADD ATTRIBUTES
+			$attsToAdd['activate_from_stock'] = array(
+				'entity' => \Magento\Catalog\Model\Product::ENTITY,
+				'attdata' => array(
+					'type' => 'int',
+					'label' => 'Activar por cron de stock',
+					'backend' => '',
+					'input' => 'select',
+					'wysiwyg_enabled' => false,
+					'source' => '',
+					'required' => false,
+					'user_defined' => true,
+					'sort_order' => '31',
+					'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
+					'default' => 0,
+					'visible' => true,
+					'user_defined' => true,
+					'searchable' => false,
+					'filterable' => false,
+					'comparable' => false,
+					'visible_on_front' => false,
+					'unique' => false,
+					'apply_to' => '',
+					'group' => 'General',
+					'used_in_product_listing' => false,
+					'is_used_in_grid' => true,
+					'is_visible_in_grid' => false,
+					'is_filterable_in_grid' => false,
+					'option' => array('values' => array(1=>'Si',0=>'No'))
+				),
+				'group' => array(
+					'attribute_set' => 'Jam',
+					'group' => 'Jam Attributes',
+					'sort_order' => 5,
+				)
+			);
+		}
+
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		$connection = $resource->getConnection();
