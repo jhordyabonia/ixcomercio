@@ -660,8 +660,9 @@ section{
     font-weight: 400;
     border: 0;
     &:hover{
-      background: #000;
+      background: #cff1ff;
       border: none;
+      color: #1976a1;
     }
   }
   &.action-apply{
@@ -681,5 +682,18 @@ section{
       background: #000;
       border-color: #000;
     }
+  }
+  &.tocart.primary{
+    background-image: url(../images/icons/cart-button.png);
+    background-repeat: no-repeat;
+    background-position: 25px center;
+    padding-left: 40px;
+
+  }
+  &.primary.tocart{
+    background-image: url(../images/icons/cart-button.png);
+    background-repeat: no-repeat;
+    background-position: 25px center;
+    padding-left: 50px !important;
   }
 }
