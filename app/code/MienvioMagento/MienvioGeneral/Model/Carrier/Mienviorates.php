@@ -152,6 +152,9 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $shippingAddress = $cart->getQuote()->getShippingAddress();
         $rateResponse = $this->_rateResultFactory->create();
         $apiKey = $this->_mienvioHelper->getMienvioApi();
+        if($apiKey == null){
+            $apiKey = $this->_mienvioHelper->getMienvioApiRedundant();
+        }
         $baseUrl =  $this->_mienvioHelper->getEnvironment();
         $createShipmentUrl  = $baseUrl . 'api/shipments';
         $quoteShipmentUrl   = $baseUrl . 'api/shipments/$shipmentId/rates';
@@ -195,9 +198,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $destCity
             );
 
+
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
             $this->_curl->setOptions($options);
-
+            $this->_logger->debug('URL MIENVIO CREATE ADDRESS', ['url' => $createAddressUrl]);
             $this->_curl->post($createAddressUrl, json_encode($fromData));
             $addressFromResp = json_decode($this->_curl->getBody());
             $this->_logger->debug($this->_curl->getBody());
@@ -272,6 +276,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         ];
 
         $this->_logger->debug('Creating quote (mienviorates)', ['request' => json_encode($quoteReqData)]);
+        $this->_logger->debug('URL MIENVIO', ['url' => $createQuoteUrl]);
         $this->_curl->post($createQuoteUrl, json_encode($quoteReqData));
         $quoteResponse = json_decode($this->_curl->getBody());
         $this->_logger->debug('Creating quote (mienviorates)', ['response' => $this->_curl->getBody()]);
@@ -294,7 +299,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 }
 
 
-                
+
             }
 
             return $rates;
@@ -331,7 +336,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 break;
             case 'worlwide_usa':
                 $parsed = 'World Wide USA';
-            break;
+                break;
             case 'worldwide_usa':
                 $parsed = 'World Wide USA';
                 break;
@@ -505,6 +510,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         ];
 
         $this->_curl->post($createQuoteUrl, json_encode($quoteReqData));
+        $this->_logger->debug('URL MIENVIO', ['url' => $createQuoteUrl]);
         $quoteResponse = json_decode($this->_curl->getBody());
 
         $method = $this->_rateMethodFactory->create();
@@ -532,7 +538,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      * @param  string $countryCode
      * @return string
      */
-    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
+    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null,$clientCarriers = null)
     {
 
 
@@ -549,6 +555,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
         $location = $this->_mienvioHelper->getLocation();
         $this->_logger->debug('LOCATION: '.$location);
+        $this->_logger->debug('Country: '.$countryCode);
         $this->_logger->debug('STREET2: '.$street2);
         $this->_logger->debug('DestRegion: '.$destRegion);
         $this->_logger->debug('DestRegionCode: '.$destRegionCode);
@@ -558,9 +565,24 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             if ($countryCode === 'MX') {
                 $data['zipcode'] = $zipcode;
-            } else {
+            } 
+            else {
                 $data['level_1'] = $street2;
                 $data['level_2'] = $destCity;
+            }
+
+            if ($countryCode === 'PA'){
+                if($destCity != null){
+                    $data['level_1'] = $destCity;
+                }else{
+                    $data['level_1'] = $street2;
+                }
+                if($destRegionCode != null){
+                    $data['level_2'] = $destRegionCode;
+                }else{
+                    $data['level_2'] = $destRegion;
+                }
+                
             }
 
         }else if($location == 'zipcode' ){
@@ -658,7 +680,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     {
         $volumetricWeight = round(((1 * $length * $width * $height) / 5000), 4);
 
-		return $volumetricWeight;
+        return $volumetricWeight;
     }
 
     /**
@@ -755,4 +777,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'qty' => $qty
         ];
     }
+
+
 }
