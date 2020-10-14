@@ -1,0 +1,67 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Category view template
+ *
+ * @var $block \Magento\Catalog\Block\Category\View
+ */
+?>
+<?php
+    $_category  = $block->getCurrentCategory();
+    $count = 0;
+    foreach ($_category->getChildrenCategories() as $key => $_subcategoryData):
+        $count++;
+    endforeach;
+?>
+<?php if ((!$block->isContentMode() || $block->isMixedMode()) && $count == 0 ): ?>
+    <?= $block->getProductListHtml() ?>
+<?php else: ?>
+    <?php
+        $_subcategory  = $_category->getChildrenCategories();
+        $_helper    = $this->helper('Magento\Catalog\Helper\Output');
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    ?>
+    <section class="category-list">
+        <div class="container">
+            <div class="row">
+                <?php foreach ($_subcategory as $key => $subcategory): ?>
+                    <div class="col-sm-6">
+                        <?php
+                            $category = $objectManager->create('Magento\Catalog\Model\Category')->load($subcategory->getId());
+                            $_imgHtml   = '';
+                            if ($_imgUrl = $category->getImageUrl()) {
+                                $_img = '<img src="' . $_imgUrl . '" alt="' . $block->escapeHtml($category->getName()) . '" title="' . $block->escapeHtml($category->getName()) . '" class="image" />';
+                                $_img = $_helper->categoryAttribute($category, $_img, 'image');
+
+                                $_imgHtml = '<div class="category-image">
+                                    <div class="category-data">
+                                        <a href="'.$category->getUrl().'"></a>
+                                    </div>'.$_img.'</div>';
+
+                                /* @escapeNotVerified */ echo $_imgHtml;
+                            }else{
+                                ?>
+                                <a href="<?php echo $category->getUrl() ?>">
+                                    <div class="category-data">
+                                    <h2><?php echo $category->getName(); ?></h2>
+                                    <p><?php echo $_helper->categoryAttribute($category, $category->getDescription(), 'description'); ?></p>
+                                    </div>
+                                </a>
+                                <?php
+                            }
+                        ?>
+                        
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
