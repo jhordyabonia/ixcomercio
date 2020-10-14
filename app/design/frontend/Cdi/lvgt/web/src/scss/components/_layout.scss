@@ -689,6 +689,9 @@ section{
     background-position: 25px center;
     padding-left: 40px;
     &:hover{
+      background: #d9eef7;
+      color: #1976a1;
+      border: 1px solid #1976a1;
       background-image: url(../images/icons/cart-button-hover.png);
     }
   }
