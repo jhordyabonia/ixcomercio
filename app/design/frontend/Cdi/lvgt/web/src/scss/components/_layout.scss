@@ -658,11 +658,11 @@ section{
     text-transform: uppercase;
     transition: .5s all ease;
     font-weight: 400;
-    border: 0;
+    border: 1px solid $mainColor;
     &:hover{
-      background: #cff1ff;
-      border: none;
+      background: #d9eef7;
       color: #1976a1;
+      border: 1px solid #1976a1;
     }
   }
   &.action-apply{
@@ -688,12 +688,20 @@ section{
     background-repeat: no-repeat;
     background-position: 25px center;
     padding-left: 40px;
-
+    &:hover{
+      background-image: url(../images/icons/cart-button-hover.png);
+    }
   }
   &.primary.tocart{
     background-image: url(../images/icons/cart-button.png);
     background-repeat: no-repeat;
     background-position: 25px center;
     padding-left: 50px !important;
+    &:hover{
+      background: #d9eef7;
+      color: #1976a1;
+      border: 1px solid #1976a1;
+      background-image: url(../images/icons/cart-button.png);
+    }
   }
 }
