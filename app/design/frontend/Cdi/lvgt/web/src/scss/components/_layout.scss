@@ -689,10 +689,13 @@ section{
     background-position: 25px center;
     padding-left: 40px;
     &:hover{
-      background: #d9eef7;
-      color: #1976a1;
-      border: 1px solid #1976a1;
-      background-image: url(../images/icons/cart-button-hover.png);
+      background: #d9eef7 !important;
+      color: #1976a1 !important;
+      border: 1px solid #1976a1 !important;
+      background-image: url(../images/icons/cart-button-hover.png) !important;
+      background-repeat: no-repeat !important;
+      background-position: 25px center !important;
+      padding-left: 50px !important;
     }
   }
   &.primary.tocart{
@@ -701,10 +704,13 @@ section{
     background-position: 25px center;
     padding-left: 50px !important;
     &:hover{
-      background: #d9eef7;
+      background: #d9eef7 ;
       color: #1976a1;
       border: 1px solid #1976a1;
-      background-image: url(../images/icons/cart-button.png);
+      background-image: url(../images/icons/cart-button-hover.png);
+      background-repeat: no-repeat;
+      background-position: 25px center;
+      padding-left: 50px !important;
     }
   }
 }
