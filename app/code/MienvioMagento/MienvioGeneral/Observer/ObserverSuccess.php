@@ -124,6 +124,8 @@ class ObserverSuccess implements ObserverInterface
             $quote = $this->quoteRepository->get($quoteId);
             $shippingAddress = $quote->getShippingAddress();
             $countryId = $shippingAddress->getCountryId();
+            $destRegion     = $shippingAddress->getRegion();
+            $destRegionCode = $shippingAddress->getRegionCode();
 
             if ($shippingAddress === null) {
                 return $this;
@@ -134,7 +136,7 @@ class ObserverSuccess implements ObserverInterface
             $this->_logger->info("quoteId", ["data" => $quoteId]);
             $this->_logger->info("shippingid", ["data" => $shipping_id]);
 
-            $fromData = $this->createAddressDataStr(
+            $fromData = $this->createAddressDataStr('from',
                 "MIENVIO DE MEXICO",
                 $this->_mienvioHelper->getOriginStreet(),
                 $this->_mienvioHelper->getOriginStreet2(),
@@ -143,8 +145,6 @@ class ObserverSuccess implements ObserverInterface
                 "4422876138",
                 '',
                 $countryId,
-                '',
-                '',
                 $this->_mienvioHelper->getOriginCity()
             );
 
@@ -155,17 +155,16 @@ class ObserverSuccess implements ObserverInterface
 
             $toStreet2 = empty($shippingAddress->getStreetLine(2)) ? $shippingAddress->getStreetLine(1) : $shippingAddress->getStreetLine(2);
 
-            $toData = $this->createAddressDataStr(
+            $toData = $this->createAddressDataStr('to',
                 $customerName,
                 $shippingAddress->getStreetLine(1),
-                $toStreet2,
-                $shippingAddress->getPostcode(),
+                $toStreet2,$shippingAddress->getPostcode(),
                 $customermail,
                 $customerPhone,
                 $shippingAddress->getStreetLine(3),
                 $countryId,
-                '',
-                '',
+                $destRegion,
+                $destRegionCode,
                 $shippingAddress->getCity()
             );
 
@@ -193,6 +192,7 @@ class ObserverSuccess implements ObserverInterface
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
+                $this->_logger->info("QUOTEid", ["data" => $mienvioQuoteId]);
                 $order->setMienvioQuoteId($mienvioQuoteId);
                 $order->save();
                 return $this;
@@ -256,6 +256,7 @@ class ObserverSuccess implements ObserverInterface
             $response = json_decode($this->_curl->getBody());
 
             $this->_logger->info('Shipment response', ["data" => $response]);
+            $this->_logger->info("shippingid", ["data" => $shipping_id]);
         } catch (\Exception $e) {
             $this->_logger->info("error saving new shipping method Exception");
             $this->_logger->info($e->getMessage());
@@ -488,7 +489,7 @@ class ObserverSuccess implements ObserverInterface
      * @param  string $countryCode
      * @return string
      */
-    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
+    private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
         $data = [
@@ -512,6 +513,21 @@ class ObserverSuccess implements ObserverInterface
 
             if ($countryCode === 'MX') {
                 $data['zipcode'] = $zipcode;
+            } elseif ($countryCode === 'PA'){
+                if($type === 'from'){
+                    $data['level_1'] = $street2;
+                    $data['level_2'] = $destRegion;
+                }
+                if($type === 'to'){
+                    if($destCity != ''){
+                        $data['level_1'] = $destCity;
+                        $data['level_2'] = $destRegionCode;
+                    }elseif ($street2 != ''){
+                        $data['level_1'] = $street2;
+                        $data['level_2'] = $destRegionCode;
+                    }
+                }
+
             } else {
                 $data['level_1'] = $street2;
                 $data['level_2'] = $destCity;
@@ -578,7 +594,7 @@ class ObserverSuccess implements ObserverInterface
             $this->_logger->info("quoteId", ["data" => $quoteId]);
             $this->_logger->info("shippingid", ["data" => $shipping_id]);
 
-            $fromData = $this->createAddressDataStr(
+            $fromData = $this->createAddressDataStr('from',
                 "MIENVIO DE MEXICO",
                 $this->_mienvioHelper->getOriginStreet(),
                 $this->_mienvioHelper->getOriginStreet2(),
@@ -599,7 +615,7 @@ class ObserverSuccess implements ObserverInterface
 
             $toStreet2 = empty($shippingAddress->getStreetLine(2)) ? $shippingAddress->getStreetLine(1) : $shippingAddress->getStreetLine(2);
 
-            $toData = $this->createAddressDataStr(
+            $toData = $this->createAddressDataStr('to',
                 $customerName,
                 $shippingAddress->getStreetLine(1),
                 $toStreet2,
@@ -633,7 +649,7 @@ class ObserverSuccess implements ObserverInterface
             $packageWeight = $this->convertWeight($orderData['weight']);
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
-               $response = $this->createQuoteFromItems(
+                $response = $this->createQuoteFromItems(
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
 

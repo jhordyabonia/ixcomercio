@@ -12,6 +12,7 @@ class Data extends AbstractHelper
 
     const XML_PATH_GENERAL = 'mienviogeneral/';
     const XML_PATH_API_KEY = 'carriers/mienviocarrier/apikey';
+    const XML_PATH_API_KEY_RED = 'carriers/mienviocarrier/apikeyredundant';
     const XML_PATH_IS_ENABLE_MIENVIO = 'carriers/mienviocarrier/active';
     const XML_PATH_ENVIRONMENT = 'carriers/mienviocarrier/environment';
     const XML_MEASURES = 'carriers/mienviocarrier/measures';
@@ -87,6 +88,11 @@ class Data extends AbstractHelper
     public function getMienvioApi($storeId = null)
     {
         return $this->getConfigValue(self::XML_PATH_API_KEY , $storeId);
+    }
+
+    public function getMienvioApiRedundant($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_PATH_API_KEY_RED , $storeId);
     }
 
     public function getOriginStreet($storeId = null)
