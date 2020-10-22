@@ -16431,3 +16431,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Have an account? Login here","¿Tienes una cuenta? Entre aquí",module,Magento_Customer
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme
 "Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea agregar los datos de su Factura"
+"Ship Here","Entregar aquí"
