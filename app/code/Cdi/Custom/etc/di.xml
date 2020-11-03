@@ -10,4 +10,6 @@
         <plugin disabled="false" name="Cdi_Custom_Plugin_Block_Checkout_LayoutProcessor" sortOrder="100" type="Cdi\Custom\Plugin\Block\Checkout\LayoutProcessor"/>
     </type>
     <preference for="Magento\Contact\Controller\Index\Post" type="Cdi\Custom\Controller\Index\Post" />
+
+    <preference for="Magento\ImportExport\Controller\Adminhtml\Export\Export" type="Cdi\Custom\Controller\Index\Export" />
 </config>
