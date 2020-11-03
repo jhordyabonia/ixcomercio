@@ -32,7 +32,7 @@ class Commands extends Command
 
    public function __construct(GetPlaces $places, State $appState)
    {
-        $this->_places   = $_places;
+        $this->_places   = $places;
         $this->_appState = $appState; 
 
         parent::__construct();    
