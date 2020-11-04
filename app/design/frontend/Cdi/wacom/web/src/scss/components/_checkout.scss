@@ -156,6 +156,15 @@
         display: none!important;
       }
     }
+
+    #custom-billing-step{
+      .checkout-billing-address{
+        .billing-cancel{
+          margin-top: 0px;
+        }
+      } 
+    }
+
   }
   .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
     font-size: 36px;
