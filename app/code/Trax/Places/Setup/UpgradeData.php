@@ -264,7 +264,42 @@ class UpgradeData implements UpgradeDataInterface
                          ->setOption('charset','utf8');
                 $conn->createTable($table2);
             }
-		}	
+        }	
+        
+        if(version_compare($context->getVersion(), '1.0.3', '<')){
+            $conn = $setup->getConnection();
+            $tableCountry = $setup->getTable('trax_places_country');           
+
+            if($conn->isTableExists($tableCountry) != true){
+                $table = $conn->newTable($tableCountry)
+                        ->addColumn(
+                             'id',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            null,
+                            ['identity'=>true,'unsigned'=>true,'nullable'=>false,'primary'=>true]
+                        )
+                        ->addColumn(
+                            'country_code',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullable'=>false,'default'=>'']
+                        )                        
+                        ->addColumn(
+                            'name',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                            255,
+                            ['nullbale'=>true,'default'=>'']
+                        )                        
+                        ->addColumn(
+                            'status',
+                            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                            null,
+                            ['nullable'=>false,'default'=>1]
+                        )
+                         ->setOption('charset','utf8');
+                $conn->createTable($table);
+            }
+        }
         $setup->endSetup();
     }
 }
