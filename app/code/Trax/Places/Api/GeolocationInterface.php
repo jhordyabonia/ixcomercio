@@ -7,8 +7,16 @@ interface GeolocationInterface
     /**
      * GET for Post api
      * @param string $value
-     * @return string
+     * @return array
      */
  
-    public function getPost($value);
+    public function getRegions();
+
+    /**
+     * GET Regions
+     * @param string $value
+     * @return array
+     */
+ 
+    public function getCities();
 }
