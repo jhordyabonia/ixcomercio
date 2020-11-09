@@ -7,4 +7,5 @@
            </argument>
        </arguments>
    </type>  
+   <preference for="Trax\Places\Api\GeolocationInterface" type="Trax\Places\Model\Api\Geolocation"/>
 </config>
