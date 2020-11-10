@@ -95,21 +95,19 @@ class GetPlaces {
             $configData['country_id'] = $data['country_code'];
             
             $serviceUrl = $this->getServiceUrl($configData, 'getplaces', false);   
-            $this->logger->info('GetPlaces - url '.$serviceUrl);
+            $this->logger->info('GetPlaces - url '.$serviceUrl);           
 
-            if($data['country_code'] == 'GT'){
-
-                if($serviceUrl){
-                    try{
-                        $this->beginGetPlaces($configData, $serviceUrl, '', 0, 'region');
-                    } catch(Exception $e){
-                        $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
-                    }
-                    //TODO: Actualizar datos en base de datos con respuesta de IWS
-                } else{
-                    $this->logger->info('GetPlaces - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
+            if($serviceUrl){
+                try{
+                    $this->beginGetPlaces($configData, $serviceUrl, '', 0, 'region');
+                } catch(Exception $e){
+                    $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
                 }
+                //TODO: Actualizar datos en base de datos con respuesta de IWS
+            } else{
+                $this->logger->info('GetPlaces - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
             }
+            
         }
     }
 
