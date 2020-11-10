@@ -13,10 +13,19 @@ interface GeolocationInterface
     public function getRegions();
 
     /**
-     * GET Regions
+     * GET Cities
      * @param string $value
      * @return array
      */
  
     public function getCities();
+
+
+    /**
+     * GET Zones
+     * @param string $value
+     * @return array
+     */
+ 
+    public function getZones();
 }

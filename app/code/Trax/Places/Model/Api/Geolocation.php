@@ -43,10 +43,7 @@ class Geolocation
 
         $params = $this->request->getParams();
 
-        $countryCode = trim($params['countryCode'] ?? null);      
-        
-        
-        
+        $countryCode = trim($params['countryCode'] ?? null);    
 
         //Select Data from table
         $sql = "Select * FROM trax_places_regions where country_id='".$countryCode."'";
@@ -64,7 +61,7 @@ class Geolocation
                 ];
             }
 
-            $response = ['success' => true, 'cities' => $regions ];
+            $response = ['success' => true, 'regions' => $regions ];
 
         }else{
             $response = ['success' => false, 'message' => "No found regions for ".$countryCode ];
@@ -83,15 +80,69 @@ class Geolocation
         $params = $this->request->getParams();
 
         $parent_id = trim($params['parentId'] ?? null);
-        $response = ['success' => false, 'message' => "Hello cities ".$countryCode ];
+        //$response = ['success' => false, 'message' => "Hello cities ".$countryCode ];
 
         //Select Data from table
+        
         $sql = "Select * FROM trax_places_cities where parent_id='".$parent_id."'";
-       
-        $place = $this->connection->fetchAll($sql); 
-        foreach ($place as $key => $data) {
-            return $data['id'];
-        }
+        $cities = $this->connection->fetchAll($sql); 
+
+
+        if(count($cities)> 0){      
+            
+            $cities_array = array();
+            foreach ($cities as $key => $data) {
+
+                $cities_array[] = [
+                    'id' =>  $data['id'],
+                    'name' => $data['name'],
+                    'traxId' => $data['trax_id'],
+                    'countryId' => $data['country_id']
+                ];
+            }
+
+            $response = ['success' => true, 'cities' => $cities_array ];
+
+        }else{
+            $response = ['success' => false, 'message' => "No found cities for parent_id: ".$parent_id];
+        } 
+
+        return json_encode($response);
+    }
+
+
+    /**
+     *  @inheritdoc
+     */
+
+    public function getZones()
+    {       
+
+        $params = $this->request->getParams();
+
+        $parent_id = trim($params['parentId'] ?? null);
+        
+        $sql = "Select * FROM trax_places_localities where parent_id='".$parent_id."'";
+        $localitaties = $this->connection->fetchAll($sql); 
+
+        if(count($localitaties)> 0){      
+            
+            $localitaties_array = array();
+            foreach ($localitaties as $key => $data) {
+                $localitaties_array[] = [
+                    'id' =>  $data['id'],
+                    'name' => $data['name'],
+                    'traxId' => $data['trax_id'],
+                    'countryId' => $data['country_id'],
+                    'postalCode' => $data['postal_code']
+                ];
+            }
+
+            $response = ['success' => true, 'localitaties' => $localitaties_array ];
+
+        }else{
+            $response = ['success' => false, 'message' => "No found localities for parent_id: ".$parent_id];
+        } 
 
         return json_encode($response);
     }

@@ -3,7 +3,7 @@
     <route url="/V1/geolocation/set-regions" method="GET">
         <service class="Trax\Places\Api\GeolocationInterface" method="getRegions"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="anonymous"/>
         </resources> 
         <data>
             <parameter name="countryCode" force="true">%countryCode%</parameter>
@@ -13,7 +13,17 @@
     <route url="/V1/geolocation/set-cities" method="GET">
         <service class="Trax\Places\Api\GeolocationInterface" method="getCities"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="anonymous"/>
+        </resources> 
+        <data>
+            <parameter name="parentId" force="true">%parentId%</parameter>
+        </data>       
+    </route>
+
+    <route url="/V1/geolocation/set-zones" method="GET">
+        <service class="Trax\Places\Api\GeolocationInterface" method="getZones"/>
+        <resources>
+            <resource ref="anonymous"/>
         </resources> 
         <data>
             <parameter name="parentId" force="true">%parentId%</parameter>
