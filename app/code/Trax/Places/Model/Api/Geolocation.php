@@ -134,7 +134,8 @@ class Geolocation
                     'name' => $data['name'],
                     'traxId' => $data['trax_id'],
                     'countryId' => $data['country_id'],
-                    'postalCode' => $data['postal_code']
+                    'postalCode' => $data['postal_code'],
+                    'parentId' => $data['parent_id']
                 ];
             }
 
