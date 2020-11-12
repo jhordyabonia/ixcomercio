@@ -474,7 +474,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								$(fieldZoneCheckout).find('select option').remove();
                   				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
                   				
-								$.each(resCity, function(iResCity, valResCity){
+								$.each(response.localitaties, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.postalCode+"' parentId='"+valResCity.parentId+"' postalCode='"+valResCity.postalCode+"'>"+valResCity.name+"</option>");
 							  	});
 

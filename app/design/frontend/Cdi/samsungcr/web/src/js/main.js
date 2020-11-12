@@ -472,7 +472,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option:not([value=""])').remove();
-								$.each(resCity, function(iResCity, valResCity){
+								$.each(response.localitaties, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.postalCode+"' parentId='"+valResCity.parentId+"' postalCode='"+valResCity.postalCode+"'>"+valResCity.name+"</option>");
 							  	});
 
