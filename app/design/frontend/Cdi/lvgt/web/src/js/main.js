@@ -518,7 +518,7 @@ require(['jquery', 'loader', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'ma
 	    					'<option data-title="" value="">'+$.mage.__("Please select a region, state or province.")+'</option>';
 
 				        $.each(response.regions, function(iRes, valRes){
-				        	html += "<option value='' parentid='"+valRes.traxId+"''>"+valRes.name+"</option>";
+				        	html += "<option value='"+valRes.name+"' parentid='"+valRes.traxId+"''>"+valRes.name+"</option>";
 				        });
 
 				        html += '</select>';
