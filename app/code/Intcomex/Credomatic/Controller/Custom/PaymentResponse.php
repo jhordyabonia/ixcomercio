@@ -42,16 +42,13 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }
 
             $body = $_GET;
-            echo '<pre>';
-            print_r($body);
-            echo '</pre>';
 
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));
             
-            if($body['response_code']==100||$body['response_code']==200){
+            if($body['response_code']==300||$body['response_code']==200){
                 if( $showCustomError ) {
                     $msgError = $showCustomError;
                 }else {
@@ -62,7 +59,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout');
 
-            }else if($body['response_code']==1000){
+            }else if($body['response_code']==100){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                 $payment = $order->getPayment();
                 $payment->setLastTransId($body['transactionid']);
