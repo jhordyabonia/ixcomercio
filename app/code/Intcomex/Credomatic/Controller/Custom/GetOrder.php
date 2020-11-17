@@ -50,7 +50,6 @@ class GetOrder extends \Magento\Framework\App\Action\Action
 
 
         } catch (\Exception $e) {
-            $this->debugData(['request' => $data, 'exception' => $e->getMessage()]);
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
         }
