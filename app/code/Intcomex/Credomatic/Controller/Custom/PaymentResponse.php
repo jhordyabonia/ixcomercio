@@ -62,7 +62,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }else if($body['response_code']==100){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                 $payment = $order->getPayment();
-                $payment->setLastTransId($body['transactionid']);
+                $payment->setLastTransId($body['authcode']);
                 $this->logger->info('Transactionid');
                 $this->logger->info($payment->getData());
                 $resultRedirect = $this->resultRedirectFactory->create();
