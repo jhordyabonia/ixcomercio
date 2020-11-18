@@ -63,6 +63,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                 $payment = $order->getPayment();
                 $payment->setLastTransId($body['transactionid']);
+                $this->logger->info('Transactionid');
+                $this->logger->info($payment->getData());
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
             }

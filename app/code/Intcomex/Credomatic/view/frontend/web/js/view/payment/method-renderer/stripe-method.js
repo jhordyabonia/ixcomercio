@@ -17,10 +17,9 @@ define(
         'Magento_Checkout/js/model/quote',
         'mage/storage',
         'mage/url',
-        'Magento_Checkout/js/action/get-payment-information',
 
     ],
-    function (ko,Component, $,setPaymentMethodAction,quote,storage,url,getPaymentInformationAction) {
+    function (ko,Component, $,setPaymentMethodAction,quote,storage,url) {
         'use strict';
 
         return Component.extend({
@@ -47,8 +46,7 @@ define(
             },
 
             afterPlaceOrder: function () { 
-
-
+                
                 var serviceUrl = url.build('credomatic/custom/getorder');  
                 var cuotas = $("#Credomatic_installments option:selected").val();
                 var year = $("#Credomatic_expiration_yr option:selected").val();
