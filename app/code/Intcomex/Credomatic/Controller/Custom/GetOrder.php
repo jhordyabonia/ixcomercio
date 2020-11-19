@@ -46,7 +46,6 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             echo json_encode($arrayData);
             $arrayData=array();
 
-
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 

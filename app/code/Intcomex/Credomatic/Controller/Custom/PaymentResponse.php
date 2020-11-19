@@ -57,7 +57,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->_checkoutSession->setErrorMessage($msgError);
                 $this->_messageManager->addError($msgError);
                 $resultRedirect = $this->resultRedirectFactory->create();
-                $resultRedirect->setPath('checkout');
+                $resultRedirect->setPath('checkout/cart');
 
             }else if($body['response_code']==100){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
