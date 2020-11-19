@@ -260,6 +260,13 @@ div#Pagalo_cc_type_exp_div, div#Pagalo_cc_type_cvv_div {
 div#Pagalo_cc_type_exp_div{
   margin-right: 2%;
 }
+div#Credomatic_cc_type_exp_div, div#Credomatic_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#Credomatic_cc_type_exp_div{
+  margin-right: 2%;
+}
 .checkout-payment-method .ccard .year .select{
   width: 100%;
 }
@@ -288,6 +295,10 @@ div#Pagalo_cc_type_exp_div{
 }
 @media (max-width: $tablet){
   div#Pagalo_cc_type_exp_div, div#Pagalo_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#Credomaatic_cc_type_exp_div, div#Credomaatic_cc_type_cvv_div {
     width: 100%;
     float: none;
   }
