@@ -1,7 +1,17 @@
 <?php
 namespace  Incomex\Credomatic\Helper;
+use \Psr\Log\LoggerInterface;
 
 class Data extends Magento\Payment\Helper{
+
+    protected $_logger;
+
+    public function __construct(
+    ) {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/paymentModels.log');
+        $this->_logger = new \Zend\Log\Logger();
+        $this->_logger->addWriter($writer);
+    }
 
     /**
      * Retrieve method model object
