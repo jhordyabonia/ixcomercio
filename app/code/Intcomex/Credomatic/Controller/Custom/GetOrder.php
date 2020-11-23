@@ -31,17 +31,17 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData = array();
             $time = strtotime(date('Y-m-d H:i:s'));
             
-            $procesor_id = $this->_scopeConfig->getValue('payment/Credomatic/processor_id'.$post['cuotas']);
+            $procesor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas']);
             
             $total = number_format($order->getData()[0]['grand_total'],2,".","");
-            $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/Credomatic/key'));
-            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/Credomatic/key_id');
+            $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key'));
+            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id');
             $arrayData['hash'] = $hash;
             $arrayData['time'] = $time;
             $arrayData['processor_id'] = $procesor_id;
             $arrayData['amount'] = $total;
             $arrayData['orderid'] = $order->getData()[0]['entity_id'];
-            $arrayData['gateway'] = $this->_scopeConfig->getValue('payment/Credomatic/url_gateway');
+            $arrayData['gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway');
             $arrayData['ccexp'] = str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4);
             echo json_encode($arrayData);
             $arrayData=array();

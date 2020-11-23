@@ -35,7 +35,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         try {
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $customError = (string) $this->_scopeConfig->getValue('payment/Credomatic/CustomErrorMsg');
+            $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg');
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;
