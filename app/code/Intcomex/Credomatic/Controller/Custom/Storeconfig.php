@@ -34,7 +34,7 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
         $response = [];
         try {
             $configValue = $this->scopeConfig->getValue(
-                'payment/Credomatic/CuotasOptions',
+                'payment/credomatic/CuotasOptions',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             error_log('Config Value: ' . print_r($configValue, true));
