@@ -54,8 +54,6 @@ define(
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month})
                 .done(function(msg){
                    var data = JSON.parse(JSON.stringify(msg));
-                   
-
                     $("#credomatic_key_id").val(data.key_id);
                     $("#credomatic_hash").val(data.hash);
                     $("#credomatic_time").val(data.time);
@@ -66,9 +64,9 @@ define(
                     $("#credomatic_ccexp").val(data.ccexp);
                     $("#credomatic_cvv").val($("#credomatic_cc_cid").val());
                     $("#credomatic_redirect").val(url.build('credomatic/custom/paymentresponse'));
-                    $("#formCredomatic").attr('action',data.gateway);
-                    $("#formCredomatic").submit();
-                
+                    setTimeout(function(){ 
+                        $("#formCredomatic").submit();
+                    }, 2000);                
                 })
                 .fail(function(msg){
 

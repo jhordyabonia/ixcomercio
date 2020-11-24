@@ -31,7 +31,7 @@
             <!-- ko template: 'Intcomex_Credomatic/payment/cc-form' --><!-- /ko -->
 			
         </form>
-        <form action="" method="POST"  style="display: none;" id="formCredomatic">
+        <form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"  style="display: none;" id="formCredomatic">
 			<input type="hidden" readonly id="credomatic_type" name="type" value="sale"  >
             <input type="hidden" readonly id="credomatic_key_id" name="key_id" >
             <input type="hidden" readonly id="credomatic_hash" name="hash" >
