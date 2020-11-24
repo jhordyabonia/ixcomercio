@@ -53,7 +53,9 @@ define(
                 var month = $("#credomatic_expiration option:selected").val();
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month})
                 .done(function(msg){
-                   var data = JSON.parse(msg);
+                   var data = JSON.parse(JSON.stringify(msg));
+                   
+
                     $("#credomatic_key_id").val(data.key_id);
                     $("#credomatic_hash").val(data.hash);
                     $("#credomatic_time").val(data.time);
