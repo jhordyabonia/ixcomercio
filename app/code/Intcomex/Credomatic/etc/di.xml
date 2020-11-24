@@ -14,5 +14,4 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Magento\Payment\Helper\Data" type="Intcomex\Credomatic\Helper\Data" />
 </config>
