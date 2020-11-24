@@ -204,9 +204,9 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 'region' => array('sort' => 45, 'label' => false),
                 'region_id' => array('sort' => 46, 'label' => false),
                 'city' => array('sort' => 90, 'label' => false),
-                'street' => array('sort' => 120, 'label' => $this->scopeConfig->getValue('customer/address/billing_address_label', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)),
+                'street' => array('sort' => 110, 'label' => $this->scopeConfig->getValue('customer/address/billing_address_label', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)),
                 'zone_id' => array('sort' => 100, 'label' => false),
-                'postcode' => array('sort' => 110, 'label' => false),
+                'postcode' => array('sort' => 120, 'label' => false),
             );
             
             
