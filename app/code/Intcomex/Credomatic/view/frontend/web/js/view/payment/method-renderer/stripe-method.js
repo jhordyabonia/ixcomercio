@@ -33,7 +33,7 @@ define(
 	    },
 	    
             getCode: function() {
-                return 'Credomatic';
+                return 'credomatic';
             },
 
             isActive: function() {
