@@ -55,19 +55,19 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         $this->_credomaticLogger = $credomaticLogger;
     }
     public function assignData(\Magento\Framework\DataObject $data){
-        $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-            if (!is_object($additionalData)) {
-                $additionalData = new DataObject($additionalData ?: []);
-            }
-            /** @var DataObject $info */
-            $info = $this->getInfoInstance();
-        global $installments;
-        global $device_fingerprint;
-        global $credomatic_data;
-        $credomatic_data = $additionalData->getData();
-        $installments = $additionalData->getData('cc_installments'); 
-        $device_fingerprint = $additionalData->getData('cc_fingerprint');
-        $additionalData->getData('cc_installments');
+	$additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
+        if (!is_object($additionalData)) {
+            $additionalData = new DataObject($additionalData ?: []);
+        }
+        /** @var DataObject $info */
+        $info = $this->getInfoInstance();
+	global $installments;
+	global $device_fingerprint;
+    global $credomatic_data;
+    $credomatic_data = $additionalData->getData();
+	$installments = $additionalData->getData('cc_installments'); 
+	$device_fingerprint = $additionalData->getData('cc_fingerprint');
+	$additionalData->getData('cc_installments');
         $info->addData(
             [
                 'cc_type' => $additionalData->getCcType(),
@@ -99,7 +99,94 @@ class Payment extends \Magento\Payment\Model\Method\Cc
      * @return $this
      * @throws \Magento\Framework\Validator\Exception
      */
-    public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount){
+    public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount)
+    {
+        try {
+
+            $customError = (string) $this->getConfigData('CustomErrorMsg');
+            $showCustomError = false;
+            if($customError != '') {
+                $showCustomError = true;
+            }
+
+            $time = strtotime(date('Y-m-d H:i:s'));
+            global $installments;
+
+            $order = $payment->getOrder();
+
+            $hash = md5($order->getIncrementId().'|'.$amount.'.00'.'|'.$time.'|'.$this->getConfigData('key'));
+            $data = array();
+            $data['type'] = 'sale';
+            $data['key_id'] = $this->getConfigData('key_id');
+            $data['hash'] = $hash;
+            $data['time'] = $time;
+            /*$data['redirect'] = 'Sale';*/
+            $data['ccnumber'] = $payment->getCcNumber();
+            $data['ccexp'] = str_pad($payment->getCcExpMonth(), 2, '0', STR_PAD_LEFT).substr($payment->getCcExpYear(), 2, 4);
+            $data['amount'] = $amount.'.00';
+            $data['orderid'] = $order->getIncrementId();
+            $data['cvv'] = $payment->getCcCid();
+            /*$data['avs'] = 'Sale';*/
+            $data['processor_id'] = $this->getConfigData('processor_id'.$installments);
+            
+            $data_string = '';
+            foreach($data as $key => $value){
+                $data_string .= $key.'='.$value.'&';
+            }
+            $data_string = rtrim($data_string, '&');
+
+            $this->_credomaticLogger->info('Log de datos');
+            $this->_credomaticLogger->info(print_r($data,true));
+           
+            $service_url = 'https://credomatic.compassmerchantsolutions.com/api/transact.php';
+        
+            $host = $service_url;
+            $ch = curl_init(); 
+			curl_setopt($ch, CURLOPT_URL, $host);
+			// curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLOPT_HEADER, 1);
+			// curl_setopt($process, CURLOPT_USERPWD, $username_pse . ":" . $password_pse);
+			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+			// curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+			// curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			// curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
+			curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+			$errors = curl_error($ch);                                                                                                            
+			$result = curl_exec($ch);
+            
+			$header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $header = substr($result, 0, $header_size);
+            curl_close($ch); 
+            $body = $this->decodeBody(substr($result, $header_size));
+
+            $this->_credomaticLogger->info('Response');
+            $this->_credomaticLogger->info(print_r($header,true));
+            $this->_credomaticLogger->info(print_r($body,true));
+            
+            if($body['response_code']==300||$body['response_code']==200){
+                
+                if( $showCustomError ) {
+                    $this->_messageManager->addErrorMessage($customError);
+                    throw new \Magento\Framework\Exception\LocalizedException(__($customError));
+                }else {
+                   $errorMsg = $body['responsetext'];
+                   $this->_messageManager->addErrorMessage($errorMsg); 
+                   throw new \Magento\Framework\Exception\LocalizedException(__($errorMsg));
+                }
+            }else if($body['response_code']==100){
+                $payment->setLastTransId($body['transactionid']);
+            }
+
+        } catch (\Exception $e) {
+            $this->debugData(['request' => $data, 'exception' => $e->getMessage()]);
+            $error = __('Payment capturing error Credomatic: '); 
+            throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
+        }
+        return $this;
     }
     /**
      * Determine method availability based on quote amount and config data
