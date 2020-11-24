@@ -6,7 +6,7 @@ $instalmments = null;
 $device_fingerprint = null;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
-    const CODE = 'Credomatic';
+    const CODE = 'credomatic';
     protected $_code = self::CODE;
     protected $_isGateway                   = true;
     protected $_canCapture                  = true;
@@ -55,19 +55,19 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         $this->_credomaticLogger = $credomaticLogger;
     }
     public function assignData(\Magento\Framework\DataObject $data){
-	$additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
-        if (!is_object($additionalData)) {
-            $additionalData = new DataObject($additionalData ?: []);
-        }
-        /** @var DataObject $info */
-        $info = $this->getInfoInstance();
-	global $installments;
-	global $device_fingerprint;
-    global $credomatic_data;
-    $credomatic_data = $additionalData->getData();
-	$installments = $additionalData->getData('cc_installments'); 
-	$device_fingerprint = $additionalData->getData('cc_fingerprint');
-	$additionalData->getData('cc_installments');
+        $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
+            if (!is_object($additionalData)) {
+                $additionalData = new DataObject($additionalData ?: []);
+            }
+            /** @var DataObject $info */
+            $info = $this->getInfoInstance();
+        global $installments;
+        global $device_fingerprint;
+        global $credomatic_data;
+        $credomatic_data = $additionalData->getData();
+        $installments = $additionalData->getData('cc_installments'); 
+        $device_fingerprint = $additionalData->getData('cc_fingerprint');
+        $additionalData->getData('cc_installments');
         $info->addData(
             [
                 'cc_type' => $additionalData->getCcType(),
