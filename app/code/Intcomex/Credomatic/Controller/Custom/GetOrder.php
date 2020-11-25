@@ -29,12 +29,12 @@ class GetOrder extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         
-        /** @var \Magento\Framework\Controller\Result\Json $resultJson */
         $resultJson = $this->resultJsonFactory->create();
         $arrayData = array();
         try {
 
-            $post = $_POST; 
+            $post  = $this->getRequest()->getPostValue();
+            
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $order = $objectManager->get('Magento\Sales\Model\Order')->getCollection()->addAttributeToSelect('*')->addFieldToFilter('entity_id',array('eq'=>$this->_checkoutSession->getLastOrderId()));
             $time = strtotime(date('Y-m-d H:i:s'));
