@@ -1,25 +1,18 @@
 <?php    
 namespace Cdi\Custom\Plugin\Block\Product;
 
-use Magento\Catalog\Model\ResourceModel\Product\Collection;
-use Magento\CatalogWidget\Block\Product\ProductsList;
-
 /**
  * Class ProductsListPlugin
  */
-class ProductsListPlugin
+class ProductsListPlugin 
 {
-
-    /**
-     * @param ProductsList $subject
-     * @param Collection $result
-     * @return Collection
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function afterCreateCollection(ProductsList $subject, Collection $result)
+    public function afterCreateCollection($subject, $result)
     {
-        $result->getSelect()->order('is_salable desc');
+        $result->getSelect()->reset(\Zend_Db_Select::ORDER);
+        $result->addAttributeToSort('is_saleable', 'desc');
 
         return $result;
     }
+
 }
+
