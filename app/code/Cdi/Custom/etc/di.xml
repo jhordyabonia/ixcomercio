@@ -13,7 +13,4 @@
     <type name="Magento\Catalog\Model\Layer">
         <plugin name="product_sort_by_stock" type="Cdi\Custom\Model\Plugin\Layer"/>
     </type>
-    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
-        <plugin name="cdi_custom_widgets_product_list" type="Cdi\Custom\Plugin\Block\Product\ProductsListPlugin"/>
-    </type>
 </config>
