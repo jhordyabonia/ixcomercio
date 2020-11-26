@@ -1,0 +1,5 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+ <preference for="MienvioMagento\MienvioGeneral\Helper\Data" type="Intcomex\MienvioRewrites\Helper\Data" />
+ <preference for="MienvioMagento\MienvioGeneral\Observer\ObserverSuccess" type="Intcomex\MienvioRewrites\Observer\ObserverSuccess" />
+</config>
+
