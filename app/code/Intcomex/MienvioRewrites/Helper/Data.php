@@ -1,12 +1,12 @@
 <?php
 
-namespace MienvioMagento\MienvioGeneral\Helper;
+namespace Intcomex\MienvioRewrites\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Store\Model\ScopeInterface;
 
 
-class Data extends AbstractHelper
+class Data extends Intcomex\IngenicoRewrites\Helper\Data
 {
 
 
