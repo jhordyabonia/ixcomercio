@@ -49,8 +49,14 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info(print_r($body,true));
             
             if($body['response_code']==300||$body['response_code']==200){
+
+                $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
+                $orderState = Order::STATE_CANCELED;
+                $order->setState($orderState)->setStatus(Order::STATE_CANCELED);
+                $order->save();
+
                 if( $showCustomError ) {
-                    $msgError = $showCustomError;
+                    $msgError = $customError;
                 }else {
                     $msgError = $body['responsetext'];
                 }
