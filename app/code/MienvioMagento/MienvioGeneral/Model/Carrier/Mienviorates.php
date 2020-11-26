@@ -172,7 +172,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $fullAddressProcessed = $this->processFullAddress($destFullStreet);
             $destCity       = $request->getDestCity();
             $destPostcode   = $request->getDestPostcode();
-            $fromData = $this->createAddressDataStr(
+            $fromData = $this->createAddressDataStr('from',
                 "MIENVIO DE MEXICO",
                 $this->_mienvioHelper->getOriginStreet(),
                 $this->_mienvioHelper->getOriginStreet2(),
@@ -184,7 +184,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $this->_mienvioHelper->getOriginCity()
             );
 
-            $toData = $this->createAddressDataStr(
+            $toData = $this->createAddressDataStr('to',
                 'usuario temporal',
                 $fullAddressProcessed['street'],
                 $fullAddressProcessed['suburb'],
@@ -538,7 +538,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      * @param  string $countryCode
      * @return string
      */
-    private function createAddressDataStr($name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null,$clientCarriers = null)
+    private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
 
@@ -565,25 +565,27 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             if ($countryCode === 'MX') {
                 $data['zipcode'] = $zipcode;
-            } 
-            else {
+            } elseif ($countryCode === 'PA'){
+                if($type === 'from'){
+                    $data['level_1'] = $street2;
+                    $data['level_2'] = $destRegion;
+                }
+                if($type === 'to'){
+                    if($destCity != ''){
+                        $data['level_1'] = $destCity;
+                        $data['level_2'] = $destRegionCode;
+                    }elseif ($destCity != ''){
+                        $data['level_1'] = $destCity;
+                        $data['level_2'] = $destRegionCode;
+                    }
+                }
+
+            } else {
                 $data['level_1'] = $street2;
                 $data['level_2'] = $destCity;
             }
 
-            if ($countryCode === 'PA'){
-                if($destCity != null){
-                    $data['level_1'] = $destCity;
-                }else{
-                    $data['level_1'] = $street2;
-                }
-                if($destRegionCode != null){
-                    $data['level_2'] = $destRegionCode;
-                }else{
-                    $data['level_2'] = $destRegion;
-                }
-                
-            }
+
 
         }else if($location == 'zipcode' ){
             if ($countryCode === 'MX') {
@@ -601,7 +603,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $data['level_2'] = $destCity;
             }
         }
-
+        $this->_logger->debug('DATA COMPLETE: '.serialize($data));
         return $data;
     }
 
