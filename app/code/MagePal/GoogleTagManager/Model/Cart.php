@@ -16,6 +16,7 @@ use Magento\Quote\Model\Quote;
 use MagePal\GoogleTagManager\DataLayer\QuoteData\QuoteItemProvider;
 use MagePal\GoogleTagManager\DataLayer\QuoteData\QuoteProvider;
 use MagePal\GoogleTagManager\Helper\DataLayerItem as dataLayerItemHelper;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Cart extends DataObject
 {
@@ -48,6 +49,11 @@ class Cart extends DataObject
     protected $quoteItemProvider;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Cart constructor.
      * @param CheckoutSession $checkoutSession
      * @param dataLayerItemHelper $dataLayerItemHelper
@@ -62,13 +68,15 @@ class Cart extends DataObject
         Escaper $escaper,
         QuoteProvider $quoteProvider,
         QuoteItemProvider $quoteItemProvider,
-        array $data = []
+        array $data = [],
+        StoreManagerInterface $storeManager
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->dataLayerItemHelper = $dataLayerItemHelper;
         $this->_escaper = $escaper;
         $this->quoteProvider = $quoteProvider;
         $this->quoteItemProvider = $quoteItemProvider;
+        $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
 
@@ -87,6 +95,8 @@ class Cart extends DataObject
 
         $cart['hasItems'] = false;
 
+        $baseCurrentCurrency = $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+
         if ($quote->getItemsCount()) {
             $items = [];
             foreach ($quote->getAllVisibleItems() as $item) {
@@ -95,7 +105,8 @@ class Cart extends DataObject
                     'parent_sku' => $item->getProduct() ? $item->getProduct()->getData('sku') : $item->getSku(),
                     'name' => $this->escapeJsQuote($item->getName()),
                     'product_type' => $item->getProductType(),
-                    'price' => $this->dataLayerItemHelper->formatPrice($item->getPrice()),
+                    'currencyCode' => $baseCurrentCurrency,
+                    'price' => $this->dataLayerItemHelper->formatPrice($item->getPrice()),                    
                     'price_incl_tax' => $this->dataLayerItemHelper->formatPrice($item->getPriceInclTax()),
                     'discount_amount' => $this->dataLayerItemHelper->formatPrice($item->getDiscountAmount()),
                     'tax_amount' => $this->dataLayerItemHelper->formatPrice($item->getTaxAmount()),

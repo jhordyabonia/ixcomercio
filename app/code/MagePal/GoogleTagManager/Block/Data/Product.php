@@ -17,6 +17,7 @@ use MagePal\GoogleTagManager\Block\DataLayer;
 use MagePal\GoogleTagManager\DataLayer\ProductData\ProductProvider;
 use MagePal\GoogleTagManager\Helper\Product as ProductHelper;
 use MagePal\GoogleTagManager\Model\DataLayerEvent;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Product extends AbstractProduct
 {
@@ -36,6 +37,11 @@ class Product extends AbstractProduct
     private $productProvider;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param  Context  $context
      * @param  ProductHelper  $productHelper
      * @param  ProductProvider  $productProvider
@@ -45,12 +51,14 @@ class Product extends AbstractProduct
         Context $context,
         ProductHelper $productHelper,
         ProductProvider $productProvider,
-        array $data = []
+        array $data = [],
+        StoreManagerInterface $storeManager
     ) {
         $this->catalogHelper = $context->getCatalogHelper();
         parent::__construct($context, $data);
         $this->productHelper = $productHelper;
         $this->productProvider = $productProvider;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -63,6 +71,8 @@ class Product extends AbstractProduct
         /** @var $tm DataLayer */
         $tm = $this->getParentBlock();
 
+        $baseCurrentCurrency = $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
+
         if ($product = $this->getProduct()) {
             $productData = [
                 'id' => $product->getId(),
@@ -71,6 +81,7 @@ class Product extends AbstractProduct
                 'product_type' => $product->getTypeId(),
                 'name' => $product->getName(),
                 'price' => $this->getPrice(),
+                'currencyCode' => $baseCurrentCurrency,
                 'attribute_set_id' => $product->getAttributeSetId(),
                 'path' => implode(" > ", $this->getBreadCrumbPath()),
                 'category' => $this->getProductCategoryName(),
