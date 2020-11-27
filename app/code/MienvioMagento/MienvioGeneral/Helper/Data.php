@@ -8,8 +8,6 @@ use Magento\Store\Model\ScopeInterface;
 
 class Data extends AbstractHelper
 {
-
-
     const XML_PATH_GENERAL = 'mienviogeneral/';
     const XML_PATH_API_KEY = 'carriers/mienviocarrier/apikey';
     const XML_PATH_API_KEY_RED = 'carriers/mienviocarrier/apikeyredundant';
@@ -25,6 +23,11 @@ class Data extends AbstractHelper
     const XML_PATH_Street2_store = 'shipping/origin/street_line2';
     const XML_PATH_ZipCode_store = 'shipping/origin/postcode';
     const XML_PATH_city_store = 'shipping/origin/city';
+    const XML_PATH_KIT_URL = 'kit/mienviokit/url';
+    const XML_PATH_KIT_RETRIES = 'kit/mienviokit/retries';
+    const XML_PATH_KIT_EMAIL = 'kit/mienviokit/email';
+    const XML_PATH_KIT_DIMENSION = 'kit/mienviokit/dimension';
+
     public function getConfigValue($field, $storeId = null)
     {
         return $this->scopeConfig->getValue(
@@ -129,6 +132,21 @@ class Data extends AbstractHelper
         }
         return $result;
 
+    }
+    public function getKitUrlService($storeId = null){
+        return $this->getConfigValue(self::XML_PATH_KIT_URL , $storeId);
+    }
+
+    public function getKitRetries($storeId = null){
+        return $this->getConfigValue(self::XML_PATH_KIT_RETRIES , $storeId);
+    }
+
+    public function getKitEmail($storeId = null){
+        return $this->getConfigValue(self::XML_PATH_KIT_EMAIL , $storeId);
+    }
+
+    public function getKitDimension($storeId = null){
+        return $this->getConfigValue(self::XML_PATH_KIT_DIMENSION , $storeId);
     }
 
 }

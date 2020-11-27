@@ -13,6 +13,9 @@ class ObserverSuccess implements ObserverInterface
     private $collectionFactory;
     private $quoteRepository;
     const XML_PATH_Street_store = 'shipping/origin/street_line2';
+    const API_KEY = 'trax_general/catalogo_retailer/apikey';
+    const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
+
 
     /**
      * Defines if quote endpoint will be used at rates
@@ -28,7 +31,10 @@ class ObserverSuccess implements ObserverInterface
         \Magento\Framework\HTTP\Client\Curl $curl,
         Helper $helperData,
         LoggerInterface $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Cdi\Custom\Helper\Data $helperDataCdi,
+        \Trax\Catalogo\Helper\Email $email
+
     ) {
         $this->_storeManager = $storeManager;
         $this->collectionFactory = $collectionFactory;
@@ -37,10 +43,18 @@ class ObserverSuccess implements ObserverInterface
         $this->_logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
+        $this->helperDataCdi = $helperDataCdi;
+        $this->email = $email;
+
     }
 
     public function execute(Observer $observer)
     {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKits.log');
+		$this->_loggerKit = new \Zend\Log\Logger();
+		$this->_loggerKit->addWriter($writer);
+		$this->_loggerKit->info("Execute");
+
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getData('order');
         $shippingMethodObject = $order->getShippingMethod(true);
@@ -187,10 +201,17 @@ class ObserverSuccess implements ObserverInterface
             $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllVisibleItems());
             $packageWeight = $this->convertWeight($orderData['weight']);
 
+            $this->_loggerKit->info("Productos B");
+            $this->_loggerKit->info($itemsMeasures['items']);
+
+
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
                 $mienvioResponse = $this->createQuoteFromItems(
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
+                $this->_loggerKit->info("Quote B");
+                $this->_loggerKit->info($mienvioResponse['quote_id']);
+
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
                 $this->_logger->info("QUOTEid", ["data" => $mienvioQuoteId]);
                 $order->setMienvioQuoteId($mienvioQuoteId);
@@ -320,47 +341,93 @@ class ObserverSuccess implements ObserverInterface
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
             $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
-            if($this->_mienvioHelper->getMeasures() === 1){
-                $length = $product->getData('ts_dimensions_length');
-                $width  = $product->getData('ts_dimensions_width');
-                $height = $product->getData('ts_dimensions_height');
-                $weight = $product->getData('weight');
+            if($product->getData('iws_type') == 'Kit'){
+                $serviceUrl = $this->getServiceUrl($item->getSku());
+				if(isset($serviceUrl) && !empty($serviceUrl)){ 
+					$itemsKit = $this->beginProductLoad($serviceUrl, 0);
+					if(isset($itemsKit) && !empty($itemsKit)){
+						foreach($itemsKit as $itemKit){
+							if($this->_mienvioHelper->getMeasures() === 1){
+								$length = $itemKit->Freight->Item->Length;
+								$width  = $itemKit->Freight->Item->Width;
+								$height = $itemKit->Freight->Item->Height;
+								$weight = $itemKit->Freight->Item->Weight;
+				
+							}else{
+								$length = $this->convertInchesToCms($itemKit->Freight->Item->Length);
+								$width  = $this->convertInchesToCms($itemKit->Freight->Item->Width);
+								$height = $this->convertInchesToCms($itemKit->Freight->Item->Height);
+								$weight = $this->convertWeight($itemKit->Freight->Item->Weight);
+							}
+				
+							$orderLength += $length;
+							$orderWidth  += $width;
+							$orderHeight += $height;
+				
+							$volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+							$packageVolWeight += $volWeight;
+				
+							$itemsArr[] = [
+								'id' => $itemKit->Sku,
+								'name' => $itemKit->Description,
+								'length' => $length,
+								'width' => $width,
+								'height' => $height,
+								'weight' => $weight,
+								'volWeight' => $volWeight,
+								'qty' => $itemKit->Quantity,
+								'declared_value' => $itemKit->Price,
+							];
+						}
+					}
+				} else {
+					$this->_logger->info('GetProduct - No se genero url del servicio');
+				}
 
             }else{
-                $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
-                $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
-                $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
-                $weight = $this->convertWeight($product->getData('weight'));
+                if($this->_mienvioHelper->getMeasures() === 1){
+                    $length = $product->getData('ts_dimensions_length');
+                    $width  = $product->getData('ts_dimensions_width');
+                    $height = $product->getData('ts_dimensions_height');
+                    $weight = $product->getData('weight');
+    
+                }else{
+                    $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+                    $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+                    $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+                    $weight = $this->convertWeight($product->getData('weight'));
+                }
+    
+                $orderLength += $length;
+                $orderWidth  += $width;
+                $orderHeight += $height;
+    
+                $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+                $packageVolWeight += $volWeight;
+    
+                $itemsArr[] = [
+                    'id' => $item->getSku(),
+                    'name' => $productName,
+                    'length' => $length,
+                    'width' => $width,
+                    'height' => $height,
+                    'weight' => $weight,
+                    'volWeight' => $volWeight,
+                    'qty' => $item->getQtyordered(),
+                    'declared_value' => $item->getprice(),
+                ];
             }
-
-            $orderLength += $length;
-            $orderWidth  += $width;
-            $orderHeight += $height;
-
-            $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
-            $packageVolWeight += $volWeight;
-
-            $itemsArr[] = [
-                'id' => $item->getSku(),
-                'name' => $productName,
-                'length' => $length,
-                'width' => $width,
-                'height' => $height,
-                'weight' => $weight,
-                'volWeight' => $volWeight,
-                'qty' => $item->getQtyordered(),
-                'declared_value' => $item->getprice(),
+    
+            return [
+                'vol_weight'  => $packageVolWeight,
+                'length'      => $orderLength,
+                'width'       => $orderWidth,
+                'height'      => $orderHeight,
+                'description' => $orderDescription,
+                'items'       => $itemsArr
             ];
         }
-
-        return [
-            'vol_weight'  => $packageVolWeight,
-            'length'      => $orderLength,
-            'width'       => $orderWidth,
-            'height'      => $orderHeight,
-            'description' => $orderDescription,
-            'items'       => $itemsArr
-        ];
+            
     }
 
     /**
@@ -774,4 +841,58 @@ class ObserverSuccess implements ObserverInterface
         return $parsed;
 
     }
+
+    public function getServiceUrl($sku)
+	{
+        $apiKeyTrax = $this->helperDataCdi->getStoreConfig(self::API_KEY);
+        $accessKeyTrax = $this->helperDataCdi->getStoreConfig(self::ACCESS_KEY);
+        $locale = 'es';
+		if($apiKeyTrax == ''){
+            $serviceUrl = false;
+        } else {
+            $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
+            $signature = $apiKeyTrax.','.$accessKeyTrax.','.$utcTime;
+            $signature = hash('sha256', $signature);
+            $serviceUrl = $this->_mienvioHelper->getKitUrlService().'?locale='.$locale.'&sku='.$sku.'&apiKey='.$apiKeyTrax.'&utcTimeStamp='.$utcTime.'&signature='.$signature;
+        }
+        return $serviceUrl;
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginProductLoad($serviceUrl, $attempts) 
+    {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl);
+        $this->_logger->info('Response:');
+        $this->_logger->info($data);
+        if($data['status']){
+            return $data['resp']->Components;
+        } else {
+			if($this->_mienvioHelper->getKitRetries()>$attempts){
+				$attempts++;
+				$this->_logger->info('GetProduct - Error conexión: '.$serviceUrl);
+				sleep(30);
+				$this->_logger->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio.');
+				$this->beginProductLoad($serviceUrl, $attempts);
+			} else{
+				$this->_logger->info('GetProduct - Error conexión: '.$serviceUrl);
+				$this->_logger->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$this->_mienvioHelper->getKitEmail());
+				$this->email->notify('Soporte Trax', $this->_mienvioHelper->getKitEmail(), $this->_mienvioHelper->getKitRetries(), $serviceUrl, 'N/A', '');
+			}
+        }   
+
+    }
+
+    //Carga el servicio de IWS por Curl
+    public function loadIwsService($serviceUrl) 
+    {
+        $this->_curl->get($serviceUrl);
+        $this->_logger->info('GetProduct - '.$serviceUrl);
+		$response = array(
+			'status' => true,
+			'resp' => json_decode($this->_curl->getBody())
+		);
+        return $response;
+    }
+
 }
