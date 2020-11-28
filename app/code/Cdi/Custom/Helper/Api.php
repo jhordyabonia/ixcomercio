@@ -4,6 +4,15 @@ namespace Cdi\Custom\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 
 class Api extends AbstractHelper{
+
+	const NOT_INVOICED_CLOSED = 'shipping/mail_notification/mail_notification_invoce';
+	const NOT_INVOICED_CANCELED = 'shipping/mail_notification/mail_notification_cancel';
+	const NOT_INVOICED_INVOICE_CREATED = 'shipping/mail_notification/mail_notification_created';
+	const NOT_INVOICED_LABEL_CREATED = 'shipping/mail_notification/mail_notification_label';
+	const NOT_INVOICED_TRANSITO = 'shipping/mail_notification/mail_notification_transito';
+	const NOT_INVOICED_ENTREGADO = 'shipping/mail_notification/mail_notification_entregado';
+	const NOT_INVOICED_DEFAULT = 'shipping/mail_notification/mail_notification_default';
+
  
 	protected $_scopeConfig;
 	protected $_storeManager;
@@ -235,6 +244,10 @@ class Api extends AbstractHelper{
 	/*Retorna estado y comentario para un pedido */
 	public function getCommentByStatus($st, $type = 'shipment'){
 		$trakStr = '';
+		
+		// active notification mail customer
+		$notify_mail = $this->getActiveMail();
+
 		switch($type){
 			//Mensaje para envíos
 			case 'shipment':
@@ -271,7 +284,7 @@ class Api extends AbstractHelper{
 					$st['status'],
 					$st['statusCode']
 				),
-                'notify' => false,
+                'notify' => $notify_mail['invoiced_closed'],
 				'newstatus' => 'closed',
 				'frontlabel' => __('Orden cerrada vía cron_trax.')
 			),
@@ -282,7 +295,7 @@ class Api extends AbstractHelper{
 					$st['status'],
 					$st['statusCode']
 				),
-                'notify' => false,
+                'notify' => $notify_mail['Canceled'],
 				'newstatus' => 'canceled',
 				'frontlabel' => __('Orden cancelada vía cron_trax.')
 			),
@@ -292,7 +305,7 @@ class Api extends AbstractHelper{
 					__("¡Hemos generado la factura de tu pedido!\n\n%s"),
 					$trakStr
 				),
-                'notify' => true,
+                'notify' => $notify_mail['INVOICE_CREATED'],
 				'newstatus' => false,
 				'frontlabel' => __('¡Hemos generado la factura de tu pedido!')
             ),
@@ -302,7 +315,7 @@ class Api extends AbstractHelper{
 					__("¡Hemos generado la guía de tu pedido!\n\n%s"),
 					$trakStr
 				),
-                'notify' => true,
+                'notify' => $notify_mail['LABEL_CREATED'],
 				'newstatus' => false,
 				'frontlabel' => __('¡Hemos generado la guía de tu pedido!')
             ),
@@ -312,7 +325,7 @@ class Api extends AbstractHelper{
 					__("¡Tu paquete está por llegar!\n\n%s"),
 					$trakStr
 				),
-                'notify' => true,
+                'notify' => $notify_mail['TRANSITO'],
 				'newstatus' => false,
 				'frontlabel' => __('¡Tu paquete está por llegar!')
             ),
@@ -322,7 +335,7 @@ class Api extends AbstractHelper{
 					__("¡Tu paquete ha sido entregado!\n\n%s"),
 					$trakStr
 				),
-                'notify' => true,
+                'notify' => $notify_mail['ENTREGADO'],
 				'newstatus' => 'complete',
 				'frontlabel' => __('¡Tu paquete ha sido entregado!')
             ),
@@ -334,10 +347,52 @@ class Api extends AbstractHelper{
 			return array(
 				//@TODO: texto de estado de la orden: desconocido
 				'msg' => __('Estado desconocido'),
-				'notify' => false,
+				'notify' => $notify_mail['default'],
 				'newstatus' => false,
 				'frontlabel' => __('Error al obtener el estado del pedido, contacte al administrador.')
 			);
 		}
+	}
+
+	/*Retorna active/false mail notification */
+	public function getActiveMail(){
+
+		$status = array();
+
+		$status['invoiced_closed'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_CLOSED,
+            ScopeInterface::SCOPE_STORE
+		);
+		
+		$status['Canceled'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_CANCELED,
+            ScopeInterface::SCOPE_STORE
+		);
+
+		$status['INVOICE_CREATED'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_INVOICE_CREATED			,
+            ScopeInterface::SCOPE_STORE
+		);
+
+		$status['LABEL_CREATED'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_LABEL_CREATED,
+            ScopeInterface::SCOPE_STORE
+		);
+
+		$status['TRANSITO'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_TRANSITO,
+            ScopeInterface::SCOPE_STORE
+		);
+		$status['ENTREGADO'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_ENTREGADO,
+            ScopeInterface::SCOPE_STORE
+		);
+
+		$status['default'] = $this->scopeConfig->getValue(
+            self::NOT_INVOICED_DEFAULT,
+            ScopeInterface::SCOPE_STORE
+		);
+
+		return $status;
 	}
 }
