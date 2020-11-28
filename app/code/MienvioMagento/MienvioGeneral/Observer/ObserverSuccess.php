@@ -341,7 +341,7 @@ class ObserverSuccess implements ObserverInterface
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
             $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
-            if($product->getData('iws_type') == 'Kit'){
+            if($product->getData('iws_type') == 'Kit'){ 
                 $serviceUrl = $this->getServiceUrl($item->getSku());
 				if(isset($serviceUrl) && !empty($serviceUrl)){ 
 					$itemsKit = $this->beginProductLoad($serviceUrl, 0);

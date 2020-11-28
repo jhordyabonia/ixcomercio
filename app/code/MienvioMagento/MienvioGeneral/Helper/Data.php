@@ -147,6 +147,6 @@ class Data extends AbstractHelper
 
     public function getKitDimension($storeId = null){
         return $this->getConfigValue(self::XML_PATH_KIT_DIMENSION , $storeId);
-    }
+    } 
 
 }
