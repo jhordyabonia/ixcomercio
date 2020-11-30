@@ -3,6 +3,7 @@
     <system>
         <section id="carriers">
             <group id="mienviokit" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Kits Promocionales</label>
                 <field id="url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>URL Service</label>
                 </field>
