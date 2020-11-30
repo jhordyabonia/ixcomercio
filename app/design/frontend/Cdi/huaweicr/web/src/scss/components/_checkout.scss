@@ -237,10 +237,14 @@
   } 
 }
 
+.checkout-onepage-success form .actions-toolbar{
+  text-align: center;
+    margin: 0 auto !important;
+}
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.month, .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.year{
   width: 50% !important;
 }
-div#credomatic_cc_type_exp_div, div#Credomatic_cc_type_cvv_div {
+div#credomatic_cc_type_exp_div, div#credomatic_cc_type_cvv_div {
   width: 39%;
   float: left;
 }
