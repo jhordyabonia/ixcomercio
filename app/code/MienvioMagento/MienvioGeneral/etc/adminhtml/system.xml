@@ -68,6 +68,6 @@
                     <label>Dimension</label>
                 </field>
             </group>
-        </section>
+        </section> 
     </system>
 </config>
