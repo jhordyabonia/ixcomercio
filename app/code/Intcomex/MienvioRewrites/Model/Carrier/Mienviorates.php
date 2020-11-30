@@ -12,7 +12,9 @@ use Psr\Log\LoggerInterface;
 use MienvioMagento\MienvioGeneral\Helper\Data as Helper;
 use Intcomex\MienvioRewrites\Helper\Data as Helperkit;
 
-class Mienviorates extends MienvioMagento\MienvioGeneral\Model\Carrier\Mienviorates
+
+
+class Mienviorates extends AbstractCarrier implements CarrierInterface
 {
     /**
      * Directory Helper
@@ -45,7 +47,8 @@ class Mienviorates extends MienvioMagento\MienvioGeneral\Model\Carrier\Mienviora
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Cdi\Custom\Helper\Data $helperDataCdi,
-        \Trax\Catalogo\Helper\Email $email
+        \Trax\Catalogo\Helper\Email $email,
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_code = 'mienviocarrier';
@@ -281,11 +284,11 @@ class Mienviorates extends MienvioMagento\MienvioGeneral\Model\Carrier\Mienviora
             'shop_url'     => $this->_storeManager->getStore()->getUrl()
         ];
 
-        $this->_logger->debug('Creating quote -- (mienviorates)', ['request' => json_encode($quoteReqData)]);
+        $this->_logger->debug('Creating quote (mienviorates)', ['request' => json_encode($quoteReqData)]);
         $this->_logger->debug('URL MIENVIO', ['url' => $createQuoteUrl]);
         $this->_curl->post($createQuoteUrl, json_encode($quoteReqData));
         $quoteResponse = json_decode($this->_curl->getBody());
-        $this->_logger->debug('Creating quote -- (mienviorates)', ['response' => $this->_curl->getBody()]);
+        $this->_logger->debug('Creating quote (mienviorates)', ['response' => $this->_curl->getBody()]);
 
         if (isset($quoteResponse->{'rates'})) {
             $rates = [];
@@ -571,7 +574,7 @@ class Mienviorates extends MienvioMagento\MienvioGeneral\Model\Carrier\Mienviora
 
             if ($countryCode === 'MX') {
                 $data['zipcode'] = $zipcode;
-            } elseif ($countryCode === 'PA' || $countryCode === 'CO'){
+            } elseif ($countryCode === 'PA'){
                 if($type === 'from'){
                     $data['level_1'] = $street2;
                     $data['level_2'] = $destRegion;
