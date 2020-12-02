@@ -61,14 +61,13 @@ class Process implements ObserverInterface
         
         $order = $observer->getOrder();
         $stateProcessing = $order::STATE_PROCESSING;
-        $statePending = $order::STATE_PENDING;
         $payment = $order->getPayment();
         $method  = $payment->getMethodInstance();
         $this->logger->info("Está Orden tiene state ->" . $order->getState() . " y status ->" . $order->getStatus() );
         if (
-            ($order->getState() == $stateProcessing 
+            $order->getState() == $stateProcessing 
             //&& $order->getOrigData('state') != $stateProcessing
-            && $payment->getMethod() != 'pasarela_bancomer') || ($order->getState() == $statePending && $payment->getMethod() == 'mercadopago')
+            && $payment->getMethod() != 'pasarela_bancomer'
             ) {
                 $storeScope    = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
                 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();     
@@ -100,8 +99,8 @@ class Process implements ObserverInterface
                         $payload = $this->helper->loadPayloadService(
                                     $order->getId(), 
                                     $payment->getAmountOrdered(), 
-                                    '',
-                                    $payment->getLastTransId(), 
+                                    '1234567',
+                                    (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
                                     '', 
                                     $payment->getMethod(), 
                                     $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
@@ -140,8 +139,8 @@ class Process implements ObserverInterface
                                     $payload = $this->helper->loadPayloadService(
                                                 $order->getId(), 
                                                 $payment->getAmountOrdered(), 
-                                                '',
-                                                $payment->getLastTransId(), 
+                                                '1234567',
+                                                (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
                                                 '', 
                                                 $payment->getMethod(), 
                                                 $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
