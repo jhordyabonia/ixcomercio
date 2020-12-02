@@ -24,11 +24,7 @@ html {
   -webkit-text-size-adjust: 100%; }
 
 body[data-container='body'] {
-<<<<<<< HEAD
-  color: #f6f6f6;
-=======
   color: #000000;
->>>>>>> dvlp-REQ-{#15851-UX}
   font-size: 14px;
   background-color: white;
   text-align: center;
@@ -107,21 +103,13 @@ select {
   transition: .5s all ease; }
   select:hover {
     border-color: #aaa;
-<<<<<<< HEAD
-    color: #f6f6f6;
-=======
     color: #000000;
->>>>>>> dvlp-REQ-{#15851-UX}
     outline: none; }
 
 input.input-text, select, textarea {
   background: #fff;
   border: 1px solid #ddd;
-<<<<<<< HEAD
-  color: #f6f6f6;
-=======
   color: #000000;
->>>>>>> dvlp-REQ-{#15851-UX}
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border-radius: 0;
@@ -2761,8 +2749,13 @@ form {
   margin: -35px 0 0; }
 
 .checkout-cart-index .page-wrapper .page-main {
+
   max-width: 1300px;
   margin: 0 auto; }
+  .payment-icon{
+    display:none!important;}
+  .img-tarjetas{
+    display:none!important;}
   @media (min-width: 768px) {
     .checkout-cart-index .page-wrapper .page-main {
       width: 90%; } }
