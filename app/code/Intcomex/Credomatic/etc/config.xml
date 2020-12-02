@@ -12,7 +12,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <Credomatic>
+            <credomatic>
                 <active>0</active>
                 <model>Intcomex\Credomatic\Model\Payment</model>
                 <payment_action>authorize</payment_action>
@@ -22,7 +22,7 @@
                 <cctypes>MC,VI</cctypes>
                 <!-- allowspecific>0</allowspecific>
                 <min_order_total>0.50</min_order_total-->
-            </Credomatic>
+            </credomatic>
         </payment>
     </default>
 </config>

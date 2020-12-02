@@ -35,7 +35,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         try {
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $customError = (string) $this->_scopeConfig->getValue('payment/Credomatic/CustomErrorMsg');
+            $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg');
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;
@@ -49,15 +49,20 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info(print_r($body,true));
             
             if($body['response_code']==300||$body['response_code']==200){
+
+                $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
+                $order->setState("canceled")->setStatus("canceled");
+                $order->save();
+
                 if( $showCustomError ) {
-                    $msgError = $showCustomError;
+                    $msgError = $customError;
                 }else {
                     $msgError = $body['responsetext'];
                 }
                 $this->_checkoutSession->setErrorMessage($msgError);
                 $this->_messageManager->addError($msgError);
                 $resultRedirect = $this->resultRedirectFactory->create();
-                $resultRedirect->setPath('checkout');
+                $resultRedirect->setPath('checkout/cart');
 
             }else if($body['response_code']==100){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);

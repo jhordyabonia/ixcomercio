@@ -14,14 +14,5 @@
             </argument>
         </arguments>
     </type>
-    <!-- Capture command -->
-    <virtualType name="CredomaticCaptureCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">Intcomex\Credomatic\Gateway\Request\CaptureRequest</argument>
-            <argument name="handler" xsi:type="object">Intcomex\Credomatic\Gateway\Response\TxnIdHandler</argument>
-            <argument name="transferFactory" xsi:type="object">Intcomex\Credomatic\Gateway\Http\TransferFactory</argument>
-            <argument name="validator" xsi:type="object">Intcomex\Credomatic\Gateway\Validator\ResponseCodeValidator</argument>
-            <argument name="client" xsi:type="object">Intcomex\Credomatic\Gateway\Http\Client\ClientMock</argument>
-        </arguments>
-    </virtualType>
+    <!--<preference for="Magento\Payment\Helper\Data" type="Intcomex\Credomatic\Helper\Data" />-->
 </config>

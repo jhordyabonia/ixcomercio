@@ -49,7 +49,7 @@ define([
                             newOptions[response[i]+" Cuotas"] = response[i];
                         }
         
-                        var $methods = $("#Credomatic_installments");
+                        var $methods = $("#credomatic_installments");
                         $methods.empty();
                         $.each(newOptions, function(key,value) {
                             $methods.append($("<option></option>").attr("value", value).text(key));

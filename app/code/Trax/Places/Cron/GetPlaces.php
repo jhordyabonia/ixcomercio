@@ -73,53 +73,64 @@ class GetPlaces {
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+
+
+        $tableName = $resource->getTableName('trax_places_country'); 
+		//Select Data from table
+        $sql = "Select * FROM " . $tableName; 
         
-        //Se obtienen todos los websites 
-        $websites = $storeManager->getWebsites();
-        $storeArray = array();
-        foreach ($websites as $key => $website) {
-            foreach ($website->getGroups() as $group) {
-                $stores = $group->getStores();
-                foreach ($stores as $store) {
-                    //Se obtienen parametros de configuración por Store
-                    $configData = $this->getConfigParams($storeScope, $store->getCode()); 
-                    $this->logger->info('GetPlaces - store '.$store->getCode());
-                    $serviceUrl = $this->getServiceUrl($configData, 'getplaces', false);   
-                    $this->logger->info('GetPlaces - url '.$serviceUrl);
-                    if($serviceUrl){
-                        try{
-                            $this->beginGetPlaces($configData, $serviceUrl, $store->getCode(), 0, 'region');
-                        } catch(Exception $e){
-                            $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
-                        }
-                        //TODO: Actualizar datos en base de datos con respuesta de IWS
-                    } else{
-                        $this->logger->info('GetPlaces - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
+        $this->logger->info('GetPlaces - sql country '.$sql);
+        $country = $connection->fetchAll($sql); 
+
+        $configData = $this->getConfigParams($storeScope, 'base');
+        
+        foreach ($country as $key => $data) {
+                                  
+            $this->logger->info('GetPlaces - country '.$data['country_code']);
+            $configData['country_id'] = $data['country_code'];
+            
+            $serviceUrl = $this->getServiceUrl($configData, 'getplaces', false);   
+            $this->logger->info('GetPlaces - url '.$serviceUrl);           
+
+            if($data['country_code']== 'CR'){
+                if($serviceUrl){
+                    try{
+                        $this->beginGetPlaces($configData, $serviceUrl, '', 0, 'region');
+                    } catch(Exception $e){
+                        $this->logger->info('GetPlaces - Se ha producido un error: '.$e->getMessage());
                     }
+                    //TODO: Actualizar datos en base de datos con respuesta de IWS
+                } else{
+                    $this->logger->info('GetPlaces - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
                 }
             }
+            
         }
-
     }
 
     //Obtiene los parámetros de configuración desde el cms
-    public function getConfigParams($storeScope, $websiteCode) 
+    public function getConfigParams($storeScope, $websiteCode = null) 
     {
         //Se obtienen parametros de configuración por Store
-        $configData['apikey'] = $this->scopeConfig->getValue(self::API_KEY, $storeScope, $websiteCode);
-        $configData['accesskey'] = $this->scopeConfig->getValue(self::ACCESS_KEY, $storeScope, $websiteCode);
-        $enviroment = $this->scopeConfig->getValue(self::ENVIROMENT, $storeScope, $websiteCode);
+        $configData['apikey'] = $this->scopeConfig->getValue(self::API_KEY, $storeScope);
+        $configData['accesskey'] = $this->scopeConfig->getValue(self::ACCESS_KEY, $storeScope);
+        $enviroment = $this->scopeConfig->getValue(self::ENVIROMENT, $storeScope);
         //Se valida entorno para obtener url del servicio
         if($enviroment == '0'){
-            $configData['url'] = $this->scopeConfig->getValue(self::URL_DESARROLLO, $storeScope, $websiteCode);
+            $configData['url'] = $this->scopeConfig->getValue(self::URL_DESARROLLO, $storeScope);
         } else{
-            $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope, $websiteCode);
+            $configData['url'] = $this->scopeConfig->getValue(self::URL_PRODUCCION, $storeScope);
         }
-        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope, $websiteCode);
-        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope, $websiteCode);
-        $configData['lugares_reintentos'] = $this->scopeConfig->getValue(self::LUGARES_REINTENTOS, $storeScope, $websiteCode);
-        $configData['lugares_correo'] = $this->scopeConfig->getValue(self::LUGARES_CORREO, $storeScope, $websiteCode);
-        $configData['country_id'] = $this->scopeConfig->getValue(self::COUNTRY_ID, $storeScope, $websiteCode);
+        $configData['timeout'] = $this->scopeConfig->getValue(self::TIMEOUT, $storeScope);
+        $configData['errores'] = $this->scopeConfig->getValue(self::ERRORES, $storeScope);
+        $configData['lugares_reintentos'] = $this->scopeConfig->getValue(self::LUGARES_REINTENTOS, $storeScope);
+        $configData['lugares_correo'] = $this->scopeConfig->getValue(self::LUGARES_CORREO, $storeScope);
+        
         return $configData;
     }
 
@@ -132,9 +143,11 @@ class GetPlaces {
         if($configData['apikey'] == ''){
             $serviceUrl = false;
         } else {
-            $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
+            $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';          
             $signature = $configData['apikey'].','.$configData['accesskey'].','.$utcTime;
             $signature = hash('sha256', $signature);
+            //$api_key = '63849496-b505-485f-abb5-5c4b15a9a0d4';
+            //$signature = '3d8b4a7f494930dec2415baf5af9ddce8b0701b65c68323c228b288a56f66671';
             $serviceUrl = $configData['url'].$method.'?locale=en&apiKey='.$configData['apikey'].'&utcTimeStamp='.$utcTime.'&signature='.$signature.'&countryId='.$configData['country_id']; 
         }
         if($parentId){
@@ -217,6 +230,9 @@ class GetPlaces {
             $this->logger->info('GetPlaces - Se verifica si el registro de '.$type.' con id de trax: '.$region->Id.' existe');
             $id = $this->checkPlace($configData['country_id'], $storeCode, $region->Id, $type);
             //Se verifica si existe el registro para el pais y la tienda
+
+            $this->logger->info('GetPlaces - Se verifica id '.$id.' con store: '.$storeCode.' existe');
+            
             if(!$id){
                 //Se genera registro
                 $this->savePlace($configData['country_id'], $storeCode, $region, $type);
@@ -256,7 +272,8 @@ class GetPlaces {
         }
 		$tableName = $resource->getTableName($table); 
 		//Select Data from table
-        $sql = "Select * FROM " . $tableName." where store_code='".$storeCode."' AND country_id='".$country_id."' AND trax_id='".$place_id."'";
+        $sql = "Select * FROM " . $tableName." where country_id='".$country_id."' AND trax_id='".$place_id."'";
+       
         $place = $connection->fetchAll($sql); 
         foreach ($place as $key => $data) {
             return $data['id'];
@@ -270,8 +287,7 @@ class GetPlaces {
         switch($type){
             case 'region':
                 $model = $this->_traxPlacesRegions->create(); 
-                $model->addData([
-                    "store_code" => $storeCode,
+                $model->addData([                    
                     "country_id" => $country_id,
                     "trax_id" => $region->Id,
                     "name" => $region->Name,
@@ -283,8 +299,7 @@ class GetPlaces {
                 break;
             case 'city':
                 $model = $this->_traxPlacesCities->create(); 
-                $model->addData([
-                    "store_code" => $storeCode,
+                $model->addData([                    
                     "country_id" => $country_id,
                     "trax_places_region_id" => $parent,
                     "trax_id" => $region->Id,
@@ -297,8 +312,7 @@ class GetPlaces {
                 break;
             case 'locality':
                 $model = $this->_traxPlacesLocalities->create(); 
-                $model->addData([
-                    "store_code" => $storeCode,
+                $model->addData([                    
                     "country_id" => $country_id,
                     "trax_places_city_id" => $parent,
                     "trax_id" => $region->Id,
