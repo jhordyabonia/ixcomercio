@@ -99,8 +99,8 @@ class Process implements ObserverInterface
                         $payload = $this->helper->loadPayloadService(
                                     $order->getId(), 
                                     $payment->getAmountOrdered(), 
-                                    '',
-                                    $payment->getLastTransId(), 
+                                    '1234567',
+                                    (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
                                     '', 
                                     $payment->getMethod(), 
                                     $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
@@ -139,8 +139,8 @@ class Process implements ObserverInterface
                                     $payload = $this->helper->loadPayloadService(
                                                 $order->getId(), 
                                                 $payment->getAmountOrdered(), 
-                                                '',
-                                                $payment->getLastTransId(), 
+                                                '1234567',
+                                                (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
                                                 '', 
                                                 $payment->getMethod(), 
                                                 $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
