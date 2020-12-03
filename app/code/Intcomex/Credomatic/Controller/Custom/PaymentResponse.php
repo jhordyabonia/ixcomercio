@@ -31,7 +31,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
      * @return \Magento\Framework\Controller\ResultInterface
      */
     public function execute(){ 
-        ini_set('display_errors', 1);
         try {
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
@@ -63,6 +62,13 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->_messageManager->addError($msgError);
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/cart');
+                $this->logger->info($lastRealOrder->getData('status'));
+
+                if ($lastRealOrder->getPayment()) {
+                    if ($lastRealOrder->getData('state') === 'canceled' && $lastRealOrder->getData('status') === 'canceled') {
+                        $this->_checkoutSession->restoreQuote();
+                    }
+                }
 
             }else if($body['response_code']==100){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
