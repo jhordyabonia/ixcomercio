@@ -60,6 +60,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 }
                 $this->_checkoutSession->setErrorMessage($msgError);
                 $this->_messageManager->addError($msgError);
+                $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
+
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/cart');
                 $this->logger->info($lastRealOrder->getData('status'));
