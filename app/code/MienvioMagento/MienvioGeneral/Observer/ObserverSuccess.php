@@ -513,7 +513,7 @@ class ObserverSuccess implements ObserverInterface
 
             if ($countryCode === 'MX') {
                 $data['zipcode'] = $zipcode;
-            } elseif ($countryCode === 'PA'){
+            } elseif ($countryCode === 'PA' || $countryCode === 'CO'){
                 if($type === 'from'){
                     $data['level_1'] = $street2;
                     $data['level_2'] = $destRegion;

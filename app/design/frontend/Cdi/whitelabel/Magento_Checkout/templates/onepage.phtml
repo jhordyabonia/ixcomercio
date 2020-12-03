@@ -31,6 +31,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         window.enableInvoice = <?php echo $_helperCdi->getStoreConfig('checkout/options/show_invoice');?>;
         window.invoiceLabel = '<?php echo $_helperCdi->getStoreConfig('checkout/options/invoice_label');?>';
         window.identificationLabel = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label');?>';
+        window.urlGeo = '<?= $block->getBaseUrl() ?>index.php/rest/V1/geolocation/';
     </script>
     <script>
         require([
