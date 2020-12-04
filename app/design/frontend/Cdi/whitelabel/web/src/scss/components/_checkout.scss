@@ -236,7 +236,7 @@
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.month, .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.year{
   width: 50% !important;
 }
-div#Pagalo_cc_type_exp_div, div#Pagalo_cc_type_cvv_div {
+div#pagalo_cc_type_exp_div, div#pagalo_cc_type_cvv_div {
   width: 38%;
   float: left;
 }
@@ -271,7 +271,7 @@ div#credomatic_cc_type_exp_div{
   margin-top:20px;
 }
 @media (max-width: $tablet){
-  div#Pagalo_cc_type_exp_div, div#Pagalo_cc_type_cvv_div {
+  div#pagalo_cc_type_exp_div, div#pagalo_cc_type_cvv_div {
     width: 100%;
     float: none;
   }
