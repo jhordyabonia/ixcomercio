@@ -329,16 +329,20 @@ class ObserverSuccess implements ObserverInterface
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
             $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKitsObserver.log');
+            $this->_loggerKit = new \Zend\Log\Logger();
+            $this->_loggerKit->addWriter($writer);
             if($product->getData('iws_type') == 'Kit'){
-                $this->_loggerKit->info('item kit in Observer');
+                $this->_loggerKit->info('item kit Observer');
                 $this->_loggerKit->info($item->getSku());
                 $serviceUrl = $this->getServiceUrl($item->getSku());
+                $this->_loggerKit->info($serviceUrl);
                 if(!empty($serviceUrl)&&isset($serviceUrl)){ 
-                    $this->_loggerKit->info($serviceUrl);
                     $itemsKit = $this->beginProductLoad($serviceUrl, 0);
                     if(isset($itemsKit) && !empty($itemsKit)){
                         $this->_loggerKit->info('beginProductLoad');
                         foreach($itemsKit as $itemKit){
+
                             if($this->_mienvioHelper->getMeasures() === 1){
                                 $length = $product->getData('ts_dimensions_length');
                                 $width  = $product->getData('ts_dimensions_width');
@@ -361,7 +365,7 @@ class ObserverSuccess implements ObserverInterface
                 
                             $itemsArr[] = [
                                 'id' => $itemKit->Sku,
-                                'name' => $itemKit->Description,
+                                'name' => $productName,
                                 'length' => $length,
                                 'width' => $width,
                                 'height' => $height,
@@ -370,15 +374,16 @@ class ObserverSuccess implements ObserverInterface
                                 'qty' => $itemKit->Quantity,
                                 'declared_value' => $itemKit->Price,
                             ];
+                            $this->_loggerKit->info('fnKits');
+                            $this->_loggerKit->info(print_r($itemsArr,true));
 
                         }
                     }
                 }else {
-                    
                     $this->_logger->info('GetProduct - No se genero url del servicio');
                 }
-            }else{
 
+            }else{
                 if($this->_mienvioHelper->getMeasures() === 1){
                     $length = $product->getData('ts_dimensions_length');
                     $width  = $product->getData('ts_dimensions_width');
@@ -834,6 +839,7 @@ class ObserverSuccess implements ObserverInterface
         return $parsed;
 
     }
+
     public function getServiceUrl($sku)
 	{
         $apiKeyTrax = $this->helperDataCdi->getStoreConfig(self::API_KEY);
