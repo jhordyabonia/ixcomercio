@@ -863,8 +863,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        $this->_loggerKit->info('Response:');
-        $this->_loggerKit->info($data);
         if($data['status']){
             return $data['resp']->Components;
         } else {
