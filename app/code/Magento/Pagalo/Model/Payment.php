@@ -6,7 +6,7 @@ $instalmments = null;
 $device_fingerprint = null;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
-    const CODE = 'Pagalo';
+    const CODE = 'pagalo';
     protected $_code = self::CODE;
     protected $_isGateway                   = true;
     protected $_canCapture                  = true;

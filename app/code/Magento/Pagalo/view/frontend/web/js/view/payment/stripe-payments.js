@@ -20,7 +20,7 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'Pagalo',
+                type: 'pagalo',
                 component: 'Magento_Pagalo/js/view/payment/method-renderer/stripe-method'
             }
         );
