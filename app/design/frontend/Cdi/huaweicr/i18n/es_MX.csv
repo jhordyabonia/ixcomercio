@@ -16432,3 +16432,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Have an account? Login here","¿Tienes una cuenta? Entre aquí",module,Magento_Customer
 "Sign up to our newsletter","¡REGISTRATE Y RECIBÍ OFERTAS EXCLUSIVAS!",module,Magento_Theme
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme
+"Ship Here","Entregar aquí"
+"Ship here","Entregar aquí"
