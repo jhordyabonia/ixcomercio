@@ -16435,6 +16435,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "No Payment Information Required","No se requiere información de pago"
 "Payment capturing error pagalo:","Error en el pago: "
 "Payment error: The transaction has been rejected","Error en el pago: La transacción ha sido rechazada"
-"Payment capturing error pagalo:","Error en el pago: "
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
