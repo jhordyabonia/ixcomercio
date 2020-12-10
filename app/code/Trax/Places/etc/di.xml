@@ -3,7 +3,7 @@
    <type name="Magento\Framework\Console\CommandList">
        <arguments>
            <argument name="commands" xsi:type="array">
-               <item name="upload" xsi:type="object">Trax\Places\Console\Commands</item>
+               <item name="places" xsi:type="object">Trax\Places\Console\PlaceCommands</item>
            </argument>
        </arguments>
    </type>  
