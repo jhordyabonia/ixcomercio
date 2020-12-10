@@ -25,14 +25,13 @@ class Data extends mainHelper{
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
-        $this->logger->info($paymentMethod);
         if(!$class){
             $this->logger->info('El modelo indicado en '.$paymentMethod.' no esta definido!');
             
-            if(strcmp($paymentMethod,'payment/Credomatic/model')===0){
-                $class = 'Intcomex\Credomatic\Model\Payment';
-            }else if(strcmp($paymentMethod,'payment/Pagalo/model')===0){
-                $class = 'Magento\Pagalo\Model\Payment';
+            if(strcmp($paymentMethod,'payment/credomatic/model')===0){
+                $class = 'Intcomex\credomatic\Model\Payment';
+            }else if(strcmp($paymentMethod,'payment/pagalo/model')===0){
+                $class = 'Magento\pagalo\Model\Payment';
             }
             $this->logger->info('Para el modelo '.$paymentMethod.' se inicializo con '.$class);
         } 
