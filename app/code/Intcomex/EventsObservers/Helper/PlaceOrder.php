@@ -8,7 +8,6 @@ use \Psr\Log\LoggerInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
 use Trax\Grid\Model\GridFactory;
-use Intcomex\MienvioRewrites\Helper\Data as Helperkit;
 
 class PlaceOrder extends AbstractHelper
 {    
@@ -35,10 +34,6 @@ class PlaceOrder extends AbstractHelper
     const PORCENTAJE_IMPUESTO = 'trax_ordenes/ordenes_general/porcentaje_impuesto';
 
     const PRODUCTO_IMPUESTO = 'trax_ordenes/ordenes_general/producto_impuesto';
-
-    const CODIGO_ERROR_TIMEOUT = '150';
-
-    const IWS_ORDERID_FIELD = 'IntcomexOrderNumber';
     
     /**
     * @var helper
@@ -77,10 +72,7 @@ class PlaceOrder extends AbstractHelper
             \Magento\Sales\Model\Order $order,
             LoggerInterface $logger,
             \Magento\Framework\Controller\ResultFactory $result,
-            \Trax\Grid\Model\GridFactory $gridFactory,
-            Helperkit $helperkit,
-            \Cdi\Custom\Helper\Data $helperDataCdi,
-            \Magento\Framework\HTTP\Client\Curl $curl
+            \Trax\Grid\Model\GridFactory $gridFactory
     ) {
         $this->scopeConfig = $scopeConfig;        
         $this->helper = $email;
@@ -89,9 +81,6 @@ class PlaceOrder extends AbstractHelper
         $this->order = $order;     
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
-        $this->_kitHelper = $helperkit;
-        $this->helperDataCdi = $helperDataCdi;
-        $this->_curl = $curl;
 
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/events_sales_order.log');
         $this->logger = new \Zend\Log\Logger();
@@ -139,10 +128,8 @@ class PlaceOrder extends AbstractHelper
 
     //FunciÃ³n recursiva para intentos de conexiÃ³n
     public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
-        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         //Se conecta al servicio 
-        $data = $this->loadIwsService($serviceUrl, $payload, $storeCode,$storeScope);
-        
+        $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
         if($data['status']){     
             //Mapear orden de magento con IWS en tabla custom
             $this->saveIwsOrder($data['resp']->OrderNumber, $order->getId(), $order->getIncrementId());
@@ -167,11 +154,8 @@ class PlaceOrder extends AbstractHelper
     }
 
     //Se carga servicio por CURL
-	public function loadIwsService($serviceUrl, $payload, $storeCode,$storeScope) 
+	public function loadIwsService($serviceUrl, $payload, $storeCode) 
 	{        
-        $codigo_error_timeout = $this->scopeConfig->getValue(self::CODIGO_ERROR_TIMEOUT, $storeScope, $storeCode);
-        $iws_orderid_field = $this->scopeConfig->getValue(self::IWS_ORDERID_FIELD, $storeScope, $storeCode);
-        
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
@@ -194,18 +178,10 @@ class PlaceOrder extends AbstractHelper
         $this->logger->info('PlaceOrder - '.$serviceUrl);
         $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
         if ($status_code == '200'){
-            $iwsResp = json_decode($resp,true);
-            if(isset($iwsResp['ErrorCode'])&&$iwsResp['ErrorCode']==$codigo_error_timeout){
-                $response = array(
-                    'status' => true,
-                    'resp' => array('OrderNumber'=>$iwsResp[$iws_orderid_field])
-                );
-            }else{
-                $response = array(
-                    'status' => true,
-                    'resp' => $iwsResp
-                );
-            }
+            $response = array(
+                'status' => true,
+                'resp' => json_decode($resp)
+            );
         } else {
             $response = array(
                 'status' => false,
@@ -267,55 +243,23 @@ class PlaceOrder extends AbstractHelper
         }
         $items = array();
         $skuItems = array();
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         foreach ($orderItems as $key => $dataItem) {
             if (!array_key_exists($dataItem->getSku(), $skuItems) && $dataItem->getOriginalPrice() != 0) {
-                $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('sku', $dataItem->getSku());
-                if($product->getData('iws_type') == 'Kit'){
-                    $this->logger->info('item kit placeorder');
-                    $serviceUrl = $this->getServiceUrlKit($dataItem->getSku());
-                
-                    if(!empty($serviceUrl)&&isset($serviceUrl)){ 
-                        $itemsKit = $this->beginProductLoad($serviceUrl, 0);
-                        if(isset($itemsKit) && !empty($itemsKit)){
-                            $this->logger->info('beginProductLoad');
-                            $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
-                            $tempItem['Sku'] = $dataItem->getSku();
-                            $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-                            $tempItem['Price'] = $dataItem->getOriginalPrice();
-                            $discount = '';
-                            if(count($coupon) == 0){
-                                $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
-                                if($price > 0){
-                                    $discount = $price;
-                                }
-                            }
-                            $tempItem['Discounts'] = $discount;
-                            $tempItem['CouponCodes'] = $coupon;
-                            $tempItem['StoreItemId'] = $dataItem->getId();
-                            $items[] = $tempItem;
-                        }
-                    }else {
-                        $this->logger->info('GetProduct - No se genero url del servicio');
+                $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
+                $tempItem['Sku'] = $dataItem->getSku();
+                $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
+                $tempItem['Price'] = $dataItem->getOriginalPrice();
+                $discount = '';
+                if(count($coupon) == 0){
+                    $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
+                    if($price > 0){
+                        $discount = $price;
                     }
-
-                }else{
-                    $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
-                    $tempItem['Sku'] = $dataItem->getSku();
-                    $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-                    $tempItem['Price'] = $dataItem->getOriginalPrice();
-                    $discount = '';
-                    if(count($coupon) == 0){
-                        $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
-                        if($price > 0){
-                            $discount = $price;
-                        }
-                    }
-                    $tempItem['Discounts'] = $discount;
-                    $tempItem['CouponCodes'] = $coupon;
-                    $tempItem['StoreItemId'] = $dataItem->getId();
-                    $items[] = $tempItem;
                 }
+                $tempItem['Discounts']   = $discount;
+                $tempItem['CouponCodes'] = $coupon;
+                $tempItem['StoreItemId'] = $dataItem->getId();
+                $items[] = $tempItem;
             }
         }
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
@@ -450,56 +394,4 @@ class PlaceOrder extends AbstractHelper
         }
         return $billing->getIdentification();    
     } 
-
-    public function getServiceUrlKit($sku)
-	{
-        $apiKeyTrax = $this->helperDataCdi->getStoreConfig(self::API_KEY);
-        $accessKeyTrax = $this->helperDataCdi->getStoreConfig(self::ACCESS_KEY);
-        $locale = 'es';
-		if($apiKeyTrax == ''){
-            $serviceUrl = false;
-        } else {
-            $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
-            $signature = $apiKeyTrax.','.$accessKeyTrax.','.$utcTime;
-            $signature = hash('sha256', $signature);
-            $serviceUrl = $this->_kitHelper->getKitUrlService().'?locale='.$locale.'&sku='.$sku.'&apiKey='.$apiKeyTrax.'&utcTimeStamp='.$utcTime.'&signature='.$signature;
-        }
-        return $serviceUrl;
-    }
-
-    //Función recursiva para intentos de conexión
-    public function beginProductLoad($serviceUrl, $attempts) 
-    {
-        //Se conecta al servicio 
-        $data = $this->loadIwsServiceKit($serviceUrl);
-        if($data['status']){
-            return $data['resp']->Components;
-        } else {
-			if($this->_kitHelper->getKitRetries()>$attempts){
-				$attempts++;
-				$this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
-				sleep(30);
-				$this->logger->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio.');
-				$this->beginProductLoad($serviceUrl, $attempts);
-			} else{
-				$this->logger->info('GetProduct - Error conexión: '.$serviceUrl);
-				$this->logger->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$this->_kitHelper->getKitEmail());
-				$this->helper->notify('Soporte Trax', $this->_kitHelper->getKitEmail(), $this->_kitHelper->getKitRetries(), $serviceUrl, 'N/A', '');
-			}
-        }   
-
-    }
-
-    //Carga el servicio de IWS por Curl
-    public function loadIwsServiceKit($serviceUrl) 
-    {
-        $this->_curl->get($serviceUrl);
-        $this->logger->info('loadIwsService');
-        $this->logger->info('GetProduct - '.$serviceUrl);
-		$response = array(
-			'status' => true,
-			'resp' => json_decode($this->_curl->getBody())
-		);
-        return $response;
-    }
 }
