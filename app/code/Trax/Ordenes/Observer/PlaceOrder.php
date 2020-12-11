@@ -331,7 +331,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                             $this->logger->info('beginProductLoad');
                             foreach($itemsKit as $itemKit){
                                 $skuItems[$itemKit->Sku] = $itemKit->Price;
-                                $tempItem['Sku'] = $itemKit->Sku;
+                                $tempItem['Sku'] = $dataItem->getSku();
                                 $tempItem['Quantity'] = $itemKit->Quantity;
                                 $tempItem['Price'] = $itemKit->Price;
                                 $tempItem['Discounts'] = '';
