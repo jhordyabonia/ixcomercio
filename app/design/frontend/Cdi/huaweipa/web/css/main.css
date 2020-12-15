@@ -3263,6 +3263,9 @@ div#Credomatic_cc_type_exp_div {
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field {
   width: 80% !important; }
 
+div[name="shippingAddress.custom_attributes.zone_id"]{
+  display:none!important;}
+
 .invoice_uncheck {
   color: #8a8a8a !important;
   font-weight: 600; }
