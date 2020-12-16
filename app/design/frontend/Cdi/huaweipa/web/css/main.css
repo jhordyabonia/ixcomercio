@@ -3208,7 +3208,7 @@ form {
   display: block !important; }
 
 .checkout-index-index .field[name="shippingAddress.postcode"] {
-  display: block !important; }
+  display: none !important; }
 
 .action.action-apply {
   color: #fff; }
