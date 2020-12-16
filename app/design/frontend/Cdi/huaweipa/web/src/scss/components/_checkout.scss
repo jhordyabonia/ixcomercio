@@ -242,6 +242,9 @@
   .field[name="shippingAddress.region"] {
       display: block !important;
   }
+  .field[name="shippingAddress.postcode"] {
+    display: none !important;
+  }
 }
 .action.action-apply{
   color:#fff;
