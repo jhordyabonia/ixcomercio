@@ -237,10 +237,10 @@
     }
   }
   .field[name="shippingAddress.region_id"] {
-      display: none;
+      display: none !important;
   }
   .field[name="shippingAddress.region"] {
-      display: block;
+      display: block !important;
   }
 }
 .action.action-apply{
