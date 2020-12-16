@@ -3213,6 +3213,12 @@ form {
 .checkout-index-index .field[name="billingAddressingenico.postcode"] {
     display: none !important;}
 
+.checkout-index-index .field[name="billingAddressingenico.region_id"] {
+  display: none !important; }
+
+.checkout-index-index .field[name="billingAddressingenico.region"] {
+  display: block !important; }
+
 .action.action-apply {
   color: #fff; }
 

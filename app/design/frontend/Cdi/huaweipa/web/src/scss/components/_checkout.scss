@@ -248,6 +248,12 @@
   .field[name="billingAddressingenico.postcode"] {
     display: none !important;
   }
+  .field[name="billingAddressingenico.region_id"] {
+    display: none !important;
+  }
+  .field[name="billingAddressingenico.region"] {
+      display: block !important;
+  }
 }
 .action.action-apply{
   color:#fff;
