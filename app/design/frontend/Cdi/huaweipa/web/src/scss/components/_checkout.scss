@@ -236,6 +236,12 @@
       text-align: left;
     }
   }
+  .field[name="shippingAddress.region_id"] {
+      display: none;
+  }
+  .field[name="shippingAddress.region"] {
+      display: block;
+  }
 }
 .action.action-apply{
   color:#fff;
