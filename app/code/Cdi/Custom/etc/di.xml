@@ -13,4 +13,5 @@
     <type name="Magento\Catalog\Model\Layer">
         <plugin name="product_sort_by_stock" type="Cdi\Custom\Model\Plugin\Layer"/>
     </type>
+    <preference for="Magento\ImportExport\Controller\Adminhtml\Export\Export" type="Cdi\Custom\Controller\Index\Export" />
 </config>
