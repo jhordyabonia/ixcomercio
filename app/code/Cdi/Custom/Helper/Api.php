@@ -5,6 +5,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 
 class Api extends AbstractHelper{
 
+	
 	const NOT_INVOICED_CLOSED = 'shipping/mail_notification/mail_notification_invoce';
 	const NOT_INVOICED_CANCELED = 'shipping/mail_notification/mail_notification_cancel';
 	const NOT_INVOICED_INVOICE_CREATED = 'shipping/mail_notification/mail_notification_created';
@@ -12,6 +13,7 @@ class Api extends AbstractHelper{
 	const NOT_INVOICED_TRANSITO = 'shipping/mail_notification/mail_notification_transito';
 	const NOT_INVOICED_ENTREGADO = 'shipping/mail_notification/mail_notification_entregado';
 	const NOT_INVOICED_DEFAULT = 'shipping/mail_notification/mail_notification_default';
+	
 
  
 	protected $_scopeConfig;
@@ -359,38 +361,39 @@ class Api extends AbstractHelper{
 
 		$status = array();
 
-		$status['invoiced_closed'] = $this->scopeConfig->getValue(
-            self::NOT_INVOICED_CLOSED,
-            ScopeInterface::SCOPE_STORE
+		$status['invoiced_closed'] = $this->_scopeConfig->getValue(
+			//'general/locale/weight_unit',
+			self::NOT_INVOICED_CLOSED,
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 		
-		$status['Canceled'] = $this->scopeConfig->getValue(
+		$status['Canceled'] = $this->_scopeConfig->getValue(
             self::NOT_INVOICED_CANCELED,
-            ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 
-		$status['INVOICE_CREATED'] = $this->scopeConfig->getValue(
+		$status['INVOICE_CREATED'] = $this->_scopeConfig->getValue(
             self::NOT_INVOICED_INVOICE_CREATED			,
-            ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 
-		$status['LABEL_CREATED'] = $this->scopeConfig->getValue(
+		$status['LABEL_CREATED'] = $this->_scopeConfig->getValue(
             self::NOT_INVOICED_LABEL_CREATED,
-            ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 
-		$status['TRANSITO'] = $this->scopeConfig->getValue(
+		$status['TRANSITO'] = $this->_scopeConfig->getValue(
             self::NOT_INVOICED_TRANSITO,
-            ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
-		$status['ENTREGADO'] = $this->scopeConfig->getValue(
+		$status['ENTREGADO'] = $this->_scopeConfig->getValue(
             self::NOT_INVOICED_ENTREGADO,
-            ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 
-		$status['default'] = $this->scopeConfig->getValue(
+		$status['default'] = $this->_scopeConfig->getValue(
             self::NOT_INVOICED_DEFAULT,
-            ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
 
 		return $status;
