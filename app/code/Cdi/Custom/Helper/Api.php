@@ -278,6 +278,9 @@ class Api extends AbstractHelper{
 				}
 				break; 
 		}
+		
+		if(!isset($st['statusCode'])) $st['statusCode'] = '';
+		
         $status = array(
 			'Invoiced/Closed' => array(
 				//@TODO: texto de estado de la orden: cerrada cron
