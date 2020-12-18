@@ -64,7 +64,6 @@ function (
          */
         initialize: function () {
             this._super();
-            this._initBilling();
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();
             }, this);
@@ -82,10 +81,7 @@ function (
                     isAddressFormVisible: !customer.isLoggedIn() || !addressOptions.length,
                     isAddressSameAsShipping: false,
                     isInvoiceSelected: false,
-                    saveInAddressBook: 1,
-                    detailsVisible: true,
-                    visibleBilling: false
-
+                    saveInAddressBook: 1
                 });
 
             quote.billingAddress.subscribe(function (newAddress) {
@@ -121,40 +117,6 @@ function (
             return window.invoiceLabel
         }),
 
-        invoiceLabelYes: ko.computed(function () {
-            return window.invoiceLabelYes
-        }),
-
-        invoiceLabelNo: ko.computed(function () {
-            return window.invoiceLabelNo
-        }),
-
-
-        _initBilling: function(){
-            this.showBilling(false); 
-
-            return this;
-        },
-
-        showBilling: function (show){  
-            
-            this.visibleBilling(show); 
-
-            if(this.visibleBilling() == null || this.visibleBilling() == undefined ){
-                this.isAddressDetailsVisible(false);
-                this.visibleBilling(false);               
-            }
-
-            if(show == true){
-                selectBillingAddress(quote.shippingAddress());
-                this.updateAddresses();
-                this.isAddressDetailsVisible(true); 
-            }
-                      
-        },
-
-
-
         /**
          * @param {Object} address
          * @return {*}
@@ -166,21 +128,21 @@ function (
         /**
          * @return {Boolean}
          */
-        useShippingAddress: function (show = null ) {
-
-            if (show ) {                   
+        useShippingAddress: function () {
+            if (this.isAddressSameAsShipping()) {
                 selectBillingAddress(quote.shippingAddress());
+
                 this.updateAddresses();
-                this.isAddressDetailsVisible(true);                
-            }else{
+                this.isAddressDetailsVisible(true);
+            } else {
                 lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
                 this.isAddressDetailsVisible(false);
-                //this.detailsVisible(false);
             }
+            checkoutData.setSelectedBillingAddress(null);
 
-            checkoutData.setSelectedBillingAddress(null);            
-        },    
+            return true;
+        },
 
         useInvoice: function () {
             if (this.isInvoiceSelected()) {
