@@ -14,7 +14,7 @@
     <virtualType name="Magento\Pagalo\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="Pagalo" xsi:type="const">Magento\Pagalo\Model\Payment::CODE</item>
+                <item name="pagalo" xsi:type="const">Magento\Pagalo\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>

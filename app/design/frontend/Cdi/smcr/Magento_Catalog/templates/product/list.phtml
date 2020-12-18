@@ -21,7 +21,9 @@ $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 ?>
 <?php if (!$_productCollection->count()): ?>
-    <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+    <div class="container">
+        <div class="message info empty text-center"><div><?php /* @escapeNotVerified */ echo __('We can\'t find products matching the selection.') ?></div></div>
+    </div>
 <?php else: ?>
     <?php echo $block->getToolbarHtml() ?>
     <?php echo $block->getAdditionalHtml() ?>

@@ -13,7 +13,7 @@ use \Magento\Framework\App\State;
 /**
 * Class Commands
 */
-class Commands extends Command 
+class PlaceCommands extends Command 
 {
    
     const NAME = 'name';
@@ -51,7 +51,7 @@ class Commands extends Command
                 'Name'
             )
        ];
-       $this->setName('trax:upload');
+       $this->setName('trax:places');
        $this->setDescription('Upload TRAX Places');
        $this->setDefinition($options);       
        parent::configure();
@@ -72,7 +72,7 @@ class Commands extends Command
         $output->writeln("Starting Get Trax " . $name . " " .  date('Y-m-d H:i:s'));
 
         switch($name){
-            case 'places':
+            case 'run':
                 $this->_places->execute();
             break;
         }

@@ -27,7 +27,7 @@ define(
 	    },
 	    
             getCode: function() {
-                return 'Pagalo';
+                return 'pagalo';
             },
 
             isActive: function() {
