@@ -31,8 +31,8 @@ class OrderRepository {
 
         $statusHistoryItem = $entity->getStatusHistoryCollection()->getFirstItem();
         $comment = $statusHistoryItem->getComment();
-        if(!empty($comment)){
-            $explode = explode("\n",$comment);
+        $explode = explode("\n",$comment);
+        if(!empty($comment) && $explode[0]=="¡Tu paquete ha sido entregado!"){
             $guide_number = $explode[2];
             $trackin_url = $explode[5];
             $url_pdf_guide = $explode[8];
