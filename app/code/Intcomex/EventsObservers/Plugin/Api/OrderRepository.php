@@ -33,9 +33,9 @@ class OrderRepository {
         $comment = $statusHistoryItem->getComment();
         $explode = explode("\n",$comment);
         if(!empty($comment) && $explode[0]=="¡Tu paquete ha sido entregado!"){
-            $guide_number = $explode[2];
-            $trackin_url = $explode[5];
-            $url_pdf_guide = $explode[8];
+            $guide_number = (!empty($explode[2]))?$explode[2]:"";
+            $trackin_url = (!empty($explode[5]))?$explode[5]:"";
+            $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
         }
 
         if ($extensionAttributes) {
@@ -75,9 +75,9 @@ class OrderRepository {
             $comment = $statusHistoryItem->getComment();
             $explode = explode("\n",$comment);
             if(!empty($comment) && $explode[0]=="¡Tu paquete ha sido entregado!"){
-                $guide_number = $explode[2];
-                $trackin_url = $explode[5];
-                $url_pdf_guide = $explode[8];
+                $guide_number = (!empty($explode[2]))?$explode[2]:"";
+                $trackin_url = (!empty($explode[5]))?$explode[5]:"";
+                $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
             }
             
             $billing_identification = $order->getData(self::BILLING_ADDRESS_IDENTIFICACTION);
