@@ -21,14 +21,29 @@ class OrderRepository {
         $entity
     ) {
 
+        $guide_number = array();
+        $trackin_url = array();
+        $url_pdf_guide = array();
         $extensionAttributes = $entity->getExtensionAttributes();
         
         $order_billing = $entity->getBillingAddress()->getData();
-        $order_paymet = $entity->getPayment()->getData();        
+        $order_paymet = $entity->getPayment()->getData();
+
+        $statusHistoryItem = $entity->getStatusHistoryCollection()->getFirstItem();
+        $comment = $statusHistoryItem->getComment();
+        if(!empty($comment)){
+            $explode = explode("\n",$comment);
+            $guide_number = $explode[2];
+            $trackin_url = $explode[5];
+            $url_pdf_guide = $explode[8];
+        }
 
         if ($extensionAttributes) {
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
+            $extensionAttributes->setGuideNumber( $guide_number );
+            $extensionAttributes->setTrackingUrl( $trackin_url );
+            $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
             $entity->setExtensionAttributes( $extensionAttributes );
         }
         return $entity;
@@ -43,15 +58,28 @@ class OrderRepository {
     *
     * @return OrderSearchResultInterface
     */
-   public function afterGetList(
+    public function afterGetList(
         \Magento\Sales\Api\OrderRepositoryInterface $subject, 
         \Magento\Sales\Api\Data\OrderSearchResultInterface $searchResult)
-   {
+    {
+        $guide_number = array();
+        $trackin_url = array();
+        $url_pdf_guide = array();
 
         $orders = $searchResult->getItems();
 
         foreach ($orders as &$order) {
 
+            $statusHistoryItem = $order->getStatusHistoryCollection()->getFirstItem();
+            $status = $statusHistoryItem->getStatusLabel();
+            $comment = $statusHistoryItem->getComment();
+            $explode = explode("\n",$comment);
+            if(!empty($comment) && $explode[0]=="¡Tu paquete ha sido entregado!"){
+                $guide_number = $explode[2];
+                $trackin_url = $explode[5];
+                $url_pdf_guide = $explode[8];
+            }
+            
             $billing_identification = $order->getData(self::BILLING_ADDRESS_IDENTIFICACTION);
 
             $extensionAttributes = $order->getExtensionAttributes();
@@ -64,12 +92,14 @@ class OrderRepository {
 
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
+
+            $extensionAttributes->setGuideNumber( $guide_number );
+            $extensionAttributes->setTrackingUrl( $trackin_url );
+            $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
             
             $order->setExtensionAttributes($extensionAttributes);
         }
 
         return $searchResult;
     }
-
-
 }
