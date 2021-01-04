@@ -32,7 +32,7 @@ class OrderRepository {
         $statusHistoryItem = $entity->getStatusHistoryCollection()->getFirstItem();
         $comment = $statusHistoryItem->getComment();
         $explode = explode("\n",$comment);
-        if(!empty($comment) && $explode[0]=="¡Tu paquete ha sido entregado!"){
+        if(!empty($comment)){
             $guide_number = (!empty($explode[2]))?$explode[2]:"";
             $trackin_url = (!empty($explode[5]))?$explode[5]:"";
             $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
@@ -74,7 +74,7 @@ class OrderRepository {
             $status = $statusHistoryItem->getStatusLabel();
             $comment = $statusHistoryItem->getComment();
             $explode = explode("\n",$comment);
-            if(!empty($comment) && $explode[0]=="¡Tu paquete ha sido entregado!"){
+            if(!empty($comment)){
                 $guide_number = (!empty($explode[2]))?$explode[2]:"";
                 $trackin_url = (!empty($explode[5]))?$explode[5]:"";
                 $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
