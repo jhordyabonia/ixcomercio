@@ -117,6 +117,15 @@ function (
             return window.invoiceLabel
         }),
 
+        customAlert: ko.computed(function () {
+            if($("#checkout-shipping-method-load")!=undefined){
+                setTimeout(function(){ 
+                console.log('executing window.invoiceLabel');
+                $("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" >'+window.customAlert+'</div>');
+             }, 7000);
+            }
+        }),
+
         /**
          * @param {Object} address
          * @return {*}

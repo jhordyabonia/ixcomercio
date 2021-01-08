@@ -18,5 +18,13 @@
                 </field>
             </group>
         </section>
+         <section id="shipping">
+            <group id="custom_alerts" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Alertas Personalizados</label>
+                <field id="alerta_preventa" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Alerta Preventa</label>
+                </field>
+            </group>
+        </section>
     </system>
 </config>
