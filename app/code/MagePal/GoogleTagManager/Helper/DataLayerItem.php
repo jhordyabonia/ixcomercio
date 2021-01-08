@@ -217,6 +217,7 @@ class DataLayerItem extends Data
             'name' => $item->getName(),
             'id' => $item->getSku(),
             'price' => $this->formatPrice($item->getPrice()),
+            'currencyCode' => "COP",
             'quantity' => $qty * 1,
             'parent_sku' => $item->getProduct() ? $item->getProduct()->getData('sku') : $item->getSku(),
         ];

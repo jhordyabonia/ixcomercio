@@ -71,6 +71,7 @@ class Product extends AbstractProduct
                 'product_type' => $product->getTypeId(),
                 'name' => $product->getName(),
                 'price' => $this->getPrice(),
+                'currencyCode' => 'COP',
                 'attribute_set_id' => $product->getAttributeSetId(),
                 'path' => implode(" > ", $this->getBreadCrumbPath()),
                 'category' => $this->getProductCategoryName(),
