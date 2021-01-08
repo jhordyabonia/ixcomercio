@@ -18,7 +18,8 @@ define([
     'Magento_Checkout/js/action/set-billing-address',
     'Magento_Ui/js/model/messageList',
     'mage/translate',
-    'Magento_Checkout/js/model/shipping-rates-validator'
+    'Magento_Checkout/js/model/shipping-rates-validator',
+    'jquery'
 ],
 function (
     ko,
