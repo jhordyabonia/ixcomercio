@@ -3250,6 +3250,12 @@ form {
 .checkout-index-index .field[name="billingAddressingenico.postcode"] {
   display: none !important; }
 
+.checkout-index-index .img-tarjetas {
+  display: none !important; }
+
+.checkout-index-index .payment-icon {
+  display: none !important; }
+
 .action.action-apply {
   color: #fff; }
 
