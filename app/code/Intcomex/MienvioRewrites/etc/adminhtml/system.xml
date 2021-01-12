@@ -25,6 +25,6 @@
                     <label>Alerta Preventa</label>
                 </field>
             </group>
-        </section>
+        </section> 
     </system>
 </config>
