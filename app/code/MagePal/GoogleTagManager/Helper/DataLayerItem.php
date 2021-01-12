@@ -213,11 +213,15 @@ class DataLayerItem extends Data
      */
     public function getProductObject($item, $qty)
     {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $currency = $currencysymbol->getStore()->getCurrentCurrencyCode();
+
         $product = [
             'name' => $item->getName(),
             'id' => $item->getSku(),
             'price' => $this->formatPrice($item->getPrice()),
-            'currencyCode' => "COP",
+            'currencyCode' => $currency,
             'quantity' => $qty * 1,
             'parent_sku' => $item->getProduct() ? $item->getProduct()->getData('sku') : $item->getSku(),
         ];
