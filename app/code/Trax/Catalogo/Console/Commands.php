@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Magento\Framework\Console\Cli;
 use Trax\Catalogo\Cron\GetStock;
 use Trax\Catalogo\Cron\GetCatalog;
+use Trax\Catalogo\Cron\OrderStatus;
 use \Magento\Framework\App\State;
 
 /**
@@ -28,15 +29,22 @@ class Commands extends Command
     */
     private $_catalog;
 
+
+     /**
+    * @var Trax\Catalogo\Cron\OrderStatus
+    */
+    private $_orderStatus;
+
     /**
     * @var \Magento\Framework\App\State
     */
     protected $_appState;
 
-   public function __construct(GetStock $stock, GetCatalog $catalog,State $appState)
+   public function __construct(GetStock $stock, GetCatalog $catalog, OrderStatus $orderStatus,State $appState)
    {
         $this->_stock   = $stock;
         $this->_catalog = $catalog;
+        $this->_orderStatus = $orderStatus;
         $this->_appState = $appState; 
 
 
@@ -82,6 +90,8 @@ class Commands extends Command
             break;
             case 'catalog':
                 $this->_catalog->execute();
+            case 'orderStatus':
+                $this->_orderStatus->execute();
             break;
         }
 
