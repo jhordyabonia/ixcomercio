@@ -5,5 +5,7 @@ xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attribute
     <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
         <attribute code="billing_address_identification" type="string" />
         <attribute code="transaction_value_id" type="string" />
+        <attribute code="mienvio_quote_id" type="string" />
+        <attribute code="shipping_address_zone" type="string" />
     </extension_attributes>
 </config>
