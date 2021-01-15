@@ -19,7 +19,8 @@ define([
     'Magento_Ui/js/model/messageList',
     'mage/translate',
     'Magento_Checkout/js/model/shipping-rates-validator',
-    'jquery'
+    'jquery',
+    'mage/url'
 ],
 function (
     ko,
@@ -36,7 +37,9 @@ function (
     setBillingAddressAction,
     globalMessageList,
     $t,
-    shippingRatesValidator
+    shippingRatesValidator,
+    $,
+    url
 ) {
     'use strict';
 
