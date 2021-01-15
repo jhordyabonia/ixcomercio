@@ -125,7 +125,7 @@ function (
 
             (function theLoop (i) {
                 setTimeout(function () {
-                    if(jQuery("#checkout-shipping-method-load").length>0){
+                    if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
                         jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+url.build('pub/media')+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
                         return false;
                     }
