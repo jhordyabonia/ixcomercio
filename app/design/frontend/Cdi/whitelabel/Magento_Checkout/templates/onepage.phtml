@@ -35,7 +35,7 @@ $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         window.customAlert = '<?php echo $_helperCdi->getStoreConfig('shipping/custom_alerts/alerta_preventa');?>';
         window.identificationLabel = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label');?>';
         window.urlGeo = '<?= $block->getBaseUrl() ?>index.php/rest/V1/geolocation/';
-        window.currentWebsiteId = '<?php echo $theme->getStore()->getId(); ?>';
+        window.currentWebsiteCode = '<?php  echo $theme->getStore()->getCode(); ?>';
     </script>
     <script>
         require([
