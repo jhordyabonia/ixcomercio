@@ -302,7 +302,13 @@
   .field[name="billingAddressingenico.postcode"] {
     display: none !important;
   }
-
+  .custom_alert{
+    color: #1428A0 !important;
+    padding: 1rem 2rem 1rem 2rem;
+    border-radius: .7rem;
+    border: 1px solid #1428A0 !important;
+    margin-bottom: 10px;
+  }
 }
 .action.action-apply{
   color:#fff;
