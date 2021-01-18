@@ -32,11 +32,11 @@ class Special
 
 	public function execute()
 	{       
-        /*
+        
         $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
         $storeManager=$objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         $storeScope=\Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-
+        $this->logger->info("Inicio\n");
         foreach($this->_storesRepository->getList() as $store){
 
             if ($store->isActive()) {
@@ -45,11 +45,10 @@ class Special
                 $website=$storeManager->getWebsite($websiteId);
                 $products = $this->getProductData();
                 $this->logger->info('Special - El website ' . $website->getCode() . ' con store ' . $website->getCode());
-                $this->logger->info("PRODUCTS\n".$products);
+                $this->logger->info("Product\n".$products);
+                $products = $this->getProductData();
             }
-        }*/
-        $products = $this->getProductData();
-        $this->logger->info("PRODUCTS\n".$products);
+        }
         return $this;
     }
     
