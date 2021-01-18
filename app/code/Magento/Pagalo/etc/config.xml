@@ -12,7 +12,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <Pagalo>
+            <pagalo>
                 <active>0</active>
                 <model>Magento\Pagalo\Model\Payment</model>
                 <payment_action>authorize_capture</payment_action>
@@ -21,7 +21,7 @@
                 <cctypes>VI,MC</cctypes>
                 <!-- allowspecific>0</allowspecific>
                 <min_order_total>0.50</min_order_total-->
-            </Pagalo>
+            </pagalo>
         </payment>
     </default>
 </config>

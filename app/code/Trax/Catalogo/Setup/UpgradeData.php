@@ -31,7 +31,22 @@ class UpgradeData implements UpgradeDataInterface
                 'global'   => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
                 'group'    => 'Display Settings',
             ]);			
+        }
+        
+        if(version_compare($context->getVersion(), '1.0.3', '<')){
+            $eavSetup->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'iws_type', [
+                'type'     => 'varchar',
+                'label'    => 'Type IWS',
+                'input'    => 'text',
+                'source'   => '',
+                'visible'  => true,
+                'required' => false,
+                'default'  => '',
+                'global'   => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_STORE,
+                'group'    => 'Display Settings',
+            ]);			
 		}
+
         $setup->endSetup();
     }
 }

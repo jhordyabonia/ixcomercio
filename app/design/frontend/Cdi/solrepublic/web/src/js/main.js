@@ -184,21 +184,26 @@ function ($, Component) {
 		    $(fieldStreetCheckout).find('input').hide();
 		    $(fieldZoneCheckout).find('input').hide();
 
-	    	fieldCityCheckout = $(obj).find('> .field input[name="city"]').parent();
+			fieldCityCheckout = $(obj).find('> .field input[name="city"]').parent();
+			
+			var countryCode = $('[name="country_id"]').val();
 
 	    	$.ajax({
-			    url: '/places/search/',
+			    url: window.urlGeo+'set-regions?countryCode='+countryCode,
 			    type: 'GET',
 			    dataType: 'json',
 			    success: function(res) {
+
+					var response = JSON.parse(res);
+
 			    	if($(fieldStateCheckout).find('input').length){
 			    		$(fieldStateCheckout).find('input').hide();
 
 			    		var html = '<select id="fieldStateCheckout" class="select" name="state_id" aria-required="true" aria-invalid="false">'+
 	    					'<option data-title="" value="">'+$.mage.__("Please select a region, state or province.")+'</option>';
 
-				        $.each(res, function(iRes, valRes){
-				        	html += "<option value='' parentid='"+valRes.Id+"''>"+valRes.Name+"</option>";
+				        $.each(response.regions, function(iRes, valRes){
+				        	html += "<option value='"+valRes.name+"' parentid='"+valRes.traxId+"''>"+valRes.name+"</option>";
 				        });
 
 				        html += '</select>';
@@ -212,9 +217,9 @@ function ($, Component) {
 			    		var stateOptions = $(fieldStateCheckout).find('select option');
 			    		$.each(stateOptions, function(iOpt, valOpt){
 				            var optionName = $(valOpt).text();
-				            $.each(res, function(iRes, valRes){
-				            	if(valRes.Name == optionName){
-				                	$(valOpt).attr("parentId", valRes.Id);
+				            $.each(response.regions, function(iRes, valRes){
+				            	if(valRes.name == optionName){
+				                	$(valOpt).attr("parentId", valRes.traxId);
 				                	$(valOpt).show();
 				              	}
 				            });
@@ -249,15 +254,18 @@ function ($, Component) {
 				    	$(obj).find('input[name="postcode"]').val('');
 				    	
 				    	$.ajax({
-							url: '/places/search/',
+							url: window.urlGeo+'set-cities',
 							data: 'parentId='+$(selectStateCheckout).find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
 							success: function(resState) {
+
+								var response = JSON.parse(resState);
+
 								$(fieldCityCheckout).find('select').attr("disabled", false);
 								$(fieldCityCheckout).find('select option:not([value=""])').remove();
-								$.each(resState, function(iState, valState){
-								    $(fieldCityCheckout).find('select').append("<option value='"+valState.Id+"' parentId='"+valState.Id+"'>"+valState.Name+"</option>");
+								$.each(response.cities, function(iState, valState){
+								    $(fieldCityCheckout).find('select').append("<option value='"+valState.traxId+"' parentId='"+valState.traxId+"'>"+valState.name+"</option>");
 								});
 
 								setValueWsElement('#city', '#fieldCityCheckout', 'text');
@@ -282,17 +290,20 @@ function ($, Component) {
 						$(fieldCityCheckout).find('input').keyup();
 
 						$.ajax({
-							url: '/places/search/',
+							url: window.urlGeo+'set-zones',
 							data: 'parentId='+$(this).find('option:selected').attr('parentId'),
 							type: 'GET',
 							dataType: 'json',
 							success: function(resCity) {
+
+								var response = JSON.parse(resCity);
+
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
                   				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>'+$.mage.__("Please select a zone.")+'</option>');
                   				
-								$.each(resCity, function(iResCity, valResCity){
-							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.PostalCode+"' parentId='"+valResCity.ParentId+"' postalCode='"+valResCity.PostalCode+"'>"+valResCity.Name+"</option>");
+								$.each(response.localitaties, function(iResCity, valResCity){
+							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.postalCode+"' parentId='"+valResCity.parentId+"' postalCode='"+valResCity.postalCode+"'>"+valResCity.name+"</option>");
 							  	});
 
 								setValueWsElement('#zone_id', '#fieldZoneCheckout', 'val');

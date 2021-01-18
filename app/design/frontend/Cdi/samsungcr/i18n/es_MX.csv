@@ -16428,3 +16428,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Text to translate","Texto para traducir",lib,web
 "Follow us","Síguenos"
 "You can select your payment product in the next step.","Puedes seleccionar tu metodo de pago en el siguiente paso."
+"Ship Here","Entregar aquí"
+"Ship here","Entregar aquí"

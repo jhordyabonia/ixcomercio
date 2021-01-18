@@ -1,34 +1,9 @@
 <?php
 namespace  Intcomex\Credomatic\Helper;
-use \Psr\Log\LoggerInterface;
 
+use \Magento\Payment\Helper\Data as mainHelper;
 
-class Data extends \Magento\Payment\Helper\Data{
-
-    /**
-   * @var \Magento\Framework\App\Config\ScopeConfigInterface
-   */
-    protected $scopeConfig;
-
-    protected $_logger;
-
-    /**
-     * Factory for payment method models
-     *
-     * @var \Magento\Payment\Model\Method\Factory
-     */
-    protected $_methodFactory;
-
-    public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Payment\Model\Method\Factory $paymentMethodFactory
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->_methodFactory = $paymentMethodFactory;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/paymentModels.log');
-        $this->_logger = new \Zend\Log\Logger();
-        $this->_logger->addWriter($writer);
-    }
+class Data extends mainHelper{ 
 
     /**
      * Retrieve method model object
@@ -41,20 +16,24 @@ class Data extends \Magento\Payment\Helper\Data{
     public function getMethodInstance($code){
         $paymentMethod = $this->getMethodModelConfigName($code);
 
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/paymentModels.log');
+            $this->logger = new \Zend\Log\Logger();
+            $this->logger->addWriter($writer);
+
         $class = $this->scopeConfig->getValue(
             $this->getMethodModelConfigName($code),
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
 
         if(!$class){
-            $this->_logger->info('El modelo indicado en '.$paymentMethod.' no esta definido!');
+            $this->logger->info('El modelo indicado en '.$paymentMethod.' no esta definido!');
             
-            if(strcmp($paymentMethod,'payment/Credomatic/model')===0){
+            if(strcmp($paymentMethod,'payment/credomatic/model')===0){
                 $class = 'Intcomex\Credomatic\Model\Payment';
-            }else if(strcmp($paymentMethod,'payment/Pagalo/model')===0){
+            }else if(strcmp($paymentMethod,'payment/pagalo/model')===0){
                 $class = 'Magento\Pagalo\Model\Payment';
             }
-            $this->_logger->info('Para el modelo '.$paymentMethod.' se inicializo con '.$class);
+            $this->logger->info('Para el modelo '.$paymentMethod.' se inicializo con '.$class);
         } 
         
         if (!$class) {

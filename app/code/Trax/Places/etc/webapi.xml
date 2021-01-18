@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/geolocation/set-regions" method="GET">
+        <service class="Trax\Places\Api\GeolocationInterface" method="getRegions"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources> 
+        <data>
+            <parameter name="countryCode" force="true">%countryCode%</parameter>
+        </data>       
+    </route>
+
+    <route url="/V1/geolocation/set-cities" method="GET">
+        <service class="Trax\Places\Api\GeolocationInterface" method="getCities"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources> 
+        <data>
+            <parameter name="parentId" force="true">%parentId%</parameter>
+        </data>       
+    </route>
+
+    <route url="/V1/geolocation/set-zones" method="GET">
+        <service class="Trax\Places\Api\GeolocationInterface" method="getZones"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources> 
+        <data>
+            <parameter name="parentId" force="true">%parentId%</parameter>
+        </data>       
+    </route>
+</routes>
