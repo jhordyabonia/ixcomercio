@@ -24,7 +24,9 @@ $producto = ''; # GTM variable
 $count = 0;
 ?>
 <?php if (!$_productCollection->count()): ?>
-    <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
+    <div class="container">
+        <div class="message info empty text-center"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
+    </div>
 <?php else: ?>
     <?= $block->getToolbarHtml() ?>
     <?= $block->getAdditionalHtml() ?>
