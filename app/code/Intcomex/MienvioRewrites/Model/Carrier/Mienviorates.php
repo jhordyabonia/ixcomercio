@@ -214,7 +214,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
             $this->_curl->setOptions($options);
+            $this->_logger->debug('APIKEY', ['url' => $apiKey]);
             $this->_logger->debug('URL MIENVIO CREATE ADDRESS', ['url' => $createAddressUrl]);
+            $this->_logger->debug('FROM DATA', ['url' => $fromData]);
+            $this->_logger->debug('TO DATA', ['url' => $toData]);
             $this->_curl->post($createAddressUrl, json_encode($fromData));
             $addressFromResp = json_decode($this->_curl->getBody());
             $this->_logger->debug($this->_curl->getBody());
@@ -554,6 +557,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
+        if(empty($street2) || $street2 == "."  ){
+            $street = "calle";
+            $street2 = $destCity;
+        }
 
         $data = [
             'object_type' => 'PURCHASE',
