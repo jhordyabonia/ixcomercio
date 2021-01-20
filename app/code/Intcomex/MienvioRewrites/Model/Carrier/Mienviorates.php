@@ -35,6 +35,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
     protected $_storeManager;
 
+    protected $_productRepository;
+
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         ErrorFactory $rateErrorFactory,
@@ -48,6 +50,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Cdi\Custom\Helper\Data $helperDataCdi,
         \Trax\Catalogo\Helper\Email $email,
+        \Magento\Catalog\Model\Product $productRepository,
         array $data = []
     ) {
         $this->_storeManager = $storeManager;
@@ -62,6 +65,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->directoryHelper = $directoryHelper;
         $this->helperDataCdi = $helperDataCdi;
         $this->email = $email;
+        $this->_productRepository = $productRepository;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -632,10 +636,9 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+            $product = $this->getProductByName($productName);
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKits.log');
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
@@ -894,5 +897,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         return $response;
     }
 
-
+    public function getProductByName($name)
+	{
+		return $this->_productRepository->loadByAttribute("name",$name);
+	}
 }
