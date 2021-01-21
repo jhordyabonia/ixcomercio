@@ -18,7 +18,9 @@ define([
     'Magento_Checkout/js/action/set-billing-address',
     'Magento_Ui/js/model/messageList',
     'mage/translate',
-    'Magento_Checkout/js/model/shipping-rates-validator'
+    'Magento_Checkout/js/model/shipping-rates-validator',
+    'jquery',
+    'mage/url'
 ],
 function (
     ko,
@@ -35,7 +37,9 @@ function (
     setBillingAddressAction,
     globalMessageList,
     $t,
-    shippingRatesValidator
+    shippingRatesValidator,
+    $,
+    url
 ) {
     'use strict';
 
@@ -115,6 +119,22 @@ function (
 
         invoiceLabel: ko.computed(function () {
             return window.invoiceLabel
+        }),
+
+        customAlert: ko.computed(function () {
+
+            (function theLoop (i) {
+                setTimeout(function () {
+                    if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
+                        jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+url.build('pub/media')+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
+                        return false;
+                    }
+                    if (--i) {          // If i > 0, keep going
+                    theLoop(i);       // Call the loop again, and pass it the current value of i
+                    }
+                }, 1000);
+                })(40); 
+           
         }),
 
         /**
