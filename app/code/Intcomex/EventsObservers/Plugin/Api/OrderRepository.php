@@ -9,10 +9,13 @@ class OrderRepository {
      */
     const BILLING_ADDRESS_IDENTIFICACTION = 'billing_address_identification';
     const TRANSACTION_VALUE_ID = 'transaction_value_id';
-   
-    public function __construct()
+    const CUSTOMER_ID = 'trax_general/catalogo_retailer/customer_id';
+    
+    protected $_scopeConfig;
+
+    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
     {
-        
+        $this->_scopeConfig = $scopeConfig;
     }
 
 
@@ -20,7 +23,6 @@ class OrderRepository {
         \Magento\Sales\Api\OrderRepositoryInterface $subject, 
         $entity
     ) {
-
         $guide_number = array();
         $trackin_url = array();
         $url_pdf_guide = array();
@@ -38,12 +40,16 @@ class OrderRepository {
             $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
         }
 
+        $customer_id = $this->_scopeConfig->getValue(self::CUSTOMER_ID,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $customer_id = (!empty($customer_id))?$customer_id:"";
+
         if ($extensionAttributes) {
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
             $extensionAttributes->setGuideNumber( $guide_number );
             $extensionAttributes->setTrackingUrl( $trackin_url );
             $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
+            $extensionAttributes->setCustomerId( $customer_id );
             $entity->setExtensionAttributes( $extensionAttributes );
         }
         return $entity;
@@ -89,6 +95,8 @@ class OrderRepository {
             $order_billing = $order->getBillingAddress()->getData();
             $order_paymet = $order->getPayment()->getData();
             
+            $customer_id = $this->_scopeConfig->getValue(self::CUSTOMER_ID,\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+            $customer_id = (!empty($customer_id))?$customer_id:"";
 
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
@@ -96,6 +104,7 @@ class OrderRepository {
             $extensionAttributes->setGuideNumber( $guide_number );
             $extensionAttributes->setTrackingUrl( $trackin_url );
             $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
+            $extensionAttributes->setCustomerId( $customer_id );
             
             $order->setExtensionAttributes($extensionAttributes);
         }
