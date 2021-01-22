@@ -122,14 +122,27 @@ function (
         }),
 
         customAlert: ko.computed(function () {
-            window.printAlert;
+            findElement();
 
-            jQuery("#fieldZoneCheckout").change(function(){
-                if(jQuery(".custom_alert").length<=0){
-                    window.printAlert;
-                }
+            document.addEventListener("click", function(){
+                findElement();
             });
-           
+            function findElement(){
+                  (function theLoop (i) {
+                      setTimeout(function () {
+                          if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
+                              if(jQuery(".custom_alert").length==0){
+                                  jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+url.build('pub/media/iconos_alerta')+'/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
+                              }
+                              return false;
+                          }
+                          if (--i) {          // If i > 0, keep going
+                          theLoop(i);       // Call the loop again, and pass it the current value of i
+                          }
+                      }, 1000);
+                  })(40); 
+              }
+          
         }),
 
         /**
@@ -295,20 +308,6 @@ function (
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
         },
-
-        printAlert: function(){
-            (function theLoop (i) {
-                setTimeout(function () {
-                    if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
-                        jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+url.build('pub/media')+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
-                        return false;
-                    }
-                    if (--i) {          // If i > 0, keep going
-                    theLoop(i);       // Call the loop again, and pass it the current value of i
-                    }
-                }, 1000);
-            })(40); 
-        }
 
     });
 });
