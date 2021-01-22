@@ -132,7 +132,7 @@ function (
                       setTimeout(function () {
                           if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
                               if(jQuery(".custom_alert").length==0){
-                                  jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+url.build('pub/media/iconos_alerta')+'/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
+                                  jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+window.mediaUrl+'/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
                               }
                               return false;
                           }
