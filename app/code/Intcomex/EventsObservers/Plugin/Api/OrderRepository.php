@@ -1,7 +1,6 @@
 <?php 
 namespace Intcomex\EventsObservers\Plugin\Api; 
 
-use \Magento\Framework\App\Config\ScopeConfigInterface;
 use Cdi\Custom\Helper\Api as CdiApi;
 
 class OrderRepository {
@@ -13,43 +12,21 @@ class OrderRepository {
     const BILLING_ADDRESS_IDENTIFICACTION = 'billing_address_identification';
     const TRANSACTION_VALUE_ID = 'transaction_value_id';
     const CUSTOMER_ID = 'trax_general/catalogo_retailer/customer_id';
-    
-    protected $_scopeConfig;
 
     protected $_cdiHelper;
 
-    public function __construct(ScopeConfigInterface $scopeConfig, CdiApi $cdiHelper)
+    public function __construct(CdiApi $cdiHelper)
     {
-        $this->_scopeConfig = $scopeConfig;
         $this->_cdiHelper = $cdiHelper;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/apiOrder.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
-    }
-    private function getLoggerObj(){
-        if($this->_externalLog){
-            $logger = $this->_externalLog;
-        }else{
-            $logger = $this->logger;
-        }
-        return $logger;
-    }
-
-    /**
-     * Agrega registros al log
-     */
-    private function log($str){
-        $logger = $this->getLoggerObj();
-        $str = ($this->_externalLog) ? "API ORDER : {$str}" : $str;
-        $logger->info($str);
-        if($this->_dump) echo "{$str}<br/>";
     }
 
     public function afterGet(
         \Magento\Sales\Api\OrderRepositoryInterface $subject, 
         $entity
     ) {
-        $this->log('INICIA PROCESO DE API');
         $guide_number = array();
         $trackin_url = array();
         $url_pdf_guide = array();
@@ -67,9 +44,8 @@ class OrderRepository {
             $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
         }
 
-        $customer_id = $this->_cdiHelper->getConfigParams($configData['customer_id'],$entity->getStore()->getCode());
-        $this->log($customer_id);
-        $customer_id = (!empty($customer_id))?$customer_id:"";
+        $configData = array("customer_id"=>self::CUSTOMER_ID);
+        $customer_id = $this->_cdiHelper->getConfigParams($configData,$entity->getStore()->getCode());
 
         if ($extensionAttributes) {
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
@@ -123,9 +99,8 @@ class OrderRepository {
             $order_billing = $order->getBillingAddress()->getData();
             $order_paymet = $order->getPayment()->getData();
             
-            $customer_id = $this->_cdiHelper->getConfigParams($configData['customer_id'],$order->getStore()->getCode());
-            $this->log($customer_id);
-            $customer_id = (!empty($customer_id))?$customer_id:"";
+            $configData = array("customer_id"=>self::CUSTOMER_ID);
+            $customer_id = $this->_cdiHelper->getConfigParams($configData,$order->getStore()->getCode());
 
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
