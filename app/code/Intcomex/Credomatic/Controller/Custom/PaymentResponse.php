@@ -15,13 +15,15 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Controller\ResultFactory $resultPageFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Framework\Message\ManagerInterface $messageManager 
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
         $this->resultRedirect = $context->getResultFactory();
         $this->_checkoutSession = $checkoutSession;
         $this->_messageManager = $messageManager;
+        $this->orderSender = $orderSender;
         
     }
 
@@ -83,15 +85,19 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
             }
-            
-            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
-            $order->setCanSendNewEmailFlag(true);
-            $order->save();
-            $session = $objectManager->create('\Magento\Checkout\Model\Session');
-            $session->setForceOrderMailSentOnSuccess(true);
-            $emailSender = $objectManager->create('\Magento\Sales\Model\Order\Email\Sender\OrderSender');
-            $emailSender->send($order);
 
+        
+            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
+            $send = $this->orderSender->send($order, true);
+            if($send){
+                $this->logger->info('Correo enviado');
+                $this->logger->info(print_r($send,true));
+            }else{
+                $this->logger->info('Correo no enviado');
+                $this->logger->info(print_r($send,true));
+            }
+
+    
             return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
