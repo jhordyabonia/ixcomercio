@@ -25,6 +25,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         
     }
 
+
     /**
      * Execute view action
      *
@@ -82,6 +83,15 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
             }
+            
+            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
+            $order->setCanSendNewEmailFlag(true);
+            $order->save();
+            $session = $objectManager->create('\Magento\Checkout\Model\Session');
+            $session->setForceOrderMailSentOnSuccess(true);
+            $emailSender = $objectManager->create('\Magento\Sales\Model\Order\Email\Sender\OrderSender');
+            $emailSender->send($order);
+
             return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
