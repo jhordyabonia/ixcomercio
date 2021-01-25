@@ -31,8 +31,9 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
 
     public function send(Order $order, $forceSyncMode = false)
     {
-        if($order->getPayment()->getMethodInstance()->getCode()=='credomatic'){
-            return false;
+        $payment = $order->getPayment();
+        if($payment->getMethodInstance()->getCode()=='credomatic'&&$payment->getLastTransId()==''){
+           return false;
         }
             
         $order->setSendEmail($this->identityContainer->isEnabled());
