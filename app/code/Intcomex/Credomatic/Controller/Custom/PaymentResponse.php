@@ -3,6 +3,9 @@
 namespace Intcomex\Credomatic\Controller\Custom;
 
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Sales\Model\Service\InvoiceService;
+use Magento\Framework\DB\Transaction;
+use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 
 class PaymentResponse extends \Magento\Framework\App\Action\Action
 {
@@ -17,7 +20,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
-        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
+        InvoiceService $invoiceService,
+        Transaction $transaction
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -26,6 +31,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->_messageManager = $messageManager;
         $this->orderSender = $orderSender;
         $this->invoiceSender = $invoiceSender;
+        $this->transaction = $transaction;
+        $this->invoiceService = $invoiceService;
     }
 
 
@@ -90,6 +97,25 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
             $this->orderSender->send($order, true);
+
+            if ($order->canInvoice()) {
+                $invoice = $this->invoiceService->prepareInvoice($order);
+                $invoice->register();
+                $invoice->save();
+                $transactionSave = $this->transaction->addObject(
+                    $invoice
+                )->addObject(
+                    $invoice->getOrder()
+                );
+                $transactionSave->save();
+                $this->invoiceSender->send($invoice);
+                //Send Invoice mail to customer
+                $order->addStatusHistoryComment(
+                    __('Notified customer about invoice creation #%1.', $invoice->getId())
+                )
+                    ->setIsCustomerNotified(true)
+                    ->save();
+            }
     
             return $resultRedirect;
         } catch (\Exception $e) {
