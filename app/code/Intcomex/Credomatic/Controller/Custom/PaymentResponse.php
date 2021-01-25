@@ -16,7 +16,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Controller\ResultFactory $resultPageFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -24,7 +25,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->_checkoutSession = $checkoutSession;
         $this->_messageManager = $messageManager;
         $this->orderSender = $orderSender;
-        
+        $this->invoiceSender = $invoiceSender;
     }
 
 
@@ -88,15 +89,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
         
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
-            $send = $this->orderSender->send($order, true);
-            if($send){
-                $this->logger->info('Correo enviado');
-                $this->logger->info(print_r($send,true));
-            }else{
-                $this->logger->info('Correo no enviado');
-                $this->logger->info(print_r($send,true));
-            }
-
+            $this->orderSender->send($order, true);
+            $invoice = $order->getInvoiceCollection();
+            $this->invoiceSender->send($invoice, true);
     
             return $resultRedirect;
         } catch (\Exception $e) {
