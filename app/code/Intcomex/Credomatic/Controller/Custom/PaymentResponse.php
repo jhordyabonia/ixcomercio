@@ -90,8 +90,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
             $this->orderSender->send($order, true);
-            $invoice = $order->getInvoiceCollection();
-            $this->invoiceSender->send($invoice, true);
     
             return $resultRedirect;
         } catch (\Exception $e) {
