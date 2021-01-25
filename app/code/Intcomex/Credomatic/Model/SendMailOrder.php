@@ -10,6 +10,7 @@ use Magento\Sales\Model\Order\Email\Sender;
 use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 use Magento\Sales\Model\Order\Address\Renderer;
 use Magento\Framework\Event\ManagerInterface; 
+use Magento\Framework\DataObject; 
 
 class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender {
 

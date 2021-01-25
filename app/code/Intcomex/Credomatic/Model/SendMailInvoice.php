@@ -11,9 +11,7 @@ use Magento\Sales\Model\ResourceModel\Order\Invoice as InvoiceResource;
 use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 use Magento\Sales\Model\Order\Address\Renderer;
 use Magento\Framework\Event\ManagerInterface; 
-
-
-
+use Magento\Framework\DataObject; 
 
 class SendMailInvoice extends \Magento\Sales\Model\Order\Email\Sender\InvoiceSender {
 
