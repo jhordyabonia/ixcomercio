@@ -174,6 +174,10 @@ class Content extends \Magento\Backend\Block\Widget
         $get = $this->request->getParams();
         $store = $get['store'];
 
+        if($store == '' || $store == null){
+            $store = 0;
+        }
+
         //print_r($store);
 
         $value = $this->getElement()->getImages();
@@ -193,9 +197,14 @@ class Content extends \Magento\Backend\Block\Widget
             $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image['value_id'].' AND  row_id='.$image['row_id'] );
             $image['store_id'] = $result1[0]['store_id'];
 
-            if($store == $image['store_id']){
-                $tmp_images[] = $image;
-            }           
+
+            if($store != 0){
+                if($store == $image['store_id']){
+                    $tmp_images[] = $image;
+                } 
+            }
+
+                      
         }    
         //print_r($images);
         //print_r($tmp_images);

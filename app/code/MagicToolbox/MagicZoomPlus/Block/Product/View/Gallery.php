@@ -270,19 +270,11 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
             $product = $this->getProduct();
         }
 
-        print_r($product->getSku());
-
         $store = $this->_storeManager->getStore();
         $productId = (int) $product->getId();
-        var_dump($productId);
         $product = $this->productrepository->getById($productId);
 
-
         $productImageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getImage();
-
-
-        print_r($productImageUrl);
-
 
         $this->currentProductId = $id = $product->getId();
         if (!isset($this->renderedGalleryHtml[$id])) {
@@ -301,6 +293,8 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
             $images_temp = $this->getGalleryImagesCollection($product);
 
             $store_id = $this->_storeManager->getStore()->getId();
+
+            $images = array(); 
             
             foreach($images_temp as $image){
 
