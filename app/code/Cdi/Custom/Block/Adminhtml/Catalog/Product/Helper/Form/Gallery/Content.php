@@ -172,10 +172,11 @@ class Content extends \Magento\Backend\Block\Widget
     {
         
         $get = $this->request->getParams();
-        $store = $get['store'];
+        
+        $store = 0;
 
-        if($store == '' || $store == null){
-            $store = 0;
+        if(isset( $get['store'])){
+            $store = $get['store'];
         }
 
         //print_r($store);
