@@ -7,12 +7,16 @@
         <section id="tradein" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Trade In</label>
-            <tab>mageplaza</tab>
+            <tab>intcomex</tab>
             <resource>Intcomex_TradeIn::tradein_config</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-                <label>Prefijo Cupón</label>
-                <field id="prefijo_cupon" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Configuración Trade In</label>
+                <field id="prefijo_cupon" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Prefijo Cupón</label>
                     <comment>TRADE</comment>
+                </field>
+                <field id="texto_correo" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Texto correo</label>
                 </field>
             </group>
         </section>
