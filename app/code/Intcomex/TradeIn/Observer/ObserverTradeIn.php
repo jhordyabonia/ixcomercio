@@ -18,15 +18,16 @@ class ObserverTradeIn implements ObserverInterface
 
         /** @var \Magento\Framework\App\Action\Action $controller */
         $transport = $observer->getEvent()->getTransport();
-        if ($transport->getOrder() != null) 
+        $order = $transport->getOrder();
+        if ($order != null) 
         {
-         //if($transport->getCouponCode()!=''){
-           // $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
-            //$cupon = strpos($transport->getCouponCode(), $prefijoCupon);
-            //if ($cupon !== false) {
-                $transport['couponCode'] = $scopeConfig->getValue('tradein/general/texto_correo',ScopeInterface::SCOPE_STORE).'--'.$transport->getCouponCode();
-            //}
-        // }
+         if($order->getCouponCode()!=''){
+            $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
+            $cupon = strpos($order->getCouponCode(), $prefijoCupon);
+            if ($cupon !== false) {
+                $transport['couponCode'] = $scopeConfig->getValue('tradein/general/texto_correo',ScopeInterface::SCOPE_STORE);
+            }
+         }
         }
     }
 }
