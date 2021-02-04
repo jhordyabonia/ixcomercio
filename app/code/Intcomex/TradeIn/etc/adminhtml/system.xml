@@ -18,6 +18,9 @@
                 <field id="texto_correo" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Texto correo</label>
                 </field>
+                <field id="alerta_tradein" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Alerta TradeIn</label>
+                </field>
             </group>
         </section>
     </system>
