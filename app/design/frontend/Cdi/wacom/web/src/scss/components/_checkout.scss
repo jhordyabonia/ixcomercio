@@ -297,10 +297,13 @@
   color: #333333 !important;
 }
   .field[name="shippingAddress.postcode"] {
-    display: none !important;
+    display: none !important; 
   }
-  .field[name="billingAddressingenico.postcode"] {
-    display: none !important;
+  .field[name="billingAddressmercadopago_basic.postcode"] {
+    display: none !important; 
+  }
+  .field[name="billingAddressshared.custom_attributes.zone_id"] {
+    display: none !important; 
   }
   .custom_alert{
     color: #000 !important;
