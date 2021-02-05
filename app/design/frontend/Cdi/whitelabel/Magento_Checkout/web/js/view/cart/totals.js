@@ -31,11 +31,8 @@ define([
             var serviceUrl = url.build('intcomex/custom/tradein');  
             jQuery.post(serviceUrl,{alerta:'1'})
             .done(function(msg){
-                //data = JSON.parse(msg);
-                //console.log('data');
                 if(msg.status=='success'){
-                    var alertaDiv = '<div class="row custom_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alert+'</div></div>';
-                    console.log(alertaDiv);
+                    var alertaDiv = '<div class="row custom_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta+'</div></div>';
                     jQuery("#cart-totals").after(alertaDiv);
                 }
             })

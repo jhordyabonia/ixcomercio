@@ -321,7 +321,7 @@ function (
                 jQuery.post(serviceUrl,{alerta:nAlert})
                 .done(function(msg){
                     if(msg.status=='success'){
-                        var alertaDiv = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alert+'</div></div>';
+                        var alertaDiv = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta+'</div></div>';
                         if(parts[1]=='shipping'){
                             jQuery("#checkout-shipping-method-load").after(alertaDiv);
                         }else{
