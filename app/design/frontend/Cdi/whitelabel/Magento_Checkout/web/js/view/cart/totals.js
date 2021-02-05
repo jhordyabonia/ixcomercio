@@ -34,7 +34,7 @@ define([
                 //data = JSON.parse(msg);
                 //console.log('data');
                 if(msg.status=='success'){
-                    var alertaDiv = '<div class="custom_alert" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta+'</div>';
+                    var alertaDiv = '<div class="row custom_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alert+'</div></div>';
                     console.log(alertaDiv);
                     jQuery("#cart-totals").after(alertaDiv);
                 }

@@ -310,20 +310,29 @@ function (
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
         },
         _verifyTradeIn: function(){
-            var serviceUrl = url.build('intcomex/custom/tradein');  
-            jQuery.post(serviceUrl,{alerta:'2'})
-            .done(function(msg){
-                //data = JSON.parse(msg);
-                //console.log('data');
-                if(msg.status=='success'){
-                    var alertaDiv = '<div class="custom_alert" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta+'</div>';
-                    console.log(alertaDiv);
-                    jQuery("#cart-totals").after(alertaDiv);
+            if(jQuery(".tradein_alert").length==0){
+                var currentUrl = jQuery(location).attr('href');
+                var parts = currentUrl.split('#');
+                var nAlert = 1;
+                if(parts[1]=='shipping'){
+                     nAlert = 2;
                 }
-            })
-            .fail(function(msg){
-
-            })
+                var serviceUrl = url.build('intcomex/custom/tradein');  
+                jQuery.post(serviceUrl,{alerta:nAlert})
+                .done(function(msg){
+                    if(msg.status=='success'){
+                        var alertaDiv = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alert+'</div></div>';
+                        if(parts[1]=='shipping'){
+                            jQuery("#checkout-shipping-method-load").after(alertaDiv);
+                        }else{
+                           jQuery("#checkout-payment-method-load").after(alertaDiv);
+                       }
+                    }
+                })
+                .fail(function(msg){
+    
+                })
+            }
         }
 
     });
