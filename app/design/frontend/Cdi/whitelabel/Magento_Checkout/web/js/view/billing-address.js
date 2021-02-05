@@ -68,6 +68,7 @@ function (
          */
         initialize: function () {
             this._super();
+            this._verifyTradeIn();
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();
             }, this);
@@ -308,6 +309,19 @@ function (
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
         },
+        _verifyTradeIn: function(){
+            var serviceUrl = url.build('intcomex/custom/tradein');  
+            jQuery.post(serviceUrl)
+            .done(function(msg){
+                //data = JSON.parse(msg);
+                //console.log('data');
+                console.log(msg);
+
+            })
+            .fail(function(msg){
+
+            })
+        }
 
     });
 });
