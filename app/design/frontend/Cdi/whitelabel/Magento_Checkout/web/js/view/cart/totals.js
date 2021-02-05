@@ -6,8 +6,9 @@ define([
     'jquery',
     'uiComponent',
     'Magento_Checkout/js/model/totals',
-    'Magento_Checkout/js/model/shipping-service'
-], function ($, Component, totalsService, shippingService) {
+    'Magento_Checkout/js/model/shipping-service',
+    'mage/url'
+], function ($, Component, totalsService, shippingService,url) {
     'use strict';
 
     return Component.extend({
