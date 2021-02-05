@@ -68,7 +68,6 @@ function (
          */
         initialize: function () {
             this._super();
-            this._verifyTradeIn();
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();
             }, this);
@@ -309,31 +308,31 @@ function (
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
         },
-        _verifyTradeIn: function(){
-            if(jQuery(".tradein_alert").length==0){
-                var currentUrl = jQuery(location).attr('href');
-                var parts = currentUrl.split('#');
-                var nAlert = 1;
-                if(parts[1]=='shipping'){
-                     nAlert = 2;
-                }
-                var serviceUrl = url.build('intcomex/custom/tradein');  
-                jQuery.post(serviceUrl,{alerta:nAlert})
-                .done(function(msg){
-                    if(msg.status=='success'){
-                        var alertaDiv = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta+'</div></div>';
-                        if(parts[1]=='shipping'){
-                            jQuery("#checkout-shipping-method-load").after(alertaDiv);
-                        }else{
-                           jQuery("#checkout-payment-method-load").after(alertaDiv);
-                       }
+        verifyTradeIn: ko.computed(function () {
+            
+            (function theLoop (i) {
+                setTimeout(function () {
+                    if(jQuery("#checkout-shipping-method-load").length>0||jQuery("#checkout-payment-method-load").length>0){
+                        var serviceUrl = url.build('intcomex/custom/tradein');  
+                            jQuery.post(serviceUrl)
+                            .done(function(msg){
+                                if(msg.status=='success'&&jQuery(".tradein_alert").length==0){
+                                    var alertaDiv1 = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta1+'</div></div>';
+                                    var alertaDiv2 = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta2+'</div></div>';
+                                    jQuery("#checkout-shipping-method-load").after(alertaDiv1);
+                                    jQuery("#checkout-payment-method-load").after(alertaDiv2);
+                                }
+                            })
+                            .fail(function(msg){
+                
+                            })
+                        return false;
                     }
-                })
-                .fail(function(msg){
-    
-                })
-            }
-        }
-
+                    if (--i) {          // If i > 0, keep going
+                    theLoop(i);       // Call the loop again, and pass it the current value of i
+                    }
+                }, 1000);
+            })(40);
+        })
     });
 });

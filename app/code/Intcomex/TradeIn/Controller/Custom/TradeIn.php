@@ -47,10 +47,12 @@ class TradeIn extends \Magento\Framework\App\Action\Action
         foreach($items as $item) {
             $productObj = $productRepository->get($item->getSku());
             if(strtoupper($productObj->getData('iws_type'))=='TRADEIN'){
-                $alerta = $scopeConfig->getValue('tradein/general/alerta_tradein_'.$post['alerta'].'',ScopeInterface::SCOPE_STORE);
+                $alerta1 = $scopeConfig->getValue('tradein/general/alerta_tradein_1',ScopeInterface::SCOPE_STORE);
+                $alerta2 = $scopeConfig->getValue('tradein/general/alerta_tradein_2',ScopeInterface::SCOPE_STORE);
                 $arrayData = array (
                     'status' => 'success',
-                     'alerta' => $alerta,
+                     'alerta1' => $alerta1,
+                     'alerta2' => $alerta2,
                      'img' => $mediaUrl.'iconos_alerta/icono_'.$theme->getStore()->getCode().'.png'
                     );
                 break;
