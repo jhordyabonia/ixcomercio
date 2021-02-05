@@ -6,6 +6,19 @@
       width: 90%;
     }
   }
+  .custom_alert{
+    color: #000 !important;
+    padding: .5rem .5rem .5rem .5rem;
+    border-radius: .7rem;
+    border: 1px solid #C7000B !important;
+    margin-bottom: 10px;
+    font-weight: 700;
+    background-color: #fff;
+  }
+  .custom_alert .icon{
+    width: 40px;
+    margin-right: .8rem;
+  } 
 }
 .cart-container{
   form{
