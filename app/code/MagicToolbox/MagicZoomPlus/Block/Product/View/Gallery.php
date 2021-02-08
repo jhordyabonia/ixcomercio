@@ -304,6 +304,12 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
                 
             }
 
+
+            // validar si existen imagenes por tienda
+            if(count($images) == 0){
+                $images = $images_temp;
+            }
+
             $originalBlock = $this->getOriginalBlock();
 
             if (!$images_temp->count()) {
