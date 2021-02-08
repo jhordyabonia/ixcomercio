@@ -310,29 +310,39 @@ function (
         },
         verifyTradeIn: ko.computed(function () {
             
-            (function theLoop (i) {
-                setTimeout(function () {
-                    if(jQuery("#checkout-shipping-method-load").length>0||jQuery("#checkout-payment-method-load").length>0){
-                        var serviceUrl = url.build('intcomex/custom/tradein');  
-                            jQuery.post(serviceUrl)
-                            .done(function(msg){
-                                if(msg.status=='success'&&jQuery(".tradein_alert").length==0){
-                                    var alertaDiv1 = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta1+'</div></div>';
-                                    var alertaDiv2 = '<div class="row custom_alert tradein_alert" style="color:red"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta2+'</div></div>';
-                                    jQuery("#checkout-shipping-method-load").after(alertaDiv1);
-                                    jQuery("#checkout-payment-method-load").after(alertaDiv2);
+            console.log('findElementTradeIn...');
+            findElementTradeIn();
+            
+            function findElementTradeIn(){
+                (function theLoop (i) {
+                    setTimeout(function () {
+                        if(jQuery("#checkout-shipping-method-load").length>0||jQuery("#checkout-payment-method-load").length>0){
+                           console.log('buscando');
+                           var serviceUrl = url.build('intcomex/custom/tradein'); 
+                           jQuery.post(serviceUrl)
+                           .done(function(msg){
+                               if(msg.status=='success'){
+                                   console.log('consultando');
+                                   if(jQuery(".tradein_alert").length==0){
+                                       console.log('pintando');
+                                        var alertaDiv1 = '<div class="tradein_alert" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta1+'</div>';
+                                        var alertaDiv2 = '<div class="tradein_alert" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta2+'</div>';
+                                        setTimeout(function(){ 
+                                            jQuery("#checkout-shipping-method-load").after(alertaDiv1);
+                                            jQuery("#checkout-payment-method-load").after(alertaDiv2);
+                                         }, 2000);
+                                        return false;
+                                    }
                                 }
                             })
                             .fail(function(msg){
                 
                             })
-                        return false;
-                    }
-                    if (--i) {          // If i > 0, keep going
-                    theLoop(i);       // Call the loop again, and pass it the current value of i
-                    }
-                }, 1000);
-            })(40);
+                        }
+                      }, 1000);
+                  })(40); 
+              }
+          
         })
     });
 });
