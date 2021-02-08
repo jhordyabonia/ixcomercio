@@ -250,7 +250,7 @@
   } 
   #checkout-payment-method-load{
     border-bottom: 1px solid #cccccc;
-    margin-bottom: 20px 0;
+    margin-bottom: 20px !important;
   }
   .tradein_alert{
     font-weight: 400;
@@ -265,9 +265,12 @@
     width: 40px;
     margin-right: .8rem;
   } 
+  .tradein_alert a {
+    font-weight: bold;
+  }
 }
 .checkout-onepage-success form .actions-toolbar{
-  text-align: center;
+    text-align: center;
     margin: 0 auto !important;
 }
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.month, .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.year{
