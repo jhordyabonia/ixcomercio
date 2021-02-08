@@ -6,6 +6,9 @@
 
 // @codingStandardsIgnoreFile
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+$theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
 ?>
 <div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
     <div id="checkout-loader" data-role="checkout-loader" class="loading-mask" data-mage-init='{"checkoutLoader": {}}'>
@@ -30,8 +33,11 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         window.customerData = window.checkoutConfig.customerData;
         window.enableInvoice = <?php echo $_helperCdi->getStoreConfig('checkout/options/show_invoice');?>;
         window.invoiceLabel = '<?php echo $_helperCdi->getStoreConfig('checkout/options/invoice_label');?>';
+        window.customAlert = '<?php echo $_helperCdi->getStoreConfig('shipping/custom_alerts/alerta_preventa');?>';
         window.identificationLabel = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label');?>';
         window.urlGeo = '<?= $block->getBaseUrl() ?>index.php/rest/V1/geolocation/';
+        window.currentWebsiteCode = '<?php  echo $theme->getStore()->getCode(); ?>';
+        window.mediaUrl = '<?php  echo $mediaUrl; ?>';
     </script>
     <script>
         require([

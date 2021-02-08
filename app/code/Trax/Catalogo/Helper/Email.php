@@ -129,7 +129,7 @@ class Email extends AbstractHelper
         /* Sender Detail  */
         $senderInfo = [
             'name' => 'Whitelabel Store',
-            'email' => 'sender@addess.com',
+            'email' => 'soporteb2c@ixcomercio.com',
         ];
 
         /* Assign values for your template variables  */

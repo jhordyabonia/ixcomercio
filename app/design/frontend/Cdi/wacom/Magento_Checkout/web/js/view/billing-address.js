@@ -18,7 +18,9 @@ define([
     'Magento_Checkout/js/action/set-billing-address',
     'Magento_Ui/js/model/messageList',
     'mage/translate',
-    'Magento_Checkout/js/model/shipping-rates-validator'
+    'Magento_Checkout/js/model/shipping-rates-validator',
+    'jquery',
+    'mage/url'
 ],
 function (
     ko,
@@ -35,7 +37,9 @@ function (
     setBillingAddressAction,
     globalMessageList,
     $t,
-    shippingRatesValidator
+    shippingRatesValidator,
+    $,
+    url
 ) {
     'use strict';
 
@@ -64,7 +68,6 @@ function (
          */
         initialize: function () {
             this._super();
-            this._initBilling();
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();
             }, this);
@@ -82,10 +85,7 @@ function (
                     isAddressFormVisible: !customer.isLoggedIn() || !addressOptions.length,
                     isAddressSameAsShipping: false,
                     isInvoiceSelected: false,
-                    saveInAddressBook: 1,
-                    detailsVisible: true,
-                    visibleBilling: false
-
+                    saveInAddressBook: 1
                 });
 
             quote.billingAddress.subscribe(function (newAddress) {
@@ -121,39 +121,29 @@ function (
             return window.invoiceLabel
         }),
 
-        invoiceLabelYes: ko.computed(function () {
-            return window.invoiceLabelYes
+        customAlert: ko.computed(function () {
+            findElement();
+
+            document.addEventListener("click", function(){
+                findElement();
+            });
+            function findElement(){
+                  (function theLoop (i) {
+                      setTimeout(function () {
+                          if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
+                              if(jQuery(".custom_alert").length==0){
+                                  jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+window.mediaUrl+'/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
+                              }
+                              return false;
+                          }
+                          if (--i) {          // If i > 0, keep going
+                          theLoop(i);       // Call the loop again, and pass it the current value of i
+                          }
+                      }, 1000);
+                  })(40); 
+              }
+          
         }),
-
-        invoiceLabelNo: ko.computed(function () {
-            return window.invoiceLabelNo
-        }),
-
-
-        _initBilling: function(){
-            this.showBilling(false); 
-
-            return this;
-        },
-
-        showBilling: function (show){  
-            
-            this.visibleBilling(show); 
-
-            if(this.visibleBilling() == null || this.visibleBilling() == undefined ){
-                this.isAddressDetailsVisible(false);
-                this.visibleBilling(false);               
-            }
-
-            if(show == true){
-                selectBillingAddress(quote.shippingAddress());
-                this.updateAddresses();
-                this.isAddressDetailsVisible(true); 
-            }
-                      
-        },
-
-
 
         /**
          * @param {Object} address
@@ -166,21 +156,21 @@ function (
         /**
          * @return {Boolean}
          */
-        useShippingAddress: function (show = null ) {
-
-            if (show ) {                   
+        useShippingAddress: function () {
+            if (this.isAddressSameAsShipping()) {
                 selectBillingAddress(quote.shippingAddress());
+
                 this.updateAddresses();
-                this.isAddressDetailsVisible(true);                
-            }else{
+                this.isAddressDetailsVisible(true);
+            } else {
                 lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
                 this.isAddressDetailsVisible(false);
-                //this.detailsVisible(false);
             }
+            checkoutData.setSelectedBillingAddress(null);
 
-            checkoutData.setSelectedBillingAddress(null);            
-        },    
+            return true;
+        },
 
         useInvoice: function () {
             if (this.isInvoiceSelected()) {

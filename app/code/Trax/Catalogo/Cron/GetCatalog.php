@@ -644,6 +644,8 @@ class GetCatalog
                 $product->setData('mpn', $catalog->Mpn); // Add Mpn
                 $product->setCustomAttribute('mpn', $catalog->Mpn); // add Mpn
             }
+            $product->setData('iws_type',$catalog->Type);
+            $product->setCustomAttribute('iws_type',$catalog->Type);
             switch ($catalog->Type) {
                 case 'Physical':
                     $product->setTypeId('simple');
@@ -656,6 +658,9 @@ class GetCatalog
                     break;
                 case 'Downloadable':
                     $product->setTypeId('downloadable');
+                    break;
+                case 'Kit':
+                    $product->setTypeId('simple');
                     break;
             } // type of product (simple/virtual/downloadable/configurable)
             //Set product dimensions
