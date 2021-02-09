@@ -268,7 +268,7 @@
     color: #000 !important;
     padding: .5rem .5rem .5rem .5rem;
     border-radius: .7rem;
-    border: 1px solid #C7000B !important;
+    border: 1px solid $mainColor !important;
     margin-bottom: 10px;
     background-color: #fff;
   }
@@ -278,6 +278,7 @@
   } 
   .tradein_alert a {
     font-weight: bold;
+    color: $mainColor !important;
   }
 }
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.month, .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.year{
