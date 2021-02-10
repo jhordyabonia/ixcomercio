@@ -332,6 +332,7 @@ class ObserverSuccess implements ObserverInterface
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKitsObserver.log');
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
+
             if(array_key_exists("iws_type",$product->getData())){
                 if($product->getData('iws_type')=="Kit"){
                     $this->_loggerKit->info('item kit Observer');
@@ -383,6 +384,38 @@ class ObserverSuccess implements ObserverInterface
                     }else {
                         $this->_logger->info('GetProduct - No se genero url del servicio');
                     }
+                }else{
+                    if($this->_mienvioHelper->getMeasures() === 1){
+                        $length = $product->getData('ts_dimensions_length');
+                        $width  = $product->getData('ts_dimensions_width');
+                        $height = $product->getData('ts_dimensions_height');
+                        $weight = $product->getData('weight');
+        
+                    }else{
+                        $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+                        $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+                        $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+                        $weight = $this->convertWeight($product->getData('weight'));
+                    }
+        
+                    $orderLength += $length;
+                    $orderWidth  += $width;
+                    $orderHeight += $height;
+        
+                    $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+                    $packageVolWeight += $volWeight;
+        
+                    $itemsArr[] = [
+                        'id' => $item->getSku(),
+                        'name' => $productName,
+                        'length' => $length,
+                        'width' => $width,
+                        'height' => $height,
+                        'weight' => $weight,
+                        'volWeight' => $volWeight,
+                        'qty' => $item->getQtyordered(),
+                        'declared_value' => $item->getprice(),
+                    ];
                 }
             }else{
                 if($this->_mienvioHelper->getMeasures() === 1){
