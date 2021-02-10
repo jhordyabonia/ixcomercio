@@ -332,57 +332,58 @@ class ObserverSuccess implements ObserverInterface
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKitsObserver.log');
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
-            if($product->getData('iws_type') == 'Kit'){
-                $this->_loggerKit->info('item kit Observer');
-                $this->_loggerKit->info($item->getSku());
-                $serviceUrl = $this->getServiceUrl($item->getSku());
-                $this->_loggerKit->info($serviceUrl);
-                if(!empty($serviceUrl)&&isset($serviceUrl)){ 
-                    $itemsKit = $this->beginProductLoad($serviceUrl, 0);
-                    if(isset($itemsKit) && !empty($itemsKit)){
-                        $this->_loggerKit->info('beginProductLoad');
-                        foreach($itemsKit as $itemKit){
+            if(array_key_exists("iws_type",$product->getData())){
+                if($product->getData('iws_type')=="Kit"){
+                    $this->_loggerKit->info('item kit Observer');
+                    $this->_loggerKit->info($item->getSku());
+                    $serviceUrl = $this->getServiceUrl($item->getSku());
+                    $this->_loggerKit->info($serviceUrl);
+                    if(!empty($serviceUrl)&&isset($serviceUrl)){ 
+                        $itemsKit = $this->beginProductLoad($serviceUrl, 0);
+                        if(isset($itemsKit) && !empty($itemsKit)){
+                            $this->_loggerKit->info('beginProductLoad');
+                            foreach($itemsKit as $itemKit){
 
-                            if($this->_mienvioHelper->getMeasures() === 1){
-                                $length = $product->getData('ts_dimensions_length');
-                                $width  = $product->getData('ts_dimensions_width');
-                                $height = $product->getData('ts_dimensions_height');
-                                $weight = $product->getData('weight');
-                
-                            }else{
-                                $length = $this->convertInchesToCms($itemKit->Freight->Item->Length);
-                                $width  = $this->convertInchesToCms($itemKit->Freight->Item->Width);
-                                $height = $this->convertInchesToCms($itemKit->Freight->Item->Height);
-                                $weight = $this->convertWeight($itemKit->Freight->Item->Weight);
+                                if($this->_mienvioHelper->getMeasures() === 1){
+                                    $length = $product->getData('ts_dimensions_length');
+                                    $width  = $product->getData('ts_dimensions_width');
+                                    $height = $product->getData('ts_dimensions_height');
+                                    $weight = $product->getData('weight');
+                    
+                                }else{
+                                    $length = $this->convertInchesToCms($itemKit->Freight->Item->Length);
+                                    $width  = $this->convertInchesToCms($itemKit->Freight->Item->Width);
+                                    $height = $this->convertInchesToCms($itemKit->Freight->Item->Height);
+                                    $weight = $this->convertWeight($itemKit->Freight->Item->Weight);
+                                }
+                    
+                                $orderLength += $length;
+                                $orderWidth  += $width;
+                                $orderHeight += $height;
+                    
+                                $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+                                $packageVolWeight += $volWeight;
+                    
+                                $itemsArr[] = [
+                                    'id' => $itemKit->Sku,
+                                    'name' => $productName,
+                                    'length' => $length,
+                                    'width' => $width,
+                                    'height' => $height,
+                                    'weight' => $weight,
+                                    'volWeight' => $volWeight,
+                                    'qty' => $itemKit->Quantity,
+                                    'declared_value' => $itemKit->Price,
+                                ];
+                                $this->_loggerKit->info('fnKits');
+                                $this->_loggerKit->info(print_r($itemsArr,true));
+
                             }
-                
-                            $orderLength += $length;
-                            $orderWidth  += $width;
-                            $orderHeight += $height;
-                
-                            $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
-                            $packageVolWeight += $volWeight;
-                
-                            $itemsArr[] = [
-                                'id' => $itemKit->Sku,
-                                'name' => $productName,
-                                'length' => $length,
-                                'width' => $width,
-                                'height' => $height,
-                                'weight' => $weight,
-                                'volWeight' => $volWeight,
-                                'qty' => $itemKit->Quantity,
-                                'declared_value' => $itemKit->Price,
-                            ];
-                            $this->_loggerKit->info('fnKits');
-                            $this->_loggerKit->info(print_r($itemsArr,true));
-
                         }
+                    }else {
+                        $this->_logger->info('GetProduct - No se genero url del servicio');
                     }
-                }else {
-                    $this->_logger->info('GetProduct - No se genero url del servicio');
                 }
-
             }else{
                 if($this->_mienvioHelper->getMeasures() === 1){
                     $length = $product->getData('ts_dimensions_length');
