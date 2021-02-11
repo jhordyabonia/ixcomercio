@@ -643,7 +643,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
             
-            if(array_key_exists("iws_type",$product->getData())){
+            if(property_exists("iws_type",$product->getData())){
                 if($product->getData('iws_type') == 'Kit'){
                     $this->_loggerKit->info('item kit');
                     $this->_loggerKit->info($item->getSku());
