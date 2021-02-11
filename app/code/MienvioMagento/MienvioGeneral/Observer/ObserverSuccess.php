@@ -325,6 +325,7 @@ class ObserverSuccess implements ObserverInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
+            $iws_type = "";
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
@@ -333,8 +334,9 @@ class ObserverSuccess implements ObserverInterface
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
 
-            if(property_exists("iws_type",$product->getData())){
-                if($product->getData('iws_type')=="Kit"){
+            if(array_key_exists("iws_type",$product->getData())){
+                $iws_type = $product->getData('iws_type');
+                if(!empty($iws_type) && $iws_type == 'Kit'){
                     $this->_loggerKit->info('item kit Observer');
                     $this->_loggerKit->info($item->getSku());
                     $serviceUrl = $this->getServiceUrl($item->getSku());

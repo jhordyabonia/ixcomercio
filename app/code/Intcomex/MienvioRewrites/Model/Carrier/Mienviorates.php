@@ -636,6 +636,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
+            $iws_type = "";
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
             $product = $this->getProductByName($productName);
@@ -643,8 +644,9 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
             
-            if(property_exists("iws_type",$product->getData())){
-                if($product->getData('iws_type') == 'Kit'){
+            if(array_key_exists("iws_type",$product->getData())){
+                $iws_type = $product->getData('iws_type');
+                if(!empty($iws_type) && $iws_type == 'Kit'){
                     $this->_loggerKit->info('item kit');
                     $this->_loggerKit->info($item->getSku());
                     $serviceUrl = $this->getServiceUrl($item->getSku());
