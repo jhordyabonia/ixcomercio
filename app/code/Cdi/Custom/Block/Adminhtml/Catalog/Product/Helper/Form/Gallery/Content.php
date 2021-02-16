@@ -175,7 +175,7 @@ class Content extends \Magento\Backend\Block\Widget
         
         $store = 0;
 
-        if(isset( $get['store'])){
+        if(isset( $get['store']) && $get['store'] != 0 ){
             $store = $get['store'];
         }
 
@@ -183,19 +183,18 @@ class Content extends \Magento\Backend\Block\Widget
 
         $value = $this->getElement()->getImages();
 
-        //print_r($value);
-
         $table=$this->_resource->getTableName('catalog_product_entity_media_gallery_value'); 
 
         $connection = $this->_resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
-        
-        
+                
         $images = $this->sortImagesByPosition($value['images']);
+
+        //print_r($images);
 
         $tmp_images =  array();
 
 
-        if(isset( $get['store'])){
+        if(isset( $get['store']) && $get['store'] != 0 ){
 
             foreach ($images as &$image) {
                 $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image['value_id'].' AND  row_id='.$image['row_id'] );
