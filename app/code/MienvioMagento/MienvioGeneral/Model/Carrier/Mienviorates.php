@@ -241,7 +241,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $method->setCarrier($this->getCarrierCode());
                 $method->setCarrierTitle($rate['courier']);
                 $method->setMethod((string)$methodId);
-                if(isste($rate['istradein'])){
+                if(isset($rate['istradein'])){
                     $method->setCode($rate['istradein']);
                 }else{
                     $method->setCode('');
