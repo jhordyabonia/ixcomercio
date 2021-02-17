@@ -17,16 +17,21 @@ define([
     'mage/translate',
     'Magento_Checkout/js/action/get-payment-information',
     'Magento_Checkout/js/model/totals',
-    'Magento_Checkout/js/model/full-screen-loader'
+    'Magento_Checkout/js/model/full-screen-loader',
+    'Magento_Ui/js/modal/modal',
+    'Magento_Ui/js/modal/alert'
 ], function (ko, $, quote, urlManager, errorProcessor, messageContainer, storage, $t, getPaymentInformationAction,
-    totals, fullScreenLoader
+    totals, fullScreenLoader, modal
 ) {
+   
+
     'use strict';
 
     var dataModifiers = [],
         successCallbacks = [],
         failCallbacks = [],
         action;
+
 
     /**
      * Apply provided coupon.
@@ -36,55 +41,95 @@ define([
      * @returns {Deferred}
      */
     action = function (couponCode, isApplied) {
-        console.log('test coupon code');
-        var quoteId = quote.getQuoteId(),
+
+        var modaloption = {
+            modalClass: 'modal-popup',
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            clickableOverlay: false,
+            title: 'Producto TradeIn',
+            buttons: [
+                {
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                        setCupon();
+                    }
+                },
+                {
+                    text: $.mage.__('Cancelar'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                },
+            ]
+        };
+       var callforoption = modal(modaloption, $('.callfor-popup'));
+
+        var nTradeIn = couponCode.search("TRADE");
+        console.log(nTradeIn);
+        if(nTradeIn>=0){
+            $('.callfor-popup').modal('openModal');
+        }else{
+            setCupon();
+        }  
+
+        function setCupon(couponCode,isApplied){
+            var quoteId = quote.getQuoteId(),
             url = urlManager.getApplyCouponUrl(couponCode, quoteId),
             message = $t('Your coupon was successfully applied.'),
             data = {},
             headers = {};
 
-        //Allowing to modify coupon-apply request
-        dataModifiers.forEach(function (modifier) {
-            modifier(headers, data);
-        });
-        fullScreenLoader.startLoader();
-
-        return storage.put(
-            url,
-            data,
-            false,
-            null,
-            headers
-        ).done(function (response) {
-            var deferred;
-
-            if (response) {
-                deferred = $.Deferred();
-
-                isApplied(true);
-                totals.isLoading(true);
-                getPaymentInformationAction(deferred);
-                $.when(deferred).done(function () {
-                    fullScreenLoader.stopLoader();
-                    totals.isLoading(false);
-                });
-                messageContainer.addSuccessMessage({
-                    'message': message
-                });
+            //Allowing to modify coupon-apply request
+            dataModifiers.forEach(function (modifier) {
+                modifier(headers, data);
+            });
+            fullScreenLoader.startLoader();
+    
+            return storage.put(
+                url,
+                data,
+                false,
+                null,
+                headers
+            ).done(function (response) {
+                var deferred;
+    
+                if (response) {
+                    deferred = $.Deferred();
+    
+                    isApplied(true);
+                    totals.isLoading(true);
+                    getPaymentInformationAction(deferred);
+                    $.when(deferred).done(function () {
+                        fullScreenLoader.stopLoader();
+                        totals.isLoading(false);
+                    });
+                    messageContainer.addSuccessMessage({
+                        'message': message
+                    });
+                    //Allowing to tap into apply-coupon process.
+                    successCallbacks.forEach(function (callback) {
+                        callback(response);
+                    });
+                }
+            }).fail(function (response) {
+                fullScreenLoader.stopLoader();
+                totals.isLoading(false);
+                errorProcessor.process(response, messageContainer);
                 //Allowing to tap into apply-coupon process.
-                successCallbacks.forEach(function (callback) {
+                failCallbacks.forEach(function (callback) {
                     callback(response);
                 });
-            }
-        }).fail(function (response) {
-            fullScreenLoader.stopLoader();
-            totals.isLoading(false);
-            errorProcessor.process(response, messageContainer);
-            //Allowing to tap into apply-coupon process.
-            failCallbacks.forEach(function (callback) {
-                callback(response);
             });
-        });
+        }
+           
+        
+       
     };
 
     /**
