@@ -87,9 +87,10 @@ class Order extends \MagePal\GoogleTagManager\Model\Order
             $transaction = [
                 'event' => DataLayerEvent::PURCHASE_EVENT,
                 'ecommerce' => $purchase,
-                'currencyCode' => $this->_storeManager->getStore()->getCurrentCurrency()->getCode(),
                 'order' => $this->getOrderDataLayer($order)
             ];
+
+            $transaction['ecommerce']['currencyCode'] = $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
 
             $result[] = $this->orderProvider->setOrder($order)->setTransactionData($transaction)->getData();
         }
