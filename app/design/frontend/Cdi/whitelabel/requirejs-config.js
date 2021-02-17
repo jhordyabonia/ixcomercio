@@ -4,7 +4,7 @@ var config = {
         bootstrap: "js/bootstrap.bundle",
         owlCarouselJs: "js/owl.carousel.min",
         mainJs: "js/main.min",
-        "Magento_SalesRule/js/action/set-coupon-code.js": "Intcomex_TradeIn/js/action/set-coupon-code.js"
+        "Magento_SalesRule/js/action/set-coupon-code.js": "Intcomex_TradeIn/js/action/set-coupon-code.js",
 		}
 	},
     paths: {

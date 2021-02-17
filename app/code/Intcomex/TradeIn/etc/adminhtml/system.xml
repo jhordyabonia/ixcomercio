@@ -27,9 +27,6 @@
                 <field id="campo_mienvio" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Campo Mi-Envio</label>
                 </field>
-                <field id="valor_campo_mienvio" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Valor Campo Mi-Envio</label>
-                </field>
             </group>
         </section>
     </system>

@@ -164,7 +164,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
         
         $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
-        $valorCampoMienvio = $scpConfig->getValue('tradein/general/valor_campo_mienvio',ScopeInterface::SCOPE_STORE);
 
         $shippingAddress = $cart->getQuote()->getShippingAddress();
         $rateResponse = $this->_rateResultFactory->create();
@@ -716,36 +715,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     }else {
                         $this->_logger->info('GetProduct - No se genero url del servicio');
                     }
-                }else{
-                    if($this->_mienvioHelper->getMeasures() === 1){
-                        $length = $product->getData('ts_dimensions_length');
-                        $width  = $product->getData('ts_dimensions_width');
-                        $height = $product->getData('ts_dimensions_height');
-                        $weight = $product->getData('weight');
-        
-                    }else{
-                        $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
-                        $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
-                        $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
-                        $weight = $this->convertWeight($product->getData('weight'));
-                    }
-                    $orderLength += $length;
-                    $orderWidth  += $width;
-                    $orderHeight += $height;
-        
-                    $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
-                    $packageVolWeight += $volWeight;
-                    $itemsArr[] = [
-                        'id' => $item->getId(),
-                        'name' => $productName,
-                        'length' => $length,
-                        'width' => $width,
-                        'height' => $height,
-                        'weight' => $weight,
-                        'volWeight' => $volWeight,
-                        'qty' => $item->getQty(),
-                        'declared_value' => $item->getprice(),
-                    ];
                 }
             }else{
                 $dimensions = $this->getDimensionItems($product);
