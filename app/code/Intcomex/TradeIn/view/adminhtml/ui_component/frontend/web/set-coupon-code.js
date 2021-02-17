@@ -6,7 +6,7 @@
 /**
  * Customer store credit(balance) application
  */
-define([
+define([ 
     'ko',
     'jquery',
     'Magento_Checkout/js/model/quote',
