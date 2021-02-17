@@ -20,13 +20,6 @@ use MagePal\GoogleTagManager\Model\DataLayerEvent;
 class Order extends \MagePal\GoogleTagManager\Model\Order
 {
 
-    protected $_storeManager;
-
-    public function __construct(\Magento\Store\Model\StoreManagerInterface $storeManager)
-    {
-        $this->_storeManager = $storeManager;
-    }
-
     /**
      * Render information about specified orders and their items
      *
