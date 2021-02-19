@@ -8,8 +8,6 @@ namespace MagicToolbox\MagicZoomPlus\Block\Product\View;
 
 use Magento\Framework\Data\Collection;
 use MagicToolbox\MagicZoomPlus\Helper\Data;
-use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Framework\App\ResourceConnection;
 
 class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
 {
@@ -41,18 +39,6 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
      */
     protected $currentProductId = null;
 
-
-     /**
-     * Helper
-     *
-     * @var \Magento\Catalog\Api\ProductRepositoryInterface
-     */
-    public $productRepository;
-
-
-
-    protected $_resource;
-
     /**
      * Internal constructor, that is called from real constructor
      *
@@ -63,8 +49,6 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
         parent::_construct();
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $this->_resource = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
-        $this->productrepository = $objectManager->get(\Magento\Catalog\Api\ProductRepositoryInterface::class);
 
         $this->magicToolboxHelper = $objectManager->get(\MagicToolbox\MagicZoomPlus\Helper\Data::class);
         $this->toolObj = $this->magicToolboxHelper->getToolObj();
@@ -90,27 +74,12 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
             $product = $productRepository->getById($product->getId());
 
             $images[$id] = $product->getMediaGalleryImages();
-
-            $table=$this->_resource->getTableName('catalog_product_entity_media_gallery_value'); 
-                    $connection = $this->_resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
-            
-
             if ($images[$id] instanceof \Magento\Framework\Data\Collection) {
                 $baseMediaUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
                 $baseStaticUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_STATIC);
                 foreach ($images[$id] as $image) {
                     /* @var \Magento\Framework\DataObject $image */
 
-                    $result1 = $connection->fetchAll('SELECT * FROM `'.$table.'` WHERE value_id = '.$image->getValueId().' AND  row_id='.$image->getRowId() );
-
-                    $stores_image = array();
-
-                    foreach($result1 as $store_res){
-                        $stores_image[] = $store_res['store_id'];
-                    }
-
-                    $image->setData('store_id',$stores_image);
-                    
                     $mediaType = $image->getMediaType();
                     if ($mediaType != 'image' && $mediaType != 'external-video') {
                         continue;
@@ -275,13 +244,6 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
         if (is_null($product)) {
             $product = $this->getProduct();
         }
-
-        $store = $this->_storeManager->getStore();
-        $productId = (int) $product->getId();
-        $product = $this->productrepository->getById($productId);
-
-        $productImageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getImage();
-
         $this->currentProductId = $id = $product->getId();
         if (!isset($this->renderedGalleryHtml[$id])) {
             $this->toolObj->params->setProfile('product');
@@ -296,39 +258,11 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
             ];
             $selectorsArray = [];
 
-            $images_temp = $this->getGalleryImagesCollection($product);
+            $images = $this->getGalleryImagesCollection($product);
 
-            $store_id = $this->_storeManager->getStore()->getId();
-
-            $images = array(); 
-
-            
-            
-            foreach($images_temp as $image){
-
-                foreach($image->getStoreId() as $store_img){
-
-                    if($store_id == $store_img ){
-                        $images[] = $image;
-                    }
-                }
-
-                //print_r($image );
-                
-            }
-
-            // validar si existen imagenes por tienda
-            if(count($images) == 0){
-                foreach($images_temp as $image){
-                    if($image->getStoreId() == 0){
-                        $images[] = $image;
-                    }
-                }
-            }
-            
             $originalBlock = $this->getOriginalBlock();
 
-            if (!$images_temp->count()) {
+            if (!$images->count()) {
                 $this->renderedGalleryHtml[$id] = $isAssociatedProduct ? '' : $this->getPlaceholderHtml();
                 return $this;
             }

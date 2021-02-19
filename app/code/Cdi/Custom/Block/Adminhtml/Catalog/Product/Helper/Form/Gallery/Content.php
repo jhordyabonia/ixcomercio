@@ -20,13 +20,19 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Backend\Block\DataProviders\ImageUploadConfig as ImageUploadConfigDataProvider;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Block for gallery content.
  */
 class Content extends \Magento\Backend\Block\Widget
 {
-    
+    /**
+     * Store manager
+     *
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
     /**
      * @var string
      */
@@ -52,11 +58,6 @@ class Content extends \Magento\Backend\Block\Widget
      */
     private $imageUploadConfigDataProvider;
 
-
-    protected $_resource;
-
-    protected $request;
-
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
@@ -70,19 +71,18 @@ class Content extends \Magento\Backend\Block\Widget
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
         array $data = [],
         ImageUploadConfigDataProvider $imageUploadConfigDataProvider = null,
-        \Magento\Framework\App\ResourceConnection $resource,
-        \Magento\Framework\App\RequestInterface $request
+        StoreManagerInterface $storeManager
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_mediaConfig = $mediaConfig;
-        $this->_resource = $resource;
-        $this->request = $request;
-
         parent::__construct($context, $data);
         $this->imageUploadConfigDataProvider = $imageUploadConfigDataProvider
             ?: ObjectManager::getInstance()->get(ImageUploadConfigDataProvider::class);
-    }
+        
+        $this->storeManager = $storeManager;
 
+        
+    }
 
     /**
      * Prepare layout.
@@ -160,88 +160,6 @@ class Content extends \Magento\Backend\Block\Widget
         );
     }
 
-
-    /**
-     * @param array $value
-     * 
-     * Returns image json
-     *
-     * @return string
-     */
-    public function getImagesJsonCustom()
-    {
-        
-        $get = $this->request->getParams();
-        
-        $store = 0;
-
-        if(isset( $get['store']) && $get['store'] != 0 ){
-            $store = $get['store'];
-        }
-
-        //print_r($store);
-
-        $value = $this->getElement()->getImages();
-
-        $table=$this->_resource->getTableName('catalog_product_entity_media_gallery_value'); 
-
-        $connection = $this->_resource->getConnection(\Magento\Framework\App\ResourceConnection::DEFAULT_CONNECTION);
-                
-        $images = $this->sortImagesByPosition($value['images']);
-
-        //print_r($images);
-
-        $tmp_images =  array();
-
-
-        if(isset( $get['store']) && $get['store'] != 0 ){
-
-            foreach ($images as &$image) {
-                $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image['value_id'].' AND  row_id='.$image['row_id'] );
-                //$image['store_id'] = $result1[0]['store_id'];
-
-                $stores_image = array(); 
-                foreach($result1 as $store_res){
-                    $stores_image[] = $store_res['store_id'];
-                }
-
-                $image['store_id'] = $stores_image;
-
-                if($store != 0){
-
-                    foreach($stores_image as $store_img){
-                        if($store == $store_img){
-                            $tmp_images[] = $image;
-                        } 
-                    }
-
-                    
-                }                      
-            }  
-
-        }else{
-
-            foreach ($images as &$image) {
-                $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image['value_id'].' AND  row_id='.$image['row_id'] );
-                $stores_image = array(); 
-
-                foreach($result1 as $store_res){
-                    $stores_image[] = $store_res['store_id'];
-                }
-
-                $image['store_id'] = $stores_image;
-
-                $tmp_images[] = $image;
-                
-            }    
-        }
-
-
-        //print_r($tmp_images);
-        
-        return $tmp_images;
-    }
-
     /**
      * Returns image json
      *
@@ -249,21 +167,18 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getImagesJson()
     {
-        
         $value = $this->getElement()->getImages();
-        
         if (is_array($value) &&
             array_key_exists('images', $value) &&
             is_array($value['images']) &&
             count($value['images'])
         ) {
             $mediaDir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
-            //$images = $this->sortImagesByPosition($value['images']);
-
-            $images = $this->getImagesJsonCustom();
-
+            $images = $this->sortImagesByPosition($value['images']);
             foreach ($images as &$image) {
-                $image['url'] = $this->_mediaConfig->getMediaUrl($image['file']);
+                //$image['url'] = $this->_mediaConfig->getMediaUrl($image['file']);
+                $image['url'] = $this->getUrlBaseAdminImage($image['file']);
+
                 try {
                     $fileHandler = $mediaDir->stat($this->_mediaConfig->getMediaPath($image['file']));
                     $image['size'] = $fileHandler['size'];
@@ -273,7 +188,6 @@ class Content extends \Magento\Backend\Block\Widget
                     $this->_logger->warning($e);
                 }
             }
-
             return $this->_jsonEncoder->encode($images);
         }
         return '[]';
@@ -386,21 +300,20 @@ class Content extends \Magento\Backend\Block\Widget
         return $this->imageHelper;
     }
 
+    public function getUrlBaseAdminImage($file)
+    {
+        $file = ltrim(str_replace('\\', '/', $file), '/');
+
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        $store = $storeManager->getStore($storeId);
+        
+        $url =  $this->storeManager->getStore($storeId)
+                ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
 
 
-    public function getStoreId(){
 
-        $get = $this->request->getParams();
-
-        $store = 0;
-
-        if(isset( $get['store']) && $get['store'] != 0 ){
-            $store = $get['store'];
-        }
-
-        return $store;
-
+        return $url;
     }
-
-    
 }
