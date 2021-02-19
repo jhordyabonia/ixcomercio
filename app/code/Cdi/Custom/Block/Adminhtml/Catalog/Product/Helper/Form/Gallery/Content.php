@@ -300,19 +300,25 @@ class Content extends \Magento\Backend\Block\Widget
         return $this->imageHelper;
     }
 
+
+    /**
+     * Returns url image .
+     *
+     */
+
     public function getUrlBaseAdminImage($file)
     {
         $file = ltrim(str_replace('\\', '/', $file), '/');
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        $storeId = 0;
         $store = $storeManager->getStore($storeId);
         
-        $url =  $this->storeManager->getStore($storeId)
+        $base_url =  $this->storeManager->getStore($storeId)
                 ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
 
-
+        $url = $base_url. '/' .$file;
 
         return $url;
     }
