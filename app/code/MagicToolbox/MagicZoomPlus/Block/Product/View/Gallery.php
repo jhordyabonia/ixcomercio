@@ -101,9 +101,15 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
                 foreach ($images[$id] as $image) {
                     /* @var \Magento\Framework\DataObject $image */
 
-                    $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image->getValueId().' AND  row_id='.$image->getRowId() );
+                    $result1 = $connection->fetchAll('SELECT * FROM `'.$table.'` WHERE value_id = '.$image->getValueId().' AND  row_id='.$image->getRowId() );
 
-                    $image->setData('store_id',$result1[0]['store_id']);
+                    $stores_image = array();
+
+                    foreach($result1 as $store_res){
+                        $stores_image[] = $store_res['store_id'];
+                    }
+
+                    $image->setData('store_id',$stores_image);
                     
                     $mediaType = $image->getMediaType();
                     if ($mediaType != 'image' && $mediaType != 'external-video') {
@@ -295,12 +301,19 @@ class Gallery extends \Magento\Catalog\Block\Product\View\Gallery
             $store_id = $this->_storeManager->getStore()->getId();
 
             $images = array(); 
+
+            
             
             foreach($images_temp as $image){
 
-                if($store_id == $image->getStoreId() ){
-                    $images[] = $image;
+                foreach($image->getStoreId() as $store_img){
+
+                    if($store_id == $store_img ){
+                        $images[] = $image;
+                    }
                 }
+
+                //print_r($image );
                 
             }
 

@@ -198,19 +198,39 @@ class Content extends \Magento\Backend\Block\Widget
 
             foreach ($images as &$image) {
                 $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image['value_id'].' AND  row_id='.$image['row_id'] );
-                $image['store_id'] = $result1[0]['store_id'];
+                //$image['store_id'] = $result1[0]['store_id'];
+
+                $stores_image = array(); 
+                foreach($result1 as $store_res){
+                    $stores_image[] = $store_res['store_id'];
+                }
+
+                $image['store_id'] = $stores_image;
 
                 if($store != 0){
-                    if($store == $image['store_id']){
-                        $tmp_images[] = $image;
-                    } 
+
+                    foreach($stores_image as $store_img){
+                        if($store == $store_img){
+                            $tmp_images[] = $image;
+                        } 
+                    }
+
+                    
                 }                      
             }  
 
         }else{
 
             foreach ($images as &$image) {
-                
+                $result1 = $connection->fetchAll('SELECT store_id FROM `'.$table.'` WHERE value_id = '.$image['value_id'].' AND  row_id='.$image['row_id'] );
+                $stores_image = array(); 
+
+                foreach($result1 as $store_res){
+                    $stores_image[] = $store_res['store_id'];
+                }
+
+                $image['store_id'] = $stores_image;
+
                 $tmp_images[] = $image;
                 
             }    
@@ -364,6 +384,22 @@ class Content extends \Magento\Backend\Block\Widget
                 ->get(\Magento\Catalog\Helper\Image::class);
         }
         return $this->imageHelper;
+    }
+
+
+
+    public function getStoreId(){
+
+        $get = $this->request->getParams();
+
+        $store = 0;
+
+        if(isset( $get['store']) && $get['store'] != 0 ){
+            $store = $get['store'];
+        }
+
+        return $store;
+
     }
 
     
