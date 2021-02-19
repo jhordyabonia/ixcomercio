@@ -9,6 +9,7 @@
 /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content */
 $elementName = $block->getElement()->getName() . '[images]';
 $formName = $block->getFormName();
+$store_id = $block->getStoreId();
 ?>
 <div id="<?= $block->getHtmlId() ?>"
      class="gallery"
@@ -68,6 +69,11 @@ $formName = $block->getFormName();
                    name="<?= /* @escapeNotVerified */ $elementName ?>[<%- data.file_id %>][media_type]"
                    data-form-part="<?= /* @escapeNotVerified */ $formName ?>"
                    value="image"/>
+
+            <input type="hidden"
+                   name="<?= /* @escapeNotVerified */ $elementName ?>[<%- data.file_id %>][store_id]"
+                   data-form-part="<?= /* @escapeNotVerified */ $formName ?>"
+                   value="<?= $store_id ?>"/>
             <input type="hidden"
                    name="<?= /* @escapeNotVerified */ $elementName ?>[<%- data.file_id %>][removed]"
                    data-form-part="<?= /* @escapeNotVerified */ $formName ?>"
