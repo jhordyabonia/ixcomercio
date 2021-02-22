@@ -1,6 +1,7 @@
 <?php
 namespace Trax\Catalogo\Cron;
 use \Psr\Log\LoggerInterface;
+use Magento\Framework\App\ResourceConnection;
 
 class GetStock {
 
@@ -58,10 +59,12 @@ class GetStock {
     
     protected $logger;
 
-    protected  $productRepository;     
+    protected  $productRepository;   
+    
+    protected $resourceConnection;
 
     public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository,\Magento\Eav\Model\Config $eavConfig) {
+    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository,\Magento\Eav\Model\Config $eavConfig, ResourceConnection $resourceConnection) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -76,6 +79,7 @@ class GetStock {
         $this->_sources = array();
         $this->helper = $email;
         $this->_eavConfig = $eavConfig;
+        $this->resourceConnection = $resourceConnection;
     }
 
 /**
@@ -86,6 +90,11 @@ class GetStock {
 
     public function execute() 
     {
+        $table = 'inventory_reservation';
+        $connection = $this->resourceConnection->getConnection();
+        $query = "DELETE FROM `" . $table . "` ";
+        $connection->query($query);
+        
         //Se declaran variables de la tierra
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
