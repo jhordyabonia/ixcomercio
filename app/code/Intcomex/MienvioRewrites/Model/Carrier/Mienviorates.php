@@ -1,9 +1,6 @@
 <?php
 namespace Intcomex\MienvioRewrites\Model\Carrier;
 
-<?php
-namespace MienvioMagento\MienvioGeneral\Model\Carrier;
-
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
