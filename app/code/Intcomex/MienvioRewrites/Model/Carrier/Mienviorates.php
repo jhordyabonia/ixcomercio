@@ -1,6 +1,9 @@
 <?php
 namespace Intcomex\MienvioRewrites\Model\Carrier;
 
+<?php
+namespace MienvioMagento\MienvioGeneral\Model\Carrier;
+
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
@@ -148,7 +151,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $freeShippingSet = $shippingAddress->getFreeShipping();
 
 
- 
+
         $shippingAddress = $cart->getQuote()->getShippingAddress();
         $rateResponse = $this->_rateResultFactory->create();
         $apiKey = $this->_mienvioHelper->getMienvioApi();
