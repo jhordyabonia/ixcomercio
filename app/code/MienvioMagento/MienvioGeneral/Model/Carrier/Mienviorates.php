@@ -299,15 +299,27 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 if($rate->{'servicelevel'} == 'worlwide_usa' || $rate->{'servicelevel'} == 'worldwide_usa'){
 
                 }else{
-                    $rates[] = [
-                        'courier'      => $rate->{'provider'},
-                        'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
-                        'id'           => $quoteResponse->{'quote_id'},
-                        'cost'         => $rate->{'amount'},
-                        'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'},
-                        'duration_terms' => $rate->{'duration_terms'},
-                        'istradein' => $rate->{'istradein'}
-                    ];
+                    if(isset($rate->{'istradein'})){
+                        $rates[] = [
+                            'courier'      => $rate->{'provider'},
+                            'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
+                            'id'           => $quoteResponse->{'quote_id'},
+                            'cost'         => $rate->{'amount'},
+                            'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'},
+                            'duration_terms' => $rate->{'duration_terms'},
+                            'istradein' =>  $rate->{'istradein'}
+                        ];
+                    }else{
+                        $rates[] = [
+                            'courier'      => $rate->{'provider'},
+                            'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
+                            'id'           => $quoteResponse->{'quote_id'},
+                            'cost'         => $rate->{'amount'},
+                            'key'          => $rate->{'provider'} . '-' . $rate->{'servicelevel'},
+                            'duration_terms' => $rate->{'duration_terms'}
+                        ];
+                    }
+
                 }
 
 
