@@ -146,6 +146,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     {
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $scpConfig = $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         $shippingAddress = $cart->getQuote()->getShippingAddress();
 
