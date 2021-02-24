@@ -1,5 +1,6 @@
 <?php
 namespace Intcomex\MienvioRewrites\Model\Carrier;
+use Magento\Store\Model\ScopeInterface;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
@@ -10,6 +11,7 @@ use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Psr\Log\LoggerInterface;
 use MienvioMagento\MienvioGeneral\Helper\Data as Helper;
+use Intcomex\MienvioRewrites\Helper\Data as Helperkit;
 
 
 
@@ -40,6 +42,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         MethodFactory $rateMethodFactory,
         \Magento\Framework\HTTP\Client\Curl $curl,
         Helper $helperData,
+        Helperkit $helperkit,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = []
@@ -52,6 +55,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->_logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
+        $this->_kitHelper = $helperkit;
         $this->directoryHelper = $directoryHelper;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
@@ -230,8 +234,17 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $createShipmentUrl, $options, $packageValue, $fromZipCode);
             }
 
+            $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
+            $valorCampoMienvio = $scpConfig->getValue('tradein/general/valor_campo_mienvio',ScopeInterface::SCOPE_STORE);
+
+            $verifyTradeIn = $this->verifyTradeIn($request->getAllItems());
 
             foreach ($rates as $rate) {
+                if($verifyTradeIn){
+                    if(isset($rate[$campoMienvio])&&$rate[$campoMienvio]!=$valorCampoMienvio){
+                        continue;
+                      }
+                  }
                 $this->_logger->debug('rate_id');
                 $methodId = $this->parseReverseServiceLevel($rate['servicelevel']) . '-' . $rate['courier'];
                 $this->_logger->debug((string)$methodId);
@@ -914,6 +927,19 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'package' => $chosenPackage,
             'qty' => $qty
         ];
+    }
+
+    public function verifyTradeIn($items){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+        foreach($items as $item){
+            $productObj = $productRepository->get($item->getSku());
+            if(strtoupper($productObj->getData('iws_type'))=='TRADEIN'){
+                return true;
+            }
+        }
+        return false;
+
     }
 
 
