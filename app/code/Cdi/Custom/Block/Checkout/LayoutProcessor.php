@@ -224,6 +224,37 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 }
             }     
         }
+
+        $customAttributeCode = 'identification';
+        $customField = [
+            'component' => 'Magento_Ui/js/form/element/abstract',
+            'config' => [
+                // customScope is used to group elements within a single form (e.g. they can be validated separately)
+                'customScope' => 'billingAddressshared.identification',
+                'customEntry' => null,
+                'template' => 'ui/form/field',
+                'elementTmpl' => 'ui/form/element/input',
+                
+            ],
+            'dataScope' => 'billingAddressshared.custom_attributes' . '.' . $customAttributeCode,
+            'label' => 'Identification',
+            'provider' => 'checkoutProvider',
+            'sortOrder' => 0,
+            'validation' => [
+                'required-entry' => true,
+                'max_text_length' => 20,
+            ],
+            'options' => [],
+            'filterBy' => null,
+            'customEntry' => null,
+            'visible' => true,
+        ];
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['custom-billing-step']['children']['custom-billing']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']['children'][$customAttributeCode] = $customField;
+        $jsLayout['components']['checkout']['children']['steps']['children']['custom-billing-step']['children']['custom-billing']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']['children']['street']['children'][0]['validation']['max_text_length'] = 140;
+        // disable field company
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['company'] = ['visible' => false]; 
+        
         return $jsLayout;
     }
 
@@ -340,6 +371,21 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                         'checkoutProvider',
                         'billingAddress' . $paymentCode,
                         [
+                            'lastname' => [
+                                'component' => 'Magento_Ui/js/form/element/abstract',
+                                'config' => [
+                                    "template" => "ui/form/element/hidden"
+                                ],
+                                "value" => "N/A",
+                                'validation' => [
+                                    'max_text_length' => 15,
+                                ],
+                            ],
+                            'firstname' => [
+                                'validation' => [
+                                    'max_text_length' => 40,
+                                ],                                                                
+                            ],
                             'country_id' => [
                                 'sortOrder' => 115,
                             ],
@@ -382,6 +428,9 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                     'tooltip' => [
                                         'description' => __('For delivery questions.'),
                                     ],
+                                ],
+                                'validation' => [
+                                    'max_text_length' => 20,
                                 ],
                             ],
                         ]
