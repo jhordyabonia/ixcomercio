@@ -85,8 +85,7 @@ class Ftp extends AbstractClass
                     #$this->getDestination()->setLastResult($this->getTestResult()->getSuccess())->setLastResultMessage($this->getTestResult()->getMessage())->save();
                     #return false;
                 }
-            } catch (\Exception $e) {
-            }
+            } catch (\Exception $e) {}
         }
 
         $warning = '';
@@ -152,8 +151,7 @@ class Ftp extends AbstractClass
         }
         try {
             ftp_close($this->connection);
-        } catch (\Exception $e) {
-        }
+        } catch (\Exception $e) {}
         return $savedFiles;
     }
 }

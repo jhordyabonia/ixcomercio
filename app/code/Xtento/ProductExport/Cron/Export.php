@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2019-10-04T12:04:04+00:00
+ * Last Modified: 2020-08-04T15:00:19+00:00
  * File:          Cron/Export.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -26,11 +26,11 @@ class Export extends \Xtento\ProductExport\Model\AbstractAutomaticExport
         try {
             if (!$this->moduleHelper->isModuleEnabled() || !$this->moduleHelper->isModuleProperlyInstalled()) {
                 $this->xtentoLogger->info('Cronjob executed, but module is disabled or not installed properly. Stopping.');
-                return;
+                return true;
             }
             if (!$schedule) {
                 $this->xtentoLogger->info('Cronjob executed, but no schedule is defined for cron. Stopping.');
-                return;
+                return true;
             }
             $jobCode = $schedule->getJobCode();
             preg_match('/profile_(\d+)/', $jobCode, $jobMatch);
@@ -45,10 +45,10 @@ class Export extends \Xtento\ProductExport\Model\AbstractAutomaticExport
                 throw new LocalizedException(__('Profile ID %1 does not seem to exist anymore.', $profileId));
             }
             if (!$profile->getEnabled()) {
-                return; // Profile not enabled
+                return true; // Profile not enabled
             }
             if (!$profile->getCronjobEnabled()) {
-                return; // Cronjob not enabled
+                return true; // Cronjob not enabled
             }
             $exportModel = $this->exportFactory->create()->setProfile($profile);
             $filters = $this->addProfileFilters($profile);
@@ -56,5 +56,6 @@ class Export extends \Xtento\ProductExport\Model\AbstractAutomaticExport
         } catch (\Exception $e) {
             $this->xtentoLogger->critical('Cronjob exception for job_code ' . $jobCode . ': ' . $e->getMessage());
         }
+        return true;
     }
 }

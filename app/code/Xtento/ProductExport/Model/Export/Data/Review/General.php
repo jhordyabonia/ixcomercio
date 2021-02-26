@@ -108,9 +108,7 @@ class General extends \Xtento\ProductExport\Model\Export\Data\Product\General
         $review = $collectionItem->getReview();
 
         // Timestamps of creation/update
-        if ($this->fieldLoadingRequired('created_at_timestamp')) {
-            $this->writeValue('created_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($review->getCreatedAt()));
-        }
+        if ($this->fieldLoadingRequired('created_at_timestamp')) $this->writeValue('created_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($review->getCreatedAt()));
 
         // Which line is this?
         $this->writeValue('line_number', $collectionItem->currItemNo);
@@ -146,12 +144,11 @@ class General extends \Xtento\ProductExport\Model\Export\Data\Product\General
         // Review link
         if ($this->fieldLoadingRequired('review_link')) {
             $reviewLink = $this->url->getUrl(
-                'review/product/view',
-                [
+                'review/product/view', [
                 'id' => $review->getReviewId(),
                 '_store' => $this->getStoreId(),
                 '_nosid' => true
-                ]
+            ]
             );
             $this->writeValue('review_link', $reviewLink);
         }
@@ -210,8 +207,7 @@ class General extends \Xtento\ProductExport\Model\Export\Data\Product\General
                         }
                     }
                 }
-            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-            }
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {}
         }
 
 

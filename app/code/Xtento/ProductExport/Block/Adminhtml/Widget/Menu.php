@@ -124,8 +124,8 @@ EOT;
             }
         }
         $this->menuBar .= '<a href="http://support.xtento.com/wiki/Magento_2_Extensions:Magento_Product_Export_Module" target="_blank" style="font-weight: bold;">' . __(
-            ''
-        ) . '</a>';
+                ''
+            ) . '</a>';
         $this->menuBar .= '</div>';
         if (method_exists($this->utilsHelper, 'getExtensionStatusString')) {
             // To avoid issues if someone didn't update XtCore for some reason
@@ -154,10 +154,10 @@ EOT;
             }
         }
         $this->menuBar .= '<a href="' . $this->adminhtmlData->getUrl(
-            '*/' . $controllerName . '/' . $actionName
-        ) . '" style="' . $isActive . '">' . __(
-            $name
-        ) . '</a>';
+                '*/' . $controllerName . '/' . $actionName
+            ) . '" style="' . $isActive . '">' . __(
+                $name
+            ) . '</a>';
         if (!$lastLink) {
             $this->menuBar .= '&nbsp;|&nbsp;';
         }

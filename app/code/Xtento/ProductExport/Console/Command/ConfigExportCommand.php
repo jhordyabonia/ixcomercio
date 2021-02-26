@@ -82,13 +82,9 @@ class ConfigExportCommand extends Command
 
         $outputFile = $input->getArgument('file');
         $profileIds = explode(",", $input->getOption('profiles'));
-        $profileIds = array_filter($profileIds, function ($value) {
-            return $value !== '';
-        });
+        $profileIds = array_filter($profileIds, function($value) { return $value !== ''; });
         $destinationIds = explode(",", $input->getOption('destinations'));
-        $destinationIds = array_filter($destinationIds, function ($value) {
-            return $value !== '';
-        });
+        $destinationIds = array_filter($destinationIds, function($value) { return $value !== ''; });
 
         if (empty($profileIds) && empty($destinationIds)) {
             $output->writeln("<error>Profile and destination IDs missing. One of the two must be specified so something can be exported.</error>");

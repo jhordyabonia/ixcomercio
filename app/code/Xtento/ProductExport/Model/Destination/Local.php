@@ -46,8 +46,7 @@ class Local extends AbstractClass
                 return $testResult->setSuccess(false)->setMessage(
                     __(
                         'The specified local directory does not exist. We could not create it either. Please make sure the parent directory is writable or create the directory manually: %1 %2',
-                        $exportDirectory,
-                        $warning
+                        $exportDirectory, $warning
                     )
                 );
             } else {
@@ -57,8 +56,7 @@ class Local extends AbstractClass
         $this->connection = false;
         try {
             $this->connection = opendir($exportDirectory);
-        } catch (\Exception $e) {
-        }
+        } catch (\Exception $e) {}
         if (!$this->connection || !is_writable($exportDirectory)) {
             return $testResult->setSuccess(false)->setMessage(
                 __(
@@ -132,8 +130,7 @@ class Local extends AbstractClass
                 if (!is_dir($exportDirectory)) {
                     try {
                         mkdir($exportDirectory);
-                    } catch (\Exception $e) {
-                    }
+                    } catch (\Exception $e) {}
                 }
             }
             $warning = '';

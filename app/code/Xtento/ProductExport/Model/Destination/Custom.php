@@ -29,8 +29,7 @@ class Custom extends AbstractClass
         $customClass = false;
         try {
             $customClass = $this->objectManager->create($this->getDestination()->getCustomClass());
-        } catch (\Exception $e) {
-        }
+        } catch (\Exception $e) {}
         if (!$customClass) {
             $this->getTestResult()->setSuccess(false)->setMessage(__('Custom class NOT found.'));
             return false;
