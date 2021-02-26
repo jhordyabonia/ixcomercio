@@ -46,55 +46,72 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg');
+            $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo');
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;
             }
 
-            $body = $_GET;
-
+            $body = $this->getRequest()->getParams();
+            
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));
-            
-            if($body['response_code']==300||$body['response_code']==200){
 
+            if($modo=='test'){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
-                $order->setState("canceled")->setStatus("canceled");
-                $order->save();
-
-                if( $showCustomError ) {
-                    $msgError = $customError;
-                }else {
-                    $msgError = $body['responsetext'];
-                }
-                $this->_checkoutSession->setErrorMessage($msgError);
-                $this->_messageManager->addError($msgError);
-                $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
-
-                $resultRedirect = $this->resultRedirectFactory->create();
-                $resultRedirect->setPath('checkout/cart');
-                $this->logger->info($lastRealOrder->getData('status'));
-
-                if ($lastRealOrder->getPayment()) {
-                    if ($lastRealOrder->getData('state') === 'canceled' && $lastRealOrder->getData('status') === 'canceled') {
-                        $this->_checkoutSession->restoreQuote();
-                    }
-                }
-
-            }else if($body['response_code']==100){
-                $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
+                $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
-                $payment->setLastTransId($body['authcode']);
+                $payment->setLastTransId(11222334455);
                 $payment->save();
+                $order->save();
                 $this->logger->info('Transactionid');
                 $this->logger->info($payment->getData());
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
-            }
 
-        
+            }else{
+                if($body['response_code']==300||$body['response_code']==200){
+    
+                    $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
+                    $order->setState("canceled")->setStatus("canceled");
+                    $order->save();
+    
+                    if( $showCustomError ) {
+                        $msgError = $customError;
+                    }else {
+                        $msgError = $body['responsetext'];
+                    }
+                    $this->_checkoutSession->setErrorMessage($msgError);
+                    $this->_messageManager->addError($msgError);
+                    $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
+    
+                    $resultRedirect = $this->resultRedirectFactory->create();
+                    $resultRedirect->setPath('checkout/cart');
+                    $this->logger->info($lastRealOrder->getData('status'));
+    
+                    if ($lastRealOrder->getPayment()) {
+                        if ($lastRealOrder->getData('state') === 'canceled' && $lastRealOrder->getData('status') === 'canceled') {
+                            $this->_checkoutSession->restoreQuote();
+                        }
+                    }
+    
+                }else if($body['response_code']==100){
+                    $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
+                    $order->setState("processing")->setStatus("processing");
+                    $payment = $order->getPayment();
+                    $payment->setLastTransId($body['authcode']);
+                    $payment->save();
+                    $order->save();
+                    $this->logger->info('Transactionid');
+                    $this->logger->info($payment->getData());
+                    $resultRedirect = $this->resultRedirectFactory->create();
+                    $resultRedirect->setPath('checkout/onepage/success');
+                }
+
+            }
+            
             $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
             $this->orderSender->send($order, true);
 
