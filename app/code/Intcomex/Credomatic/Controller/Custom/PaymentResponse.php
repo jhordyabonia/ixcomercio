@@ -59,7 +59,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));
 
-            if($modo=='test'){
+            if($modo=='pruebas'){
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
