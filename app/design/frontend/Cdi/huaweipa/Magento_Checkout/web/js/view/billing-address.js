@@ -18,7 +18,9 @@ define([
     'Magento_Checkout/js/action/set-billing-address',
     'Magento_Ui/js/model/messageList',
     'mage/translate',
-    'Magento_Checkout/js/model/shipping-rates-validator'
+    'Magento_Checkout/js/model/shipping-rates-validator',
+    'jquery',
+    'mage/url'
 ],
 function (
     ko,
@@ -35,7 +37,9 @@ function (
     setBillingAddressAction,
     globalMessageList,
     $t,
-    shippingRatesValidator
+    shippingRatesValidator,
+    $,
+    url
 ) {
     'use strict';
 
@@ -279,6 +283,30 @@ function (
          */
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
-        }
+        },
+        
+        customAlert: ko.computed(function () {
+            findElement();
+
+            document.addEventListener("click", function(){
+                findElement();
+            });
+            function findElement(){
+                  (function theLoop (i) {
+                      setTimeout(function () {
+                          if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
+                              if(jQuery(".custom_alert").length==0){
+                                  jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+window.mediaUrl+'/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
+                              }
+                              return false;
+                          }
+                          if (--i) {          // If i > 0, keep going
+                          theLoop(i);       // Call the loop again, and pass it the current value of i
+                          }
+                      }, 1000);
+                  })(40); 
+              }
+          
+        })
     });
 });

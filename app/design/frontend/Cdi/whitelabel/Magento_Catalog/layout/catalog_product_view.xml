@@ -60,17 +60,14 @@
 		<referenceBlock name="product.info.sku" remove="true" />
 		<referenceBlock name="product.info.overview" remove="true" />
 		
-		<!--
-		* Mueve elementos
-		-->
+		<!--Mueve elementos-->
 		<!--media-->
 		<move element="product.info.media" destination="product.essential.container.row" as="product.info.media" before="-"/>
-		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>>
+		<move element="product.info.main" destination="product.essential.container.row" as="product.info.main" after="product.info.media"/>
 
         <!--main-->
 		<referenceBlock name="product.price.final" remove="true"/>
-        <!--
-		* Elimina contenido
+        <!--Elimina contenido
 		<referenceBlock name="product.info.description" remove="true"/>
 		-->
 		<!--Elimina título
