@@ -3261,12 +3261,6 @@ form {
   text-align: center !important;
   color: #333333 !important; }
 
-.checkout-index-index .field[name="shippingAddress.postcode"] {
-  display: none !important; }
-
-.checkout-index-index .field[name="billingAddressmercadopago_basic.postcode"] {
-  display: none !important; }
-
 .checkout-index-index .field[name="shippingAddress.region"] {
   display: block !important; }
 
