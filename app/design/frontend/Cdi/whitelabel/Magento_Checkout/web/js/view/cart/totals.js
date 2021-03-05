@@ -29,10 +29,10 @@ define([
         },
         _verifyTradeIn: function(){
             var serviceUrl = url.build('intcomex/custom/tradein');  
-            jQuery.post(serviceUrl,{alerta:'1'})
+            jQuery.post(serviceUrl,{alerta:'2'})
             .done(function(msg){
                 if(msg.status=='success'){
-                    var alertaDiv = '<div class="row custom_alert" style="color:red; font-weight: 400;"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta1+'</div></div>';
+                    var alertaDiv = '<div class="row custom_alert" style="color:red; font-weight: 400;"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta2+'</div></div>';
                     jQuery("#cart-totals").after(alertaDiv);
                 }
             })
