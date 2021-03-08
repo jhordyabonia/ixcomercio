@@ -45,6 +45,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         Helperkit $helperkit,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
         $this->_storeManager = $storeManager;
@@ -57,6 +58,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->_mienvioHelper = $helperData;
         $this->_kitHelper = $helperkit;
         $this->directoryHelper = $directoryHelper;
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -236,13 +238,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             }
 
             $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
-            $valorCampoMienvio = $scpConfig->getValue('tradein/general/valor_campo_mienvio',ScopeInterface::SCOPE_STORE);
 
-            $verifyTradeIn = $this->verifyTradeIn($request->getAllItems());
+            $verifyTradeIn = $this->verifyTradeIn();
 
             foreach ($rates as $rate) {
                 if($verifyTradeIn){
-                    if(isset($rate[$campoMienvio])&&$rate[$campoMienvio]!=$valorCampoMienvio){
+                    if(!isset($rate[$campoMienvio])){
                         continue;
                       }
                   }
@@ -306,14 +307,18 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $quoteResponse = json_decode($this->_curl->getBody());
         $this->_logger->debug('Creating quote (mienviorates)', ['response' => $this->_curl->getBody()]);
 
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test_rates_master.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        
         if (isset($quoteResponse->{'rates'})) {
             $rates = [];
-
+            
             foreach ($quoteResponse->{'rates'} as $key => $rate) {
                 if($rate->{'servicelevel'} == 'worlwide_usa' || $rate->{'servicelevel'} == 'worldwide_usa'){
-
-                }else{
-                    if(isset($rate->{'istradein'})){
+                    
+                }else{                   
+                    if(array_key_exists('istradein',$rate)){
                         $rates[] = [
                             'courier'      => $rate->{'provider'},
                             'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
@@ -579,6 +584,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
+        if(empty($street2) || $street2 == "."  ){
+            $street = "calle";
+            $street2 = $destCity;
+        }
+
+        $this->_logger->debug('Type: '.$type);
 
         $data = [
             'object_type' => 'PURCHASE',
@@ -594,6 +605,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $location = $this->_mienvioHelper->getLocation();
         $this->_logger->debug('LOCATION: '.$location);
         $this->_logger->debug('Country: '.$countryCode);
+        $this->_logger->debug('STREET: '.$street);
         $this->_logger->debug('STREET2: '.$street2);
         $this->_logger->debug('DestRegion: '.$destRegion);
         $this->_logger->debug('DestRegionCode: '.$destRegionCode);
@@ -930,15 +942,19 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         ];
     }
 
-    public function verifyTradeIn($items){
+    public function verifyTradeIn(){
+        $getCouponCode = $this->_checkoutSession->getQuote()->getCouponCode();
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
-        foreach($items as $item){
-            $productObj = $productRepository->get($item->getSku());
-            if(strtoupper($productObj->getData('iws_type'))=='TRADEIN'){
+        $scpConfig = $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
+        
+        if($getCouponCode!=''){
+            $prefijoCupon = $scpConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
+            $cupon = strpos($getCouponCode, $prefijoCupon);   
+            if ($cupon !== false) {
                 return true;
             }
-        }
+         }
+
         return false;
 
     }

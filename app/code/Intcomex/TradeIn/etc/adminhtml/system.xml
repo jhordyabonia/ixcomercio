@@ -15,8 +15,9 @@
                     <label>Prefijo Cupón</label>
                     <comment>TRADE</comment>
                 </field>
-                <field id="texto_correo" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Texto correo</label>
+                <field id="texto_correo" translate="label" type="editor" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Alerta correo</label>
+                    <frontend_model>Intcomex\TradeIn\Block\Adminhtml\System\Config\Form\Field\Editor</frontend_model>
                 </field>
                 <field id="alerta_tradein_1" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alerta TradeIn #1</label>
@@ -26,9 +27,6 @@
                 </field>
                 <field id="campo_mienvio" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Campo Mi-Envio</label>
-                </field>
-                <field id="valor_campo_mienvio" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Valor Campo Mi-Envio</label>
                 </field>
                 <field id="alerta_cupon" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alerta Cupon</label>
