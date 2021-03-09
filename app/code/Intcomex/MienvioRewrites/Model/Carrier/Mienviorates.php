@@ -318,7 +318,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 if($rate->{'servicelevel'} == 'worlwide_usa' || $rate->{'servicelevel'} == 'worldwide_usa'){
                     
                 }else{                   
-                    if(array_key_exists('istradein',$rate)){
+                    if(isset($rate->{'istradein'})){
                         $rates[] = [
                             'courier'      => $rate->{'provider'},
                             'servicelevel' => $this->parseServiceLevel($rate->{'servicelevel'}),
