@@ -245,8 +245,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 if($verifyTradeIn){
                     if(!isset($rate[$campoMienvio])){
                         continue;
-                      }
-                  }
+                    }
+                }else{
+                    if(isset($rate[$campoMienvio])){
+                        continue;
+                    }
+                }
                 $this->_logger->debug('rate_id');
                 $methodId = $this->parseReverseServiceLevel($rate['servicelevel']) . '-' . $rate['courier'];
                 $this->_logger->debug((string)$methodId);
