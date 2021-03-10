@@ -15,7 +15,7 @@
                     <label>Prefijo Cupón</label>
                     <comment>TRADE</comment>
                 </field>
-                <field id="texto_correo" translate="label" type="editor" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="texto_correo" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alerta correo</label>
                     <!--<frontend_model>Intcomex\TradeIn\Block\Adminhtml\System\Config\Editor</frontend_model>-->
                 </field>
