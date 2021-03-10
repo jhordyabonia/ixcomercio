@@ -25,11 +25,12 @@ class ObserverTradeIn implements ObserverInterface
         $transport['img_alerta'] = $mediaUrl.'iconos_alerta/icono_'.$theme->getStore()->getCode().'.png';
         if ($order != null) 
         {
+        $transport['couponCode'] = 'display:none';
          if($order->getCouponCode()!=''){
              $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
              $cupon = strpos($order->getCouponCode(), $prefijoCupon);
              if ($cupon !== false) {
-                 $transport['couponCode'] = 1;
+                 $transport['couponCode'] = 'display:block';
             }
          }
         }
