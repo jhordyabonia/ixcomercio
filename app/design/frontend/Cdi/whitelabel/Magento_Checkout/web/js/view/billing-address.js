@@ -329,10 +329,10 @@ function (
                                         var alertaDiv2 = '<div class="tradein_alert alert_payment" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta2+'</div>';
                                         setTimeout(function(){ 
                                             if(jQuery("#checkout-shipping-method-load").length>0){
-                                                jQuery("#checkout-shipping-method-load").after(alertaDiv1);
+                                                jQuery("#checkout-shipping-method-load").after(alertaDiv2);
                                             }
                                             if(jQuery("#checkout-payment-method-load").length>0){
-                                                jQuery("#checkout-payment-method-load").after(alertaDiv2);
+                                                jQuery("#checkout-payment-method-load").after(alertaDiv1);
                                             }
                                          }, 3000);
                                         return false;

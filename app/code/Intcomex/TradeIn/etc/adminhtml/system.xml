@@ -17,7 +17,7 @@
                 </field>
                 <field id="texto_correo" translate="label" type="editor" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alerta correo</label>
-                    <frontend_model>Intcomex\TradeIn\Block\Adminhtml\System\Config\Editor</frontend_model>
+                    <!--<frontend_model>Intcomex\TradeIn\Block\Adminhtml\System\Config\Editor</frontend_model>-->
                 </field>
                 <field id="alerta_tradein_1" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alerta TradeIn #1</label>
