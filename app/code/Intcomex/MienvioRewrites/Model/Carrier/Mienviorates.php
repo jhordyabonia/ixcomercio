@@ -237,20 +237,11 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $createShipmentUrl, $options, $packageValue, $fromZipCode);
             }
 
-            $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
 
-            $verifyTradeIn = $this->verifyTradeIn();
-
+            $rates = $this->verifyTradeIn($rates);
+            sleep(1);
+            
             foreach ($rates as $rate) {
-                if($verifyTradeIn){
-                    if(!isset($rate[$campoMienvio])){
-                        continue;
-                    }
-                }else{
-                    if(isset($rate[$campoMienvio])){
-                        continue;
-                    }
-                }
                 $this->_logger->debug('rate_id');
                 $methodId = $this->parseReverseServiceLevel($rate['servicelevel']) . '-' . $rate['courier'];
                 $this->_logger->debug((string)$methodId);
@@ -274,7 +265,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $method->setPrice($rate['cost']);
                     $method->setCost($rate['cost']);
                 }
-
                 $rateResponse->append($method);
             }
 
@@ -946,20 +936,32 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         ];
     }
 
-    public function verifyTradeIn(){
+    public function verifyTradeIn($rates){
+
+        $newRates = array();
         $getCouponCode = $this->_checkoutSession->getQuote()->getCouponCode();
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $scpConfig = $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
-        
+        $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
+        $tardeIn = false;
         if($getCouponCode!=''){
             $prefijoCupon = $scpConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
             $cupon = strpos($getCouponCode, $prefijoCupon);   
             if ($cupon !== false) {
-                return true;
+                $tardeIn = true;
             }
          }
-
-        return false;
+         foreach($rates as $rate => $rateVal){
+             if($tardeIn&&isset($rateVal[trim($campoMienvio)])){
+                $newRates[] = $rateVal;
+            }
+             if(!$tardeIn&&!isset($rateVal[trim($campoMienvio)])){
+                $newRates[] = $rateVal;
+            }
+            
+        }
+        
+       return $newRates;
 
     }
 

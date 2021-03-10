@@ -22,10 +22,12 @@ class ObserverTradeIn implements ObserverInterface
         if ($order != null) 
         {
          if($order->getCouponCode()!=''){
-            $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
-            $cupon = strpos($order->getCouponCode(), $prefijoCupon);
-            if ($cupon !== false) {
-                $transport['couponCode'] = $scopeConfig->getValue('tradein/general/texto_correo',ScopeInterface::SCOPE_STORE);
+             $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
+             $cupon = strpos($order->getCouponCode(), $prefijoCupon);
+             if ($cupon !== false) {
+                 $transport['couponCode'] = 'display:block';
+                }else{
+                $transport['couponCode'] = 'display:none';
             }
          }
         }
