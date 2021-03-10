@@ -86,86 +86,98 @@ class Process implements ObserverInterface
                 $tableName = $resource->getTableName('iws_order'); 
                 //Select Data from table
                 $sql = "Select * FROM " . $tableName." where order_increment_id='".$order->getIncrementId()."'";
-                $trax = $connection->fetchAll($sql); 
-                $mp_order = 0;
-                foreach ($trax as $key => $data) {
-                    $mp_order = $data['iws_order'];
-                }
-                $this->logger->info('RegisterPayment - Order IWS '.$mp_order);
-                
-                if($mp_order!=0){
-                    try{                       
-                        $this->logger->info('Consultamos el payload');
-                        $payload = $this->helper->loadPayloadService(
-                                    $order->getId(), 
-                                    $payment->getAmountOrdered(), 
-                                    '1234567',
-                                    (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
-                                    '', 
-                                    $payment->getMethod(), 
-                                    $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
-                            );
-                        $this->logger->info('RegisterPayment - PayLoad '. $payload);
-                            
-                        if($payload){
-                            $storecode = $storeManager->getStore($order->getStoreId())->getCode();
-                            $this->logger->info('beginRegisterPayment - Inicio');                            
-                            $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
-                            $this->logger->info('beginRegisterPayment - Fin');
-                        } else{
-                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
-                        
-                    } catch(Exception $e){
-                        $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
+
+                $this->logger->info('RegisterPayment - iws_order sql '.$sql);
+
+                if(!$connection){
+                    $this->logger->info('RegisterPayment - No hay conexion a la tabla  iws_order');
+                }else{
+
+                    $trax = $connection->fetchAll($sql); 
+
+                    $this->logger->info('RegisterPayment - iws_order result '.json_encode($trax));
+
+                    $mp_order = 0;
+                    foreach ($trax as $key => $data) {
+                        $mp_order = $data['iws_order'];
                     }
-                } else if ($mp_order==0) {
-                        try{
-                            $configDataPlace = $this->helper_placeorder->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode()); 
-                            $this->logger->info('PlaceOrder - Se obtienen parámetros de configuración');
-                            $this->logger->info(print_r($configDataPlace,true));
-                            $serviceUrlPlace = $this->helper_placeorder->getServiceUrl($configDataPlace, $order->getIncrementId());   
-                            $this->logger->info('Place Order - url '.$serviceUrlPlace);
-                            $this->logger->info('Consultamos el placeload');                                                        
-                            $placeload = $this->helper_placeorder->loadPayloadService($order, $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode(), $configDataPlace['store_id'], $configDataPlace['porcentaje_impuesto'], $configDataPlace['producto_impuesto']);
-                            $this->logger->info('loadPayloadService - Fin');
-                            if($placeload){
-                                $this->logger->info('beginPlaceOrder - Inicio');
+                    $this->logger->info('RegisterPayment - Order IWS '.$mp_order);
+                    
+                    if($mp_order!=0){
+                        try{                       
+                            $this->logger->info('Consultamos el payload');
+                            $payload = $this->helper->loadPayloadService(
+                                        $order->getId(), 
+                                        $payment->getAmountOrdered(), 
+                                        '1234567',
+                                        (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
+                                        '', 
+                                        $payment->getMethod(), 
+                                        $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
+                                );
+                            $this->logger->info('RegisterPayment - PayLoad '. $payload);
+                                
+                            if($payload){
                                 $storecode = $storeManager->getStore($order->getStoreId())->getCode();
-                                $place = $this->helper_placeorder->beginPlaceOrder($configDataPlace, $placeload, $serviceUrlPlace, $order, $storecode, 0);
-                                $this->logger->info('beginPlaceOrder - Find');
-                                if($place)
-                                {
-                                    $this->logger->info('Consultamos el payload');
-                                    $payload = $this->helper->loadPayloadService(
-                                                $order->getId(), 
-                                                $payment->getAmountOrdered(), 
-                                                '1234567',
-                                                (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
-                                                '', 
-                                                $payment->getMethod(), 
-                                                $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
-                                        );
-                                    $this->logger->info('RegisterPayment - PayLoad '. $payload);
-                                        
-                                    if($payload){
-                                        $storecode = $storeManager->getStore($order->getStoreId())->getCode();
-                                        $this->logger->info('beginRegisterPayment - Inicio');                            
-                                        $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
-                                        $this->logger->info('beginRegisterPayment - Fin');
-                                    } else{
-                                        $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
-                                    
-                                }
-                            } else {
-                                $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax');
-                            }
+                                $this->logger->info('beginRegisterPayment - Inicio');                            
+                                $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
+                                $this->logger->info('beginRegisterPayment - Fin');
+                            } else{
+                                $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
+                            
                         } catch(Exception $e){
-                            $this->logger->info('PlaceOrder - Se ha producido un error: '.$e->getMessage());
+                            $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
                         }
-                    }else{
-                        $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion'); 
-                    }                        
-                }                              
+                    } else if ($mp_order==0) {
+                            try{
+                                $configDataPlace = $this->helper_placeorder->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode()); 
+                                $this->logger->info('PlaceOrder process - Se obtienen parámetros de configuración');
+                                $this->logger->info(print_r($configDataPlace,true));
+                                $serviceUrlPlace = $this->helper_placeorder->getServiceUrl($configDataPlace, $order->getIncrementId());   
+                                $this->logger->info('PlaceOrder process - url '.$serviceUrlPlace);
+                                $this->logger->info('Consultamos el placeload');                                                        
+                                $placeload = $this->helper_placeorder->loadPayloadService($order, $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode(), $configDataPlace['store_id'], $configDataPlace['porcentaje_impuesto'], $configDataPlace['producto_impuesto']);
+                                $this->logger->info('loadPayloadService - Fin');
+                                if($placeload){
+                                    $this->logger->info('beginPlaceOrder - Inicio');
+                                    $storecode = $storeManager->getStore($order->getStoreId())->getCode();
+                                    $place = $this->helper_placeorder->beginPlaceOrder($configDataPlace, $placeload, $serviceUrlPlace, $order, $storecode, 0);
+                                    $this->logger->info('beginPlaceOrder - Find');
+                                    if($place)
+                                    {
+                                        $this->logger->info('Consultamos el payload');
+                                        $payload = $this->helper->loadPayloadService(
+                                                    $order->getId(), 
+                                                    $payment->getAmountOrdered(), 
+                                                    '1234567',
+                                                    (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
+                                                    '', 
+                                                    $payment->getMethod(), 
+                                                    $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
+                                            );
+                                        $this->logger->info('RegisterPayment - PayLoad '. $payload);
+                                            
+                                        if($payload){
+                                            $storecode = $storeManager->getStore($order->getStoreId())->getCode();
+                                            $this->logger->info('beginRegisterPayment - Inicio');                            
+                                            $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
+                                            $this->logger->info('beginRegisterPayment - Fin');
+                                        } else{
+                                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
+                                        
+                                    }
+                                } else {
+                                    $this->logger->info('PlaceOrder process - Se ha producido un error al obtener match con Trax');
+                                }
+                            } catch(Exception $e){
+                                $this->logger->info('PlaceOrder process - Se ha producido un error: '.$e->getMessage());
+                            }
+                        }else{
+                            $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion'); 
+                        }                        
+                    }  
+                }
+                                            
     }
              
 }
