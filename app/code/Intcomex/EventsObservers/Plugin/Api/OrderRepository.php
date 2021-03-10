@@ -11,11 +11,18 @@ class OrderRepository {
      */
     const BILLING_ADDRESS_IDENTIFICACTION = 'billing_address_identification';
     const TRANSACTION_VALUE_ID = 'transaction_value_id';
+<<<<<<< HEAD
     const CUSTOMER_ID = 'trax_general/catalogo_retailer/customer_id';
 
     protected $_cdiHelper;
 
     public function __construct(CdiApi $cdiHelper)
+=======
+    const MIENVIO_QUOTE_ID = 'mienvio_quote_id';
+    const SHIPPING_ADDRESS_ZONE = 'shipping_address_zone';
+   
+    public function __construct()
+>>>>>>> dvlp-REQ-{#17659}
     {
         $this->_cdiHelper = $cdiHelper;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/apiOrder.log');
@@ -33,6 +40,10 @@ class OrderRepository {
         $extensionAttributes = $entity->getExtensionAttributes();
         
         $order_billing = $entity->getBillingAddress()->getData();
+        $order_shipping = $entity->getShippingAddress()->getData();
+        $order_paymet = $entity->getPayment()->getData();  
+        
+        $mienvioQuoteId = $entity->getMienvioQuoteId();
         $order_paymet = $entity->getPayment()->getData();
         
         $statusHistoryItem = $entity->getStatusHistoryCollection()->getFirstItem();
@@ -50,6 +61,8 @@ class OrderRepository {
         if ($extensionAttributes) {
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
+            $extensionAttributes->setMienvioQuoteId( $mienvioQuoteId );
+            $extensionAttributes->setShippingAddressZone( $order_shipping['zone_id'] );
             $extensionAttributes->setGuideNumber( $guide_number );
             $extensionAttributes->setTrackingUrl( $trackin_url );
             $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
@@ -97,13 +110,17 @@ class OrderRepository {
             
 
             $order_billing = $order->getBillingAddress()->getData();
+            $order_shipping = $order->getShippingAddress()->getData();
             $order_paymet = $order->getPayment()->getData();
             
             $configData = array("customer_id"=>self::CUSTOMER_ID);
             $customer_id = $this->_cdiHelper->getConfigParams($configData,$order->getStore()->getCode());
+            $mienvioQuoteId = $order->getMienvioQuoteId();            
 
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
             $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
+            $extensionAttributes->setMienvioQuoteId( $mienvioQuoteId );
+            $extensionAttributes->setShippingAddressZone( $order_shipping['zone_id'] );
 
             $extensionAttributes->setGuideNumber( $guide_number );
             $extensionAttributes->setTrackingUrl( $trackin_url );
