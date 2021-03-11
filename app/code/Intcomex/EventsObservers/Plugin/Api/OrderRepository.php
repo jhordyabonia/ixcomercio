@@ -11,18 +11,13 @@ class OrderRepository {
      */
     const BILLING_ADDRESS_IDENTIFICACTION = 'billing_address_identification';
     const TRANSACTION_VALUE_ID = 'transaction_value_id';
-<<<<<<< HEAD
     const CUSTOMER_ID = 'trax_general/catalogo_retailer/customer_id';
-
-    protected $_cdiHelper;
-
-    public function __construct(CdiApi $cdiHelper)
-=======
     const MIENVIO_QUOTE_ID = 'mienvio_quote_id';
     const SHIPPING_ADDRESS_ZONE = 'shipping_address_zone';
+	
+	protected $_cdiHelper;
    
-    public function __construct()
->>>>>>> dvlp-REQ-{#17659}
+    public function __construct(CdiApi $cdiHelper)
     {
         $this->_cdiHelper = $cdiHelper;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/apiOrder.log');
