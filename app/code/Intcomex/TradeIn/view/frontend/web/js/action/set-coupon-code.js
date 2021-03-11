@@ -6,7 +6,7 @@
 /**
  * Customer store credit(balance) application
  */
-define([ 
+ define([ 
     'ko',
     'jquery',
     'Magento_Checkout/js/model/quote',
@@ -57,6 +57,27 @@ define([
                     click: function () {
                         this.closeModal();
                         setCupon();
+                        var cityCheckout = jQuery("#fieldCityCheckout option:selected").val();
+                        var zoneCheckout = jQuery("#fieldZoneCheckout option:selected").val();
+                        console.log('zoneCheckout');
+                        console.log(zoneCheckout);
+                        if(zoneCheckout==''){
+                            zoneCheckout = localStorage.getItem('fieldZoneCheckout');
+                        }
+                        if(cityCheckout==''){
+                            cityCheckout = localStorage.getItem('fieldCityCheckout');
+                        }
+                        console.log('New zoneCheckout');
+                        console.log(zoneCheckout);
+                        jQuery("ul.opc-progress-bar li:first-child span").trigger('click');
+                        jQuery("#fieldZoneCheckout").val('');
+                        jQuery("#fieldCityCheckout").val(cityCheckout);
+                        jQuery("#fieldZoneCheckout").trigger('change');
+                        setTimeout(function(){ 
+                            jQuery("#fieldZoneCheckout").val(zoneCheckout);
+                            jQuery("#fieldZoneCheckout").trigger('change');
+                        }, 2000);
+
                     }
                 },
                 {
