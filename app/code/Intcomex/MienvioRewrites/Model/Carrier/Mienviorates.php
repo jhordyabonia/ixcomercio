@@ -206,7 +206,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             $options = [ CURLOPT_HTTPHEADER => ['Content-Type: application/json', "Authorization: Bearer {$apiKey}"]];
             $this->_curl->setOptions($options);
+            $this->_logger->debug('APIKEY', ['url' => $apiKey]);
             $this->_logger->debug('URL MIENVIO CREATE ADDRESS', ['url' => $createAddressUrl]);
+            $this->_logger->debug('FROM DATA', ['url' => $fromData]);
+            $this->_logger->debug('TO DATA', ['url' => $toData]);
             $this->_curl->post($createAddressUrl, json_encode($fromData));
             $addressFromResp = json_decode($this->_curl->getBody());
             $this->_logger->debug($this->_curl->getBody());
@@ -565,6 +568,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
+        if(empty($street2) || $street2 == "."  ){
+            $street = "calle";
+            $street2 = $destCity;
+        }
 
         $data = [
             'object_type' => 'PURCHASE',
@@ -664,17 +671,91 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $iws_type = "";
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
-            $dimensions = $this->getDimensionItems($product);
+            $product = $this->getProductByName($productName);
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKits.log');
+            $this->_loggerKit = new \Zend\Log\Logger();
+            $this->_loggerKit->addWriter($writer);
+            
+            if(array_key_exists("iws_type",$product->getData())){
+                $iws_type = $product->getData('iws_type');
+                if(!empty($iws_type) && $iws_type == 'Kit'){
+                    $this->_loggerKit->info('item kit');
+                    $this->_loggerKit->info($item->getSku());
+                    $serviceUrl = $this->getServiceUrl($item->getSku());
+                    if(!empty($serviceUrl)&&isset($serviceUrl)){ 
+                        $itemsKit = $this->beginProductLoad($serviceUrl, 0);
+                        if(isset($itemsKit) && !empty($itemsKit)){
+                            $this->_loggerKit->info('beginProductLoad');
+                            foreach($itemsKit as $itemKit){
+                                if($this->_mienvioHelper->getMeasures() === 1){
+                                    $length = $product->getData('ts_dimensions_length');
+                                    $width  = $product->getData('ts_dimensions_width');
+                                    $height = $product->getData('ts_dimensions_height');
+                                    $weight = $product->getData('weight');
+                                }else{
+                                    $length = $this->convertInchesToCms($itemKit->Freight->Item->Length);
+                                    $width  = $this->convertInchesToCms($itemKit->Freight->Item->Width);
+                                    $height = $this->convertInchesToCms($itemKit->Freight->Item->Height);
+                                    $weight = $this->convertWeight($itemKit->Freight->Item->Weight);
+                                }
+                                $orderLength += $length;
+                                $orderWidth  += $width;
+                                $orderHeight += $height;
 
-            if(is_array($dimensions)){
-                $length = $dimensions['length'];
-                $width  = $dimensions['width'];
-                $height = $dimensions['height'];
-                $weight = $dimensions['weight'];
+                                $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+                                $packageVolWeight += $volWeight;
+    
+                                $itemsArr[] = [
+                                    'id' => $itemKit->Sku,
+                                    'name' => $itemKit->Description,
+                                    'length' => $length,
+                                    'width' => $width,
+                                    'height' => $height,
+                                    'weight' => $weight,
+                                    'volWeight' => $volWeight,
+                                    'qty' => $itemKit->Quantity,
+                                    'declared_value' => $itemKit->Price,
+                                ];
+                            }
+                        }
+                        $this->_loggerKit->info(print_r($itemsKit,true));
+                    }else {
+                        $this->_logger->info('GetProduct - No se genero url del servicio');
+                    }
+                }else{
+                    if($this->_mienvioHelper->getMeasures() === 1){
+                        $length = $product->getData('ts_dimensions_length');
+                        $width  = $product->getData('ts_dimensions_width');
+                        $height = $product->getData('ts_dimensions_height');
+                        $weight = $product->getData('weight');
+        
+                    }else{
+                        $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+                        $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+                        $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+                        $weight = $this->convertWeight($product->getData('weight'));
+                    }
+                    $orderLength += $length;
+                    $orderWidth  += $width;
+                    $orderHeight += $height;
+        
+                    $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+                    $packageVolWeight += $volWeight;
+                    $itemsArr[] = [
+                        'id' => $item->getId(),
+                        'name' => $productName,
+                        'length' => $length,
+                        'width' => $width,
+                        'height' => $height,
+                        'weight' => $weight,
+                        'volWeight' => $volWeight,
+                        'qty' => $item->getQty(),
+                        'declared_value' => $item->getprice(),
+                    ];
+                }
             }else{
                 $length = 2;
                 $width  = 2;
