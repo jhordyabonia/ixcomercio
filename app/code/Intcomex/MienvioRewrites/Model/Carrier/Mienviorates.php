@@ -1,5 +1,6 @@
 <?php
 namespace Intcomex\MienvioRewrites\Model\Carrier;
+use Magento\Store\Model\ScopeInterface;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
@@ -10,6 +11,7 @@ use Magento\Quote\Model\Quote\Address\RateResult\MethodFactory;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Psr\Log\LoggerInterface;
 use MienvioMagento\MienvioGeneral\Helper\Data as Helper;
+use Intcomex\MienvioRewrites\Helper\Data as Helperkit;
 
 
 
@@ -23,6 +25,8 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private $quoteRepository;
 
     const LEVEL_1_COUNTRIES = ['PE', 'CL','CO','GT'];
+    const API_KEY = 'trax_general/catalogo_retailer/apikey';
+    const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
 
     /**
      * Defines if quote endpoint will be used at rates
@@ -40,8 +44,13 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         MethodFactory $rateMethodFactory,
         \Magento\Framework\HTTP\Client\Curl $curl,
         Helper $helperData,
+        Helperkit $helperkit,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Cdi\Custom\Helper\Data $helperDataCdi,
+        \Trax\Catalogo\Helper\Email $email,
+        \Magento\Catalog\Model\Product $productRepository,
+	\Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
         $this->_storeManager = $storeManager;
@@ -52,7 +61,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->_logger = $logger;
         $this->_curl = $curl;
         $this->_mienvioHelper = $helperData;
+        $this->_kitHelper = $helperkit;
         $this->directoryHelper = $directoryHelper;
+        $this->helperDataCdi = $helperDataCdi;
+        $this->email = $email;
+        $this->_productRepository = $productRepository;
+	$this->_checkoutSession = $checkoutSession;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -142,6 +156,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     {
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $scpConfig = $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         $shippingAddress = $cart->getQuote()->getShippingAddress();
 
@@ -191,7 +206,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             $toData = $this->createAddressDataStr('to',
                 'usuario temporal',
-                'calle temporal',
+                $fullAddressProcessed['street'],
                 $fullAddressProcessed['suburb'],
                 $destPostcode,
                 "ventas@mienvio.mx",
@@ -234,6 +249,16 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             }
 
 
+            $defaultTradeIn = $this->getDefaultTradeIn($rates);
+           $tradeIn = $this->verifyTradeIn();
+           $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
+           $quote = $this->_checkoutSession->getQuote();
+
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/couponCode.log');
+            $this->logger = new \Zend\Log\Logger();
+            $this->logger->addWriter($writer);
+            
+            
             foreach ($rates as $rate) {
                 $this->_logger->debug('rate_id');
                 $methodId = $this->parseReverseServiceLevel($rate['servicelevel']) . '-' . $rate['courier'];
@@ -257,6 +282,13 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 }else{
                     $method->setPrice($rate['cost']);
                     $method->setCost($rate['cost']);
+                }
+
+                if($tradeIn&&!isset($rate[$campoMienvio])){
+                    continue;
+                }
+                if(!$tradeIn&&isset($rate[$campoMienvio])){
+                    continue;
                 }
 
                 $rateResponse->append($method);
@@ -295,6 +327,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $quoteResponse = json_decode($this->_curl->getBody());
         $this->_logger->debug('Creating quote (mienviorates)', ['response' => $this->_curl->getBody()]);
 
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test_rates_master.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        
         if (isset($quoteResponse->{'rates'})) {
             $rates = [];
 
@@ -587,6 +623,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $location = $this->_mienvioHelper->getLocation();
         $this->_logger->debug('LOCATION: '.$location);
         $this->_logger->debug('Country: '.$countryCode);
+        $this->_logger->debug('STREET: '.$street);
         $this->_logger->debug('STREET2: '.$street2);
         $this->_logger->debug('DestRegion: '.$destRegion);
         $this->_logger->debug('DestRegionCode: '.$destRegionCode);
@@ -757,30 +794,36 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     ];
                 }
             }else{
-                $length = 2;
-                $width  = 2;
-                $height = 2;
-                $weight = 1;
+                if($this->_mienvioHelper->getMeasures() === 1){
+                    $length = $product->getData('ts_dimensions_length');
+                    $width  = $product->getData('ts_dimensions_width');
+                    $height = $product->getData('ts_dimensions_height');
+                    $weight = $product->getData('weight');
+    
+                }else{
+                    $length = $this->convertInchesToCms($product->getData('ts_dimensions_length'));
+                    $width  = $this->convertInchesToCms($product->getData('ts_dimensions_width'));
+                    $height = $this->convertInchesToCms($product->getData('ts_dimensions_height'));
+                    $weight = $this->convertWeight($product->getData('weight'));
+                }
+                $orderLength += $length;
+                $orderWidth  += $width;
+                $orderHeight += $height;
+    
+                $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
+                $packageVolWeight += $volWeight;
+                $itemsArr[] = [
+                    'id' => $item->getId(),
+                    'name' => $productName,
+                    'length' => $length,
+                    'width' => $width,
+                    'height' => $height,
+                    'weight' => $weight,
+                    'volWeight' => $volWeight,
+                    'qty' => $item->getQty(),
+                    'declared_value' => $item->getprice(),
+                ];
             }
-
-
-            $orderLength += $length;
-            $orderWidth  += $width;
-            $orderHeight += $height;
-
-            $volWeight = $this->calculateVolumetricWeight($length, $width, $height);
-            $packageVolWeight += $volWeight;
-            $itemsArr[] = [
-                'id' => $item->getId(),
-                'name' => $productName,
-                'length' => $length,
-                'width' => $width,
-                'height' => $height,
-                'weight' => $weight,
-                'volWeight' => $volWeight,
-                'qty' => $item->getQty(),
-                'declared_value' => $item->getprice(),
-            ];
         }
 
         return [
@@ -995,6 +1038,90 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             'package' => $chosenPackage,
             'qty' => $qty
         ];
+    }
+
+    public function getServiceUrl($sku)
+	{
+        $apiKeyTrax = $this->helperDataCdi->getStoreConfig(self::API_KEY);
+        $accessKeyTrax = $this->helperDataCdi->getStoreConfig(self::ACCESS_KEY);
+        $locale = 'es';
+		if($apiKeyTrax == ''){
+            $serviceUrl = false;
+        } else {
+            $utcTime = gmdate("Y-m-d").'T'.gmdate("H:i:s").'Z';
+            $signature = $apiKeyTrax.','.$accessKeyTrax.','.$utcTime;
+            $signature = hash('sha256', $signature);
+            $serviceUrl = $this->_kitHelper->getKitUrlService().'?locale='.$locale.'&sku='.$sku.'&apiKey='.$apiKeyTrax.'&utcTimeStamp='.$utcTime.'&signature='.$signature;
+        }
+        return $serviceUrl;
+    }
+
+    //Función recursiva para intentos de conexión
+    public function beginProductLoad($serviceUrl, $attempts) 
+    {
+        //Se conecta al servicio 
+        $data = $this->loadIwsService($serviceUrl);
+        if($data['status']){
+            return $data['resp']->Components;
+        } else {
+			if($this->_kitHelper->getKitRetries()>$attempts){
+				$attempts++;
+				$this->_loggerKit->info('GetProduct - Error conexión: '.$serviceUrl);
+				sleep(30);
+				$this->_loggerKit->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio.');
+				$this->beginProductLoad($serviceUrl, $attempts);
+			} else{
+				$this->_loggerKit->info('GetProduct - Error conexión: '.$serviceUrl);
+				$this->_loggerKit->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$this->_kitHelper->getKitEmail());
+				$this->email->notify('Soporte Trax', $this->_kitHelper->getKitEmail(), $this->_kitHelper->getKitRetries(), $serviceUrl, 'N/A', '');
+			}
+        }   
+
+    }
+
+    //Carga el servicio de IWS por Curl
+    public function loadIwsService($serviceUrl) 
+    {
+        $this->_curl->get($serviceUrl);
+        $this->_loggerKit->info('loadIwsService');
+        $this->_loggerKit->info('GetProduct - '.$serviceUrl);
+		$response = array(
+			'status' => true,
+			'resp' => json_decode($this->_curl->getBody())
+		);
+        return $response;
+    }
+
+    public function getProductByName($name)
+	{
+		return $this->_productRepository->loadByAttribute("name",$name);
+	}
+
+    public function verifyTradeIn(){
+
+        $getCouponCode = $this->_checkoutSession->getQuote()->getCouponCode();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $scpConfig = $objectManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
+        if($getCouponCode!=''){
+            $prefijoCupon = $scpConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
+            $cupon = strpos($getCouponCode, $prefijoCupon);   
+            if ($cupon !== false) {
+                return  true;
+            }
+         }
+        
+       return false;
+
+    }
+
+    public function getDefaultTradeIn($rates){
+        $defaultRate = array();
+        foreach($rates as $rate){
+            if(isset($rate['istradein'])){
+                $defaultRate[] = $rate;
+            }
+        }
+        return $defaultRate;
     }
 
 
