@@ -612,8 +612,6 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $street2 = $destCity;
         }
 
-        $this->_logger->debug('Type: '.$type);
-
         $data = [
             'object_type' => 'PURCHASE',
             'name' => $name,

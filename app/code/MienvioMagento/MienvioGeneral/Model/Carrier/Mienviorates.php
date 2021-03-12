@@ -565,7 +565,11 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
-
+        if(empty($street2) || $street2 == "."  ){
+            $street = "calle";
+            $street2 = $destCity;
+        }
+        
         $data = [
             'object_type' => 'PURCHASE',
             'name' => $name,

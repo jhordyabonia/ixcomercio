@@ -3,6 +3,7 @@
     <default>
         <trax_general>
             <catalogo_retailer>
+                <customer_id></customer_id>
                 <apikey></apikey>
                 <accesskey></accesskey>
                 <apuntar_a>0</apuntar_a>
