@@ -47,6 +47,8 @@ class Cart extends DataObject
      */
     protected $quoteItemProvider;
 
+    protected $_storeManager;
+
     /**
      * Cart constructor.
      * @param CheckoutSession $checkoutSession
@@ -62,6 +64,7 @@ class Cart extends DataObject
         Escaper $escaper,
         QuoteProvider $quoteProvider,
         QuoteItemProvider $quoteItemProvider,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = []
     ) {
         $this->checkoutSession = $checkoutSession;
@@ -69,6 +72,7 @@ class Cart extends DataObject
         $this->_escaper = $escaper;
         $this->quoteProvider = $quoteProvider;
         $this->quoteItemProvider = $quoteItemProvider;
+        $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
 
@@ -96,6 +100,7 @@ class Cart extends DataObject
                     'name' => $this->escapeJsQuote($item->getName()),
                     'product_type' => $item->getProductType(),
                     'price' => $this->dataLayerItemHelper->formatPrice($item->getPrice()),
+                    'currencyCode' => $this->getStoreCurrencyCode(),
                     'price_incl_tax' => $this->dataLayerItemHelper->formatPrice($item->getPriceInclTax()),
                     'discount_amount' => $this->dataLayerItemHelper->formatPrice($item->getDiscountAmount()),
                     'tax_amount' => $this->dataLayerItemHelper->formatPrice($item->getTaxAmount()),
@@ -163,5 +168,14 @@ class Cart extends DataObject
     public function escapeJsQuote($data, $quote = '\'')
     {
         return $this->_escaper->escapeJsQuote($data, $quote);
+    }
+
+    /**
+     * @return string
+     * @throws NoSuchEntityException
+     */
+    public function getStoreCurrencyCode()
+    {
+        return $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
     }
 }

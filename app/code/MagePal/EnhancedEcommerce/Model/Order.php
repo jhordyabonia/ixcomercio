@@ -19,6 +19,7 @@ use MagePal\GoogleTagManager\Model\DataLayerEvent;
  */
 class Order extends \MagePal\GoogleTagManager\Model\Order
 {
+
     /**
      * Render information about specified orders and their items
      *
@@ -40,11 +41,14 @@ class Order extends \MagePal\GoogleTagManager\Model\Order
         foreach ($collection as $order) {
             $products = [];
             foreach ($order->getAllVisibleItems() as $item) {
+
+                $total = $item->getBasePrice() - $item->getDiscountAmount();
+
                 $product = [
                     'id' => $item->getSku(),
                     'parent_sku' => $item->getProduct()->getData('sku'),
                     'name' => $this->escapeJsQuote($item->getName()),
-                    'price' => $this->gtmHelper->formatPrice($item->getBasePrice()),
+                    'price' => $this->gtmHelper->formatPrice($total),
                     'quantity' => $item->getQtyOrdered() * 1,
                     //'brand' => ''
                 ];
@@ -63,11 +67,16 @@ class Order extends \MagePal\GoogleTagManager\Model\Order
                                 ->setListType(OrderItemProvider::LIST_TYPE_GOOGLE)
                                 ->getData();
             }
+            
+            // total order
+            $discount = abs($order->getDiscountAmount());
+            $revenue = $order->getBaseSubtotal() - $discount;
+
 
             $purchase['purchase']['actionField'] = [
                 'id' => $order->getIncrementId(),
                 'affiliation' => $this->escapeJsQuote($order->getStoreName()),
-                'revenue' => $this->gtmHelper->formatPrice($order->getBaseGrandTotal()),
+                'revenue' => $this->gtmHelper->formatPrice( $revenue ),
                 'tax' => $this->gtmHelper->formatPrice($order->getTaxAmount()),
                 'shipping' => $this->gtmHelper->formatPrice($order->getBaseShippingAmount()),
                 'coupon' => $order->getCouponCode() ? $order->getCouponCode() : ''
@@ -80,6 +89,8 @@ class Order extends \MagePal\GoogleTagManager\Model\Order
                 'ecommerce' => $purchase,
                 'order' => $this->getOrderDataLayer($order)
             ];
+
+            $transaction['ecommerce']['currencyCode'] = $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
 
             $result[] = $this->orderProvider->setOrder($order)->setTransactionData($transaction)->getData();
         }
