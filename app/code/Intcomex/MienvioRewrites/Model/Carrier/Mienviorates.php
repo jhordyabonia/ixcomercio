@@ -292,6 +292,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 }
 
                 $rateResponse->append($method);
+                
             }
 
 
@@ -333,11 +334,11 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         
         if (isset($quoteResponse->{'rates'})) {
             $rates = [];
-
+            
             foreach ($quoteResponse->{'rates'} as $key => $rate) {
                 if($rate->{'servicelevel'} == 'worlwide_usa' || $rate->{'servicelevel'} == 'worldwide_usa'){
-
-                }else{
+                    
+                }else{                   
                     if(isset($rate->{'istradein'})){
                         $rates[] = [
                             'courier'      => $rate->{'provider'},
