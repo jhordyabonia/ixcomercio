@@ -204,9 +204,9 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 'region' => array('sort' => 45, 'label' => false),
                 'region_id' => array('sort' => 46, 'label' => false),
                 'city' => array('sort' => 90, 'label' => false),
-                'street' => array('sort' => 95, 'label' => $this->scopeConfig->getValue('customer/address/billing_address_label', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)),
+                'street' => array('sort' => 110, 'label' => $this->scopeConfig->getValue('customer/address/billing_address_label', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)),
                 'zone_id' => array('sort' => 100, 'label' => false),
-                'postcode' => array('sort' => 110, 'label' => false),
+                'postcode' => array('sort' => 120, 'label' => false),
             );
             
             
@@ -225,35 +225,35 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
             }     
         }
 
-        $customAttributeCode = 'identification';
-        $customField = [
-            'component' => 'Magento_Ui/js/form/element/abstract',
-            'config' => [
-                // customScope is used to group elements within a single form (e.g. they can be validated separately)
-                'customScope' => 'billingAddressshared.identification',
-                'customEntry' => null,
-                'template' => 'ui/form/field',
-                'elementTmpl' => 'ui/form/element/input',
-                
-            ],
-            'dataScope' => 'billingAddressshared.custom_attributes' . '.' . $customAttributeCode,
-            'label' => 'Identification',
-            'provider' => 'checkoutProvider',
-            'sortOrder' => 0,
-            'validation' => [
-                'required-entry' => true,
-                'max_text_length' => 20,
-            ],
-            'options' => [],
-            'filterBy' => null,
-            'customEntry' => null,
-            'visible' => true,
-        ];
+        //validar campos shipping
+        
+        //firstname
 
-        $jsLayout['components']['checkout']['children']['steps']['children']['custom-billing-step']['children']['custom-billing']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']['children'][$customAttributeCode] = $customField;
-        $jsLayout['components']['checkout']['children']['steps']['children']['custom-billing-step']['children']['custom-billing']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']['children']['street']['children'][0]['validation']['max_text_length'] = 140;
-        // disable field company
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['company'] = ['visible' => false]; 
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['validation']['max_text_length'] = 15;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['validation']['letters-allow-accent-mark'] = true;
+
+        //lastname
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['validation']['max_text_length'] = 40;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['validation']['letters-allow-accent-mark'] = true;
+
+        //identification
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['identification']['validation']['max_text_length'] = 18;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['identification']['validation']['validate-number'] = true;
+
+        //telephone
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['validation']['max_text_length'] = 20;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['validation']['validate-number'] = true;
+
+        //street
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['validation']['max_text_length'] = 140;
+
+        //customer-email
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['customer-email']['validation']['max_text_length'] = 70;
+
         
         return $jsLayout;
     }
@@ -371,12 +371,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                         'checkoutProvider',
                         'billingAddress' . $paymentCode,
                         [
-                            'lastname' => [
-                                'component' => 'Magento_Ui/js/form/element/abstract',
-                                'config' => [
-                                    "template" => "ui/form/element/hidden"
-                                ],
-                                "value" => "N/A",
+                            'lastname' => [                                
                                 'validation' => [
                                     'max_text_length' => 15,
                                 ],
@@ -431,6 +426,13 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                 ],
                                 'validation' => [
                                     'max_text_length' => 20,
+                                    'validate-number' => true,
+                                ],
+                            ],
+                            'identification'=> [
+                                'validation' => [
+                                    'max_text_length' => 18,
+                                    'validate-number' => true,
                                 ],
                             ],
                         ]

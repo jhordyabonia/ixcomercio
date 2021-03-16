@@ -5,8 +5,4 @@
     	<plugin name="catalog_product_list_widget_name_sortorder" type="Cdi\Custom\Plugin\Block\Product\ProductsListPlugin" />
     </type>
 
-    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
-        <plugin name="sr_add_custom_field" type="Cdi\Custom\Plugin\Checkout\Model\Checkout\LayoutProcessor" sortOrder="90"/>
-    </type>
-    
 </config>
