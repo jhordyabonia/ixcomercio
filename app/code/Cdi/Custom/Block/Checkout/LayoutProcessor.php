@@ -1,4 +1,4 @@
-<?php
+<?PHP
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -373,12 +373,12 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                         [
                             'lastname' => [                                
                                 'validation' => [
-                                    'max_text_length' => 15,
+                                    'max_text_length' => 40,
                                 ],
                             ],
                             'firstname' => [
                                 'validation' => [
-                                    'max_text_length' => 40,
+                                    'max_text_length' => 15,
                                 ],                                                                
                             ],
                             'country_id' => [
