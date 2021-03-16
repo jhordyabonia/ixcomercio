@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\CatalogImportExport\Model\Import\Product\Validator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="import" xsi:type="object">Intcomex\Catalog\Model\Import\Product\Validator\Import</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
