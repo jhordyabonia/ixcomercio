@@ -239,14 +239,11 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['validation']['letters-allow-accent-mark'] = true;
 
         //identification
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['identification']['validation']['max_text_length'] = 18;
 
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['identification']['validation']['validate-number'] = true;
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['identification']['validation']['max_text_length'] = 18;
 
         //telephone
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['validation']['max_text_length'] = 20;
-
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['validation']['validate-number'] = true;
 
         //street
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['validation']['max_text_length'] = 140;
@@ -426,13 +423,11 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                 ],
                                 'validation' => [
                                     'max_text_length' => 20,
-                                    'validate-number' => true,
                                 ],
                             ],
                             'identification'=> [
                                 'validation' => [
-                                    'max_text_length' => 18,
-                                    'validate-number' => true,
+                                    'max_text_length' => 1,
                                 ],
                             ],
                         ]
