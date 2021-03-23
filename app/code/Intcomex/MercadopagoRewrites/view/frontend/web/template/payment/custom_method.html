@@ -70,14 +70,14 @@
 
                 <div class="mp-box-inputs mp-line">
                     <label for="paymentMethodIdSelector"><!-- ko i18n: 'Payment Method'--><!-- /ko -->
-                        </label>
+                    </label>
 
                     <select id="paymentMethodSelector" name="mercadopago_custom[paymentMethodSelector]"
                             data-checkout='cardId'>
                         <optgroup data-bind='attr: {label: $t("Your Card")}, foreach: getCardListCustomerCards()'
                                   id="payment-methods-for-customer-and-cards">
                             <option
-                                data-bind="text: text,  attr: { first_six_digits: first_six_digits, last_four_digits: last_four_digits, security_code_length: security_code_length, type_checkout: type_checkout, payment_method_id: payment_method_id, value: id}"></option>
+                                    data-bind="text: text,  attr: { first_six_digits: first_six_digits, last_four_digits: last_four_digits, security_code_length: security_code_length, type_checkout: type_checkout, payment_method_id: payment_method_id, value: id}"></option>
                         </optgroup>
 
                         <optgroup id="payment-methods-list-other-cards" data-bind="attr: {label: $t('Other Cards')}">
@@ -90,11 +90,11 @@
                 <div class="mp-box-inputs mp-line" id="mp-securityCode-customer-and-card">
                     <div class="mp-box-inputs mp-col-45">
                         <label for="customer-and-card-securityCode"><!-- ko i18n: 'Security code'--><!-- /ko -->
-                            </label>
+                        </label>
                         <input type="text" id="customer-and-card-securityCode" data-checkout="securityCode"
                                autocomplete="off"
                                maxlength="4" data-bind="attr: {
-                                                        'data-validate': JSON.stringify({required:true})}, 
+                                                        'data-validate': JSON.stringify({required:true})},
                                                          event: { keyup: onlyNumbersInSecurityCode, blur: validateSecurityCode }"/>
 
                         <span class="mp-error" id="mp-error-224" data-main="#customer-and-card-securityCode"> <!-- ko i18n: 'Parameter securityCode can not be null/empty'-->
@@ -124,7 +124,7 @@
                 <div class="mp-box-inputs mp-line">
                     <div class="mp-box-inputs mp-col-40">
                         <label for="cardExpirationMonth"> <!-- ko i18n: 'Expiration month'--><!-- /ko -->
-                            </label>
+                        </label>
 
                         <select id="cardExpirationMonth"
                                 data-checkout="cardExpirationMonth"
@@ -143,7 +143,7 @@
 
                     <div class="mp-box-inputs mp-col-40">
                         <label for="cardExpirationYear"> <!-- ko i18n: 'Expiration year'--><!-- /ko -->
-                            </label>
+                        </label>
                         <select id="cardExpirationYear"
                                 data-checkout="cardExpirationYear"
                                 name="mercadopago_custom[cardExpirationYear]"
@@ -183,22 +183,22 @@
 
                 <div id="mp-box-installments">
                     <div class="mp-box-inputs mp-col-100" id="mp-box-installments-selector">
-                        <label for="installments"> <!-- ko i18n: 'Installments'--><!-- /ko --> </label>
+                        <label for="installments"> <!-- ko i18n: 'SELECCIÓNA EL NÚMERO DE CUOTAS'--><!-- /ko --> </label>
                         <select id="installments" data-checkout="installments"
                                 name="mercadopago_custom[installments]"></select>
                     </div>
-    
+
                     <div class="mp-box-inputs mp-col-30" id="mp-box-input-tax-cft">
                         <div id="mp-tax-cft-text"></div>
                     </div>
-    
+
                     <div class="mp-box-inputs mp-col-100" id="mp-box-input-tax-tea">
                         <div id="mp-tax-tea-text"></div>
                     </div>
                 </div>
 
                 <div class="mp-box-inputs mp-col-100 mp-issuer">
-                    <label for="issuer"> <!-- ko i18n: 'Issuer'--><!-- /ko --> </label>
+                    <label for="issuer"> <!-- ko i18n: 'SELECCIONA TU BANCO'--><!-- /ko --> </label>
                     <select id="issuer" data-checkout="issuer" name="mercadopago_custom[issuer]"></select>
 
                     <span class="mp-error" id="mp-error-220" data-main="#issuer"> <!-- ko i18n: 'Parameter cardIssuerId can not be null/empty'-->
@@ -206,7 +206,7 @@
                 </div>
 
                 <div class="mp-box-inputs mp-col-100">
-                    <label for="cardholderName"> <!-- ko i18n: 'Card holder name'--><!-- /ko --> </label>
+                    <label for="cardholderName"> <!-- ko i18n: 'NOMBRE DEL TITULAR DE LA TARJETA'--><!-- /ko --> </label>
                     <input type="text" id="cardholderName" name="mercadopago_custom[cardholderName]"
                            data-checkout="cardholderName"
                            autocomplete="off"
@@ -220,7 +220,7 @@
 
                 <div class="mp-box-inputs mp-col-100 mp-doc">
                     <div class="mp-box-inputs mp-col-35 mp-docType">
-                        <label for="docType"> <!-- ko i18n: 'Document Type'--><!-- /ko --> </label>
+                        <label for="docType"> <!-- ko i18n: 'TIPO DOCUMENTO'--><!-- /ko --> </label>
                         <select id="docType" data-checkout="docType" name="mercadopago_custom[docType]"></select>
 
                         <span class="mp-error" id="mp-error-212" data-main="#docType"> <!-- ko i18n: 'Parameter docType can not be null/empty'-->
@@ -230,7 +230,7 @@
                     </div>
 
                     <div class="mp-box-inputs mp-col-65 mp-docNumber">
-                        <label for="docNumber"> <!-- ko i18n: 'Document number'--><!-- /ko --> </label>
+                        <label for="docNumber"> <!-- ko i18n: 'NÚMERO DE DOCUMENTO'--><!-- /ko --> </label>
                         <input type="text" id="docNumber" data-checkout="docNumber" name="mercadopago_custom[docNumber]"
                                autocomplete="off"/>
 
