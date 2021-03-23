@@ -21,6 +21,7 @@
     }
   }
   .opc-progress-bar-item{
+    width: 33% !important;
     >span{
       font-size: 1.3rem;
       @media (max-width: $tablet){
@@ -160,6 +161,14 @@
         display: none!important;
       }
     }
+
+    #custom-billing-step{
+      .checkout-billing-address{
+        .billing-cancel{
+          margin-top: 0px;
+        }
+      } 
+    }
   }
   .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
     font-size: 26px;
@@ -264,8 +273,135 @@
     width: 40px;
     margin-right: .8rem;
   }
-}
+  .billing-address-details{
+    padding: 10px;
+  }
+  .billing-address-invoice-alert{
+    border: 1px solid $mainColor;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 15% 0 0 0;
+    line-height: 15px; 
+    overflow: hidden;
+  }
+  .billing-address-invoice-alert p{
+    float: left !important;
+    margin-bottom: 0px;
+    line-height: 20px;
+    width: 85%;
+  }
+  .billing-address-invoice-alert p a{
+    font-weight: 800 !important;
+    color: $mainColor !important;
+  }
+  .billing-address-invoice-alert .icon{
+    width: 35px !important;
+    margin-right: .8rem;
+    float: left;
+  }
+  li#custom-billing-step .step-title{
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
+  }
+  .billing-address-same-as-shipping-block{
+    padding-top: 10px;
+  }
 
+  li#shipping .step-title{
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
+  }
+  div#checkout-step-shipping {
+    padding-top: 10px;
+  }
+  .payment-group .step-title{
+    border-bottom: 1px solid #cccccc;
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
+  }
+  #checkout .opc-progress-bar .opc-progress-bar-item span{
+    font-size: 18px;
+    font-weight: 800;
+    color:#DDDDDD;
+  }
+  #checkout .opc-progress-bar .opc-progress-bar-item._active span{
+    font-size: 18px;
+    font-weight: 800;
+    color: $mainColor;
+  }
+  .minimsg{
+    border-bottom: 1px solid #ccc !important;
+  }
+  .credit-card-types.item._active{
+    border: 0px;
+  }
+  .billing-address-details.row{
+    border: 1px solid #000;
+    border-radius: .7rem;
+    padding: 1rem 0;
+    margin-left: 0;
+  }
+  #checkout-payment-method-load{
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px !important;
+  }
+  .checkout-payment-method .payment-option-title {
+    border-top: 0px !important;
+  }
+  .checkout-payment-method .payment-method-title{
+    margin: 0;
+  }
+.tradein_alert{
+    font-weight: 400;
+    color: #000 !important;
+    padding: .5rem .5rem .5rem .5rem;
+    border-radius: .7rem;
+    border: 1px solid $mainColor !important;
+    margin-bottom: 10px;
+    background-color: #fff;
+    width: 100%;
+  }
+  .alert_shipping{
+    width: 60% !important;
+  }
+  .tradein_alert .icon{
+    width: 50px;
+    margin-right: .8rem;
+    margin: 0 auto;
+  } 
+  .tradein_alert a {
+    font-weight: bold;
+    color: $mainColor !important;
+  }
+  .tradein_alert .col-sm-1{
+    padding: 2px 0px 5px 0px;
+    text-align: center;
+  }
+  .tradein_alert .col-sm-11 {
+    padding-left: 5px;
+  }
+  .tradein_alert .col-sm-11 p{
+    line-height: 20px;
+  }
+}
+@media (max-width: $mobile){
+  .billing-address-invoice-alert{
+    margin: 5% 0 0 0 !important;;
+  }
+  .opc-progress-bar-item{
+      width: 33% !important;
+  }
+  .billing-address-invoice-alert p{
+      font-size: 12px !important;;
+  }
+}
+.checkout-agreements-block .action-show{
+  font-size: 14px;
+  font-weight: bold;
+}
 .checkout-onepage-success form .actions-toolbar{
   text-align: center;
     margin: 0 auto !important;
@@ -299,9 +435,8 @@ div#credomatic_cc_type_exp_div{
 .checkout-payment-method .credit-card-types img {
   -webkit-filter: none;
   -webkit-transition: all .6s ease;
-  border: 1px solid #707070;
-  border-radius: 5px;
-  padding: 2px 8px;
+  width: 50px !important;
+  height: 30px !important;
 }
 .checkout-payment-method .credit-card-types{
   margin-top:20px;

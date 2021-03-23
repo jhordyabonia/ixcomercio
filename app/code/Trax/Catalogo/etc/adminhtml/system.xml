@@ -11,6 +11,10 @@
             <resource>Magento_Trax::config_catalogo</resource>
             <group id="catalogo_retailer" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Configuración General</label>
+                <field id="customer_id" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Id</label>
+                    <comment>El Customer Id proporcionada por Intcomex para la cuenta del cliente.</comment>
+                </field>
                 <field id="apikey" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Api Key</label>
                     <comment>La llave API proporcionada por Intcomex para la cuenta del cliente.</comment>
