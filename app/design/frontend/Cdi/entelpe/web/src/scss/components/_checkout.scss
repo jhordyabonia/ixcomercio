@@ -410,3 +410,37 @@
     background-repeat: no-repeat
   }
 }
+
+.custom-payment-methods-list{
+  float: left;
+  width: 100%;
+  border: 1px solid #cccccc;
+
+  #payment_methods_menu{
+    float: left;
+    width: 30%;
+    ul{
+      li{
+        a{
+          &.active{
+            background: #FFFFFF;
+          }
+          display: inline-block;
+          height: 50px;
+          width: 100%;
+          padding-left: 10px;
+          padding-top: 8px;
+          background: #ddd;
+          color: #000;
+          border-bottom: 1px solid #cccccc;
+        }
+      }
+    }
+  }
+
+  #payment_methods_contents{
+    width: 70%;
+    border-left: 1px solid #cccccc;
+    float: right;
+  }
+}

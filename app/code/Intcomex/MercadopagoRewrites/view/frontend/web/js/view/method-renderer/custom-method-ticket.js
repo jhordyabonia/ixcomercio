@@ -42,6 +42,14 @@ define(
                         console.log("element click "+ data);
 
                         $('#'+data).trigger( "click" );
+
+                        if($(this).hasClass('active')){
+
+                        }else{
+                            $(menu).find('li a.active').removeClass('active');
+                            $(this).addClass('active');
+                        }
+
                     });
 
 
