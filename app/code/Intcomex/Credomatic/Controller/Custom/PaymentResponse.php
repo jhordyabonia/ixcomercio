@@ -53,49 +53,31 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }
 
             $body = $this->getRequest()->getParams();
-            
+            sleep(1);
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));
-
+            $this->logger->info('modo');
+            $this->logger->info($modo);
+            if(empty($body)){
+                $this->cancelOrder($this->logger,$body,true);
+            }
             if($modo=='pruebas'){
+                
                 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
                 $payment->save();
                 $order->save();
-                $this->logger->info('Transactionid');
-                $this->logger->info($payment->getData());
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
                 if($body['response_code']==300||$body['response_code']==200){
     
-                    $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
-                    $order->setState("canceled")->setStatus("canceled");
-                    $order->save();
-    
-                    if( $showCustomError ) {
-                        $msgError = $customError;
-                    }else {
-                        $msgError = $body['responsetext'];
-                    }
-                    $this->_checkoutSession->setErrorMessage($msgError);
-                    $this->_messageManager->addError($msgError);
-                    $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
-    
-                    $resultRedirect = $this->resultRedirectFactory->create();
-                    $resultRedirect->setPath('checkout/cart');
-                    $this->logger->info($lastRealOrder->getData('status'));
-    
-                    if ($lastRealOrder->getPayment()) {
-                        if ($lastRealOrder->getData('state') === 'canceled' && $lastRealOrder->getData('status') === 'canceled') {
-                            $this->_checkoutSession->restoreQuote();
-                        }
-                    }
+                    $this->cancelOrder($this->logger,$body);
     
                 }else if($body['response_code']==100){
                     $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
@@ -104,8 +86,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $payment->setLastTransId($body['authcode']);
                     $payment->save();
                     $order->save();
-                    $this->logger->info('Transactionid');
-                    $this->logger->info($payment->getData());
                     $resultRedirect = $this->resultRedirectFactory->create();
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
@@ -140,6 +120,33 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
         }
         
+    }
+
+    public function cancelOrder($loger,$body,$vacio=false){
+        if($vacio){
+            $loger->info('No se recibio respuesta de credomatic');
+        }
+
+        if( $showCustomError ) {
+            $msgError = $customError;
+        }else {
+            $msgError = $body['responsetext'];
+        }
+        $this->_checkoutSession->setErrorMessage($msgError);
+        $this->_messageManager->addError($msgError);
+        $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
+        $lastRealOrder->setState("canceled")->setStatus("canceled");
+        $lastRealOrder->save();
+
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $resultRedirect->setPath('checkout/cart');
+        $loger->info($lastRealOrder->getData('status'));
+
+        if ($lastRealOrder->getPayment()) {
+            if ($lastRealOrder->getData('state') === 'canceled' && $lastRealOrder->getData('status') === 'canceled') {
+                $this->_checkoutSession->restoreQuote();
+            }
+        } 
     }
 
 }
