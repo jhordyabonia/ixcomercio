@@ -9,6 +9,7 @@
     <body>
         <referenceContainer name="content">
             <block class="Magento\Checkout\Block\Onepage\Failure" name="checkout.failure" template="Magento_Checkout::onepage/failure.phtml"/>
+            <block class="Magento\Checkout\Block\Registration" name="checkout.registration" template="Magento_Checkout::registration.phtml" cacheable="false"/>
         </referenceContainer>
     </body>
 </page>
