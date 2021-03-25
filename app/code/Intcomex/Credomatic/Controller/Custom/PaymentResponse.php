@@ -61,7 +61,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info('modo');
             $this->logger->info($modo);
             if(empty($body)){
-                $this->cancelOrder($this->logger,$body,true);
+                $this->cancelOrder($this->logger,$body,true,$showCustomError);
             }
             if($modo=='pruebas'){
                 
@@ -77,7 +77,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }else{
                 if($body['response_code']==300||$body['response_code']==200){
     
-                    $this->cancelOrder($this->logger,$body);
+                    $this->cancelOrder($this->logger,$body,false,$showCustomError);
     
                 }else if($body['response_code']==100){
                     $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
@@ -122,7 +122,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         
     }
 
-    public function cancelOrder($loger,$body,$vacio=false){
+    public function cancelOrder($loger,$body,$vacio=false,$showCustomError){
         if($vacio){
             $loger->info('No se recibio respuesta de credomatic');
         }
