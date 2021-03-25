@@ -94,7 +94,7 @@ abstract class AbstractAutomaticExport extends \Magento\Framework\Model\Abstract
         \Xtento\ProductExport\Model\ResourceModel\Profile\CollectionFactory $profileCollectionFactory,
         \Xtento\ProductExport\Model\ExportFactory $exportFactory,
         \Xtento\ProductExport\Logger\Logger $xtentoLogger,
-        \Magento\Store\Model\StoreFactory $storeFactory,
+        \Magento\Store\Model\StoreFactory $storeFactory,    
         \Magento\Framework\Stdlib\DateTime\TimezoneInterfaceFactory $localeDateFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Xtento\XtCore\Helper\Cron $cronHelper,

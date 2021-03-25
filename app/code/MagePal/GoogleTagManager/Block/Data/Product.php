@@ -35,6 +35,8 @@ class Product extends AbstractProduct
      */
     private $productProvider;
 
+    protected $_storeManager;
+
     /**
      * @param  Context  $context
      * @param  ProductHelper  $productHelper
@@ -45,9 +47,11 @@ class Product extends AbstractProduct
         Context $context,
         ProductHelper $productHelper,
         ProductProvider $productProvider,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         array $data = []
     ) {
         $this->catalogHelper = $context->getCatalogHelper();
+        $this->_storeManager = $storeManager;
         parent::__construct($context, $data);
         $this->productHelper = $productHelper;
         $this->productProvider = $productProvider;
@@ -71,6 +75,7 @@ class Product extends AbstractProduct
                 'product_type' => $product->getTypeId(),
                 'name' => $product->getName(),
                 'price' => $this->getPrice(),
+                'currencyCode' => $this->getStoreCurrencyCode(),
                 'attribute_set_id' => $product->getAttributeSetId(),
                 'path' => implode(" > ", $this->getBreadCrumbPath()),
                 'category' => $this->getProductCategoryName(),
@@ -153,5 +158,14 @@ class Product extends AbstractProduct
         }
 
         return $titleArray;
+    }
+
+    /**
+     * @return string
+     * @throws NoSuchEntityException
+     */
+    public function getStoreCurrencyCode()
+    {
+        return $this->_storeManager->getStore()->getCurrentCurrency()->getCode();
     }
 }

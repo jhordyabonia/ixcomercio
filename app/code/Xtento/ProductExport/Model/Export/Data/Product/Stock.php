@@ -125,9 +125,7 @@ class Stock extends \Xtento\ProductExport\Model\Export\Data\AbstractData
                             $this->writeValue($key, $value);
                         }
                     }
-                } catch (NoSuchEntityException $e) {
-                } catch (InputException $e) {
-                }
+                } catch (NoSuchEntityException $e) {} catch (InputException $e) {}
                 $this->writeArray = &$returnArray; // Write on product level
             }
             if ($this->fieldLoadingRequired('msi_sources')) {
@@ -140,9 +138,7 @@ class Stock extends \Xtento\ProductExport\Model\Export\Data\AbstractData
                             $this->writeValue($key, $value);
                         }
                     }
-                } catch (NoSuchEntityException $e) {
-                } catch (InputException $e) {
-                }
+                } catch (NoSuchEntityException $e) {} catch (InputException $e) {}
                 $this->writeArray = &$returnArray; // Write on product level
             }
         }
@@ -151,7 +147,8 @@ class Stock extends \Xtento\ProductExport\Model\Export\Data\AbstractData
         if (($this->fieldLoadingRequired('stock_ids') || $this->fieldLoadingRequired('total_stock')) && !$exportAllFields) {
             if (!isset(self::$stockIdCache[$product->getId()])) {
                 $select = $this->resourceConnection->getConnection()->select()
-                    ->from($this->resourceConnection->getTableName('cataloginventory_stock_item'), ['product_id', 'stock_id', 'qty'])
+                    ->from($this->resourceConnection->getTableName('cataloginventory_stock_item'), ['product_id', 'stock_id', 'qty']
+                    )
                     ->where('product_id = ?', $product->getId());
                 $stockItems = $this->resourceConnection->getConnection()->fetchAll($select);
 

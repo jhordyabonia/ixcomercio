@@ -48,7 +48,8 @@ if (!$fieldJson) {
     });
 
     function showRawXml() {
-        var url = '<?php echo $block->getUrl('xtento_productexport/profile/fieldsXml', ['test_id' => $block->escapeHtml($block->getRequest()->getParam('test_id')), 'profile_id' => $block->escapeHtml($block->getRequest()->getParam('profile_id'))]) ?>';
+        var url = '<?php echo $block->getUrl('xtento_productexport/profile/fieldsXml', ['test_id' => $block->escapeHtml($block->getRequest()->getParam('test_id')), 'profile_id' => $block->escapeHtml($block->getRequest()->getParam('profile_id'))]
+        ) ?>';
         window.open(url, '_blank', 'toolbar=0,location=1,menubar=0,scrollbars=1');
     }
 </script>

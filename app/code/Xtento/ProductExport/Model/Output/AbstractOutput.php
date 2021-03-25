@@ -219,11 +219,9 @@ abstract class AbstractOutput extends \Magento\Framework\Model\AbstractModel imp
         }
         // GUID
         if ($variable == 'guid') {
-            return sprintf(
-                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
                 // 32 bits for "time_low"
-                random_int(0, 0xffff),
-                random_int(0, 0xffff),
+                random_int(0, 0xffff), random_int(0, 0xffff),
                 // 16 bits for "time_mid"
                 random_int(0, 0xffff),
                 // 16 bits for "time_hi_and_version",
@@ -234,9 +232,7 @@ abstract class AbstractOutput extends \Magento\Framework\Model\AbstractModel imp
                 // two most significant bits holds zero and one for variant DCE1.1
                 random_int(0, 0x3fff) | 0x8000,
                 // 48 bits for "node"
-                random_int(0, 0xffff),
-                random_int(0, 0xffff),
-                random_int(0, 0xffff)
+                random_int(0, 0xffff), random_int(0, 0xffff), random_int(0, 0xffff)
             );
         }
         return '';
@@ -248,7 +244,7 @@ abstract class AbstractOutput extends \Magento\Framework\Model\AbstractModel imp
         foreach (libxml_get_errors() as $error) {
             // XML error codes: http://www.xmlsoft.org/html/libxml-xmlerror.html
             $message .= "\tLine " . $error->line . " (Error Code: ".$error->code."): " . $error->message;
-            if (strpos($error->message, "\n") === false) {
+            if (strpos($error->message, "\n") === FALSE) {
                 $message .= "\n";
             }
         }
@@ -263,22 +259,19 @@ abstract class AbstractOutput extends \Magento\Framework\Model\AbstractModel imp
             $oldLocale = setlocale(LC_CTYPE, "0"); // Get current locale
             try {
                 setlocale(LC_CTYPE, $charsetLocale);
-            } catch (\Exception $e) {
-            }
+            } catch (\Exception $e) {}
         }
         $output = $input;
         if (!empty($encoding) && function_exists('iconv')) {
             $output = false;
             try {
                 $output = iconv("UTF-8", $encoding, $input);
-            } catch (\Exception $e) {
-            }
+            } catch (\Exception $e) {}
             if (!$output && !empty($input)) {
                 // Conversion failed, try as UTF-8 re-encoded
                 try {
                     $output = iconv("UTF-8", $encoding, utf8_encode(utf8_decode($input)));
-                } catch (\Exception $e) {
-                }
+                } catch (\Exception $e) {}
                 if (!$output && !empty($input)) {
                     if (!empty($charsetLocale)) {
                         // Reset locale

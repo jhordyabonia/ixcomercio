@@ -43,9 +43,7 @@ class Destination extends \Magento\Backend\Block\Widget\Grid\Column
     {
         $array = [];
         foreach (explode("&", $this->getProfile()->getDestinationIds()) as $key => $destinationId) {
-            if ($destinationId === '') {
-                continue;
-            }
+            if ($destinationId === '') continue;
             $array[] = ['label' => $destinationId, 'value' => $destinationId];
         }
         return $array;

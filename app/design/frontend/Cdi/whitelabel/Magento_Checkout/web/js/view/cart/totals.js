@@ -6,8 +6,9 @@ define([
     'jquery',
     'uiComponent',
     'Magento_Checkout/js/model/totals',
-    'Magento_Checkout/js/model/shipping-service'
-], function ($, Component, totalsService, shippingService) {
+    'Magento_Checkout/js/model/shipping-service',
+    'mage/url'
+], function ($, Component, totalsService, shippingService,url) {
     'use strict';
 
     return Component.extend({
@@ -18,12 +19,26 @@ define([
          */
         initialize: function () {
             this._super();
+            this._verifyTradeIn();
             totalsService.totals.subscribe(function () {
                 $(window).trigger('resize');
             });
             shippingService.getShippingRates().subscribe(function () {
                 $(window).trigger('resize');
             });
+        },
+        _verifyTradeIn: function(){
+            var serviceUrl = url.build('intcomex/custom/tradein');  
+            jQuery.post(serviceUrl,{alerta:'2'})
+            .done(function(msg){
+                if(msg.status=='success'){
+                    var alertaDiv = '<div class="row custom_alert" style="color:red; font-weight: 400;"><div class="col-sm-2" ><img class="icon" src="'+msg.img+'"></div><div class="col-sm-10" >'+msg.alerta1+'</div></div>';
+                    jQuery("#cart-totals").after(alertaDiv);
+                }
+            })
+            .fail(function(msg){
+
+            })
         }
     });
 });

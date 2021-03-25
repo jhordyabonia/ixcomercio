@@ -75,8 +75,7 @@ class Edit extends \Xtento\ProductExport\Controller\Adminhtml\Profile
             $this->messageManager->addWarningMessage(
                 __(
                     'Warning: You have enabled "Export each %1 separately". However, no unique variable was added to the "filename" of your output file in the "Output Format" tab. Because of this, when the export runs, multiple files with the same name will be created, and thus just one file gets saved, which is wrong. Please make sure to add a unique variable to the "filename" in the "Output Format" tab, so multiple files with unique filenames will be generated. A valid unique variable is %lastentityid% for example which is the last %2 id.',
-                    $model->getEntity(),
-                    $model->getEntity()
+                    $model->getEntity(), $model->getEntity()
                 )
             );
         }

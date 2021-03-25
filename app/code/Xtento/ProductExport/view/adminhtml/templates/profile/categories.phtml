@@ -7,10 +7,8 @@
             <label class="label admin__field-label" for="taxonomy_source" style="width: 135px;"><span><?php echo __('Taxonomy') ?></span></label>
             <div class="admin__field-control control">
                 <select id="taxonomy_source" name="taxonomy_source" class="select admin__control-select">
-                    <?php foreach ($this->getTaxonomies() as $code => $label) : ?>
-                        <option value="<?php echo $code ?>"<?php if ($this->getProfile()->getTaxonomySource() == $code) :
-                            echo ' selected="selected"';
-                                       endif; ?>><?php echo $label ?></option>
+                    <?php foreach ($this->getTaxonomies() as $code => $label): ?>
+                        <option value="<?php echo $code ?>"<?php if ($this->getProfile()->getTaxonomySource() == $code): echo ' selected="selected"'; endif; ?>><?php echo $label ?></option>
                     <?php endforeach; ?>
                     <option value=""><?php echo __('No taxonomy') ?></option>
                 </select>

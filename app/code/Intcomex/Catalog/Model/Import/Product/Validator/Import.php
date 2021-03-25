@@ -38,9 +38,7 @@ class Import extends \Magento\CatalogImportExport\Model\Import\Product\Validator
     public function isValid($value)
     {
         array_push($this->products,$value['sku']);
-
         $this->_clearMessages();
-
         if(count($this->products) > count(array_unique($this->products))){
             $this->_addMessages(['Duplicate products error.']);
             return false;
