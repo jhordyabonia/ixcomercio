@@ -122,9 +122,8 @@ class Xsl extends \Magento\Framework\App\Helper\AbstractHelper
             return vsprintf($format, $argv);
         }
 
-        if (is_null($encoding)) {
+        if (is_null($encoding))
             $encoding = mb_internal_encoding();
-        }
 
         // Use UTF-8 in the format so we can use the u flag in preg_split
         $format = mb_convert_encoding($format, 'UTF-8', $encoding);
@@ -133,15 +132,12 @@ class Xsl extends \Magento\Framework\App\Helper\AbstractHelper
         $newargv = []; // unhandled args in unchanged encoding
 
         while ($format !== "") {
+
             // Split the format in two parts: $pre and $post by the first %-directive
             // We get also the matched groups
             list ($pre, $sign, $filler, $align, $size, $precision, $type, $post) =
-                preg_split(
-                    "!\%(\+?)('.|[0 ]|)(-?)([1-9][0-9]*|)(\.[1-9][0-9]*|)([%a-zA-Z])!u",
-                    $format,
-                    2,
-                    PREG_SPLIT_DELIM_CAPTURE
-                );
+                preg_split("!\%(\+?)('.|[0 ]|)(-?)([1-9][0-9]*|)(\.[1-9][0-9]*|)([%a-zA-Z])!u",
+                    $format, 2, PREG_SPLIT_DELIM_CAPTURE);
 
             $newformat .= mb_convert_encoding($pre, $encoding, 'UTF-8');
 
@@ -159,23 +155,20 @@ class Xsl extends \Magento\Framework\App\Helper\AbstractHelper
                 // truncate $arg
                 if ($precision !== '') {
                     $precision = intval(substr($precision, 1));
-                    if ($precision > 0 && mb_strlen($arg, $encoding) > $precision) {
+                    if ($precision > 0 && mb_strlen($arg, $encoding) > $precision)
                         $arg = mb_substr($arg, 0, $precision, $encoding);
-                    }
                 }
 
                 // define padding
                 if ($size > 0) {
                     $arglen = mb_strlen($arg, $encoding);
                     if ($arglen < $size) {
-                        if ($filler === '') {
+                        if ($filler === '')
                             $filler = ' ';
-                        }
-                        if ($align == '-') {
+                        if ($align == '-')
                             $padding_post = str_repeat($filler, $size - $arglen);
-                        } else {
+                        else
                             $padding_pre = str_repeat($filler, $size - $arglen);
-                        }
                     }
                 }
 

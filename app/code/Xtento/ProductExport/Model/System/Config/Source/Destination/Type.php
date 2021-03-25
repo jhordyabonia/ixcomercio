@@ -38,8 +38,7 @@ class Type implements ArrayInterface
         return $this->destinationModel->getTypes();
     }
 
-    public function getName($type)
-    {
+    public function getName($type) {
         foreach ($this->toOptionArray() as $optionType => $name) {
             if ($optionType == $type) {
                 return $name;

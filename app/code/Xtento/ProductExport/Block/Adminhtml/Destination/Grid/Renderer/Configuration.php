@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2016-04-14T15:37:35+00:00
+ * Last Modified: 2020-06-05T18:02:02+00:00
  * File:          Block/Adminhtml/Destination/Grid/Renderer/Configuration.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -25,7 +25,7 @@ class Configuration extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\A
             $configuration['directory'] = $row->getPath();
         }
         if ($row->getType() == \Xtento\ProductExport\Model\Destination::TYPE_FTP || $row->getType(
-        ) == \Xtento\ProductExport\Model\Destination::TYPE_SFTP
+            ) == \Xtento\ProductExport\Model\Destination::TYPE_SFTP
         ) {
             $configuration['server'] = $row->getHostname() . ':' . $row->getPort();
             $configuration['username'] = $row->getUsername();
@@ -34,6 +34,7 @@ class Configuration extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\A
         if ($row->getType() == \Xtento\ProductExport\Model\Destination::TYPE_EMAIL) {
             $configuration['from'] = $row->getEmailSender();
             $configuration['to'] = $row->getEmailRecipient();
+            $configuration['bcc'] = $row->getEmailBcc();
             $configuration['subject'] = $row->getEmailSubject();
         }
         if ($row->getType() == \Xtento\ProductExport\Model\Destination::TYPE_CUSTOM) {

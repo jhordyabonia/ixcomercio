@@ -102,14 +102,14 @@ class Manual extends \Magento\Backend\Block\Template
         }
         foreach ($profilesByGroup as $entity => $profiles) {
             $html .= '<optgroup label="' . __(
-                '%1 Export',
-                $this->entityHelper->getEntityName($entity)
-            ) . '">';
+                    '%1 Export',
+                    $this->entityHelper->getEntityName($entity)
+                ) . '">';
             foreach ($profiles as $profile) {
                 $html .= '<option value="' . $profile['value'] . '" entity="' . $entity . '">' . $profile['label'] . ' (' . __(
-                    'ID: %1',
-                    $profile['value']
-                ) . ')</option>';
+                        'ID: %1',
+                        $profile['value']
+                    ) . ')</option>';
             }
             $html .= '</optgroup>';
         }
@@ -151,11 +151,11 @@ class Manual extends \Magento\Backend\Block\Template
 
         $profileLinks = [];
         foreach ($profiles as $profile) {
-            $profileLinks[$profile['value']] = $this->getUrl(
-                'xtento_productexport/profile/edit',
-                ['id' => $profile['value']]
-            );
-        }
+        $profileLinks[$profile['value']] = $this->getUrl(
+            'xtento_productexport/profile/edit',
+            ['id' => $profile['value']]
+        );
+    }
         $html .= $this->arrayToJsHash('profile_edit_links', $profileLinks);
 
         $profileSettings = [];

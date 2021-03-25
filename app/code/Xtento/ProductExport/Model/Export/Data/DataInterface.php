@@ -10,8 +10,7 @@
 
 namespace Xtento\ProductExport\Model\Export\Data;
 
-interface DataInterface
-{
+interface DataInterface {
     public function getExportData($entityType, $collectionItem);
     public function getConfiguration();
 }

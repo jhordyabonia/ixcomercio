@@ -93,7 +93,7 @@ class Categories extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab implem
         return parent::_prepareForm();
     }
     
-    public function getProfile()
+    public function getProfile() 
     {
         return $this->_coreRegistry->registry('productexport_profile');
     }

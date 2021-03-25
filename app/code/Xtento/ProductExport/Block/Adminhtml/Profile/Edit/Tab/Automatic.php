@@ -102,7 +102,7 @@ class Automatic extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab impleme
             $note = '';
         } else {
             if ((time() - $this->cronHelper->getInstallationDate(
-            )) > (60 * 30)
+                    )) > (60 * 30)
             ) { // Module was not installed within the last 30 minutes
                 if ($this->cronHelper->getLastCronExecution() == '') {
                     $model->setCronjobStatus(

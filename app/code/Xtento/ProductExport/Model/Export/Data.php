@@ -99,9 +99,9 @@ class Data extends \Magento\Framework\Model\AbstractModel
                 #echo "Before - ".$exportConfig['config']->class.": $memBefore<br>";
                 if ($getConfiguration) {
                     if ($exportClass->getEnabled() && $exportClass->confirmDependency() && in_array(
-                        $entityType,
-                        $exportClass->getApplyTo()
-                    )
+                            $entityType,
+                            $exportClass->getApplyTo()
+                        )
                     ) {
                         $exportData[] = [
                             'class' => $className,

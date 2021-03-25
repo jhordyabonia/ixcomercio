@@ -33,6 +33,7 @@ class Duplicate extends \Xtento\ProductExport\Controller\Adminhtml\Profile
         }
 
         try {
+
             $profile = clone $model;
             $profile->setEnabled(0);
             $profile->setId(null);
