@@ -1,5 +1,6 @@
 <?php
-$orderId = $block->getRealOrderId();
+$incrementId = $block->getRealOrderId();
+$orderId = $block->getOrderId();
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($orderId);
 $billingAddress = $order->getBillingAddress();

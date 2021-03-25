@@ -6,9 +6,15 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Success Page</title>
+    </head>
     <body>
+        <referenceBlock name="page.main.title" remove="true" />
         <referenceContainer name="content">
-            <block class="Intcomex\MercadopagoRewrites\Block\Onepage\Failure" name="checkout.failure" template="Magento_Checkout::onepage/failure.phtml"/>
+            <block class="Intcomex\MercadopagoRewrites\Block\Onepage\Success" name="checkout.success" template="Magento_Checkout::onepage/success.phtml" cacheable="false">
+                <container name="order.success.additional.info" label="Order Success Additional Info"/>
+            </block>
             <block class="Magento\Checkout\Block\Registration" name="checkout.registration" template="Magento_Checkout::registration.phtml" cacheable="false"/>
         </referenceContainer>
     </body>

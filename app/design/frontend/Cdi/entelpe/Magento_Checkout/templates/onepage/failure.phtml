@@ -1,12 +1,14 @@
 <?php
-$orderId = $block->getRealOrderId();
+$incrementId = $block->getRealOrderId();
+$orderId = $block->getOrderId();
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($orderId);
 $billingAddress = $order->getBillingAddress();
 // Get Order Payment
 $payment = $order->getPayment();
 $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
-if($status == 'rejected'){
+$method = $payment->getAdditionalInformation()['method'];
+if($status == 'rejected' && $method == 'mercadopago_custom'){
 ?>
 <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
     <div class="page-title-wrapper">
@@ -42,7 +44,7 @@ if($status == 'rejected'){
         </div>
     </div>
 </main>
-<?php }elseif($status == 'in_process') {?>
+<?php }elseif($status == 'in_process' && $method == 'mercadopago_custom') {?>
 <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
     <div class="page-title-wrapper">
         <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>espera.png"></p>
@@ -60,7 +62,7 @@ if($status == 'rejected'){
     <div class="columns">
         <div class="column main">
             <div class="container">
-                <p>Tu número de pedido es <strong>125235265</strong></p>
+                <p>Tu número de pedido es <strong><?php echo $incrementId; ?></strong></p>
                 <p>Tu compra esta en espera, estamos esperando la autorización de pago</p>
                 <p>Si tu pago es aprobado te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong><br>con los detalles e información de envío.</p>
                 <div class="actions-toolbar">

@@ -33,6 +33,14 @@ class Failure extends \Magento\Framework\View\Element\Template
      */
     public function getRealOrderId()
     {
+        return $this->_checkoutSession->getLastRealOrderId();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderId()
+    {
         return $this->_checkoutSession->getLastRealOrder()->getEntityId();
     }
 

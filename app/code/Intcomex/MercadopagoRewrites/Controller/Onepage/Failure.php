@@ -19,7 +19,6 @@ class Failure extends \Magento\Checkout\Controller\Onepage
         if ($quote->getId()) {
             $quote->setIsActive(1)->setReservedOrderId(null)->save();
             $_checkoutSession->replaceQuote($quote);
-            //return $this->resultRedirectFactory->create()->setPath('checkout/cart');
         }
         return $this->resultPageFactory->create();
     }
