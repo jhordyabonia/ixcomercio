@@ -185,7 +185,7 @@ class Xsl extends AbstractOutput
             $xslTemplateObj->importStylesheet($domDocument);
             */
             $xslTemplateObj->importStylesheet(new \SimpleXMLElement($xslTemplate));
-            if (libxml_get_last_error() !== false) {
+            if (libxml_get_last_error() !== FALSE) {
                 $this->throwXmlException(__("Please repair the XSL Template of this profile. There was a problem processing the XSL Template:"));
             }
 
@@ -210,7 +210,7 @@ class Xsl extends AbstractOutput
                 }
                 if ($quoteHandling == 'double') {
                     $quoteReplaceData = $ampSign . 'quot;' . $ampSign . 'quot;';
-                } elseif ($quoteHandling == 'remove') {
+                } else if ($quoteHandling == 'remove') {
                     $quoteReplaceData = '';
                 } else {
                     $quoteReplaceData = $quoteHandling;
@@ -257,13 +257,12 @@ class Xsl extends AbstractOutput
         $current = false;
         try {
             $current = current($data);
-        } catch (\Exception $e) {
-        }
+        } catch (\Exception $e) {}
         if ($current === false) {
             $stringData = (string)$data;
             if (isset($data[0])) {
                 return $data[0];
-            } elseif ($stringData !== '') {
+            } else if ($stringData !== '') {
                 return $stringData;
             }
         }
@@ -324,7 +323,7 @@ class Xsl extends AbstractOutput
      */
     protected function isRequiredInXslTemplate($variable, $xslTemplateXml)
     {
-        if (strpos($xslTemplateXml, $variable) === false) {
+        if (strpos($xslTemplateXml, $variable) === FALSE) {
             return false;
         } else {
             return true;

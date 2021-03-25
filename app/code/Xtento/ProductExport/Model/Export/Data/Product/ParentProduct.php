@@ -189,9 +189,8 @@ class ParentProduct extends General
         if ($parentId == -1) {
             $parentId = $this->getFirstParentProductId($product);
         }
-        if (!$parentId) {
+        if (!$parentId)
             return $data;
-        }
 
         // Check cache
         if (!isset(self::$parentProductCache[$this->getStoreId()])) {

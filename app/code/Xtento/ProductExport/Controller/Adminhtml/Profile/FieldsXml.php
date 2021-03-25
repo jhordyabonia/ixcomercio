@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2017-04-27T19:38:38+00:00
+ * Last Modified: 2020-07-26T19:06:44+00:00
  * File:          Controller/Adminhtml/Profile/FieldsXml.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -18,7 +18,13 @@ class FieldsXml extends \Xtento\ProductExport\Controller\Adminhtml\Profile
     protected $outputXmlFactory;
 
     /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * FieldsXml constructor.
+     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Xtento\ProductExport\Helper\Module $moduleHelper
      * @param \Xtento\XtCore\Helper\Cron $cronHelper
@@ -30,6 +36,7 @@ class FieldsXml extends \Xtento\ProductExport\Controller\Adminhtml\Profile
      * @param \Xtento\ProductExport\Helper\Entity $entityHelper
      * @param \Xtento\ProductExport\Model\ProfileFactory $profileFactory
      * @param \Xtento\ProductExport\Model\Output\XmlFactory $outputXmlFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -42,7 +49,8 @@ class FieldsXml extends \Xtento\ProductExport\Controller\Adminhtml\Profile
         \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Xtento\ProductExport\Helper\Entity $entityHelper,
         \Xtento\ProductExport\Model\ProfileFactory $profileFactory,
-        \Xtento\ProductExport\Model\Output\XmlFactory $outputXmlFactory
+        \Xtento\ProductExport\Model\Output\XmlFactory $outputXmlFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
     ) {
         parent::__construct(
             $context,
@@ -57,6 +65,7 @@ class FieldsXml extends \Xtento\ProductExport\Controller\Adminhtml\Profile
             $profileFactory
         );
         $this->outputXmlFactory = $outputXmlFactory;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -83,9 +92,19 @@ class FieldsXml extends \Xtento\ProductExport\Controller\Adminhtml\Profile
         $export->setProfile($model);
         $export->setShowEmptyFields(1);
         $filterField = $model->getEntity() == \Xtento\ProductExport\Model\Export::ENTITY_REVIEW ? 'main_table.review_id': 'entity_id';
-        $export->setCollectionFilters(
-            [[$filterField => ['in' => explode(",", $this->getRequest()->getParam('test_id'))]]]
-        );
+        if ($this->registry->registry('productexport_profile')->getEntity() == \Xtento\ProductExport\Model\Export::ENTITY_PRODUCT) {
+            // Check if ID doesn't exist, if so, try to load by SKU
+            try {
+                $this->productRepository->getById(explode(",", $this->getRequest()->getParam('test_id'))[0]);
+                $filters[] = [$filterField => ['in' => explode(",", $this->getRequest()->getParam('test_id'))]];
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                // Load by SKU instead
+                $filters[] = ['sku' => $this->getRequest()->getParam('test_id')];
+            }
+        } else {
+            $filters[] = [$filterField => ['in' => explode(",", $this->getRequest()->getParam('test_id'))]];
+        }
+        $export->setCollectionFilters($filters);
         $returnArray = $export->runExport();
         $xmlData = $this->outputXmlFactory->create()->setProfile($model)->convertData($returnArray);
 

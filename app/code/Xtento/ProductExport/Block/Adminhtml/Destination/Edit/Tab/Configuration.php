@@ -108,12 +108,14 @@ class Configuration extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab imp
             'required' => true,
             'onchange' => ($model->getId()) ? 'if (this.value==\'\') { return false; } edit_form.action = edit_form.action+\'continue/edit/switch/true/back/true\'; edit_form.submit();' : '',
             'note' => __($typeNote)
-        ]);
+        ]
+        );
 
         if (!$model->getId()) {
             $fieldset->addField('continue_button', 'note', [
                 'text' => $this->getChildHtml('continue_button'),
-            ]);
+            ]
+            );
         }
 
         if ($model->getId()) {
@@ -121,7 +123,8 @@ class Configuration extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab imp
                 'label' => __('Status'),
                 'name' => 'status',
                 'disabled' => true,
-            ]);
+            ]
+            );
             $model->setStatus(__('Used in %1 profile(s)', count($model->getProfileUsage())));
 
             $fieldset->addField('last_result_message', 'textarea', [
@@ -129,7 +132,8 @@ class Configuration extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab imp
                 'name' => 'last_result_message_dis',
                 'disabled' => true,
                 'style' => 'height: 90px',
-            ]);
+            ]
+            );
 
             $this->addFieldsForType($form, $model->getType());
 
@@ -167,7 +171,7 @@ class Configuration extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab imp
             'continue_button',
             $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(
-                    [
+                [
                     'label' => __('Continue'),
                     'data_attribute' => [
                         'mage-init' => [
@@ -175,8 +179,8 @@ class Configuration extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab imp
                         ],
                     ],
                     'class' => 'save'
-                    ]
-                )
+                ]
+            )
         );
         return parent::_prepareLayout();
     }

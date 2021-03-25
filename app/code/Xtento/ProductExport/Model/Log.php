@@ -33,9 +33,9 @@ class Log extends \Magento\Framework\Model\AbstractModel
 
     public function setResult($resultLevel)
     {
-        if ($this->getResult() === null) {
+        if ($this->getResult() === NULL) {
             $this->setData('result', $resultLevel);
-        } elseif ($resultLevel > $this->getResult()) { // If result is failed, do not reset to warning for example.
+        } else if ($resultLevel > $this->getResult()) { // If result is failed, do not reset to warning for example.
             $this->setData('result', $resultLevel);
         }
     }
