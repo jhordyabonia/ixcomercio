@@ -1,5 +1,5 @@
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
-    <div class="payment-method-title custom_method field choice">
+    <div style="display: none" class="payment-method-title custom_method field choice">
         <input type="radio"
                name="payment[method]"
                class="radio"
@@ -20,7 +20,7 @@
         <!--/ko-->
     </div>
 
-    <div class="payment-method-content">
+    <div data-bind="afterRender: updateMenu();" class="payment-method-content">
         <!-- ko foreach: getRegion('messages') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!--/ko-->
