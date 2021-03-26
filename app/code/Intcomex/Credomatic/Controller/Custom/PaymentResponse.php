@@ -62,6 +62,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info($modo);
             if(empty($body)){
                 $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError);
+                return $resultRedirect;
             }
             if($modo=='pruebas'){
                 
