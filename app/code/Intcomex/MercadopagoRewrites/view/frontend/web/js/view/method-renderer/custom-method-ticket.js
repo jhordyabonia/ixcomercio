@@ -34,20 +34,19 @@ define(
                     var input = $(title_cont).find('input');
                     var code_payment = $(input).attr('id');
 
-                    $(menu).append('<li><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+title+'</a></li>');
+                    $(menu).append('<li role="presentation" class="payment-group-item pefectivo"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+title+'</a></li>');
 
 
                     jQuery(document).on('click', `#payment_methods_menu ul li a#link-`+code_payment, function (event) {
                         var data = $(this).attr('data-code');
-                        console.log("element click "+ data);
 
                         $('#'+data).trigger( "click" );
 
-                        if($(this).hasClass('active')){
+                        if($(this).parent().hasClass('active')){
 
                         }else{
-                            $(menu).find('li a.active').removeClass('active');
-                            $(this).addClass('active');
+                            $(menu).find('li.active').removeClass('active');
+                            $(this).parent().addClass('active');
                         }
 
                     });

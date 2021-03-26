@@ -40,21 +40,23 @@ define(
 
 
                     //$('#payment_methods_menu ul li:first').appendTo('<li><a data-code="'+ code_payment +'">'+title+'</a></li>');
-                    $(menu).append('<li><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+title+'</a></li>');
+                    //$(menu).append('<li role="presentation" class="payment-group-item debitcard active"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+title+'</a></li>');
 
+                    $(menu).prepend('<li role="presentation" class="payment-group-item debitcard active"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+title+'</a></li>');
+
+                    $('#'+code_payment).trigger( "click" );
 
                     jQuery(document).on('click', `#payment_methods_menu ul li a#link-`+code_payment, function (event) {
 
                         var data = $(this).attr('data-code');
-                        console.log("element click "+ data);
 
                         $('#'+data).trigger( "click" );
 
-                        if($(this).hasClass('active')){
+                        if($(this).parent().hasClass('active')){
 
                         }else{
-                            $(menu).find('li a.active').removeClass('active');
-                            $(this).addClass('active');
+                            $(menu).find('li.active').removeClass('active');
+                            $(this).parent().addClass('active');
                         }
 
                     });
