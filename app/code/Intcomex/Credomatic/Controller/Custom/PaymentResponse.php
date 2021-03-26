@@ -61,7 +61,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info('modo');
             $this->logger->info($modo);
             if(empty($body)){
-                $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError);
+                $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError);
             }
             if($modo=='pruebas'){
                 
@@ -77,7 +77,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }else{
                 if($body['response_code']==300||$body['response_code']==200){
     
-                    $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError);
+                    $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError);
     
                 }else if($body['response_code']==100){
                     $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
@@ -147,6 +147,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->_checkoutSession->restoreQuote();
             }
         } 
+        return $resultRedirect;
     }
 
 }
