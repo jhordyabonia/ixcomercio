@@ -179,7 +179,7 @@ class OrderStatus {
         unset($configData['url_stagging'], $configData['url_prod']);
         //Consume el WS
         $trax_data_array = array();
-        $trax_data = $this->loadTraxData($configData, $order->getId());
+        $trax_data = $this->loadTraxData($configData, $order->getIncrementId());
         $this->log(print_r($trax_data));
         if(!empty($trax_data['resp'])){
             $obj = $trax_data['resp'];
