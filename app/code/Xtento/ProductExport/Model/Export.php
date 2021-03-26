@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2019-11-19T11:02:01+00:00
+ * Last Modified: 2020-10-23T10:21:51+00:00
  * File:          Model/Export.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -82,6 +82,11 @@ class Export extends \Magento\Framework\Model\AbstractModel
     protected $scopeConfig;
 
     /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    protected $productRepository;
+
+    /**
      * Export constructor.
      *
      * @param \Magento\Framework\Model\Context $context
@@ -97,6 +102,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
      * @param HistoryFactory $historyFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Xtento\ProductExport\Logger\Logger $xtentoLogger
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
      * @param array $data
@@ -115,6 +121,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         HistoryFactory $historyFactory,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Xtento\ProductExport\Logger\Logger $xtentoLogger,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
@@ -131,6 +138,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $this->historyFactory = $historyFactory;
         $this->scopeConfig = $scopeConfig;
         $this->xtentoLogger = $xtentoLogger;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -179,7 +187,18 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $this->setExportType(self::EXPORT_TYPE_TEST);
         $this->_registry->register('is_test_productexport', true, true);
         $filterField = $this->getProfile()->getEntity() == self::ENTITY_REVIEW ? 'main_table.review_id': 'entity_id';
-        $filters[] = [$filterField => ['in' => explode(",", $exportId)]];
+        if ($this->getProfile()->getEntity() == self::ENTITY_PRODUCT) {
+            // Check if ID doesn't exist, if so, try to load by SKU
+            try {
+                $this->productRepository->getById(explode(",", $exportId)[0]);
+                $filters[] = [$filterField => ['in' => explode(",", $exportId)]];
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                // Load by SKU instead
+                $filters[] = ['sku' => $exportId];
+            }
+        } else {
+            $filters[] = [$filterField => ['in' => explode(",", $exportId)]];
+        }
         $exportedFiles = $this->runExport($filters);
         return $exportedFiles;
     }
@@ -243,7 +262,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $this->setExportType(self::EXPORT_TYPE_EVENT);
         $this->beforeExport();
         $generatedFiles = $this->runExport($filters, $forcedCollectionItem);
-        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === null || $this->getLogEntry()->getResult() === Log::RESULT_SUCCESSFUL)) {
+        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === NULL || $this->getLogEntry()->getResult() === Log::RESULT_SUCCESSFUL)) {
             $this->getLogEntry()->delete();
             return false;
         }
@@ -269,7 +288,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $this->setExportType(self::EXPORT_TYPE_CRONJOB);
         $this->beforeExport();
         $generatedFiles = $this->runExport($filters);
-        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === null || $this->getLogEntry()->getResult() === Log::RESULT_SUCCESSFUL)) {
+        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === NULL || $this->getLogEntry()->getResult() === Log::RESULT_SUCCESSFUL)) {
             $this->getLogEntry()->delete();
             return false;
         }
@@ -312,8 +331,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
             if (function_exists('set_time_limit')) {
                 try {
                     set_time_limit(0);
-                } catch (\Exception $e) {
-                }
+                } catch (\Exception $e) {}
             }
             $memoryLimit = max(1024, intval($this->scopeConfig->getValue('productexport/advanced/memory_limit')));
             $this->serverHelper->increaseMemoryLimit($memoryLimit . 'M');
@@ -382,8 +400,8 @@ class Export extends \Magento\Framework\Model\AbstractModel
                     $generatedFiles = [];
                     foreach ($this->getReturnArrayWithObjects() as $returnObject) {
                         $generatedFiles += $this->objectManager->create(
-                            '\Xtento\ProductExport\Model\Output\\' . ucfirst($type)
-                        )->setProfile($this->getProfile())->convertData([$returnObject]);
+                                '\Xtento\ProductExport\Model\Output\\' . ucfirst($type)
+                            )->setProfile($this->getProfile())->convertData([$returnObject]);
                     }
                 } else {
                     // Create just one file for all exported objects
@@ -411,7 +429,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
                 $result = Log::RESULT_FAILED;
                 if (preg_match('/have been exported/', $e->getMessage())) {
                     if ($this->getExportType() == self::EXPORT_TYPE_MANUAL || $this->getExportType(
-                    ) == self::EXPORT_TYPE_GRID
+                        ) == self::EXPORT_TYPE_GRID
                     ) {
                         $result = Log::RESULT_WARNING;
                     } else {
@@ -423,7 +441,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
                 $this->afterExport();
             }
             if ($this->getExportType() == self::EXPORT_TYPE_MANUAL || $this->getExportType(
-            ) == self::EXPORT_TYPE_GRID || $this->getExportType() == self::EXPORT_TYPE_TEST
+                ) == self::EXPORT_TYPE_GRID || $this->getExportType() == self::EXPORT_TYPE_TEST
             ) {
                 throw new LocalizedException(__($e->getMessage()));
             }
@@ -556,8 +574,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $this->_registry->unregister('productexport_profile');
         #echo "After export: " . memory_get_usage() . " (Difference: " . round((memory_get_usage() - $memBefore) / 1024 / 1024, 2) . " MB, " . (time() - $timeBefore) . " Secs) - Count: " . (count($exportIds)) . " -  Per entry: " . round(((memory_get_usage() - $memBefore) / 1024 / 1024) / (count($exportIds)), 2) . "<br>";
         // Dispatch event after export
-        $this->_eventManager->dispatch(
-            'xtento_productexport_export_after',
+        $this->_eventManager->dispatch('xtento_productexport_export_after',
             [
                 'profile' => $this->getProfile(),
                 'log' => $this->getLogEntry(),
@@ -623,7 +640,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
      *
      * @return $this
      */
-    protected function errorEmailNotification()
+    public function errorEmailNotification()
     {
         if (!$this->moduleHelper->isDebugEnabled() || $this->moduleHelper->getDebugEmail() == '') {
             return $this;

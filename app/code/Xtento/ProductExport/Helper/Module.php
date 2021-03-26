@@ -64,8 +64,8 @@ class Module extends \Xtento\XtCore\Helper\AbstractModule
         return true; // Not required, Magento 2 does the job of handling upgrades better than Magento 1
         // Check if DB table(s) have been created.
         return ($this->resource->getConnection('core_read')->showTableStatus(
-            $this->resource->getTableName('xtento_productexport_profile')
-        ) !== false);
+                $this->resource->getTableName('xtento_productexport_profile')
+            ) !== false);
     }
 
     public function getExportBkpDir()

@@ -99,6 +99,7 @@ class WyomindAdvancedInventory extends \Xtento\ProductExport\Model\Export\Data\A
                     }
                 }
             } catch (\Exception $e) {
+
             }
             $this->writeArray = &$returnArray;
         }

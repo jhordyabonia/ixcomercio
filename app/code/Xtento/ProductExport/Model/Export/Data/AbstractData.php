@@ -165,9 +165,9 @@ abstract class AbstractData extends \Magento\Framework\Model\AbstractModel imple
                 if ($this->getProfile()->getExportReplaceNlBr() != 0) {
                     if ($this->getProfile()->getExportReplaceNlBr() == 3) {
                         $value = str_replace(["\r\n", "\r", "\n"], "", $value);
-                    } elseif ($this->getProfile()->getExportReplaceNlBr() == 2) {
+                    } else if ($this->getProfile()->getExportReplaceNlBr() == 2) {
                         $value = str_replace(["\r\n", "\r", "\n"], " ", $value);
-                    } elseif ($this->getProfile()->getExportReplaceNlBr() == 1) {
+                    } else if ($this->getProfile()->getExportReplaceNlBr() == 1) {
                         $value = str_replace(["\r\n", "\r", "\n"], "<br />", $value);
                     }
                 }
@@ -179,14 +179,12 @@ abstract class AbstractData extends \Magento\Framework\Model\AbstractModel imple
                 } else {
                     $this->writeArray[$customWriteArray][$field] = $value;
                 }
-            } elseif (is_array($value)) {
+            } else if (is_array($value)) {
                 foreach ($value as $k => $v) {
                     if ($this->getProfile() && $this->getProfile()->getExportStripTags() && !is_array($v) && !is_object($v)) {
                         $v = strip_tags($v);
                     }
-                    if (!is_array($v)) {
-                        $this->writeValue($k, $v, $field);
-                    }
+                    if (!is_array($v)) $this->writeValue($k, $v, $field);
                 }
             }
         }

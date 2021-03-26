@@ -166,9 +166,8 @@ class Tools extends \Magento\Framework\App\Helper\AbstractHelper
                     $profileData['store_id'] = $profileData['store_ids'];
                 }
                 if ($serializedToJsonConverter !== false) {
-                    if (isset($profileData['conditions_serialized'])) {
+                    if (isset($profileData['conditions_serialized']))
                         $profileData['conditions_serialized'] = $serializedToJsonConverter->convert($profileData['conditions_serialized']);
-                    }
                 }
                 // If importing a settings file from Magento >=2.2 into <=2.1, we must make sure that the "_serialized" fields are indeed serialized and not JSON
                 if (version_compare($this->utilsHelper->getMagentoVersion(), '2.2', '<')) {

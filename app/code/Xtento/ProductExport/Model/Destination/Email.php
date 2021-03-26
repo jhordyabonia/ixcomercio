@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2020-05-22T19:13:38+00:00
+ * Last Modified: 2020-06-05T18:28:00+00:00
  * File:          Model/Destination/Email.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -12,6 +12,46 @@ namespace Xtento\ProductExport\Model\Destination;
 
 class Email extends AbstractClass
 {
+    /**
+     * @var \Magento\Framework\Stdlib\DateTime\TimezoneInterface
+     */
+    protected $localeDate;
+
+    /**
+     * Email constructor.
+     *
+     * @param \Magento\Framework\Model\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Framework\ObjectManagerInterface $objectManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\Stdlib\DateTime\DateTime $dateTime
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Framework\Encryption\EncryptorInterface $encryptor
+     * @param \Xtento\ProductExport\Model\DestinationFactory $destinationFactory
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
+     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
+     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Framework\Model\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Stdlib\DateTime\DateTime $dateTime,
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Xtento\ProductExport\Model\DestinationFactory $destinationFactory,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
+        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        parent::__construct($context, $registry, $objectManager, $scopeConfig, $dateTime, $filesystem, $encryptor, $destinationFactory, $resource, $resourceCollection, $data);
+        $this->localeDate = $localeDate;
+    }
+
+
     public function testConnection()
     {
         $this->initConnection();
@@ -99,7 +139,17 @@ class Email extends AbstractClass
             }
             $messageData['from'] = [$this->objectManager->create('Magento\Framework\Mail\AddressFactory')->create(['email' => $senderEmail, 'name' => $senderFromName])];
             foreach (explode(",", $this->getDestination()->getEmailRecipient()) as $email) {
+                $email = trim($email);
+                $email = $this->replaceVariables($email, '');
                 $messageData['to'][] = $this->objectManager->create('Magento\Framework\Mail\AddressFactory')->create(['email' => $email, 'name' => '']);
+            }
+            $bccRecipients = $this->getDestination()->getEmailBcc();
+            if (!empty($bccRecipients)) {
+                foreach (explode(",", $bccRecipients) as $email) {
+                    $email = trim($email);
+                    $email = $this->replaceVariables($email, '');
+                    $messageData['bcc'][] = $this->objectManager->create('Magento\Framework\Mail\AddressFactory')->create(['email' => $email, 'name' => '']);
+                }
             }
             $messageData['subject'] = $this->replaceVariables($this->getDestination()->getEmailSubject(), implode("\n\n", $bodyFiles));
             $mail = $this->objectManager->create('Magento\Framework\Mail\EmailMessageInterfaceFactory')->create($messageData);
@@ -113,8 +163,19 @@ class Email extends AbstractClass
                 $mail->setFrom($senderEmail, $senderFromName);
             }
             foreach (explode(",", $this->getDestination()->getEmailRecipient()) as $email) {
+                $email = trim($email);
+                $email = $this->replaceVariables($email, '');
                 $mail->addTo($email, '=?utf-8?B?' . base64_encode($email) . '?=');
             }
+            $bccRecipients = $this->getDestination()->getEmailBcc();
+            if (!empty($bccRecipients)) {
+                foreach (explode(",", $bccRecipients) as $email) {
+                    $email = trim($email);
+                    $email = $this->replaceVariables($email, '');
+                    $mail->addBcc($email, '=?utf-8?B?' . base64_encode($email) . '?=');
+                }
+            }
+
             #$mail->setSubject($this->_replaceVariables($this->getDestination()->getEmailSubject(), $firstFileContent));
             $mail->setSubject('=?utf-8?B?' . base64_encode($this->replaceVariables($this->getDestination()->getEmailSubject(), implode("\n\n", $bodyFiles))) . '?=');
 
@@ -183,13 +244,13 @@ class Email extends AbstractClass
         $additionalVariables = is_array($additionalVariables) ? $additionalVariables : [];
 
         $replaceableVariables = [
-            '%d%' => date('d', $this->dateTime->gmtTimestamp()),
-            '%m%' => date('m', $this->dateTime->gmtTimestamp()),
-            '%y%' => date('y', $this->dateTime->gmtTimestamp()),
-            '%Y%' => date('Y', $this->dateTime->gmtTimestamp()),
-            '%h%' => date('H', $this->dateTime->gmtTimestamp()),
-            '%i%' => date('i', $this->dateTime->gmtTimestamp()),
-            '%s%' => date('s', $this->dateTime->gmtTimestamp()),
+            '%d%' => $this->localeDate->date()->format('d'),
+            '%m%' => $this->localeDate->date()->format('m'),
+            '%y%' => $this->localeDate->date()->format('y'),
+            '%Y%' => $this->localeDate->date()->format('Y'),
+            '%h%' => $this->localeDate->date()->format('H'),
+            '%i%' => $this->localeDate->date()->format('i'),
+            '%s%' => $this->localeDate->date()->format('s'),
             '%exportid%' => ($this->_registry->registry('productexport_log')) ? $this->_registry->registry('productexport_log')->getId() : 0,
             '%recordcount%' => ($this->_registry->registry('productexport_log')) ? $this->_registry->registry('productexport_log')->getRecordsExported() : 0,
             '%content%' => $content,
