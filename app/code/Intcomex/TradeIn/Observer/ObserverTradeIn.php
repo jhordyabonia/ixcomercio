@@ -30,7 +30,7 @@ class ObserverTradeIn implements ObserverInterface
              $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
              $cupon = strpos($order->getCouponCode(), $prefijoCupon);
              if ($cupon !== false) {
-                 $transport['couponCode'] = '1';
+                 $transport['couponCode'] = '1'; 
             }
          }
         }
