@@ -3272,6 +3272,9 @@ form {
 .checkout-index-index .field[name="billingAddressingenico.region"] {
   display: block !important; }
 
+.checkout-index-index .actions-toolbar>.primary{
+  float: none; }
+
 .checkout-index-index .img-tarjetas {
   display: none !important; }
 
