@@ -67,9 +67,7 @@ if($status == 'rejected' && $method == 'mercadopago_custom'){
                 <p>Si tu pago es aprobado te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong><br>con los detalles e información de envío.</p>
                 <div class="actions-toolbar">
                     <div class="primary">
-                        <button class="action primary" type="submit" title="Imprimir Pagoefectivo">
-                            <span>Continuar comprando</span>
-                        </button>
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                     </div>
                 </div>
             </div>
