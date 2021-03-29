@@ -14,14 +14,19 @@
              data-role="title">
         </div>
 
-        <div class="custom-payment-methods-list">
-            <div id="payment_methods_menu">
+        <div class="box-step-content">
+            <div class="col-md-3 p0" id="payment_methods_menu">
                 <ul>
+
                 </ul>
             </div>
-            <div id="payment_methods_contents">
-                <each args="data: getRegion($group().displayArea), as: 'method'" render=""/>
+            <div class="col-md-9 bd2" id="payment_methods_contents">
+                <div class="tab-content">
+                    <each args="data: getRegion($group().displayArea), as: 'method'" render=""/>
+                </div>
             </div>
+
+
         </div>
     </div>
 </div>
