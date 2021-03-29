@@ -3312,27 +3312,6 @@ form {
   text-align: center !important;
   color: #333333 !important; }
 
-.checkout-index-index .field[name="shippingAddress.postcode"] {
-  display: none !important; }
-
-.checkout-index-index .field[name="billingAddressmercadopago_basic.postcode"] {
-  display: none !important; }
-
-.checkout-index-index .field[name="shippingAddress.region"] {
-  display: block !important; }
-
-.checkout-index-index .field[name="billingAddressingenico.region_id"] {
-  display: none !important; }
-
-.checkout-index-index .field[name="billingAddressingenico.region"] {
-  display: block !important; }
-
-.checkout-index-index .field[name="shippingAddress.custom_attributes.zone_id"] {
-  display: none !important; }
-
-.checkout-index-index .field[name="billingAddressshared.custom_attributes.zone_id"] {
-  display: none !important; }
-
 .checkout-index-index .img-tarjetas {
   display: none !important; }
 
