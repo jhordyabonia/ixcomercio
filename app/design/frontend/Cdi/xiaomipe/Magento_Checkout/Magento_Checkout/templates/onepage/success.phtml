@@ -1,0 +1,66 @@
+<?php
+$orderId = $block->getRealOrderId();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+$order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($orderId);
+$billingAddress = $order->getBillingAddress();
+$payment = $order->getPayment();
+$status = $payment->getAdditionalInformation()['paymentResponse']["status"];
+$method = $payment->getAdditionalInformation()['method'];
+if(!empty($method) && $method == 'mercadopago_customticket' && $status == 'pending'){
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-wrapper">
+                <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>espera.png"></p>
+                <h1 class="page-title">
+                    <span class="base" data-ui-id="page-title-wrapper">¡Estamos procesando tu pago!</span>
+                </h1>
+                <h2>Tu pedido esta en espera</h2>
+            </div>        
+            <?php if ($block->getOrderId()):?>
+                <p>Tu compra esta en espera, estamos esperando la autorización de pago</p>
+                <?php if ($block->getCanViewOrder()) :?>
+                    <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                <?php  else :?>
+                    <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                <?php endif;?>
+                    <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+            <?php endif;?>
+
+            <?= $block->getAdditionalInfoHtml() ?>
+
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php }else{ ?>
+<div class="checkout-success">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">        
+                <?php if ($block->getOrderId()):?>
+                    <?php if ($block->getCanViewOrder()) :?>
+                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                    <?php  else :?>
+                        <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                    <?php endif;?>
+                        <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+                <?php endif;?>
+
+                <?= $block->getAdditionalInfoHtml() ?>
+
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
