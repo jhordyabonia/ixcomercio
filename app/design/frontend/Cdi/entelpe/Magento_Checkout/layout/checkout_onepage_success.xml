@@ -11,7 +11,6 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <referenceBlock name="page.main.title" remove="true" />
             <block class="Intcomex\MercadopagoRewrites\Block\Onepage\Success" name="checkout.success" template="Magento_Checkout::onepage/success.phtml" cacheable="false">
                 <container name="order.success.additional.info" label="Order Success Additional Info"/>
             </block>

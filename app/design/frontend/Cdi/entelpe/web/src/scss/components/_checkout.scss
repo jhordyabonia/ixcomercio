@@ -619,3 +619,16 @@
 
 }
 
+
+.checkout-onepage-success .actions-toolbar>.primary{
+  float: none!important;
+}
+
+.checkout-onepage-failure .actions-toolbar>.primary{
+  float: none!important;
+}
+
+.checkout-onepage-failure h1.page-title:first-child{
+  display: none!important;
+}
+
