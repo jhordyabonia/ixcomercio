@@ -74,6 +74,19 @@
       }
     }
   }
+
+  .checkout-payment-method{
+    .payment-method-content {
+      #co-mercadopago-form, #co-mercadopago-form-ticket {
+        max-width: 100%;
+
+        #securityCode, #securityCodeOCP {
+          width: 100%;
+        }
+
+      }
+    }
+  }
   .opc-wrapper {
     @media (max-width: $tablet){
       padding: 0 15px;
@@ -424,6 +437,7 @@
       margin-bottom: 0;
       text-transform: uppercase;
       font-size: 14px;
+      font-family: Barlow,sans-serif;
     }
   }
 
@@ -437,6 +451,7 @@
 
   .payment-group-item{
     border-bottom: 2px solid #DDDDDD;
+    font-family: 'Barlow', sans-serif;
 
     a{
       color:#000000;
@@ -513,6 +528,7 @@
     }
   }
 }
+
 .mp-box-inputs.mp-col-33 {
   width: 31%;
   float: left;
@@ -535,7 +551,7 @@
 }
 
 .mp-box-inputs.margin-r{
-  margin-right: 19px;
+  margin-right: 17px;
 }
 
 
@@ -551,3 +567,55 @@
   display: inline-block;
 
 }
+
+@media (max-width: 768px) {
+  .checkout-index-index .PaymentCardDueDate{
+    width: 55%;
+  }
+  label.FormFieldLabel{
+    width: 100%;
+  }
+  .checkout-index-index .bd2{
+    border-left: 0;
+  }
+  .checkout-index-index .PaymentCardCVV {
+    width: 45%;
+  }
+  .checkout-index-index .tab-pane {
+    padding: 20px 0;
+  }
+  .page-title-wrapper .page-title {
+    font-size: 26px;
+  }
+  .page-title-wrapper h2{
+    font-size: 24px;
+  }
+
+}
+
+@media (max-width: 380px) {
+  .checkout-index-index .PaymentCardDueDate{
+    width: 100%;
+  }
+  .checkout-index-index .PaymentCardCVV{
+    width: 100%;
+  }
+  .checkout-index-index .payment-card-due-month, .payment-card-due-year {
+    width: 45%;
+  }
+  .mp-box-inputs.mv-col-50 {
+    width: 48%;
+  }
+  .mp-box-inputs.mv-col-100 {
+    width: 100%;
+    margin-top: 15px;
+  }
+  .mp-box-inputs.margin-r{
+    margin-right: 0px;
+  }
+  .mp-box-inputs.margin-mv{
+    margin-right: 4%;
+  }
+
+}
+
