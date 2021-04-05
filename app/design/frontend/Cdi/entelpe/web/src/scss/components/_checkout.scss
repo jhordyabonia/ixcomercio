@@ -632,3 +632,7 @@
   display: none!important;
 }
 
+#applyCouponCard, #applyCouponTicket{
+  background-color: $colorBottom !important;
+  border-color: $colorBottom !important;
+}
