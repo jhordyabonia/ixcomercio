@@ -1,13 +1,43 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-// @codingStandardsIgnoreFile
-
+$orderId = $block->getRealOrderId();
+$_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
+$order = $_mienvioHelper->getOrderDetails($orderId);
+$billingAddress = $order->getBillingAddress();
+$payment = $order->getPayment();
+$status = $payment->getAdditionalInformation()['paymentResponse']["status"];
+$method = $payment->getAdditionalInformation()['method'];
+if($method == 'mercadopago_custom'){
 ?>
-<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+<main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
+    <div class="page-title-wrapper">
+        <p><img class="ico-page-title" src="<?php echo $block->getUrl("pub/media/")?>verificado.png"></p>
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">¡Gracias por tu compra!</span>
+        </h1>
+        <h2>Tu pedido ha sido confirmado con exito</h2>
+    </div>
+    <div class="page messages">
+        <div data-placeholder="messages"></div>
+        <div data-bind="scope: 'messages'">
+        <!-- ko if: cookieMessages && cookieMessages.length > 0 --><!-- /ko -->
+        <!-- ko if: messages().messages && messages().messages.length > 0 --><!-- /ko -->
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column main">
+            <div class="container">
+                <p>Tu número de pedido es <strong><?php echo $orderId; ?></strong></p>
+                <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<?php }else{ ?>
 <div class="checkout-success">
     <div class="container">
         <div class="row">
@@ -32,3 +62,4 @@
         </div>
     </div>
 </div>
+<?php } ?>

@@ -1,8 +1,8 @@
 <?php
 $incrementId = $block->getRealOrderId();
 $orderId = $block->getOrderId();
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
-$order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($orderId);
+$_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
+$order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
 // Get Order Payment
 $payment = $order->getPayment();
