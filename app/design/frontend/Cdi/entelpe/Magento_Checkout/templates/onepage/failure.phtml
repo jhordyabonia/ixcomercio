@@ -1,4 +1,6 @@
 <?php
+$status = "";
+$method = "";
 $incrementId = $block->getRealOrderId();
 $orderId = $block->getOrderId();
 $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
@@ -6,9 +8,11 @@ $order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
 // Get Order Payment
 $payment = $order->getPayment();
-$status = $payment->getAdditionalInformation()['paymentResponse']["status"];
-$method = $payment->getAdditionalInformation()['method'];
-if($status == 'rejected' && $method == 'mercadopago_custom'){
+if(!empty($payment)){
+    $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
+    $method = $payment->getAdditionalInformation()['method'];
+}
+if(!empty($method) && !empty($status) && $status == 'rejected' && $method == 'mercadopago_custom'){
 ?>
 <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
     <div class="page-title-wrapper">
@@ -44,7 +48,7 @@ if($status == 'rejected' && $method == 'mercadopago_custom'){
         </div>
     </div>
 </main>
-<?php }elseif($status == 'in_process' && $method == 'mercadopago_custom') {?>
+<?php }elseif(!empty($method) && !empty($status) && $status == 'in_process' && $method == 'mercadopago_custom') {?>
 <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
     <div class="page-title-wrapper">
         <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>espera.png"></p>

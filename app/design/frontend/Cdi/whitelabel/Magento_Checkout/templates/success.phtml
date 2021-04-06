@@ -1,14 +1,18 @@
 <?php
+$status = "";
+$method = "";
 $orderId = $block->getRealOrderId();
 $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
 $order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
 $payment = $order->getPayment();
-$status = $payment->getAdditionalInformation()['paymentResponse']["status"];
-$method = $payment->getAdditionalInformation()['method'];
+if(!empty($payment)){
+    $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
+    $method = $payment->getAdditionalInformation()['method'];
+}
 ?>
 <div class="checkout-success">
-<?php if(!empty($method) && $method == 'mercadopago_customticket' && $status == 'pending'){ ?>
+<?php if(!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending'){ ?>
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
@@ -40,7 +44,7 @@ $method = $payment->getAdditionalInformation()['method'];
         </div>
     </div>
 <?php
-}elseif($method == 'mercadopago_custom' && $status == 'approved'){
+}elseif( !empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved'){
 ?>
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="page-title-wrapper">
