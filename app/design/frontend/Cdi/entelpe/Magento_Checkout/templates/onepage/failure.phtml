@@ -8,7 +8,7 @@ $order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
 // Get Order Payment
 $payment = $order->getPayment();
-if(!empty($payment)){
+if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
     $method = $payment->getAdditionalInformation()['method'];
 }
