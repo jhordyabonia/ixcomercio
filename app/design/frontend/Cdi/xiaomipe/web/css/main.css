@@ -3319,6 +3319,12 @@ form {
   text-align: center !important;
   color: #333333 !important; }
 
+.checkout-index-index .field[name="shippingAddress.country_id"] {
+  display: none !important; }
+  
+.checkout-index-index .field[name="billingAddressshared.country_id"] {
+  display: none !important; }
+
 .checkout-index-index .payment-icon {
   display: inline-block !important;
   width: 80px;
@@ -3455,7 +3461,9 @@ form {
   .checkout-index-index .payment-group-item a {
     color: #000000;
     background-color: #FFFFFF;
-    text-decoration: none; }
+    text-decoration: none;
+    padding: 1.3rem 0.5rem;
+    background-position: 96% center; }
   .checkout-index-index .payment-group-item.debitcard a {
     background-image: url(../images/icono-td-normal@2x.png); }
   .checkout-index-index .payment-group-item.debitcard.active a {
