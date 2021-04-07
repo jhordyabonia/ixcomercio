@@ -6,8 +6,10 @@
 define([
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/model/shipping-rate-processor/new-address',
-    'Magento_Checkout/js/model/shipping-rate-processor/customer-address'
-], function (quote, defaultProcessor, customerAddressProcessor) {
+    'Magento_Checkout/js/model/shipping-rate-processor/customer-address',
+    'jquery',
+    'mage/url'
+], function (quote, defaultProcessor, customerAddressProcessor,$,url) {
     'use strict';
 
     var processors = [];
