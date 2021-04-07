@@ -66,13 +66,6 @@
                                                                 </item>
                                                             </item>
                                                         </item>
-                                                        <item name="before-form" xsi:type="array">
-                                                                <item name="children" xsi:type="array">
-                                                                    <item name="tradein" xsi:type="array">
-                                                                        <item name="component" xsi:type="string">Intcomex_TradeIn/js/view/custom</item>
-                                                                    </item>
-                                                                </item>
-                                                            </item>
                                                     </item>
                                                 </item>
                                             </item>
