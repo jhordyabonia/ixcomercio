@@ -27,6 +27,17 @@
                 <field id="alerta_cupon" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Alerta Cupon</label>
                 </field>
+                <field id="terminos_condiciones" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Terminos y condiciones</label>
+                    <comment>Habilitar checkbox</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="terminos_condiciones_label" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label Terminos y condiciones</label>
+                </field>
+                <field id="enlace_redireccion" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enlce redirección terminos y condiciones</label>
+                </field>
             </group>
         </section>
     </system>
