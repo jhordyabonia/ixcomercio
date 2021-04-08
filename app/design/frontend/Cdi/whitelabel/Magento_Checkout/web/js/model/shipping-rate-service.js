@@ -39,8 +39,9 @@
                     }
                     if(msg.terms){
                         console.log('print ckeckbox');
+                        jQuery(".terms-tradein").remove();
                         if(jQuery(".terms-tradein").length==0){
-                            jQuery(".checkout-agreements-block").after(msg.check);
+                            jQuery(".checkout-agreements-block:first").after(msg.check);
                         }
                     }
                   }
