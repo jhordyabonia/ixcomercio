@@ -320,6 +320,12 @@
   text-align: center !important;
   color: #333333 !important;
 }
+  .field[name="shippingAddress.country_id"] {
+    display: none !important;
+  }
+  .field[name="billingAddressshared.country_id"] {
+    display: none !important;
+  }
   .payment-icon{
     display: inline-block!important;
     width: 80px;
@@ -490,6 +496,8 @@
       color:#000000;
       background-color: #FFFFFF;
       text-decoration: none;
+      padding: 1.3rem 0.5rem;
+      background-position: 96% center;
     }
 
     &.debitcard{
