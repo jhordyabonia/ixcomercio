@@ -19,7 +19,6 @@
     'Magento_Checkout/js/model/totals',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Ui/js/modal/modal',
-    'Magento_Ui/js/modal/alert'
 ], function (ko, $, quote, urlManager, errorProcessor, messageContainer, storage, $t, getPaymentInformationAction,
     totals, fullScreenLoader, modal
 ) {
