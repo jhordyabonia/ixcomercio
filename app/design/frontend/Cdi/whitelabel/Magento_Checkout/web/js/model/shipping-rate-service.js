@@ -32,10 +32,10 @@
             .done(function(msg){
                 if(msg.status=='success'){
                     if(jQuery(".alert_shipping").length==0){
-                       jQuery("#checkout-shipping-method-load").after('<div class="row tradein_alert alert_shipping" style="color:red"><div class="col-sm-1" ><img class="icon" src="'+window.mediaUrl+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png"></div><div class="col-sm-11" ><p>'+window.alertaTradein2+'</p></div></div>');
+                       jQuery("#checkout-shipping-method-load").after('<div class="row tradein_alert alert_payment" style="color:red"><div class="col-sm-1" ><img class="icon" src="'+window.mediaUrl+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png"></div><div class="col-sm-11" ><p>'+window.alertaTradein2+'</p></div></div>');
                     }
                     if(jQuery(".alert_payment").length==0){
-                        jQuery("#checkout-payment-method-load").after('<div class="row tradein_alert alert_payment" style="color:red"><div class="col-sm-1" ><img class="icon" src="'+window.mediaUrl+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png"></div><div class="col-sm-11" ><p>'+window.alertaTradein1+'</p></div></div>');
+                        jQuery("#checkout-payment-method-load").after('<div class="row tradein_alert alert_shipping" style="color:red"><div class="col-sm-1" ><img class="icon" src="'+window.mediaUrl+'/iconos_alerta/icono_'+window.currentWebsiteCode+'.png"></div><div class="col-sm-11" ><p>'+window.alertaTradein1+'</p></div></div>');
                     }
                     if(msg.terms){
                         console.log('print ckeckbox');
