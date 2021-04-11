@@ -470,7 +470,7 @@ div#credomatic_cc_type_exp_div{
 .custom-modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 100; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
@@ -487,7 +487,7 @@ div#credomatic_cc_type_exp_div{
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
 }
 
 /* The Close Button */
@@ -525,4 +525,8 @@ div#credomatic_cc_type_exp_div{
 .custom-modal-content button:hover{
   background-color: $colorLink;
   border: 2px solid $colorLink;
+  color:#ffffff;
+}
+.custom-modal-content h4{
+  padding: 1.6rem;
 }
