@@ -18,8 +18,12 @@ $mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_
                  style="position: absolute;">
         </div>
     </div>
-    <div style="display:none" class="callfor-popup">
-    <h4><?php echo $_helperCdi->getStoreConfig('tradein/general/alerta_cupon');?></h4>
+    <div style="display:none" id="modalTradeIn" class="custom-modal">
+            <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h4><?php echo $_helperCdi->getStoreConfig('tradein/general/alerta_cupon');?></h4>
+        </div>
     </div>
     <!-- ko template: getTemplate() --><!-- /ko -->
     <script type="text/x-magento-init">
