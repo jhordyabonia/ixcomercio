@@ -20,9 +20,11 @@ $mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_
     </div>
     <div style="display:none" id="modalTradeIn" class="custom-modal">
             <!-- Modal content -->
-        <div class="modal-content">
+        <div class="custom-modal-content">
             <span class="close">&times;</span>
             <h4><?php echo $_helperCdi->getStoreConfig('tradein/general/alerta_cupon');?></h4>
+            <button class="tradeinCancel" type="button" data-role="action" ><span>Cancelar</span></button>
+            <button class="tradeinCotinue" type="button" data-role="action" ><span>Continuar</span></button>
         </div>
     </div>
     <!-- ko template: getTemplate() --><!-- /ko -->
