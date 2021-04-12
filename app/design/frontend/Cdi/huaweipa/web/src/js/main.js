@@ -472,7 +472,7 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
 								$(fieldZoneCheckout).find('select option').remove();
-                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Por favor seleccione una zona.</option>');
                   				
 								$.each(response.localitaties, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.postalCode+"' parentId='"+valResCity.parentId+"' postalCode='"+valResCity.postalCode+"'>"+valResCity.name+"</option>");
@@ -517,9 +517,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 	    if ($('body').hasClass('checkout-index-index')) {
 	    	intervalState = setInterval(function(){
-    			fieldStateCheckout = $('form .fieldset.address input[name="region"]').parent();
+    			fieldStateCheckout = $('#shipping form .fieldset.address input[name="region"]').parent();
     			if($(fieldStateCheckout).length >= 1){
-		        	getStatesCheckout('form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
+		        	getStatesCheckout('#shipping form .fieldset.address', '> .field input[name="custom_attributes[zone_id]"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
@@ -528,9 +528,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 	    if ($('body').hasClass('checkout-cart-index')) {
 	    	intervalState = setInterval(function(){
-                fieldStateCheckout = $('form .fieldset.estimate input[name="region"]').parent();
+                fieldStateCheckout = $('#shipping form .fieldset.estimate input[name="region"]').parent();
                 if($(fieldStateCheckout).length >= 1){
-                    getStatesCheckout('form .fieldset.estimate', '> .field input[name="custom_attributes[zone_id]"]');
+                    getStatesCheckout('#shipping form .fieldset.estimate', '> .field input[name="custom_attributes[zone_id]"]');
 		          	clearInterval(intervalState);
 		        }
 	      	}, 1000);
@@ -551,20 +551,17 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 
 
 	    var flagBillingForm = 0;
-	    $(document).on('change',"[name='billing-address-same-as-shipping']",function(){
-	    	if($('.field-select-billing select').length == 0){
-	    		flagBillingForm += 1;
-		        if($(this).prop('checked') == false){
-		        	var parentForm = $('.payment-method._active .billing-address-form form fieldset.address');
-		        	fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
-		        	console.log('fieldStateCheckout '+fieldStateCheckout);
-			        if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
-			        	getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
-			    	}
-			    }
-	    	}else {
-	    		flagBillingForm = 0;
-	    	}
+	    $(document).on('change',"#billing-address-same-as-shipping-no",function(){				
+			if($(this).prop('checked') == true){
+				flagBillingForm += 1;
+				var parentForm = $('#custom-billing-step .billing-address-form form fieldset.address');
+				fieldStateCheckout = $(parentForm).find('input[name="region"]').parent();
+				if($(fieldStateCheckout).length >= 1 && flagBillingForm == 1){
+					getStatesCheckout(parentForm, '> .field input[name="custom_attributes[zone_id]"]');
+				}
+			}else{
+				flagBillingForm = 0;
+			}	    	
 	    });
 
 	    $(document).on('change',"[name='billing_address_id']",function(){
