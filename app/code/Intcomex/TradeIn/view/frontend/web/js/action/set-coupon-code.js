@@ -111,6 +111,7 @@
                 totals.isLoading(false);
                 errorProcessor.process(response, messageContainer);
                 //Allowing to tap into apply-coupon process.
+                customModal.hide();
                 failCallbacks.forEach(function (callback) {
                     callback(response);
                 });
