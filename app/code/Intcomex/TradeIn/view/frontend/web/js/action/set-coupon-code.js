@@ -49,27 +49,6 @@
 
         tradeinCotinue.click(function(){
             setCupon();
-            var cityCheckout = jQuery("#fieldCityCheckout option:selected").val();
-            var zoneCheckout = jQuery("#fieldZoneCheckout option:selected").val();
-            console.log('zoneCheckout');
-            console.log(zoneCheckout);
-            if(zoneCheckout==''){
-                zoneCheckout = localStorage.getItem('fieldZoneCheckout');
-            }
-            if(cityCheckout==''){
-                cityCheckout = localStorage.getItem('fieldCityCheckout');
-            }
-            console.log('New zoneCheckout');
-            console.log(zoneCheckout);
-            jQuery("ul.opc-progress-bar li:first-child span").trigger('click');
-            jQuery("#fieldZoneCheckout").val('');
-            jQuery("#fieldCityCheckout").val(cityCheckout);
-            jQuery("#fieldZoneCheckout").trigger('change');
-            setTimeout(function(){ 
-                jQuery("#fieldZoneCheckout").val(zoneCheckout);
-                jQuery("#fieldZoneCheckout").trigger('change');
-            }, 2000);
-            customModal.hide();
         });
         tradeinCancel.click(function(){
             customModal.hide();
@@ -117,6 +96,11 @@
                     messageContainer.addSuccessMessage({
                         'message': message
                     });
+                    var nTradeIn = couponCode.search("TRADE");
+                    console.log(nTradeIn);
+                    if(nTradeIn>=0){
+                        returnToCheckout();
+                    }
                     //Allowing to tap into apply-coupon process.
                     successCallbacks.forEach(function (callback) {
                         callback(response);
@@ -132,9 +116,29 @@
                 });
             });
         }
-           
-        
-       
+        function returnToCheckout(){
+            var cityCheckout = jQuery("#fieldCityCheckout option:selected").val();
+            var zoneCheckout = jQuery("#fieldZoneCheckout option:selected").val();
+            console.log('zoneCheckout');
+            console.log(zoneCheckout);
+            if(zoneCheckout==''){
+                zoneCheckout = localStorage.getItem('fieldZoneCheckout');
+            }
+            if(cityCheckout==''){
+                cityCheckout = localStorage.getItem('fieldCityCheckout');
+            }
+            console.log('New zoneCheckout');
+            console.log(zoneCheckout);
+            jQuery("#fieldZoneCheckout").val('');
+            jQuery("#fieldCityCheckout").val(cityCheckout);
+            jQuery("#fieldZoneCheckout").trigger('change');
+            jQuery("ul.opc-progress-bar li:first-child span").trigger('click');
+            setTimeout(function(){ 
+                jQuery("#fieldZoneCheckout").val(zoneCheckout);
+                jQuery("#fieldZoneCheckout").trigger('change');
+            }, 2000);
+            customModal.hide();
+        }
     };
 
     /**
