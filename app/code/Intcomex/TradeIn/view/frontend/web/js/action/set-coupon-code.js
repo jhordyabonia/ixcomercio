@@ -44,8 +44,8 @@
         var newisApplied = isApplied;
 
         var customModal = jQuery("#modalTradeIn");
-        var tradeinCancel = jQuery("#tradeinCancel");
-        var tradeinCotinue = jQuery("#tradeinCotinue");
+        var tradeinCancel = jQuery(".tradeinCancel");
+        var tradeinCotinue = jQuery(".tradeinCotinue");
 
         tradeinCotinue.click(function(){
             setCupon();
