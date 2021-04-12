@@ -471,7 +471,9 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 								var response = JSON.parse(resCity);
 
 								$(fieldZoneCheckout).find('select').attr("disabled", false);
-								$(fieldZoneCheckout).find('select option:not([value=""])').remove();
+								$(fieldZoneCheckout).find('select option').remove();
+                  				$(fieldZoneCheckout).find('select').append('<option data-title="" value="" selected>Please select a zone.</option>');
+                  				
 								$.each(response.localitaties, function(iResCity, valResCity){
 							    	$(fieldZoneCheckout).find('select').append("<option value='"+valResCity.postalCode+"' parentId='"+valResCity.parentId+"' postalCode='"+valResCity.postalCode+"'>"+valResCity.name+"</option>");
 							  	});
@@ -581,18 +583,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	}
 	    });
 
-
-	    // =============================================
-	    // Zendesk link - footer
-	    // =============================================
-	    var linksFooter = $('footer a');
-
-	    $.each(linksFooter, function(i, val){
-	    	if(val.innerText == "Zendesk Support" || val.innerText == "Preguntas frecuentes"){
-	        	var parentLi = $(this).parent();
-	        	$('footer .col-sm-3:eq(0) ul').append(parentLi);
-	      	}
-	    });
 
 
 	});
