@@ -332,18 +332,22 @@
     margin-left: 20px;
   }
   .custom_alert{
+    color: #000 !important;
+    padding: .5rem .5rem .5rem .5rem;
     border-radius: .7rem;
+    border: 1px solid #C7000B !important;
+    margin-bottom: 10px;
     font-weight: 700;
-    width: 40px;
-    display: none !important; 
+    background-color: #fff;
   }
-  .address_container{
-    border: 1px solid #000;
-    border-radius: 6px;
+  .custom_alert .icon{
+    width: 40px;
+    margin-right: .8rem;
   }
   .billing-address-details{
     padding: 10px;
   }
+
   .billing-address-invoice-alert{
     border: 1px solid #C7000B;
     border-radius: 6px;
@@ -353,19 +357,23 @@
     line-height: 15px; 
   }
   .billing-address-invoice-alert p{
-    float: right !important;
+    float: left !important;
     margin-bottom: 0px;
     line-height: 20px;
+    width: 85%;
   }
+
   .billing-address-invoice-alert p a{
     font-weight: 800 !important;
+    color: $mainColor !important;
   }
   .billing-address-invoice-alert .icon{
     width: 35px !important;
     margin-right: .8rem;
     margin-top: .3rem;
+    float: left;
   }
-  #custom-billing-step .step-title{
+  li#custom-billing-step .step-title{
     text-align: left !important;
     font-size: 32px !important;
     padding-bottom: 0px !important;
@@ -395,7 +403,7 @@
     color: $mainColor !important;
   }
 
-  #shipping .step-title{
+  li#shipping .step-title{
     text-align: left !important;
     font-size: 32px !important;
     padding-bottom: 0px !important;
@@ -405,10 +413,28 @@
   }
   .payment-group .step-title{
     border-bottom: 1px solid #cccccc;
-    text-align: left !important;
-    font-size: 32px !important;
-    padding-bottom: 0px !important;
+    margin-bottom: 20px !important;
   }
+
+  .billing-address-details.row{
+    border: 1px solid #000;
+    border-radius: .7rem;
+    padding: 1rem 0;
+    margin-left: 0;
+  }
+
+  #checkout-payment-method-load{
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px !important;
+  }
+  .checkout-payment-method .payment-option-title {
+    border-top: 0px !important;
+  }
+  .checkout-payment-method .payment-method-title{
+    padding: 18px 0 !important;
+    margin: 0;
+  }
+
   #checkout .opc-progress-bar .opc-progress-bar-item span{
     font-size: 18px;
     font-weight: 800;
@@ -544,6 +570,28 @@
   }
 }
 
+@media (max-width: $mobile){
+
+  .billing-address-invoice-alert{
+
+    margin: 5% 0 0 0 !important;
+
+  }
+
+  .opc-progress-bar-item{
+
+    width: 33% !important;
+
+  }
+
+  .billing-address-invoice-alert p{
+
+    font-size: 12px !important;
+
+  }
+
+}
+
 .mp-box-inputs.mp-col-33 {
   width: 31%;
   float: left;
@@ -647,4 +695,12 @@
 #applyCouponCard, #applyCouponTicket{
   background-color: $colorBottom !important;
   border-color: $colorBottom !important;
+}
+
+.checkout-agreements-block .action-show{
+
+  font-size: 14px;
+
+  font-weight: bold;
+
 }
