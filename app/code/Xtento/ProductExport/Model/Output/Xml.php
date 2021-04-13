@@ -92,7 +92,7 @@ class Xml extends AbstractOutput
         $xmlWriter->setDisableEscapingFields($disableEscapingFields);
         $xmlWriter->fromArray($exportArray);
         $outputXml = $xmlWriter->getDocument();
-        if (libxml_get_last_error() !== false) {
+        if (libxml_get_last_error() !== FALSE) {
             $this->throwXmlException(__("Something is wrong with the internally processed XML markup. Please contact XTENTO."));
         }
         // Force UTF-8:

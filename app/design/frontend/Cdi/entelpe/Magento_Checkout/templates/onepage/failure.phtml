@@ -1,0 +1,92 @@
+<?php
+$status = "";
+$method = "";
+$incrementId = $block->getRealOrderId();
+$orderId = $block->getOrderId();
+$_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
+$order = $_mienvioHelper->getOrderDetails($orderId);
+$billingAddress = $order->getBillingAddress();
+// Get Order Payment
+$payment = $order->getPayment();
+if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
+    $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
+    $method = $payment->getAdditionalInformation()['method'];
+}
+if(!empty($method) && !empty($status) && $status == 'rejected' && $method == 'mercadopago_custom'){
+?>
+<main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
+    <div class="page-title-wrapper">
+        <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>error.png"></p>
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">¡No recibimos tu pago!</span>
+        </h1>
+        <h2>Tu pedido fue rechazado</h2>
+    </div>
+    <div class="page messages">
+        <div data-placeholder="messages"></div>
+        <div data-bind="scope: 'messages'">
+        <!-- ko if: cookieMessages && cookieMessages.length > 0 --><!-- /ko -->
+        <!-- ko if: messages().messages && messages().messages.length > 0 --><!-- /ko -->
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column main" style="min-height: auto">
+            <div class="container">
+                <p>Tu compra no se ha finalizado debido algún problema en la autorización de pago</p>
+                <p>Es posible que haya llenado algunos datos de forma incorrecta o puede haber habido<br>
+                algún problema con la tarjeta en caso de compra con tarjeta</p>
+            
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <?= $block->escapeHtml(
+                            __('<a href="%1" class="action primary" type="submit" title="Imprimir Pagoefectivo"><span>Retoma tu compra y verifica los datos o selecciona otro medio de pago</span></a>', $block->escapeUrl($block->getContinueShoppingUrl())),
+                            ['a']
+                        ) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<?php }elseif(!empty($method) && !empty($status) && $status == 'in_process' && $method == 'mercadopago_custom') {?>
+<main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
+    <div class="page-title-wrapper">
+        <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>espera.png"></p>
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper">¡Estamos procesando tu pago!</span>
+        </h1>
+        <h2>Tu pedido esta en espera</h2>
+    </div>
+    <div class="page messages"><div data-placeholder="messages"></div>
+        <div data-bind="scope: 'messages'">
+        <!-- ko if: cookieMessages && cookieMessages.length > 0 --><!-- /ko -->
+        <!-- ko if: messages().messages && messages().messages.length > 0 --><!-- /ko -->
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column main" style="min-height: auto">
+            <div class="container">
+                <p>Tu número de pedido es <strong><?php echo $incrementId; ?></strong></p>
+                <p>Tu compra esta en espera, estamos esperando la autorización de pago</p>
+                <p>Si tu pago es aprobado te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong><br>con los detalles e información de envío.</p>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<?php } ?>
+<section class="bg-grey">
+    <div class="container">
+    <p>Puedes verificar el estado de tu orden creando una cuenta</p>
+    <p><span data-bind="i18n: 'Email Address'"></span>: <span><?= $billingAddress->getData("email") ?></span></p>
+        <div class="actions-toolbar">
+                <div class="primary">
+                    <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getCreateCustomUrl() ?>"><span><?= /* @escapeNotVerified */ __('Crear una cuenta') ?></span></a>
+                </div>
+        </div>
+    </div>
+</section>

@@ -53,9 +53,5 @@
 
 <script type="text/javascript">
     window.createFeedDestinationUrl = '<?php echo $block->getUrl('xtento_productexport/profile/createFeedDestination'); ?>';
-    window.isDemoEnvironment = <?php if ($block->isDemoEnvironment()) :
-?>true<?php
-                               else :
-?>false<?php
-                               endif; ?>;
+    window.isDemoEnvironment = <?php if ($block->isDemoEnvironment()): ?>true<?php else: ?>false<?php endif; ?>;
 </script>

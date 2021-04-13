@@ -109,9 +109,9 @@ class Save extends \Xtento\ProductExport\Controller\Adminhtml\Destination
             } catch (\Exception $e) {
                 $message = $e->getMessage();
                 if (preg_match('/Notice: Undefined offset: /', $e->getMessage()) && preg_match(
-                    '/SSH2/',
-                    $e->getMessage()
-                )
+                        '/SSH2/',
+                        $e->getMessage()
+                    )
                 ) {
                     $message = 'This doesn\'t seem to be a SFTP server.';
                 }

@@ -34,12 +34,8 @@ class General extends \Xtento\ProductExport\Model\Export\Data\AbstractData
         $category = $collectionItem->getCategory();
 
         // Timestamps of creation/update
-        if ($this->fieldLoadingRequired('created_at_timestamp')) {
-            $this->writeValue('created_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($category->getCreatedAt()));
-        }
-        if ($this->fieldLoadingRequired('updated_at_timestamp')) {
-            $this->writeValue('updated_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($category->getUpdatedAt()));
-        }
+        if ($this->fieldLoadingRequired('created_at_timestamp')) $this->writeValue('created_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($category->getCreatedAt()));
+        if ($this->fieldLoadingRequired('updated_at_timestamp')) $this->writeValue('updated_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($category->getUpdatedAt()));
 
         // Which line is this?
         $this->writeValue('line_number', $collectionItem->currItemNo);

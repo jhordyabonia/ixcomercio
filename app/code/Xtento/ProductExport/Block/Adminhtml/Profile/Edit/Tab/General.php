@@ -149,8 +149,8 @@ class General extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab implement
         }
 
         if (!$this->_coreRegistry->registry('productexport_profile') || !$this->_coreRegistry->registry(
-            'productexport_profile'
-        )->getId()
+                'productexport_profile'
+            )->getId()
         ) {
             $fieldset->addField(
                 'continue_button',
@@ -162,8 +162,8 @@ class General extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab implement
         }
 
         if ($this->_coreRegistry->registry('productexport_profile') && $this->_coreRegistry->registry(
-            'productexport_profile'
-        )->getId()
+                'productexport_profile'
+            )->getId()
         ) {
             $fieldset = $form->addFieldset(
                 'advanced_fieldset',

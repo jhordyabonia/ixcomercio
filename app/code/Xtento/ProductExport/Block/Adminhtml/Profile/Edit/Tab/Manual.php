@@ -51,28 +51,32 @@ class Manual extends \Xtento\ProductExport\Block\Adminhtml\Widget\Tab implements
         $fieldset = $form->addFieldset('manual_fieldset', [
             'legend' => __('Manual Export Settings'),
             'class' => 'fieldset-wide',
-        ]);
+        ]
+        );
 
         $fieldset->addField('manual_export_enabled', 'select', [
             'label' => __('Manual Export enabled'),
             'name' => 'manual_export_enabled',
             'values' => $this->yesNo->toOptionArray(),
             'note' => __('If set to "No", this profile won\'t show up for manual exports at Products > Product Export > Manual Export and in the Products grid.')
-        ]);
+        ]
+        );
 
         $fieldset->addField('save_files_manual_export', 'select', [
             'label' => __('Save files on destinations for manual exports'),
             'name' => 'save_files_manual_export',
             'values' => $this->yesNo->toOptionArray(),
             'note' => __('Do you want to save exported files on the configured export destinations when exporting manually? Or do you just want them to be saved on the configured export destinations for automatic exports?')
-        ]);
+        ]
+        );
 
         $fieldset->addField('start_download_manual_export', 'select', [
             'label' => __('Serve files to browser after exporting manually'),
             'name' => 'start_download_manual_export',
             'values' => $this->yesNo->toOptionArray(),
             'note' => __('When exporting manually from the grid or "Manual Export" screen, if set to "Yes", the exported file will be served to the browser automatically after exporting. Ultimately this is controlled whether you check the "Serve file to browser after exporting" checkbox on the manual export screen or not.')
-        ]);
+        ]
+        );
 
         $form->setValues($model->getData());
         $this->setForm($form);

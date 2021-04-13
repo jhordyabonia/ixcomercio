@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2019-11-25T09:30:14+00:00
+ * Last Modified: 2020-06-05T17:58:44+00:00
  * File:          Setup/UpgradeSchema.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -76,9 +76,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         if (version_compare($context->getVersion(), '2.10.3', '<')) {
             $connection->changeColumn(
-                $setup->getTable('xtento_productexport_destination'),
-                'port',
-                'port',
+                $setup->getTable('xtento_productexport_destination'), 'port', 'port',
                 [
                     'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
                     'length' => 5,
@@ -108,6 +106,20 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'default' => false,
                     'length' => 1,
                     'comment' => 'FTP Ignore PASV Address'
+                ]
+            );
+        }
+
+        if (version_compare($context->getVersion(), '2.13.9', '<')) {
+            $connection->addColumn(
+                $setup->getTable('xtento_productexport_destination'),
+                'email_bcc',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => false,
+                    'default' => false,
+                    'length' => 255,
+                    'comment' => 'E-Mail BCC'
                 ]
             );
         }
