@@ -249,5 +249,12 @@ class Data extends AbstractHelper{
 		        return $block . $store;
 		}
 	}
- 
+
+	public function getOrderDetails($orderId){
+		if(!empty($orderId)){
+			$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+			$order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($orderId);
+			return $order; 
+		}
+	}
 }
