@@ -41,9 +41,76 @@ class TradeIn extends \Magento\Framework\App\Action\Action
         $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         $mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
         $items = $this->_checkoutSession->getQuote()->getAllItems();
-        
+
         $arrayData = array ('status' => 'error');
-        
+        $order = $this->_checkoutSession->getQuote();
+        $checkTerms  = array('terms'=>false);
+        if($order->getCouponCode()!=''){
+            $prefijoCupon = $scopeConfig->getValue('tradein/general/prefijo_cupon',ScopeInterface::SCOPE_STORE);
+            $cupon = strpos($order->getCouponCode(), $prefijoCupon);
+            if ($cupon !== false) {
+                $enabled = $scopeConfig->getValue('tradein/general/terminos_condiciones',ScopeInterface::SCOPE_STORE);
+                if($enabled){
+                    $check = '<div class="checkout-agreements-block terms-tradein">
+                    <div data-role="checkout-agreements">
+                        <div class="checkout-agreements fieldset" data-bind="visible: isVisible">
+                            <div class="checkout-agreement field choice required" novalidate="novalidate">
+                                <input type="checkbox" class="required-entry checkbiling" data-bind="attr: {
+                                                    \'id\': $parent.getCheckboxId($parentContext, agreementId),
+                                                    \'name\': \'agreement[2]\',
+                                                    \'value\': agreementId
+                                                    }" id="agreement__2" name="agreement[2]" value="1" aria-invalid="true"
+                                    aria-describedby="agreement[2]-error">
+                                <label class="label" 
+                                    for="agreement__2">
+                                    <a href="'.$scopeConfig->getValue('tradein/general/enlace_redireccion',ScopeInterface::SCOPE_STORE).'" class="action action-show">
+                                        <span >'.$scopeConfig->getValue('tradein/general/terminos_condiciones_label',ScopeInterface::SCOPE_STORE).'</span>
+                                    </a>
+                                </label>
+                                <div for="agreement[2]" generated="true" class="mage-error" id="agreement[2]-error"
+                                    style="display: none;">Campo obligatorio.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+                $checkTerms  = array(
+                    'terms'=>true,
+                    'check' => $check
+                );
+                }
+            }
+        }
+        // Quitar
+        $enabled = $scopeConfig->getValue('tradein/general/terminos_condiciones',ScopeInterface::SCOPE_STORE);
+        if($enabled){
+            $check = '<div class="checkout-agreements-block terms-tradein">
+            <div data-role="checkout-agreements">
+                <div class="checkout-agreements fieldset" data-bind="visible: isVisible">
+                    <div class="checkout-agreement field choice required" novalidate="novalidate">
+                        <input type="checkbox" class="required-entry checkbiling" data-bind="attr: {
+                                            \'id\': $parent.getCheckboxId($parentContext, agreementId),
+                                            \'name\': \'agreement[2]\',
+                                            \'value\': agreementId
+                                            }" id="agreement__2" name="agreement[2]" value="1" aria-invalid="true"
+                            aria-describedby="agreement[2]-error">
+                        <label class="label" 
+                            for="agreement__2">
+                            <a href="'.$scopeConfig->getValue('tradein/general/enlace_redireccion',ScopeInterface::SCOPE_STORE).'" class="action action-show">
+                                <span >'.$scopeConfig->getValue('tradein/general/terminos_condiciones_label',ScopeInterface::SCOPE_STORE).'</span>
+                            </a>
+                        </label>
+                        <div for="agreement[2]" generated="true" class="mage-error" id="agreement[2]-error"
+                            style="display: none;">Campo obligatorio.</div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+            $checkTerms  = array(
+                'terms'=>true,
+                'check' => $check
+            );
+        }
+
         foreach($items as $item) {
             $productObj = $productRepository->get($item->getSku());
             if(strtoupper($productObj->getData('iws_type'))=='TRADEIN'){
@@ -59,7 +126,8 @@ class TradeIn extends \Magento\Framework\App\Action\Action
             }    
             
         }
-        $resultJson->setData($arrayData);
+        $fianalArray = array_merge($arrayData,$checkTerms);
+        $resultJson->setData($fianalArray);
         return $resultJson;
 
     }

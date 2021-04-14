@@ -19,7 +19,6 @@
     'Magento_Checkout/js/model/totals',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Ui/js/modal/modal',
-    'Magento_Ui/js/modal/alert'
 ], function (ko, $, quote, urlManager, errorProcessor, messageContainer, storage, $t, getPaymentInformationAction,
     totals, fullScreenLoader, modal
 ) {
@@ -43,60 +42,24 @@
     action = function (couponCode, isApplied) {
         var newcouponCode = couponCode;
         var newisApplied = isApplied;
-        var modaloption = {
-            modalClass: 'modal-popup',
-            type: 'popup',
-            responsive: true,
-            innerScroll: true,
-            clickableOverlay: false,
-            title: 'Producto TradeIn',
-            buttons: [
-                {
-                    text: $.mage.__('Continue'),
-                    class: '',
-                    click: function () {
-                        this.closeModal();
-                        setCupon();
-                        var cityCheckout = jQuery("#fieldCityCheckout option:selected").val();
-                        var zoneCheckout = jQuery("#fieldZoneCheckout option:selected").val();
-                        console.log('zoneCheckout');
-                        console.log(zoneCheckout);
-                        if(zoneCheckout==''){
-                            zoneCheckout = localStorage.getItem('fieldZoneCheckout');
-                        }
-                        if(cityCheckout==''){
-                            cityCheckout = localStorage.getItem('fieldCityCheckout');
-                        }
-                        console.log('New zoneCheckout');
-                        console.log(zoneCheckout);
-                        jQuery("ul.opc-progress-bar li:first-child span").trigger('click');
-                        jQuery("#fieldZoneCheckout").val('');
-                        jQuery("#fieldCityCheckout").val(cityCheckout);
-                        jQuery("#fieldZoneCheckout").trigger('change');
-                        setTimeout(function(){ 
-                            jQuery("#fieldZoneCheckout").val(zoneCheckout);
-                            jQuery("#fieldZoneCheckout").trigger('change');
-                        }, 2000);
 
-                    }
-                },
-                {
-                    text: $.mage.__('Cancelar'),
-                    class: '',
-                    click: function () {
-                        this.closeModal();
-                    }
-                },
-            ]
-        };
-       var callforoption = modal(modaloption, $('.callfor-popup'));
+        var customModal = jQuery("#modalTradeIn");
+        var tradeinCancel = jQuery(".tradeinCancel");
+        var tradeinCotinue = jQuery(".tradeinCotinue");
+
+        tradeinCotinue.click(function(){
+            setCupon();
+        });
+        tradeinCancel.click(function(){
+            customModal.hide();
+        });
 
         var nTradeIn = couponCode.search("TRADE");
         console.log(nTradeIn);
         if(nTradeIn>=0){
-            $('.callfor-popup').modal('openModal');
+            customModal.show();
         }else{
-            setCupon();
+            setCupon(); 
         }  
         function setCupon(couponCode=newcouponCode,isApplied=newisApplied){
             var quoteId = quote.getQuoteId(),
@@ -133,6 +96,11 @@
                     messageContainer.addSuccessMessage({
                         'message': message
                     });
+                    var nTradeIn = couponCode.search("TRADE");
+                    console.log(nTradeIn);
+                    if(nTradeIn>=0){
+                        returnToCheckout();
+                    }
                     //Allowing to tap into apply-coupon process.
                     successCallbacks.forEach(function (callback) {
                         callback(response);
@@ -143,14 +111,35 @@
                 totals.isLoading(false);
                 errorProcessor.process(response, messageContainer);
                 //Allowing to tap into apply-coupon process.
+                customModal.hide();
                 failCallbacks.forEach(function (callback) {
                     callback(response);
                 });
             });
         }
-           
-        
-       
+        function returnToCheckout(){
+            var cityCheckout = jQuery("#fieldCityCheckout option:selected").val();
+            var zoneCheckout = jQuery("#fieldZoneCheckout option:selected").val();
+            console.log('zoneCheckout');
+            console.log(zoneCheckout);
+            if(zoneCheckout==''){
+                zoneCheckout = localStorage.getItem('fieldZoneCheckout');
+            }
+            if(cityCheckout==''){
+                cityCheckout = localStorage.getItem('fieldCityCheckout');
+            }
+            console.log('New zoneCheckout');
+            console.log(zoneCheckout);
+            jQuery("#fieldZoneCheckout").val('');
+            jQuery("#fieldCityCheckout").val(cityCheckout);
+            jQuery("#fieldZoneCheckout").trigger('change');
+            jQuery("ul.opc-progress-bar li:first-child span").trigger('click');
+            setTimeout(function(){ 
+                jQuery("#fieldZoneCheckout").val(zoneCheckout);
+                jQuery("#fieldZoneCheckout").trigger('change');
+            }, 2000);
+            customModal.hide();
+        }
     };
 
     /**
