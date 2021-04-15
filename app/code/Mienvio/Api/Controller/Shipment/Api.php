@@ -244,7 +244,7 @@ class Api extends \Magento\Framework\App\Action\Action implements CsrfAwareActio
                 case 'shipment.upload':
                 case 'shipment.status':                
                     $data = $this->getWSData($type, $order);
-                    if($iwsOrder->getMienvioGuide() == 0){
+                    if($iwsOrder->getMienvioGuide() == 0 || empty($iwsOrder->getMienvioGuide())){
                         $iwsOrder->setMienvioGuide(1);
                         $saved = array('status' => '');
                     }else{
