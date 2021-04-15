@@ -111,6 +111,9 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private function processFullAddress($fullStreet)
     {
+
+        $this->_logger->debug('ProcessFullAddress', ['FullAddress' => $fullStreet]);
+
         $response = [
             'street' => '.',
             'suburb' => '.'
@@ -121,11 +124,23 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $count = count($fullStreetArray);
 
             if ($count > 0 && $fullStreetArray[0] !== false) {
-                $response['street'] = $fullStreetArray[0];
+                if($count > 1){
+                    $response['street'] = $fullStreetArray[0];
+                }
             }
 
             if ($count > 1 && $fullStreetArray[1] !== false) {
+
                 $response['suburb'] = $fullStreetArray[1];
+            }
+
+            /*
+             * Caso para cuando solamente viene una sola linea de Direccion,
+             * es decir la dirección Street uno, no es colocalda por el usuario.
+             */
+
+            if ($count === 1){
+                $response['suburb'] = $fullStreetArray[0];
             }
         }
 
