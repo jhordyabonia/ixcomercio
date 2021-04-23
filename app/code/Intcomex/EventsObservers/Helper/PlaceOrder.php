@@ -256,6 +256,14 @@ class PlaceOrder extends AbstractHelper
                         $discount = $price;
                     }
                 }
+
+                $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
+
+                if($specialPrice > 0 ){
+                    $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                    $coupon = '';
+                }
+
                 $tempItem['Discounts']   = $discount;
                 $tempItem['CouponCodes'] = $coupon;
                 $tempItem['StoreItemId'] = $dataItem->getId();
@@ -393,5 +401,35 @@ class PlaceOrder extends AbstractHelper
             }
         }
         return $billing->getIdentification();    
-    } 
+    }
+
+    /**
+     * Get informtion special price of product by store
+     * @return $_product
+     */
+    public function getDataProductInfo($product_id, $store_code)
+    {
+
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->create("\Magento\Store\Model\StoreManagerInterface");
+        // get array of stores with storecode as key
+        $stores = $storeManager->getStores(true, true);
+        // check stores array for this storecode
+        $store_id = 0;
+        if(isset($stores[$store_code])){
+            $store_id = $stores[$store_code]->getId();
+        }
+
+        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
+        $product        = $productFactory->create();
+
+        $productResourceModel = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product');
+        $productResourceModel->load($product, $product_id);
+
+        $product->setStoreId($store_id);
+
+        $specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
+
+        return $specialPrice;
+    }
 }
