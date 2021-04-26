@@ -317,15 +317,16 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     }
                 }
 
+                $coupon_prod = $coupon;
                 $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
 
                 if($specialPrice > 0 ){
                     $discount = $dataItem->getOriginalPrice() - $specialPrice;
-                    $coupon = '';
+                    $coupon_prod = '';
                 }
 
                 $tempItem['Discounts'] = $discount;
-                $tempItem['CouponCodes'] = $coupon;
+                $tempItem['CouponCodes'] = $coupon_prod;
                 $tempItem['StoreItemId'] = $dataItem->getId();
                 $items[] = $tempItem;
             }
