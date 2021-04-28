@@ -111,6 +111,9 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private function processFullAddress($fullStreet)
     {
+
+        $this->_logger->debug('ProcessFullAddress', ['FullAddress' => $fullStreet]);
+
         $response = [
             'street' => '.',
             'suburb' => '.'
@@ -121,11 +124,23 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $count = count($fullStreetArray);
 
             if ($count > 0 && $fullStreetArray[0] !== false) {
-                $response['street'] = $fullStreetArray[0];
+                if($count > 1){
+                    $response['street'] = $fullStreetArray[0];
+                }
             }
 
             if ($count > 1 && $fullStreetArray[1] !== false) {
+
                 $response['suburb'] = $fullStreetArray[1];
+            }
+
+            /*
+             * Caso para cuando solamente viene una sola linea de Direccion,
+             * es decir la dirección Street uno, no es colocalda por el usuario.
+             */
+
+            if ($count === 1){
+                $response['suburb'] = $fullStreetArray[0];
             }
         }
 
@@ -236,6 +251,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 $methodId = $this->parseReverseServiceLevel($rate['servicelevel']) . '-' . $rate['courier'];
                 $this->_logger->debug((string)$methodId);
                 $this->_logger->debug(strval($rate['id']));
+                $this->_logger->debug(serialize($rate));
 
                 $method = $this->_rateMethodFactory->create();
                 $method->setCarrier($this->getCarrierCode());
@@ -565,11 +581,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private function createAddressDataStr($type,$name, $street, $street2, $zipcode, $email, $phone, $reference = '.', $countryCode,$destRegion = null, $destRegionCode = null, $destCity = null)
     {
 
-        if(empty($street2) || $street2 == "."  ){
-            $street = "calle";
-            $street2 = $destCity;
-        }
-        
+
         $data = [
             'object_type' => 'PURCHASE',
             'name' => $name,
@@ -593,18 +605,18 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             if ($countryCode === 'MX') {
                 $data['zipcode'] = $zipcode;
-            } elseif ($countryCode === 'PA' || $countryCode === 'CO'){
+            } elseif ($countryCode === 'CO'){
                 if($type === 'from'){
                     $data['level_1'] = $street2;
-                    $data['level_2'] = $this->getLevel2FromAddress($destRegion,$destRegionCode,$destCity);
+                    $data['level_2'] = $this->getLevel2FromAddress($destRegion,$destRegionCode,$destCity,$countryCode);
                 }
                 if($type === 'to'){
                     if($destCity != ''){
                         $data['level_1'] = $destCity;
-                        $data['level_2'] = $this->getLevel2FromAddress($destRegion,$destRegionCode,$destCity);
+                        $data['level_2'] = $this->getLevel2FromAddress($destRegion,$destRegionCode,$destCity,$countryCode);
                     }elseif ($destCity != ''){
                         $data['level_1'] = $destCity;
-                        $data['level_2'] = $this->getLevel2FromAddress($destRegion,$destRegionCode,$destCity);
+                        $data['level_2'] = $this->getLevel2FromAddress($destRegion,$destRegionCode,$destCity,$countryCode);
                     }
                 }
 
@@ -636,19 +648,30 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     }
 
     /*
-     * Valida que los campos de ciudad, recgion y código de región no sean vacios.
+     * Valida que los campos de ciudad, region y código de región no sean vacios.
      * Se implementa esta función ya que magento dependiendo de la configuraciones de
-     * dirección de origen y destnio, cambia el campo donde se valida el nivel 2 de la direccion.
+     * dirección de origen y destino, cambia el campo donde se valida el nivel 2 de la direccion.
      *
+     * Se añade la validación para revisar que el el nivel 2 se este tomando de acuerdo a la inversa desde region a ciudad.
      */
-    private function getLevel2FromAddress ($destRegion,$destRegionCode,$destCity)
+    private function getLevel2FromAddress ($destRegion,$destRegionCode,$destCity,$country = null)
     {
-        $level2 = $destCity;
-        if($level2 == null){
-            $level2 = $destRegion;
-            if($level2 == null)
-                $level2 = $destRegionCode;
+        if($country === 'CO'){
+            $level2 = $destRegionCode;
+            if($level2 == null){
+                $level2 = $destRegion;
+                if($level2 == null)
+                    $level2 = $destCity;
+            }
+        }else{
+            $level2 = $destCity;
+            if($level2 == null){
+                $level2 = $destRegion;
+                if($level2 == null)
+                    $level2 = $destRegionCode;
+            }
         }
+
         return $level2;
     }
 
