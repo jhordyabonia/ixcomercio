@@ -63,7 +63,7 @@ class TradeIn extends \Magento\Framework\App\Action\Action
                                     aria-describedby="agreement[2]-error">
                                 <label class="label" 
                                     for="agreement__2">
-                                    <a href="'.$scopeConfig->getValue('tradein/general/enlace_redireccion',ScopeInterface::SCOPE_STORE).'" class="action action-show">
+                                    <a target="_blank" href="'.$scopeConfig->getValue('tradein/general/enlace_redireccion',ScopeInterface::SCOPE_STORE).'" class="action action-show">
                                         <span >'.$scopeConfig->getValue('tradein/general/terminos_condiciones_label',ScopeInterface::SCOPE_STORE).'</span>
                                     </a>
                                 </label>
