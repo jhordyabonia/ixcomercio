@@ -122,8 +122,8 @@ class Children extends General
 
         // Fetch product - should be a "parent" item
         $product = $collectionItem->getProduct();
-        if ($product->getTypeId() !== \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
-            && $product->getTypeId() !== \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE
+        if ($product->getTypeId() !== \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE 
+            && $product->getTypeId() !== \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE 
             && $product->getTypeId() !== \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return $returnArray;
         }
@@ -165,8 +165,7 @@ class Children extends General
             $childProducts->joinField('qty', 'cataloginventory_stock_item', 'qty', 'product_id=entity_id', '{{table}}.stock_id=1', 'left');
             $childProducts->addTaxPercents();
             if ($this->getProfile()->getStoreId()) {
-                $childProducts->getSelect()->joinLeft(
-                    $this->resourceConnection->getTableName(
+                $childProducts->getSelect()->joinLeft($this->resourceConnection->getTableName(
                         'catalog_product_index_price'
                     ) . ' AS price_index',
                     'price_index.entity_id=e.entity_id AND customer_group_id=' . intval($this->getProfile()->getCustomerGroupId() ? $this->getProfile()->getCustomerGroupId() : 0) . ' AND price_index.website_id=' . $this->storeManager->getStore(

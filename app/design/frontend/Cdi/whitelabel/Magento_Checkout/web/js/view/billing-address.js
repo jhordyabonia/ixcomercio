@@ -307,7 +307,7 @@ function (
          */
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
-        },
-
+        }
+     
     });
 });

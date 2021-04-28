@@ -124,8 +124,7 @@ abstract class Log extends \Xtento\ProductExport\Controller\Adminhtml\Action
             if (file_exists($filePath)) {
                 try {
                     $data = file_get_contents($filePath);
-                } catch (\Exception $e) {
-                }
+                } catch (\Exception $e) {}
             }
             if ($data === false && !$this->getRequest()->getParam('force', false)) {
                 $filesNotFound++;
@@ -141,9 +140,9 @@ abstract class Log extends \Xtento\ProductExport\Controller\Adminhtml\Action
             $exportedFiles[$filename] = $data;
         }
         if ($filesNotFound > 0 && $filesNotFound !== count($baseFilenames) && !$this->getRequest()->getParam(
-            'force',
-            false
-        )
+                'force',
+                false
+            )
         ) {
             $this->messageManager->addComplexWarningMessage(
                 'backendHtmlMessage',

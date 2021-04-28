@@ -8,13 +8,5 @@
                 <model>MienvioMagento\MienvioGeneral\Model\Carrier\Mienviorates</model>
             </mienviocarrier>
         </carriers>
-        <kit>
-            <mienviokit>
-                <url></url>
-                <retries></retries>
-                <email></email>
-                <dimension></dimension>
-            </mienviokit>
-        </kit>
     </default>
 </config>

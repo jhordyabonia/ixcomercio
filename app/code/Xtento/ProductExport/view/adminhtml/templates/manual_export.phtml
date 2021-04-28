@@ -86,19 +86,19 @@ require(["jquery", "prototype"], function(jQuery) {
             }
         });
         <?php
-        } else {
-            ?>
-            // If there is just one profile, select it by default
-            if ($$('select#profile_id option').length <= 2) {
+    } else {
+        ?>
+        // If there is just one profile, select it by default
+        if ($$('select#profile_id option').length <= 2) {
             $$('select#profile_id option').each(function (o) {
-            if (o.readAttribute('value') !== '') {
-                o.selected = true;
-                throw $break;
-            }
+                if (o.readAttribute('value') !== '') {
+                    o.selected = true;
+                    throw $break;
+                }
             });
-            }
-            <?php
         }
+        <?php
+    }
     ?>
         if ($('profile_id').value == '') {
             disableFields();

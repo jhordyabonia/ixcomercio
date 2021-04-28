@@ -26,7 +26,7 @@ class AbstractEventObserver extends \Xtento\ProductExport\Model\AbstractAutomati
 
     /**
      * Get export events
-     *
+     * 
      * @param bool|false $entity
      * @param bool|false $allEvents
      * @return array
@@ -140,7 +140,7 @@ class AbstractEventObserver extends \Xtento\ProductExport\Model\AbstractAutomati
             $eventMethods = explode("->", str_replace('()', '', $this->events[$entity][$eventId]['method']));
             if (count($eventMethods) == 1) {
                 return $event->{$eventMethods[0]}();
-            } elseif (count($eventMethods) == 2) {
+            } else if (count($eventMethods) == 2) {
                 return $event->{$eventMethods[0]}()->{$eventMethods[1]}();
             }
         }

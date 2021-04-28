@@ -79,9 +79,9 @@ class SearchTaxonomy extends \Xtento\ProductExport\Controller\Adminhtml\Profile
         }
 
         $taxonomyFolder = $this->moduleReader->getModuleDir(
-            \Magento\Framework\Module\Dir::MODULE_ETC_DIR,
-            'Xtento_ProductExport'
-        ) . DIRECTORY_SEPARATOR . 'data';
+                \Magento\Framework\Module\Dir::MODULE_ETC_DIR,
+                'Xtento_ProductExport'
+            ) . DIRECTORY_SEPARATOR . 'data';
 
         $directoryRead = $this->readFactory->create($taxonomyFolder);
         $taxonomyData = $directoryRead->readFile($definedTaxonomies[$taxonomySource]);

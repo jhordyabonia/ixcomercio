@@ -18,6 +18,17 @@ $mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_
                  style="position: absolute;">
         </div>
     </div>
+    <div style="display:none" id="modalTradeIn" class="custom-modal">
+            <!-- Modal content -->
+            <div class="custom-modal-content" style="width: 50%">
+            <span class="close">&times;</span>
+            <h3>Producto TradeIn</h3>
+            <hr>
+            <h4><?php echo $_helperCdi->getStoreConfig('tradein/general/alerta_cupon');?></h4>
+            <button class="tradeinCancel" type="button" data-role="action" ><span>Cancelar</span></button>
+            <button class="tradeinCotinue" type="button" data-role="action" ><span>Continuar</span></button>
+        </div>
+    </div>
     <!-- ko template: getTemplate() --><!-- /ko -->
     <script type="text/x-magento-init">
         {
@@ -38,6 +49,8 @@ $mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_
         window.urlGeo = '<?= $block->getBaseUrl() ?>index.php/rest/V1/geolocation/';
         window.currentWebsiteCode = '<?php  echo $theme->getStore()->getCode(); ?>';
         window.mediaUrl = '<?php  echo $mediaUrl; ?>';
+        window.alertaTradein1 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_1'));?>';
+        window.alertaTradein2 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_2'))?> ';
     </script>
     <script>
         require([

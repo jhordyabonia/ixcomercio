@@ -93,12 +93,12 @@ class Api extends AbstractHelper{
 
 	/* Retorna una orden según los filtros indicados*/
 	public function getMagentoOrderBy($fieldFilter, $logger){
-		$logger->info("Realiza búsqueda de objeto sales_order");
+		//$logger->info("Realiza búsqueda de objeto sales_order");
 		$collection = $this->_orderCollectionFactory->create()->addFieldToSelect('*');
 		foreach($fieldFilter as $filter){
 			$field = $filter[0];
 			$val = $filter[1];
-			$logger->info("Filtro: {$field} => {$val}");
+			//$logger->info("Filtro: {$field} => {$val}");
 			$collection->addFieldToFilter($field, $val);
 		}
 		
@@ -106,7 +106,7 @@ class Api extends AbstractHelper{
 			throw new \Exception('No fue posible obtener una orden con los filtros indicados');
 			
         $order = $collection->getFirstItem();
-        $logger->info("Magento order_id: {$order->getEntityId()}");
+        //$logger->info("Magento order_id: {$order->getEntityId()}");
         return $order;
 	}
 
@@ -118,7 +118,8 @@ class Api extends AbstractHelper{
 		$iwsOrder->getResource()->load($iwsOrder, $val, $field);
 		if(!$iwsOrder || !$iwsOrder->getId()){
 			if($throw){
-				throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+				//throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+				if($logger) $logger->info("No fue posible obtener una orden con los filtros indicados");
 			}else{
 				return false;
 			}

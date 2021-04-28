@@ -179,13 +179,20 @@ class OrderStatus {
         unset($configData['url_stagging'], $configData['url_prod']);
         //Consume el WS
         $trax_data_array = array();
-        $trax_data = $this->loadTraxData($configData, $iwsOrder->getIwsOrder());
-        if(isset($trax_data['status']) && $trax_data['status']){
+        $trax_data = $this->loadTraxData($configData, $order->getIncrementId());
+        $this->log(print_r($trax_data));
+        if(!empty($trax_data['resp'])){
+            $obj = $trax_data['resp'];
+
+            $trax_data_array['status'] = $obj->Description;
+            $trax_data_array['statusCode'] = $obj->StatusCode;
+        }
+        /*if(isset($trax_data['status']) && $trax_data['status']){
             $obj = $trax_data['resp'];
 
             $trax_data_array['status'] = $obj->Status->Description;
             $trax_data_array['statusCode'] = $obj->Status->StatusCode;
-        }
+        }*/
         $this->log('Información recibida del WS');
         $this->log(print_r($trax_data_array, true));
         if(empty($trax_data_array)) throw new \Exception("No se pudo obtener información del WS de factura");
@@ -196,8 +203,8 @@ class OrderStatus {
      * Realiza el consumo del WS
      */
     public function loadTraxData($configData, $iwsOrderId){
-        $params = array('orderNumber' => $iwsOrderId);
-        $wsdl = $this->_cdiHelper->prepateTraxUrl('getorder', $configData, $params, $this->logger);
+        $params = array('ordernumber' => $iwsOrderId);
+        $wsdl = $this->_cdiHelper->prepateTraxUrl('getorderstatus', $configData, $params, $this->logger);
         $try = 0; $sleep = 3;
         return $this->_cdiHelper->makeCurl($wsdl, false, $this->logger, $try, $sleep);
     }
@@ -273,7 +280,7 @@ class OrderStatus {
             [
                 'field' => 'status',
                 'type' => 'nin',
-                'val' => ['closed', 'complete', 'canceled']
+                'val' => ['closed', 'complete', 'canceled','pending']
             ]
         ];
     }

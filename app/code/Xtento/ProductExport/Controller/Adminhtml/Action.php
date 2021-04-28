@@ -86,6 +86,7 @@ abstract class Action extends \Magento\Backend\App\Action
                         'The XSLTProcessor class could not be found. This means your PHP installation is missing XSL features. You cannot export output formats using XSL Templates without the PHP XSL extension. Please get in touch with your hoster or server administrator to add XSL to your PHP configuration.'
                     )
                 );
+
             }
             // Check if this module was made for the edition (CE/PE/EE) it's being run in
             if ($this->moduleHelper->isWrongEdition()) {
@@ -157,4 +158,5 @@ abstract class Action extends \Magento\Backend\App\Action
                 ]
             );
     }
+
 }

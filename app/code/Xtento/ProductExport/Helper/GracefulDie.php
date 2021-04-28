@@ -3,7 +3,7 @@
 /**
  * Product:       Xtento_ProductExport
  * ID:            %!uniqueid!%
- * Last Modified: 2019-06-11T21:23:36+00:00
+ * Last Modified: 2020-10-23T10:22:55+00:00
  * File:          Helper/GracefulDie.php
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
@@ -46,10 +46,11 @@ class GracefulDie
                 $logEntry->addResultMessage($message);
                 $logEntry->setResultMessage($logEntry->getResultMessages());
                 $logEntry->save();
+                if (strlen($message) > 16) {
+                    // No empty error message
+                    $objectManager->get('\Xtento\ProductExport\Model\Export')->setLogEntry($logEntry)->errorEmailNotification();
+                }
             }
-            /*if ($exit) {
-                exit;
-            }*/
         }
     }
 

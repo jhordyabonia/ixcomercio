@@ -163,12 +163,8 @@ class General extends \Xtento\ProductExport\Model\Export\Data\AbstractData
         }
 
         // Timestamps of creation/update
-        if ($this->fieldLoadingRequired('created_at_timestamp')) {
-            $this->writeValue('created_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($product->getCreatedAt()));
-        }
-        if ($this->fieldLoadingRequired('updated_at_timestamp')) {
-            $this->writeValue('updated_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($product->getUpdatedAt()));
-        }
+        if ($this->fieldLoadingRequired('created_at_timestamp')) $this->writeValue('created_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($product->getCreatedAt()));
+        if ($this->fieldLoadingRequired('updated_at_timestamp')) $this->writeValue('updated_at_timestamp', $this->dateHelper->convertDateToStoreTimestamp($product->getUpdatedAt()));
 
         // Which line is this?
         $this->writeValue('line_number', $collectionItem->currItemNo);
@@ -244,9 +240,9 @@ class General extends \Xtento\ProductExport\Model\Export\Data\AbstractData
                 $this->writeValue($key . '_raw', $value);
                 $imageUrl = $this->storeManager->getStore($this->getStoreId())
                         ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product/' . ltrim(
-                            $value,
-                            '/'
-                        );
+                        $value,
+                        '/'
+                    );
                 if ($usesPubFolder) {
                     // Remove /pub/ from URL
                     $imageUrl = str_replace('/pub/', '/', $imageUrl);
@@ -276,9 +272,9 @@ class General extends \Xtento\ProductExport\Model\Export\Data\AbstractData
                     $this->writeValue($key . '_raw', $value);
                     $imageLink = $this->storeManager->getStore($this->getStoreId())
                             ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product/' . ltrim(
-                                $value,
-                                '/'
-                            );
+                            $value,
+                            '/'
+                        );
                     if ($usesPubFolder) {
                         // Remove /pub/ from URL
                         $imageLink = str_replace('/pub/', '/', $imageLink);
@@ -672,8 +668,7 @@ class General extends \Xtento\ProductExport\Model\Export\Data\AbstractData
                                 $request = $this->taxCalculation->getRateRequest(false, false, false, $product->getStore());
                                 $taxPercent = $this->taxCalculation->getRate($request->setProductClassId($childProduct->getTaxClassId()));
                             }
-                        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                        }
+                        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {}
                     }
                 }
             }

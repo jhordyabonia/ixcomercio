@@ -147,8 +147,7 @@ class ManualPost extends \Xtento\ProductExport\Controller\Adminhtml\Manual
             $filters[] = [$tablePrefix . $entityIdField => ['to' => $this->getRequest()->getPost('entity_to')]];
         }
         $dateNormalizer = new \Magento\Framework\Data\Form\Filter\Date(
-            $this->localeDate->getDateFormat(\IntlDateFormatter::SHORT),
-            $this->_localeResolver
+            $this->localeDate->getDateFormat(\IntlDateFormatter::SHORT), $this->_localeResolver
         );
         $dateRangeFilter = [];
         if ($this->getRequest()->getPost('daterange_from') != '') {
@@ -240,7 +239,7 @@ class ManualPost extends \Xtento\ProductExport\Controller\Adminhtml\Manual
                 $this->cookieManager->setPublicCookie('fileDownload', 'true', $cookieMetadata);
                 $this->cookieManager->setPublicCookie('lastMessage', $successMessage, $cookieMetadata);
                 if ($this->registry->registry('productexport_log')->getResult(
-                ) !== \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL
+                    ) !== \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL
                 ) {
                     $this->cookieManager->setPublicCookie(
                         'lastErrorMessage',
@@ -266,14 +265,13 @@ class ManualPost extends \Xtento\ProductExport\Controller\Adminhtml\Manual
                 $resultPage->setContents($file['data']);
                 return $resultPage;
             } else {
-                $this->messageManager->addComplexSuccessMessage(
-                    'backendHtmlMessage',
+                $this->messageManager->addComplexSuccessMessage('backendHtmlMessage',
                     [
                         'html' => (string)$successMessage
                     ]
                 );
                 if ($this->registry->registry('productexport_log')->getResult(
-                ) !== \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL
+                    ) !== \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL
                 ) {
                     $this->messageManager->addErrorMessage(
                         __(nl2br($this->registry->registry('productexport_log')->getResultMessage()))
