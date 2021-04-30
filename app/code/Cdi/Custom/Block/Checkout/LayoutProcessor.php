@@ -1,4 +1,4 @@
-<?php
+<?PHP
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -224,6 +224,34 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 }
             }     
         }
+
+        //validar campos shipping
+        
+        //firstname
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['validation']['max_text_length'] = 15;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['firstname']['validation']['letters-allow-accent-mark'] = true;
+
+        //lastname
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['validation']['max_text_length'] = 40;
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['lastname']['validation']['letters-allow-accent-mark'] = true;
+
+        //identification
+
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['identification']['validation']['max_text_length'] = 18;
+
+        //telephone
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['telephone']['validation']['max_text_length'] = 20;
+
+        //street
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['street']['children'][0]['validation']['max_text_length'] = 140;
+
+        //customer-email
+        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['customer-email']['validation']['max_text_length'] = 70;
+
+        
         return $jsLayout;
     }
 
@@ -340,6 +368,16 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                         'checkoutProvider',
                         'billingAddress' . $paymentCode,
                         [
+                            'lastname' => [                                
+                                'validation' => [
+                                    'max_text_length' => 40,
+                                ],
+                            ],
+                            'firstname' => [
+                                'validation' => [
+                                    'max_text_length' => 15,
+                                ],                                                                
+                            ],
                             'country_id' => [
                                 'sortOrder' => 115,
                             ],
@@ -382,6 +420,14 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                     'tooltip' => [
                                         'description' => __('For delivery questions.'),
                                     ],
+                                ],
+                                'validation' => [
+                                    'max_text_length' => 20,
+                                ],
+                            ],
+                            'identification'=> [
+                                'validation' => [
+                                    'max_text_length' => 1,
                                 ],
                             ],
                         ]

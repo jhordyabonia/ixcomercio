@@ -14828,8 +14828,8 @@ than a customer might expect. ,""Configuración de descuentos de impuestos Adver
 "Search by keyword,""Buscar por palabra clave"",module,Magento_Ui";;
 "Keyword,""Palabra clave"",module,Magento_Ui";;
 "Select Date,""Seleccionar fechas"",module,Magento_Ui";;
-"Please enter more or equal than {0} symbols.,""Introduce más o igual que símbolos {0}."",module,Magento_Ui";;
-"Please enter less or equal than {0} symbols.,""Introduce más o igual que símbolos {0}."",module,Magento_Ui";;
+"Please enter more or equal than {0} symbols.,""Este campo supera el límite máximo de {0} caracteres."",module,Magento_Ui";;
+"Please enter less or equal than {0} symbols.,""Este campo supera el límite máximo de {0} caracteres."",module,Magento_Ui";;
 "Please enter {0} words or less.,""Introduce {0} palabras o menos."",module,Magento_Ui";;
 "Please enter at least {0} words.,""Por favor introduce al menos {0} palabras."",module,Magento_Ui";;
 "Please enter between {0} and {1} words.,""Introduce entre {0} y {1} palabras."",module,Magento_Ui";;
