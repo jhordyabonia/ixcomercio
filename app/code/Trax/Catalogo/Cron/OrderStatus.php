@@ -280,7 +280,7 @@ class OrderStatus {
             [
                 'field' => 'status',
                 'type' => 'nin',
-                'val' => ['closed', 'complete', 'canceled']
+                'val' => ['closed', 'complete', 'canceled','pending']
             ]
         ];
     }

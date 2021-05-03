@@ -80,35 +80,45 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
 	}
-	
-	public function execute(\Magento\Framework\Event\Observer $observer)
-	{
-		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
-		$storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         //Se obtienen parametros de configuración por Store        
-		$configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-        $this->logger->info('PlaceOrder - Se obtienen parámetros de configuración');
-		//Se obtiene lista de sku
+        $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
+        $this->logger->info('PlaceOrder Trax_Orders - Se obtienen parámetros de configuración');
+        //Se obtiene lista de sku
         $orderId = $observer->getEvent()->getOrderIds();
-        $order = $this->order->load($orderId[0]);      
+        $order = $this->order->load($orderId[0]);
         $this->logger->info('PlaceOrder - Se inicia llamado para la orden magento '.$order->getIncrementId());
-		//Se obtiene url del servicio
-		$serviceUrl = $this->getServiceUrl($configData, $order->getIncrementId());
-        //Se carga el servicio por curl
-        $this->logger->info('PlaceOrder - url '.$serviceUrl);
-        try{
-            $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id'], $configData['porcentaje_impuesto'], $configData['producto_impuesto']);
-            if($payload){
-                $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(),0);
-            } else {
-                $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax');
-                $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+
+        // se obtiene el iws order
+        $iws_idorder = $this->getIwsOrderId($order->getIncrementId());
+
+        if(!$iws_idorder){
+
+            //Se obtiene url del servicio
+            $serviceUrl = $this->getServiceUrl($configData, $order->getIncrementId());
+            //Se carga el servicio por curl
+            $this->logger->info('PlaceOrder - url '.$serviceUrl);
+            try{
+                $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id'], $configData['porcentaje_impuesto'], $configData['producto_impuesto']);
+                if($payload){
+                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(),0);
+                } else {
+                    $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax');
+                    $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+                }
+            } catch(Exception $e){
+                $this->logger->info('PlaceOrder - Se ha producido un error: '.$e->getMessage());
             }
-        } catch(Exception $e){
-            $this->logger->info('PlaceOrder - Se ha producido un error: '.$e->getMessage());
+
+        }else{
+            $this->logger->info('PlaceOrder - Para la orden: '.$order->getIncrementId().', ya existe orden en Trax con el id:'.$iws_idorder);
         }
-	}
+    }
 
     //Obtiene los parámetros de configuración desde el cms
     public function getConfigParams($storeScope, $websiteCode) 
@@ -306,8 +316,17 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                         $discount = $price;
                     }
                 }
+
+                $coupon_prod = $coupon;
+                $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
+
+                if($specialPrice > 0 ){
+                    $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                    $coupon_prod = '';
+                }
+
                 $tempItem['Discounts'] = $discount;
-                $tempItem['CouponCodes'] = $coupon;
+                $tempItem['CouponCodes'] = $coupon_prod;
                 $tempItem['StoreItemId'] = $dataItem->getId();
                 $items[] = $tempItem;
             }
@@ -442,5 +461,74 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             }
         }
         return $billing->getIdentification();    
-    } 
+    }
+
+
+    /*
+    * Return id IWS order
+    * @author Johan Martinez
+    * @param $order_id  Id order Magento
+    * @return int id IWS
+    */
+    public function getIwsOrderId($order_id){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+        $tableName = $resource->getTableName('iws_order');
+        //Select Data from table
+        $sql = "Select * FROM " . $tableName." where order_increment_id='".$order_id."'";
+
+        $this->logger->info('PlaceOrder - iws_order sql '.$sql);
+
+        if(!$connection){
+            $this->logger->info('PlaceOrder - No hay conexion a la tabla  iws_order');
+            return false;
+        }else {
+            $trax = $connection->fetchAll($sql);
+
+            $this->logger->info('PlaceOrder - iws_order result '.json_encode($trax));
+
+            $mp_order = 0;
+            foreach ($trax as $key => $data) {
+                $mp_order = $data['iws_order'];
+            }
+            $this->logger->info('PlaceOrder - Order IWS '.$mp_order);
+
+            if($mp_order!=0) {
+                return $mp_order;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    /**
+     * Get informtion special price of product by store
+     * @return $_product
+     */
+    public function getDataProductInfo($product_id, $store_code)
+    {
+
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->create("\Magento\Store\Model\StoreManagerInterface");
+        // get array of stores with storecode as key
+        $stores = $storeManager->getStores(true, true);
+        // check stores array for this storecode
+        $store_id = 0;
+        if(isset($stores[$store_code])){
+            $store_id = $stores[$store_code]->getId();
+        }
+
+        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
+        $product        = $productFactory->create();
+
+        $productResourceModel = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product');
+        $productResourceModel->load($product, $product_id);
+
+        $product->setStoreId($store_id);
+
+        $specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
+
+        return $specialPrice;
+    }
 }

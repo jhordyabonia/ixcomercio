@@ -6,7 +6,7 @@ $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
 $order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
 $payment = $order->getPayment();
-if(!empty($payment)){
+if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
     $method = $payment->getAdditionalInformation()['method'];
 }

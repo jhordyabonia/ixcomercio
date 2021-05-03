@@ -118,7 +118,8 @@ class Api extends AbstractHelper{
 		$iwsOrder->getResource()->load($iwsOrder, $val, $field);
 		if(!$iwsOrder || !$iwsOrder->getId()){
 			if($throw){
-				throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+				//throw new \Exception('No fue posible obtener una orden con los filtros indicados');
+				if($logger) $logger->info("No fue posible obtener una orden con los filtros indicados");
 			}else{
 				return false;
 			}

@@ -109,6 +109,7 @@ define([
             });
 
             registry.async('checkoutProvider')(function (checkoutProvider) {
+                console.log('printing data');
                 var shippingAddressData = checkoutData.getShippingAddressFromData();
 
                 if (shippingAddressData) {
