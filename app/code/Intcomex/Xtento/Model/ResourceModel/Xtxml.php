@@ -1,6 +1,6 @@
 <?php
 
-namespace Xtento\XtentoXtcore\Model\ResourceModel;
+namespace Intcomex\Xtento\Model\ResourceModel;
 
 class Xtxml extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {

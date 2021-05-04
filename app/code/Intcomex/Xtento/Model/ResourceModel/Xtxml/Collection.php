@@ -1,5 +1,5 @@
 <?php
-namespace Xtento\XtentoXtcore\Model\ResourceModel\Xtxml;
+namespace Intcomex\Xtento\Model\ResourceModel\Xtxml;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
@@ -10,7 +10,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 	 */
 	protected function _construct()
 	{
-		$this->_init('Xtento\XtentoXtcore\Model\Xtxml', 'Xtento\XtentoXtcore\Model\ResourceModel\Xtxml');
+		$this->_init('Intcomex\Xtento\Model\Xtxml', 'Intcomex\Xtento\Model\ResourceModel\Xtxml');
 	}
 
 }
