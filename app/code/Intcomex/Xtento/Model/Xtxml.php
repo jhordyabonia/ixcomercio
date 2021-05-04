@@ -2,7 +2,7 @@
 
 namespace Intcomex\Xtento\Model;
 
-class Xtxml extends \Magento\Framework\Model\AbstractModel implements \Magento\Framework\DataObject\IdentityInterface
+class Xtxml extends \Magento\Framework\Model\AbstractModel
 {
 	protected function _construct()
 	{
