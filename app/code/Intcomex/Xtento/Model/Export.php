@@ -97,10 +97,10 @@ class Export extends \Magento\Framework\Model\AbstractModel
      * @param \Xtento\ProductExport\Helper\Module $moduleHelper
      * @param \Xtento\ProductExport\Helper\Entity $entityHelper
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     * @param ProfileFactory $profileFactory
-     * @param ExportFactory $exportFactory
-     * @param LogFactory $logFactory
-     * @param HistoryFactory $historyFactory
+     * @param \Xtento\ProductExport\Model\ProfileFactory $profileFactory
+     * @param \Xtento\ProductExport\Model\ExportFactory $exportFactory
+     * @param \Xtento\ProductExport\Model\LogFactory $logFactory
+     * @param \Xtento\ProductExport\Model\HistoryFactory $historyFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Xtento\ProductExport\Logger\Logger $xtentoLogger
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
@@ -579,7 +579,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
      */
     protected function afterExport()
     {
-        if ($this->getLogEntry()->getResult() !== Log::RESULT_FAILED) {
+        if ($this->getLogEntry()->getResult() !== \Xtento\ProductExport\Model\Log::RESULT_FAILED) {
             if ($this->getProfile()->getExportFilterNewOnly() || $this->getExportFilterNewOnly()) {
                 $this->createExportHistoryEntries();
             }
@@ -660,7 +660,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         if (!$this->moduleHelper->isDebugEnabled() || $this->moduleHelper->getDebugEmail() == '') {
             return $this;
         }
-        if ($this->getLogEntry()->getResult() >= Log::RESULT_WARNING) {
+        if ($this->getLogEntry()->getResult() >= \Xtento\ProductExport\Model\Log::RESULT_WARNING) {
             try {
                 /** @var \Magento\Framework\Mail\Message $message */
                 $message = $this->objectManager->create('Magento\Framework\Mail\MessageInterface');
