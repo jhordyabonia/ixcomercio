@@ -2,7 +2,7 @@
 
 namespace Intcomex\Xtento\Controller\Index;
 
-class Index implements Magento\Framework\App\Action\HttpGetActionInterface
+class Index implements \Magento\Framework\App\Action\HttpGetActionInterface
 {
 	protected $_pageFactory;
 
@@ -17,7 +17,7 @@ class Index implements Magento\Framework\App\Action\HttpGetActionInterface
 		\Magento\Framework\App\Action\Context $context,
 		\Magento\Framework\View\Result\PageFactory $pageFactory,
 		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory,
-        Magento\Framework\App\RequestInterface $request
+        \Magento\Framework\App\RequestInterface $request
 		)
 	{
 		$this->_pageFactory = $pageFactory;
