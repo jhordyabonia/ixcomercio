@@ -5,24 +5,26 @@ namespace Intcomex\Xtento\Controller\Index;
 class Index extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
-
+	protected $request;
 	protected $_postFactory;
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
 		\Magento\Framework\View\Result\PageFactory $pageFactory,
-		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory
+		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory,
+		\Magento\Framework\App\Request\Http $request,
 		)
 	{
 		$this->_pageFactory = $pageFactory;
 		$this->_xtxmlFactory = $xtxmlFactory;
+		$this->request = $request;
 		return parent::__construct($context);
 	}
 
 	public function execute()
 	{
-		$token = $this->getRequest()->getParam('token');
-		echo "Se imprime token ";
+		$token = $this->request->getParam('token');
+		echo "Se imprime token";
 		echo $token;
 		$post = $this->_xtxmlFactory->create();
 		$collection = $post->getCollection();
