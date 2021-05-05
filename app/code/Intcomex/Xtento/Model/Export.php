@@ -295,9 +295,11 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $scopeConfig = $objectManager->get('\Magento\Framework\App\Config\ScopeConfigInterface');
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $token = $scopeConfig->getValue('xtento/general/token', $storeScope);
+        $hoy = date("Y-m-d H:i:s"); 
         $model = $this->_xtxml->create();
         foreach($generatedFiles as $key =>$value){
             $model->addData([
+                "fecha" => $hoy,
                 "token" => $token,
                 "xml" => $value,
             ]);
