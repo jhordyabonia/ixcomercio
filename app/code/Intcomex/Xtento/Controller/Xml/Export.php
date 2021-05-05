@@ -27,7 +27,7 @@ class Export extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
 		$token = $this->request->getParam('token');
-		$post = $this->collection->create();
+		$post = $this->_xtxmlFactory->create();
 		$collection = $post->getCollection();
         header('Content-type: text/xml');
         $count = 0;
