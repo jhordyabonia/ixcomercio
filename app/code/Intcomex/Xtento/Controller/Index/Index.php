@@ -21,6 +21,8 @@ class Index extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
+		$token = $this->getRequest()->getGetValue();
+		print_r($token);
 		$post = $this->_xtxmlFactory->create();
 		$collection = $post->getCollection();
         header('Content-type: text/xml');

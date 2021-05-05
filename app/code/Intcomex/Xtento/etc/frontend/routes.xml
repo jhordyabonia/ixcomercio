@@ -3,7 +3,7 @@
     <!--Use router 'standard' for frontend route-->
     <router id="standard">
         <!--Define a custom route with id and frontName-->
-        <route frontName="show_products" id="show_products">
+        <route frontName="catalog_xml" id="catalog_xml">
             <!--The module which this route match to-->
             <module name="Intcomex_Xtento"/>
         </route>
