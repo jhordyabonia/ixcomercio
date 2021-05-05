@@ -15,7 +15,7 @@ class Index extends \Magento\Framework\App\Action\Action
 		)
 	{
 		$this->_pageFactory = $pageFactory;
-		$this->_xtxmlFactory = $postFactory;
+		$this->_xtxmlFactory = $xtxmlFactory;
 		return parent::__construct($context);
 	}
 
