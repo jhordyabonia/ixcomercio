@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Xtento\Controller\Index;
+namespace Intcomex\Xtento\Controller\Xml;
 
 class Xml extends \Magento\Framework\App\Action\Action
 {
