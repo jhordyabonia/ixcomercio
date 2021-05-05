@@ -23,10 +23,14 @@ class Index extends \Magento\Framework\App\Action\Action
 	{
 		$post = $this->_xtxmlFactory->create();
 		$collection = $post->getCollection();
-		foreach($collection as $item){
-			$myXml = mb_convert_encoding($item->getXml(), "ISO-8859-1");
-			print_r($myXml);
-		}
+        header('Content-type: text/xml');
+        $count = 0;
+		foreach($collection as $key => $item){
+            if($count==0){
+                echo $item->getXml();
+            }
+            $count++;
+        }
 		exit();
 		return $this->_pageFactory->create();
 	}
