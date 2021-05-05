@@ -116,7 +116,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         \Xtento\ProductExport\Helper\Module $moduleHelper,
         \Xtento\ProductExport\Helper\Entity $entityHelper,
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        ProfileFactory $profileFactory,
+        \Xtento\ProductExport\Model\ProfileFactory $profileFactory,
         ExportFactory $exportFactory,
         LogFactory $logFactory,
         HistoryFactory $historyFactory,
