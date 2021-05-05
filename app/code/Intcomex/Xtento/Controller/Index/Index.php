@@ -25,7 +25,7 @@ class Index extends \Magento\Framework\App\Action\Action
 		$collection = $post->getCollection();
 		foreach($collection as $item){
 			echo "<pre>";
-			print_r($item->getData());
+			print_r($item->getXml());
 			echo "</pre>";
 		}
 		exit();
