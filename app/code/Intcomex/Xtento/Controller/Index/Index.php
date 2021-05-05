@@ -12,7 +12,7 @@ class Index extends \Magento\Framework\App\Action\Action
 		\Magento\Framework\App\Action\Context $context,
 		\Magento\Framework\View\Result\PageFactory $pageFactory,
 		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory,
-		\Magento\Framework\App\Request\Http $request,
+		\Magento\Framework\App\Request\Http $request
 		)
 	{
 		$this->_pageFactory = $pageFactory;
