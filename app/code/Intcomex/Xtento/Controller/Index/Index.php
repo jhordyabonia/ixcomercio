@@ -2,34 +2,25 @@
 
 namespace Intcomex\Xtento\Controller\Index;
 
-class Index implements \Magento\Framework\App\Action\HttpGetActionInterface
+class Index extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
-
-    /**
-    * @var RequestInterface
-    */
-    private $request;
 
 	protected $_postFactory;
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
 		\Magento\Framework\View\Result\PageFactory $pageFactory,
-		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory,
-        \Magento\Framework\App\RequestInterface $request
+		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory
 		)
 	{
 		$this->_pageFactory = $pageFactory;
 		$this->_xtxmlFactory = $xtxmlFactory;
-        $this->request = $request;
 		return parent::__construct($context);
 	}
 
 	public function execute()
 	{
-        $firstParam = $this->request->getParam('token', null);
-        echo $firstParam;
 		$post = $this->_xtxmlFactory->create();
 		$collection = $post->getCollection();
         header('Content-type: text/xml');
