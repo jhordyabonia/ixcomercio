@@ -2,7 +2,7 @@
 
 namespace Intcomex\Xtento\Controller\Index;
 
-class Index extends \Magento\Framework\App\Action\Action
+class Xml extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 	protected $request;
@@ -26,6 +26,7 @@ class Index extends \Magento\Framework\App\Action\Action
 		$token = $this->request->getParam('token');
 		echo "Se imprime token";
 		echo $token;
+		die();
 		$post = $this->_xtxmlFactory->create();
 		$collection = $post->getCollection();
         header('Content-type: text/xml');
