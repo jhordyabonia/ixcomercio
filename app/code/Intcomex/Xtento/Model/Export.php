@@ -8,7 +8,7 @@
  * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
  */
 
-namespace Xtento\ProductExport\Model;
+namespace Intcomex\Xtento\Model;
 
 use Magento\Framework\Exception\LocalizedException;
 use Intcomex\Xtento\Model\Xtxml;
