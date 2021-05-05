@@ -189,6 +189,9 @@
     font-weight: bold;
   }
   .opc-summary-wrapper{
+    #modal-content-17{
+      margin-top: 16px;
+    }
     .modal-content{
       border-radius: 0;
       @media (min-width: $tablet){
@@ -378,6 +381,11 @@
   }
   .billing-address-same-as-shipping-block{
     padding-top: 10px;
+    label{
+      float: right;
+      width: 96%;
+    }
+    }
   }
 
   #shipping .step-title{
@@ -432,6 +440,7 @@
     box-shadow: 0px 3px 6px #00000029;
     border: 2px solid #CFCBCB;
     overflow: hidden;
+    margin-top:20px;
 
     label{
       margin-bottom: 0;
@@ -457,6 +466,8 @@
       color:#000000;
       background-color: #FFFFFF;
       text-decoration: none;
+      padding: 1.3rem 1.0rem !important;
+      background-position: 95% center !important;
     }
 
     &.debitcard{
@@ -590,7 +601,18 @@
   .page-title-wrapper h2{
     font-size: 24px;
   }
-
+  .mp-box-inputs.margin-r{
+    margin-right: 0;
+  }
+  .margin-r.margin-mv {
+    margin-right: 4%;
+}
+.mp-box-inputs.mp-col-33 {
+  width: 48%;
+}
+.mp-box-inputs.mp-col-33.mv-col-100 {
+  width: 100%;
+}
 }
 
 @media (max-width: 380px) {
@@ -616,6 +638,9 @@
   .mp-box-inputs.margin-mv{
     margin-right: 4%;
   }
+  .mp-box-inputs.mp-col-31, .mp-box-inputs.mp-col-70 {
+    width: 100%;
+}
 
 }
 
@@ -635,4 +660,8 @@
 #applyCouponCard, #applyCouponTicket{
   background-color: $colorBottom !important;
   border-color: $colorBottom !important;
+}
+
+form#co-payment-form .fieldset > .legend + br{
+  display: none;
 }
