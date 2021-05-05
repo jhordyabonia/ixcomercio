@@ -11,7 +11,7 @@
 namespace Intcomex\Xtento\Model;
 
 use Magento\Framework\Exception\LocalizedException;
-use Intcomex\Xtento\Model\Xtxml;
+use Intcomex\Xtento\Model\XtxmlFactory;
 
 class Export extends \Magento\Framework\Model\AbstractModel
 {
@@ -125,7 +125,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        \Intcomex\Xtento\Model\Xtxml  $Xtxml,
+        \Intcomex\Xtento\Model\XtxmlFactory  $Xtxml,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
