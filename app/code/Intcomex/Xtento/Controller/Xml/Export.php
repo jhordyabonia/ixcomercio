@@ -2,7 +2,7 @@
 
 namespace Intcomex\Xtento\Controller\Xml;
 
-class Xml extends \Magento\Framework\App\Action\Action
+class Export extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 	protected $request;
