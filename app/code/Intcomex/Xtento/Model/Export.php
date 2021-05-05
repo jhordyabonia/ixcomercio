@@ -265,7 +265,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $this->setExportType(self::EXPORT_TYPE_EVENT);
         $this->beforeExport();
         $generatedFiles = $this->runExport($filters, $forcedCollectionItem);
-        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === NULL || $this->getLogEntry()->getResult() === Log::RESULT_SUCCESSFUL)) {
+        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === NULL || $this->getLogEntry()->getResult() === \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL)) {
             $this->getLogEntry()->delete();
             return false;
         }
@@ -303,7 +303,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
             ]);
         }
         $saveData = $model->save();
-        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === NULL || $this->getLogEntry()->getResult() === Log::RESULT_SUCCESSFUL)) {
+        if (empty($generatedFiles) && ($this->getLogEntry()->getResult() === NULL || $this->getLogEntry()->getResult() === \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL)) {
             $this->getLogEntry()->delete();
             return false;
         }
@@ -441,12 +441,12 @@ class Export extends \Magento\Framework\Model\AbstractModel
             return $generatedFiles;
         } catch (\Exception $e) {
             if ($this->getLogEntry()) {
-                $result = Log::RESULT_FAILED;
+                $result = \Xtento\ProductExport\Model\Log::RESULT_FAILED;
                 if (preg_match('/have been exported/', $e->getMessage())) {
                     if ($this->getExportType() == self::EXPORT_TYPE_MANUAL || $this->getExportType(
                         ) == self::EXPORT_TYPE_GRID
                     ) {
-                        $result = Log::RESULT_WARNING;
+                        $result = \Xtento\ProductExport\Model\Log::RESULT_WARNING;
                     } else {
                         return [];
                     }
@@ -536,12 +536,12 @@ class Export extends \Magento\Framework\Model\AbstractModel
                         $this->setFiles($savedFiles);
                     }
                 } catch (\Exception $e) {
-                    $this->getLogEntry()->setResult(Log::RESULT_WARNING);
+                    $this->getLogEntry()->setResult(\Xtento\ProductExport\Model\Log::RESULT_WARNING);
                     $this->getLogEntry()->addResultMessage($e->getMessage());
                 }
             }
         } catch (\Exception $e) {
-            $this->getLogEntry()->setResult(Log::RESULT_FAILED);
+            $this->getLogEntry()->setResult(\Xtento\ProductExport\Model\Log::RESULT_FAILED);
             $this->getLogEntry()->addResultMessage($e->getMessage());
             if ($this->getExportType() == self::EXPORT_TYPE_MANUAL) {
                 throw new LocalizedException(__($e->getMessage()));
@@ -629,7 +629,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
             $this->getLogEntry()->setFiles(implode("|", $this->getFiles()));
         }
         $this->getLogEntry()->setResult(
-            $this->getLogEntry()->getResult() ? $this->getLogEntry()->getResult() : Log::RESULT_SUCCESSFUL
+            $this->getLogEntry()->getResult() ? $this->getLogEntry()->getResult() : \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL
         );
         $this->getLogEntry()->setResultMessage(
             $this->getLogEntry()->getResultMessages() ? $this->getLogEntry()->getResultMessages() : __(
@@ -641,7 +641,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
                 (time() - $this->getBeginTime())
             )
         );
-        if ($this->getLogEntry()->getResult() == Log::RESULT_SUCCESSFUL && $this->getLogEntry()->getRecordsExported() == 0) {
+        if ($this->getLogEntry()->getResult() == \Xtento\ProductExport\Model\Log::RESULT_SUCCESSFUL && $this->getLogEntry()->getRecordsExported() == 0) {
             $this->getLogEntry()->delete();
         } else {
             $this->getLogEntry()->save();
@@ -674,7 +674,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
                 $this->objectManager->create('\Magento\Framework\Mail\TransportInterfaceFactory')->create(['message' => clone $message])->sendMessage();
             } catch (\Exception $e) {
                 $this->getLogEntry()->addResultMessage('Exception: ' . $e->getMessage());
-                $this->getLogEntry()->setResult(Log::RESULT_WARNING);
+                $this->getLogEntry()->setResult(\Xtento\ProductExport\Model\Log::RESULT_WARNING);
                 $this->getLogEntry()->setResultMessage($this->getLogEntry()->getResultMessages());
                 $this->getLogEntry()->save();
             }
