@@ -27,14 +27,11 @@ class Export extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
 		$token = $this->request->getParam('token');
-		$post = $this->collection->create()->addAttributeToFilter('token', array('eq'=>'12345'));
-		echo "imoprime";
-		print_r($post);
-		die();
-		//$collection = $post->getCollection();
+		$post = $this->_xtxmlFactory->create();
+		$collection = $post->getCollection()->addAttributeToFilter('token', array('eq'=>'12345'));;
         header('Content-type: text/xml');
         $count = 0;
-		foreach($post as $key => $item){
+		foreach($collection as $key => $item){
             if($count==0){
                 echo $item->getXml();
             }
