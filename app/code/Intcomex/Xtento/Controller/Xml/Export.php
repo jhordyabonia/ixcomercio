@@ -7,6 +7,7 @@ class Export extends \Magento\Framework\App\Action\Action
 	protected $_pageFactory;
 	protected $request;
 	protected $_xtxmlFactory;
+	protected $collection;
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
@@ -19,13 +20,14 @@ class Export extends \Magento\Framework\App\Action\Action
 		$this->_pageFactory = $pageFactory;
 		$this->_xtxmlFactory = $xtxmlFactory;
 		$this->request = $request;
+		$this->collection = $CollectionFactory;
 		return parent::__construct($context);
 	}
 
 	public function execute()
 	{
 		$token = $this->request->getParam('token');
-		$post = $this->_xtxmlFactory->create()->addAttributeToFilter('token', array('eq'=>$token));
+		$post = $this->collection->create()->addAttributeToFilter('token', array('eq'=>$token));
 		$collection = $post->getCollection();
         header('Content-type: text/xml');
         $count = 0;
