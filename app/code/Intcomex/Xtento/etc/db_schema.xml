@@ -4,7 +4,7 @@
         <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="xml id by store"/>
         <column xsi:type="timestamp" name="fecha" comment="Time of event"/>
         <column xsi:type="varchar" name="token" nullable="false" length="255" comment="token by store"/>
-        <column xsi:type="varchar" name="xml" nullable="false" comment="Products xml information"/>
+        <column xsi:type="longtext" name="xml" nullable="false" comment="Products xml information"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
