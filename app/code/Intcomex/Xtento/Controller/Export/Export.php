@@ -28,6 +28,9 @@ class Export extends \Magento\Framework\App\Action\Action
 	{
 		$token = $this->request->getParam('token');
 		$post = $this->collection->create()->addAttributeToFilter('token', array('eq'=>'12345'));
+		echo "imoprime";
+		print_r($post);
+		die();
 		//$collection = $post->getCollection();
         header('Content-type: text/xml');
         $count = 0;
