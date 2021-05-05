@@ -24,10 +24,7 @@ class Export extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
 		$token = $this->request->getParam('token');
-		echo "Se imprime token";
-		echo $token;
-		die();
-		$post = $this->_xtxmlFactory->create();
+		$post = $this->_xtxmlFactory->create()->addAttributeToSelect('*')->addFieldToFilter('token', array('eq'=>$token));
 		$collection = $post->getCollection();
         header('Content-type: text/xml');
         $count = 0;
