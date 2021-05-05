@@ -6,12 +6,13 @@ class Export extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 	protected $request;
-	protected $_postFactory;
+	protected $_xtxmlFactory;
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
 		\Magento\Framework\View\Result\PageFactory $pageFactory,
 		\Intcomex\Xtento\Model\XtxmlFactory $xtxmlFactory,
+		\Intcomex\Xtento\Model\ResourceModel\Xtxml\CollectionFactory $CollectionFactory,
 		\Magento\Framework\App\Request\Http $request
 		)
 	{
