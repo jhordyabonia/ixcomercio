@@ -4,42 +4,6 @@
         <tab id="intcomex_config"  translate="label" sortOrder="10">
             <label>Intcomex</label>
         </tab>
-        <section id="tradein" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
-            <class>separator-top</class>
-            <label>Trade In</label>
-            <tab>intcomex_config</tab> 
-            <resource>Intcomex_TradeIn::tradein_config</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Configuración Trade In</label>
-                <field id="prefijo_cupon" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Prefijo Cupón</label>
-                    <comment>TRADE</comment>
-                </field>
-                <field id="alerta_tradein_1" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Alerta TradeIn #1</label>
-                </field>
-                <field id="alerta_tradein_2" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Alerta TradeIn #2</label>
-                </field>
-                <field id="campo_mienvio" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Campo Mi-Envio</label>
-                </field>
-                <field id="alerta_cupon" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Alerta Cupon</label>
-                </field>
-                <field id="terminos_condiciones" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Terminos y condiciones</label>
-                    <comment>Habilitar checkbox</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                </field>
-                <field id="terminos_condiciones_label" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Label Terminos y condiciones</label>
-                </field>
-                <field id="enlace_redireccion" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Enlce redirección terminos y condiciones</label>
-                </field>
-            </group>
-        </section>
         <section id="xtento" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Xtento</label>
