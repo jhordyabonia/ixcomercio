@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Xtento\Controller\Xml;
+namespace Intcomex\Xtento\Controller\Export;
 
 class Export extends \Magento\Framework\App\Action\Action
 {
