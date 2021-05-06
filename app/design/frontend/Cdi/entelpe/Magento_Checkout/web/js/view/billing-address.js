@@ -190,6 +190,8 @@ function (
 
             }
 
+            checkoutData.setSelectedBillingAddress(null);
+
             return true;
         },
 
