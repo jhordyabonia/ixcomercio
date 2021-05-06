@@ -27,17 +27,11 @@ class Export extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
 		$token = $this->request->getParam('token');
-		$post = $this->_xtxmlFactory->create();
-		$collection = $post->getCollection();
+        $post = $this->_xtxmlFactory->create();
+		$collection = $post->getCollection()->addFieldToFilter('token', array('eq' => $token))->getData();
         header('Content-type: text/xml');
-        $count = 0;
-		foreach($collection as $key => $item){
-            if($count==0){
-                echo $item->getXml();
-            }
-            $count++;
-        }
-		exit();
+        print($collection[0]['xml']);
+        exit();
 		return $this->_pageFactory->create();
 	}
 }

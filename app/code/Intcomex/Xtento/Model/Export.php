@@ -282,7 +282,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
      * @return bool
      * @throws LocalizedException
      */
-    public function cronExport($filters)
+    public function cronExport($filters, $profile)
     {
         if (!$this->moduleHelper->isModuleEnabled()) {
             return true;
@@ -294,7 +294,7 @@ class Export extends \Magento\Framework\Model\AbstractModel
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
         $scopeConfig = $objectManager->get('\Magento\Framework\App\Config\ScopeConfigInterface');
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $token = $scopeConfig->getValue('xtento/general/token', $storeScope);
+        $token = $scopeConfig->getValue('xtento/general/token', $storeScope, $profile->getStoreId());
         $hoy = date("Y-m-d H:i:s"); 
         $model = $this->_xtxml->create();
         foreach($generatedFiles as $key =>$value){
