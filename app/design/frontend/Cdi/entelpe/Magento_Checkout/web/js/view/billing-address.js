@@ -178,7 +178,7 @@ function (
                 lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
 
-
+                this.isAddressDetailsVisible(false);
                 this.isInvoiceSelected(true);
                 this.isAddressSameAsShipping(false);
             }else{
@@ -253,6 +253,7 @@ function (
                         !quote.isVirtual()
                 );
                 this.isAddressDetailsVisible(true);
+                this.isInvoiceSelected(false);
             }
         },
 
