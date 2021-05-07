@@ -346,6 +346,10 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
      */
     private function getBillingAddressComponent($paymentCode, $elements)
     {
+        $labelIdentification = $this->scopeConfig->getValue('customer/address/billing_identification_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $labelName = $this->scopeConfig->getValue('customer/address/billing_name_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $labelAddress = $this->scopeConfig->getValue('customer/address/billing_address_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
         return [
             'component' => 'Magento_Checkout/js/view/billing-address',
             'displayArea' => 'billing-address-form-' . $paymentCode,
@@ -372,11 +376,13 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                 'validation' => [
                                     'max_text_length' => 40,
                                 ],
+                                'visible' => false,
                             ],
                             'firstname' => [
                                 'validation' => [
                                     'max_text_length' => 15,
-                                ],                                                                
+                                ],
+                                'label' => $labelName,                                                                
                             ],
                             'country_id' => [
                                 'sortOrder' => 115,
@@ -429,6 +435,10 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                 'validation' => [
                                     'max_text_length' => 18,
                                 ],
+                                'label' => $labelIdentification,
+                            ],
+                            'street'=> [
+                                'label' => $labelAddress,
                             ],
                         ]
                     ),
