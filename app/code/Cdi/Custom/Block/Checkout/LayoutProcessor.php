@@ -483,11 +483,15 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                         'checkoutProvider',
                         'billingAddress' . $paymentCode,
                         [
-                            'lastname' => [                                
+                            'lastname' => [
+                                'component' => 'Magento_Ui/js/form/element/abstract',
+                                'config' => [
+                                    "template" => "ui/form/element/hidden"
+                                ],
+                                "value" => "N/A",                                
                                 'validation' => [
                                     'max_text_length' => 40,
-                                ],
-                                'visible' => false,
+                                ],                                
                             ],
                             'firstname' => [
                                 'validation' => [
