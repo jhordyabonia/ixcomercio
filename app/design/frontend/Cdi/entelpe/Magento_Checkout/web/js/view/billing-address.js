@@ -173,6 +173,7 @@ function (
         },
 
         useInvoice: function () {
+            var useinvoice = '';
             if (this.isInvoiceSelected()) {
 
                 lastSelectedBillingAddress = quote.billingAddress();
@@ -181,14 +182,26 @@ function (
                 this.isAddressDetailsVisible(false);
                 this.isInvoiceSelected(true);
                 this.isAddressSameAsShipping(false);
+                useinvoice = 'Yes';
             }else{
                 selectBillingAddress(quote.shippingAddress());
                 this.updateAddresses();
-
+                
                 this.isInvoiceSelected(false);
                 this.isAddressSameAsShipping(true);
+                useinvoice = 'No';
 
             }
+
+            console.log('seting usenvoice');
+                    var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
+                   jQuery.post(serviceUrl,{'useinvoice':useinvoice})
+                    .done(function(msg){
+                        console.log(msg);
+                    })
+                    .fail(function(msg){
+                        console.log(msg);
+                    });
 
             checkoutData.setSelectedBillingAddress(null);
 
