@@ -1,7 +1,7 @@
 var config = {
 
-    'config': {
-        'mixins': {
+    config: {
+        mixins: {
             'MercadoPago_Core/js/view/method-renderer/custom-method': {
                 'Intcomex_MercadopagoRewrites/js/view/method-renderer/custom-method': true
             },
