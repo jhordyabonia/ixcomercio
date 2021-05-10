@@ -255,7 +255,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('Información en payment info:');
         $this->logger->info($paymentAdditional);
         if(is_array($paymentAdditional) && isset($paymentAdditional['useinvoice'])){            
-            if($paymentAdditional['useinvoice']){
+            if($paymentAdditional['useinvoice']=='Yes'){
                 return true;
             }
         }
@@ -271,8 +271,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $payment = $order->getPayment();
         $paymentAdditional = $payment->getAdditionalInformation();
         $requireInvoice = (bool) $this->checkInvoice($paymentAdditional);
-        $this->logger->info('Require Invpice, se envía a trax:');
-        $this->logger->info($requireInvoice);
+        if($requireInvoice){
+            $this->logger->info('useinvoice, se envía a trax:');
+        }
 
         $orderItems = $order->getAllItems();
         $coupon = array();

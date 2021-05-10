@@ -173,11 +173,23 @@ function (
         },
 
         useInvoice: function () {
+            var useinvoice = '';
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
+                useinvoice = 'Yes';
             }else{
                 this.isInvoiceSelected(false);
-            }           
+                useinvoice = 'No';
+            }
+            console.log('seting usenvoice');
+                    var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
+                   jQuery.post(serviceUrl,{'useinvoice':useinvoice})
+                    .done(function(msg){
+                        console.log(msg);
+                    })
+                    .fail(function(msg){
+                        console.log(msg);
+                    });           
             return true;
         },
 

@@ -173,6 +173,7 @@ function (
         },
 
         useInvoice: function () {
+            var useinvoice = '';
             if (this.isInvoiceSelected()) {
 
                 lastSelectedBillingAddress = quote.billingAddress();
@@ -181,14 +182,26 @@ function (
                 this.isAddressDetailsVisible(false);
                 this.isInvoiceSelected(true);
                 this.isAddressSameAsShipping(false);
+                useinvoice = 'Yes';
             }else{
                 selectBillingAddress(quote.shippingAddress());
                 this.updateAddresses();
-
+                
                 this.isInvoiceSelected(false);
                 this.isAddressSameAsShipping(true);
+                useinvoice = 'No';
 
             }
+
+            console.log('seting usenvoice');
+                    var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
+                   jQuery.post(serviceUrl,{'useinvoice':useinvoice})
+                    .done(function(msg){
+                        console.log(msg);
+                    })
+                    .fail(function(msg){
+                        console.log(msg);
+                    });
 
             checkoutData.setSelectedBillingAddress(null);
 
@@ -322,7 +335,34 @@ function (
          */
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
-        }
+        },
+        mercadoPagoRut: ko.computed(function () {
+            
+            findElement();
+
+            document.addEventListener("click", function(){
+                findElement();
+            });
+            function findElement(){
+                var findLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification']");
+                
+                  (function theLoop (i) {
+                      setTimeout(function () {
+                            if(findLabelName.length>0){
+                                var actualLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text();
+                                if(window.mercadoPagoRut!=actualLabelName){
+                                    console.log(findLabelName);
+                                    jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text(window.mercadoPagoRut);
+                                }
+                            }
+                          if (--i) {          // If i > 0, keep going
+                          theLoop(i);       // Call the loop again, and pass it the current value of i
+                          }
+                      }, 1000);
+                  })(40); 
+              }
+          
+        }),
      
     });
 });
