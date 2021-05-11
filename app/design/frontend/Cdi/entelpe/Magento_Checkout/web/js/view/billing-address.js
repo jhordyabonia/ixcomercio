@@ -162,6 +162,9 @@ function (
 
                 this.updateAddresses();
                 this.isAddressDetailsVisible(true);
+
+                this.isInvoiceSelected(false);
+                
             } else {
                 lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
