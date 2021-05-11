@@ -12,13 +12,15 @@
 $filter = true;
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $categoryCurrent = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
-$producCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
-$collection = $producCollection->create();
-$collection->addAttributeToSelect('entity_id');
-$collection->addCategoriesFilter(['in' => $categoryCurrent->getId()]);
-$products = $collection->getData();
-if(empty($products)){
-  $filter = false;
+if(!empty($categoryCurrent)){
+  $producCollection = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+  $collection = $producCollection->create();
+  $collection->addAttributeToSelect('entity_id');
+  $collection->addCategoriesFilter(['in' => $categoryCurrent->getId()]);
+  $products = $collection->getData();
+  if(empty($products)){
+    $filter = false;
+  }
 }
 
 ?>

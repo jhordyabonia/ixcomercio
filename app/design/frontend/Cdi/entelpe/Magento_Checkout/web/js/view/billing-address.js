@@ -340,30 +340,32 @@ function (
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
         },
         mercadoPagoRut: ko.computed(function () {
-            
-            findElement();
+            if(window.mercadoPagoRut!=''){
 
-            document.addEventListener("click", function(){
                 findElement();
-            });
-            function findElement(){
-                var findLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification']");
-                
-                  (function theLoop (i) {
-                      setTimeout(function () {
-                            if(findLabelName.length>0){
-                                var actualLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text();
-                                if(window.mercadoPagoRut!=actualLabelName){
-                                    console.log(findLabelName);
-                                    jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text(window.mercadoPagoRut);
+    
+                document.addEventListener("click", function(){
+                    findElement();
+                });
+                function findElement(){
+                    var findLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification']");
+                    
+                      (function theLoop (i) {
+                          setTimeout(function () {
+                                if(findLabelName.length>0){
+                                    var actualLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text();
+                                    if(window.mercadoPagoRut!=actualLabelName){
+                                        console.log(findLabelName);
+                                        jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text(window.mercadoPagoRut);
+                                    }
                                 }
-                            }
-                          if (--i) {          // If i > 0, keep going
-                          theLoop(i);       // Call the loop again, and pass it the current value of i
-                          }
-                      }, 1000);
-                  })(40); 
-              }
+                              if (--i) {          // If i > 0, keep going
+                              theLoop(i);       // Call the loop again, and pass it the current value of i
+                              }
+                          }, 1000);
+                      })(40); 
+                  }
+            }
           
         }),
      
