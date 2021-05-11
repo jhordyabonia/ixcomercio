@@ -41,6 +41,7 @@ define([
                         console.log('print ckeckbox');
                         jQuery(".terms-tradein").remove();
                         if (jQuery(".terms-tradein").length == 0) {
+                            jQuery(".checkout-agreements-block:second").after(msg.check);
                             jQuery(".checkout-agreements-block:first").after(msg.check);
                         }
                     }
