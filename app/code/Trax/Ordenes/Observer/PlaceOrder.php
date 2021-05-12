@@ -255,7 +255,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('Información en payment info:');
         $this->logger->info($paymentAdditional);
         if(is_array($paymentAdditional) && isset($paymentAdditional['useinvoice'])){            
-            if($paymentAdditional['useinvoice']=='Yes'){
+            if($paymentAdditional['useinvoice']=='Yes'||$paymentAdditional['useinvoice']=='1'){
                 return true;
             }
         }
