@@ -208,6 +208,13 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                 $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
                 ['children']['lastname']['visible'] = false;
+
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['lastname']['value'] = "N/A";
+
+                
             }
 
             /* firstname */
@@ -491,6 +498,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                                 "value" => "N/A",                                
                                 'validation' => [
                                     'max_text_length' => 40,
+                                    'required-entry' => false,
                                 ],                                
                             ],
                             'firstname' => [
