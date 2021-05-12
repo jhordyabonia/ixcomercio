@@ -47,7 +47,8 @@ class Export extends \Magento\Framework\App\Action\Action
 	{
 		$token = $this->request->getParam('token');
         $post = $this->_xtxmlFactory->create();
-		$collection = $post->getCollection()->addFieldToFilter('token', array('eq' => $token))->getData();
+				$collection = $post->getCollection()->addFieldToFilter('token', array('eq' => $token))->addAttributeToSort('fecha', 'desc')->setPageSize(1)
+				->setCurPage(1)->getData();
         header('Content-type: text/xml');
         print($collection[0]['xml']);
         exit();
