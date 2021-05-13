@@ -221,6 +221,7 @@ function (
                         this.saveInAddressBook(1);
                     }
                     addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
+                    addressData['lastname'] = ".";
                     newBillingAddress = createBillingAddress(addressData);
 
                     // New address must be selected as a billing address
