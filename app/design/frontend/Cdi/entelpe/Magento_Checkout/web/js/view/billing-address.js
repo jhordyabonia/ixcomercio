@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-define([
+ define([
     'ko',
     'underscore',
     'Magento_Ui/js/form/form',
@@ -114,11 +114,11 @@ function (
         }),
 
         canUseInvoice: ko.computed(function () {
-            return window.enableInvoice;
+            return window.enableInvoice
         }),
 
         invoiceLabel: ko.computed(function () {
-            return window.invoiceLabel;
+            return window.invoiceLabel
         }),
 
         customAlert: ko.computed(function () {
@@ -157,57 +157,50 @@ function (
          * @return {Boolean}
          */
         useShippingAddress: function () {
+
             if (this.isAddressSameAsShipping()) {
                 selectBillingAddress(quote.shippingAddress());
 
                 this.updateAddresses();
-                this.isAddressDetailsVisible(true);
+                this.isAddressDetailsVisible(true);               
 
-                this.isInvoiceSelected(false);
-                
             } else {
                 lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
-                this.isAddressDetailsVisible(false);
+                this.isAddressDetailsVisible(false);               
             }
             checkoutData.setSelectedBillingAddress(null);
 
             return true;
         },
 
-        useInvoice: function () {
+        
+        useInvoice: function (data, event) {
+            
+            var id = event.target.id;
+            var code = $("#"+id).attr('code');
+            var elemen_ = "#billing-address-same-as-shipping-"+code;
+            $(elemen_).trigger('click');            
+            
             var useinvoice = '';
             if (this.isInvoiceSelected()) {
-
-                lastSelectedBillingAddress = quote.billingAddress();
-                quote.billingAddress(null);
-
-                this.isAddressDetailsVisible(false);
                 this.isInvoiceSelected(true);
-                this.isAddressSameAsShipping(false);
                 useinvoice = 'Yes';
+                console.log(useinvoice);
             }else{
-                selectBillingAddress(quote.shippingAddress());
-                this.updateAddresses();
-                
                 this.isInvoiceSelected(false);
-                this.isAddressSameAsShipping(true);
                 useinvoice = 'No';
-
+                console.log(useinvoice);
             }
-
             console.log('seting usenvoice');
-                    var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
-                   jQuery.post(serviceUrl,{'useinvoice':useinvoice})
-                    .done(function(msg){
-                        console.log(msg);
-                    })
-                    .fail(function(msg){
-                        console.log(msg);
-                    });
-
-            checkoutData.setSelectedBillingAddress(null);
-
+            var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
+            jQuery.post(serviceUrl,{'useinvoice':useinvoice})
+            .done(function(msg){
+                console.log(msg);
+            })
+            .fail(function(msg){
+                console.log(msg);
+            });           
             return true;
         },
 
@@ -215,9 +208,10 @@ function (
          * Update address action
          */
         updateAddress: function () {
+
             var addressData, newBillingAddress;
 
-            if (this.selectedAddress() && !this.isAddressFormVisible()) {
+            if (this.selectedAddress() && !this.isAddressFormVisible()){
                 selectBillingAddress(this.selectedAddress());
                 checkoutData.setSelectedBillingAddress(this.selectedAddress().getKey());
             } else {
@@ -269,7 +263,6 @@ function (
                         !quote.isVirtual()
                 );
                 this.isAddressDetailsVisible(true);
-                this.isInvoiceSelected(false);
             }
         },
 
@@ -338,36 +331,7 @@ function (
          */
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
-        },
-        mercadoPagoRut: ko.computed(function () {
-            if(window.mercadoPagoRut!=''){
-
-                findElement();
-    
-                document.addEventListener("click", function(){
-                    findElement();
-                });
-                function findElement(){
-                    var findLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification']");
-                    
-                      (function theLoop (i) {
-                          setTimeout(function () {
-                                if(findLabelName.length>0){
-                                    var actualLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text();
-                                    if(window.mercadoPagoRut!=actualLabelName){
-                                        console.log(findLabelName);
-                                        jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text(window.mercadoPagoRut);
-                                    }
-                                }
-                              if (--i) {          // If i > 0, keep going
-                              theLoop(i);       // Call the loop again, and pass it the current value of i
-                              }
-                          }, 1000);
-                      })(40); 
-                  }
-            }
-          
-        }),
+        }
      
     });
 });

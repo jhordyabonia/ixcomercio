@@ -169,13 +169,11 @@
                         <!-- /ko -->
                     </span>
 
-                    <div class="mp-payment-methods-container" data-bind="foreach: getPaymentMethods()">
-                        <img data-bind="attr: {src: src, alt: name}" class="img-fluid mp-pm-card-image" />
-                    </div>
+                    
                 </div>
 
-                <div class="mp-box-inputs mp-line">
-                    <div class="mp-box-inputs mp-col-50">
+                <div class="mp-box-inputs mp-col-100">
+                    <div class="mp-box-inputs mp-col-33 mv-col-50 margin-r margin-mv">
                         <label for="cardExpirationMonth">
                             <!-- ko i18n: 'Expiration month'--><!-- /ko -->
                             <em>*</em>
@@ -195,7 +193,7 @@
                         ></select>
                     </div>
 
-                    <div class="mp-box-inputs mp-col-50">
+                    <div class="mp-box-inputs mp-col-33  mv-col-50  margin-r">
                         <label for="cardExpirationYear">
                             <!-- ko i18n: 'Expiration year'--><!-- /ko -->
                             <em>*</em>
@@ -215,53 +213,7 @@
                         ></select>
                     </div>
 
-                    <span class="mp-error" id="mp-error-208" data-main="#cardExpirationMonth">
-                        <!-- ko i18n: 'Invalid Expiration Date'-->
-                        <!-- /ko -->
-                    </span>
-
-                    <span class="mp-error" id="mp-error-208" data-main="#cardExpirationMonth">
-                        <!-- ko i18n: 'Invalid Expiration Date'-->
-                        <!-- /ko -->
-                    </span>
-
-                    <span class="mp-error" id="mp-error-325" data-main="#cardExpirationMonth">
-                        <!-- ko i18n: 'Invalid Expiration Date'-->
-                        <!-- /ko -->
-                    </span>
-
-                    <span class="mp-error" id="mp-error-209" data-main="#cardExpirationYear"> </span>
-                    <span class="mp-error" id="mp-error-326" data-main="#cardExpirationYear"> </span>
-                </div>
-
-                <div class="mp-box-inputs mp-col-100">
-                    <label for="cardholderName">
-                        <!-- ko i18n: 'Card holder name'--><!-- /ko -->
-                        <em>*</em>
-                    </label>
-                    <input
-                            type="text"
-                            id="cardholderName"
-                            name="mercadopago_custom[cardholderName]"
-                            data-checkout="cardholderName"
-                            autocomplete="off"
-                            data-bind="attr:
-                                    {'data-validate': JSON.stringify({required:true})},
-                                    event: { blur: validateCardHolderName }"
-                    />
-
-                    <span class="mp-error" id="mp-error-221" data-main="#cardholderName">
-                        <!-- ko i18n: 'Parameter cardholderName can not be null/empty'-->
-                        <!-- /ko -->
-                    </span>
-                    <span class="mp-error" id="mp-error-316" data-main="#cardholderName">
-                        <!-- ko i18n: 'Invalid Card Holder Name'-->
-                        <!-- /ko -->
-                    </span>
-                </div>
-
-                <div class="mp-box-inputs mp-line">
-                    <div class="mp-box-inputs mp-col-45">
+                    <div class="mp-box-inputs mp-col-33  mv-col-100">
                         <label for="securityCode">
                             <!-- ko i18n: 'Security code'--><!-- /ko -->
                             <em>*</em>
@@ -287,12 +239,87 @@
                             <!-- /ko -->
                         </span>
                     </div>
+
+                    <span class="mp-error" id="mp-error-208" data-main="#cardExpirationMonth">
+                        <!-- ko i18n: 'Invalid Expiration Date'-->
+                        <!-- /ko -->
+                    </span>
+
+                    <span class="mp-error" id="mp-error-208" data-main="#cardExpirationMonth">
+                        <!-- ko i18n: 'Invalid Expiration Date'-->
+                        <!-- /ko -->
+                    </span>
+
+                    <span class="mp-error" id="mp-error-325" data-main="#cardExpirationMonth">
+                        <!-- ko i18n: 'Invalid Expiration Date'-->
+                        <!-- /ko -->
+                    </span>
+
+                    <span class="mp-error" id="mp-error-209" data-main="#cardExpirationYear"> </span>
+                    <span class="mp-error" id="mp-error-326" data-main="#cardExpirationYear"> </span>
+                </div>
+
+
+                <div id="mp-box-installments">
+                    <div class="mp-box-inputs mp-col-100" id="mp-box-installments-selector">
+                        <label for="installments">
+                            <!-- ko i18n: 'SELECCIÓNA EL NÚMERO DE CUOTAS'--><!-- /ko -->
+                            <em>*</em>
+                        </label>
+                        <select id="installments" data-checkout="installments" name="mercadopago_custom[installments]"></select>
+                    </div>
+    
+                    <div class="mp-box-inputs mp-col-30" id="mp-box-input-tax-cft">
+                        <div id="mp-tax-cft-text"></div>
+                    </div>
+    
+                    <div class="mp-box-inputs mp-col-100" id="mp-box-input-tax-tea">
+                        <div id="mp-tax-tea-text"></div>
+                    </div>
+
+                    <div class="mp-box-inputs mp-col-100 mp-issuer">
+                        <label for="issuer">
+                            <!-- ko i18n: 'SELECCIONA TU BANCO'--><!-- /ko -->
+                            <em>*</em>
+                        </label>
+                        <select id="issuer" data-checkout="issuer" name="mercadopago_custom[issuer]"></select>
+                        <span class="mp-error" id="mp-error-220" data-main="#issuer">
+                            <!-- ko i18n: 'Parameter cardIssuerId can not be null/empty'-->
+                            <!-- /ko -->
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mp-box-inputs mp-col-100">
+                    <label for="cardholderName">
+                        <!-- ko i18n: 'NOMBRE DEL TITULAR DE LA TARJETA'--><!-- /ko -->
+                        <em>*</em>
+                    </label>
+                    <input
+                            type="text"
+                            id="cardholderName"
+                            name="mercadopago_custom[cardholderName]"
+                            data-checkout="cardholderName"
+                            autocomplete="off"
+                            data-bind="attr:
+                                    {'data-validate': JSON.stringify({required:true})},
+                                    event: { blur: validateCardHolderName }"
+                    />
+
+                    <span class="mp-error" id="mp-error-221" data-main="#cardholderName">
+                        <!-- ko i18n: 'Parameter cardholderName can not be null/empty'-->
+                        <!-- /ko -->
+                    </span>
+                    <span class="mp-error" id="mp-error-316" data-main="#cardholderName">
+                        <!-- ko i18n: 'Invalid Card Holder Name'-->
+                        <!-- /ko -->
+                    </span>
                 </div>
 
                 <div class="mp-box-inputs mp-col-100 mp-doc">
-                    <div class="mp-box-inputs mp-col-35 mp-docType">
+                    <div class="mp-box-inputs mp-col-31 mp-docType margin-r  margin-mv">
                         <label for="docType">
-                            <!-- ko i18n: 'Document Type'--><!-- /ko -->
+                            <!-- ko i18n: 'TIPO DOCUMENTO'--><!-- /ko -->
                             <em>*</em>
                         </label>
                         <select id="docType" data-checkout="docType" name="mercadopago_custom[docType]"></select>
@@ -307,9 +334,9 @@
                         </span>
                     </div>
 
-                    <div class="mp-box-inputs mp-col-65 mp-docNumber">
+                    <div class="mp-box-inputs mp-col-70 mp-docNumber">
                         <label for="docNumber">
-                            <!-- ko i18n: 'Document number'--><!-- /ko -->
+                            <!-- ko i18n: 'NÚMERO DE DOCUMENTO'--><!-- /ko -->
                             <em>*</em>
                         </label>
                         <input
@@ -331,46 +358,9 @@
                     </div>
                 </div>
 
-                <div class="mp-box-inputs mp-col-100 mp-issuer">
-                    <label for="issuer">
-                        <!-- ko i18n: 'Issuer'--><!-- /ko -->
-                        <em>*</em>
-                    </label>
-                    <select id="issuer" data-checkout="issuer" name="mercadopago_custom[issuer]"></select>
-                    <span class="mp-error" id="mp-error-220" data-main="#issuer">
-                        <!-- ko i18n: 'Parameter cardIssuerId can not be null/empty'-->
-                        <!-- /ko -->
-                    </span>
-                </div>
+                
             </div>
-            <!-- end #mercadopago-form -->
-
-            <div id="mp-box-installments">
-                <div class="mp-box-inputs mp-col-100" id="mp-box-installments-selector">
-                    <label for="installments">
-                        <!-- ko i18n: 'Installments'--><!-- /ko -->
-                        <em>*</em>
-                    </label>
-                    <select id="installments" data-checkout="installments" name="mercadopago_custom[installments]"></select>
-                </div>
-
-                <div class="mp-box-inputs mp-col-30" id="mp-box-input-tax-cft">
-                    <div id="mp-tax-cft-text"></div>
-                </div>
-
-                <div class="mp-box-inputs mp-col-100" id="mp-box-input-tax-tea">
-                    <div id="mp-tax-tea-text"></div>
-                </div>
-            </div>
-
-            <div class="mp-box-inputs mp-col-100">
-                <div class="mp-protect-buy">
-                    <img data-bind="attr: { alt: 'Mercado Pago', src: getGrayMinilogo() }" />
-                    <p><!-- ko i18n: 'Payment processed by Mercado Pago'--><!-- /ko --></p>
-                </div>
-
-                <hr class="mp-custom-hr" />
-            </div>
+            <!-- end #mercadopago-form -->            
 
             <div class="mp-line">
                 <div class="mp-box-inputs mp-col-25">
@@ -401,7 +391,6 @@
                 />
             </div>
             <!-- END MPV1-->
-
 
 
             <div class="wb-cho-button-frame"></div>
