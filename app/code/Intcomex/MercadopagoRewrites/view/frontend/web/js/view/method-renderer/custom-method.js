@@ -48,7 +48,7 @@ define([
          * Get list of available month values
          * @returns {Object}
          */
-             getCcMonthsValues: function () {
+            getCcMonthsValues: function () {
                 console.log('test Rewrite getCcMonthsValues');
                 return _.map(this.getCcMonths(), function (value, key) {
                     return {
