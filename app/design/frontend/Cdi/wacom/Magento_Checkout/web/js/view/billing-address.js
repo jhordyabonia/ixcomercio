@@ -173,6 +173,11 @@ function (
         },
 
         useInvoice: function () {
+
+            //default value lastname
+            $('input[name="lastname"]').val("N/A");
+
+            
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
             }else{

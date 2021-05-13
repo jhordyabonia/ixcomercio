@@ -180,7 +180,10 @@ function (
             var id = event.target.id;
             var code = $("#"+id).attr('code');
             var elemen_ = "#billing-address-same-as-shipping-"+code;
-            $(elemen_).trigger('click');            
+            $(elemen_).trigger('click');
+            
+            //default value lastname
+            $('input[name="lastname"]').val("N/A");
             
             var useinvoice = '';
             if (this.isInvoiceSelected()) {

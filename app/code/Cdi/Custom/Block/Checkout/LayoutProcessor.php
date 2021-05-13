@@ -152,17 +152,21 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
             foreach ($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                      ['payment']['children']['payments-list']['children'] as $key => $payment) {
 
+                
                 /* lastname */
                 if (isset($payment['children']['form-fields']['children']['lastname'])) {
 
                     $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                     ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
                     ['lastname']['visible'] = false;
+
+                    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+                    ['lastname']['value'] = "N/A";
                 }
 
-
+                
                 /* firstname */
-
 
                 $labelName = $this->scopeConfig->getValue('customer/address/billing_name_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
