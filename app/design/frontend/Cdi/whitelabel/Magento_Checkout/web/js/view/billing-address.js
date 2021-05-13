@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-define([
+ define([
     'ko',
     'underscore',
     'Magento_Ui/js/form/form',
@@ -173,6 +173,10 @@ function (
         },
 
         useInvoice: function () {
+
+            //default value lastname
+            $('input[name="lastname"]').val("N/A");
+            
             var useinvoice = '';
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
