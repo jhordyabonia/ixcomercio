@@ -1,0 +1,12 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="xtento_catalog_xml">
+        <column xsi:type="int" name="id" padding="11" unsigned="true" nullable="false" identity="true" comment="xml id by store"/>
+        <column xsi:type="timestamp" name="fecha" comment="Time of event"/>
+        <column xsi:type="varchar" name="token" nullable="false" length="255" comment="token by store"/>
+        <column xsi:type="longtext" name="xml" nullable="false" comment="Products xml information"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>
