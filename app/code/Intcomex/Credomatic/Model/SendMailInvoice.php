@@ -42,11 +42,13 @@ class SendMailInvoice extends \Magento\Sales\Model\Order\Email\Sender\InvoiceSen
             }
             if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){
                 $paymentData = $payment->getAdditionalInformation();
-                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mercadopago_additionalinfo.log');
-                $this->logger = new \Zend\Log\Logger();
-                $this->logger->addWriter($writer);
-                $this->logger->info(print_r($paymentData,true));
-                return false;
+                if(isset($paymentData['paymentResponse']['status'])){
+                    if($paymentData['paymentResponse']['status']!='approved'){
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
             }
 
             $transport = [
