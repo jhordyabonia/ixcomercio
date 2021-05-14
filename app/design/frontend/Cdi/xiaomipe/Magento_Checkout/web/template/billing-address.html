@@ -9,6 +9,7 @@
         <input type="checkbox" name="billing-address-invoice"
                data-bind="checked: isInvoiceSelected, click: useInvoice, attr: {
                     id: 'billing-address-invoice-' + getCode($parent),
+                    code: getCode($parent),                          
                     name: 'payment[billing-address-invoice-' + getCode($parent) + ']'
                 }"/>
         <label class="labelentel" data-bind="attr: {for: 'billing-address-invoice-' + getCode($parent)}"><span
