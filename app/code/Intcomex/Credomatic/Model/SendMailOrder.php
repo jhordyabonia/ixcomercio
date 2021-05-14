@@ -37,15 +37,13 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
            return false;
         }
         if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){
-            if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){
-                $paymentData = $payment->getAdditionalInformation();
-                if(isset($paymentData['paymentResponse']['status'])){
-                    if($paymentData['paymentResponse']['status']!='approved'){
-                        return false;
-                    }
-                }else{
+            $paymentData = $payment->getAdditionalInformation();
+            if(isset($paymentData['paymentResponse']['status'])){
+                if($paymentData['paymentResponse']['status']!='approved'){
                     return false;
                 }
+            }else{
+                return false;
             }
         }
             
