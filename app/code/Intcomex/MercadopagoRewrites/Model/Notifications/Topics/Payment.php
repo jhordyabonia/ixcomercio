@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Core\Model\Notifications\Topics;
+namespace Intcomex\MercadopagoRewrites\Model\Notifications\Topics;
 
 use Exception;
 use Magento\Framework\App\Config\ScopeConfigInterface;
