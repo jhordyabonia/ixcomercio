@@ -1,9 +1,8 @@
 <?php
 
+namespace Intcomex\MercadopagoRewrites\Helper;
 
 use Magento\Store\Model\ScopeInterface;
-
-namespace Intcomex\MercadopagoRewrites\Helper;
 
 /**
  * Class Api
@@ -11,11 +10,6 @@ namespace Intcomex\MercadopagoRewrites\Helper;
  */
 class Api
 {
-    const USER_API = 'payment/mercadopago/username_api';
-
-    const PASSWORD_API = 'payment/mercadopago/password_api';
-
-
     /**
      * @var \Zend\Log\Logger
      */
@@ -24,9 +18,7 @@ class Api
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
-    protected $_scopeConfig;
-
-    
+    protected $_scopeConfig;    
 
 
     public function  __construct(
@@ -44,13 +36,11 @@ class Api
     public function getOrdenByIncrementId($idOrden)
     {
 
-
         $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
         
         $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
 
         return $order;
-
 
     }
 }
