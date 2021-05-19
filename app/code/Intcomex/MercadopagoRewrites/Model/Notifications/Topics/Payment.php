@@ -21,7 +21,7 @@ use MercadoPago\Core\Helper\Response;
 use MercadoPago\Core\Lib\RestClient;
 use MercadoPago\Core\Model\Core;
 
-class Payment extends \MercadoPago\Core\Model\Notifications\Topics\TopicsAbstract
+class Payment extends TopicsAbstract
 {
     const LOG_NAME    = 'notification_payment';
     const TYPES_TOPIC = [
@@ -82,13 +82,7 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\TopicsAbstrac
      */
     public function updateStatusOrderByPayment($payment)
     {
-        //$order = parent::getOrderByIncrementId($payment['external_reference']);
-
-        $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
-
-        $helper = $objectManager->get('Intcomex\MercadopagoRewrites\Helper\Api');
-
-        $order = $helper->getOrdenByIncrementId($payment['external_reference']);
+        $order = parent::getOrderByIncrementId($payment['external_reference']);
 
         if (!$order->getId()) {
             $message = 'Mercado Pago - The order was not found in Magento. You will not be able to follow the process without this information.';
