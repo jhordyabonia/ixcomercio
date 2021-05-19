@@ -81,9 +81,18 @@ class Payment extends TopicsAbstract
      * @throws Exception
      */
     public function updateStatusOrderByPayment($payment)
-    {
-        $order = parent::getOrderByIncrementId($payment['external_reference']);
+    {   
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
 
+        $helper = $objectManager->get('Intcomex\MercadopagoRewrites\Helper\Api');
+
+        $order = $helper->getOrdenByIncrementId($payment['external_reference']);
+
+        //$order = parent::getOrderByIncrementId($payment['external_reference']);
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mercadopagoresp.log');
+            $this->logger = new \Zend\Log\Logger();
+            $this->logger->addWriter($writer);
+            $this->logger->info(print_r($payment['external_reference'],true));
         if (!$order->getId()) {
             $message = 'Mercado Pago - The order was not found in Magento. You will not be able to follow the process without this information.';
             return [
