@@ -2,7 +2,7 @@
 namespace Intcomex\MercadopagoRewrites\Model\Notifications\Topics;
 
 
-class Payment extends MercadoPago\Core\Model\Notifications\Topics\Payment
+class Payment extends MercadoPago\Core\Model\Notifications\Topics
 {  
     /**
      * @param  $payment
