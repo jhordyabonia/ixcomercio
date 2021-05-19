@@ -136,7 +136,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->_checkoutSession->setErrorMessage($msgError);
         $this->_messageManager->addError($msgError);
         $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
-        $lastRealOrder->setState("canceled")->setStatus("canceled");
+        //$lastRealOrder->setState("canceled")->setStatus("canceled");
+        $lastRealOrder->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.$msgError);
+        $lastRealOrder->cancel();  
         $lastRealOrder->save();
 
         $resultRedirect = $this->resultRedirectFactory->create();
