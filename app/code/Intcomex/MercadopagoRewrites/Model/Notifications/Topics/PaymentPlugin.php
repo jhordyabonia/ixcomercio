@@ -15,7 +15,7 @@ class PaymentPlugin
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mpresp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
-            $this->logger->info(print_r($payment,true));
+            $this->logger->info(print_r($payment['external_reference'],true));
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
        $helper = $objectManager->create('Intcomex\MercadopagoRewrites\Helper\Api');
         $order = $helper->getOrdenByIncrementId($payment['external_reference']);
@@ -84,5 +84,11 @@ class PaymentPlugin
         ];
 
     }//end updateStatusOrderByPayment()
+
+    function getProtectedValue($obj, $name) {
+        $array = (array)$obj;
+        $prefix = chr(0).'*'.chr(0);
+        return $array[$prefix.$name];
+      }
 
 }
