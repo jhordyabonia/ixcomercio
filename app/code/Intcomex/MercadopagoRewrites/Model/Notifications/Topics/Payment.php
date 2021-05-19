@@ -20,6 +20,7 @@ use MercadoPago\Core\Helper\Message\MessageInterface;
 use MercadoPago\Core\Helper\Response;
 use MercadoPago\Core\Lib\RestClient;
 use MercadoPago\Core\Model\Core;
+use Intcomex\MercadopagoRewrites\Helper\Api;
 
 class Payment extends TopicsAbstract
 {
@@ -64,9 +65,11 @@ class Payment extends TopicsAbstract
         OrderCommentSender $orderCommentSender,
         TransactionFactory $transactionFactory,
         InvoiceSender $invoiceSender,
-        InvoiceService $invoiceService
+        InvoiceService $invoiceService,
+        Api $orderApi
     ) {
         $this->_mpHelper    = $mpHelper;
+        $this->_orderApi    = $orderApi;
         $this->_scopeConfig = $scopeConfig;
         $this->_coreModel   = $coreModel;
 
@@ -82,14 +85,10 @@ class Payment extends TopicsAbstract
      */
     public function updateStatusOrderByPayment($payment)
     {   
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-
-        $helper = $objectManager->get('Intcomex\MercadopagoRewrites\Helper\Api');
-
-        $order = $helper->getOrdenByIncrementId($payment['external_reference']);
 
         //$order = parent::getOrderByIncrementId($payment['external_reference']);
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mercadopagoresp.log');
+        $order = $this->_orderApi->getOrdenByIncrementId($payment['external_reference']);
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mpresp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($payment['external_reference'],true));
