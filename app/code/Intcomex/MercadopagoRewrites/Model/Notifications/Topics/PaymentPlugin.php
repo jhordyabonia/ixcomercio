@@ -1,15 +1,16 @@
 <?php
 namespace Intcomex\MercadopagoRewrites\Model\Notifications\Topics;
 
+use MercadoPago\Core\Model\Notifications\Topics\Payment as $payment;
 
-class Payment extends MercadoPago\Core\Model\Notifications\Topics
+class PaymentPlugin  
 {  
     /**
      * @param  $payment
      * @return array
      * @throws Exception
      */
-    public function updateStatusOrderByPayment($payment)
+    public function beforeUpdateStatusOrderByPayment(Payment $payment)
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
        $helper = $objectManager->create('Intcomex\MercadopagoRewrites\Helper\Api');
