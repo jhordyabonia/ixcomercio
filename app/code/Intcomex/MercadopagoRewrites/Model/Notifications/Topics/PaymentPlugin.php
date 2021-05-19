@@ -1,7 +1,7 @@
 <?php
 namespace Intcomex\MercadopagoRewrites\Model\Notifications\Topics;
 
-use MercadoPago\Core\Model\Notifications\Topics\Payment as $payment;
+use MercadoPago\Core\Model\Notifications\Topics\Payment;
 
 class PaymentPlugin  
 {  

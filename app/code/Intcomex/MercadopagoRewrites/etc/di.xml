@@ -8,6 +8,6 @@
     <preference for="MercadoPago\Core\Model\Notifications\Topics\MerchantOrder" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\MerchantOrder" />
     <preference for="MercadoPago\Core\Model\Notifications\Topics\TopicsAbstract" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\TopicsAbstract" />
     <type name="MercadoPago\Core\Model\Notifications\Topics\Payment">
-    <plugin name="intcomex_mercadopagorewrites_payment" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\Payment" sortOrder="1" />
+    <plugin name="intcomex_mercadopagorewrites_payment" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\PaymentPlugin" sortOrder="1" />
 </type>
 </config>
