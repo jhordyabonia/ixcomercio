@@ -3,11 +3,5 @@
     <preference for="Magento\Checkout\Controller\Onepage\Failure" type="Intcomex\MercadopagoRewrites\Controller\Onepage\Failure" />
     <preference for="Magento\Checkout\Block\Onepage\Failure" type="Intcomex\MercadopagoRewrites\Block\Onepage\Failure" />
     <preference for="Magento\Checkout\Block\Onepage\Success" type="Intcomex\MercadopagoRewrites\Block\Onepage\Success" />
-
     <preference for="MercadoPago\Core\Model\Notifications\Topics\Payment" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\Payment" />
-    <preference for="MercadoPago\Core\Model\Notifications\Topics\MerchantOrder" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\MerchantOrder" />
-    <preference for="MercadoPago\Core\Model\Notifications\Topics\TopicsAbstract" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\TopicsAbstract" />
-    <!--<type name="MercadoPago\Core\Model\Notifications\Topics\Payment">
-        <plugin name="intcomex_mercadopagorewrites_payment" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\PaymentPlugin" sortOrder="1" />
-    </type>-->
 </config>

@@ -22,7 +22,7 @@ use MercadoPago\Core\Lib\RestClient;
 use MercadoPago\Core\Model\Core;
 use Intcomex\MercadopagoRewrites\Helper\Api;
 
-class Payment extends TopicsAbstract
+class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
 {
     const LOG_NAME    = 'notification_payment';
     const TYPES_TOPIC = [
@@ -37,46 +37,6 @@ class Payment extends TopicsAbstract
     protected $_coreModel;
 
 
-    /**
-     * Payment constructor.
-     *
-     * @param mpHelper             $mpHelper
-     * @param ScopeConfigInterface $scopeConfig
-     * @param Core                 $coreModel
-     * @param OrderFactory         $orderFactory
-     * @param CreditmemoFactory    $creditmemoFactory
-     * @param MessageInterface     $messageInterface
-     * @param StatusFactory        $statusFactory
-     * @param OrderSender          $orderSender
-     * @param OrderCommentSender   $orderCommentSender
-     * @param TransactionFactory   $transactionFactory
-     * @param InvoiceSender        $invoiceSender
-     * @param InvoiceService       $invoiceService
-     */
-    public function __construct(
-        mpHelper $mpHelper,
-        ScopeConfigInterface $scopeConfig,
-        Core $coreModel,
-        OrderFactory $orderFactory,
-        CreditmemoFactory $creditmemoFactory,
-        MessageInterface $messageInterface,
-        StatusFactory $statusFactory,
-        OrderSender $orderSender,
-        OrderCommentSender $orderCommentSender,
-        TransactionFactory $transactionFactory,
-        InvoiceSender $invoiceSender,
-        InvoiceService $invoiceService,
-        Api $orderApi
-    ) {
-        $this->_mpHelper    = $mpHelper;
-        $this->_scopeConfig = $scopeConfig;
-        $this->_coreModel   = $coreModel;
-        $this->_orderApi    = $orderApi;
-
-        parent::__construct($scopeConfig, $mpHelper, $orderFactory, $creditmemoFactory, $messageInterface, $statusFactory, $orderSender, $orderCommentSender, $transactionFactory, $invoiceSender, $invoiceService);
-
-    }//end __construct()
-
 
     /**
      * @param  $payment
@@ -85,8 +45,10 @@ class Payment extends TopicsAbstract
      */
     public function updateStatusOrderByPayment($payment)
     {
-       // $order = parent::getOrderByIncrementId($payment['external_reference']);
-        $order = $this->_orderApi->getOrdenByIncrementId($payment['external_reference']);
+        //$order = parent::getOrderByIncrementId($payment['external_reference']);
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
+       $helper = $objectManager->create('Intcomex\MercadopagoRewrites\Helper\Api');
+       $order =  $helper->getOrdenByIncrementId($payment['external_reference']);
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/mpresp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
