@@ -173,6 +173,11 @@ function (
         },
 
         useInvoice: function () {
+
+            //default value lastname
+            $('input[name="lastname"]').val("N/A");
+
+            
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
             }else{
@@ -205,6 +210,7 @@ function (
                         this.saveInAddressBook(1);
                     }
                     addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
+                    addressData['lastname'] = ".";
                     newBillingAddress = createBillingAddress(addressData);
 
                     // New address must be selected as a billing address

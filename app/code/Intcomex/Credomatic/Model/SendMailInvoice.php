@@ -40,6 +40,16 @@ class SendMailInvoice extends \Magento\Sales\Model\Order\Email\Sender\InvoiceSen
             if($order->getPayment()->getMethodInstance()->getCode()=='credomatic'&&$payment->getLastTransId()==''){
                 return false;
             }
+            if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){
+                $paymentData = $payment->getAdditionalInformation();
+                if(isset($paymentData['paymentResponse']['status'])){
+                    if($paymentData['paymentResponse']['status']!='approved'){
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }
 
             $transport = [
                 'order' => $order,

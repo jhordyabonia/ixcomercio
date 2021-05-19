@@ -153,7 +153,7 @@
         }
       }
       .secondary .action{
-        color: #999;
+        color: $colorBottom;
         background: none;
         border: 1px solid #ccc;
         padding: 7px 15px;
@@ -190,6 +190,9 @@
     font-weight: bold;
   }
   .opc-summary-wrapper{
+    #modal-content-17{
+      margin-top: 16px;
+    }
     .modal-content{
       border-radius: 0;
       @media (min-width: $tablet){
@@ -320,11 +323,18 @@
   text-align: center !important;
   color: #333333 !important;
 }
-  .field[name="shippingAddress.country_id"] {
-    display: none !important;
+  .field[name="shippingAddress.region"] {
+      display: block !important;
   }
-  .field[name="billingAddressshared.country_id"] {
-    display: none !important;
+  .field[name="billingAddressingenico.region_id"] {
+      display: none !important;
+  }
+  .field[name="billingAddressingenico.region"] {
+      display: block !important;
+  }
+  
+  .img-tarjetas{
+    display:none!important;
   }
   .payment-icon{
     display: inline-block!important;
@@ -332,22 +342,18 @@
     margin-left: 20px;
   }
   .custom_alert{
-    color: #000 !important;
-    padding: .5rem .5rem .5rem .5rem;
     border-radius: .7rem;
-    border: 1px solid #C7000B !important;
-    margin-bottom: 10px;
     font-weight: 700;
-    background-color: #fff;
-  }
-  .custom_alert .icon{
     width: 40px;
-    margin-right: .8rem;
+    display: none !important; 
+  }
+  .address_container{
+    border: 1px solid #000;
+    border-radius: 6px;
   }
   .billing-address-details{
     padding: 10px;
   }
-
   .billing-address-invoice-alert{
     border: 1px solid #C7000B;
     border-radius: 6px;
@@ -357,53 +363,34 @@
     line-height: 15px; 
   }
   .billing-address-invoice-alert p{
-    float: left !important;
+    float: right !important;
     margin-bottom: 0px;
     line-height: 20px;
-    width: 85%;
   }
-
   .billing-address-invoice-alert p a{
     font-weight: 800 !important;
-    color: $mainColor !important;
   }
   .billing-address-invoice-alert .icon{
     width: 35px !important;
     margin-right: .8rem;
     margin-top: .3rem;
-    float: left;
   }
-  li#custom-billing-step .step-title{
+  #custom-billing-step .step-title{
     text-align: left !important;
     font-size: 32px !important;
     padding-bottom: 0px !important;
   }
   .billing-address-same-as-shipping-block{
     padding-top: 10px;
-  }
-  #checkout-payment-method-load{
-    border-bottom: 1px solid #cccccc;
-    margin-bottom: 20px !important;
-  }
-  .tradein_alert{
-    font-weight: 400;
-    color: #000 !important;
-    padding: .5rem .5rem .5rem .5rem;
-    border-radius: .7rem;
-    border: 1px solid $mainColor !important;
-    margin-bottom: 10px;
-    background-color: #fff;
-  }
-  .tradein_alert .icon{
-    width: 40px;
-    margin-right: .8rem;
-  } 
-  .tradein_alert a {
-    font-weight: bold;
-    color: $mainColor !important;
+    display: inline-block;
+    label{
+      float: right;
+      width: 96%;
+    }
+    }
   }
 
-  li#shipping .step-title{
+  #shipping .step-title{
     text-align: left !important;
     font-size: 32px !important;
     padding-bottom: 0px !important;
@@ -413,28 +400,10 @@
   }
   .payment-group .step-title{
     border-bottom: 1px solid #cccccc;
-    margin-bottom: 20px !important;
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
   }
-
-  .billing-address-details.row{
-    border: 1px solid #000;
-    border-radius: .7rem;
-    padding: 1rem 0;
-    margin-left: 0;
-  }
-
-  #checkout-payment-method-load{
-    border-bottom: 1px solid #cccccc;
-    margin-bottom: 20px !important;
-  }
-  .checkout-payment-method .payment-option-title {
-    border-top: 0px !important;
-  }
-  .checkout-payment-method .payment-method-title{
-    padding: 18px 0 !important;
-    margin: 0;
-  }
-
   #checkout .opc-progress-bar .opc-progress-bar-item span{
     font-size: 18px;
     font-weight: 800;
@@ -467,17 +436,18 @@
     height: 35px;
     background-repeat: no-repeat
   }
+
   .box-step-content{
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 3px 6px #00000029;
     border: 2px solid #CFCBCB;
     overflow: hidden;
+    margin-top:20px;
 
     label{
       margin-bottom: 0;
-      text-transform: uppercase;
-      font-size: 14px;
-      font-family: Barlow,sans-serif;
+      font-size: 13.5px !important;
+      font-family: $fontTextTitle !important;
     }
   }
 
@@ -491,13 +461,14 @@
 
   .payment-group-item{
     border-bottom: 2px solid #DDDDDD;
+    font-family: $fontTextTitle !important;
 
     a{
       color:#000000;
       background-color: #FFFFFF;
       text-decoration: none;
-      padding: 1.3rem 0.5rem;
-      background-position: 96% center;
+      padding: 1.3rem 1.0rem !important;
+      background-position: 95% center !important; 
     }
 
     &.debitcard{
@@ -568,29 +539,6 @@
       }
     }
   }
-}
-
-@media (max-width: $mobile){
-
-  .billing-address-invoice-alert{
-
-    margin: 5% 0 0 0 !important;
-
-  }
-
-  .opc-progress-bar-item{
-
-    width: 33% !important;
-
-  }
-
-  .billing-address-invoice-alert p{
-
-    font-size: 12px !important;
-
-  }
-
-}
 
 .mp-box-inputs.mp-col-33 {
   width: 31%;
@@ -653,7 +601,18 @@
   .page-title-wrapper h2{
     font-size: 24px;
   }
-
+  .mp-box-inputs.margin-r{
+    margin-right: 0;
+  }
+  .margin-r.margin-mv {
+    margin-right: 4%;
+}
+.mp-box-inputs.mp-col-33 {
+  width: 48%;
+}
+.mp-box-inputs.mp-col-33.mv-col-100 {
+  width: 100%;
+}
 }
 
 @media (max-width: 380px) {
@@ -679,6 +638,9 @@
   .mp-box-inputs.margin-mv{
     margin-right: 4%;
   }
+  .mp-box-inputs.mp-col-31, .mp-box-inputs.mp-col-70 {
+    width: 100%;
+}
 
 }
 
@@ -698,9 +660,9 @@
 }
 
 .checkout-agreements-block .action-show{
-
   font-size: 14px;
-
   font-weight: bold;
-
+}
+form#co-payment-form .fieldset > .legend + br{
+  display: none;
 }

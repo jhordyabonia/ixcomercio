@@ -3314,7 +3314,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Email Address","Dirección de email",module,Magento_Checkout
 "Password","Contraseña",module,Magento_Checkout
 "Forgot Your Password?","¿Olvidó su contraseña?",module,Magento_Checkout
-"My billing and shipping address are the same","¿Mi información de envío es la misma para la factura? Recuerde incluir la información de RUT y razón social para la factura",module,Magento_Checkout
+"My billing and shipping address are the same","La boleta se enviará con la siguiente información. Si has solicitado factura, ingresa los datos de la empresa.",module,Magento_Checkout
 "Update","Actualizar",module,Magento_Checkout
 "Cancel","Cancelar",module,Magento_Checkout
 "Save in address book","Guardar en libreta de direcciones",module,Magento_Checkout
@@ -14836,8 +14836,8 @@ than a customer might expect. ","Configuración de descuentos de impuestos Adver
 "Search by keyword","Buscar por palabra clave",module,Magento_Ui
 "Keyword","Palabra clave",module,Magento_Ui
 "Select Date","Seleccionar fechas",module,Magento_Ui
-"Please enter more or equal than {0} symbols.","Introduce más o igual que símbolos {0}.",module,Magento_Ui
-"Please enter less or equal than {0} symbols.","Introduce más o igual que símbolos {0}.",module,Magento_Ui
+"Please enter more or equal than {0} symbols.","Este campo supera el límite máximo de {0} caracteres.",module,Magento_Ui
+"Please enter less or equal than {0} symbols.","Este campo supera el límite máximo de {0} caracteres.",module,Magento_Ui
 "Please enter {0} words or less.","Introduce {0} palabras o menos.",module,Magento_Ui
 "Please enter at least {0} words.","Por favor introduce al menos {0} palabras.",module,Magento_Ui
 "Please enter between {0} and {1} words.","Introduce entre {0} y {1} palabras.",module,Magento_Ui
@@ -16430,3 +16430,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "You can select your payment product in the next step.","Puedes seleccionar tu metodo de pago en el siguiente paso."
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"Document Number","RUT"
