@@ -107,6 +107,21 @@ class UpgradeData implements UpgradeDataInterface
 				]
 			);
 		}
+
+
+		if(version_compare($context->getVersion(), '0.0.4', '<')){
+            $conn = $setup->getConnection();
+            $setup->getConnection()->addColumn(
+				$setup->getTable( 'iws_order' ),
+				'register_payment',
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+					'nullable' => false,
+					'default' => 0,
+					'comment' => 'RegisterPayment IWS'
+				]
+			);
+		}
         $setup->endSetup();
     }
 }
