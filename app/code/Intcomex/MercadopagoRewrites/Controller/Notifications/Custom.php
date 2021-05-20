@@ -24,20 +24,7 @@ class Custom extends \MercadoPago\Core\Controller\Notifications\Custom
     protected $_order;
     protected $_notifications;
 
-    /**
-     * Custom constructor.
-     * @param Context $context
-     * @param Data $coreHelper
-     * @param Core $coreModel
-     */
-    public function __construct(Context $context, Data $coreHelper, Core $coreModel, Notifications $notifications)
-    {
-        $this->coreHelper = $coreHelper;
-        $this->coreModel = $coreModel;
-        $this->_notifications = $notifications;
-        parent::__construct($context);
-    }
-
+    
     /**
      * Controller Action
      */
