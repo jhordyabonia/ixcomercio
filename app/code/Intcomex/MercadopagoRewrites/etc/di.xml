@@ -4,4 +4,5 @@
     <preference for="Magento\Checkout\Block\Onepage\Failure" type="Intcomex\MercadopagoRewrites\Block\Onepage\Failure" />
     <preference for="Magento\Checkout\Block\Onepage\Success" type="Intcomex\MercadopagoRewrites\Block\Onepage\Success" />
     <preference for="MercadoPago\Core\Model\Notifications\Topics\Payment" type="Intcomex\MercadopagoRewrites\Model\Notifications\Topics\Payment" />
+    <preference for="MercadoPago\Core\Controller\Notifications\Custom" type="Intcomex\MercadopagoRewrites\Controller\Notifications\Custom" />
 </config>

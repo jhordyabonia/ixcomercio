@@ -3,6 +3,7 @@
 namespace Intcomex\MercadopagoRewrites\Helper;
 
 use Magento\Store\Model\ScopeInterface;
+use Magento\Sales\Model\Order;
 
 /**
  * Class Api
@@ -39,6 +40,27 @@ class Api
         $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
         
         $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
+
+        return $order;
+
+    }
+
+    /*
+    * Set status order canceled
+    *
+    */
+
+    public function setOrdenStatusCanceled($idOrden)
+    {
+       
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $order = $objectManager->create('\Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
+        $orderState = Order::STATE_CANCELED;
+        $order->setState($orderState)->setStatus(Order::STATE_CANCELED);
+        $order->save();
+
+        $this->logger->info('Mercadopago Helper - orden '.$idOrden);
+        $this->logger->info('Mercadopago Helper - orden status '.$order->getState());
 
         return $order;
 

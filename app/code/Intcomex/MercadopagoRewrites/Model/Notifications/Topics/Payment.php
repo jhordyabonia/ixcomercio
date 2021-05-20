@@ -51,6 +51,9 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
         $order =  $helper->getOrdenByIncrementId($payment['external_reference']);
         
         if (!$order->getId()) {
+
+            $oder_canceled = $helper->setOrdenStatusCanceled($payment['external_reference']);            
+
             $message = 'Mercado Pago - The order was not found in Magento. You will not be able to follow the process without this information.';
             return [
                 'httpStatus' => Response::HTTP_NOT_FOUND,
