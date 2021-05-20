@@ -48,7 +48,7 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
         //Ajuste de llamado orden details
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
         $helper = $objectManager->create('Intcomex\MercadopagoRewrites\Helper\Api');
-        $order =  $helper->getOrdenByIncrementId($payment['external_reference']);
+        $order =  $helper->getOrdenByIncrementId($payment['external_reference'],0);
         
         if (!$order->getId()) {
 
