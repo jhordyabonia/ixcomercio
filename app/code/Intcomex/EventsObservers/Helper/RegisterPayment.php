@@ -84,9 +84,9 @@ class RegisterPayment extends AbstractHelper
         $this->logger->info('loadIwsService - Inicio'); 
         
         // se obtiene el iws order
-        $iws_idorder = $this->getIwsOrderId($order->getIncrementId());
+        //$iws_idorder = $this->getIwsOrderId($order->getIncrementId());
 
-        if(!$iws_idorder){
+        //if(!$iws_idorder){
 
 
             $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
@@ -95,6 +95,7 @@ class RegisterPayment extends AbstractHelper
             if($data['status']){     
                 //Mapear orden de magento con IWS en tabla custom
                 $this->addOrderComment($order->getId(), 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data['resp'][0]->PaymentId, 'RegisterPayment');
+                $this->saveRegisterPaymentIwsOrder($order->getIncrementId());
                 $this->initReleaseOrder($order->getId(), $configData, $order, $storeCode);
             } else {
                 if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
@@ -110,9 +111,9 @@ class RegisterPayment extends AbstractHelper
                     }
                 }
             }  
-        }else{
-            $this->logger->info('RegisterPayment - Para la orden: '.$order->getIncrementId().', ya existe un RegisterPayment en Trax con el id:'.$iws_idorder);
-        }
+        //}else{
+        //    $this->logger->info('RegisterPayment - Para la orden: '.$order->getIncrementId().', ya existe un RegisterPayment en Trax con el id:'.$iws_idorder);
+        //}
 
         $this->logger->info('loadIwsService - Fin');
 
@@ -392,6 +393,25 @@ class RegisterPayment extends AbstractHelper
             }else{
                 return false;
             }
+        }
+    }
+
+
+    //Se guarda información de IWS en tabla custom
+    public function saveRegisterPaymentIwsOrder( $orderIncrementId) 
+    {
+		$model = $this->_iwsOrder->create();
+
+
+        $_iwsorder = $post->load($orderIncrementId,"order_increment_id");
+        $_iwsorder->setRegisterPayment(1);
+        
+        $saveData = $_iwsorder->save();
+		
+        if($saveData){
+            $this->logger->info('RegisterPayment - Se actualizo la orden de IWS: '.$orderIncrementId);
+        } else {
+            $this->logger->info('RegisterPayment - Se produjo un error al guardar la orden de IWS: '.$orderNumber);
         }
     }
 
