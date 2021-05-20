@@ -240,7 +240,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
     }
     
-    public function checkInvoice($paymentAdditional){
+    public function checkInvoice($paymentAdditional,$payment){
         $this->logger->info('Información de factura');
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -253,9 +253,22 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         if(!$invoiceEnable) return $invoiceDefault;
         //Si está habilitado, busca el estado que llegó en la información de pago
         $this->logger->info('Información en payment info:');
-        $this->logger->info($paymentAdditional);
+        $method = $payment->getMethodInstance();
+        $methodCode = $method->getCode();
+        $this->logger->info('methodCode');
+        $this->logger->info($methodCode);
+        $this->logger->info($payment->getAdditionalInformation());
+        if($methodCode=='mercadopago_custom'){
+            $additionalData = $payment->getAdditionalData();
+            return true;
+            if($additionalData=='Yes'){
+                $this->logger->info('valor encontrado');
+            }
+        }
+        
         if(is_array($paymentAdditional) && isset($paymentAdditional['useinvoice'])){            
             if($paymentAdditional['useinvoice']=='Yes'||$paymentAdditional['useinvoice']=='1'){
+                $this->logger->info(print_r($paymentAdditional,true));
                 return true;
             }
         }
@@ -270,7 +283,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         
         $payment = $order->getPayment();
         $paymentAdditional = $payment->getAdditionalInformation();
-        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional);
+        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional,$payment);
         if($requireInvoice){
             $this->logger->info('useinvoice, se envía a trax:');
         }
