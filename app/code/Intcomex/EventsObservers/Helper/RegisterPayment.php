@@ -403,7 +403,7 @@ class RegisterPayment extends AbstractHelper
 		$model = $this->_iwsOrder->create();
 
 
-        $_iwsorder = $post->load($orderIncrementId,"order_increment_id");
+        $_iwsorder = $model->load($orderIncrementId,"order_increment_id");
         $_iwsorder->setRegisterPayment(1);
         
         $saveData = $_iwsorder->save();

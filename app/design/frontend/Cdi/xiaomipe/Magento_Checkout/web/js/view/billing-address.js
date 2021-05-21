@@ -85,8 +85,11 @@ function (
                     isAddressFormVisible: !customer.isLoggedIn() || !addressOptions.length,
                     isAddressSameAsShipping: false,
                     isInvoiceSelected: false,
-                    saveInAddressBook: 1
+                    saveInAddressBook: 1,
+                    invoceOrder: 'No',
                 });
+
+                this.setInvoice();
 
             quote.billingAddress.subscribe(function (newAddress) {
                 if (quote.isVirtual()) {
@@ -162,7 +165,11 @@ function (
                 selectBillingAddress(quote.shippingAddress());
 
                 this.updateAddresses();
-                this.isAddressDetailsVisible(true);               
+                this.isAddressDetailsVisible(true); 
+                
+                this.isInvoiceSelected(false);
+                this.invoceOrder('No');
+                this.setInvoice();
 
             } else {
                 lastSelectedBillingAddress = quote.billingAddress();
@@ -183,28 +190,35 @@ function (
             $(elemen_).trigger('click');
             
             //default value lastname
-            $('input[name="lastname"]').val("N/A");
+            $('input[name="lastname"]').val("N/A");            
             
-            var useinvoice = '';
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
-                useinvoice = 'Yes';
-                console.log(useinvoice);
+                this.invoceOrder('Yes');
+                
             }else{
                 this.isInvoiceSelected(false);
-                useinvoice = 'No';
-                console.log(useinvoice);
+                this.invoceOrder('No');                
             }
+
+            this.setInvoice();
+              
+            return true;
+        },
+
+        setInvoice: function(){
+
             console.log('seting usenvoice');
+            console.log( this.invoceOrder() );
             var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
-            jQuery.post(serviceUrl,{'useinvoice':useinvoice})
+            jQuery.post(serviceUrl,{'useinvoice': this.invoceOrder() })
             .done(function(msg){
                 console.log(msg);
             })
             .fail(function(msg){
                 console.log(msg);
-            });           
-            return true;
+            });         
+
         },
 
         /**
