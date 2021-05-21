@@ -259,22 +259,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info($methodCode);
         $this->logger->info($payment->getAdditionalInformation());
         if($methodCode=='mercadopago_custom'){
-            $this->logger->info('session quote id');
-            $dataOrder =  $order->getBillingAddress();
-            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $session = $objectManager->create('\Magento\Framework\Session\SessionManagerInterface');
-            $session->start();
-            $sessionData = $session->getUseinvoice(); 
-            $this->logger->info($session->getUseinvoice());
-            $this->logger->info('Filtered');
-            $this->logger->info($dataOrder->getEmail());
-            $this->logger->info($sessionData[$dataOrder->getEmail()]);
-
-            if($sessionData[$dataOrder->getEmail()]=='Yes'){
-                $this->logger->info('valor encontrado mp');
-                return true;
-            }
-            
+            return true;
         }
         
         if(is_array($paymentAdditional) && isset($paymentAdditional['useinvoice'])){            

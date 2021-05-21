@@ -38,20 +38,10 @@ class setPaymentInfo extends \Magento\Framework\App\Action\Action
         
         try {
             $order = $this->_checkoutSession->getQuote();
-            $data =  $order->getBillingAddress();
             $payment = $order->getPayment();
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test_set_aditional_data.log');
-            $this->logger = new \Zend\Log\Logger();
-            $this->logger->addWriter($writer);
             $payment->setAdditionalInformation(array('useinvoice'=>$post['useinvoice']));
             $payment->save();
             $order->save();
-            $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $session = $objectManager->create('\Magento\Framework\Session\SessionManagerInterface');
-            $session->start();
-            $session->setUseinvoice(array($data->getEmail()=>$post['useinvoice']));
-            $this->logger->info($session->getUseinvoice());
-            $this->logger->info($data->getEmail());
             $arrayData['success'] = 'true';
 
         } catch (\Exception $e) {
