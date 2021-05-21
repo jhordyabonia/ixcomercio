@@ -240,7 +240,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
     }
     
-    public function checkInvoice($paymentAdditional,$payment){
+    public function checkInvoice($paymentAdditional,$payment,$order){
         $this->logger->info('Información de factura');
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -294,7 +294,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         
         $payment = $order->getPayment();
         $paymentAdditional = $payment->getAdditionalInformation();
-        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional,$payment);
+        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional,$payment,$order);
         if($requireInvoice){
             $this->logger->info('useinvoice, se envía a trax:');
         }
