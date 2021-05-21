@@ -84,14 +84,12 @@ class RegisterPayment extends AbstractHelper
         $this->logger->info('loadIwsService - Inicio'); 
         
         // se obtiene el iws order
-        //$iws_idorder = $this->getIwsOrderId($order->getIncrementId());
+        $iws_idorder = $this->getIwsOrderId($order->getIncrementId());
 
-        //if(!$iws_idorder){
-
+        if($iws_idorder){
 
             $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
-            
-            
+                        
             if($data['status']){     
                 //Mapear orden de magento con IWS en tabla custom
                 $this->addOrderComment($order->getId(), 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data['resp'][0]->PaymentId, 'RegisterPayment');
@@ -111,9 +109,9 @@ class RegisterPayment extends AbstractHelper
                     }
                 }
             }  
-        //}else{
-        //    $this->logger->info('RegisterPayment - Para la orden: '.$order->getIncrementId().', ya existe un RegisterPayment en Trax con el id:'.$iws_idorder);
-        //}
+        }else{
+            $this->logger->info('RegisterPayment - Para la orden: '.$order->getIncrementId().', ya existe un RegisterPayment en Trax con el id:'.$iws_idorder);
+        }
 
         $this->logger->info('loadIwsService - Fin');
 
