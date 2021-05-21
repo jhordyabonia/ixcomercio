@@ -259,8 +259,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info($methodCode);
         $this->logger->info($payment->getAdditionalInformation());
         if($methodCode=='mercadopago_custom'){
-            $dataOrder =  $order->getBillingAddress();
             $this->logger->info('session quote id');
+            $dataOrder =  $order->getBillingAddress();
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $session = $objectManager->create('\Magento\Framework\Session\SessionManagerInterface');
             $session->start();
