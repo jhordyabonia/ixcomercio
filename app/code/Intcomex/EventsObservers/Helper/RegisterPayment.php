@@ -86,7 +86,7 @@ class RegisterPayment extends AbstractHelper
         // se obtiene el iws order
         $iws_idorder = $this->getIwsOrderId($order->getIncrementId());
 
-        if(!$iws_idorder){
+        if($iws_idorder){
 
             $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
                         
