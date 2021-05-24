@@ -507,7 +507,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                             ],
                             'firstname' => [
                                 'validation' => [
-                                    'max_text_length' => 15,
+                                    'max_text_length' => 30,
                                 ],
                                 'label' => $labelName,                                                                
                             ],
