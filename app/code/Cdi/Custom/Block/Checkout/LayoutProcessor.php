@@ -472,6 +472,13 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
         $labelName = $this->scopeConfig->getValue('customer/address/billing_name_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $labelAddress = $this->scopeConfig->getValue('customer/address/billing_address_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
+        $limit_characters_fisrt = '15';
+        $country = $this->scopeConfig->getValue('general/country/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if($country != 'PE'){
+            $limit_characters_fisrt = '30';
+        }
+
         return [
             'component' => 'Magento_Checkout/js/view/billing-address',
             'displayArea' => 'billing-address-form-' . $paymentCode,
@@ -507,7 +514,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                             ],
                             'firstname' => [
                                 'validation' => [
-                                    'max_text_length' => 30,
+                                    'max_text_length' => $limit_characters_fisrt,
                                 ],
                                 'label' => $labelName,                                                                
                             ],
