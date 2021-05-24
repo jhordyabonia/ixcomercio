@@ -475,7 +475,7 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
         $limit_characters_fisrt = '15';
         $country = $this->scopeConfig->getValue('general/country/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        if($country != 'PE'){
+        if($country == 'PE'){
             $limit_characters_fisrt = '30';
         }
 
