@@ -6,6 +6,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Sales\Model\Service\InvoiceService;
 use Magento\Framework\DB\Transaction;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
+use Magento\Store\Model\ScopeInterface;
 
 class PaymentResponse extends \Magento\Framework\App\Action\Action
 {
@@ -46,7 +47,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg');
-            $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo');
+            $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;
@@ -136,7 +137,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->_checkoutSession->setErrorMessage($msgError);
         $this->_messageManager->addError($msgError);
         $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
-        $lastRealOrder->setState("canceled")->setStatus("canceled");
+        //$lastRealOrder->setState("canceled")->setStatus("canceled");
+        $lastRealOrder->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.$msgError);
+        $lastRealOrder->cancel();  
         $lastRealOrder->save();
 
         $resultRedirect = $this->resultRedirectFactory->create();
