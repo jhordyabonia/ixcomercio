@@ -11,6 +11,7 @@
     .custom-slide{
       .modal-header{
         padding: 0;
+        margin-top: 15px;
         .action-close{
           z-index: 9;
         }
@@ -452,7 +453,7 @@
   }
 
   .p0{
-    padding: 0;
+    padding: 0 !important;
   }
 
   .bd2{
@@ -467,8 +468,9 @@
       color:#000000;
       background-color: #FFFFFF;
       text-decoration: none;
-      padding: 1.3rem 1.0rem !important;
-      background-position: 95% center !important; 
+      padding: 1.3rem 0.7rem!important;
+      background-position: 95% center !important;
+      font-size:13px !important;
     }
 
     &.debitcard{
@@ -578,7 +580,9 @@
   display: inline-block;
 
 }
-
+.mp-col-25{
+  width:100%;
+}
 @media (max-width: 768px) {
   .checkout-index-index .PaymentCardDueDate{
     width: 55%;
@@ -615,7 +619,7 @@
 }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 440px) {
   .checkout-index-index .PaymentCardDueDate{
     width: 100%;
   }
@@ -638,10 +642,15 @@
   .mp-box-inputs.margin-mv{
     margin-right: 4%;
   }
-  .mp-box-inputs.mp-col-31, .mp-box-inputs.mp-col-70 {
+  .mp-box-inputs.mp-col-31, .mp-box-inputs.mp-col-70,.mp-col-25{
     width: 100%;
 }
-
+.mp-box-inputs.mp-col-31 {
+  width: 100%;
+}
+.box-step-content label{
+  font-size: 12px!important;
+}
 }
 
 .checkout-onepage-success .actions-toolbar>.primary{
@@ -665,4 +674,21 @@
 }
 form#co-payment-form .fieldset > .legend + br{
   display: none;
+}
+
+.product-info_media .product-tag.disccount-tag{
+  top: 15px;
+  left: 15px;
+  width: 65px;
+  height: 65px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  position: absolute;
+  border-radius: 50%;
+  padding: 6px 0;
+  z-index: 10;
+  background: #FF6900;
+  line-height: 55px;
 }
