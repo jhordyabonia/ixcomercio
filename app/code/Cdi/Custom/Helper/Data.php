@@ -257,4 +257,14 @@ class Data extends AbstractHelper{
 			return $order; 
 		}
 	}
+
+	/*
+	 * Retorna el code del website
+	*/
+	public function getWebsideCode()
+	{
+		$websiteCode = $this->_storeManager->getWebsite()->getCode();
+
+		return $websiteCode;
+	}
 }

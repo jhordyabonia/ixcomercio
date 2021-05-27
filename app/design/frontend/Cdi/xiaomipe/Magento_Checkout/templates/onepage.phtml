@@ -14,7 +14,8 @@ if(!isset($showBilling) || $showBilling == null ){
     $showBilling = 0;
 }
 
-$mercadoPagoBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('entelpe_mercadopagoefectivo')->toHtml();
+$websiteCode = $_helperCdi->getWebsideCode();
+$mercadoPagoBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode.'_mercadopagoefectivo')->toHtml();
 
 ?>
 <div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
