@@ -21,6 +21,7 @@ use MercadoPago\Core\Helper\Response;
 use MercadoPago\Core\Lib\RestClient;
 use MercadoPago\Core\Model\Core;
 use Intcomex\MercadopagoRewrites\Helper\Api;
+use \Psr\Log\LoggerInterface;
 
 class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
 {
@@ -35,6 +36,8 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
     protected $_scopeConfig;
 
     protected $_coreModel;
+
+    protected $logger;
 
 
 
@@ -103,6 +106,10 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
         $this->updateAdditionalInformation($order, $payment);
 
         $order->save();
+
+        if ($payment['status'] == 'approved') {
+            $helper->getRegysterPayment($order);
+        }
 
         $messageHttp = 'Mercado Pago - Status successfully updated.';
         return [
