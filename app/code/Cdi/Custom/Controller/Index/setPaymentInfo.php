@@ -39,8 +39,14 @@ class setPaymentInfo extends \Magento\Framework\App\Action\Action
         try {
             $order = $this->_checkoutSession->getQuote();
             $payment = $order->getPayment();
-            $paymentAdditional = $payment->setAdditionalInformation(array('useinvoice'=>$post['useinvoice']));
+            $payment->setAdditionalInformation(array('useinvoice'=>$post['useinvoice']));
             $payment->save();
+            $order->save();
+
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+            $session = $objectManager->create('\Magento\Framework\Session\SessionManagerInterface');
+            $session->start();
+            $session->setUseinvoice(array($session->getSessionId()=>$post['useinvoice']));
             $arrayData['success'] = 'true';
 
         } catch (\Exception $e) {

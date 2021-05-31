@@ -10,6 +10,9 @@ if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
     $method = $payment->getAdditionalInformation()['method'];
 }
+
+$paymentResponse = $payment->getAdditionalInformation("paymentResponse");
+
 ?>
 <div class="checkout-success">
 <?php if(!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending'){ ?>
@@ -17,27 +20,46 @@ if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-wrapper">
-                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>espera.png"></p>
+                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("media/")?>espera.png"></p>
                     <h1 class="page-title">
-                        <span class="base" data-ui-id="page-title-wrapper">¡Estamos procesando tu pago!</span>
+                        <span class="base" data-ui-id="page-title-wrapper">¡Recibimos tu pedido!</span>
                     </h1>
-                    <h2>Tu pedido esta en espera</h2>
-                </div>        
-                <?php if ($block->getOrderId()):?>
-                    <p>Tu compra esta en espera, estamos esperando la autorización de pago</p>
-                    <?php if ($block->getCanViewOrder()) :?>
-                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
-                    <?php  else :?>
-                        <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                    <h2>Solo falta que realices tu pago para completar tu compra</h2>
+
+                    <?php if ($block->getOrderId()):?>
+                        <?php if ($block->getCanViewOrder()) :?>
+                            <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                        <?php  else :?>
+                            <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                        <?php endif;?>                            
+
                     <?php endif;?>
-                        <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
-                <?php endif;?>
+
+                    <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
+                </div> 
+                <p>
+                    <?php echo __('Generate the ticket and pay it wherever you want.'); ?>
+                </p>
+
+                <p>
+                    <?php /* @escapeNotVerified */
+                    echo __('Will be approved within 2 business days.'); ?>
+                </p>                
     
                 <?= $block->getAdditionalInfoHtml() ?>
     
                 <div class="actions-toolbar">
                     <div class="primary">
-                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                        <?php if (isset($paymentResponse['transaction_details']) && $paymentResponse['transaction_details']['external_resource_url']) { ?>
+
+                        <a class="action primary" href="<?php echo $block->escapeUrl(urldecode($paymentResponse['transaction_details']['external_resource_url'])); ?>"
+                        target="_blank" id="btn-boleto-mercadopago">
+                            <span><?php echo __('Generate Ticket'); ?></span>
+                        </a>
+                        <?php } else {
+                        echo __('Error getting the link to the ticket. Please contact the seller.');
+                        } ?>
+                        <!--<a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>-->
                     </div>
                 </div>
             </div>
@@ -48,7 +70,7 @@ if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
 ?>
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="page-title-wrapper">
-            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("pub/media/")?>verificado.png"></p>
+            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("media/")?>verificado.png"></p>
             <h1 class="page-title">
                 <span class="base" data-ui-id="page-title-wrapper">¡Gracias por tu compra!</span>
             </h1>

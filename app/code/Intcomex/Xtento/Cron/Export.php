@@ -1,13 +1,27 @@
 <?php
 
-namespace Xtento\XtentoXtcore\Cron;
+/**
+ * Product:       Xtento_ProductExport
+ * ID:            %!uniqueid!%
+ * Last Modified: 2020-08-04T15:00:19+00:00
+ * File:          Cron/Export.php
+ * Copyright:     Copyright (c) XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ */
+
+namespace Intcomex\Xtento\Cron;
 
 use Magento\Framework\Exception\LocalizedException;
-use Xtento\ProductExport\Cron\Export as productsexport;
 
-class Export extends productsexport
+class Export extends \Xtento\ProductExport\Model\AbstractAutomaticExport
 {
-	public function execute($schedule)
+    const CRON_GROUP = 'xtento_productexport';
+
+    /**
+     * Run automatic export, dispatched by Magento cron scheduler
+     *
+     * @param $schedule
+     */
+    public function execute($schedule)
     {
         try {
             if (!$this->moduleHelper->isModuleEnabled() || !$this->moduleHelper->isModuleProperlyInstalled()) {
@@ -27,7 +41,7 @@ class Export extends productsexport
             $profile = $this->profileFactory->create()->load($profileId);
             if (!$profile->getId()) {
                 // Remove existing cronjobs
-                $this->cronHelper->removeCronjobsLike('productexport_profile_' . $profileId . '_%', \Xtento\ProductExport\Cron\Export::CRON_GROUP);
+                $this->cronHelper->removeCronjobsLike('productexport_profile_' . $profileId . '_%', \Intcomex\Xtento\Cron\Export::CRON_GROUP);
                 throw new LocalizedException(__('Profile ID %1 does not seem to exist anymore.', $profileId));
             }
             if (!$profile->getEnabled()) {
@@ -38,7 +52,7 @@ class Export extends productsexport
             }
             $exportModel = $this->exportFactory->create()->setProfile($profile);
             $filters = $this->addProfileFilters($profile);
-            $exportModel->cronExport($filters);
+            $exportModel->cronExport($filters,$profile);
         } catch (\Exception $e) {
             $this->xtentoLogger->critical('Cronjob exception for job_code ' . $jobCode . ': ' . $e->getMessage());
         }
