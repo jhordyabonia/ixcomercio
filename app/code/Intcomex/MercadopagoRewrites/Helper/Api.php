@@ -66,12 +66,6 @@ class Api
         
         $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
 
-        if(!is_object($order) && $reintentos < 3 ){
-            
-            $this->logger->info('Mercadopago Helper - reintentos '.$reintentos);
-            $this->getOrdenByIncrementId($idOrden, $reintentos++);
-        }
-
         return $order;
 
     }
