@@ -3315,7 +3315,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Password","Contraseña",module,Magento_Checkout
 "Forgot Your Password?","¿Olvidó su contraseña?",module,Magento_Checkout
 "My billing and shipping address are the same","La boleta se enviará con la siguiente información. Si has solicitado factura, ingresa los datos de la empresa.",module,Magento_Checkout
-"Update","Actualizar",module,Magento_Checkout
+"Update","Actualizar información para Factura",module,Magento_Checkout
 "Cancel","Cancelar",module,Magento_Checkout
 "Save in address book","Guardar en libreta de direcciones",module,Magento_Checkout
 "Estimated Total","Total estimado",module,Magento_Checkout

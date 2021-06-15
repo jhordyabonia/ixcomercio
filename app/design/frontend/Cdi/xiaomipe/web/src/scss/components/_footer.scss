@@ -4,6 +4,9 @@
     padding: 40px 15px;
     margin: 0 auto;
     float: none;
+    &.col-md-6{
+      width: 100%;
+    }
     h5{
       color:$colorTitle;
       text-align: center;
