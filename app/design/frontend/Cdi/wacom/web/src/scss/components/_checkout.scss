@@ -588,7 +588,12 @@
   display: inline-block;
 
 }
-
+#co-mercadopago-form, #co-mercadopago-form-ticket {
+  max-width: 100%;
+}
+#securityCode, #securityCodeOCP {
+  width: 100%;
+}
 @media (max-width: 768px) {
   .checkout-index-index .PaymentCardDueDate{
     width: 55%;
