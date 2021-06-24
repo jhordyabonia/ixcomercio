@@ -1623,7 +1623,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "* Required Fields","* Campos obligatorios",module,Magento_Bundle
 "Your Customization","Su personalización",module,Magento_Bundle
 "Availability","Disponibilidad",module,Magento_Bundle
-"In stock","Disponible",module,Magento_Bundle
+"In stock","Stock disponible",module,Magento_Bundle
 "Out of stock","Sin inventario",module,Magento_Bundle
 "Summary","Resumen",module,Magento_Bundle
 "%1 x %2","%1 x %2",module,Magento_Bundle
@@ -2293,7 +2293,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Print This Page","Imprimir esta página",module,Magento_Catalog
 "Remove Product","Eliminar artículo",module,Magento_Catalog
 "Add to Cart","Añadir al carrito",module,Magento_Catalog
-"In stock","Disponible",module,Magento_Catalog
+"In stock","Stock disponible",module,Magento_Catalog
 "Out of stock","Sin inventario",module,Magento_Catalog
 "Add to Wish List","Añadir a la Lista de Deseos",module,Magento_Catalog
 "You have no items to compare.","No tiene ningún artículo para comparar.",module,Magento_Catalog
@@ -3178,7 +3178,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_Catalog
 "SKU","Unidad de mantenimiento de existencias (SKU)",module,Magento_CatalogWidget
 "Please choose a condition to add.","Por favor, elige una condición para añadir.",module,Magento_CatalogWidget
 "Add to Cart","Añadir al carrito",module,Magento_CatalogWidget
-"In stock","Disponible",module,Magento_CatalogWidget
+"In stock","Stock disponible",module,Magento_CatalogWidget
 "Out of stock","Sin inventario",module,Magento_CatalogWidget
 "Add to Wish List","Añadir a la Lista de Deseos",module,Magento_CatalogWidget
 "Add to Compare","Añadir para comparar",module,Magento_CatalogWidget
@@ -6132,7 +6132,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Select all","Seleccionar todo",module,Magento_Downloadable
 "Unselect all","Desmarcar todo",module,Magento_Downloadable
 "Availability","Disponibilidad",module,Magento_Downloadable
-"In stock","Disponible",module,Magento_Downloadable
+"In stock","Stock disponible",module,Magento_Downloadable
 "Out of stock","Sin inventario",module,Magento_Downloadable
 "Go to <a href=""%1"">My Downloadable Products</a>","Ir a <a href=""%1"">mis artículos descargables</a>",module,Magento_Downloadable
 "Downloadable Products","Productos descargables",module,Magento_Downloadable
@@ -6730,7 +6730,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Minimum: %1","Mínimo: %1",module,Magento_GiftCard
 "Maximum: %1","Máximo: %1",module,Magento_GiftCard
 "Availability","Disponibilidad",module,Magento_GiftCard
-"In stock","Disponible",module,Magento_GiftCard
+"In stock","Stock disponible",module,Magento_GiftCard
 "You've been sent a gift from %store_name","He recibido un regalo de %store_name",module,Magento_GiftCard
 "%name,","%name,",module,Magento_GiftCard
 "%sender has sent you a gift card for use at <a href=""%store_url"">%store_name</a> and it is now ready to be used for purchases.","%sender ha enviado una tarjeta de regalo para utilizar en <a href=""%store_url""> %store_name</a> y ahora está listo para ser utilizado para las compras.",module,Magento_GiftCard
@@ -7448,7 +7448,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Default Qty","Cantidad (predeterminado)",module,Magento_GroupedProduct
 "Starting at","Desde",module,Magento_GroupedProduct
 "Availability","Disponibilidad",module,Magento_GroupedProduct
-"In stock","Disponible",module,Magento_GroupedProduct
+"In stock","Stock disponible",module,Magento_GroupedProduct
 "Grouped product items","Elementos de artículos agrupados",module,Magento_GroupedProduct
 "Grouped Product Image","Imagen de artículo agrupado",module,Magento_GroupedProduct
 "Select...","Seleccionar...",module,Magento_GroupedProduct
@@ -10854,7 +10854,7 @@ target=""_blank""> DevDocs' Información de la versión</a>.,module,Magento_Rele
 "All Websites","Todos sitios web",module,Magento_Reports
 "Recently Viewed","Vistos recientemente",module,Magento_Reports
 "Add to Cart","Añadir al carrito",module,Magento_Reports
-"In stock","Disponible",module,Magento_Reports
+"In stock","Stock disponible",module,Magento_Reports
 "Out of stock","Sin inventario",module,Magento_Reports
 "Add to Wish List","Añadir a la Lista de Deseos",module,Magento_Reports
 "Add to Compare","Añadir para comparar",module,Magento_Reports
@@ -16099,7 +16099,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Qty","Cantidad",module,Magento_Wishlist
 "Add to Cart","Añadir al carrito",module,Magento_Wishlist
 "Availability","Disponibilidad",module,Magento_Wishlist
-"In stock","Disponible",module,Magento_Wishlist
+"In stock","Stock disponible",module,Magento_Wishlist
 "Out of stock","Sin inventario",module,Magento_Wishlist
 "Edit","Editar",module,Magento_Wishlist
 "Remove Item","Eliminar elemento",module,Magento_Wishlist
@@ -16434,3 +16434,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Join our mailing list for exclusive offers and crazy deals!","¡Únase a nuestra lista de correo para ofertas exclusivas y ofertas locas!",module,Magento_Theme
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"Out Stock","Sin inventario"
