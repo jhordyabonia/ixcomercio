@@ -255,13 +255,8 @@ define([
          * @private
          */
         _removeItemAfter: function (elem) {
-            var productData = this._getProductById(Number(elem.data('cart-item')));
-
-            if (!_.isUndefined(productData)) {
-                $(document).trigger('ajax:removeFromCart', {
-                    productIds: [productData['product_id']]
-                });
-            }
+            console.log('Reaload Page');
+            window.location.reload(); 
         },
 
         /**
