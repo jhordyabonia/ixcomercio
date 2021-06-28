@@ -67,7 +67,7 @@ class SendMailOnOrderFailure implements ObserverInterface
     {
         $this->logger->info("Se ejecuta el observador 'Send mail Failure'");
 
-        $orderids = $observer->getEvent()->getOrderIds();
+        $orderids = $observer->getEvent()->getOrderId();
         $order = $observer->getOrder($orderids);
         
         $this->logger->info("Order is: ".$order->getId());
