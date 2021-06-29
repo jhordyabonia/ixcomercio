@@ -669,10 +669,10 @@
   float: none!important;
 }
 
-.checkout-onepage-failure h1.page-title:first-child{
+.checkout-onepage-failure .page-title-wrapper .page-title{
   display: none!important;
 }
-.checkout-onepage-success h1.page-title:first-child{
+.checkout-onepage-success .page-title-wrapper .page-title {
   display: none!important;
 }
 
