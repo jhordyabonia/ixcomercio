@@ -16437,3 +16437,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Payment error: The transaction has been rejected","Error en el pago: La transacción ha sido rechazada"
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"Remove Item From Cart","Eliminar"

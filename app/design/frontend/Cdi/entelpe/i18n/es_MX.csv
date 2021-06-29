@@ -16432,3 +16432,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Ship here","Entregar aquí"
 "Document Number","RUT"
 "Out Stock","Sin inventario"
+"Remove Item From Cart","Eliminar"
