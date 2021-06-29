@@ -672,6 +672,9 @@
 .checkout-onepage-failure h1.page-title:first-child{
   display: none!important;
 }
+.checkout-onepage-success h1.page-title:first-child{
+  display: none!important;
+}
 
 #applyCouponCard, #applyCouponTicket{
   background-color: $colorBottom !important;
