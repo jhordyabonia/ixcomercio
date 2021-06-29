@@ -16430,4 +16430,3 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "You can select your payment product in the next step.","Puedes seleccionar tu metodo de pago en el siguiente paso."
 "Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea agregar los datos de su Factura"
 "Out Stock","Sin inventario"
-"Remove Item From Cart","Eliminar"
