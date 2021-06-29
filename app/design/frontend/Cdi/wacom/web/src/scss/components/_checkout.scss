@@ -661,23 +661,7 @@
 }
 
 
-.actions-toolbar>.primary{
-  float: none!important;
-}
 
-.actions-toolbar>.primary{
-  float: none!important;
-}
-
-.page-title-wrapper .page-title{
-  display: none !important;
-}
-.page-title-wrapper .page-title {
-  display: none !important;
-}
-h1.page-title:first-child{
-display: none !important;
-}
 
 #applyCouponCard, #applyCouponTicket{
   background-color: $colorBottom !important;
@@ -691,4 +675,16 @@ form#co-payment-form .fieldset > .legend + br{
   font-size: 14px;
   font-weight: bold;
 }
+}
+
+.checkout-onepage-success .actions-toolbar>.primary{
+  float: none!important;
+}
+
+.checkout-onepage-failure .actions-toolbar>.primary{
+  float: none!important;
+}
+
+.checkout-onepage-failure h1.page-title:first-child{
+  display: none!important;
 }
