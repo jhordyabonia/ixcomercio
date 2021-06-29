@@ -670,10 +670,13 @@
 }
 
 .checkout-onepage-failure .page-title-wrapper .page-title{
-  display: none!important;
+  display: none !important;
 }
 .checkout-onepage-success .page-title-wrapper .page-title {
-  display: none!important;
+  display: none !important;
+}
+h1.page-title:first-child{
+display: none !important;
 }
 
 #applyCouponCard, #applyCouponTicket{
