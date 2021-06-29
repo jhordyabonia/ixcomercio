@@ -481,45 +481,6 @@
       background-position: 95% center !important;
     }
 
-    &.debitcard{
-      a {
-        background-image: url(../images/icono-td-normal@2x.png);
-
-      }
-
-      &.active {
-        a {
-          background-image: url(../images/icono-td-select@2x.png);
-
-        }
-      }
-    }
-
-    &.debitcredit{
-
-      &.active{
-        a{
-          background-image: url(../images/icono-tc-select@2x.png);
-        }
-      }
-
-      a{
-        background-image: url(../images/icono-tc-normal@2x.png);
-      }
-    }
-
-    &.pefectivo{
-
-      &.active{
-        a{
-          background-image: url(../images/icono-ef-select@2x.png);
-        }
-      }
-      a{
-        background-image: url(../images/icono-ef-normal@2x.png);
-      }
-    }
-
     &.active a{
       background-color: #FFFFFF;
       color: #000000

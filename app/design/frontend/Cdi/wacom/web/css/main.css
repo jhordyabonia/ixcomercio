@@ -3450,18 +3450,6 @@ form {
     text-decoration: none;
     padding: 1.3rem 1.0rem !important;
     background-position: 95% center !important; }
-  .checkout-index-index .payment-group-item.debitcard a {
-    background-image: url(../images/icono-td-normal@2x.png); }
-  .checkout-index-index .payment-group-item.debitcard.active a {
-    background-image: url(../images/icono-td-select@2x.png); }
-  .checkout-index-index .payment-group-item.debitcredit.active a {
-    background-image: url(../images/icono-tc-select@2x.png); }
-  .checkout-index-index .payment-group-item.debitcredit a {
-    background-image: url(../images/icono-tc-normal@2x.png); }
-  .checkout-index-index .payment-group-item.pefectivo.active a {
-    background-image: url(../images/icono-ef-select@2x.png); }
-  .checkout-index-index .payment-group-item.pefectivo a {
-    background-image: url(../images/icono-ef-normal@2x.png); }
   .checkout-index-index .payment-group-item.active a {
     background-color: #FFFFFF;
     color: #000000; }
