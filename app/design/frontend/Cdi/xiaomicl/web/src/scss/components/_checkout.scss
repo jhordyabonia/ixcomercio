@@ -473,20 +473,6 @@
       font-size:13px !important;
     }
 
-    &.debitcard{
-      a {
-        background-image: url(../images/icono-td-normal@2x.png);
-
-      }
-
-      &.active {
-        a {
-          background-image: url(../images/icono-td-select@2x.png);
-
-        }
-      }
-    }
-
     &.debitcredit{
 
       &.active{
