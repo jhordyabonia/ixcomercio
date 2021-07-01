@@ -44,7 +44,7 @@ $customerAddressView = $block->getData('customer_address');
                             <td data-th="<?= $block->escapeHtml(__('Phone')) ?>" class="col phone"><?= $block->escapeHtml($address->getTelephone()) ?></td>
                             <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
                                 <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/address/edit', ['id' => $address->getId()])) ?>"><span><?= $block->escapeHtml(__('Edit')) ?></span></a>
-                                <a class="action delete" href="#" role="delete-address" data-address="<?= $block->escapeHtmlAttr($address->getId()) ?>"><span><?=__('Delete Address') ?></span></a>
+                                <a class="action delete" href="#" role="delete-address" data-address="<?= $block->escapeHtmlAttr($address->getId()) ?>"><span>Eliminar</span></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
