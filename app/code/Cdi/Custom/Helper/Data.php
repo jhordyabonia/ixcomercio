@@ -6,6 +6,7 @@ use Magento\Cms\Model\PageFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
 use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Sales\Model\Order\Item as OrderItem;
 
 class Data extends AbstractHelper{
  
