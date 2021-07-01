@@ -338,7 +338,9 @@ class Data extends AbstractHelper{
 	{
         $brand = '';
 
-		$_product = $item->getProduct();
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$_product = $objectManager->get('Magento\Catalog\Model\Product')->load($item->getId());
+
         $passing_marks = $_product->getResource()->getAttribute('manufacturer');
         $optionId = $_product->getResource()->getAttributeRawValue($_product->getId(), $passing_marks,0);
         $brand = $passing_marks->getSource()->getOptionText($optionId);
