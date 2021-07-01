@@ -280,30 +280,16 @@ class Data extends AbstractHelper{
      */
     public function getFirstCategory($item)
     {
-        if ($item instanceof OrderItem || $item instanceof QuoteItem) {
-            $categories = $this->getCategories($item);
+       
+        $categories = $this->getCategories($item);
 
-            if (count($categories)) {
-                return $categories[0];
-            }
+        if (count($categories)) {
+            return $categories[0];
         }
-
-        return '';
+        
+		return '';
     
-	}
-
-	/**
-     * @param null $store_id
-     * @return bool
-     */
-    public function isCategoryLayerEnabled($store_id = null)
-    {
-        return $this->scopeConfig->isSetFlag(
-            'googletagmanager/general/category_layer',
-            ScopeInterface::SCOPE_STORE,
-            $store_id
-        );
-    }
+	}	
 
     /**
      * @param OrderItem $item | QuoteItem $item
@@ -316,11 +302,7 @@ class Data extends AbstractHelper{
 		$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
 		$_product = $productRepository->get($item->getSku());
 
-		if (!$this->isCategoryLayerEnabled()) {
-            return [];
-        }
-
-        if (!array_key_exists($item->getItemId(), $this->categories)) {
+		if (!array_key_exists($item->getItemId(), $this->categories)) {
             $collection =$_product->getCategoryCollection()->addAttributeToSelect('name');
             $categories = [];
 
