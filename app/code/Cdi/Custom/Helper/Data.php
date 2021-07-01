@@ -26,6 +26,11 @@ class Data extends AbstractHelper{
 	private $addressRepository;
 	
     protected $_bestSellersCollectionFactory;
+
+	/**
+     * @var array
+     */
+    protected $categories = [];
 	
 	public function __construct(
 		PageFactory $pageFactory, 
@@ -284,5 +289,49 @@ class Data extends AbstractHelper{
         }
 
         return '';
+    
+	}
+
+	/**
+     * @param null $store_id
+     * @return bool
+     */
+    public function isCategoryLayerEnabled($store_id = null)
+    {
+        return $this->scopeConfig->isSetFlag(
+            'googletagmanager/general/category_layer',
+            ScopeInterface::SCOPE_STORE,
+            $store_id
+        );
     }
+
+    /**
+     * @param OrderItem $item | QuoteItem $item
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getCategories($item)
+    {
+        if (!$this->isCategoryLayerEnabled() || !$item->getProduct()) {
+            return [];
+        }
+
+        if (!array_key_exists($item->getItemId(), $this->categories)) {
+            $collection = $item->getProduct()->getCategoryCollection()->addAttributeToSelect('name');
+            $categories = [];
+
+            if ($collection->getSize()) {
+                foreach ($collection as $category) {
+                    if (!in_array($category->getName(), $categories)) {
+                        $categories[] = $category->getName();
+                    }
+                }
+            }
+
+            $this->categories[$item->getItemId()] = $categories;
+        }
+
+        return $this->categories[$item->getItemId()];
+    }
+
 }
