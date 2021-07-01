@@ -334,4 +334,17 @@ class Data extends AbstractHelper{
         return $this->categories[$item->getItemId()];
     }
 
+	public function getBrand($item)
+	{
+        $brand = '';
+
+		$_product = $item->getProduct();
+        $passing_marks = $_product->getResource()->getAttribute('manufacturer');
+        $optionId = $_product->getResource()->getAttributeRawValue($_product->getId(), $passing_marks,0);
+        $brand = $passing_marks->getSource()->getOptionText($optionId);
+
+		return $brand;
+
+	}
+
 }
