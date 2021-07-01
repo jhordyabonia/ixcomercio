@@ -342,7 +342,8 @@ class Data extends AbstractHelper{
         $brand = '';
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-		$_product = $objectManager->get('Magento\Catalog\Model\Product')->load($item->getId());
+		$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		$_product = $productRepository->get($item->getSku());
 
         $passing_marks = $_product->getResource()->getAttribute('manufacturer');
         $optionId = $_product->getResource()->getAttributeRawValue($_product->getId(), $passing_marks,0);
