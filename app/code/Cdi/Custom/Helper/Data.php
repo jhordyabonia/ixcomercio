@@ -267,4 +267,21 @@ class Data extends AbstractHelper{
 
 		return $websiteCode;
 	}
+
+	/**
+     * @param OrderItem|QuoteItem $item
+     * @return string
+     */
+    public function getFirstCategory($item)
+    {
+        if ($item instanceof OrderItem || $item instanceof QuoteItem) {
+            $categories = $this->getCategories($item);
+
+            if (count($categories)) {
+                return $categories[0];
+            }
+        }
+
+        return '';
+    }
 }

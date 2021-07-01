@@ -217,17 +217,23 @@ class DataLayerItem extends Data
         $currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $currency = $currencysymbol->getStore()->getCurrentCurrencyCode();
 
+        $_product = $item->getProduct();
+        $passing_marks = $_product->getResource()->getAttribute('manufacturer');
+        $optionId = $_product->getResource()->getAttributeRawValue($_product->getId(), $passing_marks,0);
+        $brand = $passing_marks->getSource()->getOptionText($optionId);
+
         $product = [
             'name' => $item->getName(),
             'id' => $item->getSku(),
-            'price' => $this->formatPrice($item->getPrice()),
+            'price' => $this->formatPrice($item->getFinalPrice()),
             'currencyCode' => $currency,
             'quantity' => $qty * 1,
             'parent_sku' => $item->getProduct() ? $item->getProduct()->getData('sku') : $item->getSku(),
+            'brand' => $brand,
         ];
 
-        if (!$item->getPrice() && $item->getProduct()) {
-            $product['price'] =  $this->formatPrice($item->getProduct()->getPrice());
+        if (!$item->getFinalPrice() && $item->getProduct()) {
+            $product['price'] =  $this->formatPrice($item->getProduct()->getFinalPrice());
         }
 
         if ($variant = $this->getItemVariant($item)) {
