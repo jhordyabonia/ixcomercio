@@ -313,7 +313,8 @@ class Data extends AbstractHelper{
     public function getCategories($item)
     {
 		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-		$_product = $objectManager->get('Magento\Catalog\Model\Product')->load($item->getId());
+		$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		$_product = $productRepository->get($item->getSku());
 
 		if (!$this->isCategoryLayerEnabled()) {
             return [];
