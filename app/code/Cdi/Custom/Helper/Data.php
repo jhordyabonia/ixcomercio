@@ -312,12 +312,15 @@ class Data extends AbstractHelper{
      */
     public function getCategories($item)
     {
-        if (!$this->isCategoryLayerEnabled() || !$item->getProduct()) {
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$_product = $objectManager->get('Magento\Catalog\Model\Product')->load($item->getId());
+
+		if (!$this->isCategoryLayerEnabled()) {
             return [];
         }
 
         if (!array_key_exists($item->getItemId(), $this->categories)) {
-            $collection = $item->getProduct()->getCategoryCollection()->addAttributeToSelect('name');
+            $collection =$_product->getCategoryCollection()->addAttributeToSelect('name');
             $categories = [];
 
             if ($collection->getSize()) {
