@@ -99,7 +99,28 @@ define([
                         always: function (e) {
                             e.stopImmediatePropagation();
                         }
-                    }
+                    },
+                    buttons: [{
+                        text: $.mage.__('Cancelar'),
+                        class: 'action-secondary action-dismiss',
+            
+                        /**
+                         * Click handler.
+                         */
+                        click: function (event) {
+                            this.closeModal(event);
+                        }
+                    }, {
+                        text: $.mage.__('Eliminar'),
+                        class: 'action-primary action-accept',
+            
+                        /**
+                         * Click handler.
+                         */
+                        click: function (event) {
+                            this.closeModal(event, true);
+                        }
+                   }]
                 });
             };
 
@@ -255,13 +276,8 @@ define([
          * @private
          */
         _removeItemAfter: function (elem) {
-            var productData = this._getProductById(Number(elem.data('cart-item')));
-
-            if (!_.isUndefined(productData)) {
-                $(document).trigger('ajax:removeFromCart', {
-                    productIds: [productData['product_id']]
-                });
-            }
+            console.log('Reaload Page');
+            window.location.reload(); 
         },
 
         /**

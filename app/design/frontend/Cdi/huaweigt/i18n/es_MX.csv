@@ -3,3 +3,10 @@
 "Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea agregar los datos de su Factura"
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"Proceed to Checkout","PROCESAR PEDIDO",module,Magento_Checkout
+"Proceed to Checkout","PROCESAR PEDIDO",module,Magento_NegotiableQuote
+"In Stock","Stock disponible",module,Magento_Catalog
+"In Stock","Stock disponible",module,Magento_CatalogInventory
+"The quote item isn't found. Verify the item and try again.","No se encuentra el producto. Verifique el artículo y vuelva a intentarlo.",module,Magento_Checkout
+"Out Stock","Sin inventario"
+"","Eliminar"

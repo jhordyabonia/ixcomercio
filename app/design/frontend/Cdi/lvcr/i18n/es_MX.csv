@@ -1,2 +1,7 @@
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"Proceed to Checkout","PROCESAR PEDIDO",module,Magento_Checkout
+"In Stock","Stock disponible",module,Magento_Catalog
+"In Stock","Stock disponible",module,Magento_CatalogInventory
+"The quote item isn't found. Verify the item and try again.","No se encuentra el producto. Verifique el artículo y vuelva a intentarlo.",module,Magento_Checkout
+"Out Stock","Sin inventario"
