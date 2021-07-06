@@ -23,7 +23,7 @@ define([
                 var code_payment = $(input).attr('id');
 
 
-                $(menu).prepend('<li role="presentation" class="payment-group-item debitcard active"><a id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a><img style="padding-left: 1rem; padding-right: 1rem;" src="'+window.franquiciamp+'" ></li>');
+                $(menu).prepend('<li role="presentation" class="payment-group-item debitcard active"><a style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a><img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.franquiciamp+'" ></li>');
 
                 $('#' + code_payment).trigger("click");
 

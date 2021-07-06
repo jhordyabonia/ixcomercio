@@ -481,45 +481,6 @@
       background-position: 95% center !important;
     }
 
-    &.debitcard{
-      a {
-        background-image: url(../images/icono-td-normal@2x.png);
-
-      }
-
-      &.active {
-        a {
-          background-image: url(../images/icono-td-select@2x.png);
-
-        }
-      }
-    }
-
-    &.debitcredit{
-
-      &.active{
-        a{
-          background-image: url(../images/icono-tc-select@2x.png);
-        }
-      }
-
-      a{
-        background-image: url(../images/icono-tc-normal@2x.png);
-      }
-    }
-
-    &.pefectivo{
-
-      &.active{
-        a{
-          background-image: url(../images/icono-ef-select@2x.png);
-        }
-      }
-      a{
-        background-image: url(../images/icono-ef-normal@2x.png);
-      }
-    }
-
     &.active a{
       background-color: #FFFFFF;
       color: #000000
@@ -661,6 +622,22 @@
 }
 
 
+
+
+#applyCouponCard, #applyCouponTicket{
+  background-color: $colorBottom !important;
+  border-color: $colorBottom !important;
+}
+
+form#co-payment-form .fieldset > .legend + br{
+  display: none;
+}
+.checkout-agreements-block .action-show{
+  font-size: 14px;
+  font-weight: bold;
+}
+}
+
 .checkout-onepage-success .actions-toolbar>.primary{
   float: none!important;
 }
@@ -671,14 +648,4 @@
 
 .checkout-onepage-failure h1.page-title:first-child{
   display: none!important;
-}
-
-#applyCouponCard, #applyCouponTicket{
-  background-color: $colorBottom !important;
-  border-color: $colorBottom !important;
-}
-
-form#co-payment-form .fieldset > .legend + br{
-  display: none;
-}
 }

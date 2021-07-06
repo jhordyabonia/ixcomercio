@@ -20,7 +20,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-wrapper">
-                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("media/")?>espera.png"></p>
+                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("media/espera.png")?>"></p>
                     <h1 class="page-title">
                         <span class="base" data-ui-id="page-title-wrapper">¡Recibimos tu pedido!</span>
                     </h1>
@@ -70,7 +70,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
 ?>
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="page-title-wrapper">
-            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("media/")?>verificado.png"></p>
+            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("media/verificado.png")?>"></p>
             <h1 class="page-title">
                 <span class="base" data-ui-id="page-title-wrapper">¡Gracias por tu compra!</span>
             </h1>
@@ -89,7 +89,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                     <p>Tu número de pedido es <strong><?php echo $block->getOrderId(); ?></strong></p>
                     <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
                     <div class="actions-toolbar">
-                        <div class="primary">
+                        <div class="primary" style="float: none !important;">
                             <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                         </div>
                     </div>
@@ -113,7 +113,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                 <?= $block->getAdditionalInfoHtml() ?>
 
                 <div class="actions-toolbar">
-                    <div class="primary">
+                    <div class="primary" style="float: none !important;">
                         <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                     </div>
                 </div>
