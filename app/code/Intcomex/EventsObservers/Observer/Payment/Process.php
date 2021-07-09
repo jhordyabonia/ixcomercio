@@ -111,11 +111,16 @@ class Process implements ObserverInterface
                     if($mp_order!=0){
                         try{                       
                             $this->logger->info('Consultamos el payload');
+                            $LastTransId = '1234567';
+                            if($payment->getMethod()=='mercadopago_custom'){
+                                $LastTransId = $payment->getCcTransId();
+                            }                           
+                            
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
                                         '1234567',
-                                        (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
+                                        (!empty($payment->getLastTransId()))?$payment->getLastTransId():$LastTransId, 
                                         '', 
                                         $payment->getMethod(), 
                                         $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
