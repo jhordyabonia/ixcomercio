@@ -114,9 +114,8 @@ class Process implements ObserverInterface
                             $LastTransId = '1234567';
                             if($payment->getMethod()=='mercadopago_custom'){
                                 $LastTransId = $payment->getCcTransId();
-                            }
-                           
-                            $payment->getAdditionalInformation('paymentResponse');
+                            }                           
+                            
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
