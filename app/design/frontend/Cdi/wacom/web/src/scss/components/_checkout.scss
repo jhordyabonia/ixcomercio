@@ -628,11 +628,6 @@
 }
 
 }
-
-
-<<<<<<< HEAD
-
-
 #applyCouponCard, #applyCouponTicket{
   background-color: $colorBottom !important;
   border-color: $colorBottom !important;
@@ -658,37 +653,3 @@ form#co-payment-form .fieldset > .legend + br{
 .checkout-onepage-failure h1.page-title:first-child{
   display: none!important;
 }
-.mp-col-25{
-  width: 100% !important;
-}
-
-
-=======
-
-
-#applyCouponCard, #applyCouponTicket{
-  background-color: $colorBottom !important;
-  border-color: $colorBottom !important;
-}
-
-form#co-payment-form .fieldset > .legend + br{
-  display: none;
-}
-.checkout-agreements-block .action-show{
-  font-size: 14px;
-  font-weight: bold;
-}
-}
-
-.checkout-onepage-success .actions-toolbar>.primary{
-  float: none!important;
-}
-
-.checkout-onepage-failure .actions-toolbar>.primary{
-  float: none!important;
-}
-
-.checkout-onepage-failure h1.page-title:first-child{
-  display: none!important;
-}
->>>>>>> 87c49a6aa49bf819b8cf5d8c9cd6f5dc50f17011
