@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="update_manual" xsi:type="array">
+                    <item name="class" xsi:type="string">Intcomex\CustomLog\Ui\DataProvider\Product\Form\Modifier\Attributes</item>
+                    <item name="sortOrder" xsi:type="number">1000</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="update_file" xsi:type="array">
+                    <item name="class" xsi:type="string">Intcomex\CustomLog\Ui\DataProvider\Product\Form\Modifier\AttributesUpdatefile</item>
+                    <item name="sortOrder" xsi:type="number">1001</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="update_cron" xsi:type="array">
+                    <item name="class" xsi:type="string">Intcomex\CustomLog\Ui\DataProvider\Product\Form\Modifier\AttributesUpdateCron</item>
+                    <item name="sortOrder" xsi:type="number">1002</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+</config>
