@@ -624,7 +624,7 @@ class GetCatalog
         if (!$product) {
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
-            $product->setStatus(1); // Status on product enabled/ disabled 1/0           
+            $product->setStatus(0); // Status on product enabled/ disabled 1/0           
             $url = strtolower(rand(0, 1000) . '-' . $catalog->Description . '-' . $catalog->Sku . '-' . $storeId);
             $cleanurl = html_entity_decode(strip_tags($url));
             try {

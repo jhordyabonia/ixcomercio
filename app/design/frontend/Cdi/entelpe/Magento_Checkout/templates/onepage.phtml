@@ -62,6 +62,7 @@ $mercadoPagoBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->
         window.alertaTradein2 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_2'))?> ';
         window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
         window.megapago_efectivo_block = <?php echo json_encode($mercadoPagoBlock)?>;
+        window.franquiciamp = '<?php echo $block->getViewFileUrl('images/franquicias.png'); ?>';
         window.customAlertImage = '<?php echo $block->getViewFileUrl('images/icono_'.$theme->getStore()->getCode().'.png') ?>';
     </script>
     <script>

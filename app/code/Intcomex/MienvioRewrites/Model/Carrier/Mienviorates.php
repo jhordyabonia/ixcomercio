@@ -287,7 +287,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $method->setCode('');
                 }
 
-                $method->setMethodTitle($rate['servicelevel'].' - '.$rate['duration_terms']);
+                $method->setMethodTitle($rate['servicelevel'].' - '.((isset($rate['duration_terms']))?$rate['duration_terms']:''));
                 if($freeShippingSet){
                     $method->setPrice(0);
                     $method->setCost(0);
