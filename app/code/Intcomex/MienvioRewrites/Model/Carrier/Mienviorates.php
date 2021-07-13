@@ -146,7 +146,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             /*
              * Caso para cuando solamente viene una sola linea de Direccion,
-             * es decir la dirección Street uno, no es colocalda por el usuario.
+             * es decir la direcciÃ³n Street uno, no es colocalda por el usuario.
              */
 
             if ($count === 1){
@@ -393,7 +393,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $parsed = '';
         switch ($serviceLevel) {
             case 'estandar':
-                $parsed = 'Estándar';
+                $parsed = 'EstÃ¡ndar';
                 break;
             case 'express':
                 $parsed = 'Express';
@@ -443,7 +443,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private  function parseReverseServiceLevel($serviceLevel){
         $parsed = '';
         switch ($serviceLevel) {
-            case 'Estándar' :
+            case 'EstÃ¡ndar' :
                 $parsed = 'estandar';
                 break;
             case 'Express' :
@@ -689,11 +689,11 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     }
 
     /*
-     * Valida que los campos de ciudad, region y código de región no sean vacios.
-     * Se implementa esta función ya que magento dependiendo de la configuraciones de
-     * dirección de origen y destino, cambia el campo donde se valida el nivel 2 de la direccion.
+     * Valida que los campos de ciudad, region y cÃ³digo de regiÃ³n no sean vacios.
+     * Se implementa esta funciÃ³n ya que magento dependiendo de la configuraciones de
+     * direcciÃ³n de origen y destino, cambia el campo donde se valida el nivel 2 de la direccion.
      *
-     * Se añade la validación para revisar que el el nivel 2 se este tomando de acuerdo a la inversa desde region a ciudad.
+     * Se aÃ±ade la validaciÃ³n para revisar que el el nivel 2 se este tomando de acuerdo a la inversa desde region a ciudad.
      */
     private function getLevel2FromAddress ($destRegion,$destRegionCode,$destCity,$country = null)
     {
@@ -723,6 +723,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private function getOrderDefaultMeasures($items)
     {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $packageVolWeight = 0;
         $orderLength = 0;
         $orderWidth = 0;
@@ -735,7 +736,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $iws_type = "";
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $this->getProductByName($productName);
+
+            $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		    $product = $productRepository->get($item->getSku());
+
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKits.log');
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
@@ -861,18 +865,26 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     }
 
     private function checkVirtualProducts($items){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            
         try{
             foreach ($items as $item) {
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $productName = $item->getName();
-                $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+                
+                $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		        $product = $productRepository->get($item->getSku());
 
-                if($product->getData('ts_dimensions_length') != 0 && $product->getData('ts_dimensions_length') != null) {
+                $ressource = $product->getResource();
+                $store = $this->_storeManager->getStore();
+                $ts_dimensions_length = $ressource->getAttributeRawValue($product->getId(),'ts_dimensions_length',$store->getId());
+                $length = $ressource->getAttributeRawValue($product->getId(),'length',$store->getId());
+
+                
+                if($ts_dimensions_length != 0 && $ts_dimensions_length != null) {
                     return false;
-                }else if($product->getData('length') != 0 && $product->getData('length') != null){
+                }else if($length != 0 && $length != null){
                     return false;
                 }else{
-                    return true;
+                    return false;
                 }
             }
         } catch (\Exception $e) {
@@ -1080,7 +1092,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         return $serviceUrl;
     }
 
-    //Función recursiva para intentos de conexión
+    //FunciÃ³n recursiva para intentos de conexiÃ³n
     public function beginProductLoad($serviceUrl, $attempts) 
     {
         //Se conecta al servicio 
@@ -1090,13 +1102,13 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         } else {
 			if($this->_kitHelper->getKitRetries()>$attempts){
 				$attempts++;
-				$this->_loggerKit->info('GetProduct - Error conexión: '.$serviceUrl);
+				$this->_loggerKit->info('GetProduct - Error conexiÃ³n: '.$serviceUrl);
 				sleep(30);
-				$this->_loggerKit->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio.');
+				$this->_loggerKit->info('GetProduct - Se reintenta conexiÃ³n #'.$attempts.' con el servicio.');
 				$this->beginProductLoad($serviceUrl, $attempts);
 			} else{
-				$this->_loggerKit->info('GetProduct - Error conexión: '.$serviceUrl);
-				$this->_loggerKit->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$this->_kitHelper->getKitEmail());
+				$this->_loggerKit->info('GetProduct - Error conexiÃ³n: '.$serviceUrl);
+				$this->_loggerKit->info('GetProduct - Se cumplieron el nÃºmero de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificaciÃ³n al correo '.$this->_kitHelper->getKitEmail());
 				$this->email->notify('Soporte Trax', $this->_kitHelper->getKitEmail(), $this->_kitHelper->getKitRetries(), $serviceUrl, 'N/A', '');
 			}
         }   
