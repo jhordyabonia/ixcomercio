@@ -146,7 +146,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
             /*
              * Caso para cuando solamente viene una sola linea de Direccion,
-             * es decir la direcciÃ³n Street uno, no es colocalda por el usuario.
+             * es decir la dirección Street uno, no es colocalda por el usuario.
              */
 
             if ($count === 1){
@@ -393,7 +393,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $parsed = '';
         switch ($serviceLevel) {
             case 'estandar':
-                $parsed = 'EstÃ¡ndar';
+                $parsed = 'Estándar';
                 break;
             case 'express':
                 $parsed = 'Express';
@@ -443,7 +443,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     private  function parseReverseServiceLevel($serviceLevel){
         $parsed = '';
         switch ($serviceLevel) {
-            case 'EstÃ¡ndar' :
+            case 'Estándar' :
                 $parsed = 'estandar';
                 break;
             case 'Express' :
@@ -689,11 +689,11 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     }
 
     /*
-     * Valida que los campos de ciudad, region y cÃ³digo de regiÃ³n no sean vacios.
-     * Se implementa esta funciÃ³n ya que magento dependiendo de la configuraciones de
-     * direcciÃ³n de origen y destino, cambia el campo donde se valida el nivel 2 de la direccion.
+     * Valida que los campos de ciudad, region y código de región no sean vacios.
+     * Se implementa esta función ya que magento dependiendo de la configuraciones de
+     * dirección de origen y destino, cambia el campo donde se valida el nivel 2 de la direccion.
      *
-     * Se aÃ±ade la validaciÃ³n para revisar que el el nivel 2 se este tomando de acuerdo a la inversa desde region a ciudad.
+     * Se añade la validación para revisar que el el nivel 2 se este tomando de acuerdo a la inversa desde region a ciudad.
      */
     private function getLevel2FromAddress ($destRegion,$destRegionCode,$destCity,$country = null)
     {
@@ -1092,7 +1092,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         return $serviceUrl;
     }
 
-    //FunciÃ³n recursiva para intentos de conexiÃ³n
+    //Función recursiva para intentos de conexión
     public function beginProductLoad($serviceUrl, $attempts) 
     {
         //Se conecta al servicio 
@@ -1102,13 +1102,13 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         } else {
 			if($this->_kitHelper->getKitRetries()>$attempts){
 				$attempts++;
-				$this->_loggerKit->info('GetProduct - Error conexiÃ³n: '.$serviceUrl);
+				$this->_loggerKit->info('GetProduct - Error conexión: '.$serviceUrl);
 				sleep(30);
-				$this->_loggerKit->info('GetProduct - Se reintenta conexiÃ³n #'.$attempts.' con el servicio.');
+				$this->_loggerKit->info('GetProduct - Se reintenta conexión #'.$attempts.' con el servicio.');
 				$this->beginProductLoad($serviceUrl, $attempts);
 			} else{
-				$this->_loggerKit->info('GetProduct - Error conexiÃ³n: '.$serviceUrl);
-				$this->_loggerKit->info('GetProduct - Se cumplieron el nÃºmero de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificaciÃ³n al correo '.$this->_kitHelper->getKitEmail());
+				$this->_loggerKit->info('GetProduct - Error conexión: '.$serviceUrl);
+				$this->_loggerKit->info('GetProduct - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$this->_kitHelper->getKitEmail());
 				$this->email->notify('Soporte Trax', $this->_kitHelper->getKitEmail(), $this->_kitHelper->getKitRetries(), $serviceUrl, 'N/A', '');
 			}
         }   
