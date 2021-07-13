@@ -910,14 +910,6 @@ class GetCatalog
                     $this->logger_price->info('Automatic Price - Product old ' . $product->getData('price') );
                     $this->logger_price->info('Automatic Price - Product new ' . $value );
     
-                    $product->setUpdateManual('0');
-                    $product->setUpdateFile('0');
-                    $product->setUpdateCron('1');
-    
-                    $productResourceModel->saveAttribute($product, strtolower('update_manual'));
-                    $productResourceModel->saveAttribute($product, strtolower('update_file'));
-                    $productResourceModel->saveAttribute($product, strtolower('update_cron'));
-    
                 }
 
             } catch (Exception $e) {
