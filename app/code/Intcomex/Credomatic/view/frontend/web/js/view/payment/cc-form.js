@@ -41,7 +41,6 @@ define([
                     
                         var newOptions = {
                             "Forma de pago": "",
-                            "Al Contado": "1",
                         };
 
                         for (var i = 0; i < response.length; i++) {

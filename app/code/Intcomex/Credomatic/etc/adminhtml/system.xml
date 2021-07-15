@@ -14,11 +14,11 @@
         <section id="payment">
             <group id="credomatic" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Credomatic</label>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Activado</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="modo" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="modo" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Modo</label>
                     <source_model>Intcomex\Credomatic\Model\Config\Source\Modo</source_model>
                 </field>
@@ -28,20 +28,26 @@
                 <field id="url_gateway" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>URL Gateay</label>
                 </field>                
-                <field id="key_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="key_id" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Key Id</label>
                 </field>
-                <field id="key" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="key" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Key</label>
                 </field>
-                <field id="processor_id1" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="processor_id1" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id Contado</label>
                 </field>
-                <field id="processor_id3" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="processor_id3" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id TASA0 3</label>
                 </field>
-                <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id TASA0 6</label>
+                </field>
+                <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processor Id 10 Cuotas </label>
+                </field>
+                <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processor Id 12 Cuotas</label>
                 </field>
                 <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Pago en Cuotas Disponibles</label>
