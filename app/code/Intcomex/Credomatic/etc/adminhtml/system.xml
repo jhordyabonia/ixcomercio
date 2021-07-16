@@ -43,17 +43,17 @@
                 <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id TASA0 6</label>
                 </field>
-                <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="processor_id10" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id 10 Cuotas </label>
                 </field>
-                <field id="processor_id6" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="processor_id12" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id 12 Cuotas</label>
                 </field>
-                <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Pago en Cuotas Disponibles</label>
                     <source_model>Intcomex\Credomatic\Model\Config\Source\CuotasOptions</source_model>
                 </field>
-                <field id="CustomErrorMsg" translate="label" type="textarea" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="CustomErrorMsg" translate="label" type="textarea" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Mensaje de error personalizado.</label>
                     <comment><![CDATA[Llena este campo solamente si prefieres mostrar un mensaje de error personalizado al ser rechazada la transaccion, en lugar de mostrar los mensajes de Credomatic.]]></comment>
                 </field>
