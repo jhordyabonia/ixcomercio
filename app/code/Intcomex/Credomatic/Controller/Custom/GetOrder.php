@@ -40,21 +40,22 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getPostValue();
             
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $order = $objectManager->get('Magento\Sales\Model\Order')->getCollection()->addAttributeToSelect('*')->addFieldToFilter('entity_id',array('eq'=>$this->_checkoutSession->getLastOrderId()));
-            $time = strtotime(date('Y-m-d H:i:s'));
+            $orderId =  $this->_checkoutSession->getLastOrderId();
+            $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId)->getData();
             
+            $this->logger->info(' - - - -- ');
+            $this->logger->info($order['increment_id']);
+            
+            $time = strtotime(date('Y-m-d H:i:s'));
             $procesor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas']);
-            $this->logger->info('data Order Start');
-            $this->logger->info(print_r($order->getData(),true));
-            $this->logger->info('data Order End');
-            $total = number_format($order->getData()[0]['grand_total'],2,".","");
-            $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key'));
+            $total = number_format($order['grand_total'],2,".","");
+            $hash = md5($order['increment_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key'));
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id');
             $arrayData['hash'] = $hash;
             $arrayData['time'] = $time;
             $arrayData['processor_id'] = $procesor_id;
             $arrayData['amount'] = $total;
-            $arrayData['orderid'] = $order->getData()[0]['entity_id'];
+            $arrayData['orderid'] = $order['increment_id']; 
             $arrayData['gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway');
             $this->logger->info('Credomatic Request Data');
             $this->logger->info(print_r($arrayData,true));
