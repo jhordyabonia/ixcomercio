@@ -44,7 +44,9 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $time = strtotime(date('Y-m-d H:i:s'));
             
             $procesor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas']);
-            
+            $this->logger->info('data Order Start');
+            $this->logger->info(print_r($order->getData(),true));
+            $this->logger->info('data Order End');
             $total = number_format($order->getData()[0]['grand_total'],2,".","");
             $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key'));
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id');
