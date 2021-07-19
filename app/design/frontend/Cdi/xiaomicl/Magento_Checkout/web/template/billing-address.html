@@ -18,8 +18,10 @@
     <div class="billing-address-same-as-shipping-block field choice" data-bind="visible: canUseShippingAddress()">
         <input type="checkbox" name="billing-address-same-as-shipping"
                data-bind="checked: isAddressSameAsShipping, click: useShippingAddress, attr: {id: 'billing-address-same-as-shipping-' + getCode($parent)}"/>
-        <label data-bind="attr: {for: 'billing-address-same-as-shipping-' + getCode($parent)}"><span
-                data-bind="i18n: 'My billing and shipping address are the same'"></span></label>
+        <label data-bind="attr: {for: 'billing-address-same-as-shipping-' + getCode($parent)}">
+            <span class="invoice_uncheck_title" data-bind="i18n: 'My billing and shipping address are the same'"></span>
+            <span class="invoice_uncheck" data-bind="i18n: 'Please uncheck the box if you want to add your Invoice details'" ></span>            
+        </label>
     </div>
     <render args="detailsTemplate"/>
     <fieldset class="fieldset" data-bind="visible: !isAddressDetailsVisible()">
