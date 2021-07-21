@@ -48,26 +48,41 @@ define(
             afterPlaceOrder: function () { 
                 
                 var serviceUrl = url.build('credomatic/custom/getorder');  
+                var urlPostOrder = url.build('credomatic/custom/postorder');  
+                var urlGetResponse = url.build('credomatic/custom/getresponse');  
+                var urlPaymentResponse = url.build('credomatic/custom/paymentresponse');  
                 var cuotas = $("#credomatic_installments option:selected").val();
                 var year = $("#credomatic_expiration_yr option:selected").val();
                 var month = $("#credomatic_expiration option:selected").val();
-                $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month})
-                .done(function(msg){
+                var number = $("#credomatic_cc_number").val();
+                var cvv_ = $("#credomatic_cc_cid").val();
+                console.log('cvv_');
+                console.log(cvv_);
+                $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
+                .done(function(msg){ 
                    var data = JSON.parse(JSON.stringify(msg));
-                
-                    $("#credomatic_key_id").val(data.key_id);
-                    $("#credomatic_hash").val(data.hash);
-                    $("#credomatic_time").val(data.time);
-                    $("#credomatic_amount").val(data.amount);
-                    $("#credomatic_orderid").val(data.orderid);
-                    $("#credomatic_processor_id").val(data.processor_id);
-                    $("#credomatic_ccnumber").val($("#credomatic_cc_number").val());
-                    $("#credomatic_ccexp").val(data.ccexp);
-                    $("#credomatic_cvv").val($("#credomatic_cc_cid").val());
-                    $("#credomatic_redirect").val(url.build('credomatic/custom/paymentresponse'));
-                    setTimeout(function(){ 
-                        $("#formCredomatic").submit();
-                    }, 2000);                
+                    var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
+                    $("#frame_Credomatic").attr("src", serviceUrlPostOrder);  
+                    (function theLoop (i) {
+                        setTimeout(function () {
+                            $.post(urlGetResponse,{order_id:data['orderid']})
+                            .done(function(resp){
+                                //dataResp = JSON.parse(msg);
+                                if(resp.satatus=='success'){
+                                    console.log('registro encontrado');
+                                   // window.location.href = urlPaymentResponse+'?'+resp['info'];
+                                    return false;
+                                }
+                             })
+                            .fail(function(resp){
+                                console.log(resp);
+                             })
+                            if (--i) {          // If i > 0, keep going
+                            theLoop(i);       // Call the loop again, and pass it the current value of i
+                            }
+                        }, 9000);
+                    })(5); 
+                    
                 })
                 .fail(function(msg){
 

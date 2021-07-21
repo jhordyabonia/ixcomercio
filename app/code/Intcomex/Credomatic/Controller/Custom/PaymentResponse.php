@@ -113,7 +113,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $order->addStatusHistoryComment(__('Notified customer about invoice creation #%1.', $invoice->getId()))->setIsCustomerNotified(true)->save();
             }
     
-           return $resultRedirect;
+           //return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
@@ -156,7 +156,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 }
             } 
             
-            return $resultRedirect;
+            //return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
