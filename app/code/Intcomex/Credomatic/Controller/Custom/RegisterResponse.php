@@ -2,7 +2,7 @@
 
 namespace Intcomex\Credomatic\Controller\Custom;
 
-use Magento\Framework\App\ResourceConnection;
+use Intcomex\Credomatic\Model\CredomaticFactory;
 
 class RegisterResponse extends \Magento\Framework\App\Action\Action
 {
@@ -10,13 +10,12 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        ResourceConnection $resource,
-        \Magento\Framework\Serialize\Serializer\Json $json
+        \Magento\Framework\Serialize\Serializer\Json $json,
+        \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory
     ) {
         parent::__construct($context);
-        $this->resource   = $resource;
-        $this->connection  = $resource->getConnection();
         $this->json = $json;
+        $this->_credomaticFactory = $credomaticFactory;
     }
 
 
@@ -27,20 +26,22 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         try {
-            $post = $this->getRequest()->getParams();
-            if(!empty($post)){
+            $get = $this->getRequest()->getParams();
 
-                $data = [
-                    ['id' => null, 
-                    'order_id' => $post['orderid'],
-                    'response' => $this->json->serialize($post),
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                ];
+            if(!empty($get)){
+                $model =  $this->_credomaticFactory->create();  
+                $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $get['orderid']));
+                
+                if(empty($data->getData())){
+                    $model->addData([
+                        'order_id' => $get['orderid'],
+                        'response' => $this->json->serialize($get),
+                        'created_at' => date('Y-m-d H:i:s'),
+                        'updated_at' => date('Y-m-d H:i:s')
+                        ]);
     
-                $tableName = $this->resource->getTableName('transacciones_credomatic');
-                $insertData = $this->connection->insertMultiple($tableName, $data);
+                     $model->save();
+                }
 
             }
     

@@ -62,20 +62,26 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info(print_r($body,true));
             $this->logger->info('modo');
             $this->logger->info($modo);
+            
             $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($body['orderid']);
             
-            if(empty($body)){
+            if(empty($body)||$body['empty']==true){
                 $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
                 return $resultRedirect;
             }
+            
            
             if($modo=='pruebas'){
-                
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
                 $payment->save();
                 $order->save();
+                
+                $this->_checkoutSession->setLastQuoteId($order->getId());
+                $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
+                $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
+                $this->_checkoutSession->setLastRealOrderId($body['orderid']);
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
 
@@ -90,6 +96,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $payment->setLastTransId($body['authcode']);
                     $payment->save();
                     $order->save();
+                    $this->_checkoutSession->setLastQuoteId($order->getId());
+                    $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
+                    $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
+                    $this->_checkoutSession->setLastRealOrderId($body['orderid']);
                     $resultRedirect = $this->resultRedirectFactory->create();
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
@@ -112,8 +122,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 //Send Invoice mail to customer
                 $order->addStatusHistoryComment(__('Notified customer about invoice creation #%1.', $invoice->getId()))->setIsCustomerNotified(true)->save();
             }
-    
-           //return $resultRedirect;
+            
+           return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
@@ -140,7 +150,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $order->setState("canceled")->setStatus("canceled");
                 $order->cancel();
                 $this->orderManagement->cancel($order->getId());
-                $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.$body['responsetext']);
+                $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
                 $order->save();
             }
             $loger->info('Estado final de la orden');
@@ -156,7 +166,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 }
             } 
             
-            //return $resultRedirect;
+            return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 

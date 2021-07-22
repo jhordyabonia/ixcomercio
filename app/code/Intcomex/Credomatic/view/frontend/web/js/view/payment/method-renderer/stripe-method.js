@@ -56,8 +56,6 @@ define(
                 var month = $("#credomatic_expiration option:selected").val();
                 var number = $("#credomatic_cc_number").val();
                 var cvv_ = $("#credomatic_cc_cid").val();
-                console.log('cvv_');
-                console.log(cvv_);
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){ 
                    var data = JSON.parse(JSON.stringify(msg));
@@ -65,18 +63,26 @@ define(
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);  
                     (function theLoop (i) {
                         setTimeout(function () {
+                            console.log('Buscando ...'+i);
                             $.post(urlGetResponse,{order_id:data['orderid']})
                             .done(function(resp){
-                                //dataResp = JSON.parse(msg);
-                                if(resp.satatus=='success'){
-                                    console.log('registro encontrado');
-                                   // window.location.href = urlPaymentResponse+'?'+resp['info'];
+                                if(resp.status=='success'){
+                                    console.log('Encontrado!');
+                                    var redirectUrl = urlPaymentResponse+'?'+resp.info;
+                                    console.log('redirectUrl')
+                                    console.log(redirectUrl)
+                                    window.location.href = redirectUrl;
+                                    i=0;
                                     return false;
                                 }
                              })
                             .fail(function(resp){
                                 console.log(resp);
-                             })
+                             });
+                             if(i==1){
+                                var redirectUrl = urlPaymentResponse+'?orderid='+data['orderid']+'&empty=true';
+                                window.location.href = redirectUrl;
+                             }
                             if (--i) {          // If i > 0, keep going
                             theLoop(i);       // Call the loop again, and pass it the current value of i
                             }

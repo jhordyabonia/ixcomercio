@@ -17,6 +17,6 @@ class Credomatic extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('transacciones_credomatic', 'order_id'); 
+        $this->_init('transacciones_credomatic', 'id'); 
     }
 }
