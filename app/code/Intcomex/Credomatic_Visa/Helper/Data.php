@@ -1,5 +1,5 @@
 <?php
-namespace  Intcomex\Credomatic_Visa\Helper;
+namespace  Intcomex\CredomaticVisa\Helper;
 
 use \Magento\Payment\Helper\Data as mainHelper;
 
@@ -29,7 +29,7 @@ class Data extends mainHelper{
             $this->logger->info('El modelo indicado en '.$paymentMethod.' no esta definido!');
             
             if(strcmp($paymentMethod,'payment/credomatic_visa/model')===0){
-                $class = 'Intcomex\Credomatic_Visa\Model\Payment';
+                $class = 'Intcomex\CredomaticVisa\Model\Payment';
             }else if(strcmp($paymentMethod,'payment/pagalo/model')===0){
                 $class = 'Magento\Pagalo\Model\Payment';
             }

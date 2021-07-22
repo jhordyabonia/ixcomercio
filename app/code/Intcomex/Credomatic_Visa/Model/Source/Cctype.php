@@ -2,13 +2,13 @@
 /**
  * Payment CC Types Source Model
  *
- * @category    Credomatic_Visa
- * @package     Credomatic_Visa
+ * @category    CredomaticVisa
+ * @package     CredomaticVisa
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
 
-namespace Intcomex\Credomatic_Visa\Model\Source;
+namespace Intcomex\CredomaticVisa\Model\Source;
 
 class Cctype extends \Magento\Payment\Model\Source\Cctype
 {

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic_Visa default payment configuration
+* CredomaticVisa default payment configuration
 *
-* @category    Credomatic_Visa
-* @package     Credomatic_Visa
+* @category    CredomaticVisa
+* @package     CredomaticVisa
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */

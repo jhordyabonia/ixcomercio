@@ -1,8 +1,8 @@
 /**
- * Credomatic_Visa for Magento JS component
+ * CredomaticVisa for Magento JS component
  *
- * @category    Credomatic_Visa
- * @package     Credomatic_Visa
+ * @category    CredomaticVisa
+ * @package     CredomaticVisa
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -11,7 +11,7 @@
 define(
     [
         'ko',
-        'Intcomex_Credomatic_Visa/js/view/payment/cc-form',
+        'Intcomex_CredomaticVisa/js/view/payment/cc-form',
         'jquery',
         'Magento_Payment/js/model/credit-card-validation/validator',
         'Magento_Checkout/js/model/quote',
@@ -25,7 +25,7 @@ define(
         return Component.extend({
             defaults: {
                 redirectAfterPlaceOrder: false,
-                template: 'Intcomex_Credomatic_Visa/payment/stripe-form',
+                template: 'Intcomex_CredomaticVisa/payment/stripe-form',
             	/*paymentPayload: {
                     nonce: null
                 },

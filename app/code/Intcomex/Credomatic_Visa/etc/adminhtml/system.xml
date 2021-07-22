@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic_Visa admin configuration
+* CredomaticVisa admin configuration
 *
-* @category    Credomatic_Visa
-* @package     Credomatic_Visa
+* @category    CredomaticVisa
+* @package     CredomaticVisa
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
@@ -20,7 +20,7 @@
                 </field>
                 <field id="modo" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Modo</label>
-                    <source_model>Intcomex\Credomatic_Visa\Model\Config\Source\Modo</source_model>
+                    <source_model>Intcomex\CredomaticVisa\Model\Config\Source\Modo</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Título</label>
@@ -45,7 +45,7 @@
                 </field>
                 <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Pago en Cuotas Disponibles</label>
-                    <source_model>Intcomex\Credomatic_Visa\Model\Config\Source\CuotasOptions</source_model>
+                    <source_model>Intcomex\CredomaticVisa\Model\Config\Source\CuotasOptions</source_model>
                 </field>
                 <field id="CustomErrorMsg" translate="label" type="textarea" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Mensaje de error personalizado.</label>

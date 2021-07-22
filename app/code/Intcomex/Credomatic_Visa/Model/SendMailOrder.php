@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic_Visa\Model;
+namespace Intcomex\CredomaticVisa\Model;
 
 use Magento\Payment\Helper\Data as PaymentHelper;
 use Magento\Sales\Model\Order;

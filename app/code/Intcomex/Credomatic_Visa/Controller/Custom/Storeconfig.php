@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic_Visa\Controller\Custom;
+namespace Intcomex\CredomaticVisa\Controller\Custom;
 
 class Storeconfig extends \Magento\Framework\App\Action\Action
 {

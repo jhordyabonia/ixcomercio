@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic_Visa\Observer;
+namespace Intcomex\CredomaticVisa\Observer;
 
 
 use Magento\Payment\Observer\AbstractDataAssignObserver;

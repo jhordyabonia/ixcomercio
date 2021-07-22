@@ -1,5 +1,5 @@
 <?php
-namespace Intcomex\Credomatic_Visa\Logger;
+namespace Intcomex\CredomaticVisa\Logger;
 
 class Logger extends \Monolog\Logger
 {

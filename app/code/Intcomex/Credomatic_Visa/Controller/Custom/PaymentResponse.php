@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic_Visa\Controller\Custom;
+namespace Intcomex\CredomaticVisa\Controller\Custom;
 
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Sales\Model\Service\InvoiceService;

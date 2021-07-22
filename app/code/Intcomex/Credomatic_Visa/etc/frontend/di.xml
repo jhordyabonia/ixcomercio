@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic_Visa DI definitions
+* CredomaticVisa DI definitions
 *
-* @category    Credomatic_Visa
-* @package     Credomatic_Visa
+* @category    CredomaticVisa
+* @package     CredomaticVisa
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <virtualType name="Intcomex\Credomatic_Visa\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+    <virtualType name="Intcomex\CredomaticVisa\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="credomatic_visa" xsi:type="const">Intcomex\Credomatic_Visa\Model\Payment::CODE</item>
+                <item name="credomatic_visa" xsi:type="const">Intcomex\CredomaticVisa\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>
@@ -22,7 +22,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="Intcomex_config_provider" xsi:type="object">Intcomex\Credomatic_Visa\Model\ConfigProvider</item>
+                <item name="Intcomex_config_provider" xsi:type="object">Intcomex\CredomaticVisa\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

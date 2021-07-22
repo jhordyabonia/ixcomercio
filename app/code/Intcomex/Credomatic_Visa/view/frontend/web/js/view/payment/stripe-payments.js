@@ -1,8 +1,8 @@
 /**
- * Credomatic_Visa for Magento JS component
+ * CredomaticVisa for Magento JS component
  *
- * @category    Credomatic_Visa
- * @package     Credomatic_Visa
+ * @category    CredomaticVisa
+ * @package     CredomaticVisa
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -21,7 +21,7 @@ define(
         rendererList.push(
             {
                 type: 'credomatic_visa',
-                component: 'Intcomex_Credomatic_Visa/js/view/payment/method-renderer/stripe-method'
+                component: 'Intcomex_CredomaticVisa/js/view/payment/method-renderer/stripe-method'
             }
         );
         /** Add view logic here if needed */

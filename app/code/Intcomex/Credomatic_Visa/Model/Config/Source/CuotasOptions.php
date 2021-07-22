@@ -1,5 +1,5 @@
 <?php                                                                 
- namespace Intcomex\Credomatic_Visa\Model\Config\Source;                         
+ namespace Intcomex\CredomaticVisa\Model\Config\Source;                         
  class CuotasOptions implements \Magento\Framework\Option\ArrayInterface            
  {
 /**

@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Intcomex\Credomatic_Visa\Model\Order\Email;
+namespace Intcomex\CredomaticVisa\Model\Order\Email;
 
 use Magento\Sales\Model\Order;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Intcomex\Credomatic_Visa\Model;
+namespace Intcomex\CredomaticVisa\Model;
 use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Framework\DataObject;
 $instalmments = null;
@@ -28,7 +28,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
-        \Intcomex\Credomatic_Visa\Logger\Logger $credomaticLogger,
+        \Intcomex\CredomaticVisa\Logger\Logger $credomaticLogger,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Directory\Model\CountryFactory $countryFactory,

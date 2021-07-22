@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic_Visa default configuration
+* CredomaticVisa default configuration
 *
-* @category    Credomatic_Visa
-* @package     Credomatic_Visa
+* @category    CredomaticVisa
+* @package     CredomaticVisa
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
@@ -13,8 +13,8 @@
     <default>
         <payment>
             <credomatic_visa>
-                <active>0</active>
-                <model>Intcomex\Credomatic_Visa\Model\Payment</model>
+                <active>1</active>
+                <model>Intcomex\CredomaticVisa\Model\Payment</model>
                 <payment_action>authorize</payment_action>
                 <order_status>pending_payment</order_status>
                 <title>Credomatic Visa</title>
