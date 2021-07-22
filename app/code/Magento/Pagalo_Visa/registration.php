@@ -2,6 +2,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Magento_Pagalo',
+    'Magento_Pagalo_Visa',
     __DIR__
 );

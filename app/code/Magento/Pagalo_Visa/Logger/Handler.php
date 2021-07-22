@@ -1,5 +1,5 @@
 <?php
-namespace Magento\Pagalo\Logger;
+namespace Magento\Pagalo_Visa\Logger;
 
 use Monolog\Logger;
 
@@ -15,5 +15,5 @@ class Handler extends \Magento\Framework\Logger\Handler\Base
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/pagalo.log';
+    protected $fileName = '/var/log/pagalo_visa.log';
 }

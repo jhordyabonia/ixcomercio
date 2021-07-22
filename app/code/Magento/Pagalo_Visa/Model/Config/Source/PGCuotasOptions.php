@@ -1,5 +1,5 @@
 <?php                                                                 
- namespace Magento\Pagalo\Model\Config\Source;                         
+ namespace Magento\Pagalo_Visa\Model\Config\Source;                         
  class PGCuotasOptions implements \Magento\Framework\Option\ArrayInterface            
  {
 /**

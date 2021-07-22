@@ -1,10 +1,10 @@
 /**
- * Pagalo for Magento JS component
+ * Pagalo_Visa for Magento JS component
  *
- * @category    Pagalo
- * @package     Pagalo
- * @author      Pagalo
- * @copyright   Pagalo (https://www.pagalo.com/)
+ * @category    Pagalo_Visa
+ * @package     Pagalo_Visa
+ * @author      Pagalo_Visa
+ * @copyright   Pagalo_Visa (https://www.pagalo.com/)
  */
 /*browser:true*/
 /*global define*/
@@ -20,8 +20,8 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'pagalo',
-                component: 'Magento_Pagalo/js/view/payment/method-renderer/stripe-method'
+                type: 'pagalo_visa',
+                component: 'Magento_Pagalo_Visa/js/view/payment/method-renderer/stripe-method'
             }
         );
         /** Add view logic here if needed */

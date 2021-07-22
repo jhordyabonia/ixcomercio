@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Pagalo DI definitions
+* Pagalo_Visa DI definitions
 *
-* @category    Pagalo
-* @package     Pagalo
-* @author      Pagalo
-* @copyright   Pagalo (https://www.pagalo.com/)
+* @category    Pagalo_Visa
+* @package     Pagalo_Visa
+* @author      Pagalo_Visa
+* @copyright   Pagalo_Visa (https://www.pagalo.com/)
 */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <virtualType name="Magento\Pagalo\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+    <virtualType name="Magento\Pagalo_Visa\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="pagalo" xsi:type="const">Magento\Pagalo\Model\Payment::CODE</item>
+                <item name="pagalo_visa" xsi:type="const">Magento\Pagalo_Visa\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>
@@ -22,7 +22,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="Pagalo_config_provider" xsi:type="object">Magento\Pagalo\Model\ConfigProvider</item>
+                <item name="Pagalo_Visa_config_provider" xsi:type="object">Magento\Pagalo_Visa\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

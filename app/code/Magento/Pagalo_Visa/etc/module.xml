@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Pagalo module dependency
+* Pagalo_Visa module dependency
 *
-* @category    Pagalo
-* @package     Pagalo
-* @author      Pagalo
-* @copyright   Pagalo (https://www.pagalo.com/)
+* @category    Pagalo_Visa
+* @package     Pagalo_Visa
+* @author      Pagalo_Visa
+* @copyright   Pagalo_Visa (https://www.pagalo.com/)
 */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Magento_Pagalo" setup_version="1.0.0">
+    <module name="Magento_Pagalo_Visa" setup_version="1.0.0">
         <sequence>
             <module name="Magento_Sales" />
             <module name="Magento_Payment" />

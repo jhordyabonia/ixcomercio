@@ -29,11 +29,11 @@ define([
             creditCardVerificationNumber: '',
             selectedCardType: null,
             creditCardInstallments: '', 
-            template: 'Magento_Pagalo/payment/cc-form'
+            template: 'Magento_Pagalo_Visa/payment/cc-form'
         },
         
         getconfigValue: function () {
-            var serviceUrl = url.build('pagalo/custom/storeconfig');
+            var serviceUrl = url.build('pagalo_visa/custom/storeconfig');
             storage.get(serviceUrl).done(
                 function (response) {
                     if (response.success) {
