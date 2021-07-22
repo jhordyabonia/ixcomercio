@@ -13,7 +13,7 @@
     <default>
         <payment>
             <credomatic>
-                <active>0</active>
+                <active>1</active>
                 <model>Intcomex\Credomatic\Model\Payment</model>
                 <payment_action>authorize</payment_action>
                 <order_status>pending_payment</order_status>
