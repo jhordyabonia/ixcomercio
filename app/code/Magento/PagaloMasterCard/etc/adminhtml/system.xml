@@ -13,7 +13,7 @@
     <system>
         <section id="payment">
             <group id="pagalo_mastercard" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Pagalo Visa</label>
+                <label>Pagalo MasterCard</label>
                 <comment>
                     <![CDATA[<a href="https://app.pagalocard.com/login" target="_blank">Click aquí para acceder a su cuenta Pagalo</a>]]>
                 </comment>

@@ -22,7 +22,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="Pagalo_Visa_config_provider" xsi:type="object">Magento\PagaloMasterCard\Model\ConfigProvider</item>
+                <item name="Pagalo_MasterCard_config_provider" xsi:type="object">Magento\PagaloMasterCard\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>
