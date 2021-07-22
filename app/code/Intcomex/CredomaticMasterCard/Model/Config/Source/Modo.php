@@ -1,5 +1,5 @@
 <?php
-namespace Intcomex\Credomatic\Model\Config\Source;                         
+namespace Intcomex\CredomaticMasterCard\Model\Config\Source;                         
 
 class Modo implements \Magento\Framework\Data\OptionSourceInterface
 {
