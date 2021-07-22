@@ -1,5 +1,5 @@
 <?php
-namespace Intcomex\Credomatic\Logger;
+namespace Intcomex\Credomatic_MasterCard\Logger;
 
 use Monolog\Logger;
 
@@ -15,5 +15,5 @@ class Handler extends \Magento\Framework\Logger\Handler\Base
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/credomatic.log';
+    protected $fileName = '/var/log/Credomatic_mastercard.log';
 }

@@ -1,8 +1,8 @@
 /**
- * Credomatic for Magento JS component
+ * Credomatic_MasterCard for Magento JS component
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    Credomatic_MasterCard
+ * @package     Credomatic_MasterCard
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -20,8 +20,8 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'credomatic',
-                component: 'Intcomex_Credomatic/js/view/payment/method-renderer/stripe-method'
+                type: 'Credomatic_mastercard',
+                component: 'Intcomex_Credomatic_MasterCard/js/view/payment/method-renderer/stripe-method'
             }
         );
         /** Add view logic here if needed */

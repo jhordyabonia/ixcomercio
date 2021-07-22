@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic\Model;
+namespace Intcomex\Credomatic_Visa\Model;
 
 use Magento\Payment\Helper\Data as PaymentHelper;
 use Magento\Sales\Model\Order;
@@ -33,7 +33,7 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
     public function send(Order $order, $forceSyncMode = false)
     {
         $payment = $order->getPayment();
-        if($payment->getMethodInstance()->getCode()=='credomatic'&&$payment->getLastTransId()==''){
+        if($payment->getMethodInstance()->getCode()=='credomatic_visa'&&$payment->getLastTransId()==''){
            return false;
         }
         if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){

@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
-        <route frontName="credomatic" id="credomatic">
-            <module name="Intcomex_Credomatic"/>
+        <route frontName="credomatic_visa" id="credomatic_visa">
+            <module name="Intcomex_Credomatic_Visa"/>
         </route>
     </router>
 </config>

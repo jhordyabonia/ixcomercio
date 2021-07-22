@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic admin configuration
+* Credomatic_MasterCard admin configuration
 *
-* @category    Credomatic
-* @package     Credomatic
+* @category    Credomatic_MasterCard
+* @package     Credomatic_MasterCard
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
@@ -12,15 +12,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="credomatic" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Credomatic</label>
+            <group id="Credomatic_mastercard" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Credomatic MasterCard</label>
                 <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Activado</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="modo" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Modo</label>
-                    <source_model>Intcomex\Credomatic\Model\Config\Source\Modo</source_model>
+                    <source_model>Intcomex\Credomatic_MasterCard\Model\Config\Source\Modo</source_model>
                 </field>
                 <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Título</label>
@@ -45,7 +45,7 @@
                 </field>
                 <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Pago en Cuotas Disponibles</label>
-                    <source_model>Intcomex\Credomatic\Model\Config\Source\CuotasOptions</source_model>
+                    <source_model>Intcomex\Credomatic_MasterCard\Model\Config\Source\CuotasOptions</source_model>
                 </field>
                 <field id="CustomErrorMsg" translate="label" type="textarea" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Mensaje de error personalizado.</label>

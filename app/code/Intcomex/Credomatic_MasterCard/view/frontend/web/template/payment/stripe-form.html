@@ -1,9 +1,9 @@
 <!--
 /**
- * Credomatic Template
+ * Credomatic_MasterCard Template
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    Credomatic_MasterCard
+ * @package     Credomatic_MasterCard
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -28,22 +28,22 @@
         </div>
 
         <form  class="form" data-bind="attr: {'id': getCode() + '-form'}">
-            <!-- ko template: 'Intcomex_Credomatic/payment/cc-form' --><!-- /ko -->
+            <!-- ko template: 'Intcomex_credomatic_visa_expiration/payment/cc-form' --><!-- /ko -->
 			
         </form>
-        <form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"  style="display: none;" id="formCredomatic">
-			<input type="hidden" readonly id="credomatic_type" name="type" value="sale"  >
-            <input type="hidden" readonly id="credomatic_key_id" name="key_id" >
-            <input type="hidden" readonly id="credomatic_hash" name="hash" >
-            <input type="hidden" readonly id="credomatic_time" name="time" >
-            <input type="hidden" readonly id="credomatic_amount" name="amount"  >
-            <input type="hidden" readonly id="credomatic_orderid" name="orderid"  >
-            <input type="hidden" readonly id="credomatic_processor_id" name="processor_id"  >
-            <input type="hidden" readonly id="credomatic_ccnumber" name="ccnumber" >
-            <input type="hidden" readonly id="credomatic_ccexp" name="ccexp"  >
-            <input type="hidden" readonly id="credomatic_cvv" name="cvv"  >
+        <form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"  style="display: none;" id="formCredomaticVisa">
+			<input type="hidden" readonly id="credomatic_visa_type" name="type" value="sale"  >
+            <input type="hidden" readonly id="credomatic_visa_key_id" name="key_id" >
+            <input type="hidden" readonly id="credomatic_visa_hash" name="hash" >
+            <input type="hidden" readonly id="credomatic_visa_time" name="time" >
+            <input type="hidden" readonly id="credomatic_visa_amount" name="amount"  >
+            <input type="hidden" readonly id="credomatic_visa_orderid" name="orderid"  >
+            <input type="hidden" readonly id="credomatic_visa_processor_id" name="processor_id"  >
+            <input type="hidden" readonly id="credomatic_visa_ccnumber" name="ccnumber" >
+            <input type="hidden" readonly id="credomatic_visa_ccexp" name="ccexp"  >
+            <input type="hidden" readonly id="credomatic_visa_cvv" name="cvv"  >
            <!--<input type="hidden" name="avs" >-->
-            <input type="hidden" readonly id="credomatic_redirect" name="redirect" value=""  >
+            <input type="hidden" readonly id="credomatic_visa_redirect" name="redirect" value=""  >
         </form>
 
         <div class="checkout-agreements-block">

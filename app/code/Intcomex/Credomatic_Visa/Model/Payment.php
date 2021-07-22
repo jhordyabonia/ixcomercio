@@ -1,12 +1,12 @@
 <?php
-namespace Intcomex\Credomatic\Model;
+namespace Intcomex\Credomatic_Visa\Model;
 use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Framework\DataObject;
 $instalmments = null;
 $device_fingerprint = null;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
-    const CODE = 'credomatic';
+    const CODE = 'credomatic_visa';
     protected $_code = self::CODE;
     protected $_isGateway                   = true;
     protected $_canCapture                  = true;
@@ -28,7 +28,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
-        \Intcomex\Credomatic\Logger\Logger $credomaticLogger,
+        \Intcomex\Credomatic_Visa\Logger\Logger $credomaticLogger,
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Directory\Model\CountryFactory $countryFactory,

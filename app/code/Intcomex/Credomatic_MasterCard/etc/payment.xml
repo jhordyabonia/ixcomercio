@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic default payment configuration
+* Credomatic_MasterCard default payment configuration
 *
-* @category    Credomatic
-* @package     Credomatic
+* @category    Credomatic_MasterCard
+* @package     Credomatic_MasterCard
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
 -->
 <payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
     <methods>
-        <method name="credomatic">
+        <method name="Credomatic_mastercard">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
     </methods>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic\Controller\Custom;
+namespace Intcomex\Credomatic_MasterCard\Controller\Custom;
 
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Sales\Model\Service\InvoiceService;
@@ -46,8 +46,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         try {
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg');
-            $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
+            $customError = (string) $this->_scopeConfig->getValue('payment/Credomatic_mastercard/CustomErrorMsg');
+            $modo =  $this->_scopeConfig->getValue('payment/Credomatic_mastercard/modo',ScopeInterface::SCOPE_STORE);
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;
@@ -55,7 +55,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $body = $this->getRequest()->getParams();
             sleep(1);
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_visa_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));

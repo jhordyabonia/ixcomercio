@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic\Observer;
+namespace Intcomex\Credomatic_Visa\Observer;
 
 
 use Magento\Payment\Observer\AbstractDataAssignObserver;
@@ -22,7 +22,7 @@ class DataAssignObserver extends AbstractDataAssignObserver
 
         $additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
         
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_debug.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_visa_debug.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
         $this->logger->info(print_r($additionalData,true));

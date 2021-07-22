@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic DI definitions
+* Credomatic_MasterCard DI definitions
 *
-* @category    Credomatic
-* @package     Credomatic
+* @category    Credomatic_MasterCard
+* @package     Credomatic_MasterCard
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <virtualType name="Intcomex\Credomatic\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+    <virtualType name="Intcomex\Credomatic_MasterCard\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="credomatic" xsi:type="const">Intcomex\Credomatic\Model\Payment::CODE</item>
+                <item name="Credomatic_mastercard" xsi:type="const">Intcomex\Credomatic_MasterCard\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>
@@ -22,7 +22,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="Intcomex_config_provider" xsi:type="object">Intcomex\Credomatic\Model\ConfigProvider</item>
+                <item name="Intcomex_config_provider" xsi:type="object">Intcomex\Credomatic_MasterCard\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

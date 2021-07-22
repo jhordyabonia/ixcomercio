@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\Credomatic\Controller\Custom;
+namespace Intcomex\Credomatic_Visa\Controller\Custom;
 
 class Storeconfig extends \Magento\Framework\App\Action\Action
 {
@@ -34,7 +34,7 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
         $response = [];
         try {
             $configValue = $this->scopeConfig->getValue(
-                'payment/credomatic/CuotasOptions',
+                'payment/credomatic_visa/CuotasOptions',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             error_log('Config Value: ' . print_r($configValue, true));

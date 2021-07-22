@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic default configuration
+* Credomatic_MasterCard default configuration
 *
-* @category    Credomatic
-* @package     Credomatic
+* @category    Credomatic_MasterCard
+* @package     Credomatic_MasterCard
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
@@ -12,17 +12,17 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <credomatic>
+            <Credomatic_mastercard>
                 <active>0</active>
-                <model>Intcomex\Credomatic\Model\Payment</model>
+                <model>Intcomex\Credomatic_MasterCard\Model\Payment</model>
                 <payment_action>authorize</payment_action>
                 <order_status>pending_payment</order_status>
-                <title>Credomatic</title>
+                <title>Credomatic MasterCard</title>
                 <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <cctypes>MC,VI</cctypes>
+                <cctypes>VI</cctypes>
                 <!-- allowspecific>0</allowspecific>
                 <min_order_total>0.50</min_order_total-->
-            </credomatic>
+            </Credomatic_mastercard>
         </payment>
     </default>
 </config>

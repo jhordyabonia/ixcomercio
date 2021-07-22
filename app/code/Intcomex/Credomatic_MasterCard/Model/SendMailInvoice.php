@@ -1,5 +1,5 @@
 <?php
-namespace Intcomex\Credomatic\Model;
+namespace Intcomex\Credomatic_MasterCard\Model;
 
 use Magento\Payment\Helper\Data as PaymentHelper;
 use Magento\Sales\Model\Order;
@@ -37,7 +37,7 @@ class SendMailInvoice extends \Magento\Sales\Model\Order\Email\Sender\InvoiceSen
         if (!$this->globalConfig->getValue('sales_email/general/async_sending') || $forceSyncMode) {
             $order = $invoice->getOrder();
             $payment = $order->getPayment();
-            if($order->getPayment()->getMethodInstance()->getCode()=='credomatic'&&$payment->getLastTransId()==''){
+            if($order->getPayment()->getMethodInstance()->getCode()=='Credomatic_mastercard'&&$payment->getLastTransId()==''){
                 return false;
             }
             if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){

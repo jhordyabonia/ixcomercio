@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic module dependency
+* Credomatic_Visa module dependency
 *
-* @category    Credomatic
-* @package     Credomatic
+* @category    Credomatic_Visa
+* @package     Credomatic_Visa
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Intcomex_Credomatic" setup_version="1.5.0"> 
+    <module name="Intcomex_Credomatic_Visa" setup_version="1.5.0"> 
         <sequence>
             <module name="Magento_Sales" />
             <module name="Magento_Payment" />
