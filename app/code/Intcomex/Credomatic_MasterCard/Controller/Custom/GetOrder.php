@@ -43,17 +43,17 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $order = $objectManager->get('Magento\Sales\Model\Order')->getCollection()->addAttributeToSelect('*')->addFieldToFilter('entity_id',array('eq'=>$this->_checkoutSession->getLastOrderId()));
             $time = strtotime(date('Y-m-d H:i:s'));
             
-            $procesor_id = $this->_scopeConfig->getValue('payment/Credomatic_mastercard/processor_id'.$post['cuotas']);
+            $procesor_id = $this->_scopeConfig->getValue('payment/credomatic_masterCard/processor_id'.$post['cuotas']);
             
             $total = number_format($order->getData()[0]['grand_total'],2,".","");
-            $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/Credomatic_mastercard/key'));
-            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/Credomatic_mastercard/key_id');
+            $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic_masterCard/key'));
+            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic_masterCard/key_id');
             $arrayData['hash'] = $hash;
             $arrayData['time'] = $time;
             $arrayData['processor_id'] = $procesor_id;
             $arrayData['amount'] = $total;
             $arrayData['orderid'] = $order->getData()[0]['entity_id'];
-            $arrayData['gateway'] = $this->_scopeConfig->getValue('payment/Credomatic_mastercard/url_gateway');
+            $arrayData['gateway'] = $this->_scopeConfig->getValue('payment/credomatic_masterCard/url_gateway');
             $this->logger->info('Credomatic Request Data');
             $this->logger->info(print_r($arrayData,true));
             $this->logger->info('------');

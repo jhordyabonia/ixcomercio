@@ -44,7 +44,7 @@
             <span><!-- ko i18n: 'Número de Tarjeta'--><!-- /ko --></span>
         </label>
         <div class="control">
-            <input id="credomatic_visa_cc_number"  type="number" name="payment[cc_number]" class="input-text" value=""
+            <input id="credomatic_mastercard_cc_number"  type="number" name="payment[cc_number]" class="input-text" value=""
                    data-bind="attr: {
                                     autocomplete: off,
                                     id: getCode() + '_cc_number',
@@ -64,7 +64,7 @@
             <div class="fields group group-2">
                 <div class="field no-label month">
                     <div class="control">
-                        <select id="credomatic_visa_cc_exp_month"   name="payment[cc_exp_month]"
+                        <select id="credomatic_mastercard_cc_exp_month"   name="payment[cc_exp_month]"
                                  class="select select-month"
                                  data-bind="attr: {id: getCode() + '_expiration', 'data-container': getCode() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCode() + '_expiration_yr'})},
                                             enable: isActive($parents),
@@ -78,7 +78,7 @@
                 </div>
                 <div class="field no-label year">
                     <div class="control">
-                        <select id="credomatic_visa_cc_exp_year" name="payment[cc_exp_year]"
+                        <select id="credomatic_mastercard_cc_exp_year" name="payment[cc_exp_year]"
                                 class="select select-year"
                                 data-bind="attr: {id: getCode() + '_expiration_yr', 'data-container': getCode() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
                                            enable: isActive($parents),
@@ -99,7 +99,7 @@
             <span><!-- ko i18n: 'Código de Seguridad / CVV2'--><!-- /ko --></span>
         </label>
         <div class="control _with-tooltip">
-            <input id="credomatic_visa_cc_cid" type="number"
+            <input id="credomatic_mastercard_cc_cid" type="number"
                    autocomplete="off"
                    class="input-text cvv"
                    name="payment[cc_cid]"
@@ -132,7 +132,7 @@
           <div class="fields group group-2">
         <div class="field no-label">
             <div class="control">
-                    <select id="credomatic_visa_cc_installments" name="payment[cc_installments]"
+                    <select id="credomatic_mastercard_cc_installments" name="payment[cc_installments]"
               class="select"
               data-bind=" attr: {id: getCode() + '_installments',
                 'data-container': getCode() + '-cc-installments',

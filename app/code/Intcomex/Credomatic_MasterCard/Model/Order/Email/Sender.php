@@ -19,7 +19,7 @@ class Sender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
     protected function prepareTemplate(Order $order)
     {
 
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_visa_payment_name.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_mastercard_payment_name.log');
             $this->new_logger = new \Zend\Log\Logger();
             $this->new_logger->addWriter($writer);
             $this->new_logger->info($order->getPayment()->getMethodInstance()->getCode());

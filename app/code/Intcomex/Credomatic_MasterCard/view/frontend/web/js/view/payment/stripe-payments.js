@@ -20,7 +20,7 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'Credomatic_mastercard',
+                type: 'credomatic_masterCard',
                 component: 'Intcomex_Credomatic_MasterCard/js/view/payment/method-renderer/stripe-method'
             }
         );

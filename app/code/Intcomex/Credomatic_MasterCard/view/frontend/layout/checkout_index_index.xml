@@ -30,7 +30,7 @@
                                                                 <item name="credomatic-mastercard-payments" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Intcomex_Credomatic_MasterCard/js/view/payment/stripe-payments</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="Credomatic_mastercard" xsi:type="array">
+                                                                        <item name="credomatic_masterCard" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>

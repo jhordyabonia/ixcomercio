@@ -14,7 +14,7 @@
     <virtualType name="Intcomex\Credomatic_MasterCard\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="Credomatic_mastercard" xsi:type="const">Intcomex\Credomatic_MasterCard\Model\Payment::CODE</item>
+                <item name="credomatic_masterCard" xsi:type="const">Intcomex\Credomatic_MasterCard\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>

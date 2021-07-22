@@ -29,11 +29,11 @@ define([
             creditCardVerificationNumber: '',
             selectedCardType: null,
             creditCardInstallments: '', 
-            template: 'Intomex_Credomatic_Visa/payment/cc-form'
+            template: 'Intomex_Credomatic_MasterCard/payment/cc-form'
         },
         
         getconfigValue: function () {
-            var serviceUrl = url.build('Credomatic_mastercard/custom/storeconfig');  
+            var serviceUrl = url.build('credomatic_masterCard/custom/storeconfig');  
             storage.get(serviceUrl).done(
                 function (response) {
                     if (response.success) {
@@ -49,7 +49,7 @@ define([
                             newOptions[response[i]+" Cuotas"] = response[i];
                         }
         
-                        var $methods = $("#credomatic_visa_installments");
+                        var $methods = $("#credomatic_mastercard_installments");
                         $methods.empty();
                         $.each(newOptions, function(key,value) {
                             $methods.append($("<option></option>").attr("value", value).text(key));

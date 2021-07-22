@@ -28,7 +28,7 @@ class Data extends mainHelper{
         if(!$class){
             $this->logger->info('El modelo indicado en '.$paymentMethod.' no esta definido!');
             
-            if(strcmp($paymentMethod,'payment/Credomatic_mastercard/model')===0){
+            if(strcmp($paymentMethod,'payment/credomatic_masterCard/model')===0){
                 $class = 'Intcomex\Credomatic_MasterCard\Model\Payment';
             }else if(strcmp($paymentMethod,'payment/pagalo/model')===0){
                 $class = 'Magento\Pagalo\Model\Payment';

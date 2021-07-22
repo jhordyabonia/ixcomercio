@@ -12,17 +12,17 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <Credomatic_mastercard>
+            <credomatic_masterCard>
                 <active>0</active>
                 <model>Intcomex\Credomatic_MasterCard\Model\Payment</model>
                 <payment_action>authorize</payment_action>
                 <order_status>pending_payment</order_status>
                 <title>Credomatic MasterCard</title>
                 <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <cctypes>VI</cctypes>
+                <cctypes>MC</cctypes>
                 <!-- allowspecific>0</allowspecific>
                 <min_order_total>0.50</min_order_total-->
-            </Credomatic_mastercard>
+            </credomatic_masterCard>
         </payment>
     </default>
 </config>

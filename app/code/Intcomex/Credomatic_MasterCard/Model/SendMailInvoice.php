@@ -37,7 +37,7 @@ class SendMailInvoice extends \Magento\Sales\Model\Order\Email\Sender\InvoiceSen
         if (!$this->globalConfig->getValue('sales_email/general/async_sending') || $forceSyncMode) {
             $order = $invoice->getOrder();
             $payment = $order->getPayment();
-            if($order->getPayment()->getMethodInstance()->getCode()=='Credomatic_mastercard'&&$payment->getLastTransId()==''){
+            if($order->getPayment()->getMethodInstance()->getCode()=='credomatic_masterCard'&&$payment->getLastTransId()==''){
                 return false;
             }
             if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){
