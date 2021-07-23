@@ -65,7 +65,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             
             $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($body['orderid']);
             
-            if(empty($body)||$body['empty']==true){
+            if(empty($body)||isset($body['empty'])){
                 $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
                 return $resultRedirect;
             }
