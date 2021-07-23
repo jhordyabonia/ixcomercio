@@ -32,7 +32,7 @@ define(
 		creditCardInstallments: '',*/
 	    },
 	    
-            getCode: function() {
+        getCodeVisa: function() {
                 return 'credomatic_visa';
             },
 
@@ -41,7 +41,7 @@ define(
             },
 
             validate: function() {
-                var $form = $('#' + this.getCode() + '-form');
+                var $form = $('#' + this.getCodeVisa() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
 

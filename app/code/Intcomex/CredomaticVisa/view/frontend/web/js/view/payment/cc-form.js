@@ -32,7 +32,7 @@ define([
             template: 'Intomex_Credomatic_Visa/payment/cc-form'
         },
         
-        getconfigValue: function () {
+        getconfigValueVisa: function () {
             var serviceUrl = url.build('credomatic_visa/custom/storeconfig');  
             storage.get(serviceUrl).done(
                 function (response) {
@@ -146,7 +146,7 @@ define([
          * Get code
          * @returns {String}
          */
-        getCode: function () {
+         getCodeVisa: function () {
             return 'cc';
         },
 
@@ -180,7 +180,7 @@ define([
          * @returns {Object}
          */
         getCcAvailableTypesVisa: function () {
-            return window.checkoutConfig.payment.ccform.availableTypes[this.getCode()];
+            return window.checkoutConfig.payment.ccform.availableTypes[this.getCodeVisa()];
         },
 
         /**
@@ -199,7 +199,7 @@ define([
          * @returns {Object}
          */
         getCcMonths: function () {
-            return window.checkoutConfig.payment.ccform.months[this.getCode()];
+            return window.checkoutConfig.payment.ccform.months[this.getCodeVisa()];
         },
 
         /**
@@ -207,7 +207,7 @@ define([
          * @returns {Object}
          */
         getCcYears: function () {
-            return window.checkoutConfig.payment.ccform.years[this.getCode()];
+            return window.checkoutConfig.payment.ccform.years[this.getCodeVisa()];
         },
 
         /**
@@ -215,7 +215,7 @@ define([
          * @returns {Boolean}
          */
         hasVerification: function () {
-            return window.checkoutConfig.payment.ccform.hasVerification[this.getCode()];
+            return window.checkoutConfig.payment.ccform.hasVerification[this.getCodeVisa()];
         },
 
         /**
@@ -223,7 +223,7 @@ define([
          * @returns {Boolean}
          */
         hasSsCardType: function () {
-            return window.checkoutConfig.payment.ccform.hasSsCardType[this.getCode()];
+            return window.checkoutConfig.payment.ccform.hasSsCardType[this.getCodeVisa()];
         },
 
         /**
@@ -231,7 +231,7 @@ define([
          * @returns {String}
          */
         getCvvImageUrl: function () {
-            return window.checkoutConfig.payment.ccform.cvvImageUrl[this.getCode()];
+            return window.checkoutConfig.payment.ccform.cvvImageUrl[this.getCodeVisa()];
         },
 
         /**
@@ -250,7 +250,7 @@ define([
          * @returns {Object}
          */
         getSsStartYears: function () {
-            return window.checkoutConfig.payment.ccform.ssStartYears[this.getCode()];
+            return window.checkoutConfig.payment.ccform.ssStartYears[this.getCodeVisa()];
         },
 
         /**
