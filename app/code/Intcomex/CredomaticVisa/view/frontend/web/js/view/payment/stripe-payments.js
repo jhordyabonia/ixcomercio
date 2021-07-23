@@ -21,7 +21,7 @@ define(
         rendererList.push(
             {
                 type: 'credomatic_visa',
-                component: 'Intcomex_CredomaticVisa/js/view/payment/method-renderer/stripe-method'
+                component: 'Intcomex_CredomaticVisa/js/view/payment/method-renderer/stripe-method-visa'
             }
         );
         /** Add view logic here if needed */

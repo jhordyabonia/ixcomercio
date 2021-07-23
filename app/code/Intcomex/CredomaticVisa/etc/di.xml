@@ -14,7 +14,6 @@
             </argument>
         </arguments>
     </type>
-    <preference for="Magento\Payment\Helper\Data" type="Intcomex\CredomaticVisa\Helper\Data" />
     <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Intcomex\CredomaticVisa\Model\SendMailOrder" />
     <preference for="Magento\Sales\Model\Order\Email\Sender\InvoiceSender" type="Intcomex\CredomaticVisa\Model\SendMailInvoice" />
 </config>

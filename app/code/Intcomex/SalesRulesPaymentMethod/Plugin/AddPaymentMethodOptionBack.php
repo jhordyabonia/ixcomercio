@@ -14,7 +14,7 @@ class AddPaymentMethodOptionBack
     public function afterLoadAttributeOptions(Address $subject, $result)
     {
         $attributeOption = $subject->getAttributeOption();
-        $attributeOption['payment_method'] = __('Payment Method');
+        $attributeOption['payment_method'] = __('Payment Method Name');
 
         $subject->setAttributeOption($attributeOption);
 

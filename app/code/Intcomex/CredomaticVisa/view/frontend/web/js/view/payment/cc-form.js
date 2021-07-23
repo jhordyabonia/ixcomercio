@@ -257,7 +257,7 @@ define([
          * Get list of available credit card types values
          * @returns {Object}
          */
-        getCcAvailableTypesValues: function () {
+        getCcAvailableTypesValuesVisa: function () {
             return _.map(this.getCcAvailableTypes(), function (value, key) {
                 return {
                     'value': key,
@@ -335,7 +335,7 @@ define([
                 keyValue = 'value',
                 keyType = 'type';
 
-            _.each(this.getCcAvailableTypesValues(), function (value) {
+            _.each(this.getCcAvailableTypesValuesVisa(), function (value) {
                 if (value[keyValue] === code) {
                     title = value[keyType];
                 }
