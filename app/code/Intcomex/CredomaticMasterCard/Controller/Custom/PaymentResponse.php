@@ -55,7 +55,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $body = $this->getRequest()->getParams();
             sleep(1);
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomaticmastercard_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));

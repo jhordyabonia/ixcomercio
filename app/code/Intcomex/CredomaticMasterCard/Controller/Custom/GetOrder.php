@@ -31,7 +31,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         
         $resultJson = $this->resultJsonFactory->create();
         $arrayData = array();
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_request.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomaticmastercard_request.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
        
