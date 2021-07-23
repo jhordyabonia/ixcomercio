@@ -2,8 +2,8 @@
 /**
  * Payment CC Types Source Model
  *
- * @category    CredomaticVisa
- * @package     CredomaticVisa
+ * @category    Credomatic
+ * @package     Credomatic
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -17,7 +17,7 @@ class Cctype extends \Magento\Payment\Model\Source\Cctype
      */
     public function getAllowedTypes()
     {	//, 'AE', 'DI', 'JCB', 'OT'
-        return array('VI');
+        return array('VI', 'MC');
     }
     
 }

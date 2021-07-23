@@ -5,7 +5,7 @@
  */
 -->
 
-<fieldset data-bind="attr: {class: 'fieldset payment items ccard ccpayment' + getCodeVisa(), id: 'payment_form_' + getCodeVisa()}">
+<fieldset data-bind="attr: {class: 'fieldset payment items ccard ccpayment' + getCode(), id: 'payment_form_' + getCode()}">
     <!-- ko if: (isShowLegend())-->
     <legend class="legend">
         <span><!-- ko i18n: 'Detalles de Tarjeta'--><!-- /ko --></span>
@@ -34,39 +34,39 @@
                    name="payment[cc_type]"
                    class="input-text"
                    value=""
-                   data-bind="attr: {id: getCodeVisa() + '_cc_type', 'data-container': getCodeVisa() + '-cc-type'},
+                   data-bind="attr: {id: getCode() + '_cc_type', 'data-container': getCode() + '-cc-type'},
                    value: creditCardType
                    ">
         </div>
     </div>
     <div class="field number required">
-        <label data-bind="attr: {for: getCodeVisa() + '_cc_number'}" class="label">
+        <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
             <span><!-- ko i18n: 'Número de Tarjeta'--><!-- /ko --></span>
         </label>
         <div class="control">
-            <input id="credomatic_visa_cc_number"  type="number" name="payment[cc_number]" class="input-text" value=""
+            <input id="credomatic_cc_number"  type="number" name="payment[cc_number]" class="input-text" value=""
                    data-bind="attr: {
                                     autocomplete: off,
-                                    id: getCodeVisa() + '_cc_number',
+                                    id: getCode() + '_cc_number',
                                     title: $t('Credit Card Numbering cc-form.html 2'),
-                                    'data-container': getCodeVisa() + '-cc-number',
-                                    'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValuesVisa(), 'validate-card-number':'#' + getCodeVisa() + '_cc_type', 'validate-cc-type':'#' + getCodeVisa() + '_cc_type'})},
+                                    'data-container': getCode() + '-cc-number',
+                                    'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
                               enable: isActive($parents),
                               value: creditCardNumber,
                               valueUpdate: 'keyup' "/>
         </div>
     </div>
-    <div class="field date required" data-bind="attr: {id: getCodeVisa() + '_cc_type_exp_div'}">
-        <label data-bind="attr: {for: getCodeVisa() + '_expiration'}" class="label">
+    <div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
+        <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
             <span><!-- ko i18n: 'Fecha de expiración'--><!-- /ko --></span>
         </label>
         <div class="control">
             <div class="fields group group-2">
                 <div class="field no-label month">
                     <div class="control">
-                        <select id="credomatic_visa_cc_exp_month"   name="payment[cc_exp_month]"
+                        <select id="credomatic_cc_exp_month"   name="payment[cc_exp_month]"
                                  class="select select-month"
-                                 data-bind="attr: {id: getCodeVisa() + '_expiration', 'data-container': getCodeVisa() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCodeVisa() + '_expiration_yr'})},
+                                 data-bind="attr: {id: getCode() + '_expiration', 'data-container': getCode() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCode() + '_expiration_yr'})},
                                             enable: isActive($parents),
                                             options: getCcMonthsValues(),
                                             optionsValue: 'value',
@@ -78,9 +78,9 @@
                 </div>
                 <div class="field no-label year">
                     <div class="control">
-                        <select id="credomatic_visa_cc_exp_year" name="payment[cc_exp_year]"
+                        <select id="credomatic_cc_exp_year" name="payment[cc_exp_year]"
                                 class="select select-year"
-                                data-bind="attr: {id: getCodeVisa() + '_expiration_yr', 'data-container': getCodeVisa() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
+                                data-bind="attr: {id: getCode() + '_expiration_yr', 'data-container': getCode() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
                                            enable: isActive($parents),
                                            options: getCcYearsValues(),
                                            optionsValue: 'value',
@@ -94,20 +94,20 @@
         </div>
     </div>
     <!-- ko if: (hasVerification())-->
-    <div class="field cvv required" data-bind="attr: {id: getCodeVisa() + '_cc_type_cvv_div'}">
-        <label data-bind="attr: {for: getCodeVisa() + '_cc_cid'}" class="label">
+    <div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
+        <label data-bind="attr: {for: getCode() + '_cc_cid'}" class="label">
             <span><!-- ko i18n: 'Código de Seguridad / CVV2'--><!-- /ko --></span>
         </label>
         <div class="control _with-tooltip">
-            <input id="credomatic_visa_cc_cid" type="number"
+            <input id="credomatic_cc_cid" type="number"
                    autocomplete="off"
                    class="input-text cvv"
                    name="payment[cc_cid]"
                    value=""
-                   data-bind="attr: {id: getCodeVisa() + '_cc_cid',
+                   data-bind="attr: {id: getCode() + '_cc_cid',
                         title: $t('Card Verification Number'),
-                        'data-container': getCodeVisa() + '-cc-cvv',
-                        'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCodeVisa() + '_cc_type'})},
+                        'data-container': getCode() + '-cc-cvv',
+                        'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
                         enable: isActive($parents),
                         value: creditCardVerificationNumber" />
             <div class="field-tooltip toggle">
@@ -124,18 +124,18 @@
         </div>
     </div>
 
-    <div class="field installments required" data-bind="attr: {id: getCodeVisa() + '_installments_div', title: getconfigValueVisa()}">
-      <label data-bind="attr: {for: getCodeVisa() + '_installments'}" class="label">
+    <div class="field installments required" data-bind="attr: {id: getCode() + '_installments_div', title: getconfigValue()}">
+      <label data-bind="attr: {for: getCode() + '_installments'}" class="label">
           <span><!-- ko i18n: 'Paga al contado o en cuotas' --><!-- /ko --></span>
       </label>
       <div class="control">
           <div class="fields group group-2">
         <div class="field no-label">
             <div class="control">
-                    <select id="credomatic_visa_cc_installments" name="payment[cc_installments]"
+                    <select id="credomatic_cc_installments" name="payment[cc_installments]"
               class="select"
-              data-bind=" attr: {id: getCodeVisa() + '_installments',
-                'data-container': getCodeVisa() + '-cc-installments',
+              data-bind=" attr: {id: getCode() + '_installments',
+                'data-container': getCode() + '-cc-installments',
                 'data-validate': JSON.stringify({required:true})},
                   options: getInstallmentsValues(),
                   optionsValue: 'value',

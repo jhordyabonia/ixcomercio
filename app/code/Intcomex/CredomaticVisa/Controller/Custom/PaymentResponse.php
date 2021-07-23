@@ -46,8 +46,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         try {
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $customError = (string) $this->_scopeConfig->getValue('payment/credomatic_visa/CustomErrorMsg');
-            $modo =  $this->_scopeConfig->getValue('payment/credomatic_visa/modo',ScopeInterface::SCOPE_STORE);
+            $customError = (string) $this->_scopeConfig->getValue('payment/credomaticvisa/CustomErrorMsg');
+            $modo =  $this->_scopeConfig->getValue('payment/credomaticvisa/modo',ScopeInterface::SCOPE_STORE);
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;
@@ -55,7 +55,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $body = $this->getRequest()->getParams();
             sleep(1);
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_visa_trans_resp.log');
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));
@@ -126,7 +126,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function cancelOrder($loger,$body,$vacio=false,$showCustomError,$customError){
         if($vacio){
-            $loger->info('No se recibio respuesta de credomatic');
+            $loger->info('No se recibio respuesta de credomaticvisa');
         }
 
         if( $showCustomError ) {

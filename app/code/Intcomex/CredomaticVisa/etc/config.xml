@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* CredomaticVisa default configuration
+* Credomatic default configuration
 *
-* @category    CredomaticVisa
-* @package     CredomaticVisa
+* @category    Credomatic
+* @package     Credomatic
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
@@ -12,17 +12,17 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <credomatic_visa>
+            <credomaticvisa>
                 <active>1</active>
                 <model>Intcomex\CredomaticVisa\Model\Payment</model>
                 <payment_action>authorize</payment_action>
                 <order_status>pending_payment</order_status>
-                <title>Credomatic Visa</title>
+                <title>Credomatic VISA</title>
                 <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
-                <cctypes>VI</cctypes>
+                <cctypes>MC,VI</cctypes>
                 <!-- allowspecific>0</allowspecific>
                 <min_order_total>0.50</min_order_total-->
-            </credomatic_visa>
+            </credomaticvisa>
         </payment>
     </default>
 </config>

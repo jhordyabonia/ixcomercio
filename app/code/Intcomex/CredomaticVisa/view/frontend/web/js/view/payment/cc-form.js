@@ -29,11 +29,11 @@ define([
             creditCardVerificationNumber: '',
             selectedCardType: null,
             creditCardInstallments: '', 
-            template: 'Intomex_Credomatic_Visa/payment/cc-form'
+            template: 'Intomex_Credomatic/payment/cc-form'
         },
         
-        getconfigValueVisa: function () {
-            var serviceUrl = url.build('credomatic_visa/custom/storeconfig');  
+        getconfigValue: function () {
+            var serviceUrl = url.build('credomaticvisa/custom/storeconfig');  
             storage.get(serviceUrl).done(
                 function (response) {
                     if (response.success) {
@@ -49,7 +49,7 @@ define([
                             newOptions[response[i]+" Cuotas"] = response[i];
                         }
         
-                        var $methods = $("#credomatic_visa_installments");
+                        var $methods = $("#credomatic_installments");
                         $methods.empty();
                         $.each(newOptions, function(key,value) {
                             $methods.append($("<option></option>").attr("value", value).text(key));
@@ -146,7 +146,7 @@ define([
          * Get code
          * @returns {String}
          */
-         getCodeVisa: function () {
+        getCode: function () {
             return 'cc';
         },
 
@@ -179,8 +179,8 @@ define([
          * Get list of available credit card types
          * @returns {Object}
          */
-        getCcAvailableTypesVisa: function () {
-            return window.checkoutConfig.payment.ccform.availableTypes[this.getCodeVisa()];
+        getCcAvailableTypes: function () {
+            return window.checkoutConfig.payment.ccform.availableTypes[this.getCode()];
         },
 
         /**
@@ -199,7 +199,7 @@ define([
          * @returns {Object}
          */
         getCcMonths: function () {
-            return window.checkoutConfig.payment.ccform.months[this.getCodeVisa()];
+            return window.checkoutConfig.payment.ccform.months[this.getCode()];
         },
 
         /**
@@ -207,7 +207,7 @@ define([
          * @returns {Object}
          */
         getCcYears: function () {
-            return window.checkoutConfig.payment.ccform.years[this.getCodeVisa()];
+            return window.checkoutConfig.payment.ccform.years[this.getCode()];
         },
 
         /**
@@ -215,7 +215,7 @@ define([
          * @returns {Boolean}
          */
         hasVerification: function () {
-            return window.checkoutConfig.payment.ccform.hasVerification[this.getCodeVisa()];
+            return window.checkoutConfig.payment.ccform.hasVerification[this.getCode()];
         },
 
         /**
@@ -223,7 +223,7 @@ define([
          * @returns {Boolean}
          */
         hasSsCardType: function () {
-            return window.checkoutConfig.payment.ccform.hasSsCardType[this.getCodeVisa()];
+            return window.checkoutConfig.payment.ccform.hasSsCardType[this.getCode()];
         },
 
         /**
@@ -231,7 +231,7 @@ define([
          * @returns {String}
          */
         getCvvImageUrl: function () {
-            return window.checkoutConfig.payment.ccform.cvvImageUrl[this.getCodeVisa()];
+            return window.checkoutConfig.payment.ccform.cvvImageUrl[this.getCode()];
         },
 
         /**
@@ -250,15 +250,15 @@ define([
          * @returns {Object}
          */
         getSsStartYears: function () {
-            return window.checkoutConfig.payment.ccform.ssStartYears[this.getCodeVisa()];
+            return window.checkoutConfig.payment.ccform.ssStartYears[this.getCode()];
         },
 
         /**
          * Get list of available credit card types values
          * @returns {Object}
          */
-        getCcAvailableTypesValuesVisa: function () {
-            return _.map(this.getCcAvailableTypesVisa(), function (value, key) {
+        getCcAvailableTypesValues: function () {
+            return _.map(this.getCcAvailableTypes(), function (value, key) {
                 return {
                     'value': key,
                     'type': value
@@ -335,7 +335,7 @@ define([
                 keyValue = 'value',
                 keyType = 'type';
 
-            _.each(this.getCcAvailableTypesValuesVisa(), function (value) {
+            _.each(this.getCcAvailableTypesValues(), function (value) {
                 if (value[keyValue] === code) {
                     title = value[keyType];
                 }

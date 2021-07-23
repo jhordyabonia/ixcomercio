@@ -15,5 +15,5 @@ class Handler extends \Magento\Framework\Logger\Handler\Base
      * File name
      * @var string
      */
-    protected $fileName = '/var/log/credomatic_visa.log';
+    protected $fileName = '/var/log/credomaticvisa.log';
 }

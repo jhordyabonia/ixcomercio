@@ -1,8 +1,8 @@
 /**
- * CredomaticVisa for Magento JS component
+ * Credomatic for Magento JS component
  *
- * @category    CredomaticVisa
- * @package     CredomaticVisa
+ * @category    Credomatic
+ * @package     Credomatic
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -32,8 +32,8 @@ define(
 		creditCardInstallments: '',*/
 	    },
 	    
-        getCodeVisa: function() {
-                return 'credomatic_visa';
+            getCode: function() {
+                return 'credomaticvisa';
             },
 
             isActive: function() {
@@ -41,32 +41,32 @@ define(
             },
 
             validate: function() {
-                var $form = $('#' + this.getCodeVisa() + '-form');
+                var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
 
             afterPlaceOrder: function () { 
                 
-                var serviceUrl = url.build('credomatic_visa/custom/getorder');  
-                var cuotas = $("#credomatic_visa_installments option:selected").val();
-                var year = $("#credomatic_visa_expiration_yr option:selected").val();
-                var month = $("#credomatic_visa_expiration option:selected").val();
+                var serviceUrl = url.build('credomaticvisa/custom/getorder');  
+                var cuotas = $("#credomatic_installments option:selected").val();
+                var year = $("#credomatic_expiration_yr option:selected").val();
+                var month = $("#credomatic_expiration option:selected").val();
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month})
                 .done(function(msg){
                    var data = JSON.parse(JSON.stringify(msg));
                 
-                    $("#credomatic_visa_key_id").val(data.key_id);
-                    $("#credomatic_visa_hash").val(data.hash);
-                    $("#credomatic_visa_time").val(data.time);
-                    $("#credomatic_visa_amount").val(data.amount);
-                    $("#credomatic_visa_orderid").val(data.orderid);
-                    $("#credomatic_visa_processor_id").val(data.processor_id);
-                    $("#credomatic_visa_ccnumber").val($("#credomatic_visa_cc_number").val());
-                    $("#credomatic_visa_ccexp").val(data.ccexp);
-                    $("#credomatic_visa_cvv").val($("#credomatic_visa_cc_cid").val());
-                    $("#credomatic_visa_redirect").val(url.build('credomatic_visa/custom/paymentresponse'));
+                    $("#credomatic_key_id").val(data.key_id);
+                    $("#credomatic_hash").val(data.hash);
+                    $("#credomatic_time").val(data.time);
+                    $("#credomatic_amount").val(data.amount);
+                    $("#credomatic_orderid").val(data.orderid);
+                    $("#credomatic_processor_id").val(data.processor_id);
+                    $("#credomatic_ccnumber").val($("#credomatic_cc_number").val());
+                    $("#credomatic_ccexp").val(data.ccexp);
+                    $("#credomatic_cvv").val($("#credomatic_cc_cid").val());
+                    $("#credomatic_redirect").val(url.build('credomaticvisa/custom/paymentresponse'));
                     setTimeout(function(){ 
-                        $("#formCredomaticVisa").submit();
+                        $("#formCredomatic").submit();
                     }, 2000);                
                 })
                 .fail(function(msg){
