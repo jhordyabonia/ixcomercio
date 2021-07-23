@@ -1,9 +1,9 @@
 <!--
 /**
- * CredomaticMasterCard Template
+ * Credomatic Template
  *
- * @category    CredomaticMasterCard
- * @package     CredomaticMasterCard
+ * @category    Credomatic
+ * @package     Credomatic
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -28,22 +28,22 @@
         </div>
 
         <form  class="form" data-bind="attr: {'id': getCode() + '-form'}">
-            <!-- ko template: 'Intcomex_credomatic_mastercard_expiration/payment/cc-form' --><!-- /ko -->
+            <!-- ko template: 'Intcomex_CredomaticMasterCard/payment/cc-form' --><!-- /ko -->
 			
         </form>
         <form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"  style="display: none;" id="formCredomaticMasterCard">
-			<input type="hidden" readonly id="credomatic_mastercard_type" name="type" value="sale"  >
-            <input type="hidden" readonly id="credomatic_mastercard_key_id" name="key_id" >
-            <input type="hidden" readonly id="credomatic_mastercard_hash" name="hash" >
-            <input type="hidden" readonly id="credomatic_mastercard_time" name="time" >
-            <input type="hidden" readonly id="credomatic_mastercard_amount" name="amount"  >
-            <input type="hidden" readonly id="credomatic_mastercard_orderid" name="orderid"  >
-            <input type="hidden" readonly id="credomatic_mastercard_processor_id" name="processor_id"  >
-            <input type="hidden" readonly id="credomatic_mastercard_ccnumber" name="ccnumber" >
-            <input type="hidden" readonly id="credomatic_mastercard_ccexp" name="ccexp"  >
-            <input type="hidden" readonly id="credomatic_mastercard_cvv" name="cvv"  >
+			<input type="hidden" readonly id="credomaticmastercard_type" name="type" value="sale"  >
+            <input type="hidden" readonly id="credomaticmastercard_key_id" name="key_id" >
+            <input type="hidden" readonly id="credomaticmastercard_hash" name="hash" >
+            <input type="hidden" readonly id="credomaticmastercard_time" name="time" >
+            <input type="hidden" readonly id="credomaticmastercard_amount" name="amount"  >
+            <input type="hidden" readonly id="credomaticmastercard_orderid" name="orderid"  >
+            <input type="hidden" readonly id="credomaticmastercard_processor_id" name="processor_id"  >
+            <input type="hidden" readonly id="credomaticmastercard_ccnumber" name="ccnumber" >
+            <input type="hidden" readonly id="credomaticmastercard_ccexp" name="ccexp"  >
+            <input type="hidden" readonly id="credomaticmastercard_cvv" name="cvv"  >
            <!--<input type="hidden" name="avs" >-->
-            <input type="hidden" readonly id="credomatic_mastercard_redirect" name="redirect" value=""  >
+            <input type="hidden" readonly id="credomaticmastercard_redirect" name="redirect" value=""  >
         </form>
 
         <div class="checkout-agreements-block">

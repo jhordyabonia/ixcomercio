@@ -6,7 +6,7 @@ $instalmments = null;
 $device_fingerprint = null;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
-    const CODE = 'credomatic_masterCard';
+    const CODE = 'credomaticmastercard';
     protected $_code = self::CODE;
     protected $_isGateway                   = true;
     protected $_canCapture                  = true;
@@ -88,6 +88,8 @@ class Payment extends \Magento\Payment\Model\Method\Cc
     public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
         $payment->setAdditionalInformation('payment_type', $this->getConfigData('payment_action'));
+       /* $payment->setAdditionalInformation('visacuotas',$this->getConfigData('visacuotas'));*/
+       /* $payment->setAdditionalInformation('requiredInvoice',$this->getConfigData('MerchantId'));*/
     }    
     /**
      * Payment capturing

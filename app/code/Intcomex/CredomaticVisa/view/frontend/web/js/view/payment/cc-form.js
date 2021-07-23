@@ -29,7 +29,7 @@ define([
             creditCardVerificationNumber: '',
             selectedCardType: null,
             creditCardInstallments: '', 
-            template: 'Intomex_Credomatic/payment/cc-form'
+            template: 'Intcomex_CredomaticVisa/payment/cc-form'
         },
         
         getconfigValue: function () {
@@ -49,7 +49,7 @@ define([
                             newOptions[response[i]+" Cuotas"] = response[i];
                         }
         
-                        var $methods = $("#credomatic_installments");
+                        var $methods = $("#credomaticvisa_installments");
                         $methods.empty();
                         $.each(newOptions, function(key,value) {
                             $methods.append($("<option></option>").attr("value", value).text(key));

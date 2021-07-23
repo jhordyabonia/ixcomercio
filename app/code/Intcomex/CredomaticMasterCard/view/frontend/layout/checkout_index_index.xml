@@ -27,10 +27,10 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="credomatic-mastercard-payments" xsi:type="array">
+                                                                <item name="credomaticmastercard-payments" xsi:type="array">
                                                                     <item name="component" xsi:type="string">Intcomex_CredomaticMasterCard/js/view/payment/stripe-payments</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="credomatic_masterCard" xsi:type="array">
+                                                                        <item name="credomaticmastercard" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>
