@@ -33,7 +33,7 @@ define([
         },
         
         getconfigValue: function () {
-            var serviceUrl = url.build('pagalo_mastercard/custom/storeconfig');
+            var serviceUrl = url.build('pagalomastercard/custom/storeconfig');
             storage.get(serviceUrl).done(
                 function (response) {
                     if (response.success) {

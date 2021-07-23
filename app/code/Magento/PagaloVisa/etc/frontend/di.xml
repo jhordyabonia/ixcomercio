@@ -14,7 +14,7 @@
     <virtualType name="Magento\PagaloVisa\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="pagalo_visa" xsi:type="const">Magento\PagaloVisa\Model\Payment::CODE</item>
+                <item name="pagalovisa" xsi:type="const">Magento\PagaloVisa\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>
@@ -22,7 +22,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="Pagalo_Visa_config_provider" xsi:type="object">Magento\PagaloVisa\Model\ConfigProvider</item>
+                <item name="PagaloVisa_config_provider" xsi:type="object">Magento\PagaloVisa\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

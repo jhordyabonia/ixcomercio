@@ -33,7 +33,7 @@ define([
         },
         
         getconfigValue: function () {
-            var serviceUrl = url.build('pagalo_visa/custom/storeconfig');
+            var serviceUrl = url.build('pagalovisa/custom/storeconfig');
             storage.get(serviceUrl).done(
                 function (response) {
                     if (response.success) {

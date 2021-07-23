@@ -36,6 +36,12 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
         if($payment->getMethodInstance()->getCode()=='credomatic'&&$payment->getLastTransId()==''){
            return false;
         }
+        if($payment->getMethodInstance()->getCode()=='credomaticvisa'&&$payment->getLastTransId()==''){
+           return false;
+        }
+        if($payment->getMethodInstance()->getCode()=='credomaticmastercard'&&$payment->getLastTransId()==''){
+           return false;
+        }
         if($order->getPayment()->getMethodInstance()->getCode()=='mercadopago_custom'){
             $paymentData = $payment->getAdditionalInformation();
             if(isset($paymentData['paymentResponse']['status'])){

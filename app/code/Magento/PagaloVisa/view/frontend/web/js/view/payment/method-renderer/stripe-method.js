@@ -27,7 +27,7 @@ define(
 	    },
 	    
             getCode: function() {
-                return 'pagalo_visa';
+                return 'pagalovisa';
             },
 
             isActive: function() {

@@ -14,7 +14,7 @@
     <virtualType name="Magento\PagaloMasterCard\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
         <arguments>
             <argument name="methodCodes" xsi:type="array">
-                <item name="pagalo_mastercard" xsi:type="const">Magento\PagaloMasterCard\Model\Payment::CODE</item>
+                <item name="pagalomastercard" xsi:type="const">Magento\PagaloMasterCard\Model\Payment::CODE</item>
             </argument>
         </arguments>
     </virtualType>
@@ -22,7 +22,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="Pagalo_MasterCard_config_provider" xsi:type="object">Magento\PagaloMasterCard\Model\ConfigProvider</item>
+                <item name="PagaloMasterCard_config_provider" xsi:type="object">Magento\PagaloMasterCard\Model\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

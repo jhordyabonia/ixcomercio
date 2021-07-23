@@ -20,7 +20,7 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'pagalo_visa',
+                type: 'pagalovisa',
                 component: 'Magento_PagaloVisa/js/view/payment/method-renderer/stripe-method'
             }
         );

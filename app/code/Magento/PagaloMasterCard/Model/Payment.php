@@ -6,7 +6,7 @@ $instalmments = null;
 $device_fingerprint = null;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
-    const CODE = 'pagalo_mastercard';
+    const CODE = 'pagalomastercard';
     protected $_code = self::CODE;
     protected $_isGateway                   = true;
     protected $_canCapture                  = true;
@@ -244,7 +244,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $result = json_decode($result);
             $json = array();
             //var_dump($response->responseCode);
-            /* Logs to var/log/pagalo.log */
+            /* Logs to var/log/pagalomastercard.log */
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
             $this->_pagaloLogger->info('URL: ' . $url );
             $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 

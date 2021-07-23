@@ -27,7 +27,7 @@ define(
 	    },
 	    
             getCode: function() {
-                return 'pagalo_mastercard';
+                return 'pagalomastercard';
             },
 
             isActive: function() {

@@ -34,7 +34,7 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
         $response = [];
         try {
             $configValue = $this->scopeConfig->getValue(
-                'payment/pagalo_visa/PGCuotasOptions',
+                'payment/pagalovisa/PGCuotasOptions',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
             error_log('Config Value: ' . print_r($configValue, true));

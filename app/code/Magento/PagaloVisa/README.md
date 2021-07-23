@@ -1,2 +1,2 @@
-Magento2-Pagalo
+Magento2-PagaloVisa
 ======================
