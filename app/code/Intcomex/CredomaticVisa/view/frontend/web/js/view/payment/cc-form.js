@@ -179,7 +179,7 @@ define([
          * Get list of available credit card types
          * @returns {Object}
          */
-        getCcAvailableTypes: function () {
+        getCcAvailableTypesVisa: function () {
             return window.checkoutConfig.payment.ccform.availableTypes[this.getCode()];
         },
 
@@ -258,7 +258,7 @@ define([
          * @returns {Object}
          */
         getCcAvailableTypesValuesVisa: function () {
-            return _.map(this.getCcAvailableTypes(), function (value, key) {
+            return _.map(this.getCcAvailableTypesVisa(), function (value, key) {
                 return {
                     'value': key,
                     'type': value
