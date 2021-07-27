@@ -16430,3 +16430,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "You can select your payment product in the next step.","Puedes seleccionar tu metodo de pago en el siguiente paso."
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"UpdateBilling","Actualizar datos de factura",module,Magento_Checkout
+"CancelBilling","Volver a datos de boleta",module,Magento_AdvancedCheckout

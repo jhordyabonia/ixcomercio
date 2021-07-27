@@ -162,8 +162,8 @@ form{
 	.actions-toolbar {
 		.primary {
 			.action{
-				color: #fff;
-			    background: $mainColor;
+				color: $colorBottomText;
+			    background: $colorBottom;
 			    border: none;
 				min-width: 180px;
 			    margin: 0;
@@ -175,8 +175,8 @@ form{
 			    cursor: pointer;
 			    float: right;
 			    &:hover{
-			    	color: #fff;
-    				background: #000;
+			    	color: $colorBottomTextHover;
+    				background: $colorBottomHover;
 			    }
 			}
 		}

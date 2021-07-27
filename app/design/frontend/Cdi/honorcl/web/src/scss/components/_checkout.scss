@@ -152,6 +152,26 @@
           float: left;
           margin: 0 0 10px;
         }
+
+        .action-update{
+          float: left;
+          background: $colorBottom;
+          color: $colorBottomText;
+        }
+        .action-cancel{
+          background: $colorBottomHover;
+          border: 1px solid $colorBottom;
+          color: $colorBottomTextHover;
+          margin: 0px 0px 0 10px;
+          width: 186px;
+          height: 42px;
+          border-radius: 3px;
+          
+          &:hover{
+            background: $colorBottom;
+            color: $colorBottomText;
+          }
+        }
       }
       .secondary .action{
         color: $colorBottom;
