@@ -45,9 +45,9 @@ define([
 
                         for (var i = 0; i < pg_visacuotas_response.length; i++) {
                             pg_visacuotas_response[i];
-                            var label = "Al Contado";
+                            var label = pg_visacuotas_response[i] + " cuotas";
                             if(pg_visacuotas_response[i]==1){
-                                var label = pg_visacuotas_response[i] + " cuotas";
+                                 label = "Al Contado";
 
                             }
                             newOptions[label] = pg_visacuotas_response[i];
