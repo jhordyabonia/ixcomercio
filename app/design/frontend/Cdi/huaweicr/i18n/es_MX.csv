@@ -16435,6 +16435,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
 "Out Stock","Sin inventario"
-"Número de Tarjeta cc MasterCard":"Número de Tarjeta MasterCard"
-"Número de Tarjeta cc VISA":"Número de Tarjeta VISA"
+"Número de Tarjeta MasterCard":"Número de Tarjeta MasterCard"
+"Número de Tarjeta VISA":"Número de Tarjeta VISA"
 "Please enter a valid credit card type number.","Ingrese un Número de Tarjeta VISA válido",module,Intcomex_CredomaticVisa
+"Please enter a valid credit card type number.","Ingrese un Número de Tarjeta MasterCard válido",module,Intcomex_CredomaticMasterCard
