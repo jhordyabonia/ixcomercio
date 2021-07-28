@@ -12,7 +12,8 @@ define(
     [
         'Magento_PagaloVisa/js/view/payment/cc-form',
         'jquery',
-        'Magento_Payment/js/model/credit-card-validation/validator'
+        'Magento_Payment/js/model/credit-card-validation/validator',
+        'mage/translate'
     ],
     function (Component, $) {
         'use strict';
@@ -36,6 +37,10 @@ define(
 
             validate: function() {
                 var $form = $('#' + this.getCode() + '-form');
+                setTimeout(function(){
+                    $("#pagalovisa_cc_number-error").text($.mage.__('Ingrese un Número de Tarjeta VISA válido'));
+                    $("#pagalovisa_cc_number-error").show();
+               }, 10);
                 return $form.validation() && $form.validation('isValid');
             },
 	                

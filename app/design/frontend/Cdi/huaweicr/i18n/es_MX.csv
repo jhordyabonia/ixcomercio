@@ -16437,5 +16437,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Out Stock","Sin inventario"
 "Número de Tarjeta MasterCard":"Número de Tarjeta MasterCard"
 "Número de Tarjeta VISA":"Número de Tarjeta VISA"
-"Please enter a valid credit card type number.","Ingrese un Número de Tarjeta VISA válido",module,Intcomex_CredomaticVisa
-"Please enter a valid credit card type number.","Ingrese un Número de Tarjeta MasterCard válido",module,Intcomex_CredomaticMasterCard
+"Ingrese un Número de Tarjeta VISA válido","Ingrese un Número de Tarjeta VISA válido"
+"Ingrese un Número de Tarjeta MasterCard válido","Ingrese un Número de Tarjeta MasterCard válido"
