@@ -6,3 +6,5 @@
 "The quote item isn't found. Verify the item and try again.","No se encuentra el producto. Verifique el artículo y vuelva a intentarlo.",module,Magento_Checkout
 "Out Stock","Sin inventario"
 "Delete Address","Eliminar",module,Magento_Customer
+"Número de Tarjeta cc MasterCard":"Número de Tarjeta MasterCard"
+"Número de Tarjeta cc VISA":"Número de Tarjeta VISA"

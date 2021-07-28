@@ -16435,3 +16435,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
 "Out Stock","Sin inventario"
+"Número de Tarjeta cc MasterCard":"Número de Tarjeta MasterCard"
+"Número de Tarjeta cc VISA":"Número de Tarjeta VISA"
