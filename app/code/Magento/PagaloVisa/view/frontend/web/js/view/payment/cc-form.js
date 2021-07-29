@@ -52,7 +52,7 @@ define([
                             newOptions[label] = pg_visacuotas_response[i];
                         }
         
-                        var $pg_visacuotas_html = $(".field.installments select");
+                        var $pg_visacuotas_html = $(".field.installments_pagalovisa select");
                         $pg_visacuotas_html.empty();
                         $.each(newOptions, function(key,value) {
                             $pg_visacuotas_html.append($("<option></option>")
