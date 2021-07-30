@@ -341,8 +341,30 @@ div#credomatic_cc_type_exp_div{
 .checkout-payment-method .credit-card-types{
   margin-top:20px;
 }
+div#pagalovisa_cc_type_exp_div, div#pagalovisa_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#pagalovisa_cc_type_exp_div{
+  margin-right: 2%;
+}
+div#pagalomastercard_cc_type_exp_div, div#pagalomastercard_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#pagalomastercard_cc_type_exp_div{
+  margin-right: 2%;
+}
 @media (max-width: $tablet){
   div#pagalo_cc_type_exp_div, div#pagalo_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#pagalovisa_cc_type_exp_div, div#pagalovisa_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#pagalomastercard_cc_type_exp_div, div#pagalomastercard_cc_type_cvv_div {
     width: 100%;
     float: none;
   }

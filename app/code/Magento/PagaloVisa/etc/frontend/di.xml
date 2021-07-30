@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+* PagaloVisa DI definitions
+*
+* @category    PagaloVisa
+* @package     PagaloVisa
+* @author      PagaloVisa
+* @copyright   PagaloVisa (https://www.pagalo.com/)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="Magento\PagaloVisa\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="pagalovisa" xsi:type="const">Magento\PagaloVisa\Model\Payment::CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="PagaloVisa_config_provider" xsi:type="object">Magento\PagaloVisa\Model\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

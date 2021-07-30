@@ -32,6 +32,14 @@ class Data extends mainHelper{
                 $class = 'Intcomex\Credomatic\Model\Payment';
             }else if(strcmp($paymentMethod,'payment/pagalo/model')===0){
                 $class = 'Magento\Pagalo\Model\Payment';
+            }else if(strcmp($paymentMethod,'payment/pagalovisa/model')===0){
+                $class = 'Magento\PagaloVisa\Model\Payment';
+            }else if(strcmp($paymentMethod,'payment/pagalomastercard/model')===0){
+                $class = 'Magento\PagaloMasterCard\Model\Payment';
+            }else if(strcmp($paymentMethod,'payment/credomaticvisa/model')===0){
+                $class = 'Magento\CredomaticVisa\Model\Payment';
+            }else if(strcmp($paymentMethod,'payment/credomaticmastercard/model')===0){
+                $class = 'Magento\CredomaticMasterCard\Model\Payment';
             }
             $this->logger->info('Para el modelo '.$paymentMethod.' se inicializo con '.$class);
         } 

@@ -23,7 +23,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         InvoiceService $invoiceService,
-        Transaction $transaction
+        Transaction $transaction,
+        \Magento\Sales\Api\OrderManagementInterface $orderManagement
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -34,6 +35,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->invoiceSender = $invoiceSender;
         $this->transaction = $transaction;
         $this->invoiceService = $invoiceService;
+        $this->orderManagement = $orderManagement;
     }
 
 
@@ -54,47 +56,56 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }
 
             $body = $this->getRequest()->getParams();
-            sleep(1);
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $this->logger->info(print_r($body,true));
             $this->logger->info('modo');
             $this->logger->info($modo);
-            if(empty($body)){
-                $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError);
+            
+            $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($body['orderid']);
+            
+            if(empty($body)||isset($body['empty'])){
+                $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
                 return $resultRedirect;
             }
+            
+           
             if($modo=='pruebas'){
-                
-                $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
                 $payment->save();
                 $order->save();
+                
+                $this->_checkoutSession->setLastQuoteId($order->getId());
+                $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
+                $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
+                $this->_checkoutSession->setLastRealOrderId($body['orderid']);
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
                 if($body['response_code']==300||$body['response_code']==200){
     
-                    $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError);
+                    $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
     
                 }else if($body['response_code']==100){
-                    $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($body['orderid']);
                     $order->setState("processing")->setStatus("processing");
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
                     $payment->save();
                     $order->save();
+                    $this->_checkoutSession->setLastQuoteId($order->getId());
+                    $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
+                    $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
+                    $this->_checkoutSession->setLastRealOrderId($body['orderid']);
                     $resultRedirect = $this->resultRedirectFactory->create();
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
 
             }
             
-            $order = $objectManager->create('\Magento\Sales\Model\Order')->load($body['orderid']);
             $this->orderSender->send($order, true);
 
             if ($order->canInvoice()) {
@@ -109,14 +120,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $transactionSave->save();
                 $this->invoiceSender->send($invoice);
                 //Send Invoice mail to customer
-                $order->addStatusHistoryComment(
-                    __('Notified customer about invoice creation #%1.', $invoice->getId())
-                )
-                    ->setIsCustomerNotified(true)
-                    ->save();
+                $order->addStatusHistoryComment(__('Notified customer about invoice creation #%1.', $invoice->getId()))->setIsCustomerNotified(true)->save();
             }
-    
-            return $resultRedirect;
+            
+           return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
@@ -124,34 +131,46 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         
     }
 
-    public function cancelOrder($loger,$body,$vacio=false,$showCustomError,$customError){
-        if($vacio){
-            $loger->info('No se recibio respuesta de credomatic');
-        }
-
-        if( $showCustomError ) {
-            $msgError = $customError;
-        }else {
-            $msgError = $body['responsetext'];
-        }
-        $this->_checkoutSession->setErrorMessage($msgError);
-        $this->_messageManager->addError($msgError);
-        $lastRealOrder = $this->_checkoutSession->getLastRealOrder();
-        //$lastRealOrder->setState("canceled")->setStatus("canceled");
-        $lastRealOrder->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.$msgError);
-        $lastRealOrder->cancel();  
-        $lastRealOrder->save();
-
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $resultRedirect->setPath('checkout/cart');
-        $loger->info($lastRealOrder->getData('status'));
-
-        if ($lastRealOrder->getPayment()) {
-            if ($lastRealOrder->getData('state') === 'canceled' && $lastRealOrder->getData('status') === 'canceled') {
-                $this->_checkoutSession->restoreQuote();
+    public function cancelOrder($loger,$body,$vacio=false,$showCustomError,$customError,$order){
+        try {
+            if($vacio){
+                $loger->info('No se recibio respuesta de credomatic');
             }
-        } 
-        return $resultRedirect;
+
+            if( $showCustomError ) {
+                $msgError = $customError;
+            }else {
+                $msgError = $body['responsetext'];
+            }
+            $this->_messageManager->addError($msgError);
+   
+            if ($order->getId()) {
+                $order->setState("pending")->setStatus("pending");
+                sleep(2);
+                $order->setState("canceled")->setStatus("canceled");
+                $order->cancel();
+                $this->orderManagement->cancel($order->getId());
+                $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
+                $order->save();
+            }
+            $loger->info('Estado final de la orden');
+            $loger->info($order->getState());
+                 
+
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setPath('checkout/cart');
+            
+            if ($order->getPayment()) {
+                if ($order->getData('state') === 'canceled') {
+                   $this->_checkoutSession->restoreQuote();
+                }
+            } 
+            
+            return $resultRedirect;
+        } catch (\Exception $e) {
+            $error = __('Payment create data error Credomatic: '); 
+            throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
+        }
     }
 
 }

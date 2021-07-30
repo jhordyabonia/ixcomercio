@@ -13,7 +13,7 @@
     <default>
         <payment>
             <pagalo>
-                <active>0</active>
+                <active>1</active>
                 <model>Magento\Pagalo\Model\Payment</model>
                 <payment_action>authorize_capture</payment_action>
                 <title>Pagalo</title>
