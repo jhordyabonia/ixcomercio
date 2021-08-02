@@ -41,12 +41,15 @@ define([
                     
                         var newOptions = {
                             "Forma de pago": "",
-                            "Al Contado": "1",
                         };
 
                         for (var i = 0; i < response.length; i++) {
                             response[i];
-                            newOptions[response[i]+" Cuotas"] = response[i];
+                            var label = response[i]+" Cuotas";
+                            if(response[i]==1){
+                                 label = "Al Contado";
+                            }
+                            newOptions[label] = response[i];
                         }
         
                         var $methods = $("#credomaticvisa_installments");
@@ -105,6 +108,7 @@ define([
                     return false;
                 }
                 result = cardNumberValidator(value);
+                
 
                 if (!result.isPotentiallyValid && !result.isValid) {
                     return false;

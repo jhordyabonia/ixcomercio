@@ -10,6 +10,7 @@
 public function toOptionArray()
 {
     return [
+        ['value' =>  1, 'label' => __('Al Contado')],
         ['value' =>  3, 'label' => __('TASA0 3')],
         ['value' =>  6, 'label' => __('TASA0 6')],
     ];

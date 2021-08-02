@@ -17,6 +17,7 @@ define(
         'Magento_Checkout/js/model/quote',
         'mage/storage',
         'mage/url',
+        'mage/translate'
 
     ],
     function (ko,Component, $,setPaymentMethodAction,quote,storage,url) {
@@ -42,6 +43,10 @@ define(
 
             validate: function() {
                 var $form = $('#' + this.getCode() + '-form');
+                setTimeout(function(){
+                    $("#credomaticvisa_cc_number-error").text($.mage.__('Ingrese un Número de Tarjeta VISA válido'));
+                    $("#credomaticvisa_cc_number-error").show();
+               }, 10);
                 return $form.validation() && $form.validation('isValid');
             },
 
