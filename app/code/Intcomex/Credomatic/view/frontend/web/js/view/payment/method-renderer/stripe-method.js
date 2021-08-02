@@ -82,12 +82,13 @@ define(
                              if(i==1){
                                 var redirectUrl = urlPaymentResponse+'?orderid='+data['orderid']+'&empty=true';
                                 window.location.href = redirectUrl;
+                                return false;
                              }
                             if (--i) {          // If i > 0, keep going
                             theLoop(i);       // Call the loop again, and pass it the current value of i
                             }
                         }, 9000);
-                    })(5); 
+                    })(6); 
                     
                 })
                 .fail(function(msg){
