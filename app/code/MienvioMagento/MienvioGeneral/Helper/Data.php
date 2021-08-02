@@ -16,6 +16,8 @@ class Data extends AbstractHelper
     const XML_PATH_IS_ENABLE_MIENVIO = 'carriers/mienviocarrier/active';
     const XML_PATH_ENVIRONMENT = 'carriers/mienviocarrier/environment';
     const XML_MEASURES = 'carriers/mienviocarrier/measures';
+    const XML_ESD_CAT = 'carriers/mienviocarrier/esdcat';
+    const XML_FILTER_CHEAPERCOST = 'carriers/mienviocarrier/filtercheapercost';
     const XML_PATH_FREE_SHIPPING = 'carriers/mienviocarrier/freeshipping';
     const XML_PATH_TITLE_METHOD_FREE = 'carriers/mienviocarrier/titlemethodfree';
     const XML_PATH_SERVICE_LEVEL = 'carriers/mienviocarrier/servicelevel';
@@ -63,22 +65,32 @@ class Data extends AbstractHelper
         return $this->getConfigValue(self::XML_PATH_LOCATION , $storeId);
     }
 
+    public function getEsdList($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_ESD_CAT, $storeId);
+    }
+
+    public function getFilterListByCost($storeId = null)
+    {
+        return $this->getConfigValue(self::XML_FILTER_CHEAPERCOST, $storeId);
+    }
+
     public function getEnvironment($storeId = null)
     {
         $env = $this->getConfigValue(self::XML_PATH_ENVIRONMENT , $storeId);
         $result = '';
         switch ($env){
             case 0://Production
-                $result = 'https://production.mienvio.mx/';
+                $result = 'https://app.mienvio.mx/';
                 break;
             case 1: //Sandbox
-                $result = 'https://sandbox.mienvio.mx/';
+                $result = 'https://sandboxenterprise.mienvio.mx/';
                 break;
             case 2:// Develop
-                $result = 'https://sandbox.mienvio.mx/';
+                $result = 'https://sandboxenterprise.mienvio.mx/';
                 break;
             default:
-                $result = 'https://sandbox.mienvio.mx/';
+                $result = 'https://sandboxenterprise.mienvio.mx/';
                 break;
         }
         return $result;
