@@ -34,41 +34,32 @@
        url('..fonts/xiaomi/CamphorProForXiaoMiHeavy.svg#CamphorProForXiaoMiHeavy') format('svg');
 }
 
+
 @font-face {
-  font-family: 'CamphorProForXiaoMiLight';
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiLight.eot');
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiLight.eot') format('embedded-opentype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiLight.woff2') format('woff2'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiLight.woff') format('woff'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiLight.ttf') format('truetype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiLight.svg#CamphorProForXiaoMiLight') format('svg');
+  font-family: 'Avenir Next';
+  src: url('../fonts/honor/AvenirNext-Regular.woff2') format('woff2'),
+      url('../fonts/honor/AvenirNext-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
-  font-family: 'CamphorProForXiaoMiMedium';
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiMedium.eot');
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiMedium.eot') format('embedded-opentype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiMedium.woff2') format('woff2'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiMedium.woff') format('woff'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiMedium.ttf') format('truetype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiMedium.svg#CamphorProForXiaoMiMedium') format('svg');
+  font-family: 'Avenir Next';
+  src: url('../fonts/honor/AvenirNext-Medium.woff2') format('woff2'),
+      url('../fonts/honor/AvenirNext-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
-  font-family: 'CamphorProForXiaoMiRegular';
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiRegular.eot');
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiRegular.eot') format('embedded-opentype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiRegular.woff2') format('woff2'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiRegular.woff') format('woff'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiRegular.ttf') format('truetype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiRegular.svg#CamphorProForXiaoMiRegular') format('svg');
-}
-@font-face {
-  font-family: 'CamphorProForXiaoMiThin';
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiThin.eot');
-  src: url('../fonts/xiaomi/CamphorProForXiaoMiThin.eot') format('embedded-opentype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiThin.woff2') format('woff2'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiThin.woff') format('woff'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiThin.ttf') format('truetype'),
-       url('../fonts/xiaomi/CamphorProForXiaoMiThin.svg#CamphorProForXiaoMiThin') format('svg');
+  font-family: 'Avenir Next';
+  src: url('../fonts/honor/AvenirNext-Bold.woff2') format('woff2'),
+      url('../fonts/honor/AvenirNext-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 * {
