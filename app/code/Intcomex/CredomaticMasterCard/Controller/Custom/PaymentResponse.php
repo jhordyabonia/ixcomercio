@@ -140,7 +140,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             if( $showCustomError ) {
                 $msgError = $customError;
             }else {
-                $msgError = $body['responsetext'];
+                $msgError = ((isset($body['responsetext']))?$body['responsetext']:'');
             }
             $this->_messageManager->addError($msgError);
    
