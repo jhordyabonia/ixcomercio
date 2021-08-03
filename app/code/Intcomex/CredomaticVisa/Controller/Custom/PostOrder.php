@@ -31,7 +31,7 @@ class PostOrder extends \Magento\Framework\App\Action\Action
      */
     public function execute(){       
         try {
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/status_after_postorder.log');
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_status_after_postorder.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
             $post  = $this->getRequest()->getParams();
