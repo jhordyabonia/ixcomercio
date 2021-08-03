@@ -56,11 +56,11 @@ define(
                 var urlPostOrder = url.build('credomaticmastercard/custom/postorder');  
                 var urlGetResponse = url.build('credomatic/custom/getresponse');  
                 var urlPaymentResponse = url.build('credomaticmastercard/custom/paymentresponse');  
-                var cuotas = $("#credomaticmastercardinstallments option:selected").val();
-                var year = $("#credomaticmastercardexpiration_yr option:selected").val();
-                var month = $("#credomaticmastercardexpiration option:selected").val();
-                var number = $("#credomaticmastercardcc_number").val();
-                var cvv_ = $("#credomaticmastercardcc_cid").val();
+                var cuotas = $("#credomaticmastercard_installments option:selected").val();
+                var year = $("#credomaticmastercard_expiration_yr option:selected").val();
+                var month = $("#credomaticmastercard_expiration option:selected").val();
+                var number = $("#credomaticmastercard_cc_number").val();
+                var cvv_ = $("#credomaticmastercard_cc_cid").val();
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){ 
                    var data = JSON.parse(JSON.stringify(msg));
