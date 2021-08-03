@@ -45,8 +45,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId)->getData();
             
-            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id');
-            $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas']);
+            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/key_id');
+            $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/processor_id'.$post['cuotas']);
             $arrayData['amount'] = number_format($order['grand_total'],2,".","");
             $arrayData['orderid'] = $order['increment_id']; 
 

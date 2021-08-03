@@ -48,8 +48,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         try {
 
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg');
-            $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
+            $customError = (string) $this->_scopeConfig->getValue('payment/credomaticmastercard/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
+            $modo =  $this->_scopeConfig->getValue('payment/credomaticmastercard/modo',ScopeInterface::SCOPE_STORE);
             $showCustomError = false;
             if($customError != '') {
                 $showCustomError = true;

@@ -52,10 +52,10 @@ define(
 
             afterPlaceOrder: function () { 
                 
-                var serviceUrl = url.build('credomatic/custom/getorder');  
+                var serviceUrl = url.build('credomaticvisa/custom/getorder');  
                 var urlPostOrder = url.build('credomatic/custom/postorder');  
                 var urlGetResponse = url.build('credomatic/custom/getresponse');  
-                var urlPaymentResponse = url.build('credomatic/custom/paymentresponse');  
+                var urlPaymentResponse = url.build('credomaticvisa/custom/paymentresponse');  
                 var cuotas = $("#credomaticvisa_installments option:selected").val();
                 var year = $("#credomaticvisa_expiration_yr option:selected").val();
                 var month = $("#credomaticvisa_expiration option:selected").val();
@@ -93,7 +93,7 @@ define(
                             theLoop(i);       // Call the loop again, and pass it the current value of i
                             }
                         }, 9000);
-                    })(6); 
+                    })(5); 
                     
                 })
                 .fail(function(msg){
