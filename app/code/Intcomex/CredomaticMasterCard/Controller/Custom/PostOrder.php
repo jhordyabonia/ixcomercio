@@ -37,6 +37,15 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
                 $storeManager =  $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 
+                $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($post['orderid']);
+                $order->setState("pending")->setStatus("pending");
+                $order->save();
+                $this->logger->info('-----');
+                $this->logger->info('status');
+                $this->logger->info($post['orderid']);
+                $this->logger->info($order->getState());
+                $this->logger->info('-----');
+
                 $time = strtotime(date('Y-m-d H:i:s'));
                 $hash = md5($post['orderid'].'|'.$post['amount'].'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomaticmastercard/key'));
                 $form = '<form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"   id="formCredomaticMasterCard">';
