@@ -53,7 +53,7 @@ define(
             afterPlaceOrder: function () { 
                 
                 var serviceUrl = url.build('credomaticvisa/custom/getorder');  
-                var urlPostOrder = url.build('credomatic/custom/postorder');  
+                var urlPostOrder = url.build('credomaticvisa/custom/postorder');  
                 var urlGetResponse = url.build('credomatic/custom/getresponse');  
                 var urlPaymentResponse = url.build('credomaticvisa/custom/paymentresponse');  
                 var cuotas = $("#credomaticvisa_installments option:selected").val();

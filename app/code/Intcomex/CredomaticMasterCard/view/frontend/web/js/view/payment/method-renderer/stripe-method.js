@@ -53,7 +53,7 @@ define(
             afterPlaceOrder: function () { 
                 
                 var serviceUrl = url.build('credomaticmastercard/custom/getorder');  
-                var urlPostOrder = url.build('credomatic/custom/postorder');  
+                var urlPostOrder = url.build('credomaticmastercard/custom/postorder');  
                 var urlGetResponse = url.build('credomatic/custom/getresponse');  
                 var urlPaymentResponse = url.build('credomaticmastercard/custom/paymentresponse');  
                 var cuotas = $("#credomatic_installments option:selected").val();
