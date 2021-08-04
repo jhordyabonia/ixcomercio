@@ -53,26 +53,48 @@ define(
             afterPlaceOrder: function () { 
                 
                 var serviceUrl = url.build('credomaticvisa/custom/getorder');  
+                var urlPostOrder = url.build('credomaticvisa/custom/postorder');  
+                var urlGetResponse = url.build('credomatic/custom/getresponse');  
+                var urlPaymentResponse = url.build('credomaticvisa/custom/paymentresponse');  
                 var cuotas = $("#credomaticvisa_installments option:selected").val();
                 var year = $("#credomaticvisa_expiration_yr option:selected").val();
                 var month = $("#credomaticvisa_expiration option:selected").val();
-                $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month})
-                .done(function(msg){
+                var number = $("#credomaticvisa_cc_number").val();
+                var cvv_ = $("#credomaticvisa_cc_cid").val();
+                $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
+                .done(function(msg){ 
                    var data = JSON.parse(JSON.stringify(msg));
-                
-                    $("#credomaticvisa_key_id").val(data.key_id);
-                    $("#credomaticvisa_hash").val(data.hash);
-                    $("#credomaticvisa_time").val(data.time);
-                    $("#credomaticvisa_amount").val(data.amount);
-                    $("#credomaticvisa_orderid").val(data.orderid);
-                    $("#credomaticvisa_processor_id").val(data.processor_id);
-                    $("#credomaticvisa_ccnumber").val($("#credomaticvisa_cc_number").val());
-                    $("#credomaticvisa_ccexp").val(data.ccexp);
-                    $("#credomaticvisa_cvv").val($("#credomaticvisa_cc_cid").val());
-                    $("#credomaticvisa_redirect").val(url.build('credomaticvisa/custom/paymentresponse'));
-                    setTimeout(function(){ 
-                        $("#formCredomaticVisa").submit();
-                    }, 2000);                
+                    var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
+                    $("#frame_CredomaticVisa").attr("src", serviceUrlPostOrder);  
+                    (function theLoop (i) {
+                        setTimeout(function () {
+                            console.log('Buscando ...'+i);
+                            $.post(urlGetResponse,{order_id:data['orderid']})
+                            .done(function(resp){
+                                if(resp.status=='success'){
+                                    console.log('Encontrado!');
+                                    var redirectUrl = urlPaymentResponse+'?'+resp.info;
+                                    console.log('redirectUrl')
+                                    console.log(redirectUrl)
+                                    window.location.href = redirectUrl;
+                                    i=0;
+                                    return false;
+                                }
+                             })
+                            .fail(function(resp){
+                                console.log(resp);
+                             });
+                             if(i==1){
+                                var redirectUrl = urlPaymentResponse+'?orderid='+data['orderid']+'&empty=true';
+                                window.location.href = redirectUrl;
+                                return false;
+                             }
+                            if (--i) {          // If i > 0, keep going
+                            theLoop(i);       // Call the loop again, and pass it the current value of i
+                            }
+                        }, 9000);
+                    })(5); 
+                    
                 })
                 .fail(function(msg){
 
