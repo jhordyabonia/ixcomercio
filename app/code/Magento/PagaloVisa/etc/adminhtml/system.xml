@@ -12,12 +12,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment">
-            <group id="pagalovisa" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="pagalovisa" translate="label" type="text" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Pagalo Visa</label>
                 <comment>
                     <![CDATA[<a href="https://app.pagalocard.com/login" target="_blank">Click aquí para acceder a su cuenta Pagalo</a>]]>
                 </comment>
-                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Activado</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
