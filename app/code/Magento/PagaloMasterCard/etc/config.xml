@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+* PagaloMasterCard default configuration
+*
+* @category    PagaloMasterCard
+* @package     PagaloMasterCard
+* @author      PagaloMasterCard
+* @copyright   PagaloMasterCard (https://www.pagalo.com/)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <pagalomastercard>
+                <active>1</active>
+                <model>Magento\PagaloMasterCard\Model\Payment</model>
+                <payment_action>authorize_capture</payment_action>
+                <title>Pagalo MasterCard</title>
+                <api_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <cctypes>MC</cctypes>
+                <!-- allowspecific>0</allowspecific>
+                <min_order_total>0.50</min_order_total-->
+            </pagalomastercard>
+        </payment>
+    </default>
+</config>

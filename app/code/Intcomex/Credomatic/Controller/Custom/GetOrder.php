@@ -15,12 +15,14 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -30,45 +32,50 @@ class GetOrder extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         
+        try {
         $resultJson = $this->resultJsonFactory->create();
         $arrayData = array();
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_request.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
        
-        try {
 
             $post  = $this->getRequest()->getPostValue();
             
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-            $order = $objectManager->get('Magento\Sales\Model\Order')->getCollection()->addAttributeToSelect('*')->addFieldToFilter('entity_id',array('eq'=>$this->_checkoutSession->getLastOrderId()));
-            $time = strtotime(date('Y-m-d H:i:s'));
+            $orderId =  $this->_checkoutSession->getLastOrderId();
+            $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId)->getData();
             
-            $procesor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
-            
-            $total = number_format($order->getData()[0]['grand_total'],2,".","");
-            $hash = md5($order->getData()[0]['entity_id'].'|'.$total.'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key',ScopeInterface::SCOPE_STORE));
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id',ScopeInterface::SCOPE_STORE);
-            $arrayData['hash'] = $hash;
-            $arrayData['time'] = $time;
-            $arrayData['processor_id'] = $procesor_id;
-            $arrayData['amount'] = $total;
-            $arrayData['orderid'] = $order->getData()[0]['entity_id'];
-            $arrayData['gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
-            $this->logger->info('Credomatic Request Data');
+            $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
+            $arrayData['amount'] = number_format($order['grand_total'],2,".","");
+            $arrayData['orderid'] = $order['increment_id']; 
+
+            $this->logger->info('Data send to credomatic');
             $this->logger->info(print_r($arrayData,true));
-            $this->logger->info('------');
-            $arrayData['ccexp'] = str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4);
-            $arrayData['success'] = 'true';
+            $this->logger->info('- - - - ');
+
+            $arrayData['data1'] = $this->encrypt($post['cvv_']); 
+            $arrayData['data2'] = $this->encrypt($post['number']); 
+            $arrayData['data3'] = $this->encrypt(str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4));
+            $dataToPost = array();
+            $dataToPost['info'] = http_build_query($arrayData);
+            $dataToPost['orderid'] = $order['increment_id'];
 
         } catch (\Exception $e) {
              
-            $arrayData = ['error' => 'true', 'message' => $e->getMessage()];
+            $dataToPost = ['error' => 'true', 'message' => $e->getMessage()];
         }
 
-        $resultJson->setData($arrayData);
+        $resultJson->setData($dataToPost);
         return $resultJson;
 
     }
+
+    public function encrypt($data){
+        $encrypt =  $this->encryptor->encrypt($data);
+        return $encrypt;
+    }
+    
 
 }

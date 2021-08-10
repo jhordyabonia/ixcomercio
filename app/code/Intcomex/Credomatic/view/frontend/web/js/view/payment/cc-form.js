@@ -45,7 +45,11 @@ define([
 
                         for (var i = 0; i < response.length; i++) {
                             response[i];
-                            newOptions[response[i]+" Cuotas"] = response[i];
+                            var label = response[i]+" Cuotas";
+                            if(response[i]==1){
+                                 label = "Al Contado";
+                            }
+                            newOptions[label] = response[i];
                         }
         
                         var $methods = $("#credomatic_installments");
