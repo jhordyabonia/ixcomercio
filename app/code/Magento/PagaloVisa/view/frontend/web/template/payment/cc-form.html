@@ -41,7 +41,7 @@
     </div>
     <div class="field number required">
         <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
-            <span><!-- ko i18n: 'Número de Tarjeta'--><!-- /ko --></span>
+            <span><!-- ko i18n: 'Número de Tarjeta VISA'--><!-- /ko --></span>
         </label>
         <div class="control">
             <input type="number" name="payment[cc_number]" class="input-text" value=""
@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <div class="field installments required" data-bind="attr: {id: getCode() + '_installments_div', title: getconfigValue()}">
+    <div class="field installments_pagalovisa required" data-bind="attr: {id: getCode() + '_installments_div', title: getconfigValue()}">
       <label data-bind="attr: {for: getCode() + '_installments'}" class="label">
           <span><!-- ko i18n: 'Paga al contado o en cuotas' --><!-- /ko --></span>
       </label>

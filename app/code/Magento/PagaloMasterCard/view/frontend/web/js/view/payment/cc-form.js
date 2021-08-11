@@ -41,15 +41,19 @@ define([
                     
                         var newOptions = {
                             "Forma de pago": "",
-                            "Al contado": 1,
                         };
 
                         for (var i = 0; i < pg_visacuotas_response.length; i++) {
                             pg_visacuotas_response[i];
-                            newOptions[pg_visacuotas_response[i] + " cuotas"] = pg_visacuotas_response[i];
+                            var label = pg_visacuotas_response[i] + " cuotas";
+                            if(pg_visacuotas_response[i]==1){
+                                 label = "Al Contado";
+
+                            }
+                            newOptions[label] = pg_visacuotas_response[i];
                         }
         
-                        var $pg_visacuotas_html = $(".field.installments select");
+                        var $pg_visacuotas_html = $(".field.installments_pagalomastercard select");
                         $pg_visacuotas_html.empty();
                         $.each(newOptions, function(key,value) {
                             $pg_visacuotas_html.append($("<option></option>")

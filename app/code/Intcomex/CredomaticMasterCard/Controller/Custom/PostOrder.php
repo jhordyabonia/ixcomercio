@@ -1,5 +1,6 @@
 <?php
-namespace Intcomex\Credomatic\Controller\Custom;
+namespace Intcomex\CredomaticMasterCard\Controller\Custom;
+
 use Magento\Store\Model\ScopeInterface;
 
 class PostOrder extends \Magento\Framework\App\Action\Action
@@ -50,8 +51,8 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $this->logger->info('-----');
 
                 $time = strtotime(date('Y-m-d H:i:s'));
-                $hash = md5($post['orderid'].'|'.$post['amount'].'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key',ScopeInterface::SCOPE_STORE));
-                $form = '<form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"   id="formCredomatic">';
+                $hash = md5($post['orderid'].'|'.$post['amount'].'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomaticmastercard/key',ScopeInterface::SCOPE_STORE));
+                $form = '<form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"   id="formCredomaticMasterCard">';
                 $form .= '<input type="hidden" readonly id="credomatic_type" name="type" value="sale"  >';
                 $form .= '<input type="hidden" readonly id="credomatic_key_id" name="key_id" value="'.$post['key_id'].'" >';
                 $form .= '<input type="hidden" readonly id="credomatic_hash" name="hash" value="'.$hash.'" >';
@@ -65,7 +66,7 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $form .= '<input type="hidden" readonly id="credomatic_redirect" name="redirect" value="'.$storeManager->getStore()->getBaseUrl().'credomatic/custom/registerresponse"  >';
                 $form .= '</form>';
                 $form .= '<script>';
-                $form .= 'setTimeout(function(){ document.getElementById("formCredomatic").submit(); }, 2000)';
+                $form .= 'setTimeout(function(){ document.getElementById("formCredomaticMasterCard").submit(); }, 2000)';
                 $form .= '</script>';
                 echo $form;
             }

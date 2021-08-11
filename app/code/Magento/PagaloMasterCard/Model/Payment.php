@@ -158,28 +158,27 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $str_cliente = json_encode($cliente);
             $pg_products =  $order->getAllVisibleItems();   
             $detalle=[];
+            $detalle_nombre = "";
             foreach ( $pg_products as $pg_product ) {
                 if (!$pg_product->getData('has_children')) {       
-                    $detalle[] = array(
-                        'id_producto'   => $pg_product->getProductId(),
-                        'cantidad'      => $pg_product->getQtyOrdered(),
-                        'tipo'          => 'producto',
-                        'nombre'        => $pg_product->getName(),
-                        'precio'        => $pg_product->getPrice(),
-                        'Subtotal'      => $pg_product->getPrice() * $pg_product->getQtyOrdered(),
-                    );
+                        $detalle_nombre .= $pg_product->getName();
+                        $detalle_nombre .= "-Q" . $pg_product->getPrice();
+                        $detalle_nombre .= "x" . $pg_product->getQtyOrdered() . ",";             
                 }
             }
             if ( $order->getShippingAmount() > 0 ) {
-                $detalle[] = array(
-                    'id_producto'   => 'shipping01',
-                    'cantidad'      => '1',
-                    'tipo'              => 'Shipping',
-                    'nombre'            => 'Shipping',
-                    'precio'            => $order->getShippingAmount(),
-                    'Subtotal'      => $order->getShippingAmount(),
-                );  
+                $detalle_nombre .= 'envio';
+                $detalle_nombre .= "-Q" . $order->getShippingAmount();
+                $detalle_nombre .= "x1";
             }
+            $detalle[] = array(
+                'id_producto'   => 'product01',
+                'cantidad'      => '1',
+                'tipo'              => 'product',
+                'nombre'            => $detalle_nombre,
+                'precio'            => $order->getGrandTotal(),
+                'Subtotal'      => $order->getGrandTotal(),
+            );
             $str_detalle = json_encode($detalle);
             $url = 'https://app.pagalocard.com/api/v1/integracion/' . $pg_token;
             if ($this->getConfigData('PGModalidad') == 'EPAY' ) {
