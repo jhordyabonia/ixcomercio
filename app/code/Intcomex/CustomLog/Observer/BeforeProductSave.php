@@ -59,6 +59,7 @@ class BeforeProductSave implements ObserverInterface
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $oldproduct = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
 
+            $scopeConfig = $objectManager->get('\Magento\Framework\App\Config\ScopeConfigInterface');
 
             $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $user_admin = $this->authSession->getUser();
@@ -94,7 +95,7 @@ class BeforeProductSave implements ObserverInterface
             $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
             $websiteCode = $theme->getWebsite()->getCode();
 
-
+            $style = 'style="border:1px solid"';
             $price = $product->getData('price');
             if($price==''||empty($price)||$price==0){
                 $errors .= '<tr>';
@@ -106,7 +107,7 @@ class BeforeProductSave implements ObserverInterface
             }
 
             if($errors!=''){
-                $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
+                $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
                 $templateId  = $scopeConfig->getValue('customlog/general/email_template');
                 $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
                 $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));

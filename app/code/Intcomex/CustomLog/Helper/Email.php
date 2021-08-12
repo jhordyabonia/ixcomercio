@@ -148,6 +148,11 @@ class Email extends AbstractHelper
             $transport = $this->transportBuilder->getTransport();
             $send = $transport->sendMessage();
            
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/validacion_envio_correo.log');
+            $this->logger = new \Zend\Log\Logger();
+            $this->logger->addWriter($writer);
+            $this->logger->info(print_r($send,true));
+
             $this->inlineTranslation->resume();
             return $this;
     }

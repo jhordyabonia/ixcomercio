@@ -533,7 +533,7 @@ class GetCatalog
             } else {
 
                 $attributes = array();
-
+                $style = 'style="border:1px solid"';
                 // Set Price
                 if ($configData['product_price']) {
                     $price = $catalog->Price->UnitPrice;
@@ -558,27 +558,14 @@ class GetCatalog
             }
         }
         if($errors!=''){
-            $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
-
-            $templateId  = $scopeConfig->getValue('customlog/general/email_template');
-            $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
-            $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
-
-            $variables = array(
-                'mensaje' => $extraError,
-                'body' => $errors
-            );
-            foreach($email as $key => $value){
-                if(!empty($value)){
-                    $helper->notify($value,$variables,$templateId);
-                }
-            }
+            $this->notifyErrrorPrice($errors);
         }
     }
 
     //Carga la información de las subcategorias
     public function loadSubcategoriesData($data, $websiteCode, $store, $storeId, $rootNodeId, $arrayCategories)
     {
+        
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $appState = $objectManager->get('\Magento\Framework\App\State');
         //Se recorre array
@@ -644,6 +631,7 @@ class GetCatalog
     //Carga la información de los productos
     public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds, $configData)
     {
+        $errors = '';
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
@@ -745,8 +733,20 @@ class GetCatalog
             }            
             //Set Price
             if ($configData['product_price']) {
-                $product->setPrice($catalog->Price->UnitPrice);
+
+                if($catalog->Price->UnitPrice==''||empty($catalog->Price->UnitPrice)||$catalog->Price->UnitPrice==0){
+                    $errors .= '<tr>';
+                    $errors .= '<td '.$style.' >'.$catalog->Sku.'</td>';
+                    $errors .= '<td '.$style.' >'.$websiteId.'</td>';
+                    $errors .= '<td '.$style.' >'.$catalog->Price->UnitPrice.'</td>';
+                    $errors .= '<td '.$style.' >Precio</td>';
+                    $errors .= '</tr>';
+                }else{
+                    $product->setPrice($catalog->Price->UnitPrice);
+                }
+
             }
+            
 
             try {
                 $product->save();
@@ -809,7 +809,17 @@ class GetCatalog
 
             // Set Price
             if ($configData['product_price']) {
-                $attibutes['Price'] = $catalog->Price->UnitPrice;
+
+                if($catalog->Price->UnitPrice==''||empty($catalog->Price->UnitPrice)||$catalog->Price->UnitPrice==0){
+                    $errors .= '<tr>';
+                    $errors .= '<td '.$style.' >'.$catalog->Sku.'</td>';
+                    $errors .= '<td '.$style.' >'.$websiteId.'</td>';
+                    $errors .= '<td '.$style.' >'.$catalog->Price->UnitPrice.'</td>';
+                    $errors .= '<td '.$style.' >Precio</td>';
+                    $errors .= '</tr>';
+                }else{
+                    $attibutes['Price'] = $catalog->Price->UnitPrice;
+                }
             }
 
             //Set product dimensions
@@ -842,6 +852,9 @@ class GetCatalog
                 $this->logger->info('GetCatalog - Se ha producido un error al actualizar el producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
                 return false;
             }
+        }
+        if($errors!=''){
+            $this->notifyErrrorPrice($errors);
         }
     }
 
@@ -990,5 +1003,24 @@ class GetCatalog
         }
 
         return $this;
+    }
+
+    public function notifyErrrorPrice(){
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
+
+        $templateId  = $this->scopeConfig->getValue('customlog/general/email_template');
+        $extraError = $this->scopeConfig->getValue('customlog/general/mensaje_alerta');
+        $email = explode(',',$this->scopeConfig->getValue('customlog/general/correos_alerta'));
+
+        $variables = array(
+            'mensaje' => $extraError,
+            'body' => $errors
+        );
+        foreach($email as $key => $value){
+            if(!empty($value)){
+                $helper->notify($value,$variables,$templateId);
+            }
+        }
     }
 }

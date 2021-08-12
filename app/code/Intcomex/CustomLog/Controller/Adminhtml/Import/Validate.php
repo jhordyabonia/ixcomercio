@@ -238,22 +238,22 @@ class Validate extends ImportResultController implements HttpPostActionInterface
             
         }
         if($errors!=''){
-
-            $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
-
+            $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
+            
             $templateId  = $scopeConfig->getValue('customlog/general/email_template');
             $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
             $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
+            $this->logger->info(print_r($email,true));
 
-            /*$variables = array(
+            $variables = array(
                 'mensaje' => $extraError,
                 'body' => $errors
             );
             foreach($email as $key => $value){
                 if(!empty($value)){
-                    $helper->notify($value,$variables,$templateId);
+                   $helper->notify($value,$variables,$templateId);
                 }
-            }*/
+            }
         }
         
         return $errorsSku;
