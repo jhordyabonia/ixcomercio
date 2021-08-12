@@ -520,7 +520,7 @@ class GetCatalog
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData)
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-
+        $errors = '';
         //Se recorre array
         foreach ($data as $key => $catalog) {
             $this->logger->info('GetCatalogSalesData - Lee datos. Website: ' . $websiteCode);
@@ -536,7 +536,17 @@ class GetCatalog
 
                 // Set Price
                 if ($configData['product_price']) {
-                    $attributes['Price'] = $catalog->Price->UnitPrice;
+                    $price = $catalog->Price->UnitPrice;
+                    if($price==''||empty($price)||$price==0){
+                        $errors .= '<tr>';
+                        $errors .= '<td '.$style.' >'.$catalog->Sku.'</td>';
+                        $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
+                        $errors .= '<td '.$style.' >'.$catalog->Price->UnitPrice.'</td>';
+                        $errors .= '<td '.$style.' >Precio</td>';
+                        $errors .= '</tr>';
+                    }else{
+                        $attributes['Price'] = $catalog->Price->UnitPrice;
+                    }
                 }
 
                 try {
@@ -544,6 +554,23 @@ class GetCatalog
                     $this->logger->info('GetCatalogSalesData - Se actualizan datos del producto con SKU ' . $catalog->Sku . ' en el Website: ' . $websiteCode);
                 } catch (Exception $e) {
                     $this->logger->info('GetCatalogSalesData - Se ha producido un error al actualizar los datos del producto con SKU ' . $catalog->Sku . ' en el Website: ' . $websiteCode . '. Error: ' . $e->getMessage());
+                }
+            }
+        }
+        if($errors!=''){
+            $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
+
+            $templateId  = $scopeConfig->getValue('customlog/general/email_template');
+            $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
+            $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
+
+            $variables = array(
+                'mensaje' => $extraError,
+                'body' => $errors
+            );
+            foreach($email as $key => $value){
+                if(!empty($value)){
+                    $helper->notify($value,$variables,$templateId);
                 }
             }
         }

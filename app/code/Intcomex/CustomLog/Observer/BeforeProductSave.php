@@ -59,6 +59,8 @@ class BeforeProductSave implements ObserverInterface
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $oldproduct = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
 
+
+            $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
             $user_admin = $this->authSession->getUser();
             if(!$user_admin||empty($user_admin)||$user_admin==null){
                 $userName = 'ssh';
@@ -87,6 +89,40 @@ class BeforeProductSave implements ObserverInterface
             endif;
 
 
+            $errorsSku = array();
+            $errors = '';
+            $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+            $websiteCode = $theme->getWebsite()->getCode();
+
+
+            $price = $product->getData('price');
+            if($price==''||empty($price)||$price==0){
+                $errors .= '<tr>';
+                $errors .= '<td '.$style.' >'.$product->getSku().'</td>';
+                $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
+                $errors .= '<td '.$style.' >'.$price.'</td>';
+                $errors .= '<td '.$style.' >Precio</td>';
+                $errors .= '</tr>';
+            }
+
+            if($errors!=''){
+                $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
+                $templateId  = $scopeConfig->getValue('customlog/general/email_template');
+                $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
+                $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
+
+                $variables = array(
+                    'mensaje' => $extraError,
+                    'body' => $errors
+                );
+                foreach($email as $key => $value){
+                    if(!empty($value)){
+                        $helper->notify($value,$variables,$templateId);
+                    }
+                }
+
+                throw new \Magento\Framework\Validator\Exception(__($extraError));
+            }
             
 
         }

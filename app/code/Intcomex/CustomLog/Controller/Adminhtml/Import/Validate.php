@@ -198,20 +198,16 @@ class Validate extends ImportResultController implements HttpPostActionInterface
 
         //\Intcomex\Auditoria\Helper\Email
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
-        $helper = $objectManager->get('\Intcomex\Auditoria\Helper\Email');
-        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $scopeConfig = $objectManager->get('\Magento\Framework\App\Config\ScopeConfigInterface');
         $storesRepository = $objectManager->get('\Magento\Store\Api\StoreRepositoryInterface');
 
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/validacion_Product_Import.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/validacion_precio_vacio.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
         $this->logger->info('Validación '.$data['entity']);
         
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $porcentaje = $scopeConfig->getValue('auditoria/general/porcentaje_validacion', $storeScope);
-    
-        $products = $productFactory->create();
+        
 
         $style = 'style="border:1px solid"';
 
@@ -240,8 +236,22 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                     }
             }
             if($errors!=''){
-                $extraError = 'Estas ingresando valores no permitidos en el producto';
-                //$helper->notify('Soporte Whitelabel',$errors,$extraError, 0);
+
+                $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
+
+                $templateId  = $scopeConfig->getValue('customlog/general/email_template');
+                $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
+                $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
+
+                $variables = array(
+                    'mensaje' => $extraError,
+                    'body' => $errors
+                );
+                foreach($email as $key => $value){
+                    if(!empty($value)){
+                        $helper->notify($value,$variables,$templateId);
+                    }
+                }
             }
         }
         
