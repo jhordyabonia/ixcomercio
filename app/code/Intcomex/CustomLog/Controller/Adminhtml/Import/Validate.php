@@ -218,7 +218,7 @@ class Validate extends ImportResultController implements HttpPostActionInterface
             $csvFile = file($path);
             $colum = 2;
             foreach ($csvFile as $key => $line) {
-                if($key==1){
+                if($key==0){
                     $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
                     foreach ($dataLine as $keyData => $lineData) {
                         if($lineData=='price'){
