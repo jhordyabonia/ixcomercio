@@ -216,11 +216,22 @@ class Validate extends ImportResultController implements HttpPostActionInterface
         $errors = '';
         if (($handle = fopen($path, "r")) !== FALSE) {
             $csvFile = file($path);
+            $colum = 2;
+            foreach ($csvFile as $key => $line) {
+                if($key==1){
+                    $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
+                    foreach ($dataLine as $keyData => $lineData) {
+                        if($lineData=='price'){
+                            $colum = $keyData;
+                        }
+                    }
+                }
+            }
             foreach ($csvFile as $key => $line) {
                 if($key>0){
                     $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
 
-                    $price = $dataLine[2];
+                    $price = $dataLine[$colum];
                     $sku = $dataLine[0];
                     $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
                     $this->logger->info('Precio a actualizar :'.$price);
