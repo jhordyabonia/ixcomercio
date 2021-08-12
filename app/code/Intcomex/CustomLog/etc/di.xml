@@ -4,6 +4,9 @@
    <!--<preference for="Magento\Sales\Model\ResourceModel\Attribute" type="Intcomex\CustomLog\Model\ResourceModel\Attribute" /> -->
    <!--<preference for="Magento\Eav\Model\Entity\AbstractEntity" type="Intcomex\CustomLog\Model\Entity\AbstractEntity" /> -->
    
+   <type name="Magento\Sales\Model\ResourceModel\Attribute">
+      <plugin name="Intcomex_CustomLog_Plugin" type="Intcomex\CustomLog\Plugin\AttributePlugin" sortOrder="10" disabled="false"  />
+   </type>
 
 
 </config>
