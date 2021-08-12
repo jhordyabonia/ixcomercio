@@ -221,7 +221,7 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                     $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
 
                     $price = $dataLine[2];
-                    
+                    $sku = $dataLine[0];
                     $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
                     $this->logger->info('Precio a actualizar :'.$price);
                     $this->logger->info(' ------- ');
@@ -235,29 +235,31 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                             $errorsSku[] = $sku;
                     }
             }
-            if($errors!=''){
+            
+        }
+        if($errors!=''){
 
-                $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
+            $helper = $objectManager->get('Intcomex\CustomLog\Helper\Email');
 
-                $templateId  = $scopeConfig->getValue('customlog/general/email_template');
-                $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
-                $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
+            $templateId  = $scopeConfig->getValue('customlog/general/email_template');
+            $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
+            $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
 
-                $variables = array(
-                    'mensaje' => $extraError,
-                    'body' => $errors
-                );
-                foreach($email as $key => $value){
-                    if(!empty($value)){
-                        $helper->notify($value,$variables,$templateId);
-                    }
+            /*$variables = array(
+                'mensaje' => $extraError,
+                'body' => $errors
+            );
+            foreach($email as $key => $value){
+                if(!empty($value)){
+                    $helper->notify($value,$variables,$templateId);
                 }
-            }
+            }*/
         }
         
         return $errorsSku;
 
     }
+    
 }
 
 

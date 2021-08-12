@@ -1,5 +1,5 @@
 <?php
-namespace Intcomes\CustomLog\Helper;
+namespace Intcomex\CustomLog\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Store\Model\ScopeInterface;
