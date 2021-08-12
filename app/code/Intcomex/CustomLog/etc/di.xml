@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd"> 
    <preference for="Magento\ImportExport\Controller\Adminhtml\Import\Validate" type="Intcomex\CustomLog\Controller\Adminhtml\Import\Validate" /> 
-   <preference for="Magento\Sales\Model\ResourceModel\Attribute" type="Intcomex\CustomLog\Model\ResourceModel\Attribute" /> 
+   <!--<preference for="Magento\Sales\Model\ResourceModel\Attribute" type="Intcomex\CustomLog\Model\ResourceModel\Attribute" /> -->
    <!--<preference for="Magento\Eav\Model\Entity\AbstractEntity" type="Intcomex\CustomLog\Model\Entity\AbstractEntity" /> -->
+   
+
 
 </config>
