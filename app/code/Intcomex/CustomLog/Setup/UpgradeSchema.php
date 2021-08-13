@@ -25,7 +25,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $trigger = $this->triggerFactory->create()
                 ->setName('trg_magento_pricerule_before_delete')
                 ->setTime(\Magento\Framework\DB\Ddl\Trigger::TIME_BEFORE)
-                ->setEvent('BEFORE DELETE')
+                ->setEvent('DELETE')
                 ->setTable($setup->getTable('catalog_product_entity_decimal'));
 
             $trigger->addStatement("IF (OLD.attribute_id=77 AND OLD.store_id!=0)THEN signal SQLSTATE '23000' SET message_text = 'Cannot delete this record, inheriting the price of a product is not allowed'; END IF;");

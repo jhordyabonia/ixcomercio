@@ -97,12 +97,13 @@ class BeforeProductSave implements ObserverInterface
 
             $style = 'style="border:1px solid"';
             $price = $product->getData('price');
-            if($price==''||empty($price)||$price==0){
+            $special_price = $product->getData('special_price');
+            if(($price==''||empty($price)||$price==0)||($special_price==''||empty($special_price)||$special_price==0)){
                 $errors .= '<tr>';
                 $errors .= '<td '.$style.' >'.$product->getSku().'</td>';
                 $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
                 $errors .= '<td '.$style.' >'.$price.'</td>';
-                $errors .= '<td '.$style.' >Precio</td>';
+                $errors .= '<td '.$style.' >'.$special_price.'</td>';
                 $errors .= '</tr>';
             }
 

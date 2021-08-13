@@ -217,12 +217,16 @@ class Validate extends ImportResultController implements HttpPostActionInterface
         if (($handle = fopen($path, "r")) !== FALSE) {
             $csvFile = file($path);
             $colum = 2;
+            $colum2 = 3;
             foreach ($csvFile as $key => $line) {
                 if($key==0){
                     $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
                     foreach ($dataLine as $keyData => $lineData) {
                         if($lineData=='price'){
                             $colum = $keyData;
+                        }
+                        if($lineData=='special_price'){
+                            $colum2 = $keyData;
                         }
                     }
                 }
@@ -231,17 +235,18 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                 if($key>0){
                     $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
 
+                    $special_price = $dataLine[$colum2];
                     $price = $dataLine[$colum];
                     $sku = $dataLine[0];
                     $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
                     $this->logger->info('Precio a actualizar :'.$price);
                     $this->logger->info(' ------- ');
-                    if($price==''||empty($price)||$price==0){
+                    if(($price==''||empty($price)||$price==0)||($special_price==''||empty($special_price)||$special_price==0)){
                             $errors .= '<tr>';
                             $errors .= '<td '.$style.' >'.$sku.'</td>';
                             $errors .= '<td '.$style.' >'.$dataLine[1].'</td>';
                             $errors .= '<td '.$style.' >'.$price.'</td>';
-                            $errors .= '<td '.$style.' >Precio</td>';
+                            $errors .= '<td '.$style.' >'.$special_price.'</td>';
                             $errors .= '</tr>';
                             $errorsSku[] = $sku;
                     }
