@@ -140,21 +140,23 @@ class Email extends AbstractHelper
 
             // Assign values for your template variables  
             $variable = $variables;
-            $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-            $storeid = $theme->getStore()->getId();
-
-            $this->inlineTranslation->suspend();
-            $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
-            $transport = $this->transportBuilder->getTransport();
-            $send = $transport->sendMessage();
-           
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/validacion_envio_correo.log');
-            $this->logger = new \Zend\Log\Logger();
-            $this->logger->addWriter($writer);
-            $this->logger->info(print_r($send,true));
-
-            $this->inlineTranslation->resume();
-            return $this;
+            if(isset($variable['body'])&&$variable['body']!=''){
+                $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+                $storeid = $theme->getStore()->getId();
+    
+                $this->inlineTranslation->suspend();
+                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
+                $transport = $this->transportBuilder->getTransport();
+                $send = $transport->sendMessage();
+               
+                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/validacion_envio_correo.log');
+                $this->logger = new \Zend\Log\Logger();
+                $this->logger->addWriter($writer);
+                $this->logger->info(print_r($send,true));
+    
+                $this->inlineTranslation->resume();
+                return $this;
+            }
     }
 
     public function clearSpecialCharac($String){
