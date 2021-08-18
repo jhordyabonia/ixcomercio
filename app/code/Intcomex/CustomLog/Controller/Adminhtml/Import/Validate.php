@@ -241,8 +241,8 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                     $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
                     $this->logger->info('Precio a actualizar :'.$price);
                     $this->logger->info(' ------- ');
-                    
-                    if(($price==''||empty($price)||$price==0)||($special_price==''||empty($special_price)||$special_price==0)){
+                     
+                    if(($price==''||empty($price)||$price==0)&&($special_price==''||empty($special_price)||$special_price==0)){
                             $errors .= '<tr>';
                             $errors .= '<td '.$style.' >'.$sku.'</td>';
                             $errors .= '<td '.$style.' >'.$dataLine[1].'</td>';
