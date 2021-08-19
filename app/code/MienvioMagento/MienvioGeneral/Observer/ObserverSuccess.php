@@ -215,8 +215,15 @@ class ObserverSuccess implements ObserverInterface
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
                 $this->_logger->info("QUOTEid", ["data" => $mienvioQuoteId]);
-                $order->setMienvioQuoteId($mienvioQuoteId);
-                $order->save();
+                
+                try{
+                    $order->setMienvioQuoteId($mienvioQuoteId);
+                    $order->save();
+                }catch (\Exception $e) {
+                    $this->_logger->critical('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
+                    throw new InputException(__('Error when updating Mienvio Quote Id.'));
+                }                
+                
                 return $this;
             }
 
