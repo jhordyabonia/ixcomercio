@@ -98,7 +98,21 @@ class BeforeProductSave implements ObserverInterface
             $style = 'style="border:1px solid"';
             $price = $product->getData('price');
             $special_price = $product->getData('special_price');
-            if(($price==''||empty($price)||$price==0)&&($special_price==''||empty($special_price)||$special_price==0)){
+
+            $error = false;
+            if($price==''||empty($price)||$price==0){
+                $error = true;
+            }
+            if($special_price!=$oldproduct->getData('special_price')){
+                if($special_price==''||empty($special_price)||$special_price==0){
+                    $error = true;
+                }
+            }
+            if($websiteCode!='base'){
+               // $error = true;
+            }
+
+            if($error){
                 $errors .= '<tr>';
                 $errors .= '<td '.$style.' >'.$product->getSku().'</td>';
                 $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
@@ -119,7 +133,7 @@ class BeforeProductSave implements ObserverInterface
                 );
                 foreach($email as $key => $value){
                     if(!empty($value)){
-                        $helper->notify($value,$variables,$templateId);
+                        $helper->notify(trim($value),$variables,$templateId);
                     }
                 }
 

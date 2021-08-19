@@ -137,10 +137,14 @@ class Email extends AbstractHelper
                 'email' => $email
             ];
 
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test_email_log.log');
+            $this->logger = new \Zend\Log\Logger();
+            $this->logger->addWriter($writer);
+            $this->logger->info(print_r($variables,true));
 
             // Assign values for your template variables  
             $variable = $variables;
-            if(isset($variable['body'])&&$variable['body']!=''){
+            if(isset($variables['body'])&&$variables['body']!=''){
                 $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
                 $storeid = $theme->getStore()->getId();
     
