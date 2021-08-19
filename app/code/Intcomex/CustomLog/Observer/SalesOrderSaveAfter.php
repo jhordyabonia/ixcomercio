@@ -53,5 +53,7 @@ class SalesOrderSaveAfter implements ObserverInterface
         $order = $observer->getEvent()->getOrder();
 
         $this->logger->info("Order Info", ["data" => $order->getData()]);
+        $this->logger->info("MiEnvio", ["Quote ID" => $order->getMienvioQuoteId()]);
+        
     }
 }
