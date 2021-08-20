@@ -22,13 +22,22 @@ class ObserverSuccess implements ObserverInterface
 
     protected $_storeManager;
 
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     */
     public function __construct(
         CollectionFactory $collectionFactory,
         QuoteRepository $quoteRepository,
         \Magento\Framework\HTTP\Client\Curl $curl,
         Helper $helperData,
         LoggerInterface $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->collectionFactory = $collectionFactory;
@@ -37,7 +46,7 @@ class ObserverSuccess implements ObserverInterface
         $this->_logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
-
+        $this->_productFactory=$productFactory;
     }
 
     public function execute(Observer $observer)
@@ -220,7 +229,7 @@ class ObserverSuccess implements ObserverInterface
                     $order->setMienvioQuoteId($mienvioQuoteId);
                     $order->save();
                 }catch (\Exception $e) {
-                    $this->_logger->critical('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
+                    $this->_logger->debug('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
                     throw new InputException(__('Error when updating Mienvio Quote Id.'));
                 }                
                 
@@ -345,10 +354,15 @@ class ObserverSuccess implements ObserverInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+            $product = $this->_productFactory->create();
+            $product->loadByAttribute('sku', $item->getSku());
+            
+            if(!$product){
+                $this->_logger->debug('Error when loading the product of the order #'. $order->getIncrementId() .' to calculate the measurements', ['item' => $item->getData()]);
+                throw new InputException(__('Error when loading the product of the order to calculate the measurements.'));                
+            }
 
             $dimensions = $this->getDimensionItems($product);
 
