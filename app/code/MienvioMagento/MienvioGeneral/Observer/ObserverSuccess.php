@@ -22,14 +22,6 @@ class ObserverSuccess implements ObserverInterface
 
     protected $_storeManager;
 
-    /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     */
     public function __construct(
         CollectionFactory $collectionFactory,
         QuoteRepository $quoteRepository,
@@ -46,7 +38,7 @@ class ObserverSuccess implements ObserverInterface
         $this->_logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
-        $this->_productFactory=$productFactory;
+        $this->productFactory = $productFactory;
     }
 
     public function execute(Observer $observer)
@@ -223,16 +215,12 @@ class ObserverSuccess implements ObserverInterface
                     $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
                 );
                 $mienvioQuoteId = $mienvioResponse['quote_id'];
+                $mienvioTraxId = isset($mienvioResponse['trax_code_id']) ? $mienvioResponse['trax_code_id'] : "NONE";
                 $this->_logger->info("QUOTEid", ["data" => $mienvioQuoteId]);
-                
-                try{
-                    $order->setMienvioQuoteId($mienvioQuoteId);
-                    $order->save();
-                }catch (\Exception $e) {
-                    $this->_logger->debug('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
-                    throw new InputException(__('Error when updating Mienvio Quote Id.'));
-                }                
-                
+                $this->_logger->info("TRAXid", ["data" => $mienvioTraxId]);
+                $order->setMienvioQuoteId($mienvioQuoteId);
+                $order->setMienvioTraxId($mienvioTraxId);
+                $order->save();
                 return $this;
             }
 
@@ -354,15 +342,12 @@ class ObserverSuccess implements ObserverInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
+
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $this->_productFactory->create();
+
+            $product = $this->productFactory->create();
             $product->loadByAttribute('sku', $item->getSku());
-            
-            if(!$product){
-                $this->_logger->debug('Error when loading the product of the order #'. $order->getIncrementId() .' to calculate the measurements', ['item' => $item->getData()]);
-                throw new InputException(__('Error when loading the product of the order to calculate the measurements.'));                
-            }
 
             $dimensions = $this->getDimensionItems($product);
 
@@ -703,11 +688,11 @@ class ObserverSuccess implements ObserverInterface
     private function getLevel2FromAddress ($destRegion,$destRegionCode,$destCity,$country = null)
     {
         if($country === 'CO'){
-            $level2 = $destCity;
+            $level2 = $destRegionCode;
             if($level2 == null){
                 $level2 = $destRegion;
                 if($level2 == null)
-                    $level2 = $destRegionCode;
+                    $level2 = $destCity;
             }
         }else{
             $level2 = $destCity;
