@@ -89,7 +89,7 @@ define(
                             theLoop(i);       // Call the loop again, and pass it the current value of i
                             }
                         }, 9000);
-                    })(5); 
+                    })(6); 
                     
                 })
                 .fail(function(msg){
