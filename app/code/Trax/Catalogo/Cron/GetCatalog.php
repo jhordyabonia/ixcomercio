@@ -178,35 +178,36 @@ class GetCatalog
 
         foreach($this->_storesRepository->getList() as $store){
 
-            if ($store->isActive()) {
             
-                $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
-                $website=$storeManager->getWebsite($websiteId);
-                $configData=$this->getConfigParams($storeScope,$store->getCode());
+                if ($store->isActive()) {
+            
+                    $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
+                    $website=$storeManager->getWebsite($websiteId);
+                    $configData=$this->getConfigParams($storeScope,$store->getCode());
 
 
-                if($configData['datos_iws']){
-
-                    $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
+                    if($website->getCode() == 'huaweigt_website'){
+                    
                     $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
-
-                    if($serviceUrl)
+    
+                    if($serviceUrl){
+                        $this->logger->info('GetCatalog - Se ejecuta el cron getCatalog para el website ' . $website->getCode() . ' con store ' . $website->getCode());
                         $this->beginCatalogLoad($configData,$store,$serviceUrl,$website,0);
-                    else
+                    }else{
                         $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());
+                    }
+    
                 }
-                else{
-                    $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
-                    $this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
-                }
-
-
             }
+
+            
 
 
         }
         
         $this->cleanCache();
+
+        return true;
     }
 
     //Obtiene los parámetros de configuración desde el cms
@@ -896,6 +897,8 @@ class GetCatalog
             ->addAttributeToSelect('*')
             ->addStoreFilter($storeId);
 
+        $products_noiws = array();
+
         foreach ($products as $product) {
             if (!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0) {
                 $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
@@ -904,11 +907,17 @@ class GetCatalog
                 $productTmp->setStatus(0); // Status on product enabled/ disabled 1/0
                 try {
                     $productTmp->save();
+                    $products_noiws[] = $product->getSku();
                     $this->logger->info('GetCatalog - Se deshabilita producto ' . $productTmp->getSku());
                 } catch (Exception $e) {
                     $this->logger->info('GetCatalog - Se ha producido un error al deshabilitar el producto ' . $productTmp->getSku() . '. Error: ' . $e->getMessage());
                 }
             }
+        }
+
+        // se envia la notificacion al admin de productos que no llegan desde IWS
+        if(count($products_noiws) > 0){
+            $this->notifyProductNoIWS($products_noiws, $storeId);
         }
     }
 
@@ -1022,5 +1031,19 @@ class GetCatalog
                 $helper->notify($value,$variables,$templateId);
             }
         }
+    }
+
+
+    public function notifyProductNoIWS($products, $storeId){
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
+
+        $manager = $om->get('Magento\Store\Model\StoreManagerInterface');
+        $store = $manager->getStore($storeId);
+
+        $helper->notifyProductIWS('Soporte Whitelabel',$products,$store->getName(), $store->getId());
+
+        $this->logger->info('GetCatalog - Se evia notificacion de productos del store' . $store->getCode());
+        
     }
 }

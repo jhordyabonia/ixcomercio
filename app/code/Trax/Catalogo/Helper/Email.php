@@ -148,6 +148,70 @@ class Email extends AbstractHelper
         return $this;
     }
 
+
+
+    /**
+     * 
+     * @return $this
+     * @throws \Magento\Framework\Exception\MailException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function notifyProductIWS($name,$data,$storeName, $storeid)
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $email = explode(',',$this->scopeConfig->getValue('trax_catalogo/catalogo_general/catalogo_correo', $storeScope));
+
+        /* Sender Detail  */
+        $senderInfo = [
+            'name' => 'Whitelabel Store',
+            'email' => 'soporteb2c@ixcomercio.com',
+        ];
+
+        /* Assign values for your template variables  */
+        $variable = [];
+        $variable['store'] = $storeName;
+        $variable['productos'] = $this->getProductHtml($data);
+        
+
+        $templateId = "notification_check_price";
+        foreach($email as $key => $value){
+            if(!empty($value)){
+                 /* Receiver Detail */
+                $receiverInfo = [
+                    'name' => $name,
+                    'email' => $value
+                ];
+
+                $this->inlineTranslation->suspend();
+                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
+                $transport = $this->transportBuilder->getTransport();
+                $transport->sendMessage();
+                $this->inlineTranslation->resume();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add Html products
+     */
+    public function getProductHtml($products)
+    {
+        $html = '';
+        foreach ($products as $product) {
+            # code...
+            $html.= '
+            <tr>
+                <td style="border:1px solid" >'.$product['sku'].'</td>                            
+            </tr>
+            ';
+        }
+
+        return $html;
+
+    }
+
     public function clearSpecialCharac($String){
         $String = str_replace(array('á','à','â','ã','ª','ä'),"a",$String);
         $String = str_replace(array('Á','À','Â','Ã','Ä'),"A",$String);
