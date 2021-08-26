@@ -247,7 +247,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
             $this->_pagaloLogger->info('URL: ' . $url );
             $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
-            
+            sleep(2);
             if(isset($result->infotran)){
                 if(isset($result->infotran->authorizationNumber)){
                     $payment->setLastTransId($result->infotran->authorizationNumber);
