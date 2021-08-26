@@ -152,13 +152,16 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             
             if ($order->getId()) {
                 if(empty($data->getData())){
-                    $order->setState("pending")->setStatus("pending");
-                    sleep(2);
-                    $order->setState("canceled")->setStatus("canceled");
-                    $order->cancel();
-                    $this->orderManagement->cancel($order->getId());
-                    $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
-                    $order->save();
+                    $jsonResp =  json_decode($data->getData()['response'],true);
+                    if($jsonResp['response_code']!='100'){
+                        $order->setState("pending")->setStatus("pending");
+                        sleep(2);
+                        $order->setState("canceled")->setStatus("canceled");
+                        $order->cancel();
+                        $this->orderManagement->cancel($order->getId());
+                        $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
+                        $order->save();
+                    }
                 }
             }
             $loger->info('Estado final de la orden');
