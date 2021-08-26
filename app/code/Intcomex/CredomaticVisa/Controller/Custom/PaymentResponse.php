@@ -7,6 +7,7 @@ use Magento\Sales\Model\Service\InvoiceService;
 use Magento\Framework\DB\Transaction;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Magento\Store\Model\ScopeInterface;
+use Intcomex\Credomatic\Model\CredomaticFactory;
 
 class PaymentResponse extends \Magento\Framework\App\Action\Action
 {
@@ -24,7 +25,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         InvoiceService $invoiceService,
         Transaction $transaction,
-        \Magento\Sales\Api\OrderManagementInterface $orderManagement
+        \Magento\Sales\Api\OrderManagementInterface $orderManagement,
+        \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -36,6 +38,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->transaction = $transaction;
         $this->invoiceService = $invoiceService;
         $this->orderManagement = $orderManagement;
+        $this->_credomaticFactory = $credomaticFactory;
     }
 
 
@@ -144,14 +147,19 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }
             $this->_messageManager->addError($msgError);
    
+            $model =  $this->_credomaticFactory->create();  
+            $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $order->getId()));
+
             if ($order->getId()) {
-                $order->setState("pending")->setStatus("pending");
-                sleep(2);
-                $order->setState("canceled")->setStatus("canceled");
-                $order->cancel();
-                $this->orderManagement->cancel($order->getId());
-                $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
-                $order->save();
+                if(empty($data->getData())){
+                    $order->setState("pending")->setStatus("pending");
+                    sleep(2);
+                    $order->setState("canceled")->setStatus("canceled");
+                    $order->cancel();
+                    $this->orderManagement->cancel($order->getId());
+                    $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
+                    $order->save();
+                }
             }
             $loger->info('Estado final de la orden');
             $loger->info($order->getState());
