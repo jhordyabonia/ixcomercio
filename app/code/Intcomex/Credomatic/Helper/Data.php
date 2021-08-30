@@ -34,9 +34,9 @@ class Data extends mainHelper{
 
             $this->logger->info('El modelo indicado en '.$paymentMethod.' no esta definido!');
         
-            $model =  $_scopeConfig->getValue('payment/'.$code.'/model',ScopeInterface::SCOPE_STORE);
+            $class =  $_scopeConfig->getValue('payment/'.$code.'/model',ScopeInterface::SCOPE_STORE);
         
-            $this->logger->info('Para el modelo '.$paymentMethod.' se inicializo con '.$model);
+            $this->logger->info('Para el modelo '.$paymentMethod.' se inicializo con '.$class);
         } 
         
         if (!$class) {
