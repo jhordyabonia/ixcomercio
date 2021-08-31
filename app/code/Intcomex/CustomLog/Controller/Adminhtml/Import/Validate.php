@@ -271,7 +271,7 @@ class Validate extends ImportResultController implements HttpPostActionInterface
             );
             foreach($email as $key => $value){
                 if(!empty($value)){
-                  // $helper->notify(trim($value),$variables,$templateId);
+                   $helper->notify(trim($value),$variables,$templateId);
                 }
             }
         }
