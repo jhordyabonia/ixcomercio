@@ -214,14 +214,15 @@ class Validate extends ImportResultController implements HttpPostActionInterface
         $path = $this->getProtectedValue($this->getProtectedValue($source,'_file'),'path');
         $errorsSku = array();
         $errors = '';
+        $colum = false;
+        $colum2  = false;
         if (($handle = fopen($path, "r")) !== FALSE) {
             $csvFile = file($path);
-            $colum = 2;
-            $colum2 = 3;
             foreach ($csvFile as $key => $line) {
                 if($key==0){
                     $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
                     foreach ($dataLine as $keyData => $lineData) {
+                        
                         if($lineData=='price'){
                             $colum = $keyData;
                         }
@@ -231,36 +232,38 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                     }
                 }
             }
-            foreach ($csvFile as $key => $line) {
-                if($key>0){
-                    $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
-
-                    $special_price = $dataLine[$colum2];
-                    $price = $dataLine[$colum];
-                    $sku = $dataLine[0];
-                    $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
-                    $this->logger->info('Precio a actualizar :'.$price);
-                    $this->logger->info(' ------- ');
-                     
-                    if(($price==''||empty($price)||$price==0)||($special_price==''||empty($special_price)||$special_price==0)){
-                            $errors .= '<tr>';
-                            $errors .= '<td '.$style.' >'.$sku.'</td>';
-                            $errors .= '<td '.$style.' >'.$dataLine[1].'</td>';
-                            $errors .= '<td '.$style.' >'.$price.'</td>';
-                            $errors .= '<td '.$style.' >'.$special_price.'</td>';
-                            $errors .= '</tr>';
-                            $errorsSku[] = $sku;
+            if($colum!=false||$colum2!=false){
+                foreach ($csvFile as $key => $line) {
+                    if($key>0){
+                        $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
+    
+                        $special_price = $dataLine[$colum2];
+                        $price = $dataLine[$colum];
+                        $sku = $dataLine[0];
+                        $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
+                        $this->logger->info('Precio a actualizar :'.$price);
+                        $this->logger->info(' ------- ');
+                         
+                        if(($price==''||empty($price)||$price==0)||($special_price==''||empty($special_price)||$special_price==0)){
+                                $errors .= '<tr>';
+                                $errors .= '<td '.$style.' >'.$sku.'</td>';
+                                $errors .= '<td '.$style.' >'.$dataLine[1].'</td>';
+                                $errors .= '<td '.$style.' >'.$price.'</td>';
+                                $errors .= '<td '.$style.' >'.$special_price.'</td>';
+                                $errors .= '</tr>';
+                                $errorsSku[] = $sku;
+                        }
                     }
+                } 
             }
-            
-        }
+        
         if($errors!=''){
             $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
             
             $templateId  = $scopeConfig->getValue('customlog/general/email_template');
             $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
             $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
-            $this->logger->info(print_r($email,true));
+            
 
             $variables = array(
                 'mensaje' => $extraError,
@@ -268,7 +271,7 @@ class Validate extends ImportResultController implements HttpPostActionInterface
             );
             foreach($email as $key => $value){
                 if(!empty($value)){
-                   $helper->notify(trim($value),$variables,$templateId);
+                  // $helper->notify(trim($value),$variables,$templateId);
                 }
             }
         }
