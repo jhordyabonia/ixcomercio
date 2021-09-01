@@ -50,7 +50,7 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                 $source = $import->uploadFileAndGetSource();
                 $erroPrice = array();
                 if($data['entity']=='catalog_product'||$data['entity']=='advanced_pricing'){
-                   $erroPrice =  $this->validatePrice($data,$source);
+                  $erroPrice =  $this->validatePrice($data,$source);
                 }
                 $this->processValidationResult($import->validateSource($source), $resultBlock,$erroPrice);
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
@@ -232,19 +232,18 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                     }
                 }
             }
-            if($colum!=false||$colum2!=false){
-                foreach ($csvFile as $key => $line) {
-                    if($key>0){
-                        $dataLine = explode($data['_import_field_separator'],str_getcsv($line)[0]);
+            $fila = 0;
+            while (($datos = fgetcsv($handle, 1000, $data['_import_field_separator'])) !== FALSE) {
+                if($fila>0){
+                    $special_price = $datos[$colum2];
+                    $price = $datos[$colum];
+                    $sku = $datos[0];
+                    $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
+                    $this->logger->info('Precio a actualizar :'.$price);
+                    $this->logger->info(' ------- ');
     
-                        $special_price = $dataLine[$colum2];
-                        $price = $dataLine[$colum];
-                        $sku = $dataLine[0];
-                        $this->logger->info('Se evalua '.$sku.' para '.$dataLine[1]);
-                        $this->logger->info('Precio a actualizar :'.$price);
-                        $this->logger->info(' ------- ');
-                         
-                        if(($price==''||empty($price)||$price==0)||($special_price==''||empty($special_price)||$special_price==0)){
+                    if($colum!=false){
+                        if($price==''||empty($price)||$price==0){
                                 $errors .= '<tr>';
                                 $errors .= '<td '.$style.' >'.$sku.'</td>';
                                 $errors .= '<td '.$style.' >'.$dataLine[1].'</td>';
@@ -254,9 +253,20 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                                 $errorsSku[] = $sku;
                         }
                     }
-                } 
+                    if($colum2!=false){
+                        if($special_price==''||empty($special_price)||$special_price==0){
+                                $errors .= '<tr>';
+                                $errors .= '<td '.$style.' >'.$sku.'</td>';
+                                $errors .= '<td '.$style.' >'.$dataLine[1].'</td>';
+                                $errors .= '<td '.$style.' >'.$price.'</td>';
+                                $errors .= '<td '.$style.' >'.$special_price.'</td>';
+                                $errors .= '</tr>';
+                                $errorsSku[] = $sku;
+                        }
+                    }
+                }
+                $fila ++;
             }
-        
         if($errors!=''){
             $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
             
