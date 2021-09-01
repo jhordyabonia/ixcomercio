@@ -24,5 +24,10 @@
                 <invoice_label></invoice_label>
             </options>
         </checkout>
+        <productslider>
+            <general>
+                <enabled_product_view>1</enabled_product_view>
+            </general>
+        </productslider>
     </default>
 </config>

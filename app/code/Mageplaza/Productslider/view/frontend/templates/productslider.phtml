@@ -26,10 +26,6 @@ use Mageplaza\Productslider\Block\AbstractSlider;
 $mode = 'grid';
 $title = $block->getTitle();
 
-$store_active = $block->getStoreActive();
-
-var_dump($store_active);
-
 if ($items = $block->getProductCollection()) : ?>
     <div class="mp-product-slider-block block widget block-products-list <?= $mode; ?>">
         <h2 class="mp-product-slider-title"><?= $block->getTitle(); ?></h2>

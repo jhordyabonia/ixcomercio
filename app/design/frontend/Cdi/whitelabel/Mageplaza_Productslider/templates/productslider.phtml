@@ -30,6 +30,14 @@ $blockList = $block->getLayout()->createBlock('Magento\CatalogWidget\Block\Produ
 $mode = 'grid';
 $title = $block->getTitle();
 $type = 'widget-product-grid';
+
+
+$store_active = $_helperCdi->getStoreActive();
+
+var_dump($store_active);
+echo "sliderproduct";
+
+
 if ($items = $block->getProductCollection()) : ?>
     <div class="header-section col-xs-12">
         <h2 class="title-section"><?= $block->getHeading(); ?></h2>

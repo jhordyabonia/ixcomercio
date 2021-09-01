@@ -155,13 +155,5 @@ class Data extends AbstractData
         return 'responsive:{' . $responsiveOptions . '}';
     }
 
-
-    /*
-	 * Retorna si esta activo para el store
-	*/
-	public function getStoreActiveBestProducts(Type $var = null)
-	{
-		return $this->scopeConfig->getValue('productslider/general//enabled_product_view', 
-		\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-	}
+    
 }

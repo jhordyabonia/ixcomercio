@@ -93,11 +93,5 @@ class BestSellerProducts extends AbstractSlider
             ->addStoreFilter($this->getStoreId())->setPageSize($this->getProductsCount());
 
         return $collection;
-    }
-
-
-    public function getStoreActive()
-    {
-        $this->_helperData->getStoreActiveBestProducts();
-    }
+    }    
 }
