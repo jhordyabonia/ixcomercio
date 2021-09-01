@@ -31,14 +31,11 @@ $mode = 'grid';
 $title = $block->getTitle();
 $type = 'widget-product-grid';
 
+$store_active = $_helperCdi->getStoreActiveBestProducts();
 
-$store_active = $_helperCdi->getStoreActive();
+if($store_active == "1") :
 
-var_dump($store_active);
-echo "sliderproduct";
-
-
-if ($items = $block->getProductCollection()) : ?>
+if ($items = $block->getProductCollection() ) : ?>
     <div class="header-section col-xs-12">
         <h2 class="title-section"><?= $block->getHeading(); ?></h2>
         <p><?= $block->getDescription(); ?></p>
@@ -161,4 +158,6 @@ if ($items = $block->getProductCollection()) : ?>
         }
     }
     </script>
+<?php endif; ?>
+
 <?php endif; ?>
