@@ -186,7 +186,7 @@ class GetCatalog
                     $configData=$this->getConfigParams($storeScope,$store->getCode());
 
 
-                    if($website->getCode() == 'huaweigt_website'){
+                    
                     
                     $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
     
@@ -198,7 +198,7 @@ class GetCatalog
                     }
     
                 }
-            }
+            
 
             
 
