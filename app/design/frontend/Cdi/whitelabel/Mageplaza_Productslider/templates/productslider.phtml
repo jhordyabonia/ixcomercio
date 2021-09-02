@@ -30,7 +30,12 @@ $blockList = $block->getLayout()->createBlock('Magento\CatalogWidget\Block\Produ
 $mode = 'grid';
 $title = $block->getTitle();
 $type = 'widget-product-grid';
-if ($items = $block->getProductCollection()) : ?>
+
+$store_active = $_helperCdi->getStoreActiveBestProducts();
+
+if($store_active == "1") :
+
+if ($items = $block->getProductCollection() ) : ?>
     <div class="header-section col-xs-12">
         <h2 class="title-section"><?= $block->getHeading(); ?></h2>
         <p><?= $block->getDescription(); ?></p>
@@ -153,4 +158,6 @@ if ($items = $block->getProductCollection()) : ?>
         }
     }
     </script>
+<?php endif; ?>
+
 <?php endif; ?>
