@@ -220,7 +220,9 @@ class DataLayerItem extends Data
         $_product = $item->getProduct();
         $passing_marks = $_product->getResource()->getAttribute('manufacturer');
         $optionId = $_product->getResource()->getAttributeRawValue($_product->getId(), $passing_marks,0);
-        $brand = $passing_marks->getSource()->getOptionText($optionId);
+        $brand = '';
+        if($optionId)
+            $brand = $passing_marks->getSource()->getOptionText($optionId);
 
         $product = [
             'name' => $item->getName(),
