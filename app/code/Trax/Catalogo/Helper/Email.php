@@ -173,7 +173,7 @@ class Email extends AbstractHelper
         $variable['productos'] = $this->getProductHtml($data);
         
 
-        $templateId = "notification_check_price";
+        $templateId = "trax_catalogo_catalogo_general_template_notification_product_iws";
         foreach($email as $key => $value){
             if(!empty($value)){
                  /* Receiver Detail */

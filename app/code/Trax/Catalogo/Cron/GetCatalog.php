@@ -185,9 +185,6 @@ class GetCatalog
                     $website=$storeManager->getWebsite($websiteId);
                     $configData=$this->getConfigParams($storeScope,$store->getCode());
 
-
-                    
-                    
                     $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
     
                     if($serviceUrl){
@@ -198,10 +195,6 @@ class GetCatalog
                     }
     
                 }
-            
-
-            
-
 
         }
         
@@ -899,15 +892,24 @@ class GetCatalog
 
         $products_noiws = array();
 
+        $this->logger->info('GetCatalog Checprodcut  ' . print_r($allProducts, true));
+
         foreach ($products as $product) {
-            if (!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0) {
+
+            
+
+            if (!array_key_exists($product->getSku(), $allProducts) ) {
+
+                $this->logger->info('GetCatalog Checprodcut  ' . $product->getSku());
+
+
                 $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                 $products = $productFactoryData->create();
                 $productTmp = $products->setStoreId($storeId)->load($product->getId());
                 $productTmp->setStatus(0); // Status on product enabled/ disabled 1/0
                 try {
                     $productTmp->save();
-                    $products_noiws[] = $product->getSku();
+                    $products_noiws[]['sku'] = $product->getSku();
                     $this->logger->info('GetCatalog - Se deshabilita producto ' . $productTmp->getSku());
                 } catch (Exception $e) {
                     $this->logger->info('GetCatalog - Se ha producido un error al deshabilitar el producto ' . $productTmp->getSku() . '. Error: ' . $e->getMessage());
@@ -918,6 +920,8 @@ class GetCatalog
         // se envia la notificacion al admin de productos que no llegan desde IWS
         if(count($products_noiws) > 0){
             $this->notifyProductNoIWS($products_noiws, $storeId);
+        }else{
+            $this->logger->info('GetCatalog - No hay productos nuevos en Magento');
         }
     }
 
@@ -1035,15 +1039,14 @@ class GetCatalog
 
 
     public function notifyProductNoIWS($products, $storeId){
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-        $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
 
-        $manager = $om->get('Magento\Store\Model\StoreManagerInterface');
+        $manager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $store = $manager->getStore($storeId);
 
-        $helper->notifyProductIWS('Soporte Whitelabel',$products,$store->getName(), $store->getId());
+        $this->help_email->notifyProductIWS('Soporte Whitelabel',$products,$store->getName(), $store->getId());
 
-        $this->logger->info('GetCatalog - Se evia notificacion de productos del store' . $store->getCode());
+        $this->logger->info('GetCatalog - Se envia notificacion de productos del store ' . $store->getCode());
         
     }
 }
