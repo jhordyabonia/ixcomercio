@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_save_before">
+        <observer name="Intcomex_CustomLog::save_custom_data" instance="Intcomex\CustomLog\Observer\BeforeProductSave" />
+    </event>
+    <event name="catalog_product_import_bunch_save_after">
+        <observer name="Intcomex_CustomLog::save_custom_import_data" instance="Intcomex\CustomLog\Observer\BeforeProductImportSave" />
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="Intcomex_CustomLog::sales_order_save_after" instance="Intcomex\CustomLog\Observer\SalesOrderSaveAfter" />
+    </event>
+    <event name="sales_order_delete_after">
+        <observer name="Intcomex_CustomLog::sales_order_delete_after" instance="Intcomex\CustomLog\Observer\SalesOrderDeleteAfter" />
+    </event>
+</config>

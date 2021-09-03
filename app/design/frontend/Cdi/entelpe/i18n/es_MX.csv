@@ -5040,7 +5040,7 @@ new products will be created. Use this step to customize images and price for yo
 "Change Shipping Address","Cambiar la dirección de envío",module,Magento_Customer
 "You have no default shipping address in your address book.","No tiene ninguna dirección de envío por defecto en su libreta de direcciones.",module,Magento_Customer
 "Additional Address Entries","Entradas adicionales de direcciones postales",module,Magento_Customer
-"Delete Address","Borrar dirección",module,Magento_Customer
+"Delete Address","Eliminar",module,Magento_Customer
 "You have no other address entries in your address book.","No tienes otras entradas de dirección en tu libreta de direcciones.",module,Magento_Customer
 "* Required Fields","* Campos obligatorios",module,Magento_Customer
 "Address","Dirección",module,Magento_Customer
@@ -5349,7 +5349,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Set as default shipping","Establecer como envío predeterminado",module,Magento_Customer
 "Set address as default shipping","Establecer dirección como la de envio predeterminada",module,Magento_Customer
 "Are you sure you want to set the address as default shipping address?","¿Está seguro de que desea establecer la dirección de envío por defecto?",module,Magento_Customer
-"Delete address","Borrar dirección",module,Magento_Customer
+"Delete address","Eliminar",module,Magento_Customer
 "Are you sure you want to delete the address?","¿Realmente quiere borrar esta dirección?",module,Magento_Customer
 "Additional addresses","Direcciones adicionales",module,Magento_Customer
 "State","Comunidad Autónoma",module,Magento_Customer

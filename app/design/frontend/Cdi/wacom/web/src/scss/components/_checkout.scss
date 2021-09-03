@@ -456,8 +456,8 @@
 
     label{
       margin-bottom: 0;
-      font-size: 14px !important;
-      font-family: 'Barlow',sans-serif !important;
+      font-size: 12px !important;
+      font-family: $fontText;
     }
   }
 
@@ -471,7 +471,7 @@
 
   .payment-group-item{
     border-bottom: 2px solid #DDDDDD;
-    font-family: 'Barlow', sans-serif !important;
+    font-family: $fontText;
 
     a{
       color:#000000;
@@ -479,45 +479,6 @@
       text-decoration: none;
       padding: 1.3rem 1.0rem !important;
       background-position: 95% center !important;
-    }
-
-    &.debitcard{
-      a {
-        background-image: url(../images/icono-td-normal@2x.png);
-
-      }
-
-      &.active {
-        a {
-          background-image: url(../images/icono-td-select@2x.png);
-
-        }
-      }
-    }
-
-    &.debitcredit{
-
-      &.active{
-        a{
-          background-image: url(../images/icono-tc-select@2x.png);
-        }
-      }
-
-      a{
-        background-image: url(../images/icono-tc-normal@2x.png);
-      }
-    }
-
-    &.pefectivo{
-
-      &.active{
-        a{
-          background-image: url(../images/icono-ef-select@2x.png);
-        }
-      }
-      a{
-        background-image: url(../images/icono-ef-normal@2x.png);
-      }
     }
 
     &.active a{
@@ -630,6 +591,14 @@
 }
 }
 
+@media (max-width: 600px) {
+.debitcard img {
+  width: auto;
+}
+.checkout-index-index .checkout-agreements-block .action-show {
+  font-size: 11px;
+}
+}
 
 @media (max-width: 380px) {
   .checkout-index-index .PaymentCardDueDate{
@@ -659,7 +628,19 @@
 }
 
 }
+#applyCouponCard, #applyCouponTicket{
+  background-color: $colorBottom !important;
+  border-color: $colorBottom !important;
+}
 
+form#co-payment-form .fieldset > .legend + br{
+  display: none;
+}
+.checkout-agreements-block .action-show{
+  font-size: 14px;
+  font-weight: bold;
+}
+}
 
 .checkout-onepage-success .actions-toolbar>.primary{
   float: none!important;
@@ -671,14 +652,4 @@
 
 .checkout-onepage-failure h1.page-title:first-child{
   display: none!important;
-}
-
-#applyCouponCard, #applyCouponTicket{
-  background-color: $colorBottom !important;
-  border-color: $colorBottom !important;
-}
-
-form#co-payment-form .fieldset > .legend + br{
-  display: none;
-}
 }

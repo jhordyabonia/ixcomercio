@@ -336,4 +336,15 @@ class Data extends AbstractHelper{
 
 	}
 
+
+	/*
+	 * Retorna si esta activo para el store
+	*/
+	public function getStoreActiveBestProducts(Type $var = null)
+	{
+		return $this->_scopeConfig->getValue(
+			'productslider/general/enabled_product_view',
+			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
+		);
+	}
 }
