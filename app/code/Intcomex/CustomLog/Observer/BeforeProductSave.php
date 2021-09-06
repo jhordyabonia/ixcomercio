@@ -83,61 +83,64 @@ class BeforeProductSave implements ObserverInterface
                 $this->logger->info('Manual Price - User admin email: ' . $userEmail );
 
                 $this->logger->info('Manual Price - Date: ' . date('Y-m-d G-i-s') );
-
+                
                 $product->setData('update_manual','1');
                 $product->setData('update_file','0');
                 $product->setData('update_cron','0');
             endif;
-
-
-            $errorsSku = array();
-            $errors = '';
-            $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-            $websiteCode = $theme->getWebsite()->getCode();
-
-            $style = 'style="border:1px solid"';
-            $price = $product->getData('price');
-            $special_price = $product->getData('special_price');
-
-            $error = false;
-            if($price==''||empty($price)||$price==0){
-                $error = true;
-            }
-            if($special_price!=$oldproduct->getData('special_price')){
-                if($special_price==''||empty($special_price)||$special_price==0){
+            
+            $this->logger->info('getTypeId');
+            $this->logger->info($product->getTypeId());
+            if($product->getTypeId()!='configurable'){
+                $errorsSku = array();
+                $errors = '';
+                $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+                $websiteCode = $theme->getWebsite()->getCode();
+    
+                $style = 'style="border:1px solid"';
+                $price = $product->getData('price');
+                $special_price = $product->getData('special_price');
+    
+                $error = false;
+                if($price==''||empty($price)||$price==0){
                     $error = true;
                 }
-            }
-            if($websiteCode!='base'){
-               // $error = true;
-            }
-
-            if($error){
-                $errors .= '<tr>';
-                $errors .= '<td '.$style.' >'.$product->getSku().'</td>';
-                $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
-                $errors .= '<td '.$style.' >'.$price.'</td>';
-                $errors .= '<td '.$style.' >'.$special_price.'</td>';
-                $errors .= '</tr>';
-            }
-
-            if($errors!=''){
-                $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
-                $templateId  = $scopeConfig->getValue('customlog/general/email_template');
-                $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
-                $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
-
-                $variables = array(
-                    'mensaje' => $extraError,
-                    'body' => $errors
-                );
-                foreach($email as $key => $value){
-                    if(!empty($value)){
-                        $helper->notify(trim($value),$variables,$templateId);
+                if($special_price!=$oldproduct->getData('special_price')){
+                    if($special_price==''||empty($special_price)||$special_price==0){
+                        $error = true;
                     }
                 }
-
-                throw new \Magento\Framework\Validator\Exception(__($extraError));
+                if($websiteCode!='base'){
+                   // $error = true;
+                }
+    
+                if($error){
+                    $errors .= '<tr>';
+                    $errors .= '<td '.$style.' >'.$product->getSku().'</td>';
+                    $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
+                    $errors .= '<td '.$style.' >'.$price.'</td>';
+                    $errors .= '<td '.$style.' >'.$special_price.'</td>';
+                    $errors .= '</tr>';
+                }
+    
+                if($errors!=''){
+                    $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
+                    $templateId  = $scopeConfig->getValue('customlog/general/email_template');
+                    $extraError = $scopeConfig->getValue('customlog/general/mensaje_alerta');
+                    $email = explode(',',$scopeConfig->getValue('customlog/general/correos_alerta'));
+    
+                    $variables = array(
+                        'mensaje' => $extraError,
+                        'body' => $errors
+                    );
+                    foreach($email as $key => $value){
+                        if(!empty($value)){
+                            $helper->notify(trim($value),$variables,$templateId);
+                        }
+                    }
+    
+                    throw new \Magento\Framework\Validator\Exception(__($extraError));
+                }
             }
             
 
