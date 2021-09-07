@@ -50,6 +50,7 @@
 					</container>
 				</container>
 			</container>
+			<block class="Magento\Framework\View\Element\Template" name="custom.js" as="custom.js" template="Magento_Catalog::product/js.phtml"/>
 		</referenceContainer>
         <referenceContainer name="content.aside">
 			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
