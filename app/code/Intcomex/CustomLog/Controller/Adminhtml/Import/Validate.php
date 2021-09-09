@@ -216,6 +216,7 @@ class Validate extends ImportResultController implements HttpPostActionInterface
         $errors = '';
         $colum = false;
         $colum2  = false;
+        $productType = false;
         if (($handle = fopen($path, "r")) !== FALSE) {
             $csvFile = file($path);
             foreach ($csvFile as $key => $line) {
@@ -229,6 +230,9 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                         if($lineData=='special_price'){
                             $colum2 = $keyData;
                         }
+                        if($lineData=='product_type'){
+                            $productType = $keyData;
+                        }
                     }
                 }
             }
@@ -238,30 +242,34 @@ class Validate extends ImportResultController implements HttpPostActionInterface
                     
                     $sku = $datos[0];
                     $this->logger->info('Se evalua '.$sku.' para '.$datos[1]);
-                    $this->logger->info(' ------- ');
-    
-                    if($colum!=false){
-                        $price = $datos[$colum];
-                        if($price==''||empty($price)||$price==0){
-                                $errors .= '<tr>';
-                                $errors .= '<td '.$style.' >'.$sku.'</td>';
-                                $errors .= '<td '.$style.' >'.$datos[1].'</td>';
-                                $errors .= '<td '.$style.' >'.$price.'</td>';
-                                $errors .= '<td '.$style.' ></td>';
-                                $errors .= '</tr>';
-                                $errorsSku[] = $sku;
+                    $this->logger->info(' ------- '); 
+                    $this->logger->info($productType); 
+                    $this->logger->info(' ------- '); 
+                    $pType = $datos[$productType];
+                    if($pType!='configurable'){
+                        if($colum!=false){
+                            $price = $datos[$colum];
+                            if($price==''||empty($price)||$price==0){
+                                    $errors .= '<tr>';
+                                    $errors .= '<td '.$style.' >'.$sku.'</td>';
+                                    $errors .= '<td '.$style.' >'.$datos[1].'</td>';
+                                    $errors .= '<td '.$style.' >'.$price.'</td>';
+                                    $errors .= '<td '.$style.' ></td>';
+                                    $errors .= '</tr>';
+                                    $errorsSku[] = $sku;
+                            }
                         }
-                    }
-                    if($colum2!=false){
-                        $special_price = $datos[$colum2];
-                        if($special_price==''||empty($special_price)||$special_price==0){
-                                $errors .= '<tr>';
-                                $errors .= '<td '.$style.' >'.$sku.'</td>';
-                                $errors .= '<td '.$style.' >'.$datos[1].'</td>';
-                                $errors .= '<td '.$style.' ></td>';
-                                $errors .= '<td '.$style.' >'.$special_price.'</td>';
-                                $errors .= '</tr>';
-                                $errorsSku[] = $sku;
+                        if($colum2!=false){
+                            $special_price = $datos[$colum2];
+                            if($special_price==''||empty($special_price)||$special_price==0){
+                                    $errors .= '<tr>';
+                                    $errors .= '<td '.$style.' >'.$sku.'</td>';
+                                    $errors .= '<td '.$style.' >'.$datos[1].'</td>';
+                                    $errors .= '<td '.$style.' ></td>';
+                                    $errors .= '<td '.$style.' >'.$special_price.'</td>';
+                                    $errors .= '</tr>';
+                                    $errorsSku[] = $sku;
+                            }
                         }
                     }
                 }
