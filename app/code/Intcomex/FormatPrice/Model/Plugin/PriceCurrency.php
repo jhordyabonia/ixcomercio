@@ -38,11 +38,23 @@ class PriceCurrency extends PriceFormatPluginAbstract
         ...$args
     ) {
         if ($this->getConfig()->isEnable()) {
-            return round($price, $this->getPricePrecision());
+            
+            $whole = floor($price);      
+            $fraction = $price - $whole;
 
-        } else {
-            return $proceed($price);
+            if($fraction > 0){
+            
+                return $price;
+                
+            }else{                    
+                
+                $_price = $this->truncar($price,0);
+                return $_price;
+            }
         }
+
+        //return round($price, $this->getPricePrecision());
+         
     }
 
     /**
@@ -80,5 +92,18 @@ class PriceCurrency extends PriceFormatPluginAbstract
         }
 
         return $args;
+    }
+
+    /**
+     * Function delete decimal to price
+     */
+
+    public function truncar($number, $digitos)
+    {
+        
+        $raiz = 10;
+        $multiplicador = pow ($raiz,$digitos);
+        $resultado = ((int)($number * $multiplicador)) / $multiplicador;
+        return number_format($resultado, $digitos);
     }
 }

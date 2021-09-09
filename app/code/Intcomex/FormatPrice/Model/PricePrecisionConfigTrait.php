@@ -19,8 +19,10 @@ trait PricePrecisionConfigTrait
      */
     public function getPricePrecision()
     {
-        if ($this->getConfig()->canShowPriceDecimal()) {
+        if ($this->getConfig()->canShowPriceDecimal()) {        
+
             return $this->getConfig()->getPricePrecision();
+
         }
 
         return 0;

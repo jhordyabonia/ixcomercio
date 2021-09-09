@@ -18,4 +18,16 @@
         <plugin name="intcomex_price_decimal_for_currency" type="Intcomex\FormatPrice\Model\Plugin\Currency" sortOrder="10" disabled="false"/>
     </type>
 
+    <type name="Magento\Framework\Pricing\Render\Amount">
+        <plugin name="intcomex_price_render_amount" type="Intcomex\FormatPrice\Model\Plugin\Amount" sortOrder="10" disabled="false"/>
+    </type>
+
+    
+	<type name="Magento\Tax\Block\Item\Price\Renderer">
+        <plugin name="intcomex_price_decimal_block_item_price_renderer" type="Intcomex\FormatPrice\Plugin\Block\Tax\Item\Price\Renderer" sortOrder="10" disabled="false"/>
+    </type>
+	<type name="Magento\Directory\Model\PriceCurrency">
+        <plugin name="intcomex_price_decimal_directory_model_pricecurrency" type="Intcomex\FormatPrice\Plugin\Model\Directory\PriceCurrency" sortOrder="10" disabled="false"/>
+    </type>
+    
 </config>
