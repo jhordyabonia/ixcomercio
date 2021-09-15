@@ -156,7 +156,7 @@ class Email extends AbstractHelper
      * @throws \Magento\Framework\Exception\MailException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function notifyProductIWS($name,$data,$storeName, $storeid)
+    public function notifyProductIWS($name,$data, $text)
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $email = explode(',',$this->scopeConfig->getValue('trax_catalogo/catalogo_general/catalogo_correo', $storeScope));
@@ -169,10 +169,11 @@ class Email extends AbstractHelper
 
         /* Assign values for your template variables  */
         $variable = [];
-        $variable['store'] = $storeName;
+        $variable['text'] = $text;
         $variable['productos'] = $this->getProductHtml($data);
-        
 
+
+        
         $templateId = "trax_catalogo_catalogo_general_template_notification_product_iws";
         foreach($email as $key => $value){
             if(!empty($value)){
@@ -183,7 +184,7 @@ class Email extends AbstractHelper
                 ];
 
                 $this->inlineTranslation->suspend();
-                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
+                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, \Magento\Store\Model\Store::DEFAULT_STORE_ID);
                 $transport = $this->transportBuilder->getTransport();
                 $transport->sendMessage();
                 $this->inlineTranslation->resume();
@@ -201,9 +202,19 @@ class Email extends AbstractHelper
         $html = '';
         foreach ($products as $product) {
             # code...
+
+            $status = 'Disable';
+
+            if($product['status'] == 1 ){
+                $status = 'Enable';
+            }
+
             $html.= '
             <tr>
+                <td style="border:1px solid" >'.$product['storeName'].'</td>                            
                 <td style="border:1px solid" >'.$product['sku'].'</td>                            
+                <td style="border:1px solid" >'.$status.'</td>
+                <td style="border:1px solid" >Disable</td>
             </tr>
             ';
         }
