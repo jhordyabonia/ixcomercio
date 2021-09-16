@@ -108,7 +108,7 @@ class Product extends AbstractProduct
         /** @var $product ProductInterface */
         if ($product = $this->getProduct()) {
             if ($product->getTypeId() == Type::TYPE_SIMPLE) {
-                $price = $product->getPrice();
+                $price = $product->getFinalPrice();
             } else {
                 $price = $product->getFinalPrice();
             }

@@ -11,7 +11,7 @@
         <referenceContainer name="before.body.end">
             <block class="MagePal\EnhancedEcommerce\Block\JsComponent" template="MagePal_EnhancedEcommerce::js-component.phtml">
                 <arguments>
-                    <argument name="component_name" xsi:type="string">addToCartAjaxDataLayer</argument>
+                    <argument name="component_name" xsi:type="string">addToCartDataLayer</argument>
                 </arguments>
             </block>
         </referenceContainer>
