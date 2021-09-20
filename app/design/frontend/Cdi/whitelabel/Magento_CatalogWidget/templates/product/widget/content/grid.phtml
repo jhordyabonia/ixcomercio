@@ -109,7 +109,6 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                                                             data-mage-init='{"addToCart":{"helpLinkId": "#<?= /* @escapeNotVerified */ $helpLinkId ?>","productName": "<?= /* @escapeNotVerified */ $_item->getName() ?>","showAddToCart": false}}'
                                                                             title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
 																			class="action tocart primary grid"
-                                                                            onclick="pushDataLayer('<?php echo $_item->getName(); ?>','<?php echo $_item->getSku(); ?>', <?php echo $_item->getFinalPrice() ?>, '<?php echo $currency ?>','<?php echo $_helperCdi->getFirstCategory($_item)?>','<?php echo $_helperCdi->getBrand($_item)?>')"
                                                                             >
 																		<span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
 																	</button>
@@ -161,38 +160,6 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
         "[data-role=tocart-form], .form.map.checkout": {
             "catalogAddToCart": {}
         }
-    }
-    </script>
-    <script type="text/javascript">
-        function pushDataLayer(name,sku,price,currencyCode,category,brand){
-        window.dataLayer = window.dataLayer || [];
-        dataLayer.push(
-                                    {
-                                        "event": "addToCart",
-                                        "ecommerce": {
-                                            "add": {
-                                                "products": [
-                                                    {
-                                                        "name": name,
-                                                        "id": sku,
-                                                        "price": price,
-                                                        "currencyCode": currencyCode,
-                                                        "quantity": 1,
-                                                        "parent_sku": sku,
-                                                        "brand":brand,
-                                                        "category": category
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "cart": {
-                                            "add": {
-                                                products: "Circular Reference"
-                                            }
-                                        }
-                                    }
-
-                                );  
     }
     </script>
 <?php endif;?>
