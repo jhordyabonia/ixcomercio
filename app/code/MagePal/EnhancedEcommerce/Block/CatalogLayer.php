@@ -300,7 +300,7 @@ class CatalogLayer extends DataLayer
                     'name' => $product->getName(),
                     'id' => $product->getSku(),
                     'price' => $this->formatPrice($product->getFinalPrice()),
-                    'brand' => 'Google',
+                    'brand' => $product->getAttributeText('manufacturer'),
                     //'variant' => 'Gray',
                     'list' => $this->getListType(),
                     'position' => $position++,
