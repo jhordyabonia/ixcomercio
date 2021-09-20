@@ -7,19 +7,20 @@
 
 namespace MagePal\GoogleTagManager\Model;
 
+use Cdi\Custom\Helper\Data as CdiData;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\DataObject;
 use Magento\Framework\Escaper;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\Quote;
+use Magento\Store\Model\StoreManagerInterface;
 use MagePal\GoogleTagManager\DataLayer\QuoteData\QuoteItemProvider;
 use MagePal\GoogleTagManager\DataLayer\QuoteData\QuoteProvider;
 use MagePal\GoogleTagManager\Helper\DataLayerItem as dataLayerItemHelper;
 
 class Cart extends DataObject
 {
-
     /**
      * @var CheckoutSession
      */
@@ -47,7 +48,15 @@ class Cart extends DataObject
      */
     protected $quoteItemProvider;
 
+    /**
+     * @var StoreManagerInterface
+     */
     protected $_storeManager;
+
+    /**
+     * @var CdiData
+     */
+    protected $_cdiData;
 
     /**
      * Cart constructor.
@@ -56,6 +65,8 @@ class Cart extends DataObject
      * @param Escaper $escaper
      * @param QuoteProvider $quoteProvider
      * @param QuoteItemProvider $quoteItemProvider
+     * @param StoreManagerInterface $storeManager
+     * @param CdiData $cdiData
      * @param array $data
      */
     public function __construct(
@@ -64,7 +75,8 @@ class Cart extends DataObject
         Escaper $escaper,
         QuoteProvider $quoteProvider,
         QuoteItemProvider $quoteItemProvider,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
+        CdiData $cdiData,
         array $data = []
     ) {
         $this->checkoutSession = $checkoutSession;
@@ -73,6 +85,7 @@ class Cart extends DataObject
         $this->quoteProvider = $quoteProvider;
         $this->quoteItemProvider = $quoteItemProvider;
         $this->_storeManager = $storeManager;
+        $this->_cdiData = $cdiData;
         parent::__construct($data);
     }
 
@@ -100,6 +113,7 @@ class Cart extends DataObject
                     'name' => $this->escapeJsQuote($item->getName()),
                     'product_type' => $item->getProductType(),
                     'price' => $this->dataLayerItemHelper->formatPrice($item->getPrice()),
+                    'brand' => $this->_cdiData->getBrand($item->getProduct()),
                     'currencyCode' => $this->getStoreCurrencyCode(),
                     'price_incl_tax' => $this->dataLayerItemHelper->formatPrice($item->getPriceInclTax()),
                     'discount_amount' => $this->dataLayerItemHelper->formatPrice($item->getDiscountAmount()),
