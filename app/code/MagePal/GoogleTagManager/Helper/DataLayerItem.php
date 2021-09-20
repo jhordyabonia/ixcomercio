@@ -8,6 +8,7 @@
 namespace MagePal\GoogleTagManager\Helper;
 
 use Cdi\Custom\Helper\Data as CdiData;
+use Magento\Framework\App\Helper\Context;
 use Magento\Quote\Model\Quote\Item as QuoteItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Store\Model\ScopeInterface;
@@ -32,11 +33,14 @@ class DataLayerItem extends Data
 
     /**
      * @param CdiData $cdiData
+     * @param Context $context
      */
     public function __construct(
-        CdiData $cdiData
+        CdiData $cdiData,
+        Context $context
     ) {
         $this->_cdiData = $cdiData;
+        parent::__construct($context);
     }
 
         /**

@@ -8,11 +8,13 @@
 namespace MagePal\GoogleTagManager\Block\Data;
 
 use Exception;
+use Cdi\Custom\Helper\Data as CdiData;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Block\Product\AbstractProduct;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Helper\Data;
 use Magento\Catalog\Model\Product\Type;
+use Magento\Store\Model\StoreManagerInterface;
 use MagePal\GoogleTagManager\Block\DataLayer;
 use MagePal\GoogleTagManager\DataLayer\ProductData\ProductProvider;
 use MagePal\GoogleTagManager\Helper\Product as ProductHelper;
@@ -35,23 +37,35 @@ class Product extends AbstractProduct
      */
     private $productProvider;
 
+    /**
+     * @var StoreManagerInterface
+     */
     protected $_storeManager;
 
     /**
-     * @param  Context  $context
-     * @param  ProductHelper  $productHelper
-     * @param  ProductProvider  $productProvider
-     * @param  array  $data
+     * @var CdiData
+     */
+    protected $_cdiData;
+
+    /**
+     * @param Context $context
+     * @param ProductHelper $productHelper
+     * @param ProductProvider $productProvider
+     * @param StoreManagerInterface $storeManager
+     * @param CdiData $cdiData
+     * @param array $data
      */
     public function __construct(
         Context $context,
         ProductHelper $productHelper,
         ProductProvider $productProvider,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
+        CdiData $cdiData,
         array $data = []
     ) {
         $this->catalogHelper = $context->getCatalogHelper();
         $this->_storeManager = $storeManager;
+        $this->_cdiData = $cdiData;
         parent::__construct($context, $data);
         $this->productHelper = $productHelper;
         $this->productProvider = $productProvider;
@@ -75,6 +89,7 @@ class Product extends AbstractProduct
                 'product_type' => $product->getTypeId(),
                 'name' => $product->getName(),
                 'price' => $this->getPrice(),
+                'brand' => $this->_cdiData->getBrand($product),
                 'currencyCode' => $this->getStoreCurrencyCode(),
                 'attribute_set_id' => $product->getAttributeSetId(),
                 'path' => implode(" > ", $this->getBreadCrumbPath()),
