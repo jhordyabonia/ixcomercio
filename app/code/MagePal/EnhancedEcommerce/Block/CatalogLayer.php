@@ -8,6 +8,7 @@
 namespace MagePal\EnhancedEcommerce\Block;
 
 use ArrayIterator;
+use Cdi\Custom\Helper\Data as CdiData;
 use Magento\Catalog\Helper\Data as CatalogHelper;
 use Magento\Catalog\Model\Category as CategoryModel;
 use Magento\Catalog\Model\Layer;
@@ -62,6 +63,11 @@ class CatalogLayer extends DataLayer
     private $productImpressionProvider;
 
     /**
+     * @var CdiData
+     */
+    protected $_cdiData;
+
+    /**
      * CatalogLayer constructor.
      * @param Context $context
      * @param Resolver $layerResolver
@@ -70,6 +76,7 @@ class CatalogLayer extends DataLayer
      * @param GtmHelper $gtmHelper
      * @param Data $eeHelper
      * @param ProductImpressionProvider $productImpressionProvider
+     * @param CdiData $cdiData
      * @param array $data
      * @throws NoSuchEntityException
      */
@@ -81,11 +88,13 @@ class CatalogLayer extends DataLayer
         GtmHelper $gtmHelper,
         Data $eeHelper,
         ProductImpressionProvider $productImpressionProvider,
+        CdiData $cdiData,
         array $data = []
     ) {
         $this->catalogHelper = $catalogHelper;
         $this->catalogLayer = $layerResolver->get();
         $this->registry = $registry;
+        $this->_cdiData = $cdiData;
 
         parent::__construct($context, $gtmHelper, $eeHelper, $data);
         $this->productImpressionProvider = $productImpressionProvider;
@@ -300,7 +309,7 @@ class CatalogLayer extends DataLayer
                     'name' => $product->getName(),
                     'id' => $product->getSku(),
                     'price' => $this->formatPrice($product->getFinalPrice()),
-                    'brand' => $product->getAttributeText('manufacturer'),
+                    'brand' => $this->_cdiData->getBrand($product),
                     //'variant' => 'Gray',
                     'list' => $this->getListType(),
                     'position' => $position++,

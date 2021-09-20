@@ -7,6 +7,7 @@
 
 namespace MagePal\GoogleTagManager\Helper;
 
+use Cdi\Custom\Helper\Data as CdiData;
 use Magento\Quote\Model\Quote\Item as QuoteItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Store\Model\ScopeInterface;
@@ -25,6 +26,20 @@ class DataLayerItem extends Data
     protected $variants = [];
 
     /**
+     * @var CdiData
+     */
+    protected $_cdiData;
+
+    /**
+     * @param CdiData $cdiData
+     */
+    public function __construct(
+        CdiData $cdiData
+    ) {
+        $this->_cdiData = $cdiData;
+    }
+
+        /**
      * @param null $store_id
      * @return bool
      */
@@ -217,13 +232,6 @@ class DataLayerItem extends Data
         $currencysymbol = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $currency = $currencysymbol->getStore()->getCurrentCurrencyCode();
 
-        $_product = $item->getProduct();
-        $passing_marks = $_product->getResource()->getAttribute('manufacturer');
-        $optionId = $_product->getResource()->getAttributeRawValue($_product->getId(), $passing_marks,0);
-        $brand = '';
-        if($optionId)
-            $brand = $passing_marks->getSource()->getOptionText($optionId);
-
         $product = [
             'name' => $item->getName(),
             'id' => $item->getSku(),
@@ -231,7 +239,7 @@ class DataLayerItem extends Data
             'currencyCode' => $currency,
             'quantity' => $qty * 1,
             'parent_sku' => $item->getProduct() ? $item->getProduct()->getData('sku') : $item->getSku(),
-            'brand' => $brand,
+            'brand' => $this->_cdiData->getBrand($item->getProduct())
         ];
 
         if (!$item->getFinalPrice() && $item->getProduct()) {

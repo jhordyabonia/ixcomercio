@@ -320,14 +320,16 @@ class Data extends AbstractHelper{
         return $this->categories[$item->getItemId()];
     }
 
-	public function getBrand($item)
+	public function getBrand($product)
 	{
         $brand = '';
+        $store = $this->_storeManager->getStore();
+        $manufacturer = $product->getResource()->getAttribute('manufacturer');
+        $optionId = $product->getResource()->getAttributeRawValue($product->getId(), $manufacturer, $store->getId());
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-		$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
-		$_product = $productRepository->get($item->getSku());
-        $brand = $_product->getAttributeText('manufacturer');
+        if ($optionId) {
+            $brand = $manufacturer->getSource()->getOptionText($optionId);
+        }
 
 		return $brand;
 	}

@@ -171,7 +171,7 @@ class Product extends CatalogLayer
         $item = [
             'id' => $product->getSku(),
             'name' => $product->getName(),
-            //'brand' => 'Google',
+            'brand' => $this->_cdiData->getBrand($product),
             //'variant' => 'Gray',
         ];
 
