@@ -28,7 +28,8 @@ class ObserverSuccess implements ObserverInterface
         \Magento\Framework\HTTP\Client\Curl $curl,
         Helper $helperData,
         LoggerInterface $logger,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         $this->_storeManager = $storeManager;
         $this->collectionFactory = $collectionFactory;
@@ -37,7 +38,7 @@ class ObserverSuccess implements ObserverInterface
         $this->_logger = $logger;
         $this->_mienvioHelper = $helperData;
         $this->_curl = $curl;
-
+        $this->productFactory = $productFactory;
     }
 
     public function execute(Observer $observer)
@@ -206,18 +207,27 @@ class ObserverSuccess implements ObserverInterface
             $this->_logger->info("responses", ["to" => $addressToId, "from" => $addressFromId]);
 
             /* Measures */
-            $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllVisibleItems());
+            $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllVisibleItems(),$order);
             $packageWeight = $this->convertWeight($orderData['weight']);
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
-                $mienvioResponse = $this->createQuoteFromItems(
-                    $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
-                );
-                $mienvioQuoteId = $mienvioResponse['quote_id'];
-                $this->_logger->info("QUOTEid", ["data" => $mienvioQuoteId]);
-                $order->setMienvioQuoteId($mienvioQuoteId);
-                $order->save();
-                return $this;
+                try {
+                    $mienvioResponse = $this->createQuoteFromItems(
+                        $itemsMeasures['items'], $addressFromId, $addressToId, $createQuoteUrl, $chosenServicelevel, $chosenProvider, $order->getIncrementId()
+                    );
+                    $mienvioQuoteId = $mienvioResponse['quote_id'];
+                    $mienvioTraxId = isset($mienvioResponse['trax_code_id']) ? $mienvioResponse['trax_code_id'] : "NONE";
+                    $this->_logger->info("QUOTEid", ["data" => $mienvioQuoteId]);
+                    $this->_logger->info("TRAXid", ["data" => $mienvioTraxId]);
+                    $order->setMienvioQuoteId($mienvioQuoteId);
+                    $order->setMienvioTraxId($mienvioTraxId);
+                    $order->save();
+                    return $this;
+                } catch (\Exception $e) {
+                    $this->_logger->debug('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
+                    throw new InputException(__('Error when updating Mienvio Quote Id.'));
+                }
+
             }
 
             $packageVolWeight = $itemsMeasures['vol_weight'];
@@ -327,7 +337,7 @@ class ObserverSuccess implements ObserverInterface
      * @param  Items $items
      * @return
      */
-    private function getOrderDefaultMeasures($items)
+    private function getOrderDefaultMeasures($items,$order = null)
     {
 
         $packageVolWeight = 0;
@@ -338,10 +348,17 @@ class ObserverSuccess implements ObserverInterface
         $itemsArr = [];
 
         foreach ($items as $item) {
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+
+            $product = $this->productFactory->create();
+            $product->loadByAttribute('sku', $item->getSku());
+
+            if(!$product) {
+                $this->_logger->debug('Error when loading the product of the order #' . $order->getIncrementId() . ' to calculate the measurements', ['item' => $item->getData()]);
+                throw new InputException(__('Error when loading the product of the order to calculate the measurements.'));
+            }
 
             $dimensions = $this->getDimensionItems($product);
 
@@ -682,11 +699,11 @@ class ObserverSuccess implements ObserverInterface
     private function getLevel2FromAddress ($destRegion,$destRegionCode,$destCity,$country = null)
     {
         if($country === 'CO'){
-            $level2 = $destCity;
+            $level2 = $destRegionCode;
             if($level2 == null){
                 $level2 = $destRegion;
                 if($level2 == null)
-                    $level2 = $destRegionCode;
+                    $level2 = $destCity;
             }
         }else{
             $level2 = $destCity;
@@ -790,7 +807,7 @@ class ObserverSuccess implements ObserverInterface
             $this->_logger->info("responses", ["to" => $addressToId, "from" => $addressFromId]);
 
             /* Measures */
-            $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllVisibleItems());
+            $itemsMeasures = $this->getOrderDefaultMeasures($order->getAllVisibleItems(), $order);
             $packageWeight = $this->convertWeight($orderData['weight']);
 
             if (self::IS_QUOTE_ENDPOINT_ACTIVE) {
