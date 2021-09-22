@@ -18,10 +18,6 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$productos = [];
-$gtm_prods =''; # GTM variable
-$producto = ''; # GTM variable
-$count = 0;
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="container">
@@ -60,21 +56,6 @@ $count = 0;
                             . 'top:' . $productImage->getHeight() . 'px;"';
                     }
                     ?>
-                    <?php
-                    /* XCB GTM */
-                    $count++;
-                    $producto = "{        
-                        'name': '{$_product->getName()}',
-                        'id': '{$_product->getSku()}',
-                        'price': '{$_product->getFinalPrice()}',
-                        'brand': 'HOM',
-                        'variant': 'productVariant',
-                        'list': '{}',
-                        'position': {$count}
-                    }";
-                    $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-                    /* XCB END */
-                    ?>
                     <?php // Product Image ?>
                     <a href="<?= /* @escapeNotVerified */ $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
                         <?= $productImage->toHtml() ?>
@@ -92,13 +73,6 @@ $count = 0;
                         <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
                         <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                         <?= $block->getProductDetailsHtml($_product) ?>
-                        <?php 
-                            $productos = [
-                                "nombre" => $_product->getName(),
-                                "sku"    => $_product->getSku(),
-                                "precio" => $block->getProductPrice($_product),
-                            ]
-                        ?>
                         <div class="product-item-inner">
                             <div class="product actions product-item-actions"<?= strpos($pos, $viewMode . '-actions') ? $position : '' ?>>
                                 <div class="actions-primary"<?= strpos($pos, $viewMode . '-primary') ? $position : '' ?>>
@@ -110,7 +84,7 @@ $count = 0;
                                             <?= $block->getBlockHtml('formkey') ?>
                                             <button type="submit"
                                                     title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
-                                                    class="action tocart primary" onclick="llamada(<?php $productos ?>)">
+                                                    class="action tocart primary">
                                                 <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
                                             </button>
                                         </form>
