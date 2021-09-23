@@ -25,7 +25,7 @@
   }
   .footer-bottom{
     .footer-nav{
-      color: $colorText;
+      color: $colorFooter;
       background:$footerBgColor;
       padding: 40px 0;
       @media only screen and (max-width: $tablet){
@@ -89,7 +89,7 @@
           li{
             line-height: 2em;
             a{
-              color:$colorText;
+              color:$colorFooter;
               &:hover{
                 text-decoration: underline;
             }
@@ -138,7 +138,7 @@
     text-align: center;
     span{
       width: 100%;
-      color: $colorText;
+      color: $colorFooter;
       font-size: 12px;
       text-align: center;
       padding: 10px 0;
