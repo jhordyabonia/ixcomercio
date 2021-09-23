@@ -1,13 +1,13 @@
 <?php
 
-namespace Lillik\PriceDecimal\Ui\DataProvider\Product\Modifier;
+namespace Intcomex\FormatPrice\Ui\DataProvider\Product\Modifier;
 
 use Magento\Catalog\Model\Locator\LocatorInterface;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Lillik\PriceDecimal\Model\ConfigInterface;
-use Lillik\PriceDecimal\Model\PricePrecisionConfigTrait;
+use Intcomex\FormatPrice\Model\ConfigInterface;
+use Intcomex\FormatPrice\Model\PricePrecisionConfigTrait;
 
 class Price extends AbstractModifier
 {

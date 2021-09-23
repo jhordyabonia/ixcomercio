@@ -1,6 +1,6 @@
 <?php
 
-namespace Lillik\PriceDecimal\Model;
+namespace Intcomex\FormatPrice\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 

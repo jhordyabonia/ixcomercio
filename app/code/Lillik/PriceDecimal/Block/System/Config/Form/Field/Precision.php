@@ -1,6 +1,6 @@
 <?php
 
-namespace Lillik\PriceDecimal\Block\System\Config\Form\Field;
+namespace Intcomex\FormatPrice\Block\System\Config\Form\Field;
 
 
 class Precision implements \Magento\Framework\Option\ArrayInterface

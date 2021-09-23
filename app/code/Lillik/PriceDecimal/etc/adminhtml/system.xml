@@ -24,7 +24,7 @@
                     <depends>
                         <field id="*/*/enable">1</field>
                     </depends>
-                    <source_model>Lillik\PriceDecimal\Block\System\Config\Form\Field\Precision</source_model>
+                    <source_model>Intcomex\FormatPrice\Block\System\Config\Form\Field\Precision</source_model>
                 </field>-->
         </group>
         </section>

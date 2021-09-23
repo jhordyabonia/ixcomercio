@@ -1,6 +1,6 @@
 <?php
 
-namespace Lillik\PriceDecimal\Model\Plugin;
+namespace Intcomex\FormatPrice\Model\Plugin;
 
 class Currency extends PriceFormatPluginAbstract
 {
@@ -14,7 +14,7 @@ class Currency extends PriceFormatPluginAbstract
      * @return array
      */
     public function beforeToCurrency(
-        \Lillik\PriceDecimal\Model\Currency $subject,
+        \Intcomex\FormatPrice\Model\Currency $subject,
         ...$arguments
     ) {
         if ($this->getConfig()->isEnable()) {

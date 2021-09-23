@@ -1,9 +1,9 @@
 <?php
 
-namespace Lillik\PriceDecimal\Model\Plugin;
+namespace Intcomex\FormatPrice\Model\Plugin;
 
-use Lillik\PriceDecimal\Model\ConfigInterface;
-use Lillik\PriceDecimal\Model\PricePrecisionConfigTrait;
+use Intcomex\FormatPrice\Model\ConfigInterface;
+use Intcomex\FormatPrice\Model\PricePrecisionConfigTrait;
 
 abstract class PriceFormatPluginAbstract
 {
@@ -14,7 +14,7 @@ abstract class PriceFormatPluginAbstract
     protected $moduleConfig;
 
     /**
-     * @param \Lillik\PriceDecimal\Model\ConfigInterface $moduleConfig
+     * @param \Intcomex\FormatPrice\Model\ConfigInterface $moduleConfig
      */
     public function __construct(
         ConfigInterface $moduleConfig

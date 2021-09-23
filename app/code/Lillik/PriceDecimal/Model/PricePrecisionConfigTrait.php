@@ -1,13 +1,13 @@
 <?php
 
-namespace Lillik\PriceDecimal\Model;
+namespace Intcomex\FormatPrice\Model;
 
 trait PricePrecisionConfigTrait
 {
 
 
     /**
-     * @return \Lillik\PriceDecimal\Model\ConfigInterface
+     * @return \Intcomex\FormatPrice\Model\ConfigInterface
      */
     public function getConfig()
     {

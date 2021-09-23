@@ -19,7 +19,7 @@ $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORES;
 $conf = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('catalog_price_decimal/general/enable',$storeScope);
 
 
-$currency = $this->helper('Lillik\PriceDecimal\Helper\Data')->getCurrentCurrencySymbol();
+$currency = $this->helper('Intcomex\FormatPrice\Helper\Data')->getCurrentCurrencySymbol();
 
 
 if($conf == true){

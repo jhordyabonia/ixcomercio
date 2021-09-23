@@ -1,26 +1,26 @@
 <?php
 /**
  *
- * @package Lillik\PriceDecimal
+ * @package Intcomex\FormatPrice
  *
  * @author  Adarsh Khatri
  * @url sagoontech.com
  */
 
-namespace Lillik\PriceDecimal\Plugin\Model\Directory;
+namespace Intcomex\FormatPrice\Plugin\Model\Directory;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class PriceCurrency
 {
-    /** @var \Lillik\PriceDecimal\Helper\Data  */
+    /** @var \Intcomex\FormatPrice\Helper\Data  */
     protected $moduleHelper;
 
     /**
-     * @param \Lillik\PriceDecimal\Helper\Data $moduleHelper
+     * @param \Intcomex\FormatPrice\Helper\Data $moduleHelper
      */
     public function __construct(
-        \Lillik\PriceDecimal\Helper\Data $moduleHelper
+        \Intcomex\FormatPrice\Helper\Data $moduleHelper
     ) {
         $this->moduleHelper  = $moduleHelper;
 
