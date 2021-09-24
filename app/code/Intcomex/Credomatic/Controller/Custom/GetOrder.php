@@ -44,7 +44,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $orderId =  $this->_checkoutSession->getLastOrderId();
-            $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId)->getData();
+            $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId);
 
             $billingAddress = $order->getBillingAddress();
             $arrayData['firstname'] = $billingAddress->getFirstname();
@@ -56,8 +56,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
 
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id',ScopeInterface::SCOPE_STORE);
             $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
-            $arrayData['amount'] = number_format($order['grand_total'],2,".","");
-            $arrayData['orderid'] = $order['increment_id'];
+            $arrayData['amount'] = number_format($order->getGrandTotal(),2,".","");
+            $arrayData['orderid'] = $order->getIncrementId();
 
             $this->logger->info('Data send to credomatic');
             $this->logger->info(print_r($arrayData,true));
@@ -68,7 +68,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['data3'] = $this->encrypt(str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4));
             $dataToPost = array();
             $dataToPost['info'] = http_build_query($arrayData);
-            $dataToPost['orderid'] = $order['increment_id'];
+            $dataToPost['orderid'] = $order->getIncrementId();
 
         } catch (\Exception $e) {
              
