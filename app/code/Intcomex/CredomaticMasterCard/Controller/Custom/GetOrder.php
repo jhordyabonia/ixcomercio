@@ -51,8 +51,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['lastname'] = $billingAddress->getLastname();
             $arrayData['email'] = $billingAddress->getEmail();
             $arrayData['phone'] = $billingAddress->getTelephone();
-            $arrayData['address1'] = $billingAddress->getStreet(1);
-            $arrayData['address2'] = $billingAddress->getStreet(2);
+            $arrayData['address1'] = isset($billingAddress->getStreet()[0]) ? $billingAddress->getStreet()[0] : '';
+            $arrayData['address2'] = isset($billingAddress->getStreet()[1]) ? $billingAddress->getStreet()[1] : '';
 
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/key_id',ScopeInterface::SCOPE_STORE);
             $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
