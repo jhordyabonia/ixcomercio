@@ -45,11 +45,19 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId)->getData();
-            
+
+            $billingAddress = $order->getBillingAddress();
+            $arrayData['firstname'] = $billingAddress->getFirstname();
+            $arrayData['lastname'] = $billingAddress->getLastname();
+            $arrayData['email'] = $billingAddress->getEmail();
+            $arrayData['phone'] = $billingAddress->getTelephone();
+            $arrayData['address1'] = $billingAddress->getStreet(1);
+            $arrayData['address2'] = $billingAddress->getStreet(2);
+
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomaticvisa/key_id',ScopeInterface::SCOPE_STORE);
             $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomaticvisa/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
             $arrayData['amount'] = number_format($order['grand_total'],2,".","");
-            $arrayData['orderid'] = $order['increment_id']; 
+            $arrayData['orderid'] = $order['increment_id'];
 
             $this->logger->info('Data send to credomatic');
             $this->logger->info(print_r($arrayData,true));

@@ -1,6 +1,5 @@
 <?php
 namespace Intcomex\CredomaticMasterCard\Controller\Custom;
-
 use Magento\Store\Model\ScopeInterface;
 
 class PostOrder extends \Magento\Framework\App\Action\Action
@@ -60,6 +59,12 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $form .= '<input type="hidden" readonly id="credomatic_amount" name="amount" value="'.$post['amount'].'" >';
                 $form .= '<input type="hidden" readonly id="credomatic_orderid" name="orderid" value="'.$post['orderid'].'" >';
                 $form .= '<input type="hidden" readonly id="credomatic_processor_id" name="processor_id" value="'.$post['processor_id'].'"  >';
+                $form .= '<input type="hidden" readonly id="credomatic_firstname" name="firstname" value="'.$post['firstname'].'" >';
+                $form .= '<input type="hidden" readonly id="credomatic_lastname" name="lastname" value="'.$post['lastname'].'" >';
+                $form .= '<input type="hidden" readonly id="credomatic_email" name="email" value="'.$post['email'].'" >';
+                $form .= '<input type="hidden" readonly id="credomatic_phone" name="phone" value="'.$post['phone'].'" >';
+                $form .= '<input type="hidden" readonly id="credomatic_street1" name="street1" value="'.$post['street1'].'" >';
+                $form .= '<input type="hidden" readonly id="credomatic_street2" name="street2" value="'.$post['street2'].'" >';
                 $form .= '<input type="hidden" readonly id="credomatic_cvv" name="cvv" value="'.$this->decrypt($post['data1']).'"  >';
                 $form .= '<input type="hidden" readonly id="credomatic_ccnumber" name="ccnumber" value="'.$this->decrypt($post['data2']).'" >';
                 $form .= '<input type="hidden" readonly id="credomatic_ccexp" name="ccexp" value="'.$this->decrypt($post['data3']).'"  >';
