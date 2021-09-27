@@ -212,7 +212,7 @@ class GetCatalog
 
         }
         
-        $this->logger->info('GetCatalog - Products not iws ' . print_r( $this->product_iws_not ));
+        $this->logger->info('GetCatalog - Products not iws ' . print_r( count($this->product_iws_not) ));
 
 
         if(count($this->product_iws_not) > 0){
@@ -913,6 +913,11 @@ class GetCatalog
 
         $count = count($this->product_iws_not);
 
+        $productAction = $objectManager->get('Magento\Catalog\Model\Product\Action');
+
+        $this->logger->info('checkProducts - Listas de productos');
+        $this->logger->info(print_r($allProducts,true));
+
         foreach ($products as $product) {            
 
             if (!array_key_exists($product->getSku(), $allProducts) ) {
@@ -927,9 +932,38 @@ class GetCatalog
                 $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                 $products = $productFactoryData->create();
                 $productTmp = $products->setStoreId($storeId)->load($product->getId());
-                $productTmp->setStatus(0); // Status on product enabled/ disabled 1/0
+                $productTmp->setStatus(2); // Status on product enabled/ disabled 1/0
+
+
+                $attributes['Status'] = \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
+
                 try {
-                    $productTmp->save();                    
+                    
+                    $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+
+                    $product_rep = $productRepository->getById($product->getId());
+                    $product_rep->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    $productRepository->save($product_rep);
+
+
+                    //$this->logger->info(print_r($productRepository->getStatus(),true));
+                    
+                    
+
+                    $this->logger->info(__('Disabled success ---- Product sku:'.$product->getSku().' StoreID: '.$storeId));
+                } catch (\Exception $e) {
+                    $this->logger->info(__('Disable failure ---- Product sku:'.$product->getSku().' StoreID: '.$storeId.' error Message : '.$e->getMessage()));
+                }
+
+
+                try {
+                    $productTmp->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
+                    $productTmp->save();            
+                    
+                    $this->setStoreViewDataProduct($productTmp->getId(), $productTmp->getSku(), $storeId, $attributes);
+
+
                     $this->logger->info('GetCatalog - Se deshabilita producto ' . $productTmp->getSku());
                 } catch (Exception $e) {
                     $this->logger->info('GetCatalog - Se ha producido un error al deshabilitar el producto ' . $productTmp->getSku() . '. Error: ' . $e->getMessage());
@@ -967,7 +1001,7 @@ class GetCatalog
 
         $product->setStoreId($storeId);
 
-        $this->logger->info('Automatic Price - Product id:');
+        $this->logger->info('Data Store view- Product id:'.$product->getId());
         $this->logger->info(print_r($attibutes,true));
 
         foreach ($attibutes as $name => $value) {
