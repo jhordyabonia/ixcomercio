@@ -64,7 +64,9 @@ class Api
         $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
         $this->logger->info('Mercadopago Helper - reintentos '.$reintentos);
         
-        $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
+        $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->loadByIncrementId($idOrden);
+
+        $this->logger->info('Mercadopago Helper - oder id '.$order->getId());
 
         return $order;
 
@@ -155,6 +157,12 @@ class Api
         }
         
 
+
+    }
+
+    public function writeLogMP($message){
+
+        $this->logger->info('Mercadopago Helper - '.$message);
 
     }
 }
