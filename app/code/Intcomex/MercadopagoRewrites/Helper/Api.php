@@ -159,10 +159,5 @@ class Api
 
 
     }
-
-    public function writeLogMP($message){
-
-        $this->logger->info('Mercadopago Helper - '.$message);
-
-    }
+        
 }
