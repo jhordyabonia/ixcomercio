@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\FormatPrice\Model;
+namespace Lillik\PriceDecimal\Model;
 
 interface ConfigInterface
 {

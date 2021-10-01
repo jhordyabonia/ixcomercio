@@ -5,7 +5,7 @@
              <item name="default_render_class" xsi:type="string">Magento\Catalog\Pricing\Render\PriceBox</item>
              <item name="default_render_template" xsi:type="string">Magento_Catalog::product/price/default.phtml</item>
              <item name="default_amount_render_class" xsi:type="string">Magento\Framework\Pricing\Render\Amount</item>
-             <item name="default_amount_render_template" xsi:type="string">Intcomex_FormatPrice::catalog/product/price/amount/default.phtml</item>
+             <item name="default_amount_render_template" xsi:type="string">Lillik_PriceDecimal::catalog/product/price/amount/default.phtml</item>
              <item name="prices" xsi:type="array">
                  <item name="special_price" xsi:type="array">
                      <item name="render_template" xsi:type="string">Magento_Catalog::product/price/special_price.phtml</item>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\FormatPrice\Model\Plugin;
+namespace Lillik\PriceDecimal\Model\Plugin;
 
 class OrderPlugin extends PriceFormatPluginAbstract
 {

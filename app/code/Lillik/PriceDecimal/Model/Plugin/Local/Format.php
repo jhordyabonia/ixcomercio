@@ -1,8 +1,8 @@
 <?php
 
-namespace Intcomex\FormatPrice\Model\Plugin\Local;
+namespace Lillik\PriceDecimal\Model\Plugin\Local;
 
-use Intcomex\FormatPrice\Model\Plugin\PriceFormatPluginAbstract;
+use Lillik\PriceDecimal\Model\Plugin\PriceFormatPluginAbstract;
 
 class Format extends PriceFormatPluginAbstract
 {

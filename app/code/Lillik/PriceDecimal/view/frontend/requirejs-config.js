@@ -3,7 +3,7 @@ var config = {
     config: {
             mixins: {
             'Magento_Catalog/js/price-utils': {
-                    'Intcomex_FormatPrice/js/price-utils': true
+                    'Lillik_PriceDecimal/js/price-utils': true
             }
         }
     }

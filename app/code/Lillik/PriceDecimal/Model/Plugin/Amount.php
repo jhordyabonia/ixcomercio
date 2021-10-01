@@ -1,9 +1,9 @@
 <?php
 
-namespace Intcomex\FormatPrice\Model\Plugin;
+namespace Lillik\PriceDecimal\Model\Plugin;
 
-use Intcomex\FormatPrice\Helper\Data;
-use Intcomex\FormatPrice\Model\Config;
+use Lillik\PriceDecimal\Helper\Data;
+use Lillik\PriceDecimal\Model\Config;
 
 
 class Amount extends \Magento\Framework\Pricing\Render\Amount

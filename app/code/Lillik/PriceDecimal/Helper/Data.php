@@ -1,8 +1,8 @@
 <?php
-namespace Intcomex\FormatPrice\Helper;
+namespace Lillik\PriceDecimal\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
-use Intcomex\FormatPrice\Model\Config;
+use Lillik\PriceDecimal\Model\Config;
 
 class Data extends AbstractHelper{
 

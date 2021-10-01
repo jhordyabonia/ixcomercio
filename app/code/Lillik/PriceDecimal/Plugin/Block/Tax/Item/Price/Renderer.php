@@ -1,13 +1,13 @@
 <?php
 /**
  *
- * @package Intcomex\FormatPrice
+ * @package Lillik\PriceDecimal
  *
  * @author  Adarsh Khatri
  * @url sagoontech.com
  */
 
-namespace Intcomex\FormatPrice\Plugin\Block\Tax\Item\Price;
+namespace Lillik\PriceDecimal\Plugin\Block\Tax\Item\Price;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Quote\Model\Quote\Item\AbstractItem as QuoteItem;
@@ -18,7 +18,7 @@ class Renderer
 	/** @var \Magento\Framework\Pricing\PriceCurrencyInterface  */
     protected $priceCurrency;
 	
-	/** @var \Intcomex\FormatPricel\Helper\Data  */
+	/** @var \Lillik\PriceDecimall\Helper\Data  */
     protected $moduleHelper;
 
     /**
@@ -26,7 +26,7 @@ class Renderer
 	 * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
-		\Intcomex\FormatPrice\Helper\Data $moduleHelper,
+		\Lillik\PriceDecimal\Helper\Data $moduleHelper,
 		PriceCurrencyInterface $priceCurrency
     ) {
         $this->moduleHelper  = $moduleHelper;

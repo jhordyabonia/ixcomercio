@@ -1,10 +1,10 @@
 <?php
 
-namespace Intcomex\FormatPrice\Model;
+namespace Lillik\PriceDecimal\Model;
 
 use Magento\Framework\CurrencyInterface;
 use Magento\Framework\Currency as MagentoCurrency;
-use Intcomex\FormatPrice\Model\ConfigInterface;
+use Lillik\PriceDecimal\Model\ConfigInterface;
 
 /** @method getPricePrecision */
 class Currency extends MagentoCurrency implements CurrencyInterface
@@ -13,7 +13,7 @@ class Currency extends MagentoCurrency implements CurrencyInterface
     use PricePrecisionConfigTrait;
 
     /**
-     * @var \Intcomex\FormatPrice\Model\ConfigInterface
+     * @var \Lillik\PriceDecimal\Model\ConfigInterface
      */
     public $moduleConfig;
 
@@ -21,7 +21,7 @@ class Currency extends MagentoCurrency implements CurrencyInterface
      * Currency constructor.
      *
      * @param \Magento\Framework\App\CacheInterface      $appCache
-     * @param \Intcomex\FormatPrice\Model\ConfigInterface $moduleConfig
+     * @param \Lillik\PriceDecimal\Model\ConfigInterface $moduleConfig
      * @param null                                       $options
      * @param null                                       $locale
      */
