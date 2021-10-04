@@ -77,16 +77,18 @@ class BeforeProductImportSave implements ObserverInterface
                 $product_old = $this->productRepository->get($product['sku']);
 
                 $productId = $product_old->getId();
+                if(isset($product['price'])){
 
-                $this->logger->info('Import Price - Product id: ' . $productId );
-                $this->logger->info('Import Price - Product sku: ' . $product['sku']);
-                $this->logger->info('Import Price - Product new ' . $product['price'] );
-                if(!empty($user_admin)&&$user_admin!=null){
-                    $this->logger->info('Import Price - User admin name: ' . $user_admin->getUsername() );
-                    $this->logger->info('Import Price - User admin email: ' . $user_admin->getEmail() );
+                    $this->logger->info('Import Price - Product id: ' . $productId );
+                    $this->logger->info('Import Price - Product sku: ' . $product['sku']);
+                    $this->logger->info('Import Price - Product new ' . $product['price'] );
+                    if(!empty($user_admin)&&$user_admin!=null){
+                        $this->logger->info('Import Price - User admin name: ' . $user_admin->getUsername() );
+                        $this->logger->info('Import Price - User admin email: ' . $user_admin->getEmail() );
+                    }
+    
+                    $this->logger->info('Import Price - Date: ' . date('Y-m-d G-i-s') );
                 }
-
-                $this->logger->info('Import Price - Date: ' . date('Y-m-d G-i-s') );
 
             }
         }

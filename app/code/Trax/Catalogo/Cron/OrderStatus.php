@@ -180,7 +180,7 @@ class OrderStatus {
         //Consume el WS
         $trax_data_array = array();
         $trax_data = $this->loadTraxData($configData, $order->getIncrementId());
-        $this->log(print_r($trax_data));
+        $this->log(print_r($trax_data,true));
         if(!empty($trax_data['resp'])){
             $obj = $trax_data['resp'];
 
