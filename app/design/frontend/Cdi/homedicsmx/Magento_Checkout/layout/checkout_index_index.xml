@@ -27,8 +27,6 @@
                                                             
                                                             <item name="zone_id" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">66</item>
-                                                                <item name="visible" xsi:type="boolean">false</item>
-                                                                <item name="disabled" xsi:type="boolean">true</item>
                                                             </item>
                                                             
                                                         </item>
