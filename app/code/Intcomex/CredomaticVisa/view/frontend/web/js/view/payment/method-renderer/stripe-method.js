@@ -87,6 +87,7 @@ define(
                              if(i==1){
                                 var redirectUrl = urlPaymentResponse+'?orderid='+data['orderid']+'&empty=true';
                                 window.location.href = redirectUrl;
+                                i=0;
                                 return false;
                              }
                             if (--i) {          // If i > 0, keep going
