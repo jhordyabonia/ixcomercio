@@ -38,6 +38,7 @@ class Api
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         LoggerInterface $logger,
         \Magento\Framework\Event\Manager $eventManager,
+        Magento\Sales\Api\Data\OrderInterface $orderInterface,
         RegisterPayment $helper
         
     ){
@@ -53,6 +54,7 @@ class Api
         $this->eventManager = $eventManager;
 
         $this->_scopeConfig = $scopeConfig; 
+        $this->_orderInterface = $orderInterface; 
 
         $this->helperRegister = $helper;
     }
@@ -61,10 +63,8 @@ class Api
     public function getOrdenByIncrementId($idOrden, $reintentos = 0)
     {
         $this->logger->info('Mercadopago Helper - orden '.$idOrden);
-        $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
+        $order = $this->_orderInterface->loadByIncrementId($idOrden);
         $this->logger->info('Mercadopago Helper - reintentos '.$reintentos);
-        
-        $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
 
         return $order;
 
