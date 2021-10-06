@@ -38,7 +38,7 @@ class Api
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         LoggerInterface $logger,
         \Magento\Framework\Event\Manager $eventManager,
-        Magento\Sales\Api\Data\OrderInterface $orderInterface,
+        \Magento\Sales\Api\Data\OrderInterface $orderInterface,
         RegisterPayment $helper
         
     ){
