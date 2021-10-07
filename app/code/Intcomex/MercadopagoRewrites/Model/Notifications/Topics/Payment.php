@@ -116,10 +116,6 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
 
         $order->save();
 
-        if ($payment['status'] == 'approved') {
-            $helper->getRegysterPayment($order);
-        }
-
         $messageHttp = 'Mercado Pago - Status successfully updated.';
         return [
             'httpStatus' => Response::HTTP_OK,
