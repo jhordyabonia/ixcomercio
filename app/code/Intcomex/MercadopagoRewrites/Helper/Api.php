@@ -67,10 +67,10 @@ class Api
         $order = $objectManager->create('Magento\Sales\Model\Order')->loadByIncrementId($idOrden);
 
         if (!$order->getId()) { 
-            $this->logger->info('Mercadopago Helper - oder id '.$order->getId());
+            $this->logger->info('Mercadopago Helper - oder '. $idOrden . ' not found');
         }
         else{
-            $this->logger->info('Mercadopago Helper - oder '. $idOrden . ' not found');
+            $this->logger->info('Mercadopago Helper - oder id '.$order->getId().' found');
         }
 
         return $order;
