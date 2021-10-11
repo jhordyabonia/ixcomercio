@@ -373,6 +373,16 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
         //customer-email
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['customer-email']['validation']['max_text_length'] = 70;
 
+
+        $country = $this->scopeConfig->getValue('general/country/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if($country == 'CO'){
+            //zone_id
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['zone_id']['validation']['required-entry'] = false;
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['zone_id']['visible'] = false;
+        }
+        
+
         
         return $jsLayout;
     }
