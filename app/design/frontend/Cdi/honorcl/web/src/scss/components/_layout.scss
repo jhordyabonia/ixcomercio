@@ -658,9 +658,11 @@ section{
     font-weight: 400;
     border: 0;
     font-family: $fontText;
+    color:#d0d0d0;
     &:hover{
       background: $colorHover;
       border: none;
+      color: #ffffff;
     }
   }
   &.action-update {
