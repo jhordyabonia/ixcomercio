@@ -66,6 +66,13 @@ class Api
         $order = $this->_orderInterface->loadByIncrementId($idOrden);
         $this->logger->info('Mercadopago Helper - reintentos '.$reintentos);
 
+        if (!$order->getId()) { 
+            $this->logger->info('Mercadopago Helper - oder '. $idOrden . ' not found');
+        }
+        else{
+            $this->logger->info('Mercadopago Helper - oder id '.$order->getId().' found');
+        }
+
         return $order;
 
     }
@@ -157,4 +164,5 @@ class Api
 
 
     }
+        
 }
