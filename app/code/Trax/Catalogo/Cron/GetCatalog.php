@@ -49,6 +49,8 @@ class GetCatalog
 
     const PRODUCT_MPN = 'trax_catalogo/catalogo_iws/product_mpn';
 
+    const TEXT_MAIL = 'trax_catalogo/catalogo_iws/text_email_product_iws';
+
     /**
      * @var \Zend\Log\Logger
      */
@@ -115,6 +117,9 @@ class GetCatalog
      */
     private $logger_price;
 
+
+    private $product_iws_not;
+
     /**
      * class construct.
      *
@@ -163,6 +168,9 @@ class GetCatalog
         $this->_resourceFactory = $resourceFactory;
         $this->_connection = $resource->getConnection();        
         $this->_storesRepository = $storesRepository;
+
+
+        $this->product_iws_not = array();
     }
 
      /**
@@ -178,35 +186,44 @@ class GetCatalog
 
         foreach($this->_storesRepository->getList() as $store){
 
-            if ($store->isActive()) {
             
-                $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
-                $website=$storeManager->getWebsite($websiteId);
-                $configData=$this->getConfigParams($storeScope,$store->getCode());
+                if ($store->isActive()) {
+            
+                    $websiteId=$storeManager->getStore($store->getId())->getWebsiteId();
+                    $website=$storeManager->getWebsite($websiteId);
+                    $configData=$this->getConfigParams($storeScope,$store->getCode());
 
+                    if($configData['datos_iws']){
 
-                if($configData['datos_iws']){
+                        $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
+                        $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
+    
+                        if($serviceUrl)
+                            $this->beginCatalogLoad($configData,$store,$serviceUrl,$website,0);
+                        else
+                            $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());
 
-                    $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
-                    $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
-
-                    if($serviceUrl)
-                        $this->beginCatalogLoad($configData,$store,$serviceUrl,$website,0);
-                    else
-                        $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());
+                    }else{
+                        $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
+                        //$this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
+                    }
+    
                 }
-                else{
-                    $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
-                    $this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
-                }
-
-
-            }
-
 
         }
         
+        $this->logger->info('GetCatalog - Products not iws ' . print_r( count($this->product_iws_not) ));
+
+
+        if(count($this->product_iws_not) > 0){
+            $this->notifyProductNoIWS($this->product_iws_not);
+        }else{
+            $this->logger->info('GetCatalog - No hay productos nuevos en Magento');
+        }
+
         $this->cleanCache();
+
+        return true;
     }
 
     //Obtiene los parámetros de configuración desde el cms
@@ -363,16 +380,14 @@ class GetCatalog
     //Se genera metodo para consultar servicio de get catalog sales data
     public function loadCatalogSales($configData, $websiteCode, $store, $storeId)
     {
-        if ($configData['datos_sales_iws']) {
-            $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
-            if ($serviceUrl) {
-                $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, 0);
-            } else {
-                $this->logger->info('GetCatalogSalesData - El website ' . $websiteCode . ' con store ' . $storeId . ' no tiene habilitada la conexión con IWS');
-            }
+        
+        $serviceUrl = $this->getServiceUrl($configData, 2, $store->getCode());
+        if ($serviceUrl) {
+            $this->beginCatalogSalesLoad($configData, $websiteCode, $store, $serviceUrl, $storeId, 0);
         } else {
-            $this->logger->info('GetCatalogSalesData - El website ' . $websiteCode . ' con store ' . $storeId . ' no tiene habilitada la conexión con IWS para obtener precios e inventario de los productos');
+            $this->logger->info('GetCatalogSalesData - El website ' . $websiteCode . ' con store ' . $storeId . ' no tiene habilitada la conexión con IWS');
         }
+        
     }
 
     //Función recursiva para intentos de conexión
@@ -896,20 +911,74 @@ class GetCatalog
             ->addAttributeToSelect('*')
             ->addStoreFilter($storeId);
 
-        foreach ($products as $product) {
-            if (!array_key_exists($product->getSku(), $allProducts) && $product->getStatus() != 0) {
+        $count = count($this->product_iws_not);
+
+        $productAction = $objectManager->get('Magento\Catalog\Model\Product\Action');
+
+        $this->logger->info('checkProducts - Listas de productos');
+        $this->logger->info(print_r($allProducts,true));
+
+        foreach ($products as $product) {            
+
+            if (!array_key_exists($product->getSku(), $allProducts) ) {
+
+
+                if($product->getStatus() == 1 ){
+                    $this->product_iws_not[$count]['sku'] = $product->getSku();
+                    $this->product_iws_not[$count]['store'] = $storeId;
+                    $this->product_iws_not[$count]['status'] = $product->getStatus();
+                }
+
                 $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                 $products = $productFactoryData->create();
                 $productTmp = $products->setStoreId($storeId)->load($product->getId());
-                $productTmp->setStatus(0); // Status on product enabled/ disabled 1/0
+                $productTmp->setStatus(2); // Status on product enabled/ disabled 1/0
+
+
+                $attributes['Status'] = \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
+
                 try {
-                    $productTmp->save();
+                    
+                    $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+
+                    $product_rep = $productRepository->getById($product->getId());
+                    $product_rep->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    $productRepository->save($product_rep);
+
+
+                    //$this->logger->info(print_r($productRepository->getStatus(),true));
+                    
+                    
+
+                    $this->logger->info(__('Disabled success ---- Product sku:'.$product->getSku().' StoreID: '.$storeId));
+                } catch (\Exception $e) {
+                    $this->logger->info(__('Disable failure ---- Product sku:'.$product->getSku().' StoreID: '.$storeId.' error Message : '.$e->getMessage()));
+                }
+
+
+                try {
+                    $productTmp->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
+                    $productTmp->save();            
+                    
+                    $this->setStoreViewDataProduct($productTmp->getId(), $productTmp->getSku(), $storeId, $attributes);
+
+
                     $this->logger->info('GetCatalog - Se deshabilita producto ' . $productTmp->getSku());
                 } catch (Exception $e) {
                     $this->logger->info('GetCatalog - Se ha producido un error al deshabilitar el producto ' . $productTmp->getSku() . '. Error: ' . $e->getMessage());
                 }
             }
+
+            $count++;
         }
+
+        /*// se envia la notificacion al admin de productos que no llegan desde IWS
+        if(count($products_noiws) > 0){
+            $this->notifyProductNoIWS($products_noiws, $storeId);
+        }else{
+            $this->logger->info('GetCatalog - No hay productos nuevos en Magento');
+        }*/
     }
 
     /**
@@ -932,7 +1001,7 @@ class GetCatalog
 
         $product->setStoreId($storeId);
 
-        $this->logger->info('Automatic Price - Product id:');
+        $this->logger->info('Data Store view- Product id:'.$product->getId());
         $this->logger->info(print_r($attibutes,true));
 
         foreach ($attibutes as $name => $value) {
@@ -1022,5 +1091,31 @@ class GetCatalog
                 $helper->notify($value,$variables,$templateId);
             }
         }
+    }
+
+
+    public function notifyProductNoIWS($products){
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
+        
+        $list_products = array();
+
+        foreach ($products as $product) {
+            $manager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+            $store = $manager->getStore($product['store']);
+
+            $product['storeName'] = $store->getName();
+            
+
+            $list_products[] = $product;
+        }
+
+        $this->logger->info('GetCatalog - Se envia Data de productos del store ' . print_r($list_products));
+
+        $text_mail = $this->scopeConfig->getValue('trax_catalogo/catalogo_general/text_email_product_iws', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        $this->help_email->notifyProductIWS('Soporte Whitelabel',$list_products, $text_mail);
+
+        $this->logger->info('GetCatalog - Se envia notificacion de productos');
+        
     }
 }
