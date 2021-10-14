@@ -112,27 +112,35 @@ class GetCatalog
      * @var \Magento\Store\Api\StoreRepositoryInterface
      */
     protected $_storesRepository;
+
     /**
      * @var \Zend\Log\Logger
      */
     private $logger_price;
 
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Product\Action
+     */
+    private $productAction;
 
+    /**
+     * @var array
+     */
     private $product_iws_not;
 
     /**
-     * class construct.
+     * Class construct.
      *
-     * @param $scopeConfig
-     * @param $cacheTypeList
-     * @param $cacheFrontendPool
-     * @param $cacheFrontendPool
-     * @param $indexerFactory
-     * @param $indexerCollectionFactory
-     * @param $email
-     * @param $resourceFactory
-     * @param $resource     
-    * @param $storesRepository     
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\Indexer\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory
+     * @param \Trax\Catalogo\Helper\Email $email
+     * @param \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory
+     * @param \Magento\Framework\App\ResourceConnection $resource
+     * @param \Magento\Store\Api\StoreRepositoryInterface $storesRepository
+     * @param \Magento\Catalog\Model\ResourceModel\Product\Action $productAction
      * @author GDCP <german.cardenas@intcomex.com>
      */
     public function __construct(
@@ -143,10 +151,10 @@ class GetCatalog
         \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,
         \Trax\Catalogo\Helper\Email $email,
         \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModelFactory $resourceFactory,
-        \Magento\Framework\App\ResourceConnection $resource,        
-        \Magento\Store\Api\StoreRepositoryInterface $storesRepository
+        \Magento\Framework\App\ResourceConnection $resource,
+        \Magento\Store\Api\StoreRepositoryInterface $storesRepository,
+        \Magento\Catalog\Model\ResourceModel\Product\Action $productAction
     ) {
-        
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getCatalog.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -155,9 +163,6 @@ class GetCatalog
         $writer_price = new \Zend\Log\Writer\Stream(BP . '/var/log/automatic_price_change.log');
         $this->logger_price = new \Zend\Log\Logger();
         $this->logger_price->addWriter($writer_price);
-
-
-
 
         $this->scopeConfig = $scopeConfig;        
         $this->_cacheTypeList = $cacheTypeList;
@@ -168,24 +173,24 @@ class GetCatalog
         $this->_resourceFactory = $resourceFactory;
         $this->_connection = $resource->getConnection();        
         $this->_storesRepository = $storesRepository;
-
-
+        $this->productAction = $productAction;
         $this->product_iws_not = array();
     }
 
-     /**
-     * Write to system.log
+    /**
+     * Write to system.log.
      *
-     * @return void
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function execute(){
-
+    public function execute(): bool
+    {
         $objectManager=\Magento\Framework\App\ObjectManager::getInstance();
         $storeManager=$objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         $storeScope=\Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 
         foreach($this->_storesRepository->getList() as $store){
-
             
                 if ($store->isActive()) {
             
@@ -212,7 +217,7 @@ class GetCatalog
 
         }
         
-        $this->logger->info('GetCatalog - Products not iws ' . print_r( count($this->product_iws_not) ));
+        $this->logger->info('GetCatalog - Products not iws ' . count($this->product_iws_not));
 
 
         if(count($this->product_iws_not) > 0){
@@ -528,7 +533,7 @@ class GetCatalog
         }
         $this->checkCategories($newArrayCategory, $store->getRootCategoryId(), $storeId);
         //Se verifican productos no retornados en el servicio y se deshabilitan
-        $this->checkProducts($allProducts, $store->getRootCategoryId(), $storeId, $newArrayCategory);
+        $this->checkProducts($allProducts, $storeId);
     }
 
     //Carga la información de precios
@@ -650,6 +655,7 @@ class GetCatalog
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
+        $style = 'style="border:1px solid"';
 
         if (!$product) {
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
@@ -766,7 +772,7 @@ class GetCatalog
             try {
                 $product->save();
                 $this->logger->info('GetCatalog - Se guarda producto ' . $product->getSku() . ' en el store: ' . $storeId);
-                return $product->getSku();
+                return $product->getId();
             } catch (Exception $e) {
                 $this->logger->info('GetCatalog - Se ha producido un error al guardar el producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
                 return false;
@@ -862,7 +868,7 @@ class GetCatalog
                 $this->logger->info('GetCatalog - Product:\n');
                 $this->setStoreViewDataProduct($product->getId(), $catalog->Sku, $storeId, $attibutes);
                 $this->logger->info('GetCatalog - Se actualiza producto ' . $product->getSku() . ' en el store: ' . $storeId);
-                return $product->getSku();
+                return $product->getId();
             } catch (Exception $e) {
                 $this->logger->info('GetCatalog - Se ha producido un error al actualizar el producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
                 return false;
@@ -901,76 +907,52 @@ class GetCatalog
         }
     }
 
-    //Deshabilita los productos
-    public function checkProducts($allProducts, $rootNodeId, $storeId, $allCategories)
+    /**
+     * Checks and disables products present in Store but not in IWS.
+     *
+     * @param $allProducts
+     * @param $storeId
+     */
+    public function checkProducts($allProducts, $storeId)
     {
+        $productsToDisabled = [];
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-        $appState = $objectManager->get('\Magento\Framework\App\State');
         $productFactory = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory');
+        $count = count($this->product_iws_not);
+        $this->logger->info('checkProducts - Listas de productos');
+        $this->logger->info(print_r($allProducts,true));
+
+        // Search all products in store
         $products = $productFactory->create()
             ->addAttributeToSelect('*')
             ->addStoreFilter($storeId);
 
-        $count = count($this->product_iws_not);
-
-        $productAction = $objectManager->get('Magento\Catalog\Model\Product\Action');
-
-        $this->logger->info('checkProducts - Listas de productos');
-        $this->logger->info(print_r($allProducts,true));
-
-        foreach ($products as $product) {            
-
-            if (!array_key_exists($product->getSku(), $allProducts) ) {
-
-
-                if($product->getStatus() == 1 ){
+        // Validates if product is in IWS
+        foreach ($products as $product) {
+            if (!array_key_exists($product->getId(), $allProducts)) {
+                if ((int)$product->getStatus() === \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
+                    $productsToDisabled[] = $product->getId();
                     $this->product_iws_not[$count]['sku'] = $product->getSku();
                     $this->product_iws_not[$count]['store'] = $storeId;
                     $this->product_iws_not[$count]['status'] = $product->getStatus();
-                }
-
-                $productFactoryData = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
-                $products = $productFactoryData->create();
-                $productTmp = $products->setStoreId($storeId)->load($product->getId());
-                $productTmp->setStatus(2); // Status on product enabled/ disabled 1/0
-
-
-                $attributes['Status'] = \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
-
-                try {
-                    
-                    $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
-
-                    $product_rep = $productRepository->getById($product->getId());
-                    $product_rep->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    $productRepository->save($product_rep);
-
-
-                    //$this->logger->info(print_r($productRepository->getStatus(),true));
-                    
-                    
-
-                    $this->logger->info(__('Disabled success ---- Product sku:'.$product->getSku().' StoreID: '.$storeId));
-                } catch (\Exception $e) {
-                    $this->logger->info(__('Disable failure ---- Product sku:'.$product->getSku().' StoreID: '.$storeId.' error Message : '.$e->getMessage()));
-                }
-
-
-                try {
-                    $productTmp->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-
-                    $productTmp->save();            
-                    
-                    $this->setStoreViewDataProduct($productTmp->getId(), $productTmp->getSku(), $storeId, $attributes);
-
-
-                    $this->logger->info('GetCatalog - Se deshabilita producto ' . $productTmp->getSku());
-                } catch (Exception $e) {
-                    $this->logger->info('GetCatalog - Se ha producido un error al deshabilitar el producto ' . $productTmp->getSku() . '. Error: ' . $e->getMessage());
+                    $this->logger->info('GetCatalog - Se añade producto para eliminar ' . $product->getName());
+                } else {
+                    $this->logger->info('GetCatalog - El producto ya esta deshabilitado ' . $product->getName());
                 }
             }
-
             $count++;
+        }
+
+        // Products to disable that are not present in IWS
+        if ($productsToDisabled) {
+            $this->logger->info('GetCatalog - Productos a deshabilitar :: ' . print_r($productsToDisabled, true));
+            try {
+                $attributes = ['status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED];
+                $this->productAction->updateAttributes($productsToDisabled, $attributes, $storeId);
+                $this->logger->info('GetCatalog - Productos deshabilitados!');
+            } catch (\Exception $e) {
+                $this->logger->info('GetCatalog - Se ha producido un error al deshabilitar los productos: ' . $e->getMessage());
+            }
         }
 
         /*// se envia la notificacion al admin de productos que no llegan desde IWS
@@ -1074,7 +1056,13 @@ class GetCatalog
         return $this;
     }
 
-    public function notifyErrrorPrice(){
+    /**
+     * @param $errors
+     * @throws \Magento\Framework\Exception\MailException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function notifyErrrorPrice($errors)
+    {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
 
@@ -1093,29 +1081,29 @@ class GetCatalog
         }
     }
 
-
-    public function notifyProductNoIWS($products){
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
-        
+    /**
+     * @param $products
+     * @throws \Magento\Framework\Exception\MailException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function notifyProductNoIWS($products)
+    {
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $list_products = array();
 
         foreach ($products as $product) {
             $manager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
             $store = $manager->getStore($product['store']);
-
             $product['storeName'] = $store->getName();
-            
-
             $list_products[] = $product;
         }
 
-        $this->logger->info('GetCatalog - Se envia Data de productos del store ' . print_r($list_products));
+        $this->logger->info('GetCatalog - Se envia Data de productos del store ' . print_r($list_products, true));
 
         $text_mail = $this->scopeConfig->getValue('trax_catalogo/catalogo_general/text_email_product_iws', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
         $this->help_email->notifyProductIWS('Soporte Whitelabel',$list_products, $text_mail);
 
         $this->logger->info('GetCatalog - Se envia notificacion de productos');
-        
     }
 }
