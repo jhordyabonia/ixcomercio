@@ -140,6 +140,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             );
             $str_empresa = json_encode($empresa);
             $cliente= array(
+                'order_id' => $order->getIncrementId(),
                 'firstName' => html_entity_decode($billing->getFirstname(), ENT_QUOTES, 'UTF-8'),
                 'lastName' => html_entity_decode($billing->getLastname(), ENT_QUOTES, 'UTF-8'),
                 'street1'=> html_entity_decode($billing->getStreetLine(1), ENT_QUOTES, 'UTF-8'),
