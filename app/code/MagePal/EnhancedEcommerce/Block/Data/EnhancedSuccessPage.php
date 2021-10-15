@@ -7,6 +7,7 @@
 
 namespace MagePal\EnhancedEcommerce\Block\Data;
 
+use Cdi\Custom\Helper\Data as CdiData;
 use Magento\Catalog\Helper\Data as CatalogData;
 use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\Exception\LocalizedException;
@@ -38,6 +39,7 @@ class EnhancedSuccessPage extends CatalogLayer
      * @param Data $eeHelper
      * @param ProductImpressionProvider $productImpressionProvider
      * @param Esp $espHelper
+     * @param CdiData $cdiData
      * @param array $data
      * @throws NoSuchEntityException
      */
@@ -50,6 +52,7 @@ class EnhancedSuccessPage extends CatalogLayer
         Data $eeHelper,
         ProductImpressionProvider $productImpressionProvider,
         Esp $espHelper,
+        CdiData $cdiData,
         array $data = []
     ) {
         parent::__construct(
@@ -60,6 +63,7 @@ class EnhancedSuccessPage extends CatalogLayer
             $gtmHelper,
             $eeHelper,
             $productImpressionProvider,
+            $cdiData,
             $data
         );
         $this->espHelper = $espHelper;

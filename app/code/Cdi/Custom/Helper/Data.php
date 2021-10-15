@@ -6,6 +6,7 @@ use Magento\Cms\Model\PageFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Sales\Model\ResourceModel\Report\Bestsellers\CollectionFactory as BestSellersCollectionFactory;
 use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Sales\Model\Order\Item as OrderItem;
 
 class Data extends AbstractHelper{
  
@@ -25,6 +26,11 @@ class Data extends AbstractHelper{
 	private $addressRepository;
 	
     protected $_bestSellersCollectionFactory;
+
+	/**
+     * @var array
+     */
+    protected $categories = [];
 	
 	public function __construct(
 		PageFactory $pageFactory, 
@@ -266,6 +272,66 @@ class Data extends AbstractHelper{
 		$websiteCode = $this->_storeManager->getWebsite()->getCode();
 
 		return $websiteCode;
+	}
+
+	/**
+     * @param OrderItem|QuoteItem $item
+     * @return string
+     */
+    public function getFirstCategory($item)
+    {
+       
+        $categories = $this->getCategories($item);
+
+        if (count($categories)) {
+            return $categories[0];
+        }
+        
+		return '';
+    
+	}	
+
+    /**
+     * @param OrderItem $item | QuoteItem $item
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getCategories($item)
+    {
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		$_product = $productRepository->get($item->getSku());
+
+		if (!array_key_exists($item->getItemId(), $this->categories)) {
+            $collection =$_product->getCategoryCollection()->addAttributeToSelect('name');
+            $categories = [];
+
+            if ($collection->getSize()) {
+                foreach ($collection as $category) {
+                    if (!in_array($category->getName(), $categories)) {
+                        $categories[] = $category->getName();
+                    }
+                }
+            }
+
+            $this->categories[$item->getItemId()] = $categories;
+        }
+
+        return $this->categories[$item->getItemId()];
+    }
+
+	public function getBrand($product)
+	{
+        $brand = '';
+        $store = $this->_storeManager->getStore();
+        $manufacturer = $product->getResource()->getAttribute('manufacturer');
+        $optionId = $product->getResource()->getAttributeRawValue($product->getId(), $manufacturer, $store->getId());
+
+        if ($optionId) {
+            $brand = $manufacturer->getSource()->getOptionText($optionId);
+        }
+
+		return $brand;
 	}
 
 

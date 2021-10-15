@@ -85,9 +85,9 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                 <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
                             </a>
                         </strong>
-                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
-                        <?php echo $block->getProductDetailsHtml($_product); ?>
-
+                        <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
+                        <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                        <?= $block->getProductDetailsHtml($_product) ?>
                         <div class="product-item-inner">
                             <div class="product actions product-item-actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
                                 <div class="actions-primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
@@ -98,10 +98,9 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                             <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
                                             <?php echo $block->getBlockHtml('formkey')?>
                                             <button type="submit"
-                                                    currentName="<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>"
-                                                    title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>"
+                                                    title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
                                                     class="action tocart primary">
-                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
                                             </button>
                                         </form>
                                     <?php else: ?>
