@@ -3,8 +3,6 @@
     $_helper    = $this->helper('Magento\Catalog\Helper\Output');
     $_category  = $block->getCurrentCategory();
 	$subCats = $_category->getChildrenCategories();
-    $gtm_prods =''; # GTM variable
-    $posicion = 1; # GTM variable
 ?>
 <?php if(count($subCats)){ ?>
 <?php $cols = 12/count($subCats); ?>
@@ -25,24 +23,9 @@
 						<?php echo $_imgHtml;?>
 						<map name="chill-map-<?php echo $subcat->getId(); ?>">
 							<?php foreach($prods as $prod){ ?>
-								<?php 
-								$coords = explode(',', $prod->getMapImageLink());
-								$cType = (count($coords) == 4) ? 'rect' : 'poly';
-                                
-                                /* XCB GTM */
-                                $foo = $prod;
-                                $producto = "{        
-                                    'name': '{$prod->getName()}',
-                                    'id': '{$prod->getSku()}',
-                                    'price': '{$prod->getFinalPrice()}',
-                                    'brand': 'JAM',
-                                    'category': '{$prod->getCategory()}',
-                                    'variant': 'productVariant',
-                                    'list': '{$subcat->getName()}',
-                                    'position': ".$posicion++."
-                                }";
-                                $gtm_prods = !empty($gtm_prods)? $gtm_prods.','.$producto : $producto;
-                                /* XCB END */
+								<?php
+                                    $coords = explode(',', $prod->getMapImageLink());
+                                    $cType = (count($coords) == 4) ? 'rect' : 'poly';
 								?>
 								<area 
 									href="<?php echo $prod->getProductUrl()?>" 
