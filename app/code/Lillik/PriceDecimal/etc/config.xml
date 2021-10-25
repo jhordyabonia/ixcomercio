@@ -3,6 +3,7 @@
     <default>
         <catalog_price_decimal>
             <general>
+                <can_show_decimal>1</can_show_decimal>
                 <price_precision>2</price_precision>
             </general>
         </catalog_price_decimal>
