@@ -11,16 +11,16 @@ header{
     position: sticky;
     z-index: 99;
     .header-freeshipping{
-      background: #000;
+      background: #6FCCDE;
       padding: 5px 15px;
       @media only screen and (max-width: $mobile){
         font-size: 12px;
       }
       p{
-        color: #fff;
+        color: #030303;
         margin: 0;
         a{
-          color: #fff;
+          color: #030303;
           margin-left: 40px;
           text-decoration: underline;
           &:after{
