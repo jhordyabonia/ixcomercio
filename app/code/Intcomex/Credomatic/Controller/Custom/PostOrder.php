@@ -15,13 +15,15 @@ class PostOrder extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
+        \Magento\Sales\Api\OrderManagementInterface $orderManagement
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->encryptor = $encryptor;
+        $this->orderManagement = $orderManagement;
     }
 
     /**
@@ -43,6 +45,7 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($post['orderid']);
                 $order->setState("pending")->setStatus("pending");
                 $order->save();
+                $this->orderManagement->pending($post['orderid']);
                 $this->logger->info('-----');
                 $this->logger->info('status');
                 $this->logger->info($post['orderid']);
