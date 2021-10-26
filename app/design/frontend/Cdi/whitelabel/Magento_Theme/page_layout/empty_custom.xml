@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <update handle="empty"/>
+    
+    <referenceBlock name="page.bottom.container" remove="true"/>
+    <referenceBlock name="footer_links" remove="true"/>
+    <referenceContainer name="notifications" remove="true"/>
+    
+    <referenceContainer name="footer-container" remove="true" />
+    <referenceContainer name="footer-container" remove="true"/>
+    <referenceBlock name="form.subscribe" remove="true"/>
+
+    <referenceContainer name="header.container" remove="true" />
+    <referenceContainer name="footer" remove="true" />
+    <referenceBlock name="privacy-policy-link" remove="true"/>
+
+    
+</layout>

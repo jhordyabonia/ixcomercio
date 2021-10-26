@@ -16431,3 +16431,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea agregar los datos de su Factura"
 "Out Stock","Sin inventario"
 "Delete Address","Eliminar",module,Magento_Customer
+"SecurityCode","CVC"

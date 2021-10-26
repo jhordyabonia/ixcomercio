@@ -1,0 +1,34 @@
+<main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
+        <div class="page-title-wrapper">
+            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/error.png")?>"></p>
+            <h1 class="page-title">
+                <span class="base" data-ui-id="page-title-wrapper">¡No recibimos tu pago!</span>
+            </h1>
+            <h2>Tu pedido fue rechazado</h2>
+        </div>
+        <div class="page messages">
+            <div data-placeholder="messages"></div>
+            <div data-bind="scope: 'messages'">
+            <!-- ko if: cookieMessages && cookieMessages.length > 0 --><!-- /ko -->
+            <!-- ko if: messages().messages && messages().messages.length > 0 --><!-- /ko -->
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column main" style="min-height: auto">
+                <div class="container">
+                    <p>Tu compra no se ha finalizado debido algún problema en la autorización de pago</p>
+                    <p>Es posible que haya llenado algunos datos de forma incorrecta o puede haber habido<br>
+                    algún problema con la tarjeta en caso de compra con tarjeta</p>
+                
+                    <div class="actions-toolbar">
+                        <div class="primary" style="float: none !important;">
+                            <?= $block->escapeHtml(
+                                __('<a href="%1" class="action primary" type="submit" title="Imprimir Pagoefectivo"><span>Retoma tu compra y verifica los datos o selecciona otro medio de pago</span></a>', $block->escapeUrl($block->getContinueShoppingUrl())),
+                                ['a']
+                            ) ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
