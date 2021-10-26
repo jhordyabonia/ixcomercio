@@ -41,8 +41,10 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
                 $storeManager =  $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 
-                $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($post['orderid']);
-                $order->setState("pending")->setStatus("pending");
+                $order = $objectManager->create('\Magento\Sales\Model\Order')->loadByIncrementId($post['orderid']);
+                $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
+                $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
+                $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
                 $order->save();
                 $this->logger->info('-----');
                 $this->logger->info('status');

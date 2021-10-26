@@ -15,15 +15,13 @@ class PostOrder extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
-        \Magento\Sales\Api\OrderManagementInterface $orderManagement
+        \Magento\Framework\Encryption\EncryptorInterface $encryptor
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->encryptor = $encryptor;
-        $this->orderManagement = $orderManagement;
     }
 
     /**
@@ -42,10 +40,11 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
                 $storeManager =  $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 
-                $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($post['orderid']);
-                $order->setState("pending")->setStatus("pending");
+                $order = $objectManager->create('\Magento\Sales\Model\Order')->loadByIncrementId($post['orderid']);
+                $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
+                $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
+                $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
                 $order->save();
-                $this->orderManagement->pending($post['orderid']);
                 $this->logger->info('-----');
                 $this->logger->info('status');
                 $this->logger->info($post['orderid']);
