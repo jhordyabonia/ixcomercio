@@ -659,9 +659,11 @@ section{
     border: 0;
     font-family: $fontText;
     font-size: 16px;
+    color: #fff;
     &:hover{
       background: $colorHover;
       border: none;
+      color: #fff;
     }
   }
   &.action-update {
