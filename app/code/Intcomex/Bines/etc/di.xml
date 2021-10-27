@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Intcomex\Bines\Model\Rule\Condition\BinCode">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="form_name" xsi:type="string">sales_rule_form</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Intcomex\Bines\Api\BinesRepositoryInterface" type="Intcomex\Bines\Model\BinesRepository"/>
+	<preference for="Intcomex\Bines\Api\Data\BinesInterface" type="Intcomex\Bines\Model\Data\Bines"/>
+	<preference for="Intcomex\Bines\Api\Data\BinesSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Intcomex\Bines\Model\ResourceModel\Bines\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">intcomex_bines</argument>
+			<argument name="resourceModel" xsi:type="string">Intcomex\Bines\Model\ResourceModel\Bines\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="intcomex_bines_listing_data_source" xsi:type="string">Intcomex\Bines\Model\ResourceModel\Bines\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+</config>
