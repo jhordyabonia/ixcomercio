@@ -1,0 +1,184 @@
+form{
+	text-align: left;
+	&.password.reset, &.send.confirmation, &.password.forget, &.create.account, &.search.advanced, &.form-orders-search, &.send.friend{
+		@media only screen and (min-width: $tablet){
+			width: 100%!important;
+    		min-width: inherit!important;
+		}
+	}
+	.label{
+		color: #000;
+	}
+	.fieldset{
+		> .field{
+			&:not(.choice){
+				> .label{
+					color: #000;
+					font-size: 13px;
+			    	margin: 0 0 10px;
+			    	font-weight: 700;
+			    	word-break: break-all;
+				    text-align: left;
+				    padding: 0;
+				    @media only screen and (min-width: $tablet){
+				      	width: 100%;
+				    }
+				    span{
+				    	text-align: left;
+				    	white-space: normal;
+					    word-break: break-word;
+				    }
+				}
+				> .control{
+					width: 100%!important;
+					&._with-tooltip{
+						input{
+							width: 100%;
+							margin-right: 0;
+						}
+						.field-tooltip{
+							right: -30px;
+							@media only screen and (max-width: $tablet){
+						      	right: 0;
+    							top: -35px;
+						    }
+						}
+					}
+				}
+			}
+			&.choice{
+				&:before{
+					display: none;
+				}
+				input{
+					&[type=checkbox]{
+						top: 4px;
+						width: 18px;
+					    height: 18px;
+						display: inline-block;
+						margin: 0;
+					}
+				}
+				label{
+					color: #000;
+					font-size: 13px;
+					display: inline-block;
+				}
+			}
+		}
+		>.legend{
+			font-size: 2.3rem;
+			text-align: left;
+			@media only screen and (min-width: $tablet){
+		      	margin-left: 0;
+		    }
+		    &.review-legend{
+		    	border: 0;
+		    }
+		}
+	}
+	.actions-toolbar{
+		margin: 0!important;
+		float: left;
+		.secondary{
+	    	width: 100%;
+	    	margin-bottom: 25px;
+	    	@media only screen and (min-width: $tablet){
+		      float: left;
+		      text-align: left;
+		    }
+		    .action.remind{
+	    		margin: 0;
+		    }
+	    }
+	}
+	.field-error, div.mage-error[generated]{
+		font-size: 12px;
+	}
+}
+.column{
+	&:not(.sidebar-main) form.form, &:not(.sidebar-additional) form.form, form.form{
+		.actions-toolbar{}
+	}
+}
+.customer-account-forgotpassword, .customer-account-confirmation, .customer-account-create, .customer-account-createpassword, .sendfriend-product-send{
+	.form.password.forget, .form.send.confirmation, .form.create.account .form.password.reset, .send.friend{
+		text-align: left;
+		@media only screen and (min-width: $tablet){
+			width: 100%;
+			min-width: 100%;
+			.fieldset>.field:not(.choice)>.control{
+				width: 100%;
+			}
+		}
+		.field.captcha{
+			text-align: center;
+		}
+		.actions-toolbar{
+			text-align: center;
+			.primary{
+				@media only screen and (min-width: $tablet){
+					float: none;
+				}
+			}
+			.secondary{
+				text-align: center;
+				.add{
+					color: #999;
+				    background: none;
+				    border: 1px solid #ccc;
+				    padding: 7px 15px;
+				    height: 44px;
+				    font-size: 16px;
+				    line-height: 30px;
+				    font-weight: normal;
+				    &:hover{
+				    	color: #fff;
+				    	background: $colorHover;
+				    }
+				}
+			}
+		}
+	}
+}
+.account{
+	.column.main{
+		.form{
+			text-align: left;
+		}
+	}
+	.box-upload{
+		margin: 20px 0;
+	    padding: 20px;
+	    background: #e8e8e8;
+	    width: 100%;
+	}
+}
+.control.captcha-image .captcha-img{
+	width: auto;
+}
+.review-form{
+	float: left;
+	.actions-toolbar {
+		.primary {
+			.action{
+				color: #fff;
+			    background: $mainColor;
+			    border: none;
+				min-width: 180px;
+			    margin: 0;
+			    padding: 0 25px;
+			    line-height: 45px;
+			    text-transform: uppercase;
+			    transition: .3s all ease;
+			    overflow: visible;
+			    cursor: pointer;
+			    float: right;
+			    &:hover{
+			    	color: #fff;
+    				background: $colorHover;
+			    }
+			}
+		}
+	}
+}
