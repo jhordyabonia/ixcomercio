@@ -16,6 +16,17 @@
                 <field id="ids" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Input Ids</label>
                     <comment>Card numbers input ids, comma separated.</comment>
+                    <validate>required</validate>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
+                </field>
+                <field id="bin_code_length" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Bin Code Length</label>
+                    <validate>required number</validate>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
                 </field>
             </group>
         </section>

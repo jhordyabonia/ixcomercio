@@ -5,5 +5,5 @@
         name="intcomex_bin_campaign"
         label="Intcomex Bin Campaign"
         model="Intcomex\BinesImporter\Model\Import\BinCampaign"
-        behaviorModel="Magento\ImportExport\Model\Source\Import\Behavior\Basic" />
+        behaviorModel="Intcomex\BinesImporter\Model\Source\Import\Behavior\BinCampaign" />
 </config>

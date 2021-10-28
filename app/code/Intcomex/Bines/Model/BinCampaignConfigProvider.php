@@ -38,10 +38,12 @@ class BinCampaignConfigProvider implements ConfigProviderInterface
      */
     public function getConfig(): array
     {
+        $storeId = $this->storeManager->getStore()->getId();
         return [
             'binCampaign' => [
-                'enabled' => $this->binCampaignHelper->isEnabled($this->storeManager->getStore()->getId()),
-                'ids'     => $this->binCampaignHelper->getIds($this->storeManager->getStore()->getId())
+                'enabled'       => $this->binCampaignHelper->isEnabled($storeId),
+                'ids'           => $this->binCampaignHelper->getIds($storeId),
+                'binCodeLength' => $this->binCampaignHelper->getBinCodeLength($storeId) * 1
             ]
         ];
     }

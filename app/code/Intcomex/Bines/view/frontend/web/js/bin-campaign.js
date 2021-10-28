@@ -10,6 +10,7 @@ require(
         if (binCampaign && binCampaign.enabled && binCampaign.ids) {
 
             let inputs = binCampaign.ids.split(',');
+            let binCodeLength = binCampaign.binCodeLength;
             let inputsValidated = [];
 
             // Observer to detect the creation of inputs to listen
@@ -21,8 +22,8 @@ require(
                         if (inputsValidated.indexOf(this.id) === -1) {
                             inputsValidated.push(this.id);
                             this.addEventListener('keyup', (event) => {
-                                let binCode = this.value.substring(0, 6);
-                                if (binCode.length === 6) {
+                                let binCode = this.value.substring(0, binCodeLength);
+                                if (binCode.length === binCodeLength) {
                                     $.ajax({
                                         url: '/checkout/bines/setbincampaign',
                                         data: { bin_code: binCode },
