@@ -24,7 +24,7 @@ require(
                                 let binCode = this.value.substring(0, 6);
                                 if (binCode.length === 6) {
                                     $.ajax({
-                                        url: '/checkout/bines/setbincode',
+                                        url: '/checkout/bines/setbincampaign',
                                         data: { bin_code: binCode },
                                     }).done(function(data) {
                                         getTotalsAction([]);

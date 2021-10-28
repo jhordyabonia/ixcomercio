@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Intcomex\Bines\Ui\Component\Listing\Columns;
 
+use Intcomex\Bines\Api\Data\BinesInterface;
 use Magento\Ui\Component\Listing\Columns\Column;
 
 class BinesActions extends Column
@@ -63,8 +64,8 @@ class BinesActions extends Column
                             ),
                             'label' => __('Delete'),
                             'confirm' => [
-                                'title' => __('Delete ' . $item['bin_code']),
-                                'message' => __('Are you sure you wan\'t to delete a ' . $item['bin_code'] . ' record?')
+                                'title' => __('Delete ' . $item[BinesInterface::CAMPAIGN]),
+                                'message' => __('Are you sure you wan\'t to delete a ' . $item[BinesInterface::CAMPAIGN] . ' record?')
                             ]
                         ]
                     ];

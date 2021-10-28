@@ -5,11 +5,12 @@ namespace Intcomex\Bines\Api\Data;
 
 interface BinesInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
-    const BIN_CODE = 'bin_code';
-    const UPDATED_AT = 'updated_at';
+    const ENTITY_ID = 'entity_id';
+    const CAMPAIGN = 'campaign';
+    const BIN_CODES = 'bin_codes';
     const STATUS = 'status';
     const CREATED_AT = 'created_at';
-    const ENTITY_ID = 'entity_id';
+    const UPDATED_AT = 'updated_at';
 
     /**
      * Get entity_id
@@ -25,17 +26,30 @@ interface BinesInterface extends \Magento\Framework\Api\ExtensibleDataInterface
     public function setEntityId($entityId);
 
     /**
-     * Get bin_code
+     * Get campaign
      * @return string|null
      */
-    public function getBinCode();
+    public function getCampaign();
 
     /**
-     * Set bin_code
-     * @param string $binCode
+     * Set campaign
+     * @param string $campaign
      * @return \Intcomex\Bines\Api\Data\BinesInterface
      */
-    public function setBinCode($binCode);
+    public function setCampaign($campaign);
+
+    /**
+     * Get bin_codes
+     * @return string|null
+     */
+    public function getBinCodes();
+
+    /**
+     * Set bin_codes
+     * @param string $binCodes
+     * @return \Intcomex\Bines\Api\Data\BinesInterface
+     */
+    public function setBinCodes($binCodes);
 
     /**
      * Get status

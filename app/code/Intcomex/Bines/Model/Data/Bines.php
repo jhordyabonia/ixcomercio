@@ -27,22 +27,41 @@ class Bines extends \Magento\Framework\Api\AbstractExtensibleObject implements B
     }
 
     /**
-     * Get bin_code
+     * Get campaign
      * @return string|null
      */
-    public function getBinCode()
+    public function getCampaign()
     {
-        return $this->_get(self::BIN_CODE);
+        return $this->_get(self::CAMPAIGN);
     }
 
     /**
-     * Set bin_code
-     * @param string $binCode
+     * Set campaign
+     * @param string $campaign
      * @return \Intcomex\Bines\Api\Data\BinesInterface
      */
-    public function setBinCode($binCode)
+    public function setCampaign($campaign)
     {
-        return $this->setData(self::BIN_CODE, $binCode);
+        return $this->setData(self::CAMPAIGN, $campaign);
+    }
+
+    /**
+     * Get bin_codes
+     * @return string|null
+     */
+    public function getBinCodes()
+    {
+        return $this->_get(self::BIN_CODES);
+    }
+
+    /**
+     * Set bin_codes
+     * @param string $binCodes
+     * @return \Intcomex\Bines\Api\Data\BinesInterface
+     */
+    public function setBinCodes($binCodes)
+    {
+        return $this->setData(self::BIN_CODES, $binCodes);
     }
 
     /**

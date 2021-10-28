@@ -2,28 +2,28 @@
 
 namespace Intcomex\Bines\Model\Rule\Condition;
 
+use Intcomex\Bines\Api\Data\BinesInterface;
+use Intcomex\Bines\Model\Bines\Attribute\Source\Status;
 use Intcomex\Bines\Model\ResourceModel\Bines\CollectionFactory;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Rule\Model\Condition\AbstractCondition;
 use Magento\Rule\Model\Condition\Context;
 
-class BinCode extends AbstractCondition
+class BinCampaign extends AbstractCondition
 {
     /**
-     * Attribute bin code.
+     * Attribute campaign.
      */
-    const BIN_CODE = 'bin_code';
+    const CAMPAIGN = 'campaign';
 
     /**
-     * Group label bin code.
+     * Group label campaign.
      */
-    const GROUP_LABEL_BIN_CODE = 'Bin Campaign';
+    const GROUP_LABEL_CAMPAIGN = 'Campaigns';
 
     /**
-     * Label bin code.
+     * Label campaign.
      */
-    const LABEL_BIN_CODE = 'Bin Code';
+    const LABEL_CAMPAIGN = 'Bin Campaign';
 
     /**
      * @var CollectionFactory
@@ -49,10 +49,10 @@ class BinCode extends AbstractCondition
      *
      * @return $this
      */
-    public function loadAttributeOptions(): BinCode
+    public function loadAttributeOptions(): BinCampaign
     {
         $attributes = [
-            self::BIN_CODE => __(self::LABEL_BIN_CODE)
+            self::CAMPAIGN => __(self::LABEL_CAMPAIGN)
         ];
 
         $this->setAttributeOption($attributes);
@@ -83,31 +83,30 @@ class BinCode extends AbstractCondition
      * Get value select options.
      *
      * @return array|mixed
-     * @throws LocalizedException
      */
     public function getValueSelectOptions()
     {
         if (!$this->hasData('value_select_options')) {
-            $this->setData('value_select_options', $this->getBinCodeOptions());
+            $this->setData('value_select_options', $this->getCampaignOptions());
         }
         return $this->getData('value_select_options');
     }
 
     /**
-     * Retrieve available Bin Codes.
+     * Retrieve available Campaigns.
      *
      * @return array
      */
-    protected function getBinCodeOptions(): array
+    protected function getCampaignOptions(): array
     {
         $options = [];
         $items = $this->collectionFactory->create()
-            ->addFieldToFilter('status', ['eq' => 1])
+            ->addFieldToFilter(BinesInterface::STATUS, ['eq' => Status::STATUS_ENABLED])
             ->getItems();
         foreach ($items as $item) {
             $options[] = [
-                'label' => $item->getBinCode(),
-                'value' => $item->getBinCode()
+                'label' => $item->getCampaign(),
+                'value' => $item->getId()
             ];
         }
         return $options;

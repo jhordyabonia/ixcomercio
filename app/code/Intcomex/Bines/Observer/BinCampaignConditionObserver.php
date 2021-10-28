@@ -2,18 +2,18 @@
 
 namespace Intcomex\Bines\Observer;
 
-use Intcomex\Bines\Model\Rule\Condition\BinCode;
+use Intcomex\Bines\Model\Rule\Condition\BinCampaign;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
-class BinCodeConditionObserver implements ObserverInterface
+class BinCampaignConditionObserver implements ObserverInterface
 {
     /**
      * Execute observer.
      * @param Observer $observer
      * @return $this
      */
-    public function execute(Observer $observer): BinCodeConditionObserver
+    public function execute(Observer $observer): BinCampaignConditionObserver
     {
         $additional = $observer->getAdditional();
         $conditions = (array)$additional->getConditions();
@@ -23,11 +23,11 @@ class BinCodeConditionObserver implements ObserverInterface
             [
                 'value'=> [
                     [
-                        'value' => BinCode::class,
-                        'label' => __(BinCode::LABEL_BIN_CODE)
+                        'value' => BinCampaign::class,
+                        'label' => __(BinCampaign::LABEL_CAMPAIGN)
                     ]
                 ],
-                'label'=> __(BinCode::GROUP_LABEL_BIN_CODE)
+                'label'=> __(BinCampaign::GROUP_LABEL_CAMPAIGN)
             ]
         ]);
 

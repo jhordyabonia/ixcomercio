@@ -12,7 +12,7 @@ interface BinesSearchResultsInterface extends \Magento\Framework\Api\SearchResul
     public function getItems();
 
     /**
-     * Set bin_code list.
+     * Set Bines list.
      * @param \Intcomex\Bines\Api\Data\BinesInterface[] $items
      * @return $this
      */

@@ -18,9 +18,9 @@ class BinCampaign extends AbstractEntity
 {
     const INTCOMEX_BINES = 'intcomex_bines';
     const INTCOMEX_BIN_CAMPAIGN = 'intcomex_bin_campaign';
-    const BIN_CODE = 'bin_code';
+    const CAMPAIGN = 'campaign';
+    const BIN_CODES = 'bin_codes';
     const STATUS = 'status';
-    const BIN_CODE_LENGTH_PERMITTED = 6;
 
     /**
      * If we should check column names
@@ -35,7 +35,8 @@ class BinCampaign extends AbstractEntity
      * @array
      */
     protected $validColumnNames = [
-        self::BIN_CODE,
+        self::CAMPAIGN,
+        self::BIN_CODES,
         self::STATUS
     ];
 
@@ -89,17 +90,16 @@ class BinCampaign extends AbstractEntity
         $this->_validatedRows[$rowNum] = true;
 
         // Validates mandatory columns
-        if (!isset($rowData[self::BIN_CODE]) || empty($rowData[self::BIN_CODE])) {
-            $this->addRowError(ValidatorBinCampaignInterface::ERROR_IS_EMPTY_BIN_CODE, $rowNum);
+        if (!isset($rowData[self::CAMPAIGN]) || empty($rowData[self::CAMPAIGN])) {
+            $this->addRowError(ValidatorBinCampaignInterface::ERROR_IS_EMPTY_CAMPAIGN, $rowNum);
+        }
+        if (!isset($rowData[self::BIN_CODES]) || empty($rowData[self::BIN_CODES])) {
+            $this->addRowError(ValidatorBinCampaignInterface::ERROR_IS_EMPTY_BIN_CODES, $rowNum);
         }
         if (!isset($rowData[self::STATUS])) {
             $this->addRowError(ValidatorBinCampaignInterface::ERROR_IS_EMPTY_STATUS, $rowNum);
         }
 
-        // Validates if bin_code column value is valid
-        if (strlen($rowData[self::BIN_CODE]) !== self::BIN_CODE_LENGTH_PERMITTED) {
-            $this->addRowError(sprintf(ValidatorBinCampaignInterface::ERROR_FORMAT_BIN_CODE, self::BIN_CODE_LENGTH_PERMITTED), $rowNum);
-        }
         // Validates if status column value is valid
         if ((string)$rowData[self::STATUS] !== '1' && (string)$rowData[self::STATUS] !== '0') {
             $this->addRowError(ValidatorBinCampaignInterface::ERROR_FORMAT_STATUS, $rowNum);
@@ -130,7 +130,7 @@ class BinCampaign extends AbstractEntity
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             foreach ($bunch as $rowNum => $rowData) {
                 if (!$this->validateRow($rowData, $rowNum)) {
-                    $this->addRowError(ValidatorBinCampaignInterface::ERROR_IS_EMPTY_BIN_CODE, $rowNum);
+                    $this->addRowError(ValidatorBinCampaignInterface::ERROR_IS_EMPTY_BIN_CODES, $rowNum);
                     continue;
                 }
                 if ($this->getErrorAggregator()->hasToBeTerminated()) {
@@ -138,7 +138,8 @@ class BinCampaign extends AbstractEntity
                     continue;
                 }
                 $values = [
-                    self::BIN_CODE => trim($rowData[self::BIN_CODE]),
+                    self::CAMPAIGN => trim($rowData[self::CAMPAIGN]),
+                    self::BIN_CODES => trim($rowData[self::BIN_CODES]),
                     self::STATUS   => $rowData[self::STATUS]
                 ];
                 $data[][] = $values;
