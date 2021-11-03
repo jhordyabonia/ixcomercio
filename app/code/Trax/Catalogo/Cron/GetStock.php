@@ -365,7 +365,7 @@ class GetStock {
 
         foreach($diffSku as $key => $value){
 
-            $objSourceItemInterface = $this_sourceItemInterface->create();
+            $objSourceItemInterface = $this->_sourceItemInterface->create();
             $objSourceItemInterface->setSku($value);
             $objSourceItemInterface->setSourceCode($websiteCode);
             $objSourceItemInterface->setQuantity(0);
