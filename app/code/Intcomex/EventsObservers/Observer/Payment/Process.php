@@ -116,9 +116,9 @@ class Process implements ObserverInterface
                             {
                                 if(empty($payment->getCcTransId()))
                                 {   
-                                    $this->logger->info('Payment - Mercadopago_custom: atributo CcTransId vacio : ' . $order->getIncrementId());
+                                    $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' con atributo CcTransId vacio.');
                                     $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
-                                    if(isEmpty($paymentResponse))
+                                    if(empty($paymentResponse))
                                     {
                                         $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());   
                                     }else{
