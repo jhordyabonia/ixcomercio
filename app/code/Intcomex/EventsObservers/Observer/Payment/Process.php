@@ -116,7 +116,7 @@ class Process implements ObserverInterface
                             {
                                 if(empty($payment->getCcTransId()))
                                 {   
-                                    $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' con atributo CcTransId vacio.');
+                                    $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
                                     $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                                     if(empty($paymentResponse))
                                     {
@@ -127,9 +127,9 @@ class Process implements ObserverInterface
                                         $updateData  = $payment->save();
                                         if($updateData)
                                         {
-                                            $this->logger->info('Payment - Mercadopago_custom, Se actualizo el pago con el numero de autorizacion : '. $LastTransId);
+                                            $this->logger->info('Payment - Mercadopago_custom, Se actualizo el atributo CcTransId del pago con el numero de autorizacion : '. $LastTransId);
                                         } else {
-                                            $this->logger->info('Payment - Mercadopago_custom, Se produjo un error al actualizar el pago con el numero de autorizacion : '.$LastTransId);
+                                            $this->logger->info('Payment - Mercadopago_custom, Se produjo un error al actualizar el atributo CcTransId del pago con el numero de autorizacion : '.$LastTransId);
                                         }
                                     }
                                 }else{
