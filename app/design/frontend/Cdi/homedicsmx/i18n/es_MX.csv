@@ -16433,3 +16433,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Document Number","RUT"
 "Out Stock","Sin inventario"
 "Zone","Colonia"
+"Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea cambiar los datos de boleta."
