@@ -7,6 +7,8 @@
 
 namespace MagePal\GoogleTagManager\Helper;
 
+use Cdi\Custom\Helper\Data as CdiData;
+use Magento\Framework\App\Helper\Context;
 use Magento\Quote\Model\Quote\Item as QuoteItem;
 use Magento\Sales\Model\Order\Item as OrderItem;
 use Magento\Store\Model\ScopeInterface;
@@ -25,6 +27,23 @@ class DataLayerItem extends Data
     protected $variants = [];
 
     /**
+     * @var CdiData
+     */
+    protected $_cdiData;
+
+    /**
+     * @param CdiData $cdiData
+     * @param Context $context
+     */
+    public function __construct(
+        CdiData $cdiData,
+        Context $context
+    ) {
+        $this->_cdiData = $cdiData;
+        parent::__construct($context);
+    }
+
+        /**
      * @param null $store_id
      * @return bool
      */
@@ -220,14 +239,15 @@ class DataLayerItem extends Data
         $product = [
             'name' => $item->getName(),
             'id' => $item->getSku(),
-            'price' => $this->formatPrice($item->getPrice()),
+            'price' => $this->formatPrice($item->getFinalPrice()),
             'currencyCode' => $currency,
             'quantity' => $qty * 1,
             'parent_sku' => $item->getProduct() ? $item->getProduct()->getData('sku') : $item->getSku(),
+            'brand' => $this->_cdiData->getBrand($item->getProduct())
         ];
 
-        if (!$item->getPrice() && $item->getProduct()) {
-            $product['price'] =  $this->formatPrice($item->getProduct()->getPrice());
+        if (!$item->getFinalPrice() && $item->getProduct()) {
+            $product['price'] =  $this->formatPrice($item->getProduct()->getFinalPrice());
         }
 
         if ($variant = $this->getItemVariant($item)) {

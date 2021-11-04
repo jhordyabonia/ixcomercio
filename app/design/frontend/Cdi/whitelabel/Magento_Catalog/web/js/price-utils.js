@@ -13,7 +13,7 @@ define([
     'use strict';
 
     var globalPriceFormat = {
-        requiredPrecision: 2,
+        requiredPrecision: 0,
         integerRequired: 1,
         decimalSymbol: ',',
         groupSymbol: ',',

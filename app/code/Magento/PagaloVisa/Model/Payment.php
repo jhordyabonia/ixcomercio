@@ -251,8 +251,11 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             if(isset($result->infotran)){
                 if(isset($result->infotran->authorizationNumber)){
                     $payment->setLastTransId($result->infotran->authorizationNumber);
-                    $this->_pagaloLogger->info('setLastTransId : ' . $payment->getLastTransId() ); 
+                    $this->_pagaloLogger->info('setLastTransId (authorizationNumber): ' . $payment->getLastTransId());
                 }
+            } else if(isset($result->transaccion)) {
+                $payment->setLastTransId($result->transaccion);
+                $this->_pagaloLogger->info('setLastTransId (transaccion): ' . $payment->getLastTransId());
             }
 
             $errorMsg = '';
@@ -262,7 +265,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             if($customError != '') {
                 $showCustomError = true;
             }
-            $this->_pagaloLogger->info($customError );
+
             if(property_exists($result, 'reasonCode')) {
                 if($result->reasonCode != '00' && $result->reasonCode != '100'){
                     $errorMsg = "Error al procesar el pago. ";
@@ -513,7 +516,10 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 }
                 throw new \Magento\Framework\Exception\LocalizedException(__($customError));
             }
-            $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg);
+
+            if ($errorMsg !== '') {
+                $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg . '. Custom error: ' . $customError);
+            }
         } catch (\Exception $e) {
             $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);
             $error = __('Payment capturing error pagalo:'); 
