@@ -51,9 +51,10 @@ class PriceCurrency extends PriceFormatPluginAbstract
                 $_price = $this->truncar($price,0);
                 return $_price;
             }
+        }else {
+            return $proceed($price);
         }
-
-        //return round($price, $this->getPricePrecision());
+        
          
     }
 
