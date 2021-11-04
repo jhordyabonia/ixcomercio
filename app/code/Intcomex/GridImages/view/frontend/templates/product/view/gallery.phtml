@@ -1,0 +1,17 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');//get current product
+$productimages = $product->getMediaGalleryImages();
+?>
+
+<div class="col-sm-12">
+     <?php
+     foreach($productimages as $productimage){
+     ?>
+     <div class="col-sm-6" >
+        <?php echo "<img src = ".$productimage['url']. "  width=100% />"; ?>
+     </div>
+     <?php
+     }
+     ?>
+</div>
