@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-define([
+ define([
     'ko',
     'underscore',
     'Magento_Ui/js/form/form',
@@ -173,11 +173,27 @@ function (
         },
 
         useInvoice: function () {
+
+            //default value lastname
+            $('input[name="lastname"]').val("N/A");
+            
+            var useinvoice = '';
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
+                useinvoice = 'Yes';
             }else{
                 this.isInvoiceSelected(false);
-            }           
+                useinvoice = 'No';
+            }
+            console.log('seting usenvoice');
+                    var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
+                   jQuery.post(serviceUrl,{'useinvoice':useinvoice})
+                    .done(function(msg){
+                        console.log(msg);
+                    })
+                    .fail(function(msg){
+                        console.log(msg);
+                    });           
             return true;
         },
 
@@ -205,6 +221,7 @@ function (
                         this.saveInAddressBook(1);
                     }
                     addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
+                    addressData['lastname'] = ".";
                     newBillingAddress = createBillingAddress(addressData);
 
                     // New address must be selected as a billing address

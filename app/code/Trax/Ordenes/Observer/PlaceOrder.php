@@ -240,7 +240,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
     }
     
-    public function checkInvoice($paymentAdditional){
+    public function checkInvoice($paymentAdditional,$payment,$order){
         $this->logger->info('Información de factura');
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -253,9 +253,31 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         if(!$invoiceEnable) return $invoiceDefault;
         //Si está habilitado, busca el estado que llegó en la información de pago
         $this->logger->info('Información en payment info:');
-        $this->logger->info($paymentAdditional);
+        $method = $payment->getMethodInstance();
+        $methodCode = $method->getCode();
+        $this->logger->info('methodCode');
+        $this->logger->info($methodCode);
+        $this->logger->info($payment->getAdditionalInformation());
+        if($methodCode=='mercadopago_custom'){
+            
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+            $session = $objectManager->create('\Magento\Framework\Session\SessionManagerInterface');
+            $session->start();
+            $useinvoiceSession = $session->getUseinvoice();
+            if(isset($useinvoiceSession[$session->getSessionId()])){
+                $this->logger->info($useinvoiceSession);
+                if($useinvoiceSession[$session->getSessionId()]=='Yes'){
+                    $this->logger->info('usar factura');
+                    
+                    return true;
+                }
+
+            }
+        }
+        
         if(is_array($paymentAdditional) && isset($paymentAdditional['useinvoice'])){            
-            if($paymentAdditional['useinvoice']){
+            if($paymentAdditional['useinvoice']=='Yes'||$paymentAdditional['useinvoice']=='1'){
+                $this->logger->info(print_r($paymentAdditional,true));
                 return true;
             }
         }
@@ -270,9 +292,10 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         
         $payment = $order->getPayment();
         $paymentAdditional = $payment->getAdditionalInformation();
-        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional);
-        $this->logger->info('Require Invpice, se envía a trax:');
-        $this->logger->info($requireInvoice);
+        $requireInvoice = (bool) $this->checkInvoice($paymentAdditional,$payment,$order);
+        if($requireInvoice){
+            $this->logger->info('useinvoice, se envía a trax:');
+        }
 
         $orderItems = $order->getAllItems();
         $coupon = array();

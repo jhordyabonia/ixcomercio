@@ -1,2 +1,12 @@
 "Ship Here","Entregar aquí"
 "Ship here","Entregar aquí"
+"Proceed to Checkout","PROCESAR PEDIDO",module,Magento_Checkout
+"In Stock","Stock disponible",module,Magento_Catalog
+"In Stock","Stock disponible",module,Magento_CatalogInventory
+"The quote item isn't found. Verify the item and try again.","No se encuentra el producto. Verifique el artículo y vuelva a intentarlo.",module,Magento_Checkout
+"Out Stock","Sin inventario"
+"Delete Address","Eliminar",module,Magento_Customer
+"Número de Tarjeta MasterCard":"Número de Tarjeta MasterCard"
+"Número de Tarjeta VISA":"Número de Tarjeta VISA"
+"Ingrese un Número de Tarjeta VISA válido","Ingrese un Número de Tarjeta VISA válido"
+"Ingrese un Número de Tarjeta MasterCard válido","Ingrese un Número de Tarjeta MasterCard válido"

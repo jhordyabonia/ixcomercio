@@ -26,7 +26,7 @@ class Entity implements ArrayInterface
      * Entity constructor.
      * @param \Xtento\ProductExport\Model\Export $exportModel
      */
-    public function __construct(\Xtento\ProductExport\Model\Export $exportModel)
+    public function __construct(\Intcomex\Xtento\Model\Export $exportModel)
     {
         $this->exportModel = $exportModel;
     }

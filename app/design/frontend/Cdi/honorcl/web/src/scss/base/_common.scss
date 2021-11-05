@@ -1,0 +1,253 @@
+
+@font-face{
+  font-family: "Frankfurter W05 Regular";
+  src: url("../fonts/fka/545b8c4b-ee94-47dd-a9b0-55881ceeeeaa.eot?#iefix") format("eot"),
+    url("../fonts/fka/c469a796-c5e2-4ff1-b252-ef9ecaf27393.woff") format("woff"),
+    url("../fonts/fka/be98b0c8-3103-4e5d-80b6-1a34d2c6734d.ttf") format("truetype");
+}
+@font-face {
+  font-family: 'fontello';
+  src: url('../fonts/fontello/fontello.eot?25926270');
+  src: url('../fonts/fontello/fontello.eot?25926270#iefix') format('embedded-opentype'),
+       url('../fonts/fontello/fontello.woff?25926270') format('woff'),
+       url('../fonts/fontello/fontello.ttf?25926270') format('truetype'),
+       url('../fonts/fontello/fontello.svg?25926270#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'CamphorProForXiaoMiBold';
+  src: url('../fonts/xiaomi/xiaomi/CamphorProForXiaoMiBold.eot');
+  src: url('../fonts/xiaomi/CamphorProForXiaoMiBold.eot') format('embedded-opentype'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiBold.woff2') format('woff2'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiBold.woff') format('woff'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiBold.ttf') format('truetype'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiBold.svg#CamphorProForXiaoMiBold') format('svg');
+}
+@font-face {
+  font-family: 'CamphorProForXiaoMiHeavy';
+  src: url('../fonts/xiaomi/CamphorProForXiaoMiHeavy.eot');
+  src: url('../fonts/xiaomi/CamphorProForXiaoMiHeavy.eot') format('embedded-opentype'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiHeavy.woff2') format('woff2'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiHeavy.woff') format('woff'),
+       url('../fonts/xiaomi/CamphorProForXiaoMiHeavy.ttf') format('truetype'),
+       url('..fonts/xiaomi/CamphorProForXiaoMiHeavy.svg#CamphorProForXiaoMiHeavy') format('svg');
+}
+
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('../fonts/honor/AvenirNext-Regular.woff2') format('woff2'),
+      url('../fonts/honor/AvenirNext-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('../fonts/honor/AvenirNext-Medium.woff2') format('woff2'),
+      url('../fonts/honor/AvenirNext-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('../fonts/honor/AvenirNext-Bold.woff2') format('woff2'),
+      url('../fonts/honor/AvenirNext-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+}
+html {
+  font-size: 14px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+body[data-container='body']{
+  color: $colorText;
+  font-size: 14px;
+  background-color: white;
+  text-align: center;
+  font-family: $fontText;
+  line-height: 2;
+  &.open-menu{
+    overflow: hidden;
+  }
+}
+ul, ol {
+  list-style: none;
+  > li{
+    margin-bottom: 0;
+  }
+}
+html a {
+  color:$mainColor;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover, &:visited, &:focus{
+    color: $colorHover;
+    text-decoration: none;
+  }
+}
+a, button {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+img{
+  width: 100%;
+  height: auto;
+}
+.txt-white, .txt-white h1, .txt-white h2 {
+  color: #fff;
+}
+:hover,
+:active,
+:focus {
+  outline: 0;
+  outline: none;
+}
+section{
+  width: 100%;
+  padding: 20px 0;
+  float: left;
+  &.block{
+    margin-bottom: 0;
+  }
+  &.section-main-slider{
+    padding-top: 0;
+  }
+  header{
+    h2{
+      margin: 0 0 40px;
+      font-size: 2rem;
+    }
+  }
+}
+.container {
+  width: 100%!important;
+  margin: 0 auto;
+  @media (min-width: 1200px){
+    max-width: 1140px;
+  }
+}
+.container-fluid{
+  max-width: 1320px;
+}
+.fullwidth {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  clear: both;
+}
+select {
+  height: 36px;
+  padding: 8px;
+  text-overflow: ellipsis;
+  transition: .5s all ease;
+  &:hover{
+    border-color: #aaa;
+    color:$colorText;
+    outline: none;
+  }
+}
+input.input-text, select, textarea {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: $colorText;
+  ;
+  box-sizing: border-box;
+  border-radius: 0;
+  box-shadow: none;
+}
+.skip-content {
+  display: none;
+}
+.skip-links {
+  clear: both;
+  overflow: hidden;
+  border-top: 1px solid #ededed;
+  border-bottom: 1px solid #ededed;
+  &.header-mobile{
+    @media only screen and (min-width: 771px){
+      display: none;
+    }
+  }
+}
+.skip-link {
+  position: relative;
+  float: left;
+  width: 20%;
+  height: 44px;
+  background: #FFFFFF;
+  color: #000000;
+  line-height: 42px;
+  text-align: center;
+  @media only screen and (max-width: 770px){
+    border-right: 1px solid #ededed;
+  }
+  .icon{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 3px;
+  }
+}
+.skip-nav {
+  width: 20%;
+  text-align: left;
+  padding: 0 0 0 15px;
+  .icon{
+    background-position: 4px 4px;
+    margin-right: 3px;
+    background-image: url(../img/icons/icon_sprite.png);
+    background-repeat: no-repeat;
+    text-indent: -9999px;
+  }
+  label{
+    display: inline;
+  }
+}
+#scroll-to-top {
+  display: block;
+  position: fixed;
+  right: 1.5%;
+  width: 50px;
+  height: 50px;
+  border: 0 none;
+  z-index: 999999;
+  transition: all 1s;
+  background: url(../images/arrow-up-white.png) no-repeat center;
+  background-size: 20px;
+  background-color: #000;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0;
+  bottom: -60px;
+  border-radius: 50%;
+  &.show{
+    opacity: 1;
+    bottom: 20%;
+  }
+}
+h1, .h1{
+  margin: 0;
+  font-style: normal;
+  line-height: 1.2;
+  text-rendering: optimizeLegibility;
+  font-family: 'HuaweiFont-Bold';
+}

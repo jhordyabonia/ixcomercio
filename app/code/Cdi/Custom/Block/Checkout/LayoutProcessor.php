@@ -141,6 +141,128 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
         return $elements;
     }
 
+    public function afterProcess(MageLayoutProcessor $subject, $jsLayout)
+    {
+
+        /* config: checkout/options/display_billing_address_on = payment_method */
+        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+            ['payment']['children']['payments-list']['children']
+        )) {
+
+            foreach ($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                     ['payment']['children']['payments-list']['children'] as $key => $payment) {
+
+                
+                /* lastname */
+                if (isset($payment['children']['form-fields']['children']['lastname'])) {
+
+                    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+                    ['lastname']['visible'] = false;
+
+                    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+                    ['lastname']['value'] = "N/A";
+                }
+
+                
+                /* firstname */
+
+                $labelName = $this->scopeConfig->getValue('customer/address/billing_name_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+                ['firstname']['label'] = $labelName;
+
+
+                /* identification */
+                if (isset($payment['children']['form-fields']['children']['identification'])) {
+
+                    $labelIdentification = $this->scopeConfig->getValue('customer/address/billing_identification_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+                    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+                    ['identification']['label'] = $labelIdentification;
+                }
+
+                /* street */
+                if (isset($payment['children']['form-fields']['children']['street'])) {
+
+                    $labelStreet = $this->scopeConfig->getValue('customer/address/billing_address_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+                    $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['payments-list']['children'][$key]['children']['form-fields']['children']
+                    ['street']['label'] = $labelStreet;
+                }
+
+
+            }
+        }
+
+        /* config: checkout/options/display_billing_address_on = payment_page */
+        if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+            ['payment']['children']['afterMethods']['children']['billing-address-form']
+        )) {
+
+            /* lastname */
+            if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['lastname']
+            )) {
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['lastname']['visible'] = false;
+
+
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['lastname']['value'] = "N/A";
+
+                
+            }
+
+            /* firstname */
+            if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['firstname']
+            )) {
+                $labelName = $this->scopeConfig->getValue('customer/address/billing_name_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['firstname']['label'] = $labelName ;
+            }
+
+
+            /* identification */
+            if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['identification']
+            )) {
+                $labelIdentification = $this->scopeConfig->getValue('customer/address/billing_identification_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['identification']['label'] = $labelIdentification ;
+            }
+
+            /* firstname */
+            if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['street']
+            )) {
+                $labelStreet = $this->scopeConfig->getValue('customer/address/billing_address_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['afterMethods']['children']['billing-address-form']['children']['form-fields']
+                ['children']['street']['label'] = $labelStreet ;
+            }
+
+
+
+
+        }
+
+        return $jsLayout;
+    }
+
     /**
      * Process js Layout of block
      *
@@ -251,6 +373,16 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
         //customer-email
         $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['customer-email']['validation']['max_text_length'] = 70;
 
+
+        $country = $this->scopeConfig->getValue('general/country/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if($country == 'CO'){
+            //zone_id
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['zone_id']['validation']['required-entry'] = false;
+            $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']['shippingAddress']['children']['shipping-address-fieldset']['children']['zone_id']['visible'] = false;
+        }
+        
+
         
         return $jsLayout;
     }
@@ -346,6 +478,17 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
      */
     private function getBillingAddressComponent($paymentCode, $elements)
     {
+        $labelIdentification = $this->scopeConfig->getValue('customer/address/billing_identification_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $labelName = $this->scopeConfig->getValue('customer/address/billing_name_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $labelAddress = $this->scopeConfig->getValue('customer/address/billing_address_label',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        $limit_characters_fisrt = '15';
+        $country = $this->scopeConfig->getValue('general/country/default', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if($country == 'PE'){
+            $limit_characters_fisrt = '30';
+        }
+
         return [
             'component' => 'Magento_Checkout/js/view/billing-address',
             'displayArea' => 'billing-address-form-' . $paymentCode,
@@ -368,15 +511,22 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                         'checkoutProvider',
                         'billingAddress' . $paymentCode,
                         [
-                            'lastname' => [                                
+                            'lastname' => [
+                                'component' => 'Magento_Ui/js/form/element/abstract',
+                                'config' => [
+                                    "template" => "ui/form/element/hidden"
+                                ],
+                                "value" => "N/A",                                
                                 'validation' => [
                                     'max_text_length' => 40,
-                                ],
+                                    'required-entry' => false,
+                                ],                                
                             ],
                             'firstname' => [
                                 'validation' => [
-                                    'max_text_length' => 15,
-                                ],                                                                
+                                    'max_text_length' => $limit_characters_fisrt,
+                                ],
+                                'label' => $labelName,                                                                
                             ],
                             'country_id' => [
                                 'sortOrder' => 115,
@@ -427,8 +577,15 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                             ],
                             'identification'=> [
                                 'validation' => [
-                                    'max_text_length' => 1,
+                                    'max_text_length' => 18,
                                 ],
+                                'label' => $labelIdentification,
+                            ],
+                            'street'=> [
+                                'label' => $labelAddress,
+                            ],
+                            'zone_id' => [
+                                'visible' => false,
                             ],
                         ]
                     ),

@@ -6,6 +6,9 @@
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 $_product = $block->getProduct();
 $discount = $_helperCdi->getDiscount($_product);
+
+$helperGallery = $this->helper('Intcomex\GridImages\Helper\Data');
+$type = $helperGallery->getViewGallery();
 ?>
 <?php if ($discount != 0): 
     $discount = 100 - $discount; ?>
@@ -20,4 +23,10 @@ $discount = $_helperCdi->getDiscount($_product);
 <?php if ($_helperCdi->checkBestseller($_product)): ?>
     <span class="product-tag bestseller-tag"></span>
 <?php endif;
-echo $block->getRenderedHtml();
+
+if($type == "grid"){
+    echo $this->getLayout()->createBlock("Magento\Catalog\Block\Product\View\Gallery")->setTemplate("Intcomex_GridImages::product/view/gallery.phtml")->toHtml();
+}else{    
+    echo $block->getRenderedHtml();
+}
+

@@ -60,16 +60,28 @@
         </section>
         <section id="checkout">
             <group id="options">
-                <field id="show_invoice" translate="label" type="select" sortOrder="990" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="billing_show" translate="label" type="select" sortOrder="990" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mostrar desplegado formulario Billing</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="show_invoice" translate="label" type="select" sortOrder="994" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show invoice checkbox</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="invoice_default_value" translate="label" type="select" sortOrder="994" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="invoice_default_value" translate="label" type="select" sortOrder="995" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Invoice default value</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="invoice_label" translate="label" type="text" sortOrder="995" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="invoice_label" translate="label" type="text" sortOrder="996" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Invoice label</label>
+                </field>
+            </group>
+        </section>
+        <section id="productslider" >
+            <group id="general">
+                <field id="enabled_product_view" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Product View</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>                    
                 </field>
             </group>
         </section>

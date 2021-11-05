@@ -1,11 +1,13 @@
-<?php 
-namespace Intcomex\EventsObservers\Plugin\Api; 
+<?php
+
+namespace Intcomex\EventsObservers\Plugin\Api;
 
 use Cdi\Custom\Helper\Api as CdiApi;
+use Magento\Sales\Api\Data\OrderInterface;
+use Trax\Ordenes\Model\ResourceModel\IwsOrder\CollectionFactory as IwsOrderCollectionFactory;
 
-class OrderRepository {
-
-
+class OrderRepository
+{
     /**
      * Order feedback field name
      */
@@ -14,117 +16,157 @@ class OrderRepository {
     const CUSTOMER_ID = 'trax_general/catalogo_retailer/customer_id';
     const MIENVIO_QUOTE_ID = 'mienvio_quote_id';
     const SHIPPING_ADDRESS_ZONE = 'shipping_address_zone';
-	
+    const KEYWORD_TO_FILTER_TRACKING_DATA_IN_ORDER_COMMENTS = 'guía';
+
+    /**
+     * @var CdiApi
+     */
 	protected $_cdiHelper;
-   
-    public function __construct(CdiApi $cdiHelper)
-    {
+
+    /**
+     * @var IwsOrderCollectionFactory
+     */
+    protected $_iwsOrderCollectionFactory;
+
+    /**
+     * @param CdiApi $cdiHelper
+     * @param IwsOrderCollectionFactory $iwsOrderCollectionFactory
+     */
+    public function __construct(
+        CdiApi $cdiHelper,
+        IwsOrderCollectionFactory $iwsOrderCollectionFactory
+    ) {
         $this->_cdiHelper = $cdiHelper;
+        $this->_iwsOrderCollectionFactory = $iwsOrderCollectionFactory;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/apiOrder.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
     }
 
+    /**
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $subject
+     * @param $entity
+     * @return mixed
+     */
     public function afterGet(
         \Magento\Sales\Api\OrderRepositoryInterface $subject, 
         $entity
     ) {
-        $guide_number = array();
-        $trackin_url = array();
-        $url_pdf_guide = array();
-        $extensionAttributes = $entity->getExtensionAttributes();
-        
+        $configData = ['customer_id' => self::CUSTOMER_ID];
+        $customer_id = $this->_cdiHelper->getConfigParams($configData,$entity->getStore()->getCode());
         $order_billing = $entity->getBillingAddress()->getData();
         $order_shipping = $entity->getShippingAddress()->getData();
-        $order_paymet = $entity->getPayment()->getData();  
-        
+        $order_payment = $entity->getPayment()->getData();
         $mienvioQuoteId = $entity->getMienvioQuoteId();
-        $order_paymet = $entity->getPayment()->getData();
-        
-        $statusHistoryItem = $entity->getStatusHistoryCollection()->getFirstItem();
-        $comment = $statusHistoryItem->getComment();
-        $explode = explode("\n",$comment);
-        if(!empty($comment)){
-            $guide_number = (!empty($explode[2]))?$explode[2]:"";
-            $trackin_url = (!empty($explode[5]))?$explode[5]:"";
-            $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
-        }
 
-        $configData = array("customer_id"=>self::CUSTOMER_ID);
-        $customer_id = $this->_cdiHelper->getConfigParams($configData,$entity->getStore()->getCode());
+        $extensionAttributes = $entity->getExtensionAttributes();
 
         if ($extensionAttributes) {
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
-            $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
+            $extensionAttributes->setTransactionValueId( $order_payment['last_trans_id'] );
             $extensionAttributes->setMienvioQuoteId( $mienvioQuoteId );
             $extensionAttributes->setShippingAddressZone( $order_shipping['zone_id'] );
-            $extensionAttributes->setGuideNumber( $guide_number );
-            $extensionAttributes->setTrackingUrl( $trackin_url );
-            $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
+
+            $trackingData = $this->getTrackingData($entity);
+            $extensionAttributes->setGuideNumber( $trackingData['guide_number'] );
+            $extensionAttributes->setTrackingUrl( $trackingData['tracking_url'] );
+            $extensionAttributes->setUrlPdfGuide( $trackingData['url_pdf_guide'] );
             $extensionAttributes->setCustomerId( $customer_id );
+
             $entity->setExtensionAttributes( $extensionAttributes );
         }
+
         return $entity;
     }
 
-    /***
-
-    * Add "customer_feedback" extension attribute to order data object to make it accessible in Magento API data
-    *
-    * @param OrderRepositoryInterface $subject
-    * @param OrderSearchResultInterface $searchResult
-    *
-    * @return OrderSearchResultInterface
-    */
+    /**
+     * Add customer_feedback extension attribute to order data object to make it accessible in Magento API data
+     *
+     * @param \Magento\Sales\Api\OrderRepositoryInterface $subject
+     * @param \Magento\Sales\Api\Data\OrderSearchResultInterface $searchResult
+     * @return \Magento\Sales\Api\Data\OrderSearchResultInterface
+     */
     public function afterGetList(
         \Magento\Sales\Api\OrderRepositoryInterface $subject, 
-        \Magento\Sales\Api\Data\OrderSearchResultInterface $searchResult)
-    {
-        $guide_number = array();
-        $trackin_url = array();
-        $url_pdf_guide = array();
-
+        \Magento\Sales\Api\Data\OrderSearchResultInterface $searchResult
+    ) {
         $orders = $searchResult->getItems();
 
         foreach ($orders as &$order) {
 
-            $statusHistoryItem = $order->getStatusHistoryCollection()->getFirstItem();
-            $status = $statusHistoryItem->getStatusLabel();
-            $comment = $statusHistoryItem->getComment();
-            $explode = explode("\n",$comment);
-            if(!empty($comment)){
-                $guide_number = (!empty($explode[2]))?$explode[2]:"";
-                $trackin_url = (!empty($explode[5]))?$explode[5]:"";
-                $url_pdf_guide = (!empty($explode[8]))?$explode[8]:"";
-            }
-            
-            $billing_identification = $order->getData(self::BILLING_ADDRESS_IDENTIFICACTION);
-
-            $extensionAttributes = $order->getExtensionAttributes();
-            $extensionAttributes = $extensionAttributes ? $extensionAttributes : $this->extensionFactory->create();
-            
-
+            $configData = ['customer_id' => self::CUSTOMER_ID];
+            $customer_id = $this->_cdiHelper->getConfigParams($configData,$order->getStore()->getCode());
             $order_billing = $order->getBillingAddress()->getData();
             $order_shipping = $order->getShippingAddress()->getData();
-            $order_paymet = $order->getPayment()->getData();
-            
-            $configData = array("customer_id"=>self::CUSTOMER_ID);
-            $customer_id = $this->_cdiHelper->getConfigParams($configData,$order->getStore()->getCode());
-            $mienvioQuoteId = $order->getMienvioQuoteId();            
+            $order_payment = $order->getPayment()->getData();
+            $mienvioQuoteId = $order->getMienvioQuoteId();
+
+            $extensionAttributes = $order->getExtensionAttributes();
 
             $extensionAttributes->setBillingAddressIdentification( $order_billing['identification'] );
-            $extensionAttributes->setTransactionValueId( $order_paymet['last_trans_id'] );
+            $extensionAttributes->setTransactionValueId( $order_payment['last_trans_id'] );
             $extensionAttributes->setMienvioQuoteId( $mienvioQuoteId );
             $extensionAttributes->setShippingAddressZone( $order_shipping['zone_id'] );
 
-            $extensionAttributes->setGuideNumber( $guide_number );
-            $extensionAttributes->setTrackingUrl( $trackin_url );
-            $extensionAttributes->setUrlPdfGuide( $url_pdf_guide );
+            $trackingData = $this->getTrackingData($order);
+            $extensionAttributes->setGuideNumber( $trackingData['guide_number'] );
+            $extensionAttributes->setTrackingUrl( $trackingData['tracking_url'] );
+            $extensionAttributes->setUrlPdfGuide( $trackingData['url_pdf_guide'] );
             $extensionAttributes->setCustomerId( $customer_id );
-            
+
             $order->setExtensionAttributes($extensionAttributes);
         }
 
         return $searchResult;
+    }
+
+    /**
+     * Returns tracking data.
+     *
+     * @param OrderInterface $order
+     * @return array
+     */
+    protected function getTrackingData(OrderInterface $order): array
+    {
+        $trackingData = [
+            'guide_number'  => '',
+            'tracking_url'  => '',
+            'url_pdf_guide' => ''
+        ];
+
+        // Filter by comments related with tracking
+        $comments = $order->getStatusHistoryCollection()
+            ->addFieldToFilter(
+                'comment',
+                [
+                    'like' => '% ' . self::KEYWORD_TO_FILTER_TRACKING_DATA_IN_ORDER_COMMENTS . ' %'
+                ]
+            )->getData();
+
+        // Try to get tracking data from order comment's
+        foreach ($comments as $comment){
+            $explode = explode(PHP_EOL, $comment['comment']);
+            if ($explode) {
+                $realTrackingNumber = '';
+                if (!empty($explode[2])) {
+                    $stringGuideNumber = explode(' ', $explode[2]);
+                    $realTrackingNumber = $stringGuideNumber ? end($stringGuideNumber) : '';
+                }
+                $trackingData['guide_number']  = $realTrackingNumber;
+                $trackingData['tracking_url']  = (!empty($explode[5])) ? $explode[5]: '';
+                $trackingData['url_pdf_guide'] = (!empty($explode[8])) ? $explode[8]: '';
+            }
+        }
+
+        // If exists tracking_number in iws_order.mienvio_upload_resp sets this number
+        $iwsOrder = $this->_iwsOrderCollectionFactory->create()
+            ->addFieldToFilter('order_id', $order->getId())
+            ->getFirstItem();
+        $miEnvioResponse = unserialize($iwsOrder->getMienvioUploadResp());
+        if (isset($miEnvioResponse['tracking_number'])) {
+            $trackingData['guide_number'] = $miEnvioResponse['tracking_number'];
+        }
+
+        return $trackingData;
     }
 }

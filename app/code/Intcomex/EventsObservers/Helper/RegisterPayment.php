@@ -81,28 +81,39 @@ class RegisterPayment extends AbstractHelper
      //Función recursiva para intentos de conexión
      public function beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
         //Se conecta al servicio 
-        $this->logger->info('loadIwsService - Inicio');                    
-        $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
-        $this->logger->info('loadIwsService - Fin');
+        $this->logger->info('loadIwsService - Inicio'); 
         
-        if($data['status']){     
-            //Mapear orden de magento con IWS en tabla custom
-            $this->addOrderComment($order->getId(), 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data['resp'][0]->PaymentId, 'RegisterPayment');
-            $this->initReleaseOrder($order->getId(), $configData, $order, $storeCode);
-        } else {
-            if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
-                if($configData['pagos_reintentos']>$attempts){
-                    $attempts++;
-                    $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
-                    sleep($configData['timeout']);
-                    $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
-                } else{
-                    $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
-                    $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
-                    $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+        // se obtiene el iws order
+        $iws_idorder = $this->getIwsOrderId($order->getIncrementId());
+
+        if($iws_idorder){
+
+            $data = $this->loadIwsService($serviceUrl, $payload, 'RegisterPayment');
+                        
+            if($data['status']){     
+                //Mapear orden de magento con IWS en tabla custom
+                $this->addOrderComment($order->getId(), 'Se genero información de pago interno en IWS. Pago Interno IWS #'.$data['resp'][0]->PaymentId, 'RegisterPayment');
+                $this->saveRegisterPaymentIwsOrder($order->getIncrementId());
+                $this->initReleaseOrder($order->getId(), $configData, $order, $storeCode);
+            } else {
+                if(strpos((string)$configData['errores'], (string)$data['status_code']) !== false){
+                    if($configData['pagos_reintentos']>$attempts){
+                        $attempts++;
+                        $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl.' Se esperan '.$configData['timeout'].' segundos para reintento de conexión. Se reintenta conexión #'.$attempts.' con el servicio.');
+                        sleep($configData['timeout']);
+                        $this->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storeCode, $attempts);
+                    } else{
+                        $this->logger->info('RegisterPayment - Error conexión: '.$serviceUrl);
+                        $this->logger->info('RegisterPayment - Se cumplieron el número de reintentos permitidos ('.$attempts.') con el servicio: '.$serviceUrl.' se envia notificación al correo '.$configData['pagos_correo']);
+                        $this->helper->notify('Soporte Trax', $configData['pagos_correo'], $configData['pagos_reintentos'], $serviceUrl, $payload, $storeCode);
+                    }
                 }
-            }
-        }  
+            }  
+        }else{
+            $this->logger->info('RegisterPayment - Para la orden: '.$order->getIncrementId().', ya existe un RegisterPayment en Trax con el id:'.$iws_idorder);
+        }
+
+        $this->logger->info('loadIwsService - Fin');
 
     }
 
@@ -344,6 +355,63 @@ class RegisterPayment extends AbstractHelper
             $this->logger->info('RegisterPayment - Error al obtener información de la orden con ID: '.$orderId);
         }
 	}
+
+    /*
+    * Return id IWS order
+    * @author Johan Martinez
+    * @param $order_id  Id order Magento
+    * @return int id IWS
+    */
+    public function getIwsOrderId($order_id){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+        $connection = $resource->getConnection();
+        $tableName = $resource->getTableName('iws_order');
+        //Select Data from table
+        $sql = "Select * FROM " . $tableName." where order_increment_id='".$order_id."' AND register_payment = 0";
+
+        $this->logger->info('RegisterPayment - iws_order sql '.$sql);
+
+        if(!$connection){
+            $this->logger->info('RegisterPayment - No hay conexion a la tabla  iws_order');
+            return false;
+        }else {
+            $trax = $connection->fetchAll($sql);
+
+            $this->logger->info('RegisterPayment - iws_order result '.json_encode($trax));
+
+            $mp_order = 0;
+            foreach ($trax as $key => $data) {
+                $mp_order = $data['iws_order'];
+            }
+            $this->logger->info('RegisterPayment - Order IWS '.$mp_order);
+
+            if($mp_order!=0) {
+                return $mp_order;
+            }else{
+                return false;
+            }
+        }
+    }
+
+
+    //Se guarda información de IWS en tabla custom
+    public function saveRegisterPaymentIwsOrder( $orderIncrementId) 
+    {
+		$model = $this->_iwsOrder->create();
+
+
+        $_iwsorder = $model->load($orderIncrementId,"order_increment_id");
+        $_iwsorder->setRegisterPayment(1);
+        
+        $saveData = $_iwsorder->save();
+		
+        if($saveData){
+            $this->logger->info('RegisterPayment - Se actualizo la orden de IWS: '.$orderIncrementId);
+        } else {
+            $this->logger->info('RegisterPayment - Se produjo un error al guardar la orden de IWS: '.$orderNumber);
+        }
+    }
 
 
    

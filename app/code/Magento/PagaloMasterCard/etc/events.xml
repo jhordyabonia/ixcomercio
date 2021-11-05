@@ -1,0 +1,5 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="payment_method_assign_data_pagalomastercard">
+        <observer name="pagalomastercard_data_assign" instance="Magento\PagaloMasterCard\Observer\DataAssignObserver" />
+    </event>
+</config>

@@ -135,6 +135,7 @@
       .payment-method-title{
         display: none;
       }
+
     }
     .payment-option{
       .form{
@@ -189,6 +190,9 @@
     font-weight: bold;
   }
   .opc-summary-wrapper{
+    #modal-content-17{
+      margin-top: 16px;
+    }
     .modal-content{
       border-radius: 0;
       @media (min-width: $tablet){
@@ -338,10 +342,17 @@
     margin-left: 20px;
   }
   .custom_alert{
+    color: #000!important;
+    padding: .5rem .5rem .5rem .5rem;
     border-radius: .7rem;
+    border: 1px solid $mainColor !important;
+    margin-bottom: 10px;
     font-weight: 700;
-    width: 40px;
-    display: none !important; 
+    background-color: #fff;
+  }
+  .custom_alert .icon {
+      width: 40px;
+      margin-right: .8rem;
   }
   .address_container{
     border: 1px solid #000;
@@ -378,6 +389,12 @@
   }
   .billing-address-same-as-shipping-block{
     padding-top: 10px;
+    display: inline-block;
+    label{
+      float: right;
+      width: 96%;
+    }
+    }
   }
 
   #shipping .step-title{
@@ -432,12 +449,12 @@
     box-shadow: 0px 3px 6px #00000029;
     border: 2px solid #CFCBCB;
     overflow: hidden;
+    margin-top:20px;
 
     label{
       margin-bottom: 0;
-      text-transform: uppercase;
-      font-size: 14px;
-      font-family: Barlow,sans-serif;
+      font-size: 14px !important;
+      font-family: 'Barlow',sans-serif !important;
     }
   }
 
@@ -451,12 +468,14 @@
 
   .payment-group-item{
     border-bottom: 2px solid #DDDDDD;
-    font-family: 'Barlow', sans-serif;
+    font-family: 'Barlow', sans-serif !important;
 
     a{
       color:#000000;
       background-color: #FFFFFF;
       text-decoration: none;
+      padding: 1.3rem 1.0rem !important;
+      background-position: 95% center !important;
     }
 
     &.debitcard{
@@ -527,7 +546,6 @@
       }
     }
   }
-}
 
 .mp-box-inputs.mp-col-33 {
   width: 31%;
@@ -590,7 +608,18 @@
   .page-title-wrapper h2{
     font-size: 24px;
   }
-
+  .mp-box-inputs.margin-r{
+    margin-right: 0;
+  }
+  .margin-r.margin-mv {
+    margin-right: 4%;
+}
+.mp-box-inputs.mp-col-33 {
+  width: 48%;
+}
+.mp-box-inputs.mp-col-33.mv-col-100 {
+  width: 100%;
+}
 }
 
 @media (max-width: 380px) {
@@ -616,6 +645,9 @@
   .mp-box-inputs.margin-mv{
     margin-right: 4%;
   }
+  .mp-box-inputs.mp-col-31, .mp-box-inputs.mp-col-70 {
+    width: 100%;
+}
 
 }
 
@@ -635,4 +667,8 @@
 #applyCouponCard, #applyCouponTicket{
   background-color: $colorBottom !important;
   border-color: $colorBottom !important;
+}
+
+form#co-payment-form .fieldset > .legend + br{
+  display: none;
 }
