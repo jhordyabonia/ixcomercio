@@ -173,7 +173,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
         $freeShippingSet = $shippingAddress->getFreeShipping();
 
-
+        $quoteId = $cart->getQuote()->getId();
+        $class = 'Intcomex\MienvioRewrites\Model\Carrier\Mienviorates';
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/FreeShipping.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $this->_loggerFreeShipping = $logger;
 
         $shippingAddress = $cart->getQuote()->getShippingAddress();
         $rateResponse = $this->_rateResultFactory->create();
@@ -303,12 +308,15 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 }
 
                 $method->setMethodTitle($rate['servicelevel'].' - '.((isset($rate['duration_terms']))?$rate['duration_terms']:''));
+                $this->_loggerFreeShipping->debug("QuoteId:: $quoteId Class:: $class Method:: " . 'collectRates() $freeShippingSet:: ' . $freeShippingSet);
                 if($freeShippingSet){
                     $method->setPrice(0);
                     $method->setCost(0);
+                    $this->_loggerFreeShipping->debug("QuoteId:: $quoteId Class:: $class Method:: " . 'collectRates() $method->setPrice(0) $method->setCost(0)');
                 }else{
                     $method->setPrice($rate['cost']);
                     $method->setCost($rate['cost']);
+                    $this->_loggerFreeShipping->debug("QuoteId:: $quoteId Class:: $class Method:: " . 'collectRates() $method->setPrice() $method->setCost():: ' . $rate['cost']);
                 }
 
                 if($tradeIn&&!isset($rate[$campoMienvio])){
