@@ -216,7 +216,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress implements
     protected $addressDataFactory;
 
     /**
-     * @var Address\Validator
+     * @var \Magento\Quote\Model\Quote\Address\Validator
      */
     protected $validator;
 
@@ -226,17 +226,17 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress implements
     protected $addressMapper;
 
     /**
-     * @var Address\RateRequestFactory
+     * @var \Magento\Quote\Model\Quote\Address\RateRequestFactory
      */
     protected $_rateRequestFactory;
 
     /**
-     * @var Address\CustomAttributeListInterface
+     * @var \Magento\Quote\Model\Quote\Address\CustomAttributeListInterface
      */
     protected $attributeList;
 
     /**
-     * @var TotalsCollector
+     * @var \Magento\Quote\Model\Quote\TotalsCollector
      */
     protected $totalsCollector;
 
@@ -270,20 +270,20 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress implements
      * @param RegionInterfaceFactory $regionDataFactory
      * @param \Magento\Framework\Api\DataObjectHelper $dataObjectHelper
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param Address\ItemFactory $addressItemFactory
+     * @param \Magento\Quote\Model\Quote\Address\ItemFactory $addressItemFactory
      * @param \Magento\Quote\Model\ResourceModel\Quote\Address\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Quote\Model\Quote\Address\RateFactory $addressRateFactory
-     * @param Address\RateCollectorInterfaceFactory $rateCollector
+     * @param \Magento\Quote\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollector
      * @param \Magento\Quote\Model\ResourceModel\Quote\Address\Rate\CollectionFactory $rateCollectionFactory
-     * @param Address\RateRequestFactory $rateRequestFactory
-     * @param Address\Total\CollectorFactory $totalCollectorFactory
-     * @param Address\TotalFactory $addressTotalFactory
+     * @param \Magento\Quote\Model\Quote\Address\RateRequestFactory $rateRequestFactory
+     * @param \Magento\Quote\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory
+     * @param \Magento\Quote\Model\Quote\Address\TotalFactory $addressTotalFactory
      * @param \Magento\Framework\DataObject\Copy $objectCopyService
      * @param \Magento\Shipping\Model\CarrierFactoryInterface $carrierFactory
-     * @param Address\Validator $validator
+     * @param \Magento\Quote\Model\Quote\Address\Validator $validator
      * @param \Magento\Customer\Model\Address\Mapper $addressMapper
-     * @param Address\CustomAttributeListInterface $attributeList
-     * @param TotalsCollector $totalsCollector
+     * @param \Magento\Quote\Model\Quote\Address\CustomAttributeListInterface $attributeList
+     * @param \Magento\Quote\Model\Quote\TotalsCollector $totalsCollector
      * @param \Magento\Quote\Model\Quote\TotalsReader $totalsReader
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
@@ -318,9 +318,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress implements
         \Magento\Quote\Model\Quote\Address\TotalFactory $addressTotalFactory,
         \Magento\Framework\DataObject\Copy $objectCopyService,
         \Magento\Shipping\Model\CarrierFactoryInterface $carrierFactory,
-        Address\Validator $validator,
+        \Magento\Quote\Model\Quote\Address\Validator $validator,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        Address\CustomAttributeListInterface $attributeList,
+        \Magento\Quote\Model\Quote\Address\CustomAttributeListInterface $attributeList,
         \Magento\Quote\Model\Quote\TotalsCollector $totalsCollector,
         \Magento\Quote\Model\Quote\TotalsReader $totalsReader,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,

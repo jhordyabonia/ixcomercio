@@ -81,7 +81,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     protected $priceCurrency;
 
     /**
-     * @var Validator\Pool
+     * @var \Magento\SalesRule\Model\Validator\Pool
      */
     protected $validators;
 
@@ -102,10 +102,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param Utility $utility
-     * @param RulesApplier $rulesApplier
+     * @param \Magento\SalesRule\Model\Utility $utility
+     * @param \Magento\SalesRule\Model\RulesApplier $rulesApplier
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
-     * @param Validator\Pool $validators
+     * @param \Magento\SalesRule\Model\Validator\Pool $validators
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
