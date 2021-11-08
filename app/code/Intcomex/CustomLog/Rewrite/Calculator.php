@@ -12,6 +12,7 @@
 namespace Intcomex\CustomLog\Rewrite;
 
 use Magento\SalesRule\Model\Validator;
+use Magento\OfflineShipping\Model\SalesRule\Rule;
 
 /**
  * @api

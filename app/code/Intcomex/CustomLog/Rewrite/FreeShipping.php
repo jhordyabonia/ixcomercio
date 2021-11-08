@@ -7,8 +7,6 @@ declare(strict_types=1);
 
 namespace Intcomex\CustomLog\Rewrite;
 
-use Magento\OfflineShipping\Model\SalesRule\Calculator;
-use Magento\OfflineShipping\Model\SalesRule\ExtendedCalculator;
 use Magento\Quote\Model\Quote\Address\FreeShippingInterface;
 use Magento\Quote\Model\Quote\Item\AbstractItem;
 use Magento\Store\Model\StoreManagerInterface;
@@ -16,7 +14,7 @@ use Magento\Store\Model\StoreManagerInterface;
 class FreeShipping implements FreeShippingInterface
 {
     /**
-     * @var ExtendedCalculator
+     * @var \Intcomex\CustomLog\Rewrite\Calculator
      */
     protected $calculator;
 
@@ -27,11 +25,11 @@ class FreeShipping implements FreeShippingInterface
 
     /**
      * @param StoreManagerInterface $storeManager
-     * @param Calculator $calculator
+     * @param \Intcomex\CustomLog\Rewrite\Calculator $calculator
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        Calculator $calculator
+        \Intcomex\CustomLog\Rewrite\Calculator $calculator
     ) {
         $this->storeManager = $storeManager;
         $this->calculator = $calculator;
