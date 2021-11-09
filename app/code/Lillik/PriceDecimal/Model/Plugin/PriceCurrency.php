@@ -42,18 +42,15 @@ class PriceCurrency extends PriceFormatPluginAbstract
             $whole = floor($price);      
             $fraction = $price - $whole;
 
-            if($fraction > 0){
-            
-                return $price;
-                
-            }else{                    
+            if($fraction < 0){          
                 
                 $_price = $this->truncar($price,0);
-                return $_price;
+                $price = $_price;
             }
         }
 
-        //return round($price, $this->getPricePrecision());
+        return $proceed($price);
+        
          
     }
 

@@ -175,7 +175,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 'id_producto'   => 'product01',
                 'cantidad'      => '1',
                 'tipo'              => 'product',
-                'nombre'            => $detalle_nombre,
+                'nombre'            => $order->getIncrementId().' | '.$detalle_nombre,
                 'precio'            => $order->getGrandTotal(),
                 'Subtotal'      => $order->getGrandTotal(),
             );
