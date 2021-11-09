@@ -44,12 +44,20 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $orderId =  $this->_checkoutSession->getLastOrderId();
-            $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId)->getData();
-            
+            $order = $objectManager->get('\Magento\Sales\Model\Order')->load($orderId);
+
+            $billingAddress = $order->getBillingAddress();
+            $arrayData['firstname'] = $billingAddress->getFirstname();
+            $arrayData['lastname'] = $billingAddress->getLastname();
+            $arrayData['email'] = $billingAddress->getEmail();
+            $arrayData['phone'] = $billingAddress->getTelephone();
+            $arrayData['address1'] = isset($billingAddress->getStreet()[0]) ? $billingAddress->getStreet()[0] : '';
+            $arrayData['address2'] = isset($billingAddress->getStreet()[1]) ? $billingAddress->getStreet()[1] : '';
+
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/key_id',ScopeInterface::SCOPE_STORE);
             $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
-            $arrayData['amount'] = number_format($order['grand_total'],2,".","");
-            $arrayData['orderid'] = $order['increment_id']; 
+            $arrayData['amount'] = number_format($order->getGrandTotal(),2,".","");
+            $arrayData['orderid'] = $order->getIncrementId();
 
             $this->logger->info('Data send to credomatic');
             $this->logger->info(print_r($arrayData,true));
@@ -60,7 +68,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['data3'] = $this->encrypt(str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4));
             $dataToPost = array();
             $dataToPost['info'] = http_build_query($arrayData);
-            $dataToPost['orderid'] = $order['increment_id'];
+            $dataToPost['orderid'] = $order->getIncrementId();
 
         } catch (\Exception $e) {
              
