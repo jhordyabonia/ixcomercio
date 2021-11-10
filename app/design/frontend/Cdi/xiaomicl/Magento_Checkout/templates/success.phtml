@@ -2,6 +2,9 @@
 $status = "";
 $method = "";
 $orderId = $block->getRealOrderId();
+if(isset($_GET['external_reference'])){
+    $orderId = $_GET['external_reference'];
+}
 $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
 $order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
