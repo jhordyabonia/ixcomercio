@@ -3,19 +3,29 @@ $status = "";
 $method = "";
 $orderId = $block->getRealOrderId();
 $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
-$order = $_mienvioHelper->getOrderDetails($orderId);
+
+if(isset($_GET['external_reference'])){
+    $order = $_mienvioHelper->getOrderDetailByIncrementId($_GET['external_reference']);
+}else{
+    $order = $_mienvioHelper->getOrderDetails($orderId);
+}
+
 $billingAddress = $order->getBillingAddress();
 $payment = $order->getPayment();
 if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
-    $method = $payment->getAdditionalInformation()['method'];
+    if(isset($_GET['external_reference'])){
+        $method = $payment->getData()['method'];
+    }else{
+        $method = $payment->getAdditionalInformation()['method'];
+    }
 }
 
 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
-
+ 
 ?>
 <div class="checkout-success">
-<?php if(!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending'){ ?>
+<?php if((!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending')||!empty($method) && !empty($status) && $method == 'mercadopago_basic' && $status == 'pending'){ ?>
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
@@ -66,7 +76,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
         </div>
     </div>
 <?php
-}elseif( !empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved'){
+}elseif(( !empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved')|| !empty($method) && !empty($status) && $method == 'mercadopago_basic' && $status == 'approved'){
 ?>
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="page-title-wrapper">
@@ -89,7 +99,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                     <p>Tu número de pedido es <strong><?php echo $block->getOrderId(); ?></strong></p>
                     <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
                     <div class="actions-toolbar">
-                        <div class="primary" style="float: none !important;">
+                        <div class="primary">
                             <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                         </div>
                     </div>
@@ -113,7 +123,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                 <?= $block->getAdditionalInfoHtml() ?>
 
                 <div class="actions-toolbar">
-                    <div class="primary" style="float: none !important;">
+                    <div class="primary">
                         <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                     </div>
                 </div>
