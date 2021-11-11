@@ -146,6 +146,15 @@
           .actions-primary{
             width: 100%;
             display: block;
+            .action.tocart.primary{
+              border-radius: 50px;
+              background: #6fccde;
+              color: #383736;
+              font-weight: 500;
+              & :hover{
+                box-shadow:3px 6px 12px 0 rgb(0 0 0 / 32%);
+              }
+            }
           }
           .actions-secondary{
             top: 5px;
