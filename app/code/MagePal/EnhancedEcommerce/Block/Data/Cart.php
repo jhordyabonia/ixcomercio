@@ -7,6 +7,7 @@
 
 namespace MagePal\EnhancedEcommerce\Block\Data;
 
+use Cdi\Custom\Helper\Data as CdiData;
 use Magento\Catalog\Helper\Data as CatalogData;
 use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\Exception\LocalizedException;
@@ -37,8 +38,8 @@ class Cart extends CatalogLayer
      * @param Data $eeHelper
      * @param GtmHelper $gtmHelper
      * @param ProductImpressionProvider $productImpressionProvider
+     * @param CdiData $cdiData
      * @param array $data
-     * @throws NoSuchEntityException
      */
     public function __construct(
         Context $context,
@@ -49,6 +50,7 @@ class Cart extends CatalogLayer
         Data $eeHelper,
         GtmHelper $gtmHelper,
         ProductImpressionProvider $productImpressionProvider,
+        CdiData $cdiData,
         array $data = []
     ) {
         parent::__construct(
@@ -59,6 +61,7 @@ class Cart extends CatalogLayer
             $gtmHelper,
             $eeHelper,
             $productImpressionProvider,
+            $cdiData,
             $data
         );
 

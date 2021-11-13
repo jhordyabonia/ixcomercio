@@ -140,6 +140,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             );
             $str_empresa = json_encode($empresa);
             $cliente= array(
+                'order_id' => $order->getIncrementId(),
                 'firstName' => html_entity_decode($billing->getFirstname(), ENT_QUOTES, 'UTF-8'),
                 'lastName' => html_entity_decode($billing->getLastname(), ENT_QUOTES, 'UTF-8'),
                 'street1'=> html_entity_decode($billing->getStreetLine(1), ENT_QUOTES, 'UTF-8'),
@@ -175,7 +176,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 'id_producto'   => 'product01',
                 'cantidad'      => '1',
                 'tipo'              => 'product',
-                'nombre'            => $detalle_nombre,
+                'nombre'            => $order->getIncrementId().' | '.$detalle_nombre,
                 'precio'            => $order->getGrandTotal(),
                 'Subtotal'      => $order->getGrandTotal(),
             );
@@ -247,12 +248,15 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
             $this->_pagaloLogger->info('URL: ' . $url );
             $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
-            sleep(2);
+
             if(isset($result->infotran)){
                 if(isset($result->infotran->authorizationNumber)){
                     $payment->setLastTransId($result->infotran->authorizationNumber);
-                    $this->_pagaloLogger->info('setLastTransId : ' . $payment->getLastTransId() ); 
+                    $this->_pagaloLogger->info('setLastTransId (authorizationNumber): ' . $payment->getLastTransId());
                 }
+            } else if(isset($result->transaccion)) {
+                $payment->setLastTransId($result->transaccion);
+                $this->_pagaloLogger->info('setLastTransId (transaccion): ' . $payment->getLastTransId());
             }
 
             $errorMsg = '';
@@ -262,7 +266,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             if($customError != '') {
                 $showCustomError = true;
             }
-            $this->_pagaloLogger->info($customError );
+
             if(property_exists($result, 'reasonCode')) {
                 if($result->reasonCode != '00' && $result->reasonCode != '100'){
                     $errorMsg = "Error al procesar el pago. ";
@@ -513,7 +517,10 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 }
                 throw new \Magento\Framework\Exception\LocalizedException(__($customError));
             }
-            $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg);
+
+            if ($errorMsg !== '') {
+                $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg . '. Custom error: ' . $customError);
+            }
         } catch (\Exception $e) {
             $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);
             $error = __('Payment capturing error pagalo:'); 
