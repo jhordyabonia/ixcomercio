@@ -7,18 +7,16 @@ $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
 if(isset($_GET['external_reference'])){
     $order = $_mienvioHelper->getOrderDetailByIncrementId($_GET['external_reference']);
 }else{
-    $order = $_mienvioHelper->getOrderDetails($orderId);
+    $order = $_mienvioHelper->getLastRealOrder($orderId);
 }
 
 $billingAddress = $order->getBillingAddress();
 $payment = $order->getPayment();
+
 if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
-    if(isset($_GET['external_reference'])){
-        $method = $payment->getData()['method'];
-    }else{
-        $method = $payment->getAdditionalInformation()['method'];
-    }
+    $method = $payment->getData()['method'];
+   
 }
 
 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
