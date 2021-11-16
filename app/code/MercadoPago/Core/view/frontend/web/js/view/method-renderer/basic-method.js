@@ -1,13 +1,13 @@
 define(
   [
     'Magento_Checkout/js/view/payment/default',
-    'mage/translate'
+    'mage/translate',
+    'jquery',
   ],
-  function (Component, $t) {
+  function (Component, $t,$) {
     'use strict';
 
     let configPayment = window.checkoutConfig.payment.mercadopago_basic;
-
     return Component.extend({
       defaults: {
         template: 'MercadoPago_Core/payment/basic_method',
@@ -26,6 +26,8 @@ define(
 
       afterPlaceOrder: function () {
         window.location = this.getActionUrl();
+        console.log('this.getActionUrl()');
+        console.log(this.getActionUrl());
       },
 
       placePendingPaymentOrder: function () {
@@ -33,7 +35,33 @@ define(
       },
       initialize: function () {
         this._super();
+        //this.updateMenu();
       },
+      updateMenu: function () {
+        console.log('test menu basic method');
+        var menu = $("#payment_methods_menu").find('ul');
+
+        var code_payment = this.getCode();
+
+        $(menu).append('<li role="presentation" class="payment-group-item basic"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+this.getTitle()+'</a></li>');
+
+
+        jQuery(document).on('click', `#payment_methods_menu ul li a#link-`+code_payment, function (event) {
+            var data = $(this).attr('data-code');
+
+            $('#'+data).trigger( "click" );
+
+            if($(this).parent().hasClass('active')){
+
+            }else{
+                $(menu).find('li.active').removeClass('active');
+                $(this).parent().addClass('active');
+            }
+
+        });
+
+
+    },
 
       getCode: function () {
         return 'mercadopago_basic';
