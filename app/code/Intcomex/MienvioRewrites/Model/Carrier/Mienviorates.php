@@ -287,7 +287,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $method->setCode('');
                 }
 
-                $method->setMethodTitle($rate['servicelevel'].' - '.$rate['duration_terms']);
+                $method->setMethodTitle($rate['servicelevel'].' - '.((isset($rate['duration_terms']))?$rate['duration_terms']:''));
                 if($freeShippingSet){
                     $method->setPrice(0);
                     $method->setCost(0);
@@ -723,6 +723,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
      */
     private function getOrderDefaultMeasures($items)
     {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $packageVolWeight = 0;
         $orderLength = 0;
         $orderWidth = 0;
@@ -735,7 +736,10 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
             $iws_type = "";
             $productName = $item->getName();
             $orderDescription .= $productName . ' ';
-            $product = $this->getProductByName($productName);
+
+            $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		    $product = $productRepository->get($item->getSku());
+
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/LogerKits.log');
             $this->_loggerKit = new \Zend\Log\Logger();
             $this->_loggerKit->addWriter($writer);
@@ -861,18 +865,26 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
     }
 
     private function checkVirtualProducts($items){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            
         try{
             foreach ($items as $item) {
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $productName = $item->getName();
-                $product = $objectManager->create('Magento\Catalog\Model\Product')->loadByAttribute('name', $productName);
+                
+                $productRepository = $objectManager->get('\Magento\Catalog\Model\ProductRepository');
+		        $product = $productRepository->get($item->getSku());
 
-                if($product->getData('ts_dimensions_length') != 0 && $product->getData('ts_dimensions_length') != null) {
+                $ressource = $product->getResource();
+                $store = $this->_storeManager->getStore();
+                $ts_dimensions_length = $ressource->getAttributeRawValue($product->getId(),'ts_dimensions_length',$store->getId());
+                $length = $ressource->getAttributeRawValue($product->getId(),'length',$store->getId());
+
+                
+                if($ts_dimensions_length != 0 && $ts_dimensions_length != null) {
                     return false;
-                }else if($product->getData('length') != 0 && $product->getData('length') != null){
+                }else if($length != 0 && $length != null){
                     return false;
                 }else{
-                    return true;
+                    return false;
                 }
             }
         } catch (\Exception $e) {

@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+/**
+* PagaloMasterCard admin configuration
+*
+* @category    PagaloMasterCard
+* @package     PagaloMasterCard
+* @author      PagaloMasterCard
+* @copyright   PagaloMasterCard (https://www.pagalo.com/)
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="pagalomastercard" translate="label" type="text" sortOrder="54" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Pagalo MasterCard</label>
+                <comment>
+                    <![CDATA[<a href="https://app.pagalocard.com/login" target="_blank">Click aquí para acceder a su cuenta Pagalo</a>]]>
+                </comment>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Activado</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Título</label>
+                </field>
+                <field id="BusinessId" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>IdenEmpresa</label>
+                </field>
+                <field id="APIToken" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Token</label>
+                </field>
+                <field id="APIKey" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Llave Publica</label>
+                </field>
+                <field id="APISecret" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Llave Secreta</label>
+                </field>
+ 
+ <!--
+                <field id="MerchantID" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Merchant ID</label>
+                    <comment>Utiliza "visanetgt_jupiter" cuando se está utilizando la llave de pagalo, en caso contrario utilizar el merchantID de la llave propia.</comment>
+                </field>
+-->
+
+                <field id="PGModalidad" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Modalidad</label>
+                    <comment><![CDATA[Siempre utiliza <strong>Cyber Source</strong>, a menos que cuentes con llave propia EPAY]]></comment>
+                    <source_model>Magento\PagaloMasterCard\Model\Config\Source\PGModalidad</source_model>
+                </field>
+                <field id="PGCuotasOptions" translate="label" type="multiselect" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Pago en Cuotas Disponibles</label>
+                    <source_model>Magento\PagaloMasterCard\Model\Config\Source\PGCuotasOptions</source_model>
+                </field>
+                <field id="PGCustomErrorMsg" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Mensaje de error personalizado.</label>
+                    <comment><![CDATA[Llena este campo solamente si prefieres mostrar un mensaje de error personalizado al ser rechazada la transaccion, en lugar de mostrar los mensajes de Pagalo.]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -110,6 +110,10 @@ class GetCatalog
      * @var \Magento\Store\Api\StoreRepositoryInterface
      */
     protected $_storesRepository;
+    /**
+     * @var \Zend\Log\Logger
+     */
+    private $logger_price;
 
     /**
      * class construct.
@@ -142,6 +146,14 @@ class GetCatalog
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
 
+        //logs product price
+        $writer_price = new \Zend\Log\Writer\Stream(BP . '/var/log/automatic_price_change.log');
+        $this->logger_price = new \Zend\Log\Logger();
+        $this->logger_price->addWriter($writer_price);
+
+
+
+
         $this->scopeConfig = $scopeConfig;        
         $this->_cacheTypeList = $cacheTypeList;
         $this->_cacheFrontendPool = $cacheFrontendPool;
@@ -172,22 +184,27 @@ class GetCatalog
                 $website=$storeManager->getWebsite($websiteId);
                 $configData=$this->getConfigParams($storeScope,$store->getCode());
 
+
                 if($configData['datos_iws']){
-                
+
                     $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' tiene habilitada la conexión con IWS para obtener el catalogo.');
                     $serviceUrl=$this->getServiceUrl($configData,1,$store->getCode());
-                
+
                     if($serviceUrl)
                         $this->beginCatalogLoad($configData,$store,$serviceUrl,$website,0);
                     else
-                        $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());               
-                } 
+                        $this->logger->info('GetCatalog - No se genero url del servicio en el website: ' . $website->getCode() . ' con store ' . $store->getCode());
+                }
                 else{
                     $this->logger->info('GetCatalog - El website ' . $website->getCode() . ' con store ' . $website->getCode() . ' no tiene habilitada la conexión con IWS para obtener el catalogo con información general de los productos');
                     $this->loadCatalogSales($configData,$website->getCode(),$website->getDefaultGroup(),$website->getDefaultGroup()->getDefaultStoreId());
                 }
+
+
             }
-        }            
+
+
+        }
         
         $this->cleanCache();
     }
@@ -425,13 +442,17 @@ class GetCatalog
             if ($name == "" || $name == null) {
                 $name = "default";
             }
-            $url = strtolower($name . '-' . $catId . '-' . $rootNodeId . '-' . $storeId . '-' . $key . '-' . rand(0, 1000));
-            $cleanurl = html_entity_decode(strip_tags($url));
-            $categoryTmp->setUrlKey($cleanurl);
+            $url = strtolower(rand(0, 1000) . '-' . $name . '-' . $catId . '-' . $rootNodeId . '-' . $storeId . '-' . $key);
+            $cleanurl = html_entity_decode(strip_tags($url));            
             $categoryTmp->setName($name);
             $categoryTmp->setIncludeInMenu(true);
             $categoryTmp->setData('description', $catalog->Category->Description);
             if ($existe == 0) {
+                try {
+                    $categoryTmp->setUrlKey($cleanurl);
+                } catch (Exception $e) {
+                    $this->logger->info('GetCatalog - Key ya existe Error: ' . $e->getMessage());
+                }
                 $categoryCollection1 = $objectManager->get('\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory');
                 $categoriesAll = $categoryCollection1->create()->addAttributeToFilter('iws_id', 'all_categories')->addAttributeToFilter('parent_id', array('eq' => $rootNodeId));
                 if ($categoriesAll->getSize()) {
@@ -458,10 +479,9 @@ class GetCatalog
             if ($categoryTmp->getCustomLayoutUpdate() == '1column') {
                 $categoryTmp->setCustomLayoutUpdate('');
             }
-
-            $categoryTmp->setIwsId($catId);
-            $categoryTmp->setStoreId($storeId);
             try {
+                $categoryTmp->setIwsId($catId);
+                $categoryTmp->setStoreId($storeId);
                 $categoryTmp->save();
                 $this->logger->info('GetCatalog - Guarda categoria: ' . $categoryTmp->getId());
                 $this->logger->info('GetCatalog - Categoria Padre: ' . $categoryTmp->getParentId());
@@ -500,7 +520,7 @@ class GetCatalog
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData)
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-
+        $errors = '';
         //Se recorre array
         foreach ($data as $key => $catalog) {
             $this->logger->info('GetCatalogSalesData - Lee datos. Website: ' . $websiteCode);
@@ -513,10 +533,20 @@ class GetCatalog
             } else {
 
                 $attributes = array();
-
+                $style = 'style="border:1px solid"';
                 // Set Price
                 if ($configData['product_price']) {
-                    $attributes['Price'] = $catalog->Price->UnitPrice;
+                    $price = $catalog->Price->UnitPrice;
+                    if($price==''||empty($price)||$price==0){
+                        $errors .= '<tr>';
+                        $errors .= '<td '.$style.' >'.$catalog->Sku.'</td>';
+                        $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
+                        $errors .= '<td '.$style.' >'.$catalog->Price->UnitPrice.'</td>';
+                        $errors .= '<td '.$style.' >Precio</td>';
+                        $errors .= '</tr>';
+                    }else{
+                        $attributes['Price'] = $catalog->Price->UnitPrice;
+                    }
                 }
 
                 try {
@@ -527,11 +557,15 @@ class GetCatalog
                 }
             }
         }
+        if($errors!=''){
+            $this->notifyErrrorPrice($errors);
+        }
     }
 
     //Carga la información de las subcategorias
     public function loadSubcategoriesData($data, $websiteCode, $store, $storeId, $rootNodeId, $arrayCategories)
     {
+        
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $appState = $objectManager->get('\Magento\Framework\App\State');
         //Se recorre array
@@ -566,18 +600,22 @@ class GetCatalog
             if ($name == "" || $name == null) {
                 $name = "default";
             }
-            $url = strtolower($name . '-' . $catId . '-' . $rootNodeId . '-' . $storeId . '-' . $key . rand(0, 1000));
+            $url = strtolower(rand(0, 1000) . '-' . $name . '-' . $catId . '-' . $rootNodeId . '-' . $storeId . '-' . $key);
             $cleanurl = html_entity_decode(strip_tags($url));
-            $categoryTmp->setName($name);
-            $categoryTmp->setUrlKey($cleanurl);
+            $categoryTmp->setName($name);            
             $categoryTmp->setData('description', $catalog->Description);
             if ($existe == 0) {
+                try {
+                    $categoryTmp->setUrlKey($cleanurl);
+                } catch (Exception $e) {
+                    $this->logger->info('GetCatalog - Key ya existe Error: ' . $e->getMessage());
+                }
                 $categoryTmp->setParentId($rootCat->getId());
                 $categoryTmp->setPath($rootCat->getPath());
             }
-            $categoryTmp->setIwsId($catId);
-            $categoryTmp->setStoreId($storeId);
             try {
+                $categoryTmp->setIwsId($catId);
+                $categoryTmp->setStoreId($storeId);
                 $categoryTmp->save();
                 $this->logger->info('GetCatalog - Guarda subcategoria: ' . $categoryTmp->getId());
                 $this->logger->info('GetCatalog - Categoria Padre: ' . $categoryTmp->getParentId());
@@ -593,6 +631,7 @@ class GetCatalog
     //Carga la información de los productos
     public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds, $configData)
     {
+        $errors = '';
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
@@ -601,7 +640,13 @@ class GetCatalog
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
             $product->setStatus(0); // Status on product enabled/ disabled 1/0           
-            $product->setUrlKey(html_entity_decode(strip_tags(strtolower($catalog->Description . '-' . $catalog->Sku . '-' . $storeId . '-' . rand(0, 1000)))));
+            $url = strtolower(rand(0, 1000) . '-' . $catalog->Description . '-' . $catalog->Sku . '-' . $storeId);
+            $cleanurl = html_entity_decode(strip_tags($url));
+            try {
+                $product->setUrlKey($cleanurl);
+            } catch (Exception $e) {
+                $this->logger->info('GetCatalog - Key ya existe Error: ' . $e->getMessage());
+            }
             $iwsDescription = explode("- ", $catalog->Description);
             $name = $iwsDescription[0];
             $description = "";
@@ -688,8 +733,20 @@ class GetCatalog
             }            
             //Set Price
             if ($configData['product_price']) {
-                $product->setPrice($catalog->Price->UnitPrice);
+
+                if($catalog->Price->UnitPrice==''||empty($catalog->Price->UnitPrice)||$catalog->Price->UnitPrice==0){
+                    $errors .= '<tr>';
+                    $errors .= '<td '.$style.' >'.$catalog->Sku.'</td>';
+                    $errors .= '<td '.$style.' >'.$websiteId.'</td>';
+                    $errors .= '<td '.$style.' >'.$catalog->Price->UnitPrice.'</td>';
+                    $errors .= '<td '.$style.' >Precio</td>';
+                    $errors .= '</tr>';
+                }else{
+                    $product->setPrice($catalog->Price->UnitPrice);
+                }
+
             }
+            
 
             try {
                 $product->save();
@@ -707,12 +764,20 @@ class GetCatalog
             foreach ($categoryIds as $categoryId)
                 $categoriesData[] = ['product_id' => $product->getId(), 'category_id' => $categoryId, 'position' => 0];
 
-            $this->_saveProductCategories($categoriesData);
+            try {
+                $this->_saveProductCategories($categoriesData);   
+            } catch (Exception $e) {
+                $this->logger->info('GetCatalog - Se ha producido un Error: ' . $e->getMessage());
+            }
 
             //Set WebSites
             $websitesData[] = ['product_id' => $product->getId(), 'website_id' => $websiteId];
 
-            $this->_saveProductWebsites($websitesData);
+            try {
+                $this->_saveProductWebsites($websitesData);   
+            } catch (Exception $e) {
+                $this->logger->info('GetCatalog - Se ha producido un Error: ' . $e->getMessage());
+            }
 
             $attibutes = array();
 
@@ -744,10 +809,42 @@ class GetCatalog
 
             // Set Price
             if ($configData['product_price']) {
-                $attributes['Price'] = $catalog->Price->UnitPrice;
+
+                if($catalog->Price->UnitPrice==''||empty($catalog->Price->UnitPrice)||$catalog->Price->UnitPrice==0){
+                    $errors .= '<tr>';
+                    $errors .= '<td '.$style.' >'.$catalog->Sku.'</td>';
+                    $errors .= '<td '.$style.' >'.$websiteId.'</td>';
+                    $errors .= '<td '.$style.' >'.$catalog->Price->UnitPrice.'</td>';
+                    $errors .= '<td '.$style.' >Precio</td>';
+                    $errors .= '</tr>';
+                }else{
+                    $attibutes['Price'] = $catalog->Price->UnitPrice;
+                }
             }
 
+            //Set product dimensions
+            if (isset($catalog->Freight)) {
+                if (isset($catalog->Freight->Item)) {                    
+                   
+                    if ($configData['product_width']) {
+                        $attibutes['Width'] = $catalog->Freight->Item->Width;
+                        $attibutes['ts_dimensions_width'] = $catalog->Freight->Item->Width;
+                    }
+                    if ($configData['product_height']) {
+                        $attibutes['Height'] = $catalog->Freight->Item->Height;
+                        $attibutes['ts_dimensions_height'] = $catalog->Freight->Item->Height;                    
+                    }
+                    if ($configData['product_length']) {
+                        $attibutes['ts_dimensions_length'] = $catalog->Freight->Item->Length;
+                    }
+                    if ($configData['product_weight']) {
+                        $attibutes['Weight'] = $catalog->Freight->Item->Weight;                        
+                    }
+                }
+            }  
+
             try {
+                $this->logger->info('GetCatalog - Product:\n');
                 $this->setStoreViewDataProduct($product->getId(), $catalog->Sku, $storeId, $attibutes);
                 $this->logger->info('GetCatalog - Se actualiza producto ' . $product->getSku() . ' en el store: ' . $storeId);
                 return $product->getSku();
@@ -755,6 +852,9 @@ class GetCatalog
                 $this->logger->info('GetCatalog - Se ha producido un error al actualizar el producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
                 return false;
             }
+        }
+        if($errors!=''){
+            $this->notifyErrrorPrice($errors);
         }
     }
 
@@ -832,11 +932,30 @@ class GetCatalog
 
         $product->setStoreId($storeId);
 
+        $this->logger->info('Automatic Price - Product id:');
+        $this->logger->info(print_r($attibutes,true));
+
         foreach ($attibutes as $name => $value) {
 
             $method = 'set' . $name;
             $product->$method($value);
-            $productResourceModel->saveAttribute($product, strtolower($name));
+
+            try {
+                $productResourceModel->saveAttribute($product, strtolower($name));
+
+                if($name == 'Price'){
+                    //logs prices
+                    $this->logger_price->info('Automatic Price - Product id: ' . $productId );
+                    $this->logger_price->info('Automatic Price - Product sku: ' .  $product->getSku());
+                    $this->logger_price->info('Automatic Price - Product old ' . $product->getData('price') );
+                    $this->logger_price->info('Automatic Price - Product new ' . $value );
+    
+                }
+
+            } catch (Exception $e) {
+                $this->logger->info('GetCatalog - Se ha producido un error setStoreViewDataProduct Error: ' . $e->getMessage());
+            }        
+
         }
 
         return true;
@@ -886,4 +1005,22 @@ class GetCatalog
         return $this;
     }
 
+    public function notifyErrrorPrice(){
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $helper = $objectManager->get('\Intcomex\CustomLog\Helper\Email');
+
+        $templateId  = $this->scopeConfig->getValue('customlog/general/email_template');
+        $extraError = $this->scopeConfig->getValue('customlog/general/mensaje_alerta');
+        $email = explode(',',$this->scopeConfig->getValue('customlog/general/correos_alerta'));
+
+        $variables = array(
+            'mensaje' => $extraError,
+            'body' => $errors
+        );
+        foreach($email as $key => $value){
+            if(!empty($value)){
+                $helper->notify($value,$variables,$templateId);
+            }
+        }
+    }
 }

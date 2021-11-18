@@ -3926,7 +3926,7 @@ Enable this Solution"",""Habilitar esta solución"",module,Magento_BraintreeTwo"
 "Change Shipping Address,""Cambiar la dirección de envío"",module,Magento_Customer";;
 "You have no default shipping address in your address book.,""No tiene ninguna dirección de envío por defecto en su libreta de direcciones."",module,Magento_Customer";;
 "Additional Address Entries,""Entradas adicionales de direcciones postales"",module,Magento_Customer";;
-"Delete Address,""Borrar dirección"",module,Magento_Customer";;
+"Delete Address,""Borrar dirección"",module,Magento_Customer";
 "You have no other address entries in your address book.,""No tiene otras entradas de direcciones en la libreta de direcciones."",module,Magento_Customer";;
 "* Required Fields,""* Campos obligatorios"",module,Magento_Customer";;
 "Address,""Dirección"",module,Magento_Customer";;

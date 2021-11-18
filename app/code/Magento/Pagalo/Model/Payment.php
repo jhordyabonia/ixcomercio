@@ -158,28 +158,27 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $str_cliente = json_encode($cliente);
             $pg_products =  $order->getAllVisibleItems();   
             $detalle=[];
+            $detalle_nombre = "";
             foreach ( $pg_products as $pg_product ) {
                 if (!$pg_product->getData('has_children')) {       
-                    $detalle[] = array(
-                        'id_producto'   => $pg_product->getProductId(),
-                        'cantidad'      => $pg_product->getQtyOrdered(),
-                        'tipo'          => 'producto',
-                        'nombre'        => $pg_product->getName(),
-                        'precio'        => $pg_product->getPrice(),
-                        'Subtotal'      => $pg_product->getPrice() * $pg_product->getQtyOrdered(),
-                    );
+                        $detalle_nombre .= $pg_product->getName();
+                        $detalle_nombre .= "-Q" . $pg_product->getPrice();
+                        $detalle_nombre .= "x" . $pg_product->getQtyOrdered() . ",";             
                 }
             }
             if ( $order->getShippingAmount() > 0 ) {
-                $detalle[] = array(
-                    'id_producto'   => 'shipping01',
-                    'cantidad'      => '1',
-                    'tipo'              => 'Shipping',
-                    'nombre'            => 'Shipping',
-                    'precio'            => $order->getShippingAmount(),
-                    'Subtotal'      => $order->getShippingAmount(),
-                );  
+                $detalle_nombre .= 'envio';
+                $detalle_nombre .= "-Q" . $order->getShippingAmount();
+                $detalle_nombre .= "x1";
             }
+            $detalle[] = array(
+                'id_producto'   => 'product01',
+                'cantidad'      => '1',
+                'tipo'              => 'product',
+                'nombre'            => $detalle_nombre,
+                'precio'            => $order->getGrandTotal(),
+                'Subtotal'      => $order->getGrandTotal(),
+            );
             $str_detalle = json_encode($detalle);
             $url = 'https://app.pagalocard.com/api/v1/integracion/' . $pg_token;
             if ($this->getConfigData('PGModalidad') == 'EPAY' ) {
@@ -248,12 +247,15 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
             $this->_pagaloLogger->info('URL: ' . $url );
             $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
-            
+
             if(isset($result->infotran)){
                 if(isset($result->infotran->authorizationNumber)){
                     $payment->setLastTransId($result->infotran->authorizationNumber);
-                    $this->_pagaloLogger->info('setLastTransId : ' . $payment->getLastTransId() ); 
+                    $this->_pagaloLogger->info('setLastTransId (authorizationNumber): ' . $payment->getLastTransId());
                 }
+            } else if(isset($result->transaccion)) {
+                $payment->setLastTransId($result->transaccion);
+                $this->_pagaloLogger->info('setLastTransId (transaccion): ' . $payment->getLastTransId());
             }
 
             $errorMsg = '';
@@ -263,7 +265,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             if($customError != '') {
                 $showCustomError = true;
             }
-            $this->_pagaloLogger->info($customError );
+
             if(property_exists($result, 'reasonCode')) {
                 if($result->reasonCode != '00' && $result->reasonCode != '100'){
                     $errorMsg = "Error al procesar el pago. ";
@@ -514,7 +516,10 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 }
                 throw new \Magento\Framework\Exception\LocalizedException(__($customError));
             }
-            $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg);
+
+            if ($errorMsg !== '') {
+                $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg . '. Custom error: ' . $customError);
+            }
         } catch (\Exception $e) {
             $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);
             $error = __('Payment capturing error pagalo:'); 

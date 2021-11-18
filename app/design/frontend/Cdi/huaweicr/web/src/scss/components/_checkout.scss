@@ -325,8 +325,30 @@ div#credomatic_cc_type_exp_div{
 .checkout-payment-method .credit-card-types{
   margin-top:20px;
 }
+div#credomaticvisa_cc_type_exp_div, div#credomaticvisa_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#credomaticvisa_cc_type_exp_div{
+  margin-right: 2%;
+}
+div#credomaticmastercard_cc_type_exp_div, div#credomaticmastercard_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#credomaticmastercard_cc_type_exp_div{
+  margin-right: 2%;
+}
 @media (max-width: $tablet){
   div#credomatic_cc_type_exp_div, div#credomatic_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#credomaticvisa_cc_type_exp_div, div#credomaticvisa_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#credomaticmastercard_cc_type_exp_div, div#credomaticmastercard_cc_type_cvv_div {
     width: 100%;
     float: none;
   }
@@ -413,4 +435,10 @@ div#credomatic_cc_type_exp_div{
 }
 .custom-modal-content h4{
   padding: 1.6rem;
+}
+#credomaticvisa_cc_number-error{
+  display: none;
+}
+#credomaticmastercard_cc_number-error{
+  display: none;
 }

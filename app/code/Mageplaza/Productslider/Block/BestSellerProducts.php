@@ -40,6 +40,9 @@ class BestSellerProducts extends AbstractSlider
      */
     protected $_bestSellersCollectionFactory;
 
+
+    protected $_helperData;
+
     /**
      * BestSellerProducts constructor.
      * @param Context $context
@@ -62,6 +65,8 @@ class BestSellerProducts extends AbstractSlider
         array $data = []
     ) {
         $this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;
+
+        $this->_helperData = $helperData;
 
         parent::__construct($context, $productCollectionFactory, $catalogProductVisibility, $dateTime, $helperData, $httpContext, $data);
     }
@@ -88,5 +93,5 @@ class BestSellerProducts extends AbstractSlider
             ->addStoreFilter($this->getStoreId())->setPageSize($this->getProductsCount());
 
         return $collection;
-    }
+    }    
 }
