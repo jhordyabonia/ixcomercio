@@ -655,13 +655,14 @@ section{
     background: $colorBottom;
     text-transform: uppercase;
     transition: .5s all ease;
-    font-weight: 700;
+    font-weight: 500;
     border: 0;
     font-family: $fontText;
     font-size: 16px;
     color: #fff;
+    border-radius: 50px;
     &:hover{
-      background: $colorHover;
+      box-shadow:3px 6px 12px 0 rgba(0, 0, 0, 0.32%);
       border: none;
       color: #fff;
     }
@@ -670,14 +671,35 @@ section{
     color: $colorBottom;
     background: none;
     transition: .5s all ease;
-    font-weight: 400;
+    font-weight: 500;
     border: 1px solid $colorBottom;
     border-radius: 3px;
     font-family: $fontText;
+    border-radius: 50px;
     &:hover{
       color: #fff;
       background: $colorHover;
       border-color: $colorHover;
+      box-shadow:3px 6px 12px 0 rgba(0, 0, 0, 0.32%);
     }
   }
+}
+.product-item-name{
+  word-wrap: normal;
+  word-break: normal;
+-webkit-hyphens: none;
+ -moz-hyphens: none;
+      hyphens: none;
+}
+@media only screen and (max-width: 768px){
+.checkout-agreements-block{
+  .action-show{
+    width: 300px;
+    vertical-align: middle;
+    text-align: left;
+  }
+  .label{
+    white-space: normal;
+  }
+}
 }
