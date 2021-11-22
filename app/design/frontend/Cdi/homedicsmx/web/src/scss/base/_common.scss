@@ -1,27 +1,44 @@
+
 @font-face {
-  font-family: 'fira_sansmedium';
-  src: url('../fonts/homedics/firasans-medium-webfont.woff2') format('woff2'),
-       url('../fonts/homedics/firasans-medium-webfont.woff') format('woff');
+  font-family: 'Fira Sans';
+  src: url('../fonts/homedics/FiraSans-Regular.eot');
+  src: url('../fonts/homedics/FiraSans-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/homedics/FiraSans-Regular.woff2') format('woff2'),
+      url('../fonts/homedics/FiraSans-Regular.woff') format('woff'),
+      url('../fonts/homedics/-Regular.ttf') format('truetype'),
+      url('../fonts/homedics/FiraSans-Regular.svg#FiraSans-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
-
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'fira_sansregular';
-  src: url('../fonts/homedics/firasans-regular-webfont.woff2') format('woff2'),
-       url('../fonts/homedics/firasans-regular-webfont.woff') format('woff');
-  font-weight: normal;
+  font-family: 'Fira Sans bold';
+  src: url('../fonts/homedics/FiraSans-Bold.eot');
+  src: url('../fonts/homedics/FiraSans-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/homedics/FiraSans-Bold.woff2') format('woff2'),
+      url('../fonts/homedics/-Bold.woff') format('woff'),
+      url('../fonts/homedics/-Bold.ttf') format('truetype'),
+      url('../fonts/homedics/FiraSans-Bold.svg#FiraSans-Bold') format('svg');
+  font-weight: bold;
   font-style: normal;
-
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'fira_sansbold';
-  src: url('../fonts/homedics/firasans-bold-webfont.woff2') format('woff2'),
-       url('../fonts/homedics/firasans-bold-webfont.woff') format('woff');
-  font-weight: normal;
+  font-family: 'Fira Sans medium';
+  src: url('../fonts/homedics/FiraSans-Medium.eot');
+  src: url('../fonts/homedics/-Medium.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/homedics/-Medium.woff2') format('woff2'),
+      url('../fonts/homedics/-Medium.woff') format('woff'),
+      url('../fonts/homedics/FiraSans-Medium.ttf') format('truetype'),
+      url('../fonts/homedics/-Medium.svg#FiraSans-Medium') format('svg');
+  font-weight: 500;
   font-style: normal;
+  font-display: swap;
+}
+
+
 
 
 @font-face{
@@ -229,5 +246,5 @@ h1, .h1{
   line-height: 1.2;
   text-rendering: optimizeLegibility;
   font-family: 'HuaweiFont-Bold';
-}
+
 }
