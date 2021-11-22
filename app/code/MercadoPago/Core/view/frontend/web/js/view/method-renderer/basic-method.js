@@ -44,11 +44,11 @@ define(
         var code_payment = this.getCode();
 
         if(window.currency=='COP'){
-          var img1 = '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.pse+'" >';
-          var img2 = '';
+          var img1 = '';
+          var img2 = '<img style="width: 35px; display: block;" src="'+window.pse+'" >';
         }
 
-        $(menu).append('<li role="presentation" class="payment-group-item basic"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+this.getTitle()+'</a>'+img1+''+img2+'</li>');
+        $(menu).append('<li role="presentation" class="payment-group-item basic"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+this.getTitle()+''+img1+''+img2+'</a></li>');
 
 
         jQuery(document).on('click', `#payment_methods_menu ul li a#link-`+code_payment, function (event) {
