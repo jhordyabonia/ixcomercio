@@ -5,6 +5,6 @@
  */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::THEME,
-    'frontend/Cdi/zaggco',
+    'frontend/Cdi/nokiaco',
     __DIR__
 );
