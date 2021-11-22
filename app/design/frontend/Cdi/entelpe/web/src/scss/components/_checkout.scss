@@ -343,12 +343,14 @@
   }
   .custom_alert{
     color: #000!important;
-    padding: .5rem .5rem .5rem .5rem;
-    border-radius: .7rem;
+    border-radius: 0.7rem;
     border: 1px solid $mainColor !important;
-    margin-bottom: 10px;
-    font-weight: 700;
     background-color: #fff;
+    margin: 0 auto!important;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: justify;
+    padding: 10px 0 10px 0;
   }
   .custom_alert .icon {
       width: 40px;

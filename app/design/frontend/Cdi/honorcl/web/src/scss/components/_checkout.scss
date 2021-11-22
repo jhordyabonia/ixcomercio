@@ -363,10 +363,15 @@
     margin-left: 20px;
   }
   .custom_alert{
-    border-radius: .7rem;
-    font-weight: 700;
-    width: 40px;
-    display: none !important; 
+    color: #000!important;
+    border-radius: 0.7rem;
+    border: 1px solid $mainColor !important;
+    background-color: #fff;
+    margin: 0 auto!important;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: justify;
+    padding: 10px 0 10px 0;
   }
   .address_container{
     border: 1px solid #000;
