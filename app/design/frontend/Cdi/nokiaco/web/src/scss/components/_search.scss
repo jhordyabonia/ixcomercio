@@ -1,0 +1,67 @@
+header{
+  .block-search{
+		top: 70%;
+		width: 100%;
+		display: block;
+		position: absolute;
+		padding: 20px 0;
+		transition: visibility 0s, opacity 0.3s linear;
+		background: #f9f9f9;
+		visibility: hidden;
+		opacity: 0;
+    @media only screen and (max-width: $mobile){
+      margin-top: 0;
+    }
+		&.open{
+			top: 100%;
+			visibility: visible;
+	  	opacity: 1;
+		}
+    .control {
+      border-top: 0;
+      margin: 0;
+      padding: 0 0 25px;
+    }
+  }
+  .block-content{
+  	max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 15px;
+    form{
+    	position: relative;
+      label {
+        right: 0;
+        top: 12px;
+        position: absolute;
+      }
+    	.control{
+    		input[type="text"]{
+    			height: 60px;
+    			font-size: 16px;
+			    padding: 15px 35px 15px 15px;
+          margin: 0;
+          position: static;
+    		}
+        .nested{
+          display: block;
+          padding-top: 5px;
+          position: absolute;
+          a{
+            color: $mainColor;
+            font-size: 13px;
+            &:hover{
+              text-decoration: underline;
+            }
+          }
+        }
+    	}
+    	.action.search{
+    		top: 12px;
+    		&:before{
+    			font-size: 30px;
+    			line-height: 30px;
+    		}
+    	}
+    }
+  }
+}
