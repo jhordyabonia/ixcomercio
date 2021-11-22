@@ -46,7 +46,7 @@ define(
         if(window.currency=='COP'){
           var img1 = '';
           var img2 = '<img style="width: 35px; display: block;" src="'+window.pse+'" >';
-        }else if(window.currency=='CL'){
+        }else if(window.currency=='CLP'){
           var img1 = '<img style="display: inline-block;" src="'+window.webpay+'" >';
           var img2 = '<img style="width: 35px; display: block;" src="'+window.franquicias2+'" >';
         }
