@@ -47,8 +47,8 @@ define(
           var img1 = '';
           var img2 = '<img style="width: 35px; display: block;" src="'+window.pse+'" >';
         }else if(window.currency=='CLP'){
-          var img1 = '<img style="display: inline-block;" src="'+window.webpay+'" >';
-          var img2 = '<img style="width: 35px; display: block;" src="'+window.franquicias2+'" >';
+          var img1 = '<img style="width: 60px; display: inline-block;" src="'+window.webpay+'" >';
+          var img2 = '<img style=" display: block;" src="'+window.franquicias2+'" >';
         }
 
         $(menu).append('<li role="presentation" class="payment-group-item basic"><a id="link-'+ code_payment+ '" data-code="'+ code_payment+ '">'+this.getTitle()+''+img1+''+img2+'</a></li>');
