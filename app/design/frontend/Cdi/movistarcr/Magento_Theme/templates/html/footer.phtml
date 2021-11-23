@@ -1,5 +1,7 @@
 <?php
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+/** @var \Cdi\Custom\Helper\Data $_helperCdi */
+$websiteCode = $_helperCdi->getWebsideCode();
 $facebook = $_helperCdi->getStoreConfig('general/store_information/facebook_link');
 $instagram = $_helperCdi->getStoreConfig('general/store_information/instagram_link');
 $youtube = $_helperCdi->getStoreConfig('general/store_information/youtube_link');
@@ -67,20 +69,20 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
         <div class="container">
             <div class="row">
 				<div class="link-block col-sm-3">
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links1_en')->toHtml();?>
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links1_es')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links1_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links1_es')->toHtml();?>
 				</div>
 				<div class="link-block col-sm-3">
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links2_en')->toHtml();?>
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links2_es')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links2_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links2_es')->toHtml();?>
 				</div>
 				<div class="link-block col-sm-3">
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links3_en')->toHtml();?>
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links3_es')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links3_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links3_es')->toHtml();?>
 				</div>
 				<div class="link-block col-sm-3">
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links4_en')->toHtml();?>
-					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_footer_links4_es')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links4_en')->toHtml();?>
+					<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_footer_links4_es')->toHtml();?>
 					</ul>
 				</div>
             </div>
@@ -90,12 +92,11 @@ $privacy = $_helperCdi->getStoreConfig('general/store_information/privacypolicy'
           <div class="container">
             <div class="row">
               <ul class="payment-icons">
-			  <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('sgcr_payment_methods')->toHtml();?>
+			  <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_payment_methods')->toHtml();?>
               </ul>
             </div>
           </div>
     </div>
-
     <div class="footer-legal">
           <div class="container">
             <div class="row">
