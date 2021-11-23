@@ -14,7 +14,7 @@
     <div data-bind="afterRender: updateMenu();" class="payment-method-content">
         <div class="panel-checkout">
             <div class="row">
-                <h2 class="title-checkout"><!-- ko i18n: 'Usa el medio de pago que prefieras'--><!-- /ko --></h2>
+                <h2 class="title-checkout"><!-- ko i18n: 'Escogiste medio de pago Tarjeta Debito que se realizara a través de WebPay'--><!-- /ko --></h2>
 
                 <!-- ko if: (getInfoBanner('credit') != 0)-->
                 <div class="col-md-12">
@@ -25,9 +25,9 @@
                                 data-bind="text: getInfoBannerInstallments()"></span>  <!-- ko i18n: 'cuotas'-->
                                 <!-- /ko --></span>
                         </p>
-                        <div data-bind="foreach: getInfoBannerPaymentMethods('credit')">
+                        <!--<div data-bind="foreach: getInfoBannerPaymentMethods('credit')">
                             <img data-bind="attr: {src: src, alt: name}" class="img-fluid img-tarjetas"/>
-                        </div>
+                        </div>-->
 
                     </div>
                 </div>
