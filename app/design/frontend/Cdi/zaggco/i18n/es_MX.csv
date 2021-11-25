@@ -3314,7 +3314,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Email Address","Dirección de email",module,Magento_Checkout
 "Password","Contraseña",module,Magento_Checkout
 "Forgot Your Password?","¿Olvidó su contraseña?",module,Magento_Checkout
-"My billing and shipping address are the same","Datos de mi boleta como Consumidor Final",module,Magento_Checkout
+"My billing and shipping address are the same","¿La información de la factura es diferente a los datos de envío? Si seleccionas esta opción, ingresa los siguientes datos",module,Magento_Checkout
 "Update","Actualizar información para factura",module,Magento_Checkout
 "Cancel","Cancelar",module,Magento_Checkout
 "Save in address book","Guardar en libreta de direcciones",module,Magento_Checkout
@@ -16432,4 +16432,5 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Ship here","Entregar aquí"
 "UpdateBilling","Actualizar datos de factura",module,Magento_Checkout
 "CancelBilling","Volver a datos de boleta",module,Magento_AdvancedCheckout
-"Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea cambiar los datos de boleta."
+"Please uncheck the box if you want to add your Invoice details","Si seleccionas esta opción, ingresa los siguientes datos."
+"SecurityCode","CVC"

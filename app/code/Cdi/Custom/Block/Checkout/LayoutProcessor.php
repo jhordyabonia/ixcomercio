@@ -584,6 +584,9 @@ class LayoutProcessor implements \Magento\Checkout\Block\Checkout\LayoutProcesso
                             'street'=> [
                                 'label' => $labelAddress,
                             ],
+                            'zone_id' => [
+                                'visible' => false,
+                            ],
                         ]
                     ),
                 ],

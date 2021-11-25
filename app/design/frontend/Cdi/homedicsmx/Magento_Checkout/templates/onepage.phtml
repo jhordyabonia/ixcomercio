@@ -1,0 +1,76 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
+$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+$theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+$mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
+$showBilling = $_helperCdi->getStoreConfig('checkout/options/billing_show');
+if(!isset($showBilling) || $showBilling == null ){
+    $showBilling = 0;
+}
+
+$websiteCode = $_helperCdi->getWebsideCode();
+$mercadoPagoBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode.'_mercadopagoefectivo')->toHtml();
+
+?>
+<div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
+    <div id="checkout-loader" data-role="checkout-loader" class="loading-mask" data-mage-init='{"checkoutLoader": {}}'>
+        <div class="loader">
+            <img src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>"
+                 alt="<?= /* @escapeNotVerified */ __('Loading...') ?>"
+                 style="position: absolute;">
+        </div>
+    </div>
+    <div style="display:none" id="modalTradeIn" class="custom-modal">
+            <!-- Modal content -->
+            <div class="custom-modal-content" style="width: 50%">
+            <span class="close">&times;</span>
+            <h3>Producto TradeIn</h3>
+            <hr>
+            <h4><?php echo $_helperCdi->getStoreConfig('tradein/general/alerta_cupon');?></h4>
+            <button class="tradeinCancel" type="button" data-role="action" ><span>Cancelar</span></button>
+            <button class="tradeinCotinue" type="button" data-role="action" ><span>Continuar</span></button>
+        </div>
+    </div>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#checkout": {
+                "Magento_Ui/js/core/app": <?= /* @escapeNotVerified */ $block->getJsLayout() ?>
+            }
+        }
+    </script>
+    <script>
+        window.checkoutConfig = <?= /* @escapeNotVerified */ $block->getSerializedCheckoutConfig() ?>;
+        // Create aliases for customer.js model from customer module
+        window.isCustomerLoggedIn = window.checkoutConfig.isCustomerLoggedIn;
+        window.customerData = window.checkoutConfig.customerData;
+        window.enableInvoice = <?php echo $_helperCdi->getStoreConfig('checkout/options/show_invoice');?>;
+        window.invoiceLabel = '<?php echo $_helperCdi->getStoreConfig('checkout/options/invoice_label');?>';
+        window.showFormBilling = <?php echo $showBilling; ?>;
+        window.customAlert = '<?php echo $_helperCdi->getStoreConfig('shipping/custom_alerts/alerta_preventa');?>';
+        window.identificationLabel = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label');?>';
+        window.urlGeo = '<?= $block->getBaseUrl() ?>index.php/rest/V1/geolocation/';
+        window.currentWebsiteCode = '<?php  echo $theme->getStore()->getCode(); ?>';
+        window.mediaUrl = '<?php  echo $mediaUrl; ?>';
+        window.alertaTradein1 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_1'));?>';
+        window.alertaTradein2 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_2'))?> ';
+        window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
+        window.megapago_efectivo_block = <?php echo json_encode($mercadoPagoBlock)?>;
+        window.franquiciamp = '<?php echo $block->getViewFileUrl('images/franquicias.png'); ?>';
+    </script>
+    <script>
+        require([
+            'mage/url',
+            'Magento_Ui/js/block-loader'
+        ], function(url, blockLoader) {
+            blockLoader("<?= /* @escapeNotVerified */ $block->getViewFileUrl('images/loader-1.gif') ?>");
+            return url.setBaseUrl('<?= /* @escapeNotVerified */ $block->getBaseUrl() ?>');
+        })
+    </script>
+</div>
