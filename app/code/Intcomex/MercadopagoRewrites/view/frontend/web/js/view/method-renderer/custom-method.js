@@ -7,7 +7,6 @@ define([
         return Form.extend({
             initialize: function () {
                 this._super();
-                //this.updateMenu();
 
             },
 

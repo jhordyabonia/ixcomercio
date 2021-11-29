@@ -47,7 +47,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         \Cdi\Custom\Helper\Data $helperDataCdi,
         \Trax\Catalogo\Helper\Email $email,
         \Magento\Catalog\Model\Product $productRepository,
-	\Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\Session $checkoutSession,
         array $data = []
     ) {
         $this->_storeManager = $storeManager;
@@ -63,7 +63,7 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
         $this->helperDataCdi = $helperDataCdi;
         $this->email = $email;
         $this->_productRepository = $productRepository;
-	$this->_checkoutSession = $checkoutSession;
+        $this->_checkoutSession = $checkoutSession;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -173,7 +173,12 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
 
         $freeShippingSet = $shippingAddress->getFreeShipping();
 
-
+        $quoteId = $cart->getQuote()->getId();
+        $class = 'Intcomex\MienvioRewrites\Model\Carrier\Mienviorates';
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/FreeShipping.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $this->_loggerFreeShipping = $logger;
 
         $shippingAddress = $cart->getQuote()->getShippingAddress();
         $rateResponse = $this->_rateResultFactory->create();
@@ -259,11 +264,26 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                     $createShipmentUrl, $options, $packageValue, $fromZipCode);
             }
 
+            if ($this->checkIfIsFreeShipping()) {
+                $title = explode('-', $this->getConfigData('titlemethodfree'));
+                $shippingCost = 0;
+                $result = $this->_rateResultFactory->create();
+                $method = $this->_rateMethodFactory->create();
+                $method->setCarrier($this->_code);
+                $method->setMethod($this->_code);
+                $method->setMethodTitle(isset($title[0]) ? trim($title[0]) : '');
+                $method->setCarrierTitle(isset($title[1]) ? trim($title[1]) : '');
+                $method->setPrice($shippingCost);
+                $method->setCost($shippingCost);
+                $result->append($method);
+                $this->_logger->debug('Free shipping is activated, the rates would not be shown');
+                return $result;
+            }
 
             $defaultTradeIn = $this->getDefaultTradeIn($rates);
-           $tradeIn = $this->verifyTradeIn();
-           $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
-           $quote = $this->_checkoutSession->getQuote();
+            $tradeIn = $this->verifyTradeIn();
+            $campoMienvio = $scpConfig->getValue('tradein/general/campo_mienvio',ScopeInterface::SCOPE_STORE);
+            $quote = $this->_checkoutSession->getQuote();
 
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/couponCode.log');
             $this->logger = new \Zend\Log\Logger();
@@ -288,12 +308,15 @@ class Mienviorates extends AbstractCarrier implements CarrierInterface
                 }
 
                 $method->setMethodTitle($rate['servicelevel'].' - '.((isset($rate['duration_terms']))?$rate['duration_terms']:''));
+                $this->_loggerFreeShipping->debug("QuoteId:: $quoteId Class:: $class Method:: " . 'collectRates() $freeShippingSet:: ' . $freeShippingSet);
                 if($freeShippingSet){
                     $method->setPrice(0);
                     $method->setCost(0);
+                    $this->_loggerFreeShipping->debug("QuoteId:: $quoteId Class:: $class Method:: " . 'collectRates() $method->setPrice(0) $method->setCost(0)');
                 }else{
                     $method->setPrice($rate['cost']);
                     $method->setCost($rate['cost']);
+                    $this->_loggerFreeShipping->debug("QuoteId:: $quoteId Class:: $class Method:: " . 'collectRates() $method->setPrice() $method->setCost():: ' . $rate['cost']);
                 }
 
                 if($tradeIn&&!isset($rate[$campoMienvio])){
