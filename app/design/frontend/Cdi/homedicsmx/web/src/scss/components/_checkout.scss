@@ -395,6 +395,9 @@
       width: 96%;
     }
     }
+    .invoice_uncheck {
+      display: none;
+    }
   }
 
   #shipping .step-title{
@@ -454,7 +457,7 @@
     label{
       margin-bottom: 0;
       font-size: 14px !important;
-      font-family: 'Barlow',sans-serif !important;
+      font-family: $fontText !important;
     }
   }
 
@@ -480,13 +483,13 @@
 
     &.debitcard{
       a {
-        background-image: url(../images/icono-td-normal@2x.png);
+        //background-image: url(../images/icono-td-normal@2x.png);
 
       }
 
       &.active {
         a {
-          background-image: url(../images/icono-td-select@2x.png);
+          //background-image: url(../images/icono-td-select@2x.png);
 
         }
       }
@@ -496,12 +499,12 @@
 
       &.active{
         a{
-          background-image: url(../images/icono-tc-select@2x.png);
+          //background-image: url(../images/icono-tc-select@2x.png);
         }
       }
 
       a{
-        background-image: url(../images/icono-tc-normal@2x.png);
+        //background-image: url(../images/icono-tc-normal@2x.png);
       }
     }
 
@@ -509,11 +512,11 @@
 
       &.active{
         a{
-          background-image: url(../images/icono-ef-select@2x.png);
+          //background-image: url(../images/icono-ef-select@2x.png);
         }
       }
       a{
-        background-image: url(../images/icono-ef-normal@2x.png);
+        //background-image: url(../images/icono-ef-normal@2x.png);
       }
     }
 

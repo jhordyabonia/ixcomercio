@@ -112,15 +112,38 @@ class Process implements ObserverInterface
                         try{                       
                             $this->logger->info('Consultamos el payload');
                             $LastTransId = '1234567';
-                            if($payment->getMethod()=='mercadopago_custom'){
-                                $LastTransId = $payment->getCcTransId();
+                            if($payment->getMethod()=='mercadopago_custom')
+                            {
+                                if(empty($payment->getCcTransId()))
+                                {   
+                                    $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
+                                    $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
+                                    if(empty($paymentResponse))
+                                    {
+                                        $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());   
+                                    }else{
+                                        $LastTransId = $paymentResponse["id"];
+                                        $payment->setCcTransId($LastTransId);
+                                        $updateData  = $payment->save();
+                                        if($updateData)
+                                        {
+                                            $this->logger->info('Payment - Mercadopago_custom, Se actualizo el atributo CcTransId del pago con el numero de autorizacion : '. $LastTransId);
+                                        } else {
+                                            $this->logger->info('Payment - Mercadopago_custom, Se produjo un error al actualizar el atributo CcTransId del pago con el numero de autorizacion : '.$LastTransId);
+                                        }
+                                    }
+                                }else{
+                                    $LastTransId = $payment->getCcTransId();
+                                }
+                            }else{
+                                $LastTransId = empty($payment->getLastTransId()) ? $LastTransId : $payment->getLastTransId();
                             }                           
                             
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
                                         '1234567',
-                                        (!empty($payment->getLastTransId()))?$payment->getLastTransId():$LastTransId, 
+                                        $LastTransId, 
                                         '', 
                                         $payment->getMethod(), 
                                         $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()

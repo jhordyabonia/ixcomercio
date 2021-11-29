@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-define([
+ define([
     'ko',
     'underscore',
     'Magento_Ui/js/form/form',
@@ -85,8 +85,11 @@ function (
                     isAddressFormVisible: !customer.isLoggedIn() || !addressOptions.length,
                     isAddressSameAsShipping: false,
                     isInvoiceSelected: false,
-                    saveInAddressBook: 1
+                    saveInAddressBook: 1,
+                    invoceOrder: 'No',
                 });
+
+                this.setInvoice();
 
             quote.billingAddress.subscribe(function (newAddress) {
                 if (quote.isVirtual()) {
@@ -157,42 +160,75 @@ function (
          * @return {Boolean}
          */
         useShippingAddress: function () {
+
             if (this.isAddressSameAsShipping()) {
                 selectBillingAddress(quote.shippingAddress());
 
                 this.updateAddresses();
-                this.isAddressDetailsVisible(true);
+                this.isAddressDetailsVisible(true); 
+                
+                this.isInvoiceSelected(false);
+                this.invoceOrder('No');
+                this.setInvoice();
+
             } else {
                 lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
-                this.isAddressDetailsVisible(false);
+                this.isAddressDetailsVisible(false);               
             }
             checkoutData.setSelectedBillingAddress(null);
 
             return true;
         },
 
-        useInvoice: function () {
-
+        
+        useInvoice: function (data, event) {
+            
+            var id = event.target.id;
+            var code = $("#"+id).attr('code');
+            var elemen_ = "#billing-address-same-as-shipping-"+code;
+            $(elemen_).trigger('click');
+            
             //default value lastname
-            $('input[name="lastname"]').val("N/A");
-
+            $('input[name="lastname"]').val("N/A");            
             
             if (this.isInvoiceSelected()) {
                 this.isInvoiceSelected(true);
+                this.invoceOrder('Yes');
+                
             }else{
                 this.isInvoiceSelected(false);
-            }           
+                this.invoceOrder('No');                
+            }
+
+            this.setInvoice();
+              
             return true;
+        },
+
+        setInvoice: function(){
+
+            console.log('seting usenvoice');
+            console.log( this.invoceOrder() );
+            var serviceUrl = url.build('cdiroude/index/setpaymentinfo');
+            jQuery.post(serviceUrl,{'useinvoice': this.invoceOrder() })
+            .done(function(msg){
+                console.log(msg);
+            })
+            .fail(function(msg){
+                console.log(msg);
+            });         
+
         },
 
         /**
          * Update address action
          */
         updateAddress: function () {
+
             var addressData, newBillingAddress;
 
-            if (this.selectedAddress() && !this.isAddressFormVisible()) {
+            if (this.selectedAddress() && !this.isAddressFormVisible()){
                 selectBillingAddress(this.selectedAddress());
                 checkoutData.setSelectedBillingAddress(this.selectedAddress().getKey());
             } else {
@@ -314,45 +350,36 @@ function (
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
         },
-        verifyTradeIn: ko.computed(function () {
-            
-            findElementTradeIn();
+        
+        mercadoPagoRut: ko.computed(function () {
+            if(window.mercadoPagoRut!=''){
 
-            document.addEventListener("click", function(){
-                findElementTradeIn();
-            });
-            
-            function findElementTradeIn(){
-                (function theLoop (i) {
-                    setTimeout(function () {
-                        if((jQuery("#checkout-shipping-method-load").length>0&&jQuery(".alert_shipping").length==0)||(jQuery("#checkout-payment-method-load").length>0&&jQuery(".alert_payment").length==0)){
-                           var serviceUrl = url.build('intcomex/custom/tradein'); 
-                           jQuery.post(serviceUrl)
-                           .done(function(msg){
-                               if(msg.status=='success'){
-                                   if(jQuery(".tradein_alert").length==0){
-                                        var alertaDiv1 = '<div class="tradein_alert alert_shipping" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta1+'</div>';
-                                        var alertaDiv2 = '<div class="tradein_alert alert_payment" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta2+'</div>';
-                                        setTimeout(function(){ 
-                                            if(jQuery("#checkout-shipping-method-load").length>0){
-                                                jQuery("#checkout-shipping-method-load").after(alertaDiv1);
-                                            }
-                                            if(jQuery("#checkout-payment-method-load").length>0){
-                                                jQuery("#checkout-payment-method-load").after(alertaDiv2);
-                                            }
-                                         }, 3000);
-                                        return false;
+                findElement();
+    
+                document.addEventListener("click", function(){
+                    findElement();
+                });
+                function findElement(){
+                    var findLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification']");
+                    
+                      (function theLoop (i) {
+                          setTimeout(function () {
+                                if(findLabelName.length>0){
+                                    var actualLabelName = jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text();
+                                    if(window.mercadoPagoRut!=actualLabelName){
+                                        console.log(findLabelName);
+                                        jQuery("[name='billingAddressmercadopago_custom.custom_attributes.identification'] label span").text(window.mercadoPagoRut);
                                     }
                                 }
-                            })
-                            .fail(function(msg){
-                
-                            })
-                        }
-                      }, 1000);
-                  })(40); 
-              }
+                              if (--i) {          // If i > 0, keep going
+                              theLoop(i);       // Call the loop again, and pass it the current value of i
+                              }
+                          }, 1000);
+                      })(40); 
+                  }
+            }
           
-        })
+        }),
+     
     });
 });
