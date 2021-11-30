@@ -14,37 +14,83 @@
   font-weight: normal;
   font-style: normal;
 }
-/*** fonts samsung ****/
+/*** fonts movistar ****/
 @font-face {
-  font-family: 'SamsungOne-400';
-  src: url('../fonts/samsung/SamsungOne-400.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/samsung/SamsungOne-400.woff') format('woff'),
-  url('../fonts/samsung/SamsungOne-400.ttf')  format('truetype'),
-  url('../fonts/samsung/SamsungOne-400.svg#SamsungOne-400') format('svg');
-  font-weight: normal;
+  font-family: 'Telefonica-Bold';
+  src: url('../fonts/movistar/Telefonica-Bold.eot');
+  src: url('../fonts/movistar/Telefonica-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/movistar/Telefonica-Bold.woff2') format('woff2'),
+      url('../fonts/movistar/Telefonica-Bold.woff') format('woff'),
+      url('../fonts/movistar/Telefonica-Bold.ttf') format('truetype'),
+      url('../fonts/movistar/Telefonica-Bold.svg#Telefonica-Bold') format('svg');
+  font-weight: bold;
   font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Telefonica-Cap';
+  src: url('../fonts/movistar/TelefonicaCap-Regular.eot');
+  src: url('../fonts/movistar/TelefonicaCap-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/movistar/TelefonicaCap-Regular.woff2') format('woff2'),
+      url('../fonts/movistar/TelefonicaCap-Regular.woff') format('woff'),
+      url('../fonts/movistar/TelefonicaCap-Regular.ttf') format('truetype'),
+      url('../fonts/movistar/TelefonicaCap-Regular.svg#TelefonicaCap-Regular') format('svg');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'SamsungSharpSans-Medium';
-  src: url('../fonts/samsung/SamsungSharpSans-Medium.eot?#iefix') format('embedded-opentype'),  
-  url('../fonts/samsung/SamsungSharpSans-Medium.woff') format('woff'), 
-  url('../fonts/samsung/SamsungSharpSans-Medium.ttf')  format('truetype'),
-  url('../fonts/samsung/SamsungSharpSans-Medium.svg#SamsungSharpSans-Medium') format('svg');
-  font-weight: normal;
+  font-family: 'Telefonica-ExtraLight';
+  src: url('../fonts/movistar/Telefonica-ExtraLight.eot');
+  src: url('../fonts/movistar/Telefonica-ExtraLight.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/movistar/Telefonica-ExtraLight.woff2') format('woff2'),
+      url('../fonts/movistar/Telefonica-ExtraLight.woff') format('woff'),
+      url('../fonts/movistar/Telefonica-ExtraLight.ttf') format('truetype'),
+      url('../fonts/movistar/Telefonica-ExtraLight.svg#Telefonica-ExtraLight') format('svg');
+  font-weight: 200;
   font-style: normal;
+  font-display: swap;
 }
+
 @font-face {
-  font-family: 'SamsungSharpSans-Bold';
-  src: url('../fonts/samsung/SamsungSharpSans-Bold.eot?#iefix') format('embedded-opentype'), 
-  url('../fonts/samsung/SamsungSharpSans-Bold.woff') format('woff'), 
-  url('../fonts/samsung/SamsungSharpSans-Bold.ttf')  format('truetype'), 
-  url('../fonts/samsung/SamsungSharpSans-Bold.svg#SamsungSharpSans-Bold') format('svg');
+  font-family: 'Telefonica-RegularItalic';
+  src: url('../fonts/movistar/Telefonica-RegularItalic.eot');
+  src: url('../fonts/movistar/Telefonica-RegularItalic.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/movistar/Telefonica-RegularItalic.woff2') format('woff2'),
+      url('../fonts/movistar/Telefonica-RegularItalic.woff') format('woff'),
+      url('../fonts/movistar/Telefonica-RegularItalic.ttf') format('truetype'),
+      url('../fonts/movistar/Telefonica-RegularItalic.svg#Telefonica-RegularItalic') format('svg');
   font-weight: normal;
-  font-style: normal;
+  font-style: italic;
+  font-display: swap;
 }
 
+@font-face {
+  font-family: 'Telefonica-Light';
+  src: url('../fonts/movistar/Telefonica-Light.eot');
+  src: url('../fonts/movistar/Telefonica-Light.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/movistar/Telefonica-Light.woff2') format('woff2'),
+      url('../fonts/movistar/Telefonica-Light.woff') format('woff'),
+      url('../fonts/movistar/Telefonica-Light.ttf') format('truetype'),
+      url('../fonts/movistar/Telefonica-Light.svg#Telefonica-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: 'Telefonica-Regular';
+  src: url('../fonts/movistar/Telefonica-Regular.eot');
+  src: url('../fonts/movistar/Telefonica-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/movistar/Telefonica-Regular.woff2') format('woff2'),
+      url('../fonts/movistar/Telefonica-Regular.woff') format('woff'),
+      url('../fonts/movistar/Telefonica-Regular.ttf') format('truetype'),
+      url('../fonts/movistar/Telefonica-Regular.svg#Telefonica-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 * {
   margin: 0;
@@ -70,7 +116,7 @@ body[data-container='body']{
   font-size: 14px;
   background-color: white;
   text-align: center;
-  font-family: 'SamsungOne-400';
+  font-family: $fontText;
   line-height: 2;
   &.open-menu{
     overflow: hidden;

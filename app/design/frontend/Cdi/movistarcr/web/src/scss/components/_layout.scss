@@ -26,7 +26,7 @@
     font-weight: bold;
     color: #000;
     margin: 0;
-    font-family: 'SamsungSharpSans-Medium';
+    font-family: $fontText;
     @media only screen and (max-width: $tablet){
       font-size: 30px;
     } 
@@ -57,7 +57,7 @@ section{
     .title-section{
       color: #000;
       font-size: 34px;
-      font-family: 'SamsungSharpSans-Bold';
+      font-family: $fontTextTitle;
       font-weight: bold;
       margin: 0;
       @media only screen and (max-width: $tablet){
@@ -83,7 +83,7 @@ section{
       font-size: 1.4rem;
       text-transform: uppercase;
       transition: .5s all ease;
-      border: 1px solid #89170b;
+      border: 1px solid #019DF4;
       display: inline-block;
       padding: 7px 15px;
       border-radius: 3px;
@@ -123,7 +123,7 @@ section{
       transform: translateY(-50%) translateX(0%);
     }
     h1, h1 span{
-      font-family: 'SamsungSharpSans-Bold';
+      font-family: $fontTextTitle;
       font-weight: normal;
       font-size: 72px;
       line-height: .9em;
@@ -236,7 +236,7 @@ section{
   }
 }
 .button, .cart-table .product-cart-actions .button, #co-shipping-method-form .buttons-set .button, .footer .button{
-  background: #E73C3E;
+  background: $mainColor;
   display: inline-block;
   padding: 7px 15px;
   border: 0;
@@ -250,7 +250,7 @@ section{
   white-space: nowrap;
   &:hover{
     color: #fff;
-    background: #e42528;
+    background: $colorHover;
     cursor: pointer;
     border: 0;
   }
@@ -583,7 +583,7 @@ section{
     transition: .5s all ease;
     font-size: 1.7rem;
     letter-spacing: 1px;
-    font-family: 'SamsungSharpSans-Medium';
+    font-family: $fontText;
     font-weight: 400;
     border-radius: 5px !important;
     border: 0;
