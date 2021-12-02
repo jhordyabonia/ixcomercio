@@ -11,47 +11,26 @@
         </label>
     </div>
 
-    <div class="payment-method-content">
+    <div data-bind="afterRender: updateMenu();" class="payment-method-content">
         <div class="panel-checkout">
             <div class="row">
-                <h2 class="title-checkout"><!-- ko i18n: 'Usa el medio de pago que prefieras'--><!-- /ko --></h2>
+                <h2 class="title-checkout"><!-- ko i18n: 'Escogiste medio de pago Tarjeta Debito que se realizará a través de WebPay'--><!-- /ko --></h2>
 
                 <!-- ko if: (getInfoBanner('credit') != 0)-->
                 <div class="col-md-12">
-                    <div class="frame-tarjetas">
-                        <p class="subtitle-checkout">
-                            <!-- ko i18n: 'Tarjetas de crédito'--><!-- /ko -->
-                            <span class="badge-checkout"><!-- ko i18n: 'Hasta'--><!-- /ko --> <span
-                                data-bind="text: getInfoBannerInstallments()"></span>  <!-- ko i18n: 'cuotas'-->
-                                <!-- /ko --></span>
-                        </p>
-                        <div data-bind="foreach: getInfoBannerPaymentMethods('credit')">
-                            <img data-bind="attr: {src: src, alt: name}" class="img-fluid img-tarjetas"/>
-                        </div>
 
-                    </div>
                 </div>
                 <!--/ko-->
 
                 <!-- ko if: (getInfoBanner('debit') != 0)-->
                 <div class="col-md-6">
-                    <div class="frame-tarjetas">
-                        <p class="subtitle-checkout"><!-- ko i18n: 'Tarjetas de débito'--><!-- /ko --></p>
-                        <div data-bind="foreach: getInfoBannerPaymentMethods('debit')">
-                            <img data-bind="attr: {src: src, alt: name}" class="img-fluid img-tarjetas"/>
-                        </div>
-                    </div>
+
                 </div>
                 <!--/ko-->
 
                 <!-- ko if: (getInfoBanner('ticket') != 0)-->
                 <div class="col-md-6">
-                    <div class="frame-tarjetas">
-                        <p class="subtitle-checkout"><!-- ko i18n: 'Pagos en efectivo'--><!-- /ko --></p>
-                        <div data-bind="foreach: getInfoBannerPaymentMethods('ticket')">
-                            <img data-bind="attr: {src: src, alt: name}" class="img-fluid img-tarjetas"/>
-                        </div>
-                    </div>
+
                 </div>
                 <!--/ko-->
 
