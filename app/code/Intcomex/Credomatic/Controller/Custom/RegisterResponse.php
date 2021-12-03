@@ -2,7 +2,6 @@
 
 namespace Intcomex\Credomatic\Controller\Custom;
 
-use Intcomex\Credomatic\Model\CredomaticFactory;
 
 class RegisterResponse extends \Magento\Framework\App\Action\Action
 {
@@ -14,7 +13,11 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
         \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Api\Data\OrderInterfaceFactory $orderFactory,
-        \Magento\Sales\Api\OrderManagementInterface $orderManagement
+        \Magento\Sales\Api\OrderManagementInterface $orderManagement,
+        \Magento\Sales\Model\Service\InvoiceService $invoiceService,
+        Magento\Framework\DB\Transaction $transaction,
+        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
     ) {
         parent::__construct($context);
         $this->json = $json;
@@ -22,6 +25,10 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
         $this->_checkoutSession = $checkoutSession;
         $this->_orderFactory = $orderFactory;
         $this->orderManagement = $orderManagement;
+        $this->orderSender = $orderSender;
+        $this->invoiceSender = $invoiceSender;
+        $this->transaction = $transaction;
+        $this->invoiceService = $invoiceService;
     }
 
 
