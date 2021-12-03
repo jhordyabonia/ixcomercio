@@ -69,10 +69,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($body['orderid']);
             
             if(empty($body)||isset($body['empty'])){
-                $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
+                //$resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
+                $resultRedirect->setPath('checkout/onepage/success');
                 return $resultRedirect;
-            }
-            
+            } 
            
             if($modo=='pruebas'){
                 $order->setState("processing")->setStatus("processing");
