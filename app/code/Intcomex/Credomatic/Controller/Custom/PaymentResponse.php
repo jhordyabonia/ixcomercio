@@ -109,23 +109,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             }
             
-            $this->orderSender->send($order, true);
-
-            if ($order->canInvoice()) {
-                $invoice = $this->invoiceService->prepareInvoice($order);
-                $invoice->register();
-                $invoice->save();
-                $transactionSave = $this->transaction->addObject(
-                    $invoice
-                )->addObject(
-                    $invoice->getOrder()
-                );
-                $transactionSave->save();
-                $this->invoiceSender->send($invoice);
-                //Send Invoice mail to customer
-                $order->addStatusHistoryComment(__('Notified customer about invoice creation #%1.', $invoice->getId()))->setIsCustomerNotified(true)->save();
-            }
-            
            return $resultRedirect;
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
