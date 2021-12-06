@@ -111,7 +111,7 @@ class Process implements ObserverInterface
                     if($mp_order!=0){
                         try{                       
                             $this->logger->info('Consultamos el payload');
-                            $LastTransId = '1234567';
+                            $LastTransId = $payment->getCcTransId();
                             if($payment->getMethod()=='mercadopago_custom')
                             {
                                 if(empty($payment->getCcTransId()))
@@ -142,7 +142,7 @@ class Process implements ObserverInterface
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
-                                        '1234567',
+                                        $LastTransId,
                                         $LastTransId, 
                                         '', 
                                         $payment->getMethod(), 
@@ -163,6 +163,7 @@ class Process implements ObserverInterface
                         }
                     } else if ($mp_order==0) {
                             try{
+                                $LastTransId = !empty($payment->getLastTransId()) ? $payment->getLastTransId() : $payment->getCcTransId();
                                 $configDataPlace = $this->helper_placeorder->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode()); 
                                 $this->logger->info('PlaceOrder process - Se obtienen parámetros de configuración');
                                 $this->logger->info(print_r($configDataPlace,true));
@@ -182,8 +183,8 @@ class Process implements ObserverInterface
                                         $payload = $this->helper->loadPayloadService(
                                                     $order->getId(), 
                                                     $payment->getAmountOrdered(), 
-                                                    '1234567',
-                                                    (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
+                                                    $LastTransId,
+                                                    $LastTransId,
                                                     '', 
                                                     $payment->getMethod(), 
                                                     $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
