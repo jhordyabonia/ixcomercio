@@ -51,17 +51,28 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
         //Ajuste de llamado orden details
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
         $helper = $objectManager->create('Intcomex\MercadopagoRewrites\Helper\Api');
-        $order =  $helper->getOrdenByIncrementId($payment['external_reference'],0);
         
-        if (!$order->getId()) {            
 
-            $message = 'Mercado Pago - The order was not found in Magento. You will not be able to follow the process without this information.';
-            return [
-                'httpStatus' => Response::HTTP_NOT_FOUND,
-                'message'    => $message,
-                'data'       => $payment['external_reference'],
-            ];
+        try {
+            //code...
+            $order =  $helper->getOrdenByIncrementId($payment['external_reference'],0);
+            
+            if (!$order->getId()) {            
+
+                $message = 'Mercado Pago - The order was not found in Magento. You will not be able to follow the process without this information.';
+                return [
+                    'httpStatus' => Response::HTTP_NOT_FOUND,
+                    'message'    => $message,
+                    'data'       => $payment['external_reference'],
+                ];
+            }
+
+        } catch (\Exception $e) {
+            
+            $this->_mpHelper->log(__('ERROR - Order data'), self::LOG_NAME, $e->getMessage());
         }
+        
+        
 
         $message              = parent::getMessage($payment);
         $statusAlreadyUpdated = $this->checkStatusAlreadyUpdated($payment, $order);
@@ -104,10 +115,6 @@ class Payment extends \MercadoPago\Core\Model\Notifications\Topics\Payment
         $this->updateAdditionalInformation($order, $payment);
 
         $order->save();
-
-        if ($payment['status'] == 'approved') {
-            $helper->getRegysterPayment($order);
-        }
 
         $messageHttp = 'Mercado Pago - Status successfully updated.';
         return [
