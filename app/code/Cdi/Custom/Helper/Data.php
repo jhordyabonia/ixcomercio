@@ -38,7 +38,9 @@ class Data extends AbstractHelper{
 		TimezoneInterface $localeDate, 
 		BestSellersCollectionFactory $bestSellersCollectionFactory,
 		AddressRepositoryInterface $addressRepository,
-		\Magento\Store\Model\StoreManagerInterface $storeManager
+		\Magento\Store\Model\StoreManagerInterface $storeManager,
+		\Magento\Sales\Api\Data\OrderInterfaceFactory $orderInterfaceFactory,
+		\Magento\Checkout\Model\Session $checkoutSession
 	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
@@ -46,6 +48,8 @@ class Data extends AbstractHelper{
 		$this->addressRepository = $addressRepository;
 		$this->_bestSellersCollectionFactory = $bestSellersCollectionFactory;
 		$this->_storeManager = $storeManager;	
+		$this->_orderInterfaceFactory = $orderInterfaceFactory;
+		$this->_checkoutSession = $checkoutSession;	
 	}
 	
 	/**
@@ -344,5 +348,19 @@ class Data extends AbstractHelper{
 			'productslider/general/enabled_product_view',
 			\Magento\Store\Model\ScopeInterface::SCOPE_STORE
 		);
+	}
+
+	public function getOrderDetailByIncrementId($incrementId){
+		if(!empty($incrementId)){
+			$order = $this->_orderInterfaceFactory->create()->loadByIncrementId($incrementId);
+			return $order; 
+		}
+	}
+
+	public function getLastRealOrder($orderId){
+		if(!empty($orderId)){
+			$order = $this->_orderInterfaceFactory->create()->load($orderId);
+			return $order; 
+		}
 	}
 }

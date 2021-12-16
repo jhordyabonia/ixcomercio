@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Intcomex_Bines::Bines"
+             title="Bin Campaigns"
+             module="Intcomex_Bines"
+             sortOrder="100"
+             resource="Intcomex_Bines::Bines"
+             parent="Magento_CatalogRule::promo"
+             action="intcomex_bines/bines"/>
+	</menu>
+</config>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+		<resources>
+			<resource id="Magento_Backend::admin">
+				<resource id="Intcomex_Bines::Bines" title="Bines" sortOrder="10">
+                    <resource id="Intcomex_Bines::BinesCrud" title="Bines Crud" sortOrder="10">
+                        <resource id="Intcomex_Bines::BinesCrud_save" title="Save" sortOrder="10"/>
+                        <resource id="Intcomex_Bines::BinesCrud_delete" title="Delete" sortOrder="20"/>
+                        <resource id="Intcomex_Bines::BinesCrud_update" title="Update" sortOrder="30"/>
+                        <resource id="Intcomex_Bines::BinesCrud_view" title="View" sortOrder="40"/>
+                    </resource>
+                    <resource id="Intcomex_Bines::BinesImporter" title="Bines Importer" sortOrder="20">
+                        <resource id="Intcomex_Bines::BinesImporter_import" title="Import" sortOrder="10"/>
+                    </resource>
+				</resource>
+            </resource>
+		</resources>
+	</acl>
+</config>

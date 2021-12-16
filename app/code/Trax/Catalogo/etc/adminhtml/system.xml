@@ -93,6 +93,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Indica si se consulta IWS cada que se entre al detalle de un producto.</comment>
                 </field>
+
+                <field id="text_email_product_iws" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Texto email</label>
+                    <comment>Se agrega el texto que sera agregado antes del listado de los productos.</comment>
+                </field>
             </group>
             <group id="catalogo_iws" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Datos IWS</label>
