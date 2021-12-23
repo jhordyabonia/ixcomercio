@@ -223,9 +223,10 @@ class ObserverSuccess implements ObserverInterface
                     $order->setMienvioTraxId($mienvioTraxId);
                     $order->save();
                     return $this;
-                } catch (\Exception $e) {
+                } catch (\Exception $e) { 
                     $this->_logger->debug('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
-                    throw new InputException(__('Error when updating Mienvio Quote Id.'));
+                    throw new \Magento\Framework\Validator\Exception(__('Error when updating Mienvio Quote Id.')); 
+                    //throw new InputException(__('Error when updating Mienvio Quote Id.'));
                 }
 
             }
