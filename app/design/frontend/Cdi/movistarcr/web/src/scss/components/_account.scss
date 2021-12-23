@@ -1,0 +1,180 @@
+.account{
+  .page-title-wrapper{
+    margin: 40px 0 60px;
+    .page-title {
+      margin: 0;
+    }
+    .order-status, .order-date {
+      width: 100%;
+      float: left;
+      line-height: normal;
+      margin: 0 0 10px;
+    }
+    .order-date{
+      .label{
+        color: #000;
+      }
+    }
+    .order-actions-toolbar {
+      width: 100%;
+      padding: 0 15px; 
+      line-height: normal;
+      float: left;
+      a{
+        display: inline-block;
+        margin: 0 20px;
+        float: none;
+      }
+    }
+  }
+  .column.main{
+    form, .block:not(.widget), .table-wrapper{
+      text-align: left;
+      border: 1px solid #e8e8e8;
+      padding: 40px;
+      &.additional-addresses{
+        overflow-x: overlay;
+        padding: 40px 0 0;
+        border: 0;
+      }
+      .mark, mark {
+        background: none;
+      }
+    }
+    .block:not(.widget){
+      .block-title{
+        color: $mainColor;
+        border-bottom: 1px solid #e8e8e8;
+        padding-bottom: 12px;
+        > strong{
+          font-weight: 400;
+        }
+      }
+      .block-content{
+        .box-title{
+          color: #000;
+        }
+      }
+      .action{
+        margin-right: 20px;
+        &:not(.primary) {
+          text-decoration: underline;
+        }
+      }
+    }
+    .block:last-child {
+      margin-bottom: 40px;
+    }
+    form {
+      margin-top: 0;
+      .fieldset{
+        >.field{
+          margin: 0 0 15px;
+          &:last-child{
+            margin: 0;
+          }
+          &:not(.choice){
+            margin: 0 0 29px;
+            >.label{
+              max-width: 100%;
+              padding: 0;
+            }
+            .control{
+              @media only screen and (min-width: $tablet){
+                width: 74.2%;
+                max-width: inherit;
+              }
+            }
+          }
+          &.region{
+            .control{
+              select{
+                option{
+                  display: none;
+                  &[parentid]{
+                    display: block;
+                  }
+                }
+              }
+            }
+          }
+          &.city{
+            .control{
+              input{
+                visibility: hidden;
+              }
+            }
+          }
+        }
+        >.legend{
+          width: 100%;
+          border-bottom: 1px solid #e8e8e8;
+          font-weight: bold;
+          font-size: 20px;
+          padding-bottom: 12px;
+          float: none;
+        }
+      }
+    }
+    .actions-toolbar{
+      margin: 0;
+      float: none;
+      .primary:not(div){
+        min-width: 120px;
+        font-size: 16px;
+        @media only screen and (min-width: $tablet){
+          float: left;
+        }
+      }
+      .secondary{
+        width: 100%;
+        float: left;
+        text-align: left;
+        a.action{
+          @media only screen and (min-width: $tablet){
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+.account-nav{
+  text-align: left;
+  .item{
+    &:nth-child(5){
+      display: none;
+    }
+    &.current {
+      a, strong{
+        color: $mainColor;
+        border-color: $mainColor;
+      }
+    }
+    a, strong{
+      color: #000;
+      &:hover{
+        color: $mainColor;
+      }
+    }
+  }
+}
+.sidebar.sidebar-additional{
+  text-align: left;
+  .block-title strong{
+    font-family: $fontTextTitle;
+    font-size: 20px;
+  }
+  .actions-toolbar{
+    text-align: left;
+  }
+  .actions-toolbar{
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    > div{
+      text-align: left;
+      float: left;
+    }
+  }
+}
