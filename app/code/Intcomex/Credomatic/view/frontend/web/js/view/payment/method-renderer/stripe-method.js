@@ -61,36 +61,26 @@ define(
                    var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);  
-                    (function theLoop (i) {
-                        setTimeout(function () {
-                            console.log('Buscando ...'+i);
-                            $.post(urlGetResponse,{order_id:data['orderid']})
-                            .done(function(resp){
-                                if(resp.status=='success'){
-                                    console.log('Encontrado!');
-                                    var redirectUrl = urlPaymentResponse+'?'+resp.info;
-                                    console.log('redirectUrl')
-                                    console.log(redirectUrl)
-                                    window.location.href = redirectUrl;
-                                    i=0;
-                                    return false;
-                                }
-                             })
-                            .fail(function(resp){
-                                console.log(resp);
-                             });
-                             if(i==1){
-                                var redirectUrl = urlPaymentResponse+'?orderid='+data['orderid']+'&empty=true';
+
+                    let interval = setInterval(function () {
+                        console.log('Buscando ...');
+                        $.post(urlGetResponse,{order_id:data['orderid']})
+                        .done(function(resp){
+                            if(resp.status=='success'){
+                                console.log('Encontrado!');
+                                var redirectUrl = urlPaymentResponse+'?'+resp.info;
+                                console.log('redirectUrl')
+                                console.log(redirectUrl)
+                                clearInterval(interval);
                                 window.location.href = redirectUrl;
-                                i=0;
                                 return false;
-                             }
-                            if (--i) {          // If i > 0, keep going
-                            theLoop(i);       // Call the loop again, and pass it the current value of i
                             }
-                        }, 9000);
-                    })(6); 
-                    
+                        })
+                        .fail(function(resp){
+                            console.log(resp);
+                        });
+                    }, 9000);
+
                 })
                 .fail(function(msg){
 
