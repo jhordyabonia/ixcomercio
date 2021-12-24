@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace Intcomex\EventsObservers\Observer\Payment;
  
 use Magento\Framework\Event\Observer;
@@ -9,7 +9,6 @@ use \Intcomex\EventsObservers\Helper\PlaceOrder;
 use Trax\Ordenes\Model\IwsOrderFactory;
 use Magento\Sales\Model\Order;
 
- 
 class Process implements ObserverInterface
 {
     /**
@@ -111,39 +110,12 @@ class Process implements ObserverInterface
                     if($mp_order!=0){
                         try{                       
                             $this->logger->info('Consultamos el payload');
-                            $LastTransId = $payment->getCcTransId();
-                            if($payment->getMethod()=='mercadopago_custom')
-                            {
-                                if(empty($payment->getCcTransId()))
-                                {   
-                                    $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
-                                    $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
-                                    if(empty($paymentResponse))
-                                    {
-                                        $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());   
-                                    }else{
-                                        $LastTransId = $paymentResponse["id"];
-                                        $payment->setCcTransId($LastTransId);
-                                        $updateData  = $payment->save();
-                                        if($updateData)
-                                        {
-                                            $this->logger->info('Payment - Mercadopago_custom, Se actualizo el atributo CcTransId del pago con el numero de autorizacion : '. $LastTransId);
-                                        } else {
-                                            $this->logger->info('Payment - Mercadopago_custom, Se produjo un error al actualizar el atributo CcTransId del pago con el numero de autorizacion : '.$LastTransId);
-                                        }
-                                    }
-                                }else{
-                                    $LastTransId = $payment->getCcTransId();
-                                }
-                            }else{
-                                $LastTransId = empty($payment->getLastTransId()) ? $LastTransId : $payment->getLastTransId();
-                            }                           
-                            
+                            $transactionId = $this->_setTransactionId($order);
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
-                                        $LastTransId,
-                                        $LastTransId, 
+                                        $transactionId,
+                                        $transactionId, 
                                         '', 
                                         $payment->getMethod(), 
                                         $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
@@ -163,7 +135,6 @@ class Process implements ObserverInterface
                         }
                     } else if ($mp_order==0) {
                             try{
-                                $LastTransId = !empty($payment->getLastTransId()) ? $payment->getLastTransId() : $payment->getCcTransId();
                                 $configDataPlace = $this->helper_placeorder->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode()); 
                                 $this->logger->info('PlaceOrder process - Se obtienen parámetros de configuración');
                                 $this->logger->info(print_r($configDataPlace,true));
@@ -180,11 +151,12 @@ class Process implements ObserverInterface
                                     if($place)
                                     {
                                         $this->logger->info('Consultamos el payload');
+                                        $transactionId = $this->_setTransactionId($order);
                                         $payload = $this->helper->loadPayloadService(
                                                     $order->getId(), 
                                                     $payment->getAmountOrdered(), 
-                                                    $LastTransId,
-                                                    $LastTransId,
+                                                    $transactionId,
+                                                    $transactionId,
                                                     '', 
                                                     $payment->getMethod(), 
                                                     $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
@@ -206,13 +178,44 @@ class Process implements ObserverInterface
                             } catch(Exception $e){
                                 $this->logger->info('PlaceOrder process - Se ha producido un error: '.$e->getMessage());
                             }
-                        }else{
+                        } else {
                             $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion'); 
-                        }                        
-                    }  
+                        }
+                    }
                 }
-                                            
     }
-             
-}
 
+    /**
+     * Set Transaction Id To Payment.
+     * @return string
+     */
+    private function _setTransactionId($order)
+    {
+        $payment = $order->getPayment();
+        $LastTransId = $payment->getCcTransId();
+        if ($payment->getMethod()=='mercadopago_custom') {
+            if (empty($payment->getCcTransId())) {
+                $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
+                $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
+                if (empty($paymentResponse)) {
+                    $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());   
+                } else {
+                    $LastTransId = $paymentResponse["id"];
+                    $payment->setCcTransId($LastTransId);
+                    $updateData  = $payment->save();
+                    if ($updateData) {
+                        $this->logger->info('Payment - Mercadopago_custom, Se actualizo el atributo CcTransId del pago con el numero de autorizacion : '. $LastTransId);
+                    } else {
+                        $this->logger->info('Payment - Mercadopago_custom, Se produjo un error al actualizar el atributo CcTransId del pago con el numero de autorizacion : '.$LastTransId);
+                    }
+                }
+            } else {
+                $LastTransId = $payment->getCcTransId();
+            }
+        } else {
+            $LastTransId = empty($payment->getLastTransId()) ? $LastTransId : $payment->getLastTransId();
+        }
+
+        return $LastTransId;
+    }
+}
