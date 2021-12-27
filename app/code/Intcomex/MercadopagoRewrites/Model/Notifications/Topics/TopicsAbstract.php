@@ -1,6 +1,6 @@
 <?php
 
-namespace Intcomex\MercadopagoRewrites\Model\Notifications\Topics;
+namespace MercadoPago\Core\Model\Notifications\Topics;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Sales\Model\Order;
@@ -19,7 +19,7 @@ use Magento\Framework\DB\TransactionFactory;
 use Magento\Sales\Model\Service\InvoiceService;
 use mysql_xdevapi\Exception;
 
-abstract class TopicsAbstract extends \MercadoPago\Core\Model\Notifications\Topics\TopicsAbstract
+abstract class TopicsAbstract
 {
     public $_statusUpdatedFlag;
     protected $_scopeConfig;
@@ -379,7 +379,7 @@ abstract class TopicsAbstract extends \MercadoPago\Core\Model\Notifications\Topi
      */
     public function updateStatus($order, $payment, $message)
     {
-        $this->_dataHelper->log("Call updateStatus " .  $order->getIncrementId() , 'mercadopago-basic.log');
+        $this->_dataHelper->log("Call updateStatus " . $order->getIncrementId(), 'mercadopago-basic.log');
         if ($order->getState() !== Order::STATE_COMPLETE) {
             $statusOrder = $this->getConfigStatus($payment, $order->canCreditmemo());
 
@@ -402,7 +402,7 @@ abstract class TopicsAbstract extends \MercadoPago\Core\Model\Notifications\Topi
             $this->_dataHelper->log("Call addStatusToHistory " . $order->getIncrementId(), 'mercadopago-basic.log');
             if ($emailOrderCreate) {
                 if (!$order->getEmailSent()) {
-                    $this->_dataHelper->log("Call getEmailSent", 'mercadopago-basic.log');
+                    $this->_dataHelper->log("Call getEmailSent " . $order->getIncrementId(), 'mercadopago-basic.log');
                     $this->_orderSender->send($order, true);
                     $emailAlreadySent = true;
                 }
@@ -412,12 +412,12 @@ abstract class TopicsAbstract extends \MercadoPago\Core\Model\Notifications\Topi
                 $statusEmail = $this->_scopeConfig->getValue(ConfigData::PATH_ADVANCED_EMAIL_UPDATE, ScopeInterface::SCOPE_STORE);
                 $statusEmailList = explode(",", $statusEmail);
                 if (in_array($payment['status'], $statusEmailList)) {
-                    $this->_dataHelper->log("Call _orderSender::send " . $order->getIncrementId(), 'mercadopago-basic.log');
                     $this->_orderSender->send($order, $notify = '1', str_replace("<br/>", "", $message));
-                }
-            }  
+                    $this->_dataHelper->log("Call _orderSender::send " . $order->getIncrementId(), 'mercadopago-basic.log');                }
+            }
+        }
 
-        $this->_dataHelper->log("Update order", 'mercadopago-basic.log', $order->getData());
+        $this->_dataHelper->log("Update order " . $order->getIncrementId(), 'mercadopago-basic.log', $order->getData());
         $this->_dataHelper->log($message, 'mercadopago-basic.log');
 
         return $order->save();
