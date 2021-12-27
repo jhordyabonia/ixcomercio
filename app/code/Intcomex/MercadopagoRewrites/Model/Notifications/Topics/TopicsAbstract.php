@@ -406,6 +406,12 @@ abstract class TopicsAbstract extends \MercadoPago\Core\Model\Notifications\Topi
                     $this->_orderSender->send($order, true);
                     $emailAlreadySent = true;
                 }
+                else{
+                    $this->_dataHelper->log("The value in getEmailSent() of order " . $order->getIncrementId() . " is " . $order->getEmailSent(), 'mercadopago-basic.log');    
+                }
+            }
+            else{
+                $this->_dataHelper->log("The value in emailOrderCreate of order " . $order->getIncrementId() . " is " . $emailOrderCreate, 'mercadopago-basic.log');
             }
 
             if ($emailAlreadySent === false) {
@@ -413,7 +419,12 @@ abstract class TopicsAbstract extends \MercadoPago\Core\Model\Notifications\Topi
                 $statusEmailList = explode(",", $statusEmail);
                 if (in_array($payment['status'], $statusEmailList)) {
                     $this->_orderSender->send($order, $notify = '1', str_replace("<br/>", "", $message));
-                    $this->_dataHelper->log("Call _orderSender::send " . $order->getIncrementId(), 'mercadopago-basic.log');                }
+                    $this->_dataHelper->log("Call _orderSender::send " . $order->getIncrementId(), 'mercadopago-basic.log');               
+                 }
+                 else
+                 {
+                    $this->_dataHelper->log("statusEmailList of order " . $order->getIncrementId(),'mercadopago-basic.log', $statusEmailList);
+                 }
             }
         }
 
