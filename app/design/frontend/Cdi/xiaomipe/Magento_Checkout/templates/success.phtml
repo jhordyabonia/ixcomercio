@@ -3,34 +3,24 @@ $status = "";
 $method = "";
 $orderId = $block->getRealOrderId();
 $_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
-
-if(isset($_GET['external_reference'])){
-    $order = $_mienvioHelper->getOrderDetailByIncrementId($_GET['external_reference']);
-}else{
-    $order = $_mienvioHelper->getOrderDetails($orderId);
-}
-
+$order = $_mienvioHelper->getOrderDetails($orderId);
 $billingAddress = $order->getBillingAddress();
 $payment = $order->getPayment();
 if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
-    if(isset($_GET['external_reference'])){
-        $method = $payment->getData()['method'];
-    }else{
-        $method = $payment->getAdditionalInformation()['method'];
-    }
+    $method = $payment->getAdditionalInformation()['method'];
 }
 
 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
- 
+
 ?>
 <div class="checkout-success">
-<?php if((!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending')||!empty($method) && !empty($status) && $method == 'mercadopago_basic' && $status == 'pending'){ ?>
+<?php if(!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending'){ ?>
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
                 <div class="page-title-wrapper">
-                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/espera.png")?>"></p>
+                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("media/")?>espera.png"></p>
                     <h1 class="page-title">
                         <span class="base" data-ui-id="page-title-wrapper">¡Recibimos tu pedido!</span>
                     </h1>
@@ -76,11 +66,11 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
         </div>
     </div>
 <?php
-}elseif(( !empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved')|| !empty($method) && !empty($status) && $method == 'mercadopago_basic' && $status == 'approved'){
+}elseif( !empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved'){
 ?>
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="page-title-wrapper">
-            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/verificado.png")?>"></p>
+            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getUrl("media/")?>verificado.png"></p>
             <h1 class="page-title">
                 <span class="base" data-ui-id="page-title-wrapper">¡Gracias por tu compra!</span>
             </h1>
