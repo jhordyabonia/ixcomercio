@@ -1630,7 +1630,7 @@ section {
         .products-grid .product-items .item:not(.rating-summary) .product-item-info .product-item-actions .actions-secondary a.towishlist:before {
           font-size: 40px; }
         .products-grid .product-items .item:not(.rating-summary) .product-item-info .product-item-actions .actions-secondary a.tocompare {
-          display: none; }
+          display: block; }
   .products-grid .product-items .owl-dots {
     width: 100%;
     text-align: center;

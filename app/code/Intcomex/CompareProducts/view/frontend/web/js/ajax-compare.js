@@ -20,7 +20,7 @@ define([
             closePopupModal: '.action-close',
             processStart: 'processStart',
             processStop : 'processStop',
-            addToCompareButtonSelector: '.tocompare',
+            addToCompareButtonSelector: '.add-to-compare, .delete',
             addToCompareButtonDisabledClass: 'disabled',
             addToCompareButtonTextWhileAdding: '',
             addToCompareButtonTextAdded: '',
@@ -52,8 +52,8 @@ define([
             });
 
             self.element.find(self.options.addToCompareButtonSelector).off('click').click(function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+                // e.preventDefault();
+                // e.stopPropagation();
                 self.addCompare($(this));
             });
         },
@@ -98,6 +98,9 @@ define([
                 parent = el.parent(),
                 post   = el.data('post');
             let params = post.data;
+            console.log(params)
+            params['checked'] = el.is(':checked');
+            console.log(params)
             if(parent.hasClass(self.options.addToCompareButtonDisabledClass)) return;
             $.ajax({
                 url: post.action,
@@ -113,6 +116,8 @@ define([
                     if (self.options.showLoader) body.trigger(self.options.processStop);
                     if (res.popup) {
                         if (!comparePopup.length) {
+                            $('#floatingComparisonBar').remove();
+                            body.append(res.popup);
                             body.append('<div class="mgp-compare-popup-wrapper" id="' + self.options.popupWrapperSelector.replace(/^#/, "") +'" >'+res.popup+'</div>');
                         }
                         self.showPopup();

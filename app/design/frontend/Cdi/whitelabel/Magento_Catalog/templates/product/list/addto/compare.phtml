@@ -1,0 +1,21 @@
+<?php
+/** @var $block Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare */
+?>
+<a href="#"
+   class="action tocompare"
+   title="<?= $block->escapeHtml(__('Add to Compare')) ?>"
+   aria-label="<?= $block->escapeHtml(__('Add to Compare')) ?>"
+   data-post='<?= /* @escapeNotVerified */ $block->getCompareHelper()->getPostDataParams($block->getProduct()) ?>'
+   role="button">
+    <span><?= /* @escapeNotVerified */ __('Add to Compare') ?></span>
+</a>
+
+<input
+    type="checkbox"
+    class="add-to-compare"
+    href="#"
+    title="<?= $block->escapeHtml(__('Comparar')) ?>"
+    aria-label="<?= $block->escapeHtml(__('Comparar')) ?>"
+    data-post='<?= /* @escapeNotVerified */ $block->getCompareHelper()->getPostDataParams($block->getProduct()) ?>'
+    role="button">
+    <?= /* @escapeNotVerified */ __('Comparar') ?>
