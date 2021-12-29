@@ -353,3 +353,17 @@ div#credomatic_cc_type_exp_div{
 .invoice_uncheck_title{
   color:#000 !important;
 }
+
+.legal-contado {
+  background: url(../images/icons/important.png) no-repeat center;
+  background-size: 100%;
+  @media only screen and (max-width: $desktop){
+    margin: 0;
+    color:#0474f6;
+    display: flex;
+    align-items: center;
+  }
+}
+.legal-contado-texto {
+  margin-left: 15px;
+}
