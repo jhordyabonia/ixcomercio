@@ -354,16 +354,29 @@ div#credomatic_cc_type_exp_div{
   color:#000 !important;
 }
 
-.legal-contado {
+.legal{
+  float: left;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.legal-img {
+  width: 20px;
+  height: 20px;
   background: url(../images/icons/important.png) no-repeat center;
   background-size: 100%;
   @media only screen and (max-width: $desktop){
-    margin: 0;
-    color:#0474f6;
-    display: flex;
-    align-items: center;
+    width: 42px;
+    height: 42px;
+  }
+  @media only screen and (max-width: $mobile){
+    width: 30px;
+    height: 30px;
   }
 }
-.legal-contado-texto {
+
+.legal-texto {
   margin-left: 15px;
+  color:#0474f6 !important;
 }
