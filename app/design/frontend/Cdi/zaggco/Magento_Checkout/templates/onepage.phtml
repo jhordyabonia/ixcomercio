@@ -63,6 +63,8 @@ $mercadoPagoBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->
         window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
         window.megapago_efectivo_block = <?php echo json_encode($mercadoPagoBlock)?>;
         window.franquiciamp = '<?php echo $block->getViewFileUrl('images/franquicias.png'); ?>';
+        window.pse = '<?php echo $block->getViewFileUrl('images/pse.png'); ?>';
+        window.currency = '<?php echo $theme->getStore()->getCurrentCurrencyCode() ?>';
     </script>
     <script>
         require([

@@ -205,6 +205,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $curl_errors = curl_error($curl);
         curl_close($curl);    
         $this->logger->info('PlaceOrder - payload: '.$payload);
+        $this->logger->info('PlaceOrder - response: ' . $resp);
         $this->logger->info('PlaceOrder - status code: '.$status_code);
         $this->logger->info('PlaceOrder - '.$serviceUrl);
         $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
