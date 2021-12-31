@@ -20,12 +20,13 @@ define([
             closePopupModal: '.action-close',
             processStart: 'processStart',
             processStop : 'processStop',
-            addToCompareButtonSelector: '.add-to-compare, .delete',
+            addToCompareButtonSelector: '.add-to-compare',
             addToCompareButtonDisabledClass: 'disabled',
             addToCompareButtonTextWhileAdding: '',
             addToCompareButtonTextAdded: '',
             addToCompareButtonTextDefault: '',
             btnCloseSelector: '#ajaxcompare_btn_close_popup',
+            divMiniCompare: '#floatingComparisonBar',
             showLoader: true
         },
 
@@ -52,8 +53,8 @@ define([
             });
 
             self.element.find(self.options.addToCompareButtonSelector).off('click').click(function(e) {
-                // e.preventDefault();
-                // e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
                 self.addCompare($(this));
             });
         },
@@ -93,14 +94,11 @@ define([
          */
         addCompare: function (el) {
             let self = this,
-                comparePopup = $(self.options.popupWrapperSelector),
                 body   = $('body'),
                 parent = el.parent(),
                 post   = el.data('post');
             let params = post.data;
-            console.log(params)
-            params['checked'] = el.is(':checked');
-            console.log(params)
+            params['checked'] = el.is(':checked') ? 1 : 0;
             if(parent.hasClass(self.options.addToCompareButtonDisabledClass)) return;
             $.ajax({
                 url: post.action,
@@ -114,18 +112,22 @@ define([
                 },
                 success: function (res) {
                     if (self.options.showLoader) body.trigger(self.options.processStop);
-                    if (res.popup) {
-                        if (!comparePopup.length) {
-                            $('#floatingComparisonBar').remove();
-                            body.append(res.popup);
-                            body.append('<div class="mgp-compare-popup-wrapper" id="' + self.options.popupWrapperSelector.replace(/^#/, "") +'" >'+res.popup+'</div>');
+                    if (res.success) {
+                        $(self.options.divMiniCompare).remove();
+                        body.prepend(res.popup);
+                        if (params['checked']) {
+                            $(el).prop('checked', true);
+                        } else {
+                            $(el).prop('checked', false);
                         }
+                    } else if (!res.success) {
+                        body.append('<div class="mgp-compare-popup-wrapper" id="' + self.options.popupWrapperSelector.replace(/^#/, "") +'" >'+res.popup+'</div>');
                         self.showPopup();
                     } else {
                         alert($t('No response from server'));
                     }
                 }
-            }).done(function(){
+            }).done(function() {
                  self.enableAddToCompareButton(parent);
             });
         },

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Intcomex\CompareProducts\Plugin\Controller\Product\Compare;
 
@@ -36,6 +37,7 @@ class Add extends MagentoAdd
         if ($subject->getRequest()->isAjax()) {
             $this->_view->loadLayout();
             $productId = (int)$this->getRequest()->getParam('product');
+            $isAddProduct = (bool)$this->getRequest()->getParam('checked');
             $storeId = $this->_storeManager->getStore()->getId();
 
             try {
@@ -46,32 +48,39 @@ class Add extends MagentoAdd
             }
 
             // Validates if already have the maximum number of products
-            if ($compareItemsCount === 4) {
+            if ($compareItemsCount === 4 && $isAddProduct) {
                 $response['popup'] = $popup->setData('isLimitReached', true)->toHtml();
+                $response['success'] = false;
                 $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
                 $resultJson->setData($response);
                 return $resultJson;
             }
 
             // Validates if current category is current compare category
-            if ($currentCategoryId !== $currentCompareCategoryId && $compareItemsCount !== 0) {
+            if ($currentCategoryId !== $currentCompareCategoryId && $compareItemsCount !== 0 && $isAddProduct) {
                 $response['popup'] = $popup->setData('isNotSameCategory', true)->toHtml();
+                $response['success'] = false;
                 $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
                 $resultJson->setData($response);
                 return $resultJson;
             }
 
             if ($product) {
-                // Add product to compare list
-                $this->_catalogProductCompareList->addProduct($product);
-                $this->_eventManager->dispatch('catalog_product_compare_add_product', ['product' => $product]);
-                $this->_objectManager->get(\Magento\Catalog\Helper\Product\Compare::class)->calculate();
-                $response['popup'] = $popup->setData('product', $product)->toHtml();
-
-                // Set current compare category id
-                $this->_catalogSession->setCurrentCompareCategoryId($currentCategoryId);
+                if ($isAddProduct) {
+                    // Add product to compare list
+                    $this->_catalogProductCompareList->addProduct($product);
+                    $this->_eventManager->dispatch('catalog_product_compare_add_product', ['product' => $product]);
+                    // Set current compare category id
+                    $this->_catalogSession->setCurrentCompareCategoryId($currentCategoryId);
+                } else {
+                    // Remove product to compare list
+                    $this->_catalogProductCompareList->removeProduct($product);
+                    $this->_eventManager->dispatch('catalog_product_compare_remove_product', ['product' => $product]);
+                }
 
                 // Set response
+                $this->_objectManager->get(\Magento\Catalog\Helper\Product\Compare::class)->calculate();
+                $response['popup'] = $popup->setData('product', $product)->toHtml();
                 $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
                 $resultJson->setData($response);
                 return $resultJson;
