@@ -159,6 +159,9 @@
         }
       }
     }
+    .col-sm-6{
+      width: 66.66666667%;
+    }
   }
   .product-info_main{
     text-align: left;
@@ -443,11 +446,8 @@
       padding-left: 15px;
       margin-left: 10px;
     }
-    .col-sm-4{
+    .col-sm-6{
       width: 33.33333333%;
-    }
-    .col-sm-8{
-      width: 66.66666667%;
     }
   }
 }
