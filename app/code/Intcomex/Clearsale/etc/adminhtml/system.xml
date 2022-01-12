@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="clearsale_configuration" translate="label" sortOrder="567" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cs_config" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="transaction_validation_subject" type="text" sortOrder="40" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Transaction Email Subject is in validation</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="transaction_validation_text" type="textarea" sortOrder="50" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Transaction Email Text is in validation</label>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

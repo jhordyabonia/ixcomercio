@@ -3189,8 +3189,6 @@ form {
   @media (max-width: 768px) {
     .checkout-index-index .opc-wrapper .payment-method .actions-toolbar .action {
       margin: 0 0 10px; } }
-  .checkout-index-index .opc-wrapper .payment-method .payment-method-title {
-    display: none; }
 
 .checkout-index-index .opc-wrapper .payment-option .form {
   width: 100%;

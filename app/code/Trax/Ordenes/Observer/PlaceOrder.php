@@ -83,16 +83,18 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        // Stores variables
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        //Se obtienen parametros de configuración por Store        
-        $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode());
-        $this->logger->info('PlaceOrder Trax_Orders - Se obtienen parámetros de configuración');
-        //Se obtiene lista de sku
+        // Se obtiene lista de Ordenes
         $orderId = $observer->getEvent()->getOrderIds();
         $order = $this->order->load($orderId[0]);
-        $this->logger->info('PlaceOrder - Se inicia llamado para la orden magento '.$order->getIncrementId());
+        // Se obtienen parametros de configuración por Store
+        $configData = $this->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode());
+        $this->logger->info('PlaceOrder Trax_Orders - Se obtienen parámetros de configuración');
+        $this->logger->info('PlaceOrder Trax_Orders - Se obtienen parámetros de configuración: ' . json_encode($configData));
+        $this->logger->info('PlaceOrder - Se inicia llamado para la orden magento ' . $order->getIncrementId());
 
         // se obtiene el iws order
         $iws_idorder = $this->getIwsOrderId($order->getIncrementId());
@@ -104,12 +106,18 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             //Se carga el servicio por curl
             $this->logger->info('PlaceOrder - url '.$serviceUrl);
             try{
-                $payload = $this->loadPayloadService($order, $storeManager->getWebsite()->getCode(), $configData['store_id'], $configData['porcentaje_impuesto'], $configData['producto_impuesto']);
+                $payload = $this->loadPayloadService(
+                    $order,
+                    $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode(),
+                    $configData['store_id'],
+                    $configData['porcentaje_impuesto'],
+                    $configData['producto_impuesto']
+                );
                 if($payload){
-                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore()->getCode(),0);
+                    $this->beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeManager->getStore($order->getStoreId())->getCode(),0);
                 } else {
                     $this->logger->info('PlaceOrder - Se ha producido un error al obtener match con Trax');
-                    $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+                    $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeManager->getStore($order->getStoreId())->getCode());
                 }
             } catch(Exception $e){
                 $this->logger->info('PlaceOrder - Se ha producido un error: '.$e->getMessage());
@@ -203,8 +211,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         // Close request to clear up some resources
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
-        curl_close($curl);    
+        curl_close($curl);
         $this->logger->info('PlaceOrder - payload: '.$payload);
+        $this->logger->info('PlaceOrder - Response: ' . json_encode($resp));
         $this->logger->info('PlaceOrder - status code: '.$status_code);
         $this->logger->info('PlaceOrder - '.$serviceUrl);
         $this->logger->info('PlaceOrder - curl errors: '.$curl_errors);
@@ -245,8 +254,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-        $invoiceEnable = $this->scopeConfig->getValue(self::INVOICE_ENABLED, $storeScope, $storeManager->getStore()->getCode());
-        $invoiceDefault = $this->scopeConfig->getValue(self::INVOICE_DEFAULT, $storeScope, $storeManager->getStore()->getCode());
+        $invoiceEnable = $this->scopeConfig->getValue(self::INVOICE_ENABLED, $storeScope, $storeManager->getStore($order->getStoreId())->getCode());
+        $invoiceDefault = $this->scopeConfig->getValue(self::INVOICE_DEFAULT, $storeScope, $storeManager->getStore($order->getStoreId())->getCode());
         $this->logger->info('Invoice habilitado: ' . $invoiceEnable);
         $this->logger->info('Invoice valor por defecto: ' . $invoiceDefault);
         //Si no está habilitado el invoice para el sitio, retorna el valor por defecto
@@ -448,6 +457,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->logger->info('PlaceOrder - storeCode '.$storeCode);
 		//Select Data from table
         $sql = "Select * FROM " . $tableName." where carrier='".$orderShipping[0]."' AND country_code='".$country."' AND store_code='".$storeCode."'";
+        $this->logger->info('PlaceOrder - SQL: '. $sql);
+
         $trax = $connection->fetchAll($sql); 
         foreach ($trax as $key => $data) {
             return $data['trax_code'];

@@ -59,20 +59,16 @@ class Process implements ObserverInterface
     public function execute(Observer $observer)
     {
         $this->logger->info("Se ejecuta el observador 'Payment Process'");
-        
+        /** @var Order $order */
         $order = $observer->getOrder();
         $stateProcessing = $order::STATE_PROCESSING;
         $statePending = Order::STATE_PENDING_PAYMENT;
         $payment = $order->getPayment();
-        $method  = $payment->getMethodInstance();
-        $this->logger->info("Está Orden tiene state ->" . $order->getState() . " y status ->" . $order->getStatus() );
+        $this->logger->info("Orden: "  . $order->getIncrementId() . " - State ->" . $order->getState() . " - Status ->" . $order->getStatus());
         if (
-            ($order->getState() == $stateProcessing 
-            //&& $order->getOrigData('state') != $stateProcessing
-            && $payment->getMethod() != 'pasarela_bancomer') || 
-                (
-                $order->getState() == $statePending && $payment->getMethod() == 'mercadopago_custom'
-                )
+            ($order->getState() == $stateProcessing && $payment->getMethod() != 'pasarela_bancomer') ||
+            ($order->getState() == $statePending && $payment->getMethod() == 'mercadopago_custom') ||
+            ($order->getStatus() === 'approved_clearsale' && $payment->getMethod() === 'adyen_cc')
             ) {
                 $storeScope    = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
                 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();     
@@ -150,13 +146,14 @@ class Process implements ObserverInterface
                                 );
                             $this->logger->info('RegisterPayment - PayLoad '. $payload);
                                 
-                            if($payload){
+                            if ($payload) {
                                 $storecode = $storeManager->getStore($order->getStoreId())->getCode();
                                 $this->logger->info('beginRegisterPayment - Inicio');                            
                                 $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
                                 $this->logger->info('beginRegisterPayment - Fin');
-                            } else{
-                                $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
+                            } else {
+                                $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                            }
                             
                         } catch(Exception $e){
                             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
@@ -190,14 +187,14 @@ class Process implements ObserverInterface
                                             );
                                         $this->logger->info('RegisterPayment - PayLoad '. $payload);
                                             
-                                        if($payload){
+                                        if ($payload) {
                                             $storecode = $storeManager->getStore($order->getStoreId())->getCode();
                                             $this->logger->info('beginRegisterPayment - Inicio');                            
                                             $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
                                             $this->logger->info('beginRegisterPayment - Fin');
-                                        } else{
-                                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
-                                        
+                                        } else {
+                                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                                        }
                                     }
                                 } else {
                                     $this->logger->info('PlaceOrder process - Se ha producido un error al obtener match con Trax');
@@ -212,6 +209,4 @@ class Process implements ObserverInterface
                 }
                                             
     }
-             
 }
-
