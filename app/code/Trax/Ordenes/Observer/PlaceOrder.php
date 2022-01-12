@@ -1,5 +1,7 @@
 <?php
+
 namespace Trax\Ordenes\Observer;
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,7 +14,6 @@ use Trax\Grid\Model\GridFactory;
 
 class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 {
-
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
@@ -40,21 +41,27 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     const INVOICE_ENABLED = "checkout/options/show_invoice";
 
     const INVOICE_DEFAULT = "checkout/options/invoice_default_value";
-    
+
+    /**
+     * @var \Trax\Catalogo\Helper\Email
+     */
     private $helper;
-	
+
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfig;
 
+    /**
+     * @var \Zend\Log\Logger
+     */
 	protected $logger;
 
     /**
      * @var \Trax\Grid\Model\GridFactory
      */
     private $gridFactory;
-	
+
     /**
      * AdminFailed constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -67,8 +74,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
         \Magento\Framework\Controller\ResultFactory $result,
         \Trax\Grid\Model\GridFactory $gridFactory
-    )
-    {
+    ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -131,7 +137,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     //Obtiene los parámetros de configuración desde el cms
     public function getConfigParams($storeScope, $websiteCode) 
     {
-
         //Se obtienen parametros de configuración por Store
         $configData['apikey'] = $this->scopeConfig->getValue(self::API_KEY, $storeScope, $websiteCode);
         $configData['accesskey'] = $this->scopeConfig->getValue(self::ACCESS_KEY, $storeScope, $websiteCode);
@@ -149,8 +154,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $configData['ordenes_reintentos'] = $this->scopeConfig->getValue(self::ORDENES_REINTENTOS, $storeScope, $websiteCode);
         $configData['ordenes_correo'] = $this->scopeConfig->getValue(self::ORDENES_CORREO, $storeScope, $websiteCode);
         $configData['store_id'] = $this->scopeConfig->getValue(self::STORE_ID, $storeScope, $websiteCode);
-        return $configData;
 
+        return $configData;
     }
  
     //Obtiene url de conexión del servicio
@@ -168,7 +173,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     }
 
     //Función recursiva para intentos de conexión
-    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts) {
+    public function beginPlaceOrder($configData, $payload, $serviceUrl, $order, $storeCode, $attempts)
+    {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl, $payload, $storeCode);
         if($data['status']){     
@@ -188,8 +194,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     $this->helper->notify('Soporte Trax', $configData['ordenes_correo'], $configData['ordenes_reintentos'], $serviceUrl, $payload, $storeCode);
                 }
             }
-        }   
-
+        }
     }
 
     //Se carga servicio por CURL
@@ -229,7 +234,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             );
         }
         return $response;
-
     }
 
     //Se guarda información de IWS en tabla custom
@@ -249,7 +253,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
     }
     
-    public function checkInvoice($paymentAdditional,$payment,$order){
+    public function checkInvoice($paymentAdditional,$payment,$order)
+    {
         $this->logger->info('Información de factura');
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -295,7 +300,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
     //Laod Payload request
 	public function loadPayloadService($order, $storeCode, $configDataStoreId, $configDataImpuesto, $configItemImpuesto) 
-	{        
+	{
         $billing = $order->getBillingAddress();
         $shipping = $order->getShippingAddress();
         
@@ -446,7 +451,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
     //Se carga relación de carrier con trax
     public function loadCarrierId($country, $orderShipping, $storeCode)
-    {   
+    {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		$connection = $resource->getConnection();
@@ -497,14 +502,14 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         return $billing->getIdentification();    
     }
 
-
     /*
     * Return id IWS order
     * @author Johan Martinez
     * @param $order_id  Id order Magento
     * @return int id IWS
     */
-    public function getIwsOrderId($order_id){
+    public function getIwsOrderId($order_id)
+    {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
         $connection = $resource->getConnection();
@@ -542,7 +547,6 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
      */
     public function getDataProductInfo($product_id, $store_code)
     {
-
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $storeManager = $objectManager->create("\Magento\Store\Model\StoreManagerInterface");
         // get array of stores with storecode as key
