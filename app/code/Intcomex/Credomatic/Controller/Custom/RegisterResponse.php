@@ -1,7 +1,5 @@
 <?php
-
 namespace Intcomex\Credomatic\Controller\Custom;
-
 
 class RegisterResponse extends \Magento\Framework\App\Action\Action
 {
@@ -15,7 +13,7 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Api\Data\OrderInterfaceFactory $orderFactory,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
-        Magento\Framework\DB\Transaction $transaction,
+        \Magento\Framework\DB\Transaction $transaction,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
     ) {
