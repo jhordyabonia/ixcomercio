@@ -67,6 +67,7 @@ class RefundOrder
 
             // Don't set invoice if you want to do offline refund
             $creditMemo->setInvoice($invoice);
+            $creditMemo->setSendEmail(true);
             $creditMemo->setCustomerNote(__('Your Order %1 has been Refunded back in your account', $order->getIncrementId()));
             $creditMemo->setCustomerNoteNotify(true);
             $creditMemo->addComment(__('Order has been Refunded'));
