@@ -91,7 +91,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
     
                 }else if($body['response_code']==100){
-                    $order->setState("processing")->setStatus("processing");
+                    $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
+                    $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
+                    $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
                     $payment->save();

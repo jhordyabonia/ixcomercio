@@ -13,7 +13,7 @@
 					</container>
 				</container>
 			</container>
-			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-4">
+			<referenceContainer name="product.info.main" htmlClass="product-info_main col-sm-6">
 				<block class="Magento\Catalog\Block\Product\View" name="product.custom.name" template="Magento_Catalog::product/view/custom_name.phtml" before="-" />
 
 				<block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
@@ -26,17 +26,17 @@
                 </block>
 
 			</referenceContainer>
-			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-8"/>
-			<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
-			<!--
-                    <block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" after="-"/>
-                    <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
-                    <block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" after="-">
-                        <container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
-                    </block>
-			-->
-            </block> 
-			<container name="bestsellersection" as="bestsellersection" htmlTag="section" htmlClass="block widget block-products-list grid">
+			<referenceContainer name="product.info.media" htmlClass="product-info_media col-sm-6"/>
+				<block class="Magento\Review\Block\Product\Review" name="reviews.tab" as="reviews" template="Magento_Review::review.phtml" group="detailed_info">
+				<!--
+						<block class="Magento\Review\Block\Product\View\ListView" name="product.info.product_additional_data" as="product_additional_data" template="product/view/list.phtml" after="-"/>
+						<block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar"/>
+						<block class="Magento\Review\Block\Form" name="product.review.form" as="review_form" after="-">
+							<container name="product.review.form.fields.before" as="form_fields_before" label="Review Form Fields Before"/>
+						</block>
+				-->
+				</block> 
+				<container name="bestsellersection" as="bestsellersection" htmlTag="section" htmlClass="block widget block-products-list grid">
 				<container name="bestsellercont" as="bestsellercont" htmlTag="div" htmlClass="container">
 					<container name="bestsellerrow" as="bestsellerrow" htmlTag="div" htmlClass="row">
 				 		<block class="Mageplaza\Productslider\Block\BestSellerProducts" name="product.slider.bestseller" template="productslider.phtml" after="-">
@@ -49,8 +49,9 @@
 						</block>
 					</container>
 				</container>
-			</container>
-		</referenceContainer>
+				</container>
+				<block class="Magento\Framework\View\Element\Template" name="custom.js" as="custom.js" template="Magento_Catalog::product/js.phtml"/>
+			</referenceContainer>
         <referenceContainer name="content.aside">
 			<container name="newsletter-container-custom" as="newsletter_custom" after="-" />
 			<referenceContainer name="newsletter-container-custom">
