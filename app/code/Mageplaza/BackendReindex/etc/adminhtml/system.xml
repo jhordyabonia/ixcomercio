@@ -10,10 +10,34 @@
             <tab>intcomex_config</tab> 
             <resource>Intcomex_TradeIn::tradein_config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Configuración de Reindexado</label>
-                <field id="config_time" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Hora de Ejecución </label>
-                    <comment>Formato 24H</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enable </label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="functionality_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="time" translate="label" type="time" sortOrder="30" showInDefault="1">
+                    <label>Start Time</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="functionality_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1">
+                    <label>Frecuencia</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="functionality_enabled">1</field>
+                    </depends>
+                    <source_model>Mageplaza\BackendReindex\Model\Config\Source\Frequency</source_model>
+                </field>
+                <field id="synchronize" translate="label comment" type="button" sortOrder="300" showInDefault="1">
+                     <depends>
+                        <field id="enabled">1</field>
+                        <field id="functionality_enabled">1</field>
+                    </depends>
+                    <frontend_model>Mageplaza\BackendReindex\Block\System\Config\Synchronize</frontend_model>
                 </field>
             </group>
         </section>

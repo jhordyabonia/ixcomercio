@@ -50,7 +50,7 @@ class MassReset extends Indexer
                     $indexer->getState()
                 ->setStatus(\Magento\Framework\Indexer\StateInterface::STATUS_INVALID)
                 ->save();
-                    //$indexer->reindexAll();
+                $indexer->reindexAll();
                 }
                 $this->messageManager->addSuccessMessage(__('Total of %1 index(es) have reset data.', count($indexerIds)));
             } catch (LocalizedException $e) {

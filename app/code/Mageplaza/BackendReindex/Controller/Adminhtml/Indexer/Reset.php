@@ -45,7 +45,7 @@ class Reset extends Indexer
                 $indexer->getState()
                 ->setStatus(\Magento\Framework\Indexer\StateInterface::STATUS_INVALID)
                 ->save();
-                //$indexer->reindexAll();
+                $indexer->reindexAll();
 
                 $this->messageManager->addSuccessMessage(__('%1 index was reset.', $indexer->getTitle()));
             } catch (LocalizedException $e) {
