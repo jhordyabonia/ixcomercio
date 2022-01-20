@@ -3119,9 +3119,28 @@ form {
     line-height: 45px;
     padding: 0 25px; }
 
+.box-step-content {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  -webkit-box-shadow: 0px 3px 6px #00000029;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 2px solid #CFCBCB;
+  overflow: hidden;
+  margin-top: 20px; }
+.box-step-content label {
+  margin-bottom: 0;
+  font-size: 14px !important;
+  font-family: "Fira Sans" !important; }
+.p0 {
+  padding: 0; }
+.bd2 {
+  border-left: 2px solid #CFCBCB; }
+
 @media (max-width: 768px) {
   .checkout-index-index .opc-wrapper {
-    padding: 0 15px; } }
+    padding: 0 15px; }
+  .checkout-index-index .bd2 {
+    border-left: 0; }
+}
 
 .checkout-index-index .opc-wrapper .shipping-address-item.selected-item {
   border-color: #000; }
