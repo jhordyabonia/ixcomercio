@@ -32,12 +32,12 @@
                     </depends>
                     <source_model>Mageplaza\BackendReindex\Model\Config\Source\Frequency</source_model>
                 </field>
-                <field id="synchronize" translate="label comment" type="button" sortOrder="300" showInDefault="1">
+                <field id="mageplaza_backendreindex" translate="label comment" type="button" sortOrder="300" showInDefault="1">
                      <depends>
                         <field id="enabled">1</field>
                         <field id="functionality_enabled">1</field>
-                    </depends>
-                    <frontend_model>Mageplaza\BackendReindex\Block\System\Config\Synchronize</frontend_model>
+                    </depends> 
+                    <frontend_model>Mageplaza\BackendReindex\Block\System\Config\Collect</frontend_model>
                 </field>
             </group>
         </section>
