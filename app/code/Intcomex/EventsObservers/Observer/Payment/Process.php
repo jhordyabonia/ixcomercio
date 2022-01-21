@@ -1,7 +1,7 @@
 <?php
 
 namespace Intcomex\EventsObservers\Observer\Payment;
- 
+
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use \Intcomex\EventsObservers\Helper\RegisterPayment;
@@ -34,7 +34,6 @@ class Process implements ObserverInterface
     /**
     * Add constructor.
     * @param helper $helper
- 
     */
     public function __construct(
         RegisterPayment $helper,
@@ -58,36 +57,32 @@ class Process implements ObserverInterface
     public function execute(Observer $observer)
     {
         $this->logger->info("Se ejecuta el observador 'Payment Process'");
-        
+        /** @var Order $order */
         $order = $observer->getOrder();
         $stateProcessing = $order::STATE_PROCESSING;
         $statePending = Order::STATE_PENDING_PAYMENT;
         $payment = $order->getPayment();
-        $method  = $payment->getMethodInstance();
-        $this->logger->info("Está Orden tiene state ->" . $order->getState() . " y status ->" . $order->getStatus() );
+        $this->logger->info("Orden: "  . $order->getIncrementId() . " - State ->" . $order->getState() . " - Status ->" . $order->getStatus());
         if (
-            ($order->getState() == $stateProcessing 
-            //&& $order->getOrigData('state') != $stateProcessing
-            && $payment->getMethod() != 'pasarela_bancomer') || 
-                (
-                $order->getState() == $statePending && $payment->getMethod() == 'mercadopago_custom'
-                )
+            ($order->getState() == $stateProcessing && $payment->getMethod() != 'pasarela_bancomer') ||
+            ($order->getState() == $statePending && $payment->getMethod() == 'mercadopago_custom') ||
+            ($order->getStatus() === 'approved_clearsale' && $payment->getMethod() === 'adyen_cc')
             ) {
                 $storeScope    = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();     
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-                                
-                //Se obtienen parametros de configuración por Store        
-                $configData = $this->helper->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode()); 
+
+                //Se obtienen parametros de configuración por Store
+                $configData = $this->helper->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode());
                 $this->logger->info('RegisterPayment - Se obtienen parámetros de configuración');
                 $this->logger->info(print_r($configData,true));
-                $serviceUrl = $this->helper->getServiceUrl($configData, 'registerpayments');   
+                $serviceUrl = $this->helper->getServiceUrl($configData, 'registerpayments');
                 $this->logger->info('RegisterPayment - url '.$serviceUrl);
-                
-                $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
                 $connection = $resource->getConnection();
-                $tableName = $resource->getTableName('iws_order'); 
+                $tableName = $resource->getTableName('iws_order');
                 //Select Data from table
                 $sql = "Select * FROM " . $tableName." where order_increment_id='".$order->getIncrementId()."'";
 
@@ -97,7 +92,7 @@ class Process implements ObserverInterface
                     $this->logger->info('RegisterPayment - No hay conexion a la tabla  iws_order');
                 }else{
 
-                    $trax = $connection->fetchAll($sql); 
+                    $trax = $connection->fetchAll($sql);
 
                     $this->logger->info('RegisterPayment - iws_order result '.json_encode($trax));
 
@@ -106,41 +101,42 @@ class Process implements ObserverInterface
                         $mp_order = $data['iws_order'];
                     }
                     $this->logger->info('RegisterPayment - Order IWS '.$mp_order);
-                    
+
                     if($mp_order!=0){
-                        try{                       
+                        try{
                             $this->logger->info('Consultamos el payload');
                             $transactionId = $this->_setTransactionId($order);
                             $payload = $this->helper->loadPayloadService(
-                                        $order->getId(), 
-                                        $payment->getAmountOrdered(), 
+                                        $order->getId(),
+                                        $payment->getAmountOrdered(),
                                         $transactionId,
-                                        $transactionId, 
-                                        '', 
-                                        $payment->getMethod(), 
+                                        $transactionId,
+                                        '',
+                                        $payment->getMethod(),
                                         $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
                                 );
                             $this->logger->info('RegisterPayment - PayLoad '. $payload);
-                                
-                            if($payload){
+
+                            if ($payload) {
                                 $storecode = $storeManager->getStore($order->getStoreId())->getCode();
-                                $this->logger->info('beginRegisterPayment - Inicio');                            
+                                $this->logger->info('beginRegisterPayment - Inicio');
                                 $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
                                 $this->logger->info('beginRegisterPayment - Fin');
-                            } else{
-                                $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
-                            
+                            } else {
+                                $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                            }
+
                         } catch(Exception $e){
                             $this->logger->info('RegisterPayment - Se ha producido un error: '.$e->getMessage());
                         }
                     } else if ($mp_order==0) {
                             try{
-                                $configDataPlace = $this->helper_placeorder->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode()); 
+                                $configDataPlace = $this->helper_placeorder->getConfigParams($storeScope, $storeManager->getStore($order->getStoreId())->getCode());
                                 $this->logger->info('PlaceOrder process - Se obtienen parámetros de configuración');
                                 $this->logger->info(print_r($configDataPlace,true));
-                                $serviceUrlPlace = $this->helper_placeorder->getServiceUrl($configDataPlace, $order->getIncrementId());   
+                                $serviceUrlPlace = $this->helper_placeorder->getServiceUrl($configDataPlace, $order->getIncrementId());
                                 $this->logger->info('PlaceOrder process - url '.$serviceUrlPlace);
-                                $this->logger->info('Consultamos el placeload');                                                        
+                                $this->logger->info('Consultamos el placeload');
                                 $placeload = $this->helper_placeorder->loadPayloadService($order, $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode(), $configDataPlace['store_id'], $configDataPlace['porcentaje_impuesto'], $configDataPlace['producto_impuesto']);
                                 $this->logger->info('loadPayloadService - Fin');
                                 if($placeload){
@@ -153,24 +149,24 @@ class Process implements ObserverInterface
                                         $this->logger->info('Consultamos el payload');
                                         $transactionId = $this->_setTransactionId($order);
                                         $payload = $this->helper->loadPayloadService(
-                                                    $order->getId(), 
-                                                    $payment->getAmountOrdered(), 
+                                                    $order->getId(),
+                                                    $payment->getAmountOrdered(),
                                                     $transactionId,
                                                     $transactionId,
-                                                    '', 
-                                                    $payment->getMethod(), 
+                                                    '',
+                                                    $payment->getMethod(),
                                                     $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
                                             );
                                         $this->logger->info('RegisterPayment - PayLoad '. $payload);
-                                            
-                                        if($payload){
+
+                                        if ($payload) {
                                             $storecode = $storeManager->getStore($order->getStoreId())->getCode();
-                                            $this->logger->info('beginRegisterPayment - Inicio');                            
+                                            $this->logger->info('beginRegisterPayment - Inicio');
                                             $this->helper->beginRegisterPayment($mp_order, $configData, $payload, $serviceUrl, $order, $storecode, 0);
                                             $this->logger->info('beginRegisterPayment - Fin');
-                                        } else{
-                                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');                                                    }
-                                        
+                                        } else {
+                                            $this->logger->info('RegisterPayment - Se ha producido un error al cargar la información de la orden en iws');
+                                        }
                                     }
                                 } else {
                                     $this->logger->info('PlaceOrder process - Se ha producido un error al obtener match con Trax');
@@ -179,7 +175,7 @@ class Process implements ObserverInterface
                                 $this->logger->info('PlaceOrder process - Se ha producido un error: '.$e->getMessage());
                             }
                         } else {
-                            $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion'); 
+                            $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion');
                         }
                     }
                 }
@@ -198,7 +194,7 @@ class Process implements ObserverInterface
                 $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
                 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                 if (empty($paymentResponse)) {
-                    $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());   
+                    $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());
                 } else {
                     $LastTransId = $paymentResponse["id"];
                     $payment->setCcTransId($LastTransId);
