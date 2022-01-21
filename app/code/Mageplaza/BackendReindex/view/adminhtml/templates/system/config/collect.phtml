@@ -15,9 +15,10 @@
         var collectSpan = jQuery('#collect_span');
 
         jQuery('#collect_button').click(function () {
-           var selectTime =  jQuery("#reindex_general_time select");
-           console.log(selectTime);
-            var params = {frecuency:jQuery("#reindex_general_frequency").val()};
+            var hour =  jQuery("#row_reindex_general_time select:nth-child(2) option:selected").val();
+            var minute =  jQuery("#row_reindex_general_time select:nth-child(3) option:selected").val();
+            var second =  jQuery("#row_reindex_general_time select:nth-child(4) option:selected").val();
+            var params = {frecuency:jQuery("#reindex_general_frequency").val(),hour:hour,minute:minute,second:second};
             new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
                 parameters:     params,
                 loaderArea:     false,

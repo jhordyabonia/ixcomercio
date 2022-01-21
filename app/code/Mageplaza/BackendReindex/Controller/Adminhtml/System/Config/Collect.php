@@ -43,11 +43,13 @@ class Collect extends Action
 
             //if ($this->crontabManager->getTasks()) {
             //}
-            $tasks = $this->tasksProvider->getTasks();
-            echo '<pre>';
-            print_r($tasks);
-            echo '</pre>';
-            //$this->crontabManager->saveTasks($tasks);
+          $resul =  $this->crontabManager->removeTasks();
+          echo '<pre>';
+          print_r($resul);
+          echo '</pre>';
+            //$tasks = $this->tasksProvider->getTasks();
+            $tasks['cronMagento']['command'] = '50 * * * * /usr/bin/php7.2 /var/www/whitelabel/bin/magento';
+           //  $this->crontabManager->saveTasks($tasks);
             
             $respProcess = ['success' => true, 'message' => 'Test Data'];
        
