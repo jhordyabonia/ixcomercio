@@ -137,7 +137,8 @@ class RegisterPayment extends AbstractHelper
         // Close request to clear up some resources
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
-        curl_close($curl);    
+        curl_close($curl);
+        $this->logger->info($method.' - Response: ' . $resp);
         $this->logger->info($method.' - status code: '.$status_code);
         $this->logger->info($method.' - '.$serviceUrl);
         if ($status_code == '200'){
