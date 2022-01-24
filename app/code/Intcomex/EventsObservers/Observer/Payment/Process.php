@@ -193,7 +193,7 @@ class Process implements ObserverInterface
     {
         $payment = $order->getPayment();
         $LastTransId = $payment->getCcTransId();
-        if ($payment->getMethod()=='mercadopago_custom') {
+        if ($payment->getMethod() === 'mercadopago_custom' || $payment->getMethod() === 'mercadopago_basic') {
             if (empty($payment->getCcTransId())) {
                 $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
                 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
