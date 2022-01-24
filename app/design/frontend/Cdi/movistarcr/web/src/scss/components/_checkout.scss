@@ -386,6 +386,24 @@
   .tradein_alert .col-sm-11 p{
     line-height: 20px;
   }
+  .box-step-content{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border: 2px solid #CFCBCB;
+    overflow: hidden;
+    margin-top:20px;
+    label{
+      margin-bottom: 0;
+      font-size: 14px !important;
+      font-family: $fontText !important;
+    }
+  }
+  .p0{
+    padding: 0;
+  }
+  .bd2{
+    border-left: 2px solid #CFCBCB;
+  }
 }
 @media (max-width: $mobile){
   .billing-address-invoice-alert{
@@ -456,6 +474,9 @@ div#credomaticmastercard_cc_type_exp_div{
   margin-right: 2%;
 }
 @media (max-width: $tablet){
+  .checkout-index-index .bd2 {
+    border-left: 0;
+  }
   div#credomatic_cc_type_exp_div, div#credomatic_cc_type_cvv_div {
     width: 100%;
     float: none;
