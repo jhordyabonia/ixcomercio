@@ -44,7 +44,7 @@ define(
                 var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
-
+ 
             afterPlaceOrder: function () { 
                 
                 var serviceUrl = url.build('credomatic/custom/getorder');  
