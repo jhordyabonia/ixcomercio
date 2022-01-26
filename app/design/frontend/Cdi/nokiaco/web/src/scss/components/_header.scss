@@ -44,6 +44,7 @@ header{
         @media only screen and (max-width: $mobile){
           z-index: 10;
           pointer-events: none;
+          display: block;
         }
         .logo{
           width: 100%;
@@ -96,6 +97,9 @@ header{
           float: right;
           @media only screen and (max-width: $desktop){
             right: 15px;
+          }
+          @media only screen and (max-width: 370px){
+            margin-right: 30px;
           }
           .switcher-language{
             float: left;
@@ -499,11 +503,12 @@ header{
                     }  
                   }
                   > .level-top{
-                    color:$colorText;
-                    font-size: 16px;
+                    color:#001135;
+                    font-size: 20px;
                     line-height: normal;
                     transition: .3s all ease;
                     border: 0;
+                    font-weight: 400;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
                       line-height: 36px;
@@ -555,7 +560,7 @@ header{
           .wrapper-menu-mobile{
             display: inline-block;
             @media only screen and (max-width: $desktop){
-              left: 15px;
+              right: 15px;
               top: 50%;
               width: auto;
               vertical-align: middle;
@@ -563,12 +568,17 @@ header{
               position: absolute;
               pointer-events: auto;
             }
+            @media only screen and (max-width: $mobile){
+
+            }
           }
           .quick-access{
             vertical-align: middle;
             display: none;
             @media only screen and (max-width: $desktop){
               display: inline-block;
+              float: right;
+              margin-left: 20px;
             }
             a{
               width: 30px;
@@ -659,9 +669,12 @@ header{
             max-width: 35%;
             position: absolute;
             transform: translate(0, -50%);
+            right: 15%;
           }
           @media only screen and (max-width: $mobile){
             max-width: none;
+            right: 25%;
+            margin-right: 15px;
           }
         }
       }
