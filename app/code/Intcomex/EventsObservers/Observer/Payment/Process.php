@@ -64,7 +64,9 @@ class Process implements ObserverInterface
         $statePending = Order::STATE_PENDING_PAYMENT;
         $payment = $order->getPayment();
         $method  = $payment->getMethodInstance();
+        $transactionId = $this->_setTransactionId($order);
         $this->logger->info("Está Orden tiene state ->" . $order->getState() . " y status ->" . $order->getStatus() );
+
         if (
             ($order->getState() == $stateProcessing 
             //&& $order->getOrigData('state') != $stateProcessing
@@ -110,7 +112,6 @@ class Process implements ObserverInterface
                     if($mp_order!=0){
                         try{                       
                             $this->logger->info('Consultamos el payload');
-                            $transactionId = $this->_setTransactionId($order);
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
@@ -151,7 +152,6 @@ class Process implements ObserverInterface
                                     if($place)
                                     {
                                         $this->logger->info('Consultamos el payload');
-                                        $transactionId = $this->_setTransactionId($order);
                                         $payload = $this->helper->loadPayloadService(
                                                     $order->getId(), 
                                                     $payment->getAmountOrdered(), 
@@ -186,7 +186,8 @@ class Process implements ObserverInterface
     }
 
     /**
-     * Set Transaction Id To Payment.
+     * Set Transaction ID To Payment.
+     * @param $order
      * @return string
      */
     private function _setTransactionId($order)
