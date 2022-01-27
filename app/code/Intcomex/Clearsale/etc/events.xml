@@ -6,6 +6,6 @@
         <observer name="IntcomexPaidOrder" instance="Intcomex\EventsObservers\Observer\Payment\Process" />
     </event>
     <event name="checkout_onepage_controller_success_action">
-        <observer name="checkout_success_send_email_transaction_validation" instance="Intcomex\Clearsale\Observer\EmailTransactionValidation" />
+        <observer name="checkout_success_send_email_transaction_in_validation" instance="Intcomex\Clearsale\Observer\EmailTransactionValidation" />
     </event>
 </config>

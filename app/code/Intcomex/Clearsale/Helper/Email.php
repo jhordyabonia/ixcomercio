@@ -18,19 +18,24 @@ use Psr\Log\LoggerInterface;
 class Email extends AbstractHelper
 {
     /**
-     * @const Template Transaction Validation.
+     * @const Is Enabled Transaction In Validation.
      */
-    const TEMPLATE_TRANSACTION_VALIDATION = 'transaction_validation';
+    const PATH_IS_ENABLED_TRANSACTION_IN_VALIDATION = 'clearsale_configuration/transaction_in_validation/enabled';
 
     /**
-     * @const Path Email Transaction Validation Subject.
+     * @const Path Template Transaction In Validation.
      */
-    const PATH_TRANSACTION_VALIDATION_SUBJECT = 'clearsale_configuration/cs_config/transaction_validation_subject';
+    const PATH_TEMPLATE_TRANSACTION_IN_VALIDATION = 'clearsale_configuration/transaction_in_validation/template';
 
     /**
-     * @const Path Email Transaction Validation Text.
+     * @const Path Email Transaction In Validation Subject.
      */
-    const PATH_TRANSACTION_VALIDATION_TEXT = 'clearsale_configuration/cs_config/transaction_validation_text';
+    const PATH_TRANSACTION_IN_VALIDATION_SUBJECT = 'clearsale_configuration/transaction_in_validation/subject';
+
+    /**
+     * @const Path Email Transaction In Validation Text.
+     */
+    const PATH_TRANSACTION_IN_VALIDATION_TEXT = 'clearsale_configuration/transaction_in_validation/text';
 
     /**
      * @var ScopeConfigInterface
@@ -81,32 +86,34 @@ class Email extends AbstractHelper
      */
     public function sendTransactionInValidationMail(Order $order)
     {
-        $transport = [
-            'order' => $order,
-            'billing' => $order->getBillingAddress(),
-            'store' => $order->getStore(),
-            'transaction_validation_subject' => $this->scopeConfig->getValue(self::PATH_TRANSACTION_VALIDATION_SUBJECT, ScopeInterface::SCOPE_STORE, $order->getStoreId()),
-            'transaction_validation_text' => $this->scopeConfig->getValue(self::PATH_TRANSACTION_VALIDATION_TEXT, ScopeInterface::SCOPE_STORE, $order->getStoreId()),
+        if ($this->scopeConfig->getValue(self::PATH_IS_ENABLED_TRANSACTION_IN_VALIDATION, ScopeInterface::SCOPE_STORE, $order->getStoreId())) {
+            $transport = [
+                'order' => $order,
+                'billing' => $order->getBillingAddress(),
+                'store' => $order->getStore(),
+                'subject' => $this->scopeConfig->getValue(self::PATH_TRANSACTION_IN_VALIDATION_SUBJECT, ScopeInterface::SCOPE_STORE, $order->getStoreId()),
+                'text' => $this->scopeConfig->getValue(self::PATH_TRANSACTION_IN_VALIDATION_TEXT, ScopeInterface::SCOPE_STORE, $order->getStoreId()),
 //            'payment_html' => $this->getPaymentHtml($order),
 //            'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
 //            'formattedBillingAddress' => $this->getFormattedBillingAddress($order),
-        ];
-        $transportObject = new DataObject($transport);
-        $transport = $this->_transportBuilder
-            ->setTemplateIdentifier(self::TEMPLATE_TRANSACTION_VALIDATION)
-            ->setTemplateOptions([
-                'area'  => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId()
-            ])
-            ->setFrom('general')
-            ->addTo($order->getCustomerEmail())
-            ->setTemplateVars($transportObject->getData())
-            ->getTransport();
+            ];
+            $transportObject = new DataObject($transport);
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier($this->scopeConfig->getValue(self::PATH_TEMPLATE_TRANSACTION_IN_VALIDATION, ScopeInterface::SCOPE_STORE, $order->getStoreId()))
+                ->setTemplateOptions([
+                    'area'  => \Magento\Framework\App\Area::AREA_FRONTEND,
+                    'store' => $this->_storeManager->getStore()->getId()
+                ])
+                ->setFrom('general')
+                ->addTo($order->getCustomerEmail())
+                ->setTemplateVars($transportObject->getData())
+                ->getTransport();
 
-        try {
-            $transport->sendMessage();
-        } catch (\Exception $e) {
-            $this->_logger->error($e->getMessage());
+            try {
+                $transport->sendMessage();
+            } catch (\Exception $e) {
+                $this->_logger->error($e->getMessage());
+            }
         }
     }
 }

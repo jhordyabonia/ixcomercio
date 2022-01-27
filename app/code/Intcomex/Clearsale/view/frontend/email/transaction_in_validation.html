@@ -1,4 +1,4 @@
-<!--@subject {{trans "%subject" subject=$transaction_validation_subject}} @-->
+<!--@subject {{trans "%subject" subject=$subject}} @-->
 <!--@vars {
 "var formattedBillingAddress|raw":"Billing Address",
 "var order.getEmailCustomerNote()":"Email Order Note",
@@ -26,7 +26,7 @@
     </tr>
     <tr class="email-summary">
         <td>
-            <h1>{{trans "%text" text=$transaction_validation_text}} {{trans '<span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}</h1>
+            <h1>{{trans "%text" text=$text}} {{trans '<span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}</h1>
             <p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$order.getCreatedAtFormatted(2) |raw}}</p>
         </td>
     </tr>
