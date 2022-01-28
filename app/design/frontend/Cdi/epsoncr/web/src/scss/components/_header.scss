@@ -5,7 +5,7 @@ header{
     border: 0;
     padding: 0;
     margin: 0 auto;
-    background: #fff;
+    background: #19212B;
     box-shadow: 0 0 8px rgba(black, .1);
     transition: .5s al ease;
     position: sticky;
@@ -155,7 +155,7 @@ header{
               border-right: 0;
             }
             a{
-              color: #111;
+              color: #fff;
               line-height: 22px;
               float: left;
               @media only screen and (max-width: $desktop){
@@ -451,13 +451,13 @@ header{
                       >.ui-menu-icon{
                         @media only screen and (max-width: $desktop){
                           width: 40px;
-                          color: $mainColor;
+                          color: #fff;
                           text-align: center;
                         }
                         &:after{
                           font-size: 35px;
                           @media only screen and (min-width: $desktop){
-                            color: #000;
+                            color: #fff;
                             font-size: 28px;
                             font-weight: bold;
                           }
@@ -466,18 +466,21 @@ header{
                     }  
                   }
                   > .level-top{
-                    color:$colorText;
+                    color:#fff;
                     font-size: 18px;
                     line-height: normal;
                     transition: .3s all ease;
                     border: 0;
                     text-transform: uppercase;
+                    padding: 20px 10px;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
                       line-height: 36px;
                     }
                     &:hover{
-                      color: $mainColor;
+                      color: #000;
+                      background: #d9e3ec;
+                      border-color: #d4dee6;
                     }
                   }
                 }
