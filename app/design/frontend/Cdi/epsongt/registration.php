@@ -5,6 +5,6 @@
  */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::THEME,
-    'frontend/Cdi/epsoncr',
+    'frontend/Cdi/epsongt',
     __DIR__
 );
