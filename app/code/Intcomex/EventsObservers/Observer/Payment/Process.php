@@ -6,6 +6,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use \Intcomex\EventsObservers\Helper\RegisterPayment;
 use \Intcomex\EventsObservers\Helper\PlaceOrder;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Trax\Ordenes\Model\IwsOrderFactory;
 use Magento\Sales\Model\Order;
 
@@ -53,6 +55,8 @@ class Process implements ObserverInterface
      * Below is the method that will fire whenever the event runs!
      *
      * @param Observer $observer
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function execute(Observer $observer)
     {
@@ -63,6 +67,8 @@ class Process implements ObserverInterface
         $statePending = Order::STATE_PENDING_PAYMENT;
         $payment = $order->getPayment();
         $this->logger->info("Orden: "  . $order->getIncrementId() . " - State ->" . $order->getState() . " - Status ->" . $order->getStatus());
+        $transactionId = $this->_setTransactionId($order);
+
         if (
             ($order->getState() == $stateProcessing && $payment->getMethod() != 'pasarela_bancomer') ||
             ($order->getState() == $statePending && $payment->getMethod() == 'mercadopago_custom') ||
@@ -105,7 +111,6 @@ class Process implements ObserverInterface
                     if($mp_order!=0){
                         try{
                             $this->logger->info('Consultamos el payload');
-                            $transactionId = $this->_setTransactionId($order);
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(),
                                         $payment->getAmountOrdered(),
@@ -147,7 +152,6 @@ class Process implements ObserverInterface
                                     if($place)
                                     {
                                         $this->logger->info('Consultamos el payload');
-                                        $transactionId = $this->_setTransactionId($order);
                                         $payload = $this->helper->loadPayloadService(
                                                     $order->getId(),
                                                     $payment->getAmountOrdered(),
@@ -182,14 +186,15 @@ class Process implements ObserverInterface
     }
 
     /**
-     * Set Transaction Id To Payment.
+     * Set Transaction ID To Payment.
+     * @param $order
      * @return string
      */
     private function _setTransactionId($order)
     {
         $payment = $order->getPayment();
         $LastTransId = $payment->getCcTransId();
-        if ($payment->getMethod()=='mercadopago_custom') {
+        if ($payment->getMethod() === 'mercadopago_custom' || $payment->getMethod() === 'mercadopago_basic') {
             if (empty($payment->getCcTransId())) {
                 $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
                 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
