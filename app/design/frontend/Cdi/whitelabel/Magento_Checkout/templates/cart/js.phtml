@@ -5,7 +5,7 @@
             'mage/url'
         ], function ($,url) {
 
-            var serviceUrl = url.build('pagalo/custom/getorderstatus');
+            var serviceUrl = url.build('/pagalo/custom/getorderstatus');
             jQuery.post(serviceUrl)
             .done(function (msg) {
                 if(msg.message['alert']!=''){

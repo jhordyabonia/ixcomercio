@@ -43,7 +43,7 @@ class GetOrderStatus extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getPostValue();
             $respProcess = array();
             $orderId =  $this->_checkoutSession->getLastOrderId();
-            $order = $this->_orderInterfaceFactory->create()->load($orderId);
+            $order = $this->modelOrder->load($orderId);
             $alert = '';
             if($order->getStatus()=='canceled'){
                 $alert =  '<div role="alert"  class="messages"><div  class="message-error error message" data-ui-id="message-error"> <div >Transacción rechazada</div> </div></div>';
