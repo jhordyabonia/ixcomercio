@@ -1,0 +1,20 @@
+<script>
+// <![CDATA[
+    require([ 
+            'jquery',
+            'mage/url'
+        ], function ($,url) {
+
+            var serviceUrl = url.build('pagalo/custom/getorderstatus');
+            jQuery.post(serviceUrl)
+            .done(function (msg) {
+                if(msg.message['alert']!=''){
+                    jQuery(".page.messages").append(msg.message['alert']);
+                }
+            })
+            .fail(function (msg) {
+
+            })
+        });
+        // ]]>
+</script>

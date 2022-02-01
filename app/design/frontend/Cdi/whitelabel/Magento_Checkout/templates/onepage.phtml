@@ -6,10 +6,6 @@
 
 // @codingStandardsIgnoreFile
 $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
-$errorpagalo = $_helperCdi->getErrorPagalo();
-echo '<pre>';
-print_r($errorpagalo);
-echo '</pre>';
 $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
 $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
 $mediaUrl = $theme->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA );
@@ -62,10 +58,6 @@ if(!isset($showBilling) || $showBilling == null ){
         window.alertaTradein1 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_1'));?>';
         window.alertaTradein2 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_2'))?> ';
         window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
-        if('<?php echo $errorpagalo ?>'!=''){
-            jQuery(".page.messages").append('<?php echo $errorpagalo ?>');
-        }
-        console.log('test datsasda');
     </script>
     <script>
         require([

@@ -363,16 +363,4 @@ class Data extends AbstractHelper{
 			return $order; 
 		}
 	}
-
-	public function getErrorPagalo(){
-		$orderId =  $this->_checkoutSession->getLastOrderId();
-        $order = $this->_orderInterfaceFactory->create()->load($orderId);
-		if($order->getStatus()=='canceled'){
-			return '<div role="alert"  class="messages">
-				<div  class="message-error error message" data-ui-id="message-error">
-					<div >Transacción rechazada</div>
-				</div>
-			</div>';
-		}
-	}
 }
