@@ -1,0 +1,14 @@
+<script>// <![CDATA[
+    function showPriceVariation(price){
+            require([
+                'jquery',
+                'Magento_Catalog/js/price-utils'
+            ], function  ($, priceUtils) {
+                var formatedPrice = priceUtils.formatPrice(price);
+                var idProductConf = jQuery('#product_addtocart_form input[name="product"]').val();
+                jQuery("#product-price-"+idProductConf+" .price").text(formatedPrice);
+               console.log(formatedPrice); 
+            });
+        } 
+ // ]]>
+</script>

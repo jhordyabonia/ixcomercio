@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
    <template id="trax_catalogo_catalogo_general_template_notification" label="Notificaciones Trax" file="notificationtrax.html" type="html" module="Trax_Catalogo" area="adminhtml"/>
+   <template id="trax_catalogo_catalogo_general_template_notification_product_iws" label="Notificaciones Trax Product" file="notification_product.html" type="html" module="Trax_Catalogo" area="adminhtml"/>
 </config>

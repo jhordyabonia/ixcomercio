@@ -197,11 +197,20 @@ class ObserverSuccess implements ObserverInterface
             $this->_curl->setOptions($options);
 
             $this->_curl->post($createAddressUrl, json_encode($fromData));
-            $addressFromResp = json_decode($this->_curl->getBody());
+            
+			$this->_logger->debug('Response from native data ::'. json_encode($this->_curl->getBody()));
+			$addressFromResp = json_decode($this->_curl->getBody());
+			$this->_logger->debug('Response from array data ::'. json_encode($addressFromResp));
+			
             $addressFromId = $addressFromResp->{'address'}->{'object_id'};
 
             $this->_curl->post($createAddressUrl, json_encode($toData));
-            $addressToResp = json_decode($this->_curl->getBody());
+            
+			$this->_logger->debug('Response to native data ::'. json_encode($this->_curl->getBody()));
+			$addressToResp = json_decode($this->_curl->getBody());
+			$this->_logger->debug('Response to array data ::'. json_encode($addressToResp));			
+			
+			
             $addressToId = $addressToResp->{'address'}->{'object_id'};
 
             $this->_logger->info("responses", ["to" => $addressToId, "from" => $addressFromId]);
@@ -223,9 +232,10 @@ class ObserverSuccess implements ObserverInterface
                     $order->setMienvioTraxId($mienvioTraxId);
                     $order->save();
                     return $this;
-                } catch (\Exception $e) {
+                } catch (\Exception $e) { 
                     $this->_logger->debug('Error set Mienvio Quote Id for Order #' . $order->getIncrementId(), ['e' => $e]);
-                    throw new InputException(__('Error when updating Mienvio Quote Id.'));
+                    throw new \Magento\Framework\Validator\Exception(__('Error when updating Mienvio Quote Id.')); 
+                    //throw new InputException(__('Error when updating Mienvio Quote Id.'));
                 }
 
             }

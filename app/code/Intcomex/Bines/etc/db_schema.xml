@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="intcomex_bines" resource="default" engine="innodb" comment="intcomex_bines Table">
+        <column name="entity_id" nullable="false" xsi:type="int" unsigned="true" identity="true" comment="Entity Id"/>
+        <column name="campaign" nullable="false" xsi:type="varchar" comment="Campaign" length="255"/>
+        <column name="bin_codes" nullable="false" xsi:type="varchar" comment="Bin Codes" length="1000"/>
+        <column name="status" nullable="false" xsi:type="smallint" comment="Status" default="1" unsigned="true"/>
+        <column name="created_at" nullable="false" xsi:type="timestamp" comment="Created at" default="CURRENT_TIMESTAMP"/>
+        <column name="updated_at" nullable="false" xsi:type="timestamp" comment="Updated At" default="CURRENT_TIMESTAMP" on_update="true"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>

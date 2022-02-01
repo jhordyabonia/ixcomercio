@@ -4,7 +4,6 @@ namespace Intcomex\Credomatic\Controller\Custom;
 
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Sales\Model\Service\InvoiceService;
-use Magento\Framework\DB\Transaction;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Magento\Store\Model\ScopeInterface;
 use Intcomex\Credomatic\Model\CredomaticFactory;
@@ -24,7 +23,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         InvoiceService $invoiceService,
-        Transaction $transaction,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
         \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory
     ) {
@@ -35,7 +33,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->_messageManager = $messageManager;
         $this->orderSender = $orderSender;
         $this->invoiceSender = $invoiceSender;
-        $this->transaction = $transaction;
         $this->invoiceService = $invoiceService;
         $this->orderManagement = $orderManagement;
         $this->_credomaticFactory = $credomaticFactory;
@@ -94,7 +91,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
     
                 }else if($body['response_code']==100){
-                    $order->setState("processing")->setStatus("processing");
+                    $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
+                    $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
+                    $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
                     $payment->save();
@@ -107,23 +106,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
 
-            }
-            
-            $this->orderSender->send($order, true);
-
-            if ($order->canInvoice()) {
-                $invoice = $this->invoiceService->prepareInvoice($order);
-                $invoice->register();
-                $invoice->save();
-                $transactionSave = $this->transaction->addObject(
-                    $invoice
-                )->addObject(
-                    $invoice->getOrder()
-                );
-                $transactionSave->save();
-                $this->invoiceSender->send($invoice);
-                //Send Invoice mail to customer
-                $order->addStatusHistoryComment(__('Notified customer about invoice creation #%1.', $invoice->getId()))->setIsCustomerNotified(true)->save();
             }
             
            return $resultRedirect;
