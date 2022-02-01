@@ -25,8 +25,7 @@ class CheckOrder extends \Magento\Framework\App\Action\Action
         $this->_scopeConfig = $scopeConfig;
         $this->resultRedirect = $context->getResultFactory();
         $this->_checkoutSession = $checkoutSession;
-        //$this->_messageManager = $messageManager;
-        $this->_messageManager = $context->getMessageManager();
+        $this->_messageManager = $messageManager;
         $this->modelOrder = $modelOrder;
         $this->resultJsonFactory = $resultJsonFactory;
         $this->orderManagement = $orderManagement;
@@ -49,9 +48,10 @@ class CheckOrder extends \Magento\Framework\App\Action\Action
             $payment = $order->getPayment();
             $redirect = 'checkout/onepage/success';
             if(empty($payment->getLastTransId())){
+                $this->_messageManager->addError('Transacción Rechazada');  
                 $this->_checkoutSession->restoreQuote();
-                $this->_messageManager->addError('Transacción Rechazada');
                 $this->orderManagement->cancel($order->getId());
+                $order->addStatusHistoryComment('Se cancela la orden por transaccion rechazada');
                 $order->setState("canceled")->setStatus("canceled");
                 $order->cancel();
                 $order->save();
@@ -60,7 +60,8 @@ class CheckOrder extends \Magento\Framework\App\Action\Action
             $respProcess = ['status' => 'success', 'message' => array(
                 'order_id' => $order->getIncrementId(),
                 'status' => $order->getStatus(),
-                'redirect' => $redirect
+                'redirect' => $redirect,
+                'error' => 'Transacción Rechazada'
             )];
 
         } catch (\Exception $e) {
