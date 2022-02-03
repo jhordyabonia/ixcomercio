@@ -1,0 +1,143 @@
+#floatingComparisonBar {
+    max-width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 99;
+    background: #F8F8F8;
+    padding: 20px 0;
+    .row{
+        width: 1170px;
+        margin: 0 auto;
+        .product-item{
+            background: #fff;
+            margin: 0 5px;
+            border: 0.5px solid #dcdcdc;
+            min-height: 212px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            &:nth-child(5){
+                background: transparent;
+                border: 0;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                padding: 50px 0;
+                font-family: 'SamsungSharpSans-Medium';
+            }
+            .action.delete {
+                position: absolute;
+                top: 0;
+                z-index: 99;
+                &:before {
+                    content: "X";
+                    font-size: 18px;
+                    font-weight: 800;
+                }
+                span{
+                    display: none;
+                }  
+            }
+            .product-item-name{
+                padding: 0 10px;
+                line-height: 16px;
+                font-size: 12px;
+                font-family: 'SamsungSharpSans-Medium';
+            }
+            .action.primary[disabled]{
+                background: #8A8A8A;
+            }
+        }
+        .action-close{
+            border-radius: 100px;
+            height: 40px;
+            width: 40px;
+            line-height: 20px;
+            text-align: center;
+            &:before{
+                content: "x";
+                font-size: 24px;
+                font-weight: 900;
+                text-align: center;
+            }
+            span{
+                display: none;
+            }
+        }
+    } 
+}
+
+.catalog-product_compare-index{
+    .page-wrapper {
+        .page-main{
+            padding: 0;
+            max-width: 100%;
+            width: 1170px;
+            .table-comparison{
+                 font-family: 'SamsungSharpSans-Medium';
+                 .cell{
+                    width: auto;
+                    &.remove{
+                        border: 0 !important;
+                    }
+                    &.product.label{
+                        border: 0 !important;
+                    }
+                    &.product.info{
+                        background:transparent;
+                    }
+                }
+                th{
+                    display: block;
+                    .attribute.label{
+                        color: #000;
+                        font-size: 14px;
+                        text-align: left;
+                        @media only screen and (max-width: $mobile){
+                        white-space: break-spaces;
+                        }
+                    }
+                }
+                 tbody{
+                    border: 0 !important;
+                    &+tbody{
+                        tr{
+                            &:nth-child(odd) {
+                                background: #F9F9F9;
+                            }
+                            &:last-child{
+                                background: transparent;
+                            }
+                        }
+                    }
+                    tr{
+                        td{
+                            border-left: 1px solid #ACA9A9;
+                        }
+                    }
+                 }
+                .product-item-actions {
+                    display: block;
+                    .product-item-name{
+                        display: block;
+                        a{
+                            background: #000;
+                            color: #fff;
+                            padding: 10px 15px;
+                             border-radius: 5px;
+                             margin-top:15px;
+                             text-decoration: none;
+                            font-size: 18px;
+                        &:hover{
+                            background: #1428a0;
+                        }
+                        }
+                    }
+                } 
+            }
+        }
+
+    }
+}
