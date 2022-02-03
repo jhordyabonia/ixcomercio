@@ -253,13 +253,14 @@
     }
   }
   .continue.primary{
-    background:transparent;
-    color:$colorText;
-    border: 1px solid $bgColorSecond; 
+    background:#003399;
+    color:#fff;
+    border: 1px solid #003399; 
   }
   .continue.primary:hover{
-    background:$bgColorSecond;
-    color:#ffffff;
+    background:#9ddfff;
+    color:#003399;
+    border-color:#9ddfff;
   }
   .custom_alert{
     color: #000 !important;
@@ -397,7 +398,7 @@
   label{
     margin-bottom: 0;
     font-size: 14px !important;
-    font-family: $fontText !important;
+    font-family: $font !important;
   }
 }
 .p0{
