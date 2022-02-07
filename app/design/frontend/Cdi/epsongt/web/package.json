@@ -2,7 +2,10 @@
   "name": "package",
   "version": "1.0.0",
   "main": "gulpfile.js",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-notify": "^4.0.0",
+    "node-sass": "^7.0.1"
+  },
   "devDependencies": {
     "browser-sync": "^2.24.7",
     "del": "^3.0.0",
