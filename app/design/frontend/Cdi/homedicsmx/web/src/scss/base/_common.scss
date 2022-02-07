@@ -1,4 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@font-face {
+  font-family: 'Fira Sans';
+  src: url('../fonts/homedics/FiraSans-Regular.eot');
+  src: url('../fonts/homedics/FiraSans-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/homedics/FiraSans-Regular.woff2') format('woff2'),
+      url('../fonts/homedics/FiraSans-Regular.woff') format('woff'),
+      url('../fonts/homedics/-Regular.ttf') format('truetype'),
+      url('../fonts/homedics/FiraSans-Regular.svg#FiraSans-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fira Sans bold';
+  src: url('../fonts/homedics/FiraSans-Bold.eot');
+  src: url('../fonts/homedics/FiraSans-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/homedics/FiraSans-Bold.woff2') format('woff2'),
+      url('../fonts/homedics/-Bold.woff') format('woff'),
+      url('../fonts/homedics/-Bold.ttf') format('truetype'),
+      url('../fonts/homedics/FiraSans-Bold.svg#FiraSans-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fira Sans medium';
+  src: url('../fonts/homedics/FiraSans-Medium.eot');
+  src: url('../fonts/homedics/-Medium.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/homedics/-Medium.woff2') format('woff2'),
+      url('../fonts/homedics/-Medium.woff') format('woff'),
+      url('../fonts/homedics/FiraSans-Medium.ttf') format('truetype'),
+      url('../fonts/homedics/-Medium.svg#FiraSans-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
 
 @font-face{
   font-family: "Frankfurter W05 Regular";
@@ -205,4 +246,5 @@ h1, .h1{
   line-height: 1.2;
   text-rendering: optimizeLegibility;
   font-family: 'HuaweiFont-Bold';
+
 }

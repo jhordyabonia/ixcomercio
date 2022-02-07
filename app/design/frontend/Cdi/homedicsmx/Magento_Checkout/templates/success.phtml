@@ -89,7 +89,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                     <p>Tu número de pedido es <strong><?php echo $block->getOrderId(); ?></strong></p>
                     <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
                     <div class="actions-toolbar">
-                        <div class="primary" style="float: none !important;">
+                        <div class="primary">
                             <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                         </div>
                     </div>
@@ -113,7 +113,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                 <?= $block->getAdditionalInfoHtml() ?>
 
                 <div class="actions-toolbar">
-                    <div class="primary" style="float: none !important;">
+                    <div class="primary">
                         <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
                     </div>
                 </div>

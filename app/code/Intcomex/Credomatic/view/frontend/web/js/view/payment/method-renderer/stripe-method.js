@@ -26,11 +26,11 @@ define(
             defaults: {
                 redirectAfterPlaceOrder: false,
                 template: 'Intcomex_Credomatic/payment/stripe-form',
-            	/*paymentPayload: {
+            	  /*paymentPayload: {
                     nonce: null
                 },
-		creditCardInstallments: '',*/
-	    },
+                creditCardInstallments: '',*/
+	          },
 	    
             getCode: function() {
                 return 'credomatic';
@@ -44,9 +44,8 @@ define(
                 var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
-
-            afterPlaceOrder: function () { 
-                
+ 
+            afterPlaceOrder: function () {
                 var serviceUrl = url.build('credomatic/custom/getorder');  
                 var urlPostOrder = url.build('credomatic/custom/postorder');  
                 var urlGetResponse = url.build('credomatic/custom/getresponse');  
@@ -61,45 +60,65 @@ define(
                    var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);  
-                    (function theLoop (i) {
-                        setTimeout(function () {
-                            console.log('Buscando ...'+i);
-                            $.post(urlGetResponse,{order_id:data['orderid']})
-                            .done(function(resp){
-                                if(resp.status=='success'){
-                                    console.log('Encontrado!');
-                                    var redirectUrl = urlPaymentResponse+'?'+resp.info;
-                                    console.log('redirectUrl')
-                                    console.log(redirectUrl)
-                                    window.location.href = redirectUrl;
-                                    i=0;
-                                    return false;
-                                }
-                             })
-                            .fail(function(resp){
-                                console.log(resp);
-                             });
-                             if(i==1){
-                                var redirectUrl = urlPaymentResponse+'?orderid='+data['orderid']+'&empty=true';
+
+                    let interval = setInterval(function () {
+                        console.log('Buscando ...');
+                        $.post(urlGetResponse,{order_id:data['orderid']})
+                        .done(function(resp){
+                            if(resp.status=='success'){
+                                console.log('Encontrado!');
+                                var redirectUrl = urlPaymentResponse+'?'+resp.info;
+                                console.log('redirectUrl')
+                                console.log(redirectUrl)
+                                clearInterval(interval);
                                 window.location.href = redirectUrl;
-                                i=0;
                                 return false;
-                             }
-                            if (--i) {          // If i > 0, keep going
-                            theLoop(i);       // Call the loop again, and pass it the current value of i
                             }
-                        }, 9000);
-                    })(6); 
-                    
+                        })
+                        .fail(function(resp){
+                            console.log(resp);
+                        });
+                    }, 9000);
+
                 })
                 .fail(function(msg){
 
-                })             
-
+                })
                 return false;
+            },
+
+            updateMenu: function () {
+                let menu = $("#payment_methods_menu").find('ul');
+
+                if (menu.length) {
+                    let title_cont = $(".payment-method-title.credomatic");
+                    let title = $(title_cont).find('label.label span').text();
+                    let code_payment = $(title_cont).find('input').attr('id');
+
+                    title_cont.hide();
+
+                    $(menu).prepend(
+                        '<li role="presentation" class="payment-group-item debitcard active">' +
+                            '<a style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
+                        '</li>'
+                    );
+
+                    $('#' + code_payment).trigger("click");
+
+                    $(document).on('click', `#payment_methods_menu ul li a#link-` + code_payment, function (event) {
+                        let data = $(this).attr('data-code');
+                        $('#' + data).trigger("click");
+                        if ($(this).parent().hasClass('active')) {
+
+                        } else {
+                            $(menu).find('li.active').removeClass('active');
+                            $(this).parent().addClass('active');
+                        }
+                    });
+                }
             }
-	                
-            
+
         });
     }
 );

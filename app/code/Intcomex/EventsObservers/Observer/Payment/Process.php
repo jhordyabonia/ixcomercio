@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace Intcomex\EventsObservers\Observer\Payment;
  
 use Magento\Framework\Event\Observer;
@@ -9,7 +9,6 @@ use \Intcomex\EventsObservers\Helper\PlaceOrder;
 use Trax\Ordenes\Model\IwsOrderFactory;
 use Magento\Sales\Model\Order;
 
- 
 class Process implements ObserverInterface
 {
     /**
@@ -65,7 +64,9 @@ class Process implements ObserverInterface
         $statePending = Order::STATE_PENDING_PAYMENT;
         $payment = $order->getPayment();
         $method  = $payment->getMethodInstance();
+        $transactionId = $this->_setTransactionId($order);
         $this->logger->info("Está Orden tiene state ->" . $order->getState() . " y status ->" . $order->getStatus() );
+
         if (
             ($order->getState() == $stateProcessing 
             //&& $order->getOrigData('state') != $stateProcessing
@@ -111,16 +112,11 @@ class Process implements ObserverInterface
                     if($mp_order!=0){
                         try{                       
                             $this->logger->info('Consultamos el payload');
-                            $LastTransId = '1234567';
-                            if($payment->getMethod()=='mercadopago_custom'){
-                                $LastTransId = $payment->getCcTransId();
-                            }                           
-                            
                             $payload = $this->helper->loadPayloadService(
                                         $order->getId(), 
                                         $payment->getAmountOrdered(), 
-                                        '1234567',
-                                        (!empty($payment->getLastTransId()))?$payment->getLastTransId():$LastTransId, 
+                                        $transactionId,
+                                        $transactionId, 
                                         '', 
                                         $payment->getMethod(), 
                                         $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
@@ -159,8 +155,8 @@ class Process implements ObserverInterface
                                         $payload = $this->helper->loadPayloadService(
                                                     $order->getId(), 
                                                     $payment->getAmountOrdered(), 
-                                                    '1234567',
-                                                    (!empty($payment->getLastTransId()))?$payment->getLastTransId():'1234567', 
+                                                    $transactionId,
+                                                    $transactionId,
                                                     '', 
                                                     $payment->getMethod(), 
                                                     $storeManager->getWebsite($storeManager->getStore($order->getStoreId())->getWebsiteId())->getCode()
@@ -182,13 +178,45 @@ class Process implements ObserverInterface
                             } catch(Exception $e){
                                 $this->logger->info('PlaceOrder process - Se ha producido un error: '.$e->getMessage());
                             }
-                        }else{
+                        } else {
                             $this->logger->info('RegisterPayment - Se ha producido un error al conectarse al servicio. No se detectaron parametros de configuracion'); 
-                        }                        
-                    }  
+                        }
+                    }
                 }
-                                            
     }
-             
-}
 
+    /**
+     * Set Transaction ID To Payment.
+     * @param $order
+     * @return string
+     */
+    private function _setTransactionId($order)
+    {
+        $payment = $order->getPayment();
+        $LastTransId = $payment->getCcTransId();
+        if ($payment->getMethod() === 'mercadopago_custom' || $payment->getMethod() === 'mercadopago_basic') {
+            if (empty($payment->getCcTransId())) {
+                $this->logger->info('Payment - Mercadopago_custom: orden '.$order->getIncrementId().' tiene pago con atributo CcTransId vacio.');
+                $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
+                if (empty($paymentResponse)) {
+                    $this->logger->info('Payment - Mercadopago_custom: PaymentResponse vacio : ' . $order->getIncrementId());   
+                } else {
+                    $LastTransId = $paymentResponse["id"];
+                    $payment->setCcTransId($LastTransId);
+                    $updateData  = $payment->save();
+                    if ($updateData) {
+                        $this->logger->info('Payment - Mercadopago_custom, Se actualizo el atributo CcTransId del pago con el numero de autorizacion : '. $LastTransId);
+                    } else {
+                        $this->logger->info('Payment - Mercadopago_custom, Se produjo un error al actualizar el atributo CcTransId del pago con el numero de autorizacion : '.$LastTransId);
+                    }
+                }
+            } else {
+                $LastTransId = $payment->getCcTransId();
+            }
+        } else {
+            $LastTransId = empty($payment->getLastTransId()) ? $LastTransId : $payment->getLastTransId();
+        }
+
+        return $LastTransId;
+    }
+}

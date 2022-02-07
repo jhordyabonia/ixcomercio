@@ -3314,7 +3314,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Email Address","Dirección de email",module,Magento_Checkout
 "Password","Contraseña",module,Magento_Checkout
 "Forgot Your Password?","¿Olvidó su contraseña?",module,Magento_Checkout
-"My billing and shipping address are the same","Si los datos de envío y facturación son diferentes, diligencie los siguientes campos para la factura.",module,Magento_Checkout
+"My billing and shipping address are the same","Si los datos de envío y de facturación son distintos, por favor desmarque esta opción y diligencie los nuevos datos para la factura.",module,Magento_Checkout
 "Update","Actualizar información para Factura",module,Magento_Checkout
 "Cancel","Cancelar",module,Magento_Checkout
 "Save in address book","Guardar en libreta de direcciones",module,Magento_Checkout
@@ -16433,3 +16433,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Document Number","RUT"
 "Out Stock","Sin inventario"
 "Zone","Colonia"
+"Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea cambiar los datos de boleta."
