@@ -3278,15 +3278,20 @@ form {
 
 .checkout-index-index .custom_alert {
   color: #000 !important;
-  padding: .5rem .5rem .5rem .5rem;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   border: 1px solid #1428A0 !important;
-  margin-bottom: 10px;
-  font-weight: 700; }
+  background-color: #fff;
+  margin:12px auto!important;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: justify;
+  padding:8px 0 8px 0;
+  font-weight:bold; }
 
 .checkout-index-index .custom_alert .icon {
   width: 40px;
-  margin-right: .8rem; }
+  margin-right: .8rem; 
+  margin-left: .8rem;}
 
 .checkout-index-index .billing-address-details {
   padding: 10px; }
