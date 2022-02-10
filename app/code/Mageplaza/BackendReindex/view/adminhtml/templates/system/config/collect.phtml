@@ -10,14 +10,18 @@
     require([
         'jquery',
         'prototype'
-    ], function(jQuery){
-
-        var collectSpan = jQuery('#collect_span');
+    ], function(jQuery) {
 
         jQuery('#collect_button').click(function () {
-           var selectTime =  jQuery("#reindex_general_time select");
-           console.log(selectTime);
-            var params = {frecuency:jQuery("#reindex_general_frequency").val()};
+
+            let collectSpan = jQuery('#collect_span');
+            let params = {
+                enabled: parseInt(jQuery("#reindex_general_enabled").val()),
+                time: getStringTime(),
+                frequency: jQuery("#reindex_general_frequency").val(),
+                php_path: jQuery("#reindex_general_php_path").val(),
+                root_password: jQuery("#reindex_general_root_password").val()
+            };
             new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
                 parameters:     params,
                 loaderArea:     false,
@@ -28,22 +32,47 @@
                     jQuery('#collect_message_span').text('');
                 },
                 onSuccess: function(response) {
-                    collectSpan.find('.processing').hide();
-
-                    var resultText = '';
+                    let resultText = '';
                     if (response.status > 200) {
                         resultText = response.statusText;
-                    } else {
-                        resultText = 'Success';
+                    } else if(!response.responseJSON.success) {
+                        resultText = response.responseJSON.message;
+                        collectSpan.find('.collected').hide();
+                    } else if (response.status === 200) {
+                        if (response.responseJSON.crontab) {
+                            let crontabDiv = jQuery('#crontab');
+                            let cronLines = response.responseJSON.crontab.split('\n');
+                            crontabDiv.empty().append('<h2>Jobs</h2>');
+                            for (let i = 0; i < cronLines.length; i++) {
+                                if (cronLines[i]) {
+                                    crontabDiv.append('<p>' + cronLines[i] + '</p><hr>').show();
+                                }
+                            }
+                        }
+                        resultText = response.responseJSON.message;
                         collectSpan.find('.collected').show();
                     }
                     jQuery('#collect_message_span').text(resultText);
-
-                    var json = response.responseJSON;
-                    console.log(json);
+                    collectSpan.find('.processing').hide();
                 }
             });
         });
+
+        /**
+         * Get time from inputs.
+         *
+         * @returns {string}
+         */
+        function getStringTime()
+        {
+            let stringTime = '';
+            let time = document.getElementsByName('groups[general][fields][time][value][]');
+            for (let i = 0; i < time.length; i++) {
+                let separator = (i===0) ? '' : ':';
+                stringTime = stringTime + separator + time[i].value;
+            }
+            return stringTime;
+        }
 
     });
 </script>
@@ -54,3 +83,4 @@
     <img class="collected" hidden="hidden" alt="Collected" style="margin:-3px 5px" src="<?php echo $block->getViewFileUrl('images/rule_component_apply.gif') ?>"/>
     <span id="collect_message_span"></span>
 </span>
+<div id="crontab" style="display: none; margin-top: 20px"></div>

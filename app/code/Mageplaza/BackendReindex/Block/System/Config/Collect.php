@@ -73,7 +73,7 @@ class Collect extends Field
         )->setData(
             [
                 'id' => 'collect_button',
-                'label' => __('Programar'),
+                'label' => __('Setup Cron'),
             ]
         );
 

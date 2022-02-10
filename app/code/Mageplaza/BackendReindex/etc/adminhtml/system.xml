@@ -17,26 +17,33 @@
                         <field id="functionality_enabled">1</field>
                     </depends>
                 </field>
-                <field id="time" translate="label" type="time" sortOrder="30" showInDefault="1">
+                <field id="time" translate="label" type="time" sortOrder="20" showInDefault="1">
                     <label>Start Time</label>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="functionality_enabled">1</field>
                     </depends>
                 </field>
-                <field id="frequency" translate="label" type="select" sortOrder="40" showInDefault="1">
-                    <label>Frecuencia</label>
+                <field id="frequency" translate="label" type="select" sortOrder="30" showInDefault="1">
+                    <label>Frequency</label>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="functionality_enabled">1</field>
                     </depends>
-                    <source_model>Mageplaza\BackendReindex\Model\Config\Source\Frequency</source_model>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
                 </field>
-                <field id="mageplaza_backendreindex" translate="label comment" type="button" sortOrder="300" showInDefault="1">
-                     <depends>
+                <field id="php_path" translate="label" type="text" sortOrder="40" showInDefault="1">
+                    <label>PHP Binary Path</label>
+                    <depends>
                         <field id="enabled">1</field>
                         <field id="functionality_enabled">1</field>
-                    </depends> 
+                    </depends>
+                </field>
+                <field id="root_password" translate="label" type="password" sortOrder="50" showInDefault="1">
+                    <label>Root Password</label>
+                    <validate>required</validate>
+                </field>
+                <field id="mageplaza_backendreindex" translate="label comment" type="button" sortOrder="100" showInDefault="1">
                     <frontend_model>Mageplaza\BackendReindex\Block\System\Config\Collect</frontend_model>
                 </field>
             </group>
