@@ -26,7 +26,7 @@
     font-weight: bold;
     color: #000;
     margin: 0;
-    font-family: 'SamsungSharpSans-Medium';
+    font-family: $font;
     @media only screen and (max-width: $tablet){
       font-size: 30px;
     } 
@@ -57,7 +57,7 @@ section{
     .title-section{
       color: #000;
       font-size: 34px;
-      font-family: 'SamsungSharpSans-Bold';
+      font-family: $font;
       font-weight: bold;
       margin: 0;
       @media only screen and (max-width: $tablet){
@@ -123,7 +123,7 @@ section{
       transform: translateY(-50%) translateX(0%);
     }
     h1, h1 span{
-      font-family: 'SamsungSharpSans-Bold';
+      font-family: $font;
       font-weight: normal;
       font-size: 72px;
       line-height: .9em;
@@ -583,12 +583,13 @@ section{
     transition: .5s all ease;
     font-size: 1.7rem;
     letter-spacing: 1px;
-    font-family: 'SamsungSharpSans-Medium';
+    font-family: $font;
     font-weight: 400;
     border-radius: 5px !important;
     border: 0;
     &:hover{
-      background: #000;
+      background: #9ddfff;
+      color:#039;
       border: none;
     }
   }

@@ -70,14 +70,19 @@
             color: #fff;
             background: $mainColor;
             border: 2px solid $mainColor;
+            &:hover{
+              color: #fff;
+              background: #9ddfff;
+              border: 2px solid #9ddfff;
+            }
           }
           &.action-secondary, &.action.secondary{
             color: $mainColor;
             border: 2px solid $mainColor;
             &:hover{
               color: #fff;
-              background: $bgColorSecond;
-              border: 2px solid $bgColorSecond;
+              background: #9ddfff;
+              border: 2px solid #9ddfff;
             }
           }
         }
