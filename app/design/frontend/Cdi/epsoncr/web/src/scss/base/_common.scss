@@ -45,11 +45,13 @@
 }
 html {
   font-size: 14px;
+  font-family: $font !important;
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
 }
 body[data-container='body']{
   color: $colorText;
+  font-family: $font !important;
   font-size: 14px;
   background-color: white;
   text-align: center;
