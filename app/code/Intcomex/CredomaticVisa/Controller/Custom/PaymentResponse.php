@@ -86,10 +86,11 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
-                if($body['response_code']==300||$body['response_code']==200){
+                if($body['response_code']==300||$body['response_code']==200||$body['response_code']==220){
     
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
-    
+                    $resultRedirect->setPath('checkout/cart');
+
                 }else if($body['response_code']==100){
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
                     $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
