@@ -47,6 +47,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
 
+            $resultRedirect = $this->resultRedirectFactory->create();
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
             $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
@@ -82,7 +83,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                 $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                 $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
@@ -102,7 +102,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                     $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                     $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                    $resultRedirect = $this->resultRedirectFactory->create();
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
 
