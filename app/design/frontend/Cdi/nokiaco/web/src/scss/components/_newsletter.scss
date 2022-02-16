@@ -9,6 +9,7 @@ section{
       }
       @media only screen and (max-width: $mobile){
         padding: 0 15px;
+        width: 100% !important;
       }
     }
     .block.newsletter{
@@ -20,6 +21,8 @@ section{
           padding: 0 15px;
           text-align: center;
           display: inline-block;
+          width: 100% !important;
+          margin-top: 10px;
         }
         .field.newsletter{
           width: 75%;
@@ -53,17 +56,19 @@ section{
             margin-top: 20px;
           }
           .action{
-            width: 100%;
+            width: 150%;
             height: 46px;
             position: relative;
             text-transform: uppercase;
-            border-radius: 0 5px 5px 0;
-            background: $colorSecond;
+            border-radius: 5px;
+            background-color: hsla(0,0%,100%,.1);
+            color: hsla(0,0%,100%,.55);
             &:hover{
               background: $mainColor;
             }
             @media only screen and (max-width: $mobile){
               border-radius: 5px;
+              width: 100%;
             }
           }
         }
