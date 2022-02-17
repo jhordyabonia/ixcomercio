@@ -16434,3 +16434,6 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "CancelBilling","Volver a datos de boleta",module,Magento_AdvancedCheckout
 "Please uncheck the box if you want to add your Invoice details","Si seleccionas esta opción, ingresa los siguientes datos."
 "SecurityCode","CVC"
+"Out Stock","Sin inventario"
+"In Stock","Stock disponible",module,Magento_Catalog
+"In Stock","Stock disponible",module,Magento_CatalogInventory
