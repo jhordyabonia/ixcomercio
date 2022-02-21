@@ -1,21 +1,19 @@
 <?php
-/**
- * Copyright © 2016 MageWorx. All rights reserved.
- * See LICENSE.txt for license details.
- */
+declare(strict_types=1);
 
-namespace Mageplaza\BackendReindex\Block\System\Config;
+namespace Intcomex\ScheduledReindex\Block\System\Config;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Exception\LocalizedException;
 
 class Collect extends Field
 {
     /**
      * @var string
      */
-    protected $_template = 'Mageplaza_BackendReindex::system/config/collect.phtml';
+    protected $_template = 'Intcomex_ScheduledReindex::system/config/collect.phtml';
 
     /**
      * @param Context $context
@@ -29,44 +27,45 @@ class Collect extends Field
     }
 
     /**
-     * Remove scope label
+     * Remove scope label.
      *
      * @param  AbstractElement $element
      * @return string
      */
-    public function render(AbstractElement $element)
+    public function render(AbstractElement $element): string
     {
         $element->unsScope()->unsCanUseWebsiteValue()->unsCanUseDefaultValue();
         return parent::render($element);
     }
 
     /**
-     * Return element html
+     * Return element html.
      *
      * @param  AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(AbstractElement $element)
+    protected function _getElementHtml(AbstractElement $element): string
     {
         return $this->_toHtml();
     }
 
     /**
-     * Return ajax url for collect button
+     * Return ajax url for collect button.
      *
      * @return string
      */
-    public function getAjaxUrl()
+    public function getAjaxUrl(): string
     {
         return $this->getUrl('indexer/system_config/collect');
     }
 
     /**
-     * Generate collect button html
+     * Return button html.
      *
      * @return string
+     * @throws LocalizedException
      */
-    public function getButtonHtml()
+    public function getButtonHtml(): string
     {
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'

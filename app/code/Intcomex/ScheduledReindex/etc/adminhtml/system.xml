@@ -42,9 +42,10 @@
                 <field id="root_password" translate="label" type="password" sortOrder="50" showInDefault="1">
                     <label>Root Password</label>
                     <validate>required</validate>
+                    <backend_model>Intcomex\ScheduledReindex\Model\Config\Backend\RootPassword</backend_model>
                 </field>
                 <field id="mageplaza_backendreindex" translate="label comment" type="button" sortOrder="100" showInDefault="1">
-                    <frontend_model>Mageplaza\BackendReindex\Block\System\Config\Collect</frontend_model>
+                    <frontend_model>Intcomex\ScheduledReindex\Block\System\Config\Collect</frontend_model>
                 </field>
             </group>
         </section>

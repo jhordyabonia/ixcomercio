@@ -1,38 +1,17 @@
 <?php
-/**
- * Mageplaza
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Mageplaza.com license that is
- * available through the world-wide-web at this URL:
- * https://www.mageplaza.com/LICENSE.txt
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this extension to newer
- * version in the future.
- *
- * @category    Mageplaza
- * @package     Mageplaza_BackendReindex
- * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
- * @license     https://www.mageplaza.com/LICENSE.txt
- */
+declare(strict_types=1);
 
-namespace Mageplaza\BackendReindex\Controller\Adminhtml\Indexer;
+namespace Intcomex\RewriteBackendReindex\Controller\Adminhtml\Indexer;
 
 use Exception;
+use Intcomex\RewriteBackendReindex\Controller\Adminhtml\Indexer as ControllerIndexer;
 use Magento\Framework\Exception\LocalizedException;
-use Mageplaza\BackendReindex\Controller\Adminhtml\Indexer;
+use Magento\Framework\Indexer\StateInterface;
 
-/**
- * Class Reindex
- * @package Magento\Indexer\Controller\Adminhtml\Indexer
- */
-class Reset extends Indexer
+class Reset extends ControllerIndexer
 {
     /**
-     * Display processes grid action
+     * Display processes grid action.
      *
      * @return void
      */
@@ -43,10 +22,9 @@ class Reset extends Indexer
         if ($indexer && $indexer->getId()) {
             try {
                 $indexer->getState()
-                ->setStatus(\Magento\Framework\Indexer\StateInterface::STATUS_INVALID)
-                ->save();
+                    ->setStatus(StateInterface::STATUS_INVALID)
+                    ->save();
                 $indexer->reindexAll();
-
                 $this->messageManager->addSuccessMessage(__('%1 index was reset.', $indexer->getTitle()));
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
