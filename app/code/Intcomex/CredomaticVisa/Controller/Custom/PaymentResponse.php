@@ -47,6 +47,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
 
+            $resultRedirect = $this->resultRedirectFactory->create();
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $customError = (string) $this->_scopeConfig->getValue('payment/credomaticvisa/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
             $modo =  $this->_scopeConfig->getValue('payment/credomaticvisa/modo',ScopeInterface::SCOPE_STORE);
@@ -82,14 +83,14 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                 $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                 $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
-                if($body['response_code']==300||$body['response_code']==200){
+                if($body['response_code']==300||$body['response_code']==200||$body['response_code']==220){
     
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
-    
+                    $resultRedirect->setPath('checkout/cart');
+
                 }else if($body['response_code']==100){
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
                     $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
@@ -102,7 +103,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                     $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                     $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                    $resultRedirect = $this->resultRedirectFactory->create();
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
 

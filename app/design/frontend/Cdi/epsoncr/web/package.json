@@ -2,27 +2,35 @@
   "name": "package",
   "version": "1.0.0",
   "main": "gulpfile.js",
-  "dependencies": {},
   "devDependencies": {
+    "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.4.0",
     "browser-sync": "^2.24.7",
     "del": "^3.0.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-autoprefixer": "^4.1.0",
-    "gulp-scss-lint": "^1.0.0",
     "gulp-clean-css": "3.9.4",
     "gulp-concat": "^2.6.1",
     "gulp-html-replace": "^1.6.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.6.4",
     "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^4.0.0",
+    "gulp-scss-lint": "^1.0.0",
+    "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
-    "merge-stream": "^1.0.1"
+    "jquery": "^3.6.0",
+    "merge-stream": "^1.0.1",
+    "popper.js": "^1.16.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "gulp-cli": "^2.3.0",
+    "gulp-notify": "^4.0.0",
+    "node-sass": "^7.0.1"
+  }
 }
