@@ -99,8 +99,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             </a>
                         </strong>
                         <?php if ($showDescription):?>
-                                <div class="product description product-item-description">
-                                    <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                <div class="product description">
+                                    <?php /* @escapeNotVerified */ echo substr($_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'),0,80) ?>
                                 </div>
                             <?php endif; ?>  
                         <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
