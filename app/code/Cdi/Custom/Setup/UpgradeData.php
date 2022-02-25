@@ -463,6 +463,16 @@ class UpgradeData implements UpgradeDataInterface{
 					'comment' =>'RequireInvoice'
 				]
 			);
+			$setup->getConnection()
+			->addColumn(
+				$setup->getTable($orderTable),
+				'',
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+					'nullable' =>false,
+					'comment' =>'Is Paid'
+				]
+			);
 			//Order table
 			$setup->getConnection()
 			->addColumn(
