@@ -450,13 +450,15 @@ class UpgradeData implements UpgradeDataInterface{
 		}
 
 		if(version_compare($context->getVersion(), '1.0.20', '<')){
+			$eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 			$setup->getConnection()
 			->addColumn(
 				$setup->getTable('sales_order'),
-				'',
+				'is_paid',
 				[
-					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INT,
 					'nullable' =>false,
+					'default' => 0,
 					'comment' =>'Is Paid'
 				]
 			);
