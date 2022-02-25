@@ -90,6 +90,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
                     $resultRedirect->setPath('checkout/cart');
+                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
 
                 }else if($body['response_code']==100){
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
