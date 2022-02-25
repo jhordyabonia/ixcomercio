@@ -450,6 +450,18 @@ class UpgradeData implements UpgradeDataInterface{
 		}
 
 		if(version_compare($context->getVersion(), '1.0.20', '<')){
+			$setup->getConnection()
+			->addColumn(
+				$setup->getTable('sales_order'),
+				'',
+				[
+					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
+					'nullable' =>false,
+					'comment' =>'Is Paid'
+				]
+			);
+		}
+		if(version_compare($context->getVersion(), '1.0.19', '<')){
 			$quote = 'quote';
 			$orderTable = 'sales_order';
 			$attributeOrder = 'useinvoice';
@@ -461,16 +473,6 @@ class UpgradeData implements UpgradeDataInterface{
 					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
 					'length' => 50,
 					'comment' =>'RequireInvoice'
-				]
-			);
-			$setup->getConnection()
-			->addColumn(
-				$setup->getTable($orderTable),
-				'',
-				[
-					'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
-					'nullable' =>false,
-					'comment' =>'Is Paid'
 				]
 			);
 			//Order table
