@@ -65,7 +65,7 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
             
         }
 
-        if($code=='mercadopago_custom'||$code='mercadopago_basic'){
+        if($code=='mercadopago_custom'||$code=='mercadopago_basic'){
             $paymentData = $payment->getAdditionalInformation();
             if(isset($paymentData['paymentResponse']['status'])){
                 if($paymentData['paymentResponse']['status']!='approved'){
