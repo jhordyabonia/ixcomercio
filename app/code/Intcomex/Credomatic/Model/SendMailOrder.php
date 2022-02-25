@@ -55,10 +55,10 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
                 $orderRepository = $objectManager->get('\Magento\Sales\Api\Data\OrderInterface'); 
                 $orderDataRep = $orderRepository->load($order->getId());
                 $orderData = $orderDataRep->getData();
-                $isPaid = (isset($orderData['is_paid']))?$orderData['is_paid']:0;
+                $isPaid = (isset($orderData['is_paid']))?$orderData['is_paid']:-1;
                 $this->logger->info('getIsPaid '.$isPaid);
 
-                if($isPaid==0){
+                if($isPaid==0||$isPaid==-1){
                     $this->logger->info('return false por validacion');
                     return false; 
                 }else{
