@@ -32,12 +32,22 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
 
     public function send(Order $order, $forceSyncMode = false)
     {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/SendMailOrder.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+
         $payment = $order->getPayment();
 
         $code = $order->getPayment()->getMethodInstance()->getCode();
-        if($code!='ingenico'&&$code!='mercadopago_custom'){
-            if (empty($payment->getLastTransId())||$order->getBaseTotalDue()>0){
+        if($code!='ingenico'&&$code!='mercadopago_custom'&&$code!='mercadopago_basic'){
+            if (empty($payment->getLastTransId())){
                 return false;
+            }else{
+                $this->logger->info('se envia corrreo para la orden');
+                $this->logger->info('Orden: '.$order->getId());
+                $this->logger->info('Pasarela: '.$code);
+                $this->logger->info('getLastTransId: '.$payment->getLastTransId());
+
             }
         }
 
