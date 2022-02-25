@@ -51,19 +51,16 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
                     $this->logger->info('getLastTransId: '.$payment->getLastTransId());
                 }
             }else{
-                $paymentResp = json_decode($payment->getAdditionalInformation('payment_resp'),true);
-                if(isset($paymentResp['response_code'])){
-                    $this->logger->info('response_code');
-                    $this->logger->info(print_r($paymentResp['response_code'],true));
-                }
-                if(isset($paymentResp['response_code'])&&$paymentResp['response_code']==100){
+                //$paymentResp = json_decode($payment->getAdditionalInformation('payment_resp'),true);
+                $this->logger->info('getIsPaid');
+                $this->logger->info($order->getIsPaid());
+                if(!$order->getIsPaid()){
+                    $this->logger->info('return false por validacion');
+                    return false; 
+                }else{
                     $this->logger->info('se envia corrreo para la orden');
                     $this->logger->info('Orden: '.$order->getId());
                     $this->logger->info('Pasarela: '.$code);
-                    $this->logger->info('getLastTransId: '.$payment->getLastTransId());
-                }else{
-                    $this->logger->info('return false por validacion');
-                    return false; 
                 }
 
             }
