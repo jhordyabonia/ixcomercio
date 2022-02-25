@@ -449,7 +449,7 @@ class UpgradeData implements UpgradeDataInterface{
 			$connection->query($sql);
 		}
 
-		if(version_compare($context->getVersion(), '1.0.19', '<')){
+		if(version_compare($context->getVersion(), '1.0.20', '<')){
 			$quote = 'quote';
 			$orderTable = 'sales_order';
 			$attributeOrder = 'useinvoice';
