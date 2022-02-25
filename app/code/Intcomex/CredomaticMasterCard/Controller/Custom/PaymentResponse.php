@@ -103,7 +103,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
                     $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                    //$order->setIsPaid(1);
+                    $order->setIsPaid(1);
                     $order->save();
                     $this->_checkoutSession->setLastQuoteId($order->getId());
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());

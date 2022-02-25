@@ -77,7 +77,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
                 $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                //$order->setIsPaid(1);
+                $order->setIsPaid(1);
                 $order->save();
                 
                 $this->_checkoutSession->setLastQuoteId($order->getId());
