@@ -40,14 +40,29 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
 
         $code = $order->getPayment()->getMethodInstance()->getCode();
         if($code!='ingenico'&&$code!='mercadopago_custom'&&$code!='mercadopago_basic'){
-            if (empty($payment->getLastTransId())){
-                return false;
+
+            if($code=='pagalo'||$code=='pagalovisa'||$code=='pagalomastercard'){
+                if (empty($payment->getLastTransId())){
+                    return false; 
+                }else{
+                    $this->logger->info('se envia corrreo para la orden');
+                    $this->logger->info('Orden: '.$order->getId());
+                    $this->logger->info('Pasarela: '.$code);
+                    $this->logger->info('getLastTransId: '.$payment->getLastTransId());
+                }
             }else{
-                $this->logger->info('se envia corrreo para la orden');
-                $this->logger->info('Orden: '.$order->getId());
-                $this->logger->info('Pasarela: '.$code);
-                $this->logger->info('getLastTransId: '.$payment->getLastTransId());
+                $paymentResp = json_decode($payment->getAdditionalInformation('payment_resp'),true);
+                if(is_array($paymentResp)&&isset($paymentResp['response_code'])&&$paymentResp['response_code']!=100){
+                    return false; 
+                }else{
+                    $this->logger->info('se envia corrreo para la orden');
+                    $this->logger->info('Orden: '.$order->getId());
+                    $this->logger->info('Pasarela: '.$code);
+                    $this->logger->info('getLastTransId: '.$payment->getLastTransId());
+                }
+
             }
+            
         }
 
         if($code=='mercadopago_custom'||$code='mercadopago_basic'){

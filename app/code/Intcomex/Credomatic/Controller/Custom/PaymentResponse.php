@@ -76,7 +76,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
-                $payment->save();
+                $payment->setAdditionalInformation('payment_resp',json_encode($body));
                 $order->save();
                 
                 $this->_checkoutSession->setLastQuoteId($order->getId());
@@ -97,7 +97,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
-                    $payment->save();
+                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
                     $order->save();
                     $this->_checkoutSession->setLastQuoteId($order->getId());
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
