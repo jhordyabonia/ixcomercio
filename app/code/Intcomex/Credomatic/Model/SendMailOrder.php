@@ -55,7 +55,7 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
                 $orderData = $order->getData();
                 $this->logger->info(print_r($orderData,true));
 
-                $isPaid = ((isset($orderData['is_paid']))?$orderData['is_paid']:0);
+                $isPaid = (isset($orderData['is_paid']))?$orderData['is_paid']:0;
                 $this->logger->info('getIsPaid '.$isPaid);
 
                 if($isPaid==0){
