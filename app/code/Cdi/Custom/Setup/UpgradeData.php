@@ -514,7 +514,6 @@ class UpgradeData implements UpgradeDataInterface{
 				}				
 			}
 		}
-		$eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY,'activate_from_stock');
 		
 		$setup->endSetup();
 	}
