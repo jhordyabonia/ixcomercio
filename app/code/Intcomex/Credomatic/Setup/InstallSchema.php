@@ -1,6 +1,6 @@
 <?php
 
-namespace Mageplaza\HelloWorld\Setup;
+namespace Intcomex\Credomatic\Setup;
 
 class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
 {
