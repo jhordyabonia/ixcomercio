@@ -36,7 +36,7 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
 
         $code = $order->getPayment()->getMethodInstance()->getCode();
         if($code!='ingenico'&&$code!='mercadopago_custom'){
-            if($payment->getLastTransId()==''||$payment->getLastTransId()==null){
+            if (empry($payment->getLastTransId())){
                 return false;
             }
         }
