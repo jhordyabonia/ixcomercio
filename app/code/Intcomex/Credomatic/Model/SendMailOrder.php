@@ -51,11 +51,8 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
                     $this->logger->info('getLastTransId: '.$payment->getLastTransId());
                 }
             }else{
-                $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
-                $orderRepository = $objectManager->get('\Magento\Sales\Api\Data\OrderInterface'); 
-                $orderDataRep = $orderRepository->load($order->getId());
-                $orderData = $orderDataRep->getData();
-                $isPaid = (isset($orderData['is_paid']))?$orderData['is_paid']:-1;
+                $getIsPaid = $this->getIsPaid($order->getId());
+                $isPaid = (isset($getIsPaid))?$getIsPaid:-1;
                 $this->logger->info('getIsPaid '.$isPaid);
 
                 if($isPaid==0||$isPaid==-1){
@@ -98,6 +95,16 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
         $this->orderResource->saveAttribute($order, 'send_email');
 
         return false;
+    }
+
+    public function getIsPaid($orderid){
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // Instance of object manager
+			$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+			$connection = $resource->getConnection();
+			$tableName = $resource->getTableName('sales_order'); //gives table name with prefix
+			//Select Data from table
+			$sql = "Select is_paid FROM " . $tableName." WHERE entity_id=".$orderid;
+			return (int)$connection->fetchOne($sql); // gives associated array, table fields as key in array.
     }
 
 }
