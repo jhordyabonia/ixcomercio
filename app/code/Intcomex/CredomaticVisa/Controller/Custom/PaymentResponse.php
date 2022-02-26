@@ -77,7 +77,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
                 $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                $order->setIsPaid(1);
+                $order->setIsPaidCredo('Yes');
                 $order->save();
                 
                 $this->_checkoutSession->setLastQuoteId($order->getId());
@@ -92,7 +92,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
                     $resultRedirect->setPath('checkout/cart');
                     $payment = $order->getPayment();
-                    $order->setIsPaid(0);
+                    $order->setIsPaidCredo('No');
                     $order->save();
                     $payment->setAdditionalInformation('payment_resp',json_encode($body));
 
@@ -103,7 +103,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
                     $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                    $order->setIsPaid(1);
+                    $order->setIsPaidCredo('Yes');
                     $order->save();
                     $this->_checkoutSession->setLastQuoteId($order->getId());
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
