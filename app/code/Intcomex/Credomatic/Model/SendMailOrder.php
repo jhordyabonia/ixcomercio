@@ -55,15 +55,15 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
                 $isPaid = (isset($getIsPaid))?$getIsPaid:'No';
                 $this->logger->info('getIsPaid '.$isPaid);
 
-                if($isPaid=='No'||$isPaid==0){
-                    $this->logger->info('return false por validacion');
+                if($isPaid!='Yes'){
+                    $this->logger->info('Return False por validacion');
                     return false; 
                 }else{
                     $this->logger->info('se envia corrreo para la orden');
                     $this->logger->info('Orden: '.$order->getId());
                     $this->logger->info('Pasarela: '.$code);
                 }
-
+              
             }
             
         }
