@@ -26,12 +26,12 @@ define(
             defaults: {
                 redirectAfterPlaceOrder: false,
                 template: 'Intcomex_Credomatic/payment/stripe-form',
-                /*paymentPayload: {
+            	  /*paymentPayload: {
                     nonce: null
                 },
                 creditCardInstallments: '',*/
-            },
-
+	          },
+	    
             getCode: function() {
                 return 'credomatic';
             },
@@ -44,12 +44,12 @@ define(
                 var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
-
+ 
             afterPlaceOrder: function () {
-                var serviceUrl = url.build('credomatic/custom/getorder');
-                var urlPostOrder = url.build('credomatic/custom/postorder');
-                var urlGetResponse = url.build('credomatic/custom/getresponse');
-                var urlPaymentResponse = url.build('credomatic/custom/paymentresponse');
+                var serviceUrl = url.build('credomatic/custom/getorder');  
+                var urlPostOrder = url.build('credomatic/custom/postorder');  
+                var urlGetResponse = url.build('credomatic/custom/getresponse');  
+                var urlPaymentResponse = url.build('credomatic/custom/paymentresponse');  
                 var cuotas = $("#credomatic_installments option:selected").val();
                 var year = $("#credomatic_expiration_yr option:selected").val();
                 var month = $("#credomatic_expiration option:selected").val();
@@ -99,8 +99,8 @@ define(
 
                     $(menu).prepend(
                         '<li role="presentation" class="payment-group-item debitcard active">' +
-                        '<a style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
-                        '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
+                            '<a style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
                         '</li>'
                     );
 
