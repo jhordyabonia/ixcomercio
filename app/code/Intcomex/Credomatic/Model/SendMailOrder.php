@@ -32,16 +32,43 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
 
     public function send(Order $order, $forceSyncMode = false)
     {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/SendMailOrder.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+
         $payment = $order->getPayment();
 
         $code = $order->getPayment()->getMethodInstance()->getCode();
-        if($code!='ingenico'&&$code!='mercadopago_custom'){
-            if($payment->getLastTransId()==''&&$payment->getLastTransId()!=null){
-                return false;
+        if($code!='ingenico'&&$code!='mercadopago_custom'&&$code!='mercadopago_basic'){
+
+            if($code=='pagalo'||$code=='pagalovisa'||$code=='pagalomastercard'){
+                if (empty($payment->getLastTransId())){
+                    return false; 
+                }else{
+                    $this->logger->info('se envia corrreo para la orden');
+                    $this->logger->info('Orden: '.$order->getId());
+                    $this->logger->info('Pasarela: '.$code);
+                    $this->logger->info('getLastTransId: '.$payment->getLastTransId());
+                }
+            }else{
+                $getIsPaid = $this->getIsPaid($order->getId(),$this->logger);
+                $isPaid = (isset($getIsPaid))?$getIsPaid:'No';
+                $this->logger->info('getIsPaid '.$isPaid);
+
+                if($isPaid!='Yes'){
+                    $this->logger->info('Return False por validacion');
+                    return false; 
+                }else{
+                    $this->logger->info('se envia corrreo para la orden');
+                    $this->logger->info('Orden: '.$order->getId());
+                    $this->logger->info('Pasarela: '.$code);
+                }
+              
             }
+            
         }
 
-        if($code=='mercadopago_custom'){
+        if($code=='mercadopago_custom'||$code=='mercadopago_basic'){
             $paymentData = $payment->getAdditionalInformation();
             if(isset($paymentData['paymentResponse']['status'])){
                 if($paymentData['paymentResponse']['status']!='approved'){
@@ -68,6 +95,15 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender 
         $this->orderResource->saveAttribute($order, 'send_email');
 
         return false;
+    }
+
+    public function getIsPaid($orderid,$logger){
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $orderRepository = $objectManager->get('\Magento\Sales\Api\Data\OrderInterface'); 
+        $orderDataRep = $orderRepository->load($orderid);
+        $orderData = $orderDataRep->getData();
+        $logger->info(print_r($orderData['is_paid_credo'],true));
+        return $orderData['is_paid_credo'];
     }
 
 }

@@ -67,7 +67,7 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
                         $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                         $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                         $this->_checkoutSession->setLastRealOrderId($get['orderid']);
-                        $this->orderSender->send($order, true);
+                        //$this->orderSender->send($order, true);
         
                         if ($order->canInvoice()) {
                             $invoice = $this->invoiceService->prepareInvoice($order);

@@ -76,7 +76,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
-                $payment->save();
+                $payment->setAdditionalInformation('payment_resp',json_encode($body));
+                $order->setIsPaidCredo('Yes');
                 $order->save();
                 
                 $this->_checkoutSession->setLastQuoteId($order->getId());
@@ -89,6 +90,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 if($body['response_code']==300||$body['response_code']==200||$body['response_code']==220){
     
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
+                    $payment = $order->getPayment();
+                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
+                    $order->setIsPaidCredo('No');
+                    $order->save();
                     $resultRedirect->setPath('checkout/cart');
 
                 }else if($body['response_code']==100){
@@ -97,7 +102,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
-                    $payment->save();
+                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
+                    $order->setIsPaidCredo('Yes');
                     $order->save();
                     $this->_checkoutSession->setLastQuoteId($order->getId());
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
@@ -107,6 +113,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 }
 
             }
+            $this->orderSender->send($order, true);
             
            return $resultRedirect;
         } catch (\Exception $e) {
