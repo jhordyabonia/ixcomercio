@@ -404,6 +404,10 @@
   .bd2{
     border-left: 2px solid #CFCBCB;
   }
+  .payment-group-item.debitcard > a{
+    color: #000 !important;
+    padding-left: 1rem;
+  }
 }
 @media (max-width: $mobile){
   .billing-address-invoice-alert{
