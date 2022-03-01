@@ -1,10 +1,9 @@
 <?php
+
 namespace Intcomex\Credomatic\Controller\Custom;
 
 class RegisterResponse extends \Magento\Framework\App\Action\Action
 {
-
-
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Serialize\Serializer\Json $json,
@@ -29,13 +28,14 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
         $this->invoiceService = $invoiceService;
     }
 
-
     /**
-     * Execute view action
+     * Execute view action.
      *
-     * @return \Magento\Framework\Controller\ResultInterface
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
+     * @throws \Magento\Framework\Validator\Exception
      */
-    public function execute(){ 
+    public function execute()
+    {
         try {
             $get = $this->getRequest()->getParams();
 
@@ -49,27 +49,25 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
                         'response' => $this->json->serialize($get),
                         'created_at' => date('Y-m-d H:i:s'),
                         'updated_at' => date('Y-m-d H:i:s')
-                        ]);
-    
-                     $model->save();
+                    ]);
+                    $model->save();
                 }
 
-                $order = $this->_orderFactory->create()->loadByIncrementId($body['orderid']);
+                $order = $this->_orderFactory->create()->loadByIncrementId($get['orderid']);
 
                 if($order->getStus()=='pending'){
                     if($get['response_code']==100){
                         
                         $order->setState("processing")->setStatus("processing");
                         $payment = $order->getPayment();
-                        $payment->setLastTransId($body['authcode']);
+                        $payment->setLastTransId($get['authcode']);
                         $payment->save();
                         $order->save();
                         $this->_checkoutSession->setLastQuoteId($order->getId());
                         $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                         $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
-                        $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-    
-                        $this->orderSender->send($order, true);
+                        $this->_checkoutSession->setLastRealOrderId($get['orderid']);
+                        //$this->orderSender->send($order, true);
         
                         if ($order->canInvoice()) {
                             $invoice = $this->invoiceService->prepareInvoice($order);
@@ -85,22 +83,17 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
                             //Send Invoice mail to customer
                             $order->addStatusHistoryComment(__('Notified customer about invoice creation #%1.', $invoice->getId()))->setIsCustomerNotified(true)->save();
                         }
-                    }else if($get['response_code']==300||$body['response_code']==200){
-                            $order->setState("canceled")->setStatus("canceled");
-                            $this->orderManagement->cancel($order->getId());
-                            $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
-                            $order->save();
+                    }else if($get['response_code']==300||$get['response_code']==200){
+                        $order->setState("canceled")->setStatus("canceled");
+                        $this->orderManagement->cancel($order->getId());
+                        $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($get['responsetext']))?$get['responsetext']:''));
+                        $order->save();
                     }
                 }
-
             }
-    
         } catch (\Exception $e) {
             $error = __('Payment create data error Credomatic: '); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
         }
-        
     }
-
-
 }
