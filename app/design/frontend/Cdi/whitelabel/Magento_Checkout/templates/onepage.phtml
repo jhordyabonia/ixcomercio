@@ -57,7 +57,8 @@ if(!isset($showBilling) || $showBilling == null ){
         window.mediaUrl = '<?php  echo $mediaUrl; ?>';
         window.alertaTradein1 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_1'));?>';
         window.alertaTradein2 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_2'))?> ';
-        window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
+        window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>';
+        window.imgFranquiciasBAC = '<?php echo $block->getViewFileUrl('images/franquiciasBAC.png'); ?>'; 
     </script>
     <script>
         require([
