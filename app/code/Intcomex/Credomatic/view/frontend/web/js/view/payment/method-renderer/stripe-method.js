@@ -99,7 +99,7 @@ define(
 
                     $(menu).prepend(
                         '<li role="presentation" class="payment-group-item debitcard active">' +
-                            '<a class="link_option_credomatic"  id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<a class="link_option_credomatic" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
                             '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
                         '</li>'
                     );
