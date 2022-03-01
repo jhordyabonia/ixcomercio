@@ -404,9 +404,10 @@
   .bd2{
     border-left: 2px solid #CFCBCB;
   }
-  .payment-group-item.debitcard > a{
+  .link_option_credomatic{
     color: #000 !important;
-    padding-left: 1rem;
+    padding-left: 1rem !important;
+    padding-bottom: .5rem !important;
   }
 }
 @media (max-width: $mobile){
