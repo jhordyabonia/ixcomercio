@@ -85,7 +85,7 @@ form{
 			text-align: left;
 			border:0;
 			text-transform: uppercase;
-			font-family: 'SamsungSharpSans-Medium';
+			font-family: $font;
 			@media only screen and (min-width: $tablet){
 		      	margin-left: 0;
 		    }

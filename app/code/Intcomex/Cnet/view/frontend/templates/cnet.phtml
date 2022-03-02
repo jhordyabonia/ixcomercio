@@ -1,0 +1,29 @@
+<?php
+/** @var Intcomex\Cnet\Block\Product\View $block */
+$cnet = $block->getCnetData();
+?>
+
+<div id="ccs-logos"></div>
+<div id="ccs-inline-content"></div>
+<div id="ccs-explore-product"></div>
+<div id="ccs-feature-icons"></div>
+
+<script type="text/javascript">
+    var mf = "<?= $cnet['mf'] ?>",
+        pn = "<?= $cnet['pn'] ?>",
+        lang = "<?= $cnet['lang'] ?>",
+        market = "<?= $cnet['market'] ?>",
+        _SKey = "<?= $cnet['_Skey'] ?>",
+        _ZoneId = "<?= $cnet['_ZoneId'] ?>";
+    var ccs_cc_args = ccs_cc_args || [];
+    ccs_cc_args.push(['mf', mf]);
+    ccs_cc_args.push(['pn', pn]);
+    ccs_cc_args.push(['lang', lang]);
+    ccs_cc_args.push(['market', market]);
+    (function () {
+        var o = ccs_cc_args; o.push(['_SKey', _SKey]); o.push(['_ZoneId', _ZoneId]);
+        var sc = document.createElement('script'); sc.type = 'text/javascript'; sc.async = true;
+        sc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.cnetcontent.com/jsc/h.js';
+        var n = document.getElementsByTagName('script')[0]; n.parentNode.insertBefore(sc, n);
+    })();
+</script>

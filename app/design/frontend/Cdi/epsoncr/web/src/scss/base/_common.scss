@@ -14,34 +14,20 @@
   font-weight: normal;
   font-style: normal;
 }*/
-/*** fonts samsung ****/
-/*@font-face {
-  font-family: 'SamsungOne-400';
-  src: url('../fonts/samsung/SamsungOne-400.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/samsung/SamsungOne-400.woff') format('woff'),
-  url('../fonts/samsung/SamsungOne-400.ttf')  format('truetype'),
-  url('../fonts/samsung/SamsungOne-400.svg#SamsungOne-400') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
+
 @font-face {
-  font-family: 'SamsungSharpSans-Medium';
-  src: url('../fonts/samsung/SamsungSharpSans-Medium.eot?#iefix') format('embedded-opentype'),  
-  url('../fonts/samsung/SamsungSharpSans-Medium.woff') format('woff'), 
-  url('../fonts/samsung/SamsungSharpSans-Medium.ttf')  format('truetype'),
-  url('../fonts/samsung/SamsungSharpSans-Medium.svg#SamsungSharpSans-Medium') format('svg');
+  font-family: 'HelveticaLTW01-Roman';
+  src: url('../fonts/HelveticaLTW01-Roman.eot');
+  src: url('../fonts/HelveticaLTW01-Roman.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/HelveticaLTW01-Roman.woff2') format('woff2'),
+      url('../fonts/HelveticaLTW01-Roman.woff') format('woff'),
+      url('../fonts/HelveticaLTW01-Roman.ttf') format('truetype'),
+      url('../fonts/HelveticaLTW01-Roman.svg#HelveticaLTW01-Roman') format('svg');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
-@font-face {
-  font-family: 'SamsungSharpSans-Bold';
-  src: url('../fonts/samsung/SamsungSharpSans-Bold.eot?#iefix') format('embedded-opentype'), 
-  url('../fonts/samsung/SamsungSharpSans-Bold.woff') format('woff'), 
-  url('../fonts/samsung/SamsungSharpSans-Bold.ttf')  format('truetype'), 
-  url('../fonts/samsung/SamsungSharpSans-Bold.svg#SamsungSharpSans-Bold') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}*/
+
 
 * {
   margin: 0;
@@ -59,11 +45,13 @@
 }
 html {
   font-size: 14px;
+  font-family: $font !important;
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
 }
 body[data-container='body']{
   color: $colorText;
+  font-family: $font !important;
   font-size: 14px;
   background-color: white;
   text-align: center;
