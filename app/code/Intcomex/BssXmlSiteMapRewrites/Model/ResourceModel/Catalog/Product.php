@@ -2,6 +2,8 @@
 
 namespace Intcomex\BssXmlSiteMapRewrites\Model\ResourceModel\Catalog;
 
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+
 class Product extends \Bss\XmlSiteMap\Model\ResourceModel\Catalog\Product 
 {
 
