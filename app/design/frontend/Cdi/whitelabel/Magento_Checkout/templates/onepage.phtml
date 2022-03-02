@@ -55,6 +55,10 @@ if(!isset($showBilling) || $showBilling == null ){
         window.urlGeo = '<?= $block->getBaseUrl() ?>index.php/rest/V1/geolocation/';
         window.currentWebsiteCode = '<?php  echo $theme->getStore()->getCode(); ?>';
         window.mediaUrl = '<?php  echo $mediaUrl; ?>';
+        window.alertaTradein1 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_1'));?>';
+        window.alertaTradein2 = '<?php echo json_encode($_helperCdi->getStoreConfig('tradein/general/alerta_tradein_2'))?> ';
+        window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>';
+        window.imgFranquiciasBAC = '<?php echo $block->getViewFileUrl('images/franquiciasBAC.png'); ?>'; 
         window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
         window.customAlertImage = '<?php echo $mediaUrl.'iconos_alerta/icono_'.$theme->getStore()->getCode().'.png';?>';
     </script>
