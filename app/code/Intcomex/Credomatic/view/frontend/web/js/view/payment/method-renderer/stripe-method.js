@@ -56,10 +56,10 @@ define(
                 var number = $("#credomatic_cc_number").val();
                 var cvv_ = $("#credomatic_cc_cid").val();
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
-                .done(function(msg){ 
-                   var data = JSON.parse(JSON.stringify(msg));
+                .done(function(msg){
+                    var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
-                    $("#frame_Credomatic").attr("src", serviceUrlPostOrder);  
+                    $("#frame_Credomatic").attr("src", serviceUrlPostOrder);
 
                     let interval = setInterval(function () {
                         console.log('Buscando ...');
