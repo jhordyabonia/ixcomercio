@@ -42,9 +42,36 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         $this->_logger->debug('InitOrderId: ' . $order->getIncrementId());
         $payment = $order->getPayment();
         $code = $order->getPayment()->getMethodInstance()->getCode();
-        $this->_logger->debug('OrderId: ' . $order->getIncrementId() . ' PaymentMethod: ' . $code);
+        if($code!='ingenico'&&$code!='mercadopago_custom'&&$code!='mercadopago_basic'){
 
-        if ($code === 'mercadopago_custom' || $code === 'mercadopago_basic') {
+            if($code=='pagalo'||$code=='pagalovisa'||$code=='pagalomastercard'){
+                if (empty($payment->getLastTransId())){
+                    return false; 
+                }else{
+                    $this->logger->info('se envia corrreo para la orden');
+                    $this->logger->info('Orden: '.$order->getId());
+                    $this->logger->info('Pasarela: '.$code);
+                    $this->logger->info('getLastTransId: '.$payment->getLastTransId());
+                }
+            }else{
+                $getIsPaid = $this->getIsPaid($order->getId(),$this->logger);
+                $isPaid = (isset($getIsPaid))?$getIsPaid:'No';
+                $this->logger->info('getIsPaid '.$isPaid);
+
+                if($isPaid!='Yes'){
+                    $this->logger->info('Return False por validacion');
+                    return false; 
+                }else{
+                    $this->logger->info('se envia corrreo para la orden');
+                    $this->logger->info('Orden: '.$order->getId());
+                    $this->logger->info('Pasarela: '.$code);
+                }
+              
+            }
+            
+        }
+
+        if($code=='mercadopago_custom'||$code=='mercadopago_basic'){
             $paymentData = $payment->getAdditionalInformation();
             if(isset($paymentData['paymentResponse']['status'])){
                 $this->_logger->debug('OrderId: ' . $order->getIncrementId() . ' IssetStatus');
@@ -87,4 +114,14 @@ class SendMailOrder extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
 
         return false;
     }
+
+    public function getIsPaid($orderid,$logger){
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $orderRepository = $objectManager->get('\Magento\Sales\Api\Data\OrderInterface'); 
+        $orderDataRep = $orderRepository->load($orderid);
+        $orderData = $orderDataRep->getData();
+        $logger->info(print_r($orderData['is_paid_credo'],true));
+        return $orderData['is_paid_credo'];
+    }
+
 }

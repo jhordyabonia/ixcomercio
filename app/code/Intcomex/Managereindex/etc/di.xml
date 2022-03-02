@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Magento\Indexer\Model\Indexer">
+        <plugin name="intcomex_managereindex_plugin_magento_indexer"
+                type="Intcomex\Managereindex\Plugin\Indexer\IndexerPlugin" sortOrder="10" />
+    </type>
+ </config>
+
