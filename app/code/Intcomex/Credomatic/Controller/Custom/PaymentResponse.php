@@ -47,6 +47,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
 
+            $resultRedirect = $this->resultRedirectFactory->create();
             $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
             $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
             $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
@@ -75,38 +76,44 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $order->setState("processing")->setStatus("processing");
                 $payment = $order->getPayment();
                 $payment->setLastTransId(11222334455);
-                $payment->save();
+                $payment->setAdditionalInformation('payment_resp',json_encode($body));
+                $order->setIsPaidCredo('Yes');
                 $order->save();
                 
                 $this->_checkoutSession->setLastQuoteId($order->getId());
                 $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                 $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                 $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                $resultRedirect = $this->resultRedirectFactory->create();
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
-                if($body['response_code']==300||$body['response_code']==200){
+                if($body['response_code']==300||$body['response_code']==200||$body['response_code']==220){
     
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
-    
+                    $payment = $order->getPayment();
+                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
+                    $order->setIsPaidCredo('No');
+                    $order->save();
+                    $resultRedirect->setPath('checkout/cart');
+
                 }else if($body['response_code']==100){
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
                     $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
                     $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
                     $payment = $order->getPayment();
                     $payment->setLastTransId($body['authcode']);
-                    $payment->save();
+                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
+                    $order->setIsPaidCredo('Yes');
                     $order->save();
                     $this->_checkoutSession->setLastQuoteId($order->getId());
                     $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
                     $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
                     $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                    $resultRedirect = $this->resultRedirectFactory->create();
                     $resultRedirect->setPath('checkout/onepage/success');
                 }
 
             }
+            $this->orderSender->send($order, true);
             
            return $resultRedirect;
         } catch (\Exception $e) {

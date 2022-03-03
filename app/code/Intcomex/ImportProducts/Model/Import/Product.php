@@ -4,6 +4,7 @@ namespace Intcomex\ImportProducts\Model\Import;
 
 use Exception;
 use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\CatalogImportExport\Model\Import\Product as MagentoProduct;
@@ -14,6 +15,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Model\ResourceModel\Db\TransactionManagerInterface;
 use Magento\Framework\Model\ResourceModel\Db\ObjectRelationProcessor;
 use Magento\Framework\Stdlib\DateTime;
@@ -44,6 +46,16 @@ class Product extends MagentoProduct
      * @var string
      */
     private $productEntityLinkField;
+
+    /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
+
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
     /**
      * Attributes codes which shows as date
@@ -80,7 +92,7 @@ class Product extends MagentoProduct
      * @param \Magento\Catalog\Model\ResourceModel\Product\LinkFactory $linkFactory
      * @param \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\CatalogImportExport\Model\Import\UploaderFactory $uploaderFactory
-     * @param \Magento\Framework\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\ResourceModel\Stock\ItemFactory $stockResItemFac
      * @param DateTime\TimezoneInterface $localeDate
      * @param DateTime $dateTime
@@ -98,9 +110,10 @@ class Product extends MagentoProduct
      * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory
      * @param CatalogConfig|null $catalogConfig
      * @param MediaGalleryProcessor|null $mediaProcessor
+     * @param ProductRepositoryInterface|null $productRepository
      * @param array $data
+     * @throws LocalizedException
      * @throws \Magento\Framework\Exception\FileSystemException
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function __construct(
         \Magento\Framework\Json\Helper\Data $jsonHelper,
@@ -124,7 +137,7 @@ class Product extends MagentoProduct
         \Magento\Catalog\Model\ResourceModel\Product\LinkFactory $linkFactory,
         \Magento\CatalogImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\CatalogImportExport\Model\Import\UploaderFactory $uploaderFactory,
-        \Magento\Framework\Filesystem $filesystem,
+        Filesystem $filesystem,
         \Magento\CatalogInventory\Model\ResourceModel\Stock\ItemFactory $stockResItemFac,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         DateTime $dateTime,
@@ -142,10 +155,13 @@ class Product extends MagentoProduct
         \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryFactory,
         CatalogConfig $catalogConfig = null,
         MediaGalleryProcessor $mediaProcessor = null,
+        ProductRepositoryInterface $productRepository = null,
         array $data = []
     ) {
         $this->catalogConfig = $catalogConfig ?: ObjectManager::getInstance()->get(CatalogConfig::class);
         $this->mediaProcessor = $mediaProcessor ?: ObjectManager::getInstance()->get(MediaGalleryProcessor::class);
+        $this->productRepository = $productRepository ?? ObjectManager::getInstance()->get(ProductRepositoryInterface::class);
+        $this->filesystem = $filesystem;
         parent::__construct(
             $jsonHelper,
             $importExportData,

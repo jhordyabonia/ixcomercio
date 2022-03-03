@@ -1,0 +1,22 @@
+.breadcrumbs{
+  margin: 0;
+  padding: 10px 0;
+  @media only screen and (max-width: $tablet){
+    display: none;
+  }
+  .items{
+    max-width: 1140px;
+    text-align: left;
+    padding: 0 15px;
+    margin: 0 auto;
+    li{
+      font-size: 15px;
+    }
+    a{
+      color: $mainColor;
+    }
+    .item:not(:last-child):after{
+      line-height: 24px;
+    }
+  }
+}
