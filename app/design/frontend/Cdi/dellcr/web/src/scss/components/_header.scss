@@ -11,7 +11,7 @@ header{
     position: sticky;
     z-index: 99;
     .header-freeshipping{
-      background: $bgColorSecond;
+      background: #41B6E6;
       padding: 5px 15px;
       @media only screen and (max-width: $mobile){
         font-size: 12px;
@@ -20,7 +20,7 @@ header{
         color: #fff;
         margin: 0;
         a{
-          color: #fff;
+          color:#fff;
           margin-left: 40px;
           text-decoration: underline;
           &:after{
