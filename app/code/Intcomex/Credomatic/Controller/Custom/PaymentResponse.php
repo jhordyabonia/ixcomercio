@@ -55,8 +55,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             if($customError != '') {
                 $showCustomError = true;
             }
-
-            $body = $this->getRequest()->getParams();
+            $body  = $this->getRequest()->getPostValue();
+            
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);

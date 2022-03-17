@@ -72,12 +72,9 @@ define(
                         $.post(urlGetResponse,{order_id:data['orderid']})
                         .done(function(resp){
                             if(resp.status=='success'){
-                                console.log('Encontrado!');
-                                var redirectUrl = urlPaymentResponse+'?'+resp.info;
-                                console.log('redirectUrl')
-                                console.log(redirectUrl)
+                                jQuery('body').html('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><input type="hidden" name="resp_info" value="'+resp.info+'" /></form>');
+                                jQuery("#urlPaymentResponse")submit();
                                 clearInterval(interval);
-                                window.location.href = redirectUrl;
                                 return false;
                             }
                         })
