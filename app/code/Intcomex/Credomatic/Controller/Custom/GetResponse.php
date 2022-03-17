@@ -44,7 +44,8 @@ class GetResponse extends \Magento\Framework\App\Action\Action
                 
                 if(!empty($data->getData())){
                     $json = $data->getData()[0]['response'];
-                   $resp = http_build_query($this->json->unserialize($json));
+                   $resp = $this->json->unserialize($json);
+                   $resp['orderid'] = $post['order_id'];
                     $dataToPost['info'] = $resp;
                     $dataToPost['status'] = 'success';
                     $this->logger->info('Respuesta recibida: '.$date);
