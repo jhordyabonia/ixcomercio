@@ -61,7 +61,6 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $post  = $this->getRequest()->getPostValue();
             $body = json_decode($post['resp_info'],true);
-            $body =  json_decode($body,true);
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
