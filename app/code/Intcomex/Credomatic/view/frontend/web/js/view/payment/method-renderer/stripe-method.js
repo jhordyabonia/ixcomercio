@@ -67,8 +67,8 @@ define(
                         .done(function(resp){
                             if(resp.status=='success'){
 
-                                jQuery('body').html('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><input type="hidden" name="resp_info" value="'+resp.info+'" /></form>');
-                                jQuery("#urlPaymentResponse")submit();
+                                jQuery('body').after('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><textarea style="display:none" name="resp_info"  >'+JSON.stringify(resp.info)+'</textarea></form>');
+                                jQuery("#urlPaymentResponse").submit();
                                 clearInterval(interval);
                                 return false;
                             }

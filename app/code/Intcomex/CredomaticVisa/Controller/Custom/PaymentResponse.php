@@ -24,7 +24,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         InvoiceService $invoiceService,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
-        \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory
+        \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory,
+        \Magento\Sales\Api\Data\OrderInterfaceFactory $orderInterfaceFactory
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -36,6 +37,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->invoiceService = $invoiceService;
         $this->orderManagement = $orderManagement;
         $this->_credomaticFactory = $credomaticFactory;
+        $this->_orderInterfaceFactory = $orderInterfaceFactory;
     }
 
 
@@ -56,7 +58,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $showCustomError = true;
             }
 
-            $body  = $this->getRequest()->getPostValue();
+            $post  = $this->getRequest()->getPostValue();
+            $body = json_decode($post['resp_info'],true);
+            $body =  json_decode($body,true);
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
@@ -64,7 +68,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info('modo');
             $this->logger->info($modo);
             
-            $order = $objectManager->create('\Magento\Sales\Api\Data\OrderInterfaceFactory')->create()->loadByIncrementId($body['orderid']);
+            $order = $this->_orderInterfaceFactory->create()->loadByIncrementId($body['orderid']);
             
             if(empty($body)||isset($body['empty'])){
                 $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
