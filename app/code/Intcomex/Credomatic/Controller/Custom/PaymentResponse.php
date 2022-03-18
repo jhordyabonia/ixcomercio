@@ -49,6 +49,12 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
 
+
+            $model =  $this->_credomaticFactory->create();  
+            $data = $model->getCollection()
+            ->addFieldToFilter('order_id', array('eq' => $get['orderid'])
+            ->addFieldToFilter('token', array('eq' => $get['token']);
+
             $resultRedirect = $this->resultRedirectFactory->create();
             $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
             $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
@@ -89,7 +95,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $resultRedirect->setPath('checkout/onepage/success');
 
             }else{
-                if($body['response_code']==300||$body['response_code']==200||$body['response_code']==220){
+                if($body['response_code']!=100){
     
                     $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
                     $payment = $order->getPayment();
@@ -98,7 +104,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $order->save();
                     $resultRedirect->setPath('checkout/cart');
 
-                }else if($body['response_code']==100){
+                }else{
                     $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
                     $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
                     $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');

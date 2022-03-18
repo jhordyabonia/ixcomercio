@@ -41,7 +41,10 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
 
             if(!empty($get)){
                 $model =  $this->_credomaticFactory->create();  
-                $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $get['orderid']));
+                $data = $model->getCollection()
+                ->addFieldToFilter('order_id', array('eq' => $get['orderid'])
+                ->addFieldToFilter('token', array('eq' => $get['token'])
+            );
                 
                 if(empty($data->getData())){
                     $model->addData([

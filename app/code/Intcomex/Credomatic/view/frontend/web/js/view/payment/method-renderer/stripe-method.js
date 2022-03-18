@@ -48,7 +48,6 @@ define(
             afterPlaceOrder: function () {
                 var serviceUrl = url.build('credomatic/custom/getorder');  
                 var urlPostOrder = url.build('credomatic/custom/postorder');  
-                var urlGetResponse = url.build('credomatic/custom/getresponse');  
                 var urlPaymentResponse = url.build('credomatic/custom/paymentresponse');  
                 var cuotas = $("#credomatic_installments option:selected").val();
                 var year = $("#credomatic_expiration_yr option:selected").val();
@@ -60,23 +59,8 @@ define(
                     var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);
-
-                    let interval = setInterval(function () {
-                        console.log('Buscando ...');
-                        $.post(urlGetResponse,{order_id:data['orderid']})
-                        .done(function(resp){
-                            if(resp.status=='success'){
-
-                                jQuery('body').after('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><textarea style="display:none" name="resp_info"  >'+JSON.stringify(resp.info)+'</textarea></form>');
-                                jQuery("#urlPaymentResponse").submit();
-                                clearInterval(interval);
-                                return false;
-                            }
-                        })
-                        .fail(function(resp){
-                            console.log(resp);
-                        });
-                    }, 9000);
+                    jQuery('body').after('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><textarea style="display:none" name="resp_info"  >'+JSON.stringify(resp.info)+'</textarea></form>');
+                    jQuery("#urlPaymentResponse").submit();
 
                 })
                 .fail(function(msg){
