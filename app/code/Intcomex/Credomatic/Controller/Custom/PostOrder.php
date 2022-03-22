@@ -17,7 +17,7 @@ class PostOrder extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Order $modelOrder,
-        \Magento\Store\Model\StoreManagerInterface  $storeManagerInterface,
+        \Magento\Store\Model\StoreManagerInterface  $storeManagerInterface, 
         \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory
     ) {
         parent::__construct($context);

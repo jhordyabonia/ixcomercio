@@ -60,7 +60,7 @@ define(
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);
                     jQuery('body').after('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><textarea style="display:none" name="resp_info"  >'+JSON.stringify(resp.info)+'</textarea></form>');
-                    jQuery("#urlPaymentResponse").submit();
+                    //jQuery("#urlPaymentResponse").submit();
 
                 })
                 .fail(function(msg){

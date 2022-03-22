@@ -1,5 +1,4 @@
 <?php
-
 namespace Intcomex\Credomatic\Controller\Custom;
 
 class RegisterResponse extends \Magento\Framework\App\Action\Action
@@ -7,25 +6,11 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Serialize\Serializer\Json $json,
-        \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Sales\Api\Data\OrderInterfaceFactory $orderFactory,
-        \Magento\Sales\Api\OrderManagementInterface $orderManagement,
-        \Magento\Sales\Model\Service\InvoiceService $invoiceService,
-        \Magento\Framework\DB\Transaction $transaction,
-        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
-        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
+        \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory
     ) {
         parent::__construct($context);
         $this->json = $json;
         $this->_credomaticFactory = $credomaticFactory;
-        $this->_checkoutSession = $checkoutSession;
-        $this->_orderFactory = $orderFactory;
-        $this->orderManagement = $orderManagement;
-        $this->orderSender = $orderSender;
-        $this->invoiceSender = $invoiceSender;
-        $this->transaction = $transaction;
-        $this->invoiceService = $invoiceService;
     }
 
     /**
@@ -38,27 +23,26 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
     {
         try {
             $get = $this->getRequest()->getParams();
-
             if(!empty($get)){
                 $model =  $this->_credomaticFactory->create();  
-                $data = $model->getCollection()
-                ->addFieldToFilter('order_id', array('eq' => $get['orderid'])
-                ->addFieldToFilter('token', array('eq' => $get['token'])
-            );
+            $data = $model->load($get['token'],'token');
                 
-                if(empty($data->getData())){
-                    $model->addData([
-                        'order_id' => $get['orderid'],
-                        'response' => $this->json->serialize($get),
-                        'created_at' => date('Y-m-d H:i:s'),
-                        'updated_at' => date('Y-m-d H:i:s')
-                    ]);
+                if(!empty($data->getData())){ 
+            echo '<pre>';
+            print_r($data->getData());
+            echo '</pre>';
+        
+                    $model->setResponse($this->json->serialize($get));
+                    $model->setUpdatedAt();
                     $model->save();
                 }
+
             }
         } catch (\Exception $e) {
-            $error = __('Payment create data error Credomatic: '); 
-            throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
+            echo '<pre>';
+            print_r($e->getMessage());
+            echo '</pre>';
+            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
         }
     }
 }

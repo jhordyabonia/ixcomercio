@@ -52,8 +52,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             $model =  $this->_credomaticFactory->create();  
             $data = $model->getCollection()
-            ->addFieldToFilter('order_id', array('eq' => $get['orderid'])
-            ->addFieldToFilter('token', array('eq' => $get['token']);
+            ->addFieldToFilter('order_id', array('eq' => $get['orderid']))
+            ->addFieldToFilter('token', array('eq' => $get['token']));
 
             $resultRedirect = $this->resultRedirectFactory->create();
             $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
