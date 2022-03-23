@@ -3,6 +3,7 @@
 namespace Intcomex\Clearsale\Helper;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Sales\Api\CreditmemoManagementInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\CreditmemoFactory;
 use Magento\Sales\Model\Order\Invoice;
@@ -11,6 +12,11 @@ use Psr\Log\LoggerInterface;
 
 class RefundOrder
 {
+    /**
+     * @var CreditmemoManagementInterface
+     */
+    protected $creditmemoManager;
+
     /**
      * @var CreditmemoFactory
      */
@@ -29,17 +35,20 @@ class RefundOrder
     protected $invoice;
 
     /**
+     * @param CreditmemoManagementInterface $creditmemoManager
      * @param CreditmemoFactory $creditMemoFactory
      * @param CreditmemoService $creditMemoService
      * @param LoggerInterface $logger
      * @param Invoice $invoice
      */
     public function __construct(
+        CreditmemoManagementInterface $creditmemoManager,
         CreditmemoFactory $creditMemoFactory,
         CreditmemoService $creditMemoService,
         LoggerInterface $logger,
         Invoice $invoice
     ) {
+        $this->creditmemoManager = $creditmemoManager;
         $this->creditMemoFactory = $creditMemoFactory;
         $this->creditMemoService = $creditMemoService;
         $this->logger = $logger;
@@ -73,6 +82,7 @@ class RefundOrder
             $creditMemo->addComment(__('Order has been Refunded'));
             $order->addCommentToStatusHistory(__('Order has been Refunded Successfully'));
             $this->creditMemoService->refund($creditMemo);
+            $this->creditmemoManager->notify($creditMemo->getId());
             $this->logger->error(__('Order has been Refunded Successfully. Order: %1', $order->getIncrementId()));
         }
     }

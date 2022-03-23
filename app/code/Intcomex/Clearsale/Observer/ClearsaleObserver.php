@@ -36,6 +36,7 @@ class ClearsaleObserver extends \Clearsale\Integration\Observer\ClearsaleObserve
     protected $eventManager;
     protected $helperCancelOrder;
     protected $helperRefundOrder;
+    protected $orderSender;
 
     public function __construct(LoggerInterface $logger,
                                 ScopeConfigInterface $scopeConfig,
@@ -56,6 +57,7 @@ class ClearsaleObserver extends \Clearsale\Integration\Observer\ClearsaleObserve
                                 \Magento\Framework\DB\Transaction $transaction,
                                 \Magento\Store\Model\StoreManagerInterface $storeManager,
                                 \Magento\Framework\Event\ManagerInterface $eventManager,
+                                \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
                                 \Intcomex\EventsObservers\Helper\CancelOrder $helperCancelOrder,
                                 \Intcomex\Clearsale\Helper\RefundOrder $helperRefundOrder
     ) {
@@ -78,6 +80,7 @@ class ClearsaleObserver extends \Clearsale\Integration\Observer\ClearsaleObserve
         $this->transaction = $transaction;
         $this->storeManager = $storeManager;
         $this->eventManager = $eventManager;
+        $this->orderSender = $orderSender;
         $this->helperRefundOrder = $helperRefundOrder;
         $this->helperCancelOrder = $helperCancelOrder;
     }
@@ -702,6 +705,12 @@ class ClearsaleObserver extends \Clearsale\Integration\Observer\ClearsaleObserve
      */
     private function _executeApprovalFlow($order)
     {
+        // Invoice (Clearsale Flow)
+        $createInvoice = $this->clearSaleTotalConfig->getValue('clearsale_configuration/cs_config/create_invoice', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $order->getStoreId());
+        if ($createInvoice) {
+            $this->createInvoice($order);
+        }
+        // Execute IWS integrations
         $this->eventManager->dispatch(
             'intcomex_integration_iws',
             [
@@ -709,10 +718,8 @@ class ClearsaleObserver extends \Clearsale\Integration\Observer\ClearsaleObserve
                 'order' => $order
             ]
         );
-        $createInvoice = $this->clearSaleTotalConfig->getValue('clearsale_configuration/cs_config/create_invoice', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $order->getStoreId());
-        if ($createInvoice) {
-            $this->createInvoice($order);
-        }
+        // Send Confirmation Email
+        $this->orderSender->send($order);
     }
 
     /**
