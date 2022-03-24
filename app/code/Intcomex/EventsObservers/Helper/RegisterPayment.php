@@ -338,7 +338,7 @@ class RegisterPayment extends AbstractHelper
         $sql = "Select * FROM " . $tableName." where payment_type='".$method->getTitle()."' AND payment_code='".$mp_paymentMethod."' AND country_code='".$shipping->getCountryId()."' AND store_code='".$storeCode."'";
 
         // Validate if Payment Method is Adyen
-        if ($payment->getMethod() !== AdyenCcConfigProvider::CODE) {
+        if ($payment->getMethod() === AdyenCcConfigProvider::CODE) {
             if ($payment->getAdditionalInformation('combo_card_type') === 'credit') {
                 $sql .= " AND gateway='Adyen Credito MX'";
             } else {
