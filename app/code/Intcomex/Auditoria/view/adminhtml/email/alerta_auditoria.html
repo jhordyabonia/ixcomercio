@@ -1,0 +1,20 @@
+<!--@subject Alerta Auditoria Precios  @-->
+<!-- you can Modify content of template according to your requirement-->
+<div>
+    <h3 style="text-align: center;" >{{var mensaje_alerta|raw}}</h3>
+    <h4 style="text-align: center;" ></h4>
+    <h4 style="text-align: center;" >{{var extra_error||raw}}</h4>
+    <table align="center" >
+        <thead>
+            <tr>
+                <th style="border:1px solid" >Sku</th>
+                <th style="border:1px solid" >Tienda</th>
+                <th style="border:1px solid" >Valor</th>
+                <th style="border:1px solid" >Error</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{var data|raw}}
+        </tbody>
+    </table>
+</div>
