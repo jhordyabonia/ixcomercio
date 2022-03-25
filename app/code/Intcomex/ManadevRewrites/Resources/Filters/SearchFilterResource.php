@@ -4,7 +4,7 @@
  * @license     http://www.manadev.com/license  Proprietary License
  */
 
-namespace Intcomex\Manadev\Resources\Filters;
+namespace Intcomex\ManadevRewrites\Resources\Filters;
 
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\TemporaryStorage;
