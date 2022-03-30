@@ -55,18 +55,22 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
 
-            $this->processData(0);    
-        
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setPath('checkout/cart');
+            // Se envia intento 0 a process data
+            if($this->processData(0)){
+                $resultRedirect->setPath('checkout/onepage/success');
+            }
+            return $resultRedirect;
+
         } catch (\Exception $e) {
             throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
         }
         
     }
 
-    public function cancelOrder($body,$orderId){
+    public function cancelOrder($body,$order){
         try {
-
-            $order = $this->_orderInterfaceFactory->create()->loadByIncrementId($orderId);
 
             $this->_messageManager->addError($this->customError);
 
@@ -82,77 +86,77 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $order->setIsPaidCredo('No');
             $order->save();    
                  
-            $resultRedirect = $this->resultRedirectFactory->create();
             $this->_checkoutSession->restoreQuote();
-            $resultRedirect->setPath('checkout/cart');
-            return $resultRedirect;
-
+           return false;
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
+           return false;
         }
     }
 
-    public function checkAndProcess($body,$orderId){
+    public function checkAndProcess($body,$order){
+
         try {
-            $order = $this->_orderInterfaceFactory->create()->loadByIncrementId($orderId);
+
+            $response = json_decode($body['response'],true);
+            
             if($this->modo=='pruebas'){
-                    $this->processOrder($body,'1234567890',$order);
+                   return $this->processOrder($body,$response['authcode'],$order);
             }else{
-                if($body['response_code']!=100){
-
-                    $this->cancelOrder($body,$order);
-                }else{
-
-                    $this->processOrder($body,$body['authcode'],$order);
+                if($response['response_code']!=100){
+                    return $this->cancelOrder($body,$order);
+                }else{ 
+                    return $this->processOrder($body,$response['authcode'],$order);
                 }
             }
-            $this->orderSender->send($order, true);
+            
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
+            return false;
         }
     }
 
     public function processOrder($body,$transactionId,$order){
 
         try {
+            $response = json_decode($body['response'],true);
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
             $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
             $payment = $order->getPayment();
             $payment->setLastTransId($transactionId);
-            $payment->setAdditionalInformation('payment_resp',json_encode($body));
+            $payment->setAdditionalInformation('payment_resp',json_encode($response));
             $order->setIsPaidCredo('Yes');
             $order->save();
             $this->_checkoutSession->setLastQuoteId($order->getId());
             $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
             $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
-            $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-            $resultRedirect->setPath('checkout/onepage/success');
-            return $resultRedirect;
+            $this->_checkoutSession->setLastRealOrderId($body['order_id']);
+            $this->orderSender->send($order, true);
+            return true;
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
+            return false;
         }
     }
 
     public function processData($attempts){
-        //$orderId = $this->_checkoutSession->getLastRealOrderId();
-        $orderId = '11000000708';
-        $respAndVerify = $this->respAndVerify($orderId);
 
-        print_r($this->reintentos);
-
-      if($attempts>$this->reintentos){
-            $this->logger->info('Se cumplen la cantidad de reintentos para '.$orderId.' - '.$attempts);
-            $this->cancelOrder($respAndVerify,$orderId);
-       }else{
-           if(!$respAndVerify){
-                $attempts++;
-                sleep($this->timeout);
-                $this->processData($attempts);
+        $orderId = $this->_checkoutSession->getLastOrderId();
+        $order = $this->_orderInterfaceFactory->create()->load($orderId);
+        $respAndVerify = $this->respAndVerify($order->getIncrementId());
+        
+          if($attempts>$this->reintentos){
+                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a cancelar');
+                // Cancel order Siempre retorna false para devolver al usuario al carrito
+                return $this->cancelOrder($respAndVerify,$order);
            }else{
-                $this->checkAndProcess($respAndVerify,$orderId);
+               if(!$respAndVerify){
+                $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());
+                    $attempts++;
+                    sleep($this->timeout);
+                   return $this->processData($attempts);
+               }else{
+                   return $this->checkAndProcess($respAndVerify,$order);
+               }
            }
-       }
   
     }
 
@@ -163,6 +167,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         if(empty($data->getData())){
             return false;
         }
+
         $dataArray = $data->getData();
         $this->logger->info(print_r($dataArray,true));
 

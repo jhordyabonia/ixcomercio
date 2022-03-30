@@ -46,6 +46,7 @@ define(
             },
  
             afterPlaceOrder: function () {
+                jQuery('body').trigger('processStart');
                 var serviceUrl = url.build('credomatic/custom/getorder');  
                 var urlPostOrder = url.build('credomatic/custom/postorder');  
                 var urlPaymentResponse = url.build('credomatic/custom/paymentresponse');  
@@ -59,12 +60,10 @@ define(
                     var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);
-                    jQuery('body').after('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><textarea style="display:none" name="resp_info"  >'+JSON.stringify(resp.info)+'</textarea></form>');
-                    //jQuery("#urlPaymentResponse").submit();
-
+                    window.location.href = urlPaymentResponse;
                 })
                 .fail(function(msg){
-
+                    window.location.href = urlPaymentResponse;
                 })
                 return false;
             },

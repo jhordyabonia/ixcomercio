@@ -43,10 +43,6 @@ define(
 
             validate: function() {
                 var $form = $('#' + this.getCode() + '-form');
-                setTimeout(function(){
-                    $("#credomaticvisa_cc_number-error").text($.mage.__('Ingrese un Número de Tarjeta VISA válido'));
-                    $("#credomaticvisa_cc_number-error").show();
-               }, 10);
                 return $form.validation() && $form.validation('isValid');
             },
 
@@ -54,7 +50,6 @@ define(
                 
                 var serviceUrl = url.build('credomaticvisa/custom/getorder');  
                 var urlPostOrder = url.build('credomaticvisa/custom/postorder');  
-                var urlGetResponse = url.build('credomatic/custom/getresponse');  
                 var urlPaymentResponse = url.build('credomaticvisa/custom/paymentresponse');  
                 var cuotas = $("#credomaticvisa_installments option:selected").val();
                 var year = $("#credomaticvisa_expiration_yr option:selected").val();
@@ -67,28 +62,45 @@ define(
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_CredomaticVisa").attr("src", serviceUrlPostOrder);
 
-                    let interval = setInterval(function () {
-                        console.log('Buscando ...');
-                        $.post(urlGetResponse,{order_id:data['orderid']})
-                        .done(function(resp){
-                            if(resp.status=='success'){
-                                jQuery('body').after('<form action="'+urlPaymentResponse+'" id="urlPaymentResponse" method="post" style="display:none;"><textarea style="display:none" name="resp_info"  >'+JSON.stringify(resp.info)+'</textarea></form>');
-                                jQuery("#urlPaymentResponse").submit();
-                                clearInterval(interval);
-                                return false;
-                            }
-                        })
-                        .fail(function(resp){
-                            console.log(resp);
-                        });
-                    }, 9000);
+                    window.location.href = urlPaymentResponse;
 
                 })
                 .fail(function(msg){
-
+                    window.location.href = urlPaymentResponse;
                 })             
 
                 return false;
+            },
+            updateMenu: function () {
+                let menu = $("#payment_methods_menu").find('ul');
+
+                if (menu.length) {
+                    let title_cont = $(".payment-method-title.credomaticvisa");
+                    let title = $(title_cont).find('label.label span').text();
+                    let code_payment = $(title_cont).find('input').attr('id');
+
+                    title_cont.hide();
+
+                    $(menu).prepend(
+                        '<li role="presentation" class="payment-group-item debitcard active">' +
+                            '<a class="link_option_credomatic" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
+                        '</li>'
+                    );
+
+                    $('#' + code_payment).trigger("click");
+
+                    $(document).on('click', `#payment_methods_menu ul li a#link-` + code_payment, function (event) {
+                        let data = $(this).attr('data-code');
+                        $('#' + data).trigger("click");
+                        if ($(this).parent().hasClass('active')) {
+
+                        } else {
+                            $(menu).find('li.active').removeClass('active');
+                            $(this).parent().addClass('active');
+                        }
+                    });
+                }
             }
 	                
             
