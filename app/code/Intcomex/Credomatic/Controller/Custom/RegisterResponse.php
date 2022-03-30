@@ -25,13 +25,9 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
             $get = $this->getRequest()->getParams();
             if(!empty($get)){
                 $model =  $this->_credomaticFactory->create();  
-            $data = $model->load($get['token'],'token');
+                $data = $model->load($get['token'],'token');
                 
                 if(!empty($data->getData())){ 
-            echo '<pre>';
-            print_r($data->getData());
-            echo '</pre>';
-        
                     $model->setResponse($this->json->serialize($get));
                     $model->setUpdatedAt();
                     $model->save();

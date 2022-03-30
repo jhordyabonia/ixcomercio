@@ -3,8 +3,6 @@
 namespace Intcomex\Credomatic\Controller\Custom;
 
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Sales\Model\Service\InvoiceService;
-use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Magento\Store\Model\ScopeInterface;
 use Intcomex\Credomatic\Model\CredomaticFactory;
 
@@ -21,11 +19,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
-        \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
-        InvoiceService $invoiceService,
         \Magento\Sales\Api\OrderManagementInterface $orderManagement,
         \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory,
-        \Magento\Sales\Api\Data\OrderInterfaceFactory $orderInterfaceFactory
+        \Magento\Sales\Api\Data\OrderInterfaceFactory $orderInterfaceFactory,
+        \Magento\Framework\HTTP\Client\Curl $curl
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -33,11 +30,20 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->_checkoutSession = $checkoutSession;
         $this->_messageManager = $messageManager;
         $this->orderSender = $orderSender;
-        $this->invoiceSender = $invoiceSender;
-        $this->invoiceService = $invoiceService;
         $this->orderManagement = $orderManagement;
         $this->_credomaticFactory = $credomaticFactory;
         $this->_orderInterfaceFactory = $orderInterfaceFactory;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        $this->customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
+        $this->modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
+        $this->reintentos =  $this->_scopeConfig->getValue('payment/credomatic/reintentos',ScopeInterface::SCOPE_STORE);
+        $this->timeout =  $this->_scopeConfig->getValue('payment/credomatic/timeout',ScopeInterface::SCOPE_STORE);
+        $this->username =  $this->_scopeConfig->getValue('payment/credomatic/usuario',ScopeInterface::SCOPE_STORE);
+        $this->password =  $this->_scopeConfig->getValue('payment/credomatic/password',ScopeInterface::SCOPE_STORE);
+        $this->urlQueryApi =  $this->_scopeConfig->getValue('payment/credomatic/url_api',ScopeInterface::SCOPE_STORE);
+        $this->_curl = $curl;
     }
 
 
@@ -49,141 +55,136 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
 
-
-            $model =  $this->_credomaticFactory->create();  
-            $data = $model->getCollection()
-            ->addFieldToFilter('order_id', array('eq' => $get['orderid']))
-            ->addFieldToFilter('token', array('eq' => $get['token']));
-
-            $resultRedirect = $this->resultRedirectFactory->create();
-            $customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
-            $modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
-            $showCustomError = false;
-            if($customError != '') {
-                $showCustomError = true;
-            }
-            $post  = $this->getRequest()->getPostValue();
-            $body = json_decode($post['resp_info'],true);
-            
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
-            $this->logger = new \Zend\Log\Logger();
-            $this->logger->addWriter($writer);
-            $this->logger->info(print_r($body,true));
-            $this->logger->info('modo');
-            $this->logger->info($modo);
-            
-            $order = $this->_orderInterfaceFactory->create()->loadByIncrementId($body['orderid']);
-            
-            if(empty($body)||isset($body['empty'])){
-                $resultRedirect = $this->cancelOrder($this->logger,$body,true,$showCustomError,$customError,$order);
-                return $resultRedirect;
-            }
-            
-           
-            if($modo=='pruebas'){
-                $order->setState("processing")->setStatus("processing");
-                $payment = $order->getPayment();
-                $payment->setLastTransId(11222334455);
-                $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                $order->setIsPaidCredo('Yes');
-                $order->save();
-                
-                $this->_checkoutSession->setLastQuoteId($order->getId());
-                $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
-                $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
-                $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                $resultRedirect->setPath('checkout/onepage/success');
-
-            }else{
-                if($body['response_code']!=100){
-    
-                    $resultRedirect = $this->cancelOrder($this->logger,$body,false,$showCustomError,$customError,$order);
-                    $payment = $order->getPayment();
-                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                    $order->setIsPaidCredo('No');
-                    $order->save();
-                    $resultRedirect->setPath('checkout/cart');
-
-                }else{
-                    $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
-                    $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
-                    $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
-                    $payment = $order->getPayment();
-                    $payment->setLastTransId($body['authcode']);
-                    $payment->setAdditionalInformation('payment_resp',json_encode($body));
-                    $order->setIsPaidCredo('Yes');
-                    $order->save();
-                    $this->_checkoutSession->setLastQuoteId($order->getId());
-                    $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
-                    $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
-                    $this->_checkoutSession->setLastRealOrderId($body['orderid']);
-                    $resultRedirect->setPath('checkout/onepage/success');
-                }
-
-            }
-            $this->orderSender->send($order, true);
-            
-           return $resultRedirect;
+            $this->processData(0);    
+        
         } catch (\Exception $e) {
-            $error = __('Payment create data error Credomatic: '); 
-            throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
+            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
         }
         
     }
 
-    public function cancelOrder($loger,$body,$vacio=false,$showCustomError,$customError,$order){
+    public function cancelOrder($body,$orderId){
         try {
-            if($vacio){
-                $loger->info('No se recibio respuesta de credomatic');
-            }
 
-            if( $showCustomError ) {
-                $msgError = $customError;
-            }else {
-                $msgError = ((isset($body['responsetext']))?$body['responsetext']:'');
-            }
-            $this->_messageManager->addError($msgError);
+            $order = $this->_orderInterfaceFactory->create()->loadByIncrementId($orderId);
 
-            $model =  $this->_credomaticFactory->create();  
-            $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $order->getId()));
-            
-            $cancelOrder = false;
-            if(empty($data->getData())){
-                $cancelOrder = true;
-            }else{
-                $jsonResp =  json_decode($data->getData()['response'],true);
-                if($jsonResp['response_code']!='100'){
-                    $cancelOrder = true;
-                } 
-            }
+            $this->_messageManager->addError($this->customError);
 
-            if ($order->getId()&&$cancelOrder==true) {
-                $order->setState("pending")->setStatus("pending");
-                sleep(2);
-                $order->setState("canceled")->setStatus("canceled");
-                $order->cancel();
-                $this->orderManagement->cancel($order->getId());
-                $order->addStatusHistoryComment('Se cancela la order con el sigueinte error: '.((isset($body['responsetext']))?$body['responsetext']:''));
-                $order->save();
+            $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED);
+            $payment = $order->getPayment();
+            if(isset($body['authcode'])){
+                $payment->setLastTransId($body['authcode']);
             }
-            $loger->info('Estado final de la orden');
-            $loger->info($order->getState());
+            if(!empty($body)){
+                $payment->setAdditionalInformation('payment_resp',json_encode($body));
+            }
+            $order->setIsPaidCredo('No');
+            $order->save();    
                  
-
             $resultRedirect = $this->resultRedirectFactory->create();
+            $this->_checkoutSession->restoreQuote();
             $resultRedirect->setPath('checkout/cart');
-            
-            if ($order->getPayment()) {
-                if ($order->getData('state') === 'canceled') {
-                   $this->_checkoutSession->restoreQuote();
+            return $resultRedirect;
+
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
+        }
+    }
+
+    public function checkAndProcess($body,$orderId){
+        try {
+            $order = $this->_orderInterfaceFactory->create()->loadByIncrementId($orderId);
+            if($this->modo=='pruebas'){
+                    $this->processOrder($body,'1234567890',$order);
+            }else{
+                if($body['response_code']!=100){
+
+                    $this->cancelOrder($body,$order);
+                }else{
+
+                    $this->processOrder($body,$body['authcode'],$order);
                 }
-            } 
-            
+            }
+            $this->orderSender->send($order, true);
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
+        }
+    }
+
+    public function processOrder($body,$transactionId,$order){
+
+        try {
+            $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
+            $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
+            $payment = $order->getPayment();
+            $payment->setLastTransId($transactionId);
+            $payment->setAdditionalInformation('payment_resp',json_encode($body));
+            $order->setIsPaidCredo('Yes');
+            $order->save();
+            $this->_checkoutSession->setLastQuoteId($order->getId());
+            $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
+            $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
+            $this->_checkoutSession->setLastRealOrderId($body['orderid']);
+            $resultRedirect->setPath('checkout/onepage/success');
             return $resultRedirect;
         } catch (\Exception $e) {
-            $error = __('Payment create data error Credomatic: '); 
-            throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
+            throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
         }
+    }
+
+    public function processData($attempts){
+        //$orderId = $this->_checkoutSession->getLastRealOrderId();
+        $orderId = '11000000708';
+        $respAndVerify = $this->respAndVerify($orderId);
+
+        print_r($this->reintentos);
+
+      if($attempts>$this->reintentos){
+            $this->logger->info('Se cumplen la cantidad de reintentos para '.$orderId.' - '.$attempts);
+            $this->cancelOrder($respAndVerify,$orderId);
+       }else{
+           if(!$respAndVerify){
+                $attempts++;
+                sleep($this->timeout);
+                $this->processData($attempts);
+           }else{
+                $this->checkAndProcess($respAndVerify,$orderId);
+           }
+       }
+  
+    }
+
+
+    public function respAndVerify($orderId){
+        $model =  $this->_credomaticFactory->create();  
+        $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $orderId));
+        if(empty($data->getData())){
+            return false;
+        }
+        $dataArray = $data->getData();
+        $this->logger->info(print_r($dataArray,true));
+
+        //validate transaction
+        $params = array(
+            'username' => $this->username,
+            'password' => $this->password,
+            'order_id' => $orderId
+        );
+
+
+        $this->_curl->post($this->urlQueryApi, $params); 
+
+        $dataResp =  $this->_curl->getBody();
+        $this->logger->info('Respuesta servicio Credomatic');
+
+        $xml=simplexml_load_string($dataResp);
+        
+        if(empty($xml)||!isset($xml->transaction)){
+            return false;
+        }
+        return $dataArray[0];
     }
 
 }
