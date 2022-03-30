@@ -47,7 +47,7 @@ define(
             },
 
             afterPlaceOrder: function () { 
-                
+                jQuery('body').trigger('processStart');
                 var serviceUrl = url.build('credomaticmastercard/custom/getorder');  
                 var urlPostOrder = url.build('credomaticmastercard/custom/postorder');  
                 var urlPaymentResponse = url.build('credomaticmastercard/custom/paymentresponse');  
@@ -58,6 +58,7 @@ define(
                 var cvv_ = $("#credomaticmastercard_cc_cid").val();
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){ 
+                    jQuery('body').trigger('processStart');
                    var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_CredomaticMasterCard").attr("src", serviceUrlPostOrder);
