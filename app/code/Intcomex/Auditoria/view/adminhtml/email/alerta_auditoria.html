@@ -1,20 +1,19 @@
-<!--@subject Alerta Auditoria Precios  @-->
-<!-- you can Modify content of template according to your requirement-->
+<!--@subject {{trans "%subject" subject=$subject}} @-->
 <div>
-    <h3 style="text-align: center;" >{{var mensaje_alerta|raw}}</h3>
-    <h4 style="text-align: center;" ></h4>
-    <h4 style="text-align: center;" >{{var extra_error||raw}}</h4>
+    <h1 style="text-align: center;" >Website {{var website}}</h1>
+    <h2 style="text-align: center;" >{{var extra_error|raw}}{{var message|raw}}</h2>
     <table align="center" >
         <thead>
             <tr>
                 <th style="border:1px solid" >Sku</th>
-                <th style="border:1px solid" >Tienda</th>
-                <th style="border:1px solid" >Valor</th>
-                <th style="border:1px solid" >Error</th>
+                <th style="border:1px solid" >Precio de Referencia</th>
+                <th style="border:1px solid" >Precio Normal</th>
+                <th style="border:1px solid" >Precio Especial</th>
+                <th style="border:1px solid" >Usuario</th>
             </tr>
         </thead>
         <tbody>
-            {{var data|raw}}
+            {{var data|html}}
         </tbody>
     </table>
 </div>

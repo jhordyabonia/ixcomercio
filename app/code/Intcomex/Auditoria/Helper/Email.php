@@ -1,80 +1,90 @@
 <?php
+
 namespace Intcomex\Auditoria\Helper;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\MailException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Framework\Translate\Inline\StateInterface;
+use Magento\Store\Api\StoreRepositoryInterface;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Email extends AbstractHelper
 {
-    protected $scopeConfig;
-
-    const XML_PATH_EMAIL_TEMPLATE_FIELD = 'trax_catalogo/catalogo_general/template_notification';
-
     /**
      * Sender email config path - from default CONTACT extension
      */
     const XML_PATH_EMAIL_SENDER = 'contact/email/sender_email_identity';
+    const XML_PATH_EMAIL_TEMPLATE_FIELD = 'trax_catalogo/catalogo_general/template_notification';
+
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected $scopeConfig;
 
     /**
      * Store manager
      *
-     * @var \Magento\Store\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     private $storeManager;
 
     /**
-     * @var \Magento\Framework\Translate\Inline\StateInterface
+     * @var StateInterface
      */
     private $inlineTranslation;
 
     /**
-     * @var \Magento\Framework\Mail\Template\TransportBuilder
+     * @var TransportBuilder
      */
     private $transportBuilder;
 
     /**
-     * Email constructor.
-     * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param Context $context
+     * @param StoreManagerInterface $storeManager
+     * @param StateInterface $inlineTranslation
+     * @param TransportBuilder $transportBuilder
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
-        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Store\Api\StoreRepositoryInterface $storesRepository
+        Context $context,
+        StoreManagerInterface $storeManager,
+        StateInterface $inlineTranslation,
+        TransportBuilder $transportBuilder,
+        ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->storeManager = $storeManager;
         $this->inlineTranslation = $inlineTranslation;
         $this->transportBuilder = $transportBuilder;
         $this->scopeConfig = $scopeConfig;
-        $this->_storesRepository = $storesRepository;
     }
 
     /**
      * Return store configuration value of your template field that which id you set for template
      *
      * @param string $path
-     * @param int $storeid
+     * @param int $storeId
      * @return mixed
      */
-    private function getConfigValue($path, $storeid)
+    private function getConfigValue($path, $storeId)
     {
         return $this->scopeConfig->getValue(
             $path,
             ScopeInterface::SCOPE_STORE,
-            $storeid
+            $storeId
         );
     }
 
     /**
      * Return store
      * @return \Magento\Store\Api\Data\StoreInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     public function getStore()
     {
@@ -86,15 +96,15 @@ class Email extends AbstractHelper
      * @param $receiverInfo
      * @param $templateId
      * @return $this
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
-    public function generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid)
+    public function generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId)
     {
         $this->transportBuilder->setTemplateIdentifier($templateId)
             ->setTemplateOptions(
                 [
                     'area' => \Magento\Framework\App\Area::AREA_ADMINHTML,
-                    'store' => $storeid,
+                    'store' => $storeId,
                 ]
             )
             ->setTemplateVars($variable)
@@ -117,19 +127,21 @@ class Email extends AbstractHelper
     }
 
     /**
-     * @param $name
-     * @param $email
+     * @param $data
+     * @param $websiteCode
+     * @param $storeId
+     * @param $extraError
      * @return $this
-     * @throws \Magento\Framework\Exception\MailException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws LocalizedException
+     * @throws MailException
+     * @throws NoSuchEntityException
      */
-    public function notify($name,$data,$extraError, $storeid)
+    public function notify($data, $websiteCode, $storeId, $extraError = null)
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $mensaje_alerta = $this->scopeConfig->getValue('auditoria/general/mensaje_alerta', $storeScope);
-        $email = explode(',',$this->scopeConfig->getValue('auditoria/general/correos_alerta', $storeScope));
-
-       
+        $subject = $this->scopeConfig->getValue('auditoria/price/subject', $storeScope);
+        $message = $this->scopeConfig->getValue('auditoria/price/message', $storeScope);
+        $emails = explode(',',$this->scopeConfig->getValue('auditoria/price/emails', $storeScope));
         
         /* Sender Detail  */
         $senderInfo = [
@@ -139,21 +151,70 @@ class Email extends AbstractHelper
 
         /* Assign values for your template variables  */
         $variable = [];
-        $variable['mensaje_alerta'] = $mensaje_alerta;
-        $variable['data'] = $data;
+        $variable['subject'] = $subject;
+        $variable['message'] = $message;
+        $variable['website'] = $websiteCode;
         $variable['extra_error'] = $extraError;
+        $variable['data'] = $data;
 
         $templateId = "email_auditoria_template";
-        foreach($email as $key => $value){
+        foreach($emails as $key => $value){
             if(!empty($value)){
                  /* Receiver Detail */
                 $receiverInfo = [
-                    'name' => $name,
+                    'name' => 'Soporte Whitelabel',
                     'email' => $value
                 ];
 
                 $this->inlineTranslation->suspend();
-                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
+                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId);
+                $transport = $this->transportBuilder->getTransport();
+                $transport->sendMessage();
+                $this->inlineTranslation->resume();
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $websiteCode
+     * @param $storeId
+     * @return $this
+     * @throws LocalizedException
+     * @throws MailException
+     * @throws NoSuchEntityException
+     */
+    public function notifyCurrrencyErrorEmail($data, $storeId)
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $subject = $this->scopeConfig->getValue('auditoria/currency/subject', $storeScope);
+        $message = $this->scopeConfig->getValue('auditoria/currency/message', $storeScope);
+        $emails = explode(',',$this->scopeConfig->getValue('auditoria/currency/emails', $storeScope));
+
+        /* Sender Detail  */
+        $senderInfo = [
+            'name' => 'Whitelabel Store',
+            'email' => 'soporteb2c@ixcomercio.com',
+        ];
+
+        /* Assign values for your template variables  */
+        $variable = [];
+        $variable['subject'] = $subject;
+        $variable['message'] = $message;
+        $variable['data'] = $data;
+
+        $templateId = "currency_error_template";
+        foreach($emails as $key => $value){
+            if(!empty($value)){
+                /* Receiver Detail */
+                $receiverInfo = [
+                    'name' => 'Soporte Whitelabel',
+                    'email' => $value
+                ];
+
+                $this->inlineTranslation->suspend();
+                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId);
                 $transport = $this->transportBuilder->getTransport();
                 $transport->sendMessage();
                 $this->inlineTranslation->resume();

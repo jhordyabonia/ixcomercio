@@ -1,24 +1,53 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-    <system> 
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
         <section id="auditoria" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Auditoria</label>
-            <tab>intcomex_config</tab> 
+            <tab>intcomex_config</tab>
             <resource>Intcomex_Auditoria::auditoria_config</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Configuración Auditoria precios</label>
-                <field id="porcentaje_validacion" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="10" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="porcentaje_validacion" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Porcentaje de validación</label>
+                    <validate>required number</validate>
                 </field>
-                <field id="correos_alerta" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Correos Alerta</label>
-                </field>
-                <field id="mensaje_alerta" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Mensaje Alerta</label>
-                </field>
-                <field id="url_pricelist" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="url_pricelist" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>URL Precio de lista</label>
+                    <validate>required url</validate>
+                </field>
+            </group>
+            <group id="currency" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Currency Errors</label>
+                <field id="emails" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Emails</label>
+                    <comment>Comma separated. Ex: test1@test.com,test2@test.com</comment>
+                    <validate>required</validate>
+                </field>
+                <field id="subject" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subject</label>
+                    <validate>required</validate>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Message</label>
+                    <validate>required</validate>
+                </field>
+            </group>
+            <group id="price" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Price Errors</label>
+                <field id="emails" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Emails</label>
+                    <validate>required</validate>
+                    <comment>Comma separated. Ex: test1@test.com,test2@test.com</comment>
+                </field>
+                <field id="subject" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Subject</label>
+                    <validate>required</validate>
+                </field>
+                <field id="message" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Message</label>
+                    <validate>required</validate>
                 </field>
             </group>
         </section>

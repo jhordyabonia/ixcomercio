@@ -1,10 +1,13 @@
 <?php
+
 namespace Intcomex\Auditoria\Cron;
-use \Psr\Log\LoggerInterface;
+
+use Magento\Catalog\Model\Product;
+use Psr\Log\LoggerInterface;
 use Magento\Framework\App\ResourceConnection;
 
-class GetPriceList {
-
+class GetPriceList
+{
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
@@ -30,6 +33,8 @@ class GetPriceList {
     protected  $productRepository;   
     
     protected $resourceConnection;
+
+    protected $storesCurrencyErrors = null;
 
     public function __construct(
         LoggerInterface $logger, 
@@ -65,8 +70,6 @@ class GetPriceList {
 
     public function execute() 
     {
-        //$this->helper->notify('Soporte Whitelabel', 0);
-        //die();
         $this->logger->info('Inicia Cron de Auditoria');
 		$storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 		$objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
@@ -82,7 +85,10 @@ class GetPriceList {
             $serviceUrl = $this->getServiceUrl($configData, $store->getCode());
             $this->beginPriceListLoad($configData, $website->getCode(), $store, $serviceUrl, $website->getDefaultGroup()->getDefaultStoreId(), 0);
         }
-
+        // Send Currency Errors Email
+        if ($this->storesCurrencyErrors) {
+            $this->helper->notifyCurrrencyError($this->storesCurrencyErrors, 0);
+        }
     }
 
     public function getConfigParams($storeScope, $websiteCode) 
@@ -186,6 +192,7 @@ class GetPriceList {
         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
         $products = $productFactory->create();
         $errors = '';
+        $currencyError = false;
 
         $productResourceModel = $objectManager->create('Magento\Catalog\Model\ResourceModel\Product');
 
@@ -213,42 +220,38 @@ class GetPriceList {
                     $productResourceModel->saveAttribute($products,'moneda');
                     $saved = true;
                     if($saved){
-                         $productObj = $products->loadByAttribute('sku',trim($value->Sku));
-                         $storeCurrency = $storeManager->getStore($store->getId())->getCurrentCurrency()->getCode();
-                         if(trim(strtoupper($value->Price->CurrencyId))!=trim(strtoupper($storeCurrency))){
+                        /** @var Product $productObj */
+                        $productObj = $products->loadByAttribute('sku',trim($value->Sku));
+                        $storeCurrency = $storeManager->getStore($store->getId())->getCurrentCurrency()->getCode();
+                        if (!$currencyError && trim(strtoupper($value->Price->CurrencyId)) !== trim(strtoupper($storeCurrency))) {
+                            $currencyError = true;
+                            $this->logger->info('Currency Error. Store: ' . $storeCurrency . ' - IWS: ' . $value->Price->CurrencyId);
+                        }
+                        if ($value->Price->UnitPrice <= 0) {
                             $errors .= '<tr>';
-                            $errors .= '<td '.$style.' >'.$value->Sku.'</td>';
-                            $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
-                            $errors .= '<td '.$style.' >'.$value->Price->CurrencyId.'</td>';
-                            $errors .= '<td '.$style.' >Moneda</td>';
+                            $errors .= "<td $style>".$value->Sku.'</td>';
+                            $errors .= "<td $style>".$value->Price->UnitPrice.'</td>';
+                            $errors .= "<td $style>".$productObj->getPrice().'</td>';
+                            $errors .= "<td $style>".$productObj->getSpecialPrice().'</td>';
+                            $errors .= "<td $style>Cronjob</td>";
                             $errors .= '</tr>';
-                         }
-                         if($value->Price->UnitPrice<=0){
-                            $errors .= '<tr>';
-                            $errors .= '<td '.$style.' >'.$value->Sku.'</td>';
-                            $errors .= '<td '.$style.' >'.$websiteCode.'</td>';
-                            $errors .= '<td '.$style.' >'.$value->Price->UnitPrice.'</td>';
-                            $errors .= '<td '.$style.' >Precio 0</td>';
-                            $errors .= '</tr>';
-                         }
-                        $this->logger->info('Producto Actualizado: '.$value->Sku);
-                        $this->logger->info('Precio anterior: '.$productObj->getPrice().' - Precio Nuevo:'.$value->Price->UnitPrice);
-                        $this->logger->info('test: '.$productObj->getPrecioReferencia().' - test:'.$productObj->getMoneda());
-                        $this->logger->info('Moneda anterior: '.$storeCurrency.' - moneda nueva:'.$value->Price->CurrencyId);
-    
+                            $this->logger->info('Error Sku: ' . $value->Sku . ' - Precio de referencia: ' . $value->Price->UnitPrice . ' - Moneda: '.$value->Price->CurrencyId);
+                        } else {
+                            $this->logger->info('Sku: ' . $value->Sku . ' - Precio de referencia: ' . $value->Price->UnitPrice . ' - Moneda: '.$value->Price->CurrencyId);
+                        }
                     }
                 }
-
-
             }
-            if($errors!=''){
-                $extraError = 'Algunos valores no corresponden a los establecidos en la página '.$websiteCode;
-                $this->helper->notify('Soporte Whitelabel',$errors,$extraError, $storeId);
+            if ($errors !== '') {
+                $this->helper->notify($errors, $websiteCode, $storeId, 'Error, precios en 0 en IWS. ');
+            }
+            if ($currencyError === true) {
+                $this->storesCurrencyErrors .= "<li>$websiteCode</li>";
             }
             $this->logger->info('---- End  ---');
-        }else{
+            exit;
+        } else {
             $this->logger->info('Datos vacios para: '.$websiteCode); 
         }
     }
-
 }
