@@ -3,6 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Intcomex_ImportProducts" setup_version="1.0.0">
         <sequence>
+            <module name="Intcomex_Auditoria" />
             <module name="Magento_ImportExport" />
             <module name="Magento_CatalogImportExport" />
         </sequence>
