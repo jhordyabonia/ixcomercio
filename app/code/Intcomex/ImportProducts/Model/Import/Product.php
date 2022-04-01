@@ -7,6 +7,7 @@ use Intcomex\Auditoria\Helper\ReferencePriceValidation;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
+use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\CatalogImportExport\Model\Import\Product as MagentoProduct;
 use Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor;
@@ -231,10 +232,14 @@ class Product extends MagentoProduct
      */
     private function _referencePriceValidation($rowNum, $rowData)
     {
+        if (isset($rowData['status']) && $rowData['status'] === Status::STATUS_DISABLED) {
+            return;
+        }
+
         $product = $this->productRepository->get($rowData['sku'], false);
         $store = $this->storeRepository->get($rowData['store_view_code']);
         $storeId = $store->getId();
-        $result = $this->priceValidation->execute($product, $rowData['price'], $rowData['special_price'], $rowData['product_websites'], $storeId);
+        $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
 
         if ($result !== true) {
             $this->referencePriceErrors[$result['website']][] = $result;

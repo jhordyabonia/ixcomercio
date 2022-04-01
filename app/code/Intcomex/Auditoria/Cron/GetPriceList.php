@@ -62,12 +62,11 @@ class GetPriceList
         $this->resourceConnection = $resourceConnection;
     }
 
-/**
-   * Write to system.log
-   *
-   * @return void
-   */
-
+    /**
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\MailException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function execute() 
     {
         $this->logger->info('Inicia Cron de Auditoria');
@@ -87,7 +86,7 @@ class GetPriceList
         }
         // Send Currency Errors Email
         if ($this->storesCurrencyErrors) {
-            $this->helper->notifyCurrrencyError($this->storesCurrencyErrors, 0);
+            $this->helper->notifyCurrrencyErrorEmail($this->storesCurrencyErrors, 0);
         }
     }
 
@@ -235,7 +234,7 @@ class GetPriceList
                             $errors .= "<td $style>".$productObj->getSpecialPrice().'</td>';
                             $errors .= "<td $style>Cronjob</td>";
                             $errors .= '</tr>';
-                            $this->logger->info('Error Sku: ' . $value->Sku . ' - Precio de referencia: ' . $value->Price->UnitPrice . ' - Moneda: '.$value->Price->CurrencyId);
+                            $this->logger->info('Error Price Sku: ' . $value->Sku . ' - Precio de referencia: ' . $value->Price->UnitPrice . ' - Moneda: '.$value->Price->CurrencyId);
                         } else {
                             $this->logger->info('Sku: ' . $value->Sku . ' - Precio de referencia: ' . $value->Price->UnitPrice . ' - Moneda: '.$value->Price->CurrencyId);
                         }
@@ -249,7 +248,6 @@ class GetPriceList
                 $this->storesCurrencyErrors .= "<li>$websiteCode</li>";
             }
             $this->logger->info('---- End  ---');
-            exit;
         } else {
             $this->logger->info('Datos vacios para: '.$websiteCode); 
         }

@@ -84,27 +84,20 @@ class ReferencePriceValidation
         $priceMinusPercentage =  $referencePrice - (($referencePrice * (int)$percentage) / 100);
 
         $this->logger->info('Sku: '.$productNew->getSku().' Store: '.$websiteCode);
-        $this->logger->info('Price: ' . $price . ' SpecialPrice: ' . $specialPrice);
-        $this->logger->info('Formula: ' . $referencePrice . ' - ((' . $referencePrice . ' * ' . $percentage . ') / 100) = ' . $priceMinusPercentage);
+        $this->logger->info('Price: ' . $price . ' SpecialPrice: ' . $specialPrice . ' ReferencePrice: ' . $referencePrice);
+        $this->logger->info('Precio a validar: ' . $referencePrice . ' - ((' . $referencePrice . ' * ' . $percentage . ') / 100) = ' . $priceMinusPercentage);
 
         if ($referencePrice > 0 && $referencePrice !== '' && !empty($referencePrice)) {
-            $this->logger->info("PRICE: $price SPECIAL $specialPrice " . gettype($price) . ' -- ' . gettype($specialPrice));
-//            if ($price && $specialPrice) {
-                if (($price && $price < $priceMinusPercentage) || ($specialPrice && $specialPrice < $priceMinusPercentage)) {
-                    $errors .= '<tr>';
-                    $errors .= '<td '.$style.' >'.$productOld->getSku().'</td>';
-                    $errors .= '<td '.$style.' >'.$referencePrice.'</td>';
-                    $errors .= '<td '.$style.' >'.$price.'</td>';
-                    $errors .= '<td '.$style.' >'.$specialPrice.'</td>';
-                    $errors .= '<td '.$style.' >'.$this->getCurrentUser().'</td>';
-                    $errors .= '</tr>';
-                    $this->logger->info('Sku: '.$productNew->getSku().' - Error de precio de referencia.');
-                } else {
-                    $this->logger->info('Validacion!!!');
-                }
-//            } else {
-//                $this->logger->info('Validacion 222222222!!!');
-//            }
+            if (($price && $price < $priceMinusPercentage) || ($specialPrice && $specialPrice < $priceMinusPercentage)) {
+                $errors .= '<tr>';
+                $errors .= '<td '.$style.' >'.$productOld->getSku().'</td>';
+                $errors .= '<td '.$style.' >'.$referencePrice.'</td>';
+                $errors .= '<td '.$style.' >'.$price.'</td>';
+                $errors .= '<td '.$style.' >'.$specialPrice.'</td>';
+                $errors .= '<td '.$style.' >'.$this->getCurrentUser().'</td>';
+                $errors .= '</tr>';
+                $this->logger->info('Sku: '.$productNew->getSku().' - Error, precio de referencia por fuera del rango permitido.');
+            }
         } else {
             $this->logger->info('No se puede evaluar  '.$productNew->getSku().' No tiene precio referencia en: '.$websiteCode);
         }
