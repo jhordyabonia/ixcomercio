@@ -77,6 +77,10 @@ class ReferencePriceValidation
         $productFactory->setStoreId($storeId);
         $productOld = $productFactory->loadByAttribute('sku',trim($productNew->getSku()));
 
+        if (!$productOld) {
+            return true;
+        }
+
         $price = str_replace(',', '', $price ?? $productOld->getPrice());
         $specialPrice = str_replace(',', '', $specialPrice ?? $productOld->getSpecialPrice());
 
