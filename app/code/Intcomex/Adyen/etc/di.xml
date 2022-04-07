@@ -2,4 +2,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Adyen\Payment\Model\Cron" type="Intcomex\Adyen\Model\Cron"/>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="adyen_process_notification" xsi:type="object">Intcomex\Adyen\Console\ProcessNotificationCommand</item>
+                <item name="adyen_address_caching" xsi:type="object">Intcomex\Adyen\Console\AddressCachingCommand</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
