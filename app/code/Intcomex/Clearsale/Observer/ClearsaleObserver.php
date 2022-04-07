@@ -732,6 +732,7 @@ class ClearsaleObserver extends \Clearsale\Integration\Observer\ClearsaleObserve
         try {
             $this->helperCancelOrder->cancelIwsOrder($order->getId());
             $this->helperRefundOrder->refund($order);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED)->setState(\Magento\Sales\Model\Order::STATE_CANCELED)->save();
             $this->logger->info('Cancel Order: ' . $order->getId() . ' OK');
         } catch (\Exception $e) {
             $this->logger->error('Error: ' . $e->getMessage());
