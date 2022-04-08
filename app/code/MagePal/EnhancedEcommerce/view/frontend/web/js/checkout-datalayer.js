@@ -77,9 +77,13 @@ define([
 
         $('body').on('mpCheckoutShippingStepValidation', function (event, isFormValid, errors) {
             if (isFormValid) {
-                dataLayer.push({event: 'checkoutShippingStepCompleted'});
+                dataLayer.push({
+                    environment: 'production',
+                    event: 'checkoutShippingStepCompleted'
+                });
             } else {
                 dataLayer.push({
+                    environment: 'production',
                     event: 'checkoutShippingStepFailed',
                     checkout: {
                         shipping_errors: errors
@@ -90,9 +94,13 @@ define([
 
         $('body').on('mpCheckoutPaymentStepValidation', function (event, isFormValid, errors) {
             if (isFormValid) {
-                dataLayer.push({event: 'checkoutPaymentStepCompleted'});
+                dataLayer.push({
+                    environment: 'production',
+                    event: 'checkoutPaymentStepCompleted'
+                });
             } else {
                 dataLayer.push({
+                    environment: 'production',
                     event: 'checkoutPaymentStepFailed',
                     checkout: {
                         payment_errors: errors
@@ -108,6 +116,7 @@ define([
 
             if (!hasPath(dlObject, 'checkout.email_exist') || dlObject.checkout.email_exist !== emailExist) {
                 dataLayer.push({
+                    environment: 'production',
                     event: 'checkoutEmailValidation',
                     checkout: {
                         email_exist: emailExist
@@ -163,6 +172,7 @@ define([
             CheckoutBehavior.setCode(code);
 
             var dlUpdate = {
+                environment: 'production',
                 'event': 'checkout',
                 'ecommerce': {
                     'checkout': {
@@ -225,6 +235,7 @@ define([
                         || dlObject.checkout.shipping_method.title !== option
                     ) {
                         dataLayer.push({
+                            environment: 'production',
                             event: 'shippingMethodAdded',
                             checkout: {
                                 shipping_method: {
@@ -258,6 +269,7 @@ define([
                         || dlObject.checkout.payment_method.title !== object.title)
                     ) {
                         dataLayer.push({
+                            environment: 'production',
                             event: 'paymentMethodAdded',
                             checkout: {
                                 payment_method: {
@@ -283,6 +295,7 @@ define([
                 $("body").trigger("mpCheckoutOption", [step, checkoutOption, dataLayer]);
 
                 dataLayer.push({
+                    environment: 'production',
                     'event': 'checkoutOption',
                     'ecommerce': {
                         'checkout_option': {

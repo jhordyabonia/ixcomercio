@@ -85,6 +85,7 @@ class Order extends \MagePal\GoogleTagManager\Model\Order
             $purchase['purchase']['products'] = $products;
 
             $transaction = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::PURCHASE_EVENT,
                 'ecommerce' => $purchase,
                 'order' => $this->getOrderDataLayer($order)

@@ -63,6 +63,7 @@ class CatalogWidget extends CatalogLayer
                     $products = $this->getProductImpressions($collection);
 
                     $impressionsData = [
+                        'environment' => DataLayerEvent::ENVIRONMENT,
                         'event' => DataLayerEvent::PRODUCT_IMPRESSION_EVENT,
                         'ecommerce' => [
                             'impressions' => $products,

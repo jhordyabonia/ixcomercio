@@ -50,6 +50,7 @@ class Checkout extends Template
         $tm = $this->getParentBlock();
 
         $data = [
+            'environment' => DataLayerEvent::ENVIRONMENT,
             'event' => DataLayerEvent::CHECKOUT_PAGE_EVENT,
             'cart' => $this->gtmCart->getCart()
         ];

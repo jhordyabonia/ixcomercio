@@ -76,6 +76,7 @@ class Session extends SessionManager
 
         if (!empty($itemAdded) && is_array($itemAdded)) {
             $result[] =  [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::ADD_TO_CART_EVENT,
                 'ecommerce' => [
                     'add' => [
@@ -87,6 +88,7 @@ class Session extends SessionManager
 
         if (!empty($itemRemoved) && is_array($itemRemoved)) {
             $result[] =  [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::REMOVE_FROM_CART_EVENT,
                 'ecommerce' => [
                     'remove' => [
