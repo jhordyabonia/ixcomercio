@@ -138,6 +138,7 @@ class Order extends DataObject
             }
 
             $transaction = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::GTM_ORDER_COMPLETE_EVENT,
                 'transactionId' => $order->getIncrementId(),
                 'transactionAffiliation' => $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
@@ -155,6 +156,7 @@ class Order extends DataObject
 
             // retain backward comparability with gtm.orderComplete event
             $result[] = $transaction = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::PURCHASE_EVENT
             ];
         }

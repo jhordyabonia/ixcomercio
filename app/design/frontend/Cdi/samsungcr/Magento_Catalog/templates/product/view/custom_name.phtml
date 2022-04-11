@@ -1,0 +1,21 @@
+<?php
+$_product = $block->getProduct();
+?>
+<h1 class="product-name"><?= $block->escapeHtml($_product->getName()) ?></h1>
+<div class="sku">
+    <span class="label"><?php echo __('SKU:')?></span>
+    <span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
+    <div class="xlmreviews" data-xlmreviews-position-x="right" data-xlmreviews-position-y="bottom" data-xlmreviews-position-x-size="1rem" data-xlmreviews-position-y-size="1rem"></div>
+    <script type="text/javascript" data-flix-sku="<?= $block->escapeHtml($_product->getSku()) ?>"></script>
+</div>
+<div class="stock-status">
+    <?php if ($_product->getIsSalable()){ ?>
+        <span class="stock in-stock"><?php echo __('In Stock')?></span>
+    <?php } else { ?>
+        <span class="stock out-stock"><?php echo __('Out Stock')?></span>
+    <?php } ?>
+</div>
+<?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+<div class="short-description">
+    <p><?php echo $_product->getShortDescription() ?></p>
+</div>
