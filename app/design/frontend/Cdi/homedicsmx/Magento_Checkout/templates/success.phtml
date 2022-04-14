@@ -103,7 +103,7 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
             <div class="col-xs-12">
                 <div class="page-title-wrapper">
                     <h1 class="page-title">
-                        <span class="base" data-ui-id="page-title-wrapper"><?= __('La transacción se encuentra en validación. ') ?></span>
+                        <span class="base" data-ui-id="page-title-wrapper"><?= $this->helper('Intcomex\Clearsale\Helper\Email')->getTransactionInValidationTest($order->getStoreId()) ?></span>
                     </h1>
                 </div>
                 <?php if ($block->getOrderId()):?>

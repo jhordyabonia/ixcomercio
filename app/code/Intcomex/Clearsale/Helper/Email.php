@@ -97,6 +97,17 @@ class Email extends AbstractHelper
     }
 
     /**
+     * Gets transaction in validation text.
+     *
+     * @param $storeId
+     * @return mixed
+     */
+    public function getTransactionInValidationTest($storeId)
+    {
+        return $this->scopeConfig->getValue(self::PATH_TRANSACTION_IN_VALIDATION_TEXT, ScopeInterface::SCOPE_STORE, $storeId);
+    }
+
+    /**
      * @param Order $order
      * @throws LocalizedException
      * @throws MailException
