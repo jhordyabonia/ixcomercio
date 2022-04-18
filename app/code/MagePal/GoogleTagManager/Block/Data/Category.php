@@ -95,6 +95,7 @@ class Category extends Template
                 ->getData();
 
             $data = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::CATEGORY_PAGE_EVENT,
                 'category' => $categoryData
             ];

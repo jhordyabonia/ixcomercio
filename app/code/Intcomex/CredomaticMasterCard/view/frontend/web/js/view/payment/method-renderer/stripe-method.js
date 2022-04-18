@@ -43,18 +43,13 @@ define(
 
             validate: function() {
                 var $form = $('#' + this.getCode() + '-form');
-                setTimeout(function(){
-                    $("#credomaticmastercard_cc_number-error").text($.mage.__('Ingrese un Número de Tarjeta MasterCard válido'));
-                    $("#credomaticmastercard_cc_number-error").show();
-               }, 10);
                 return $form.validation() && $form.validation('isValid');
             },
 
             afterPlaceOrder: function () { 
-                
+                jQuery('body').trigger('processStart');
                 var serviceUrl = url.build('credomaticmastercard/custom/getorder');  
                 var urlPostOrder = url.build('credomaticmastercard/custom/postorder');  
-                var urlGetResponse = url.build('credomatic/custom/getresponse');  
                 var urlPaymentResponse = url.build('credomaticmastercard/custom/paymentresponse');  
                 var cuotas = $("#credomaticmastercard_installments option:selected").val();
                 var year = $("#credomaticmastercard_expiration_yr option:selected").val();
@@ -63,35 +58,49 @@ define(
                 var cvv_ = $("#credomaticmastercard_cc_cid").val();
                 $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){ 
+                    jQuery('body').trigger('processStart');
                    var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_CredomaticMasterCard").attr("src", serviceUrlPostOrder);
-
-                    let interval = setInterval(function () {
-                        console.log('Buscando ...');
-                        $.post(urlGetResponse,{order_id:data['orderid']})
-                        .done(function(resp){
-                            if(resp.status=='success'){
-                                console.log('Encontrado!');
-                                var redirectUrl = urlPaymentResponse+'?'+resp.info;
-                                console.log('redirectUrl')
-                                console.log(redirectUrl)
-                                clearInterval(interval);
-                                window.location.href = redirectUrl;
-                                return false;
-                            }
-                        })
-                        .fail(function(resp){
-                            console.log(resp);
-                        });
-                    }, 9000);
+                    window.location.href = urlPaymentResponse;
 
                 })
                 .fail(function(msg){
-
+                    window.location.href = urlPaymentResponse;
                 })             
 
                 return false;
+            },
+            updateMenu: function () {
+                let menu = $("#payment_methods_menu").find('ul');
+
+                if (menu.length) {
+                    let title_cont = $(".payment-method-title.credomaticmastercard");
+                    let title = $(title_cont).find('label.label span').text();
+                    let code_payment = $(title_cont).find('input').attr('id');
+
+                    title_cont.hide();
+
+                    $(menu).prepend(
+                        '<li role="presentation" class="payment-group-item debitcard active">' +
+                            '<a class="link_option_credomatic" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
+                        '</li>'
+                    );
+
+                    $('#' + code_payment).trigger("click");
+
+                    $(document).on('click', `#payment_methods_menu ul li a#link-` + code_payment, function (event) {
+                        let data = $(this).attr('data-code');
+                        $('#' + data).trigger("click");
+                        if ($(this).parent().hasClass('active')) {
+
+                        } else {
+                            $(menu).find('li.active').removeClass('active');
+                            $(this).parent().addClass('active');
+                        }
+                    });
+                }
             }
 	                
             

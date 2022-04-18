@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="clearsale_configuration_transaction_in_validation_template"
+              label="Transaction In Validation"
+              file="transaction_in_validation.html"
+              type="html"
+              module="Intcomex_Clearsale"
+              area="frontend" />
+</config>

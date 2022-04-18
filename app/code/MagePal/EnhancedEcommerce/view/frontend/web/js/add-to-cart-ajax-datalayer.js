@@ -73,6 +73,7 @@ define([
                         }
                     }
                     cartItem.cart = cartGenericLayer;
+                    cartItem.environment = 'production';
                     _gtmDataLayer.push(cartItem);
                 });
             }
