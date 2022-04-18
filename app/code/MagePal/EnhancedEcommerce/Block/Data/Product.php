@@ -58,6 +58,7 @@ class Product extends CatalogLayer
             }
 
             $impressionsProductData = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::PRODUCT_DETAIL_EVENT,
                 'ecommerce' => [
                     'currencyCode' => $this->getStoreCurrencyCode(),
@@ -77,6 +78,7 @@ class Product extends CatalogLayer
 
             if (!empty($list)) {
                 $impressionsListData = [
+                    'environment' => DataLayerEvent::ENVIRONMENT,
                     'event' => DataLayerEvent::PRODUCT_IMPRESSION_EVENT,
                     'currencyCode' => $this->getStoreCurrencyCode(),
                     'ecommerce' => [

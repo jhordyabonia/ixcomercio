@@ -64,6 +64,7 @@ $mercadoPagoBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->
         window.megapago_efectivo_block = <?php echo json_encode($mercadoPagoBlock)?>;
         window.franquiciamp = '<?php echo $block->getViewFileUrl('images/franquicias.png'); ?>';
         window.imgFranquiciasAdyen = '<?php echo $block->getViewFileUrl('images/franquiciasAdyen.png'); ?>';
+        window.customAlertImage = '<?php echo $mediaUrl.'iconos_alerta/icono_'.$theme->getStore()->getCode().'.png';?>';
     </script>
     <script>
         require([

@@ -100,6 +100,7 @@ class Product extends AbstractProduct
             $productData = $this->productProvider->setProduct($product)->setProductData($productData)->getData();
 
             $data = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::PRODUCT_PAGE_EVENT,
                 'product' => $productData
             ];

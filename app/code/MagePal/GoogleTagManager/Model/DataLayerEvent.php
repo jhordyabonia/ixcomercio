@@ -9,6 +9,7 @@ namespace MagePal\GoogleTagManager\Model;
 
 class DataLayerEvent
 {
+    const ENVIRONMENT = 'production';
     const ADD_TO_CART_EVENT = 'addToCart';
     const REMOVE_FROM_CART_EVENT = 'removeFromCart';
     const PRODUCT_IMPRESSION_EVENT = 'productImpression';

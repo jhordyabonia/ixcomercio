@@ -64,6 +64,10 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
         </div>
     </div>
 <?php elseif (!empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved'): ?>
+    <script>
+        let divsToHide = document.getElementsByClassName("page-title-wrapper");
+        for (let i = 0; i < divsToHide.length; i++) {divsToHide[i].style.display = "none"; }
+    </script>
     <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
         <div class="page-title-wrapper">
             <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/verificado.png")?>"></p>
