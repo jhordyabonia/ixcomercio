@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="intcomex_integration_iws">
+        <observer name="checkout_controller_place_order" instance="Trax\Ordenes\Observer\PlaceOrder" />
+        <observer name="IntcomexPaidOrder" instance="Intcomex\EventsObservers\Observer\Payment\Process" />
+    </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="checkout_success_send_email_transaction_in_validation" instance="Intcomex\Clearsale\Observer\EmailTransactionValidation" />
+    </event>
+</config>
