@@ -61,7 +61,9 @@ define(
                     var data = JSON.parse(JSON.stringify(msg));
                     var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);
-                    window.location.href = urlPaymentResponse;
+                    setTimeout(function(){ 
+                        window.location.href = urlPaymentResponse;
+                     }, 2500)
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;

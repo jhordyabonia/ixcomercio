@@ -46,18 +46,21 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $order = $this->modelOrder->loadByIncrementId($post['orderid']);
                 $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
                 $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
-                $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
+                $order->addStatusToHistory($order->getStatus(), 'Se inicia la orden en estado: '.$order->getState());
                 $order->save();
-                $this->logger->info('-----');
-                $this->logger->info('status');
-                $this->logger->info($post['orderid']);
-                $this->logger->info($order->getState());
-                $this->logger->info('-----');
-
-                $token = substr(md5(uniqid(rand())), 0, 49);
+                $this->logger->info('Se inicia el estado de la orden '.$post['orderid'].' en '.$order->getState());
 
                 $time = strtotime(date('Y-m-d H:i:s'));
                 $hash = md5($post['orderid'].'|'.$post['amount'].'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key',ScopeInterface::SCOPE_STORE));
+
+                $model =  $this->_credomaticFactory->create();
+                $model->addData([
+                        'order_id' => $post['orderid'],
+                        'token' => $hash,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                $model->save();
+
                 $form = '<form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"   id="formCredomatic">';
                 $form .= '<input type="hidden" readonly id="credomatic_type" name="type" value="sale"  >';
                 $form .= '<input type="hidden" readonly id="credomatic_key_id" name="key_id" value="'.$post['key_id'].'" >';
@@ -75,20 +78,12 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $form .= '<input type="hidden" readonly id="credomatic_cvv" name="cvv" value="'.$this->decrypt($post['data1']).'"  >';
                 $form .= '<input type="hidden" readonly id="credomatic_ccnumber" name="ccnumber" value="'.$this->decrypt($post['data2']).'" >';
                 $form .= '<input type="hidden" readonly id="credomatic_ccexp" name="ccexp" value="'.$this->decrypt($post['data3']).'"  >';
-                $form .= '<input type="hidden" readonly id="credomatic_redirect" name="redirect" value="'.$this->storeManagerInterface->getStore()->getBaseUrl().'credomatic/custom/registerresponse?token='.$token.'"  >';
+                $form .= '<input type="hidden" readonly id="credomatic_redirect" name="redirect" value="'.$this->storeManagerInterface->getStore()->getBaseUrl().'credomatic/custom/registerresponse"  >';
                 $form .= '</form>';
                 $form .= '<script>';
                 $form .= 'setTimeout(function(){ document.getElementById("formCredomatic").submit(); }, 2000)';
                 $form .= '</script>';
                 echo $form;
-
-                $model =  $this->_credomaticFactory->create();
-                $model->addData([
-                        'order_id' => $post['orderid'],
-                        'token' => $token,
-                        'created_at' => date('Y-m-d H:i:s'),
-                    ]);
-                $model->save();
 
 
             }

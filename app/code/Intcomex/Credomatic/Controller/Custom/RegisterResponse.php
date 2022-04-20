@@ -25,7 +25,7 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
             $get = $this->getRequest()->getParams();
             if(!empty($get)){
                 $model =  $this->_credomaticFactory->create();  
-                $data = $model->load($get['token'],'token');
+                $data = $model->load($get['hash'],'token');
                 
                 if(!empty($data->getData())){ 
                     $model->setResponse($this->json->serialize($get));
@@ -35,9 +35,6 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
 
             }
         } catch (\Exception $e) {
-            echo '<pre>';
-            print_r($e->getMessage());
-            echo '</pre>';
             throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
         }
     }
