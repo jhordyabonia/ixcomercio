@@ -1,0 +1,56 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_RichSnippets
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+/**
+ * General Block
+ * @var $block Bss\RichSnippets\Block\Product
+ */
+?>
+<?php
+//This is Get Enable for Product
+$helper = $block->getHelper();
+$enableName = $helper->getEnableName();
+$currentProduct = $block->getCurrentProduct();
+$name = $currentProduct->getName();
+$enableBreadscumbs = $helper->getBreadscumbs();
+$finalUrl = $block->getFinalUrl($currentProduct);
+$dataJsonProduct = $block->getDataJsonProduct();
+?>
+<?php if ($enableBreadscumbs == '1') : ?>
+<?= '<script type="application/ld+json">'; ?>
+    {
+        "@context": "http://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "<?= $block->escapeHtml($name); ?>",
+            "item": "<?= $block->escapeHtml($finalUrl); ?>"
+        }
+    }
+    </script>
+<?php
+endif; ?>
+
+<?php if ($enableName == '1') : ?>
+<?= '<script type="application/ld+json">'; ?>
+    <?= $dataJsonProduct; ?>
+</script>
+
+<?php endif; ?>

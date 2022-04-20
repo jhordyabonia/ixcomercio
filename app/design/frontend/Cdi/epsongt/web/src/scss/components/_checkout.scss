@@ -1,0 +1,583 @@
+.checkout-index-index{
+  .field[name="shippingAddress.postcode"] {
+    display: none!important;
+  }
+  .page-wrapper .page-main .columns .column.main{
+    max-width: 1300px;
+    margin: 0 auto;
+    @media (min-width: $tablet){
+      width: 90%;
+    }
+  }
+  .checkout-container{
+    margin: 40px 0 20px;
+    .custom-slide{
+      .modal-header{
+        padding: 0;
+        .action-close{
+          z-index: 9;
+        }
+      }
+    }
+  }
+  .opc-progress-bar-item{
+    width: 33% !important;
+    >span{
+      font-size: 1.3rem;
+      @media (max-width: $tablet){
+        font-size: 1rem;
+      }
+      &:after{
+        color: $mainColor;
+        font-size: 1.3rem;
+        line-height: 28px;
+      }
+    }
+    &._active{
+      &:before{
+        background: $mainColor;
+      }
+      >span{
+        &:before{
+          background: $mainColor;
+        }
+        &:after{
+          color: $mainColor;
+          font-size: 1.8rem;
+        }
+      }
+    }
+  }
+  .opc-estimated-wrapper{
+    background: #ecebe8;
+    .estimated-block{
+      text-align: left;
+    }
+    .minicart-wrapper{
+      width: auto;
+      .action.showcart{
+        border: 0;
+        background: none;
+        .counter.qty{
+          width: 18px;
+          height: 18px;
+          line-height: 18px;
+          background: red;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+  .checkout-payment-method .payment-method-content{
+    >.actions-toolbar{
+      display: inline-block;
+      float: none;
+      >.primary .action.primary{
+        font-size: 20px;
+        line-height: 45px;
+        padding: 0 25px;
+      }
+    }
+  }
+  .opc-wrapper {
+    @media (max-width: $tablet){
+      padding: 0 15px;
+    }
+    .shipping-address-item.selected-item{
+      border-color: #000;
+      &:after{
+        background: #000;
+      }
+    }
+    .col.col-method{
+      text-align: center;
+    }
+    .table-checkout-shipping-method{
+      .col{
+        text-align: left;
+        &:first-child {
+          text-align: center;
+        }
+      }
+    }
+    input[type=checkbox], input[type=radio]{
+      display: inline-block;
+      margin: 0;
+    }
+    .payment-method{
+      font-size: 13px;
+      font-weight: normal;
+      padding: .2em .6em .3em;
+      @media (max-width: $tablet){
+        padding: 0;
+      }
+      .label{
+        font-size: 13px;
+        font-weight: normal;
+      }
+      .actions-toolbar{
+        .action{
+          @media (max-width: $tablet){
+            margin: 0 0 10px;
+          }
+        }
+      }
+    }
+    .payment-option{
+      .form{
+        width: 100%;
+        max-width: 450px;
+        display: inline-block;
+        float: none;
+      }
+    }
+    .actions-toolbar{
+      div.primary{
+        @media (min-width: $tablet){
+          float: left;
+          margin: 0 0 10px;
+        }
+      }
+      .secondary .action{
+        color: #999;
+        background: none;
+        border: 1px solid #ccc;
+        padding: 7px 15px;
+        height: 44px;
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: normal;
+        min-width: 180px;
+        border-radius: 0 8px;
+        &:hover{
+          color: #fff;
+          background: #000;
+          border-color: #000;
+        }
+      }
+    }
+    .checkout-payment-method {
+      .payment-option.giftcardaccount{
+        display: none!important;
+      }
+    }
+
+    #custom-billing-step{
+      .checkout-billing-address{
+        .billing-cancel{
+          margin-top: 0px;
+        }
+      } 
+    }
+  }
+  .opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary>.title, .checkout-agreements-items .checkout-agreements-item-title{
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .step-title{
+    color: $colorText;
+  }
+  .opc-summary-wrapper{
+    .modal-content{
+      border-radius: 0;
+      @media (min-width: $tablet){
+        box-shadow: none;
+      }
+    }
+  }
+  .opc-block-summary{
+    background: none;
+    >.title{
+      font-size: 1.3rem;  
+    }
+    .minicart-items-wrapper {
+      max-height: none;
+    }
+    .minicart-items{
+      .product-item-inner{
+        display: block;
+        .product-item-name-block{
+          width: 100%;
+          display: block;
+          padding: 0;
+          .product-item-name{
+            color: $mainColor;
+            font-weight: bold;
+            font-size: 16px;
+          }
+        }
+      }
+      .details-qty{
+        color: #999999;
+        font-size: 14px;
+        .label{
+          color: #999999;
+          padding-left: 0;
+        }
+      }
+      .product.options {
+        text-align: left;
+        .content {
+          .label{
+            color: #000;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+          }
+        }
+      }
+    }
+    .product-item{
+      .price{
+        color: $colorText;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+    .mark, mark{
+      width: 60%;
+      background: none;
+      .label{
+        color: #000;
+        padding-left: 0;
+      }
+    }
+  }
+  .opc-block-shipping-information{
+    .shipping-information-title{
+      font-size: 1.3rem;  
+    }
+    .shipping-information-content{
+      text-align: left;
+    }
+  }
+  .continue.primary{
+    background:#003399;
+    color:#fff;
+    border: 1px solid #003399; 
+  }
+  .continue.primary:hover{
+    background:#9ddfff;
+    color:#003399;
+    border-color:#9ddfff;
+  }
+  .custom_alert{
+    color: #000 !important;
+    padding: .5rem .5rem .5rem .5rem;
+    border-radius: .7rem;
+    border: 1px solid #1428A0 !important;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .custom_alert .icon{
+    width: 40px;
+    margin-right: .8rem;
+  }
+  .billing-address-details{
+    padding: 10px;
+  }
+  .billing-address-invoice-alert{
+    border: 1px solid $mainColor;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 15% 0 0 0;
+    line-height: 15px; 
+    overflow: hidden;
+  }
+  .billing-address-invoice-alert p{
+    float: left !important;
+    margin-bottom: 0px;
+    line-height: 20px;
+    width: 85%;
+  }
+  .billing-address-invoice-alert p a{
+    font-weight: 800 !important;
+    color: $mainColor !important;
+  }
+  .billing-address-invoice-alert .icon{
+    width: 35px !important;
+    margin-right: .8rem;
+    float: left;
+  }
+  li#custom-billing-step .step-title{
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
+  }
+  .billing-address-same-as-shipping-block{
+    padding-top: 10px;
+  }
+
+  li#shipping .step-title{
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
+  }
+  div#checkout-step-shipping {
+    padding-top: 10px;
+  }
+  .payment-group .step-title{
+    border-bottom: 1px solid #cccccc;
+    text-align: left !important;
+    font-size: 32px !important;
+    padding-bottom: 0px !important;
+  }
+  #checkout .opc-progress-bar .opc-progress-bar-item span{
+    font-size: 18px;
+    font-weight: 800;
+    color:#DDDDDD;
+  }
+  #checkout .opc-progress-bar .opc-progress-bar-item._active span{
+    font-size: 18px;
+    font-weight: 800;
+    color: $mainColor;
+  }
+  .minimsg{
+    border-bottom: 1px solid #ccc !important;
+  }
+  .credit-card-types.item._active{
+    border: 0px;
+  }
+  .billing-address-details.row{
+    border: 1px solid #000;
+    border-radius: .7rem;
+    padding: 1rem 0;
+    margin-left: 0;
+  }
+  #checkout-payment-method-load{
+    border-bottom: 1px solid #cccccc;
+    margin-bottom: 20px !important;
+  }
+  .checkout-payment-method .payment-option-title {
+    border-top: 0px !important;
+  }
+  .checkout-payment-method .payment-method-title{
+    margin: 0;
+  }
+.tradein_alert{
+    font-weight: 400;
+    color: #000 !important;
+    padding: .5rem .5rem .5rem .5rem;
+    border-radius: .7rem;
+    border: 1px solid $mainColor !important;
+    margin-bottom: 10px;
+    background-color: #fff;
+    width: 100%;
+  }
+  .alert_shipping{
+    width: 60% !important;
+  }
+  .tradein_alert .icon{
+    width: 50px;
+    margin-right: .8rem;
+    margin: 0 auto;
+  } 
+  .tradein_alert a {
+    font-weight: bold;
+    color: $mainColor !important;
+  }
+  .tradein_alert .col-sm-1{
+    padding: 2px 0px 5px 0px;
+    text-align: center;
+  }
+  .tradein_alert .col-sm-11 {
+    padding-left: 5px;
+  }
+  .tradein_alert .col-sm-11 p{
+    line-height: 20px;
+  }
+}
+
+.box-step-content{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 2px solid #CFCBCB;
+  overflow: hidden;
+  margin-top:20px;
+  label{
+    margin-bottom: 0;
+    font-size: 14px !important;
+    font-family: $font !important;
+  }
+}
+.p0{
+  padding: 0;
+}
+.bd2{
+  border-left: 2px solid #CFCBCB;
+}
+@media (max-width: $mobile){
+  .billing-address-invoice-alert{
+    margin: 5% 0 0 0 !important;;
+  }
+  .opc-progress-bar-item{
+      width: 33% !important;
+  }
+  .billing-address-invoice-alert p{
+      font-size: 12px !important;;
+  }
+}
+.checkout-agreements-block .action-show{
+  font-size: 14px;
+  font-weight: bold;
+}
+.checkout-onepage-success form .actions-toolbar{
+  text-align: center;
+    margin: 0 auto !important;
+}
+.checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.month, .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.year{
+  width: 50% !important;
+}
+div#credomatic_cc_type_exp_div, div#credomatic_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#credomatic_cc_type_exp_div{
+  margin-right: 2%;
+}
+.checkout-payment-method .ccard .year .select{
+  width: 100%;
+}
+.checkout-payment-method .ccard .number .input-text {
+  width: 80% !important;
+}
+.checkout-payment-method .ccard > .field.cvv > .control{
+  padding-right: 0;
+}
+.field-tooltip{
+  top: -7px
+}
+.checkout-payment-method .payment-method-content .fieldset > .field.type .control {
+  margin-left: 0 !important;
+  margin-top: 20px;
+}
+.checkout-payment-method .credit-card-types img {
+  -webkit-filter: none;
+  -webkit-transition: all .6s ease;
+  width: 50px !important;
+  height: 30px !important;
+}
+.checkout-payment-method .credit-card-types{
+  margin-top:20px;
+}
+div#credomaticvisa_cc_type_exp_div, div#credomaticvisa_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#credomaticvisa_cc_type_exp_div{
+  margin-right: 2%;
+}
+div#credomaticmastercard_cc_type_exp_div, div#credomaticmastercard_cc_type_cvv_div {
+  width: 39%;
+  float: left;
+}
+div#credomaticmastercard_cc_type_exp_div{ 
+  margin-right: 2%;
+}
+@media (max-width: $tablet){
+  .checkout-index-index .bd2 {
+    border-left: 0;
+  }
+  div#credomatic_cc_type_exp_div, div#credomatic_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#credomaticvisa_cc_type_exp_div, div#credomaticvisa_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  div#credomaticmastercard_cc_type_exp_div, div#credomaticmastercard_cc_type_cvv_div {
+    width: 100%;
+    float: none;
+  }
+  .field-tooltip{
+    top: -38px;
+  }
+}
+.checkout-payment-method .ccard > .field.cvv .field-tooltip{
+  left: 100%;
+}
+.checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field{
+  width: 80% !important;
+} 
+.invoice_uncheck{
+  color: #8a8a8a !important;
+  font-weight: 600;
+}
+.check_addres{
+  display: inline-grid;
+}
+.invoice_uncheck_title{
+  color:#000 !important;
+}
+/* The Modal (background) */
+.custom-modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.custom-modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 60%;
+}
+
+/* The Close Button */
+.custom-close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.custom-close:hover,
+.custom-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.custom-modal-content button{
+  width: auto;
+  min-width: 120px;
+  font-size: 16px;
+  padding: 0 25px;
+  display: inline-block;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  background: 0 0;
+  min-height: 40px;
+  line-height: 40px;
+  white-space: normal;
+  border-radius: 5px;
+  float: none;
+  color: $mainColor;
+  border: 2px solid $mainColor;
+}
+.custom-modal-content button:hover{
+  background-color: $colorLink;
+  border: 2px solid $colorLink;
+  color:#ffffff;
+}
+.custom-modal-content h4{
+  padding: 1.6rem;
+}
+#credomaticvisa_cc_number-error{
+  display: none;
+}
+#credomaticmastercard_cc_number-error{
+  display: none;
+}

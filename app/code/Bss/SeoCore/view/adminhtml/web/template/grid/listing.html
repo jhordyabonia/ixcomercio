@@ -1,0 +1,88 @@
+<!--
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Bss_Breadcrumbs
+ * @author    Extension Team
+ * @copyright Copyright (c) 2017-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+-->
+<div class="bss-message-system message-system" collapsible visible="hasBreadcrumbsWarning() !== undefined && !totalRecords">
+    <div class="message-system-inner">
+        <div class="message-system-short">
+            <button class="message-system-action-dropdown" toggleCollapsible>
+            <span>
+                <translate args="'System Messages'"/>:
+                <text args="'1'"/>
+            </span>
+            </button>
+            <div class="message-system-short-wrapper">
+                <div html="breadcrumbsWarning"></div>
+            </div>
+        </div>
+        <div class="message-system-collapsible">
+            <ul class="message-system-list">
+                <li if="hasBreadcrumbsWarning() !== undefined">
+                    <div html="breadcrumbsWarning"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="system_messages" class="message-system" collapsible visible="totalRecords">
+    <div class="message-system-inner" outerClick="fixLoaderHeight.bind($data, true)">
+        <div class="message-system-short">
+            <button class="message-system-action-dropdown" toggleCollapsible>
+                <if args="hasBreadcrumbsWarning() !== undefined">
+                <span>
+                    <translate args="'System Messages'"/>:
+                    <text args="totalRecords + 1"/>
+                </span>
+                </if>
+                <ifnot args="hasBreadcrumbsWarning() !== undefined">
+                <span>
+                    <translate args="'System Messages'"/>:
+                    <text args="totalRecords"/>
+                </span>
+                </ifnot>
+            </button>
+            <div class="message-system-short-wrapper" if="rows[0]" repeat="foreach: [rows[0]], item: '$row'" visible="!$collapsible.opened()">
+                <fastForEach args="data: getVisible(), as: '$col'" >
+                    <render args="$col.getBody()"/>
+                </fastForEach>
+            </div>
+        </div>
+        <div class="message-system-collapsible">
+            <ul class="message-system-list">
+                <li repeat="foreach: rows, item: '$row'">
+                    <fastForEach args="data: getVisible(), as: '$col'" >
+                        <render args="$col.getBody()"/>
+                    </fastForEach>
+                </li>
+                <li if="hasBreadcrumbsWarning() !== undefined">
+                    <div html="breadcrumbsWarning"></div>
+                </li>
+            </ul>
+            <div class="message-system-summary" if="isAllowed">
+                <a class="action__message-log"
+                   href="#"
+                   click="dismissAll"
+                   text="dismissAllText"/>
+                <a class="action__message-log"
+                   attr="{
+                        href: link
+                    }"
+                   text="linkText"/>
+            </div>
+        </div>
+    </div>
+</div>

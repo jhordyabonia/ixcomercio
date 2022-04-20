@@ -91,6 +91,7 @@ class Cart extends CatalogLayer
             );
 
             $impressionsData = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::PRODUCT_IMPRESSION_EVENT,
                 'ecommerce' => [
                     'impressions' => $list,
