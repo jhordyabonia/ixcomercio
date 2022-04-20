@@ -63,7 +63,7 @@ define(
                     $("#frame_Credomatic").attr("src", serviceUrlPostOrder);
                     setTimeout(function(){ 
                         window.location.href = urlPaymentResponse;
-                     }, 2500)
+                     }, 2500);
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;

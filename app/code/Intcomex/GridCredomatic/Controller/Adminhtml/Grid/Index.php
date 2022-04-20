@@ -30,7 +30,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Intcomex_GridCredomatic::grid_list');
-        $resultPage->getConfig()->getTitle()->prepend(__('Grid List'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Transacciones'));
         return $resultPage;
     }
 

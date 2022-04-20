@@ -30,7 +30,7 @@ class OrderStatus {
 
     public function execute() 
     {
-		$orders = $this->_orderCollectionFactory->create()->addFieldToSelect('*');
+		$orders = $this->_orderCollectionFactory->create()->addFieldToFilter('status','pending_payment');
         $this->log('Inicia Cron de órdenes');
         foreach($orders as $order){
             $this->log('-----------------------');

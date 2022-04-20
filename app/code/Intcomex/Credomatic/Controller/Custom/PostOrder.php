@@ -43,6 +43,7 @@ class PostOrder extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getParams();
             if(!empty($post)){
 
+                $model =  $this->_credomaticFactory->create();
                 $order = $this->modelOrder->loadByIncrementId($post['orderid']);
                 $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
                 $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
@@ -52,14 +53,22 @@ class PostOrder extends \Magento\Framework\App\Action\Action
 
                 $time = strtotime(date('Y-m-d H:i:s'));
                 $hash = md5($post['orderid'].'|'.$post['amount'].'|'.$time.'|'.$this->_scopeConfig->getValue('payment/credomatic/key',ScopeInterface::SCOPE_STORE));
-
-                $model =  $this->_credomaticFactory->create();
-                $model->addData([
+                
+                $data = $model->load($post['orderid'],'order_id');
+                if(!empty($data->getData())){
+                    if(!empty($data->getData()[0]['token'])){
+                        $time = strtotime($data->getData()[0]['created_at']);
+                        $hash = $data->getData()[0]['token'];
+                        $this->logger->info('Token existente, se reutiliza el de la BD '.$hash.' '.$time);
+                    }
+                }else{
+                    $model->addData([
                         'order_id' => $post['orderid'],
                         'token' => $hash,
-                        'created_at' => date('Y-m-d H:i:s'),
+                        'created_at' => $time,
                     ]);
-                $model->save();
+                    $model->save();
+                }
 
                 $form = '<form action="https://credomatic.compassmerchantsolutions.com/api/transact.php" method="POST"   id="formCredomatic">';
                 $form .= '<input type="hidden" readonly id="credomatic_type" name="type" value="sale"  >';
@@ -84,7 +93,6 @@ class PostOrder extends \Magento\Framework\App\Action\Action
                 $form .= 'setTimeout(function(){ document.getElementById("formCredomatic").submit(); }, 2000)';
                 $form .= '</script>';
                 echo $form;
-
 
             }
         } catch (\Exception $e) {

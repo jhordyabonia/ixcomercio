@@ -3,8 +3,8 @@
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list_data_source</item>
-            <item name="deps" xsi:type="string">grid_record_grid_list.grid_record_grid_list_data_source</item>
+            <item name="provider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list_data_source</item>
+            <item name="deps" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list_data_source</item>
         </item>
         <item name="spinner" xsi:type="string">grid_records_columns</item>
         <item name="buttons" xsi:type="array">
@@ -16,10 +16,10 @@
             </item>
         </item>
     </argument>
-    <dataSource name="grid_record_grid_list_data_source">
+    <dataSource name="credomatic_record_grid_list_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
-            <argument name="name" xsi:type="string">grid_record_grid_list_data_source</argument>
+            <argument name="name" xsi:type="string">credomatic_record_grid_list_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
@@ -46,9 +46,9 @@
         <filters name="listing_filters">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="columnsProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns</item>
+                    <item name="columnsProvider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.grid_records_columns</item>
                     <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.listing_top.bookmarks</item>
+                        <item name="provider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.listing_top.bookmarks</item>
                         <item name="namespace" xsi:type="string">current.filters</item>
                     </item>
                     <item name="templates" xsi:type="array">
@@ -60,9 +60,9 @@
                         </item>
                     </item>
                     <item name="childDefaults" xsi:type="array">
-                        <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.listing_top.listing_filters</item>
+                        <item name="provider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.listing_top.listing_filters</item>
                         <item name="imports" xsi:type="array">
-                            <item name="visible" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.${ $.index }:visible</item>
+                            <item name="visible" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.grid_records_columns.${ $.index }:visible</item>
                         </item>
                     </item>
                 </item>
@@ -74,7 +74,7 @@
         <massaction name="listing_massaction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="selectProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.ids</item>
+                    <item name="selectProvider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.grid_records_columns.ids</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
                     <item name="indexField" xsi:type="string">id</item>
                 </item>
@@ -98,10 +98,10 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.listing_top.bookmarks</item>
+                        <item name="provider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.listing_top.bookmarks</item>
                         <item name="namespace" xsi:type="string">current.paging</item>
                     </item>
-                    <item name="selectProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.ids</item>
+                    <item name="selectProvider" xsi:type="string">credomatic_record_grid_list.credomatic_record_grid_list.grid_records_columns.ids</item>
                 </item>
             </argument>
         </paging>
@@ -161,7 +161,7 @@
            </argument>
        </column>
        <!-- Add Action with each row of grid and for this we will create a class Action -->
-       <actionsColumn name="actions" class="Intcomex\GridCredomatic\Ui\Component\Listing\Grid\Column\Action">
+       <!--<actionsColumn name="actions" class="Intcomex\GridCredomatic\Ui\Component\Listing\Grid\Column\Action">
            <argument name="data" xsi:type="array">
                <item name="config" xsi:type="array">
                    <item name="resizeEnabled" xsi:type="boolean">false</item>
@@ -169,6 +169,6 @@
                    <item name="indexField" xsi:type="string">id</item>
                </item>
            </argument>
-       </actionsColumn>
+       </actionsColumn>-->
     </columns>
 </listing>
