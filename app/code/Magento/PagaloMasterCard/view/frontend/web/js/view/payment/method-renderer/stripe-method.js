@@ -13,14 +13,13 @@ define(
         'Magento_PagaloMasterCard/js/view/payment/cc-form',
         'jquery',
         'Magento_Payment/js/model/credit-card-validation/validator',
-        'mage/url'
+        'mage/translate'
     ],
-    function (Component, $,valid,url) {
+    function (Component, $) {
         'use strict';
 
         return Component.extend({
             defaults: {
-                redirectAfterPlaceOrder: false,
                 template: 'Magento_PagaloMasterCard/payment/stripe-form',
             	/*paymentPayload: {
                     nonce: null
@@ -44,19 +43,6 @@ define(
                }, 10);
                 return $form.validation() && $form.validation('isValid');
             },
-            afterPlaceOrder: function () { 
-                var serviceUrl = url.build('pagalo/custom/checkorder');  
-                jQuery.post(serviceUrl)
-                .done(function(msg){
-                    console.log(msg);
-                    setTimeout(function(){
-                        window.location.href = url.build(msg.message.redirect);                    
-                    }, 1500);
-                })
-                .fail(function(){
-
-                })
-            }
 	                
             
         });

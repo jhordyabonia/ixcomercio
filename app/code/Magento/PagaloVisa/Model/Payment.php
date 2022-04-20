@@ -35,12 +35,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         array $data = array(),
-        string $merchantId = "",
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Framework\UrlInterface $url, 
-        \Magento\Framework\App\ResponseFactory $responseFactory,
-        \Magento\Sales\Api\OrderManagementInterface $orderManagement,
-        \Magento\Sales\Model\Order $modelOrder
+        string $merchantId = ""
     ) {
         parent::__construct(
             $context,
@@ -55,12 +50,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             null,
             null,
             $data,
-            $merchantId,
-            $this->_checkoutSession = $checkoutSession,
-            $this->_url = $url,
-            $this->_responseFactory = $responseFactory,
-            $this->orderManagement = $orderManagement,
-            $this->modelOrder = $modelOrder
+            $merchantId
         );
         $this->_countryFactory = $countryFactory;
         $this->_merchantId = $this->getConfigData('MerchantId');
@@ -150,7 +140,6 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             );
             $str_empresa = json_encode($empresa);
             $cliente= array(
-                'order_id' => $order->getIncrementId(),
                 'firstName' => html_entity_decode($billing->getFirstname(), ENT_QUOTES, 'UTF-8'),
                 'lastName' => html_entity_decode($billing->getLastname(), ENT_QUOTES, 'UTF-8'),
                 'street1'=> html_entity_decode($billing->getStreetLine(1), ENT_QUOTES, 'UTF-8'),
@@ -253,20 +242,20 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $result = curl_exec($ch);
             $result = json_decode($result);
             $json = array();
-            /* Logs to var/log/pagalo.log */
+            //var_dump($response->responseCode);
+            /* Logs to var/log/pagalovisa.log */
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
             $this->_pagaloLogger->info('URL: ' . $url );
             $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
-            if ($this->getConfigData('PGModalidad') == 'EPAY' ) {
-                if(isset($result->infotran)){
-                    if(isset($result->infotran->authorizationNumber)){
-                        $payment->setLastTransId($result->infotran->authorizationNumber);
-                        $this->_pagaloLogger->info('setLastTransId : ' . $payment->getLastTransId() ); 
-                    }
+            
+            if(isset($result->infotran)){
+                if(isset($result->infotran->authorizationNumber)){
+                    $payment->setLastTransId($result->infotran->authorizationNumber);
+                    $this->_pagaloLogger->info('setLastTransId (authorizationNumber): ' . $payment->getLastTransId());
                 }
-            }else{
-                $payment->setLastTransId($result->requestID);
-                $this->_pagaloLogger->info('setLastTransId Test: ' . $payment->getLastTransId() ); 
+            } else if(isset($result->transaccion)) {
+                $payment->setLastTransId($result->transaccion);
+                $this->_pagaloLogger->info('setLastTransId (transaccion): ' . $payment->getLastTransId());
             }
 
             $errorMsg = '';
@@ -277,19 +266,265 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 $showCustomError = true;
             }
 
-            $getResp = $this->getErrorResp($result);
-            
-            if(!$getResp['status']){
-                $this->_pagaloLogger->info('Error Final');
-                $this->_pagaloLogger->info(print_r($getResp,true));
+            if(property_exists($result, 'reasonCode')) {
+                if($result->reasonCode != '00' && $result->reasonCode != '100'){
+                    $errorMsg = "Error al procesar el pago. ";
+                    if(property_exists($result, 'reasonCode')) {
+                        switch ($result->reasonCode) {
+                            case '101':
+                                $errorMsg .= "Transacción rechazada, falta uno o dos campos en la solicitud. ";
+                                break;
+                            case '102':
+                                $errorMsg .= "Datos de la solicitidud invalidos. ";
+                                break;
+                            case '104':
+                                $errorMsg .= "Transacción rechazada, intente nuevamente. ";
+                                break;
+                            case '110':
+                                $errorMsg .= "Transacción no aprobada, intente nuevamente. ";
+                                break;
+                            case '150':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. ";
+                                break;
+                            case '151':
+                                $errorMsg .= "Time out. ";
+                                break;
+                            case '152':
+                                $errorMsg .= "Time out. Contacte a soporte. ";
+                                break;
+                            case '200':
+                                $errorMsg .= "Transacción rechazada, contacte a soporte. ";
+                                break;
+                            case '201':
+                                $errorMsg .= "Transacción rechazada, contacte a soporte. ";
+                                break;
+                            case '202':
+                                $errorMsg .= "Tarjeta vencida ó fecha de la tarjeta invalida. ";
+                                break;
+                            case '203':
+                                $errorMsg .= "Transacción rechazada, contate a su banco. ";
+                                break;
+                            case '204':
+                                $errorMsg .= "Fondos insuficientes. ";
+                                break;
+                            case '205':
+                                $errorMsg .= "Tarjeta reportada como robada o perdida. ";
+                                break;
+                            case '207':
+                                $errorMsg .= "Transacción rechazada, contacte a su banco. ";
+                                break;
+                            case '208':
+                                $errorMsg .= "La tarjeta o tarjeta inactiva no está autorizada para transacciones que no están presentes en la tarjeta. ";
+                                break;
+                            case '209':
+                                $errorMsg .= "CVV no valido. ";
+                                break;
+                            case '210':
+                                $errorMsg .= "Fondos insuficientes. ";
+                                break;
+                            case '211':
+                                $errorMsg .= "CVV no valido. ";
+                                break;
+                            case '220':
+                                $errorMsg .= "Transacción rechazada, intente nuevamente si persiste contate a soporte. ";
+                                break;
+                            case '221':
+                                $errorMsg .= "Transacción invalida. Contacte a soporte. ";
+                                break;
+                            case '222':
+                                $errorMsg .= "Transacción rechazada. Contacte a su banco. ";
+                                break;
+                            case '230':
+                                $errorMsg .= "Trate nuevamente, el sistema no reconocio CVV. ";
+                                break;
+                            case '231':
+                                $errorMsg .= "Número de tarjeta invalido ";
+                                break;
+                            case '232':
+                                $errorMsg .= "Tipo de tarjeta no valida, intente con otra tarjeta o contacte a soporte para detalles. ";
+                                break;
+                            case '233':
+                                $errorMsg .= "Transacción invalida. Intente nuevamente. ";
+                                break;
+                            case '234':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte. ";
+                                break;
+                            case '235':
+                                $errorMsg .= "Fondos insuficientes. ";
+                                break;
+                            case '236':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. ";
+                                break;
+                            case '237':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. ";
+                                break;
+                            case '238':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. ";
+                                break;
+                            case '240':
+                                $errorMsg .= "Tarjeta invalida. ";
+                                break;
+                            case '250':
+                                $errorMsg .= "Time out.";
+                                break;
+                            case '251':
+                                $errorMsg .= "Insuficiente información del cliente/dirección. ";
+                                break;
+                            case '254':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. ";
+                                break;
+                            case '461':
+                                $errorMsg .= "Datos no validos, contacte a soporte. ";
+                                break;
+                            case '481':
+                                $errorMsg .= "Transacción rechazada posiblemente por varios intentos, contacte a soporte para mas detalles. ";
+                                break;
+                            case '00':
+                                $errorMsg .= "Transacción aprobada.";
+                                break;
+                            case '01':
+                                $errorMsg .= "Contacte a su banco emisor.";
+                                break;
+                            case '02':
+                                $errorMsg .= "Contacte a su banco emisor.";
+                                break;
+                            case '03':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            case '04':
+                                $errorMsg .= "Contacte a su banco emisor.";
+                                break;
+                            case '05':
+                                $errorMsg .= "Contacte a su banco emisor. Posible visacuota sin permisos del banco emisor.";
+                                break;
+                            case '07':
+                                $errorMsg .= "Transacción rechazada, retener tarjeta.";
+                                break;
+                            case '12':
+                                $errorMsg .= "Transacción invalida, intente nuevamente.";
+                                break;
+                            case '13':
+                                $errorMsg .= "Fondos insuficientes.";
+                                break;
+                            case '14':
+                                $errorMsg .= "Número de tarjeta invalido.";
+                                break;
+                            case '15':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            case '19':
+                                $errorMsg .= "Intenta nuevamente.";
+                                break;
+                            case '25':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            case '30':
+                                $errorMsg .= "Faltan datos obligatorios que enviar, contacte a soporte.";
+                                break;
+                            case '31':
+                                $errorMsg .= "Error al validar campos de la tarjeta";
+                                break;
+                            case '35':
+                                $errorMsg .= "Tarjeta invalida.";
+                                break;
+                            case '36':
+                                $errorMsg .= "Transacción invalida, intente nuevamente.";
+                                break;
+                            case '41':
+                                $errorMsg .= "Tarjeta reportada como perdida o robada.";
+                                break;
+                            case '43':
+                                $errorMsg .= "Tarjeta reportada como perdida o robada.";
+                                break;
+                            case '51':
+                                $errorMsg .= "Fondos insuficientes.";
+                                break;
+                            case '54':
+                                $errorMsg .= "Tarjeta de fecha expirada.";
+                                break;
+                            case '58':
+                                $errorMsg .= "Transacción rechazada, intente de nuevo.";
+                                break;
+                            case '61':
+                                $errorMsg .= "Fondos insuficientes.";
+                                break;
+                            case '62':
+                                $errorMsg .= "Tarjeta sin permisos, contacte su banco emisor.";
+                                break;
+                            case '65':
+                                $errorMsg .= "Transacción invalida, contacte a soporte. Monto de afiliación.";
+                                break;
+                            case '78':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            case '85':
+                                $errorMsg .= "Transacción invalida, intente nuevamente.";
+                                break;
+                            case '89':
+                                $errorMsg .= "Credenciales invalidas, contacte a soporte.";
+                                break;
+                            case '91':
+                                $errorMsg .= "Emisor NO Disponible - TIME OUT";
+                                break;
+                            case '96':
+                                $errorMsg .= "Transacción rechazada, contacte a soporte.";
+                                break;
+                            default:
+                               $errorMsg .= "Contacte al administrador de la tienda para más información o formas alternativas de pago.";
+                        }
+                    }
+                    if(property_exists($result, 'mensaje')) {
+                        $errorMsg .= "Mensaje: " . $result->mensaje . '. ';
+                    }
+                    if($showCustomError) {
+                        $this->_messageManager->addErrorMessage($customError);
+                        throw new \Magento\Framework\Exception\LocalizedException(__($customError));
+                    }
+                    else {
+                        $this->_messageManager->addErrorMessage($errorMsg);
+                        throw new \Magento\Framework\Exception\LocalizedException(__($errorMsg));
+                    }
+                    throw new \Magento\Framework\Exception\LocalizedException(__($customError));
+                }
+            }
+            elseif(property_exists($result, 'codigo')) {
+                    $errorMsg = "Error al procesar el pago. ";
+                    if(property_exists($result, 'mensaje')) {
+                        $errorMsg .= $result->mensaje . '. ';
+                    }
+                    if(property_exists($result, 'descripcion')) {
+                        $errorMsg .= $result->descripcion . '. ';
+                    }
+                    if( $showCustomError ) {
+                        $this->_messageManager->addErrorMessage($customError);
+                        throw new \Magento\Framework\Exception\LocalizedException(__($customError));
+                    }
+                    else {
+                        $this->_messageManager->addErrorMessage($errorMsg); 
+                        throw new \Magento\Framework\Exception\LocalizedException(__($errorMsg));
+                    }
+                    throw new \Magento\Framework\Exception\LocalizedException(__($customError));
+            }
+            else {
+                $errorMsg = __('Servicio de cobros de tarjeta de credito no disponible en este momento. Por favor contacta al administrador de la tienda para mas información y formas alternativas de pago');
+                if( $showCustomError ) {
+                    $this->_messageManager->addErrorMessage($customError);
+                }
+                else {
+                    $this->_messageManager->addErrorMessage($errorMsg);
+                    throw new \Magento\Framework\Exception\LocalizedException(__($errorMsg));
+                }
+                throw new \Magento\Framework\Exception\LocalizedException(__($customError));
             }
 
+            if ($errorMsg !== '') {
+                $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg . '. Custom error: ' . $customError);
+            }
         } catch (\Exception $e) {
+            $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);
             $error = __('Payment capturing error pagalo:'); 
-            $this->_pagaloLogger->info($error.': '.$e->getMessage());
-            throw new \Magento\Framework\Validator\Exception(__($error.': '.$e->getMessage())); 
+            throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
         }
-        
         return $this;
     }
     /**
@@ -311,248 +546,4 @@ class Payment extends \Magento\Payment\Model\Method\Cc
         }
         return parent::isAvailable($quote);
     }
-
-
-    public function getErrorResp($result){
-        if(property_exists($result, 'reasonCode')) {
-            if($result->reasonCode != '00' && $result->reasonCode != '100'){
-                $errorMsg = "Error al procesar el pago. ";
-                if(property_exists($result, 'reasonCode')) {
-                    switch ($result->reasonCode) {
-                        case '101':
-                            $errorMsg .= "Transacción rechazada, falta uno o dos campos en la solicitud. ";
-                            break;
-                        case '102':
-                            $errorMsg .= "Datos de la solicitidud invalidos. ";
-                            break;
-                        case '104':
-                            $errorMsg .= "Transacción rechazada, intente nuevamente. ";
-                            break;
-                        case '110':
-                            $errorMsg .= "Transacción no aprobada, intente nuevamente. ";
-                            break;
-                        case '150':
-                            $errorMsg .= "Transacción invalida, contacte a soporte. ";
-                            break;
-                        case '151':
-                            $errorMsg .= "Time out. ";
-                            break;
-                        case '152':
-                            $errorMsg .= "Time out. Contacte a soporte. ";
-                            break;
-                        case '200':
-                            $errorMsg .= "Transacción rechazada, contacte a soporte. ";
-                            break;
-                        case '201':
-                            $errorMsg .= "Transacción rechazada, contacte a soporte. ";
-                            break;
-                        case '202':
-                            $errorMsg .= "Tarjeta vencida ó fecha de la tarjeta invalida. ";
-                            break;
-                        case '203':
-                            $errorMsg .= "Transacción rechazada, contate a su banco. ";
-                            break;
-                        case '204':
-                            $errorMsg .= "Fondos insuficientes. ";
-                            break;
-                        case '205':
-                            $errorMsg .= "Tarjeta reportada como robada o perdida. ";
-                            break;
-                        case '207':
-                            $errorMsg .= "Transacción rechazada, contacte a su banco. ";
-                            break;
-                        case '208':
-                            $errorMsg .= "La tarjeta o tarjeta inactiva no está autorizada para transacciones que no están presentes en la tarjeta. ";
-                            break;
-                        case '209':
-                            $errorMsg .= "CVV no valido. ";
-                            break;
-                        case '210':
-                            $errorMsg .= "Fondos insuficientes. ";
-                            break;
-                        case '211':
-                            $errorMsg .= "CVV no valido. ";
-                            break;
-                        case '220':
-                            $errorMsg .= "Transacción rechazada, intente nuevamente si persiste contate a soporte. ";
-                            break;
-                        case '221':
-                            $errorMsg .= "Transacción invalida. Contacte a soporte. ";
-                            break;
-                        case '222':
-                            $errorMsg .= "Transacción rechazada. Contacte a su banco. ";
-                            break;
-                        case '230':
-                            $errorMsg .= "Trate nuevamente, el sistema no reconocio CVV. ";
-                            break;
-                        case '231':
-                            $errorMsg .= "Número de tarjeta invalido ";
-                            break;
-                        case '232':
-                            $errorMsg .= "Tipo de tarjeta no valida, intente con otra tarjeta o contacte a soporte para detalles. ";
-                            break;
-                        case '233':
-                            $errorMsg .= "Transacción invalida. Intente nuevamente. ";
-                            break;
-                        case '234':
-                            $errorMsg .= "Credenciales invalidas, contacte a soporte. ";
-                            break;
-                        case '235':
-                            $errorMsg .= "Fondos insuficientes. ";
-                            break;
-                        case '236':
-                            $errorMsg .= "Transacción invalida, contacte a soporte. ";
-                            break;
-                        case '237':
-                            $errorMsg .= "Transacción invalida, contacte a soporte. ";
-                            break;
-                        case '238':
-                            $errorMsg .= "Transacción invalida, contacte a soporte. ";
-                            break;
-                        case '240':
-                            $errorMsg .= "Tarjeta invalida. ";
-                            break;
-                        case '250':
-                            $errorMsg .= "Time out.";
-                            break;
-                        case '251':
-                            $errorMsg .= "Insuficiente información del cliente/dirección. ";
-                            break;
-                        case '254':
-                            $errorMsg .= "Transacción invalida, contacte a soporte. ";
-                            break;
-                        case '461':
-                            $errorMsg .= "Datos no validos, contacte a soporte. ";
-                            break;
-                        case '481':
-                            $errorMsg .= "Transacción rechazada posiblemente por varios intentos, contacte a soporte para mas detalles. ";
-                            break;
-                        case '00':
-                            $errorMsg .= "Transacción aprobada.";
-                            break;
-                        case '01':
-                            $errorMsg .= "Contacte a su banco emisor.";
-                            break;
-                        case '02':
-                            $errorMsg .= "Contacte a su banco emisor.";
-                            break;
-                        case '03':
-                            $errorMsg .= "Credenciales invalidas, contacte a soporte.";
-                            break;
-                        case '04':
-                            $errorMsg .= "Contacte a su banco emisor.";
-                            break;
-                        case '05':
-                            $errorMsg .= "Contacte a su banco emisor. Posible visacuota sin permisos del banco emisor.";
-                            break;
-                        case '07':
-                            $errorMsg .= "Transacción rechazada, retener tarjeta.";
-                            break;
-                        case '12':
-                            $errorMsg .= "Transacción invalida, intente nuevamente.";
-                            break;
-                        case '13':
-                            $errorMsg .= "Fondos insuficientes.";
-                            break;
-                        case '14':
-                            $errorMsg .= "Número de tarjeta invalido.";
-                            break;
-                        case '15':
-                            $errorMsg .= "Credenciales invalidas, contacte a soporte.";
-                            break;
-                        case '19':
-                            $errorMsg .= "Intenta nuevamente.";
-                            break;
-                        case '25':
-                            $errorMsg .= "Credenciales invalidas, contacte a soporte.";
-                            break;
-                        case '30':
-                            $errorMsg .= "Faltan datos obligatorios que enviar, contacte a soporte.";
-                            break;
-                        case '31':
-                            $errorMsg .= "Error al validar campos de la tarjeta";
-                            break;
-                        case '35':
-                            $errorMsg .= "Tarjeta invalida.";
-                            break;
-                        case '36':
-                            $errorMsg .= "Transacción invalida, intente nuevamente.";
-                            break;
-                        case '41':
-                            $errorMsg .= "Tarjeta reportada como perdida o robada.";
-                            break;
-                        case '43':
-                            $errorMsg .= "Tarjeta reportada como perdida o robada.";
-                            break;
-                        case '51':
-                            $errorMsg .= "Fondos insuficientes.";
-                            break;
-                        case '54':
-                            $errorMsg .= "Tarjeta de fecha expirada.";
-                            break;
-                        case '58':
-                            $errorMsg .= "Transacción rechazada, intente de nuevo.";
-                            break;
-                        case '61':
-                            $errorMsg .= "Fondos insuficientes.";
-                            break;
-                        case '62':
-                            $errorMsg .= "Tarjeta sin permisos, contacte su banco emisor.";
-                            break;
-                        case '65':
-                            $errorMsg .= "Transacción invalida, contacte a soporte. Monto de afiliación.";
-                            break;
-                        case '78':
-                            $errorMsg .= "Credenciales invalidas, contacte a soporte.";
-                            break;
-                        case '85':
-                            $errorMsg .= "Transacción invalida, intente nuevamente.";
-                            break;
-                        case '89':
-                            $errorMsg .= "Credenciales invalidas, contacte a soporte.";
-                            break;
-                        case '91':
-                            $errorMsg .= "Emisor NO Disponible - TIME OUT";
-                            break;
-                        case '96':
-                            $errorMsg .= "Transacción rechazada, contacte a soporte.";
-                            break;
-                        default:
-                           $errorMsg .= "Contacte al administrador de la tienda para más información o formas alternativas de pago.";
-                    }
-                }
-                if(property_exists($result, 'mensaje')) {
-                    $errorMsg .= "Mensaje: " . $result->mensaje . '. ';
-                }
-                return array(
-                    'status' => false,
-                    'msg' => $errorMsg,
-                );
-            }
-        }elseif(property_exists($result, 'codigo')) {
-                $errorMsg = "Error al procesar el pago. ";
-                if(property_exists($result, 'mensaje')) {
-                    $errorMsg .= $result->mensaje . '. ';
-                }
-                if(property_exists($result, 'descripcion')) {
-                    $errorMsg .= $result->descripcion . '. ';
-                }
-                return array(
-                    'status' => false,
-                    'msg' => $errorMsg,
-                );
-        }else {
-            $errorMsg = __('Servicio de cobros de tarjeta de credito no disponible en este momento. Por favor contacta al administrador de la tienda para mas información y formas alternativas de pago');
-            return array(
-                'status' => false,
-                'msg' => $errorMsg,
-            );
-        }
-        return array(
-            'status' => true,
-            'msg' => '',
-        );
-    }
-
-
 }

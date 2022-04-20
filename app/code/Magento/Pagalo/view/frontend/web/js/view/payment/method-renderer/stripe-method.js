@@ -24,7 +24,7 @@ define(
                     nonce: null
                 },
                 creditCardInstallments: '',*/
-            },
+	          },
 
             getCode: function() {
                 return 'pagalo';
