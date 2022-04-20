@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Intcomex_GridCredomatic::manager" title="Transacciones" module="Intcomex_GridCredomatic" sortOrder="10" resource="Intcomex_GridCredomatic::manager" action="credomatic/grid/grid" />
+    </menu>
+</config>

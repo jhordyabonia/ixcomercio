@@ -15,7 +15,7 @@ class OrderStatus {
 
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory
     ) {
         //Define el log
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/cron_credomatic.log');

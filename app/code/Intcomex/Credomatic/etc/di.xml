@@ -23,18 +23,4 @@
    </type>  
     <preference for="Magento\Payment\Helper\Data" type="Intcomex\Credomatic\Helper\Data" />
     <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Intcomex\Credomatic\Model\SendMailOrder" /> 
-
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="intcomex_credomatic_post_listing_data_source" xsi:type="string">Intcomex\Credomatic\Model\ResourceModel\Post\Grid\Collection</item>
-            </argument>
-        </arguments>
-    </type>
-    <virtualType name="Intcomex\Credomatic\Model\ResourceModel\Post\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">transacciones_credomatic</argument>
-            <argument name="resourceModel" xsi:type="string">Intcomex\Credomatic\Model\ResourceModel\Post</argument>
-        </arguments>
-    </virtualType>
 </config>
