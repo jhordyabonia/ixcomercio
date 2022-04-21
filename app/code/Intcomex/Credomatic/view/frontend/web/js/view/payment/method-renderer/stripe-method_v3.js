@@ -83,7 +83,6 @@ define(
                         data: data,
                         type: 'POST',
                         crossDomain: true,
-                        dataType: 'jsonp',
                         success: function() {
                         },
                         error: function() {
