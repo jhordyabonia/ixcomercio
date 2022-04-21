@@ -53,7 +53,6 @@ define(
                 var month = $("#credomatic_expiration option:selected").val();
                 var number = $("#credomatic_cc_number").val();
                 var cvv_ = $("#credomatic_cc_cid").val();
-                console.log(quote);
                 $.post(serviceUrl,{cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){
                     jQuery('body').trigger('processStart');

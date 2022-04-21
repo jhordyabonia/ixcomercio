@@ -33,7 +33,7 @@ define(
 	          },
 	    
             getCode: function() {
-                return 'credomatic';
+                return 'credomaticvisa';
             },
 
             isActive: function() {
@@ -54,7 +54,6 @@ define(
                 var month = $("#credomaticvisa_expiration option:selected").val();
                 var number = $("#credomaticvisa_cc_number").val();
                 var cvv_ = $("#credomaticvisa_cc_cid").val();
-                console.log(quote);
                 $.post(serviceUrl,{cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){
                     jQuery('body').trigger('processStart');
