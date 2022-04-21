@@ -187,6 +187,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $xml=simplexml_load_string($dataResp);
         
         if(empty($xml)||!isset($xml->transaction)){
+            $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
             return false;
         }
         return $dataArray[0];

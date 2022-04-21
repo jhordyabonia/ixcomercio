@@ -54,7 +54,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         try {
-
+            $orderId = $this->_checkoutSession->getLastOrderId();
+            $this->logger->info('Se inicia en modo '.$this->modo.' para la orden'.$orderId);
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath('checkout/cart');
             // Se envia intento 0 a process data
@@ -185,10 +186,12 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->logger->info('Respuesta servicio Credomatic');
 
         $xml=simplexml_load_string($dataResp);
-        
+        $this->logger->info(print_r($xml,true));
         if(empty($xml)||!isset($xml->transaction)){
+            $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
             return false;
         }
+
         return $dataArray[0];
     }
 
