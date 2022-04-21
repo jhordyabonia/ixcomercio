@@ -72,7 +72,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function cancelOrder($body,$order){
         try {
-
+            $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden');
             $this->_messageManager->addError($this->customError);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);

@@ -2,8 +2,8 @@
 /**
  * Payment CC Types Source Model
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    CredomaticVisa
+ * @package     CredomaticVisa
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */

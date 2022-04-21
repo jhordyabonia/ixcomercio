@@ -29,7 +29,7 @@ define([
             creditCardVerificationNumber: '',
             selectedCardType: null,
             creditCardInstallments: '', 
-            template: 'Intcomex_CredomaticMasterCard/payment/cc-form'
+            template: 'Intomex_CredomaticMasterCard/payment/cc-form'
         },
         
         getconfigValue: function () {

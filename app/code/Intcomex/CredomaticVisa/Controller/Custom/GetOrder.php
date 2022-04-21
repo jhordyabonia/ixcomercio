@@ -1,6 +1,6 @@
 <?php
-namespace Intcomex\CredomaticVisa\Controller\Custom;
 
+namespace Intcomex\CredomaticVisa\Controller\Custom;
 use Magento\Store\Model\ScopeInterface;
 
 class GetOrder extends \Magento\Framework\App\Action\Action
@@ -41,7 +41,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         try {
         $resultJson = $this->resultJsonFactory->create();
             $arrayData = array();
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_request.log');
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomaticvisa_request.log');
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
 
@@ -63,8 +63,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['amount'] = number_format($order->getGrandTotal(),2,".","");
             $arrayData['orderid'] = $order->getIncrementId();
             $token = substr(md5(uniqid(rand())), 0, 49);
-            $arrayData['url_resp'] = $this->storeManagerInterface->getStore()->getBaseUrl().'credomatic/custom/registerresponse?token='.$token.'';
-            $arrayData['url_gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
+            $arrayData['url_resp'] = $this->storeManagerInterface->getStore()->getBaseUrl().'credomaticvisa/custom/registerresponse?token='.$token.'';
+            $arrayData['url_gateway'] = $this->_scopeConfig->getValue('payment/credomaticvisa/url_gateway',ScopeInterface::SCOPE_STORE);
 
             $arrayData['time'] = strtotime(date('Y-m-d H:i:s'));
             $arrayData['hash'] = md5($order->getIncrementId().'|'.$arrayData['amount'].'|'.$arrayData['time'].'|'.$this->_scopeConfig->getValue('payment/credomatic/key',ScopeInterface::SCOPE_STORE));

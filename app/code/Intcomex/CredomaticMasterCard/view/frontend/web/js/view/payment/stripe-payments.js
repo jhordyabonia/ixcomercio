@@ -1,8 +1,8 @@
 /**
- * Credomatic for Magento JS component
+ * CredomaticMasterCard for Magento JS component
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    CredomaticMasterCard
+ * @package     CredomaticMasterCard
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */

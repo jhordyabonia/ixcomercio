@@ -1,8 +1,8 @@
 /**
- * Credomatic for Magento JS component
+ * CredomaticVisa for Magento JS component
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    CredomaticVisa
+ * @package     CredomaticVisa
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */

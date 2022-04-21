@@ -1,8 +1,8 @@
 /**
- * Credomatic for Magento JS component
+ * CredomaticMasterCard for Magento JS component
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    CredomaticMasterCard
+ * @package     CredomaticMasterCard
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -16,8 +16,7 @@ define(
         'Magento_Payment/js/model/credit-card-validation/validator',
         'Magento_Checkout/js/model/quote',
         'mage/storage',
-        'mage/url',
-        'https://www.jqueryscript.net/demo/MD5-Hash-String/jquery.md5.min.js'
+        'mage/url'
     ],
     function (ko,Component, $,setPaymentMethodAction,quote,storage,url) {
         'use strict';
@@ -112,7 +111,7 @@ define(
 
                     $(menu).prepend(
                         '<li role="presentation" class="payment-group-item debitcard active">' +
-                            '<a class="link_option_credomatic" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<a class="link_option_credomaticmastercard" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
                             '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
                         '</li>'
                     );

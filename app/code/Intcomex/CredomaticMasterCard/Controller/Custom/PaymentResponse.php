@@ -33,16 +33,16 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->orderManagement = $orderManagement;
         $this->_credomaticFactory = $credomaticFactory;
         $this->_orderInterfaceFactory = $orderInterfaceFactory;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomaticmastercard_trans_resp.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
-        $this->customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
-        $this->modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
-        $this->reintentos =  $this->_scopeConfig->getValue('payment/credomatic/reintentos',ScopeInterface::SCOPE_STORE);
-        $this->timeout =  $this->_scopeConfig->getValue('payment/credomatic/timeout',ScopeInterface::SCOPE_STORE);
-        $this->username =  $this->_scopeConfig->getValue('payment/credomatic/usuario',ScopeInterface::SCOPE_STORE);
-        $this->password =  $this->_scopeConfig->getValue('payment/credomatic/password',ScopeInterface::SCOPE_STORE);
-        $this->urlQueryApi =  $this->_scopeConfig->getValue('payment/credomatic/url_api',ScopeInterface::SCOPE_STORE);
+        $this->customError = (string) $this->_scopeConfig->getValue('payment/credomaticmastercard/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
+        $this->modo =  $this->_scopeConfig->getValue('payment/credomaticmastercard/modo',ScopeInterface::SCOPE_STORE);
+        $this->reintentos =  $this->_scopeConfig->getValue('payment/credomaticmastercard/reintentos',ScopeInterface::SCOPE_STORE);
+        $this->timeout =  $this->_scopeConfig->getValue('payment/credomaticmastercard/timeout',ScopeInterface::SCOPE_STORE);
+        $this->username =  $this->_scopeConfig->getValue('payment/credomaticmastercard/usuario',ScopeInterface::SCOPE_STORE);
+        $this->password =  $this->_scopeConfig->getValue('payment/credomaticmastercard/password',ScopeInterface::SCOPE_STORE);
+        $this->urlQueryApi =  $this->_scopeConfig->getValue('payment/credomaticmastercard/url_api',ScopeInterface::SCOPE_STORE);
         $this->_curl = $curl;
     }
 
@@ -54,7 +54,8 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         try {
-
+            $orderId = $this->_checkoutSession->getLastOrderId();
+            $this->logger->info('Se inicia en modo '.$this->modo.' para la orden'.$orderId);
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath('checkout/cart');
             // Se envia intento 0 a process data
@@ -71,7 +72,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function cancelOrder($body,$order){
         try {
-
+            $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden');
             $this->_messageManager->addError($this->customError);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
@@ -185,10 +186,12 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->logger->info('Respuesta servicio Credomatic');
 
         $xml=simplexml_load_string($dataResp);
-        
+        $this->logger->info(print_r($xml,true));
         if(empty($xml)||!isset($xml->transaction)){
+            $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
             return false;
         }
+
         return $dataArray[0];
     }
 
