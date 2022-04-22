@@ -48,12 +48,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getPostValue();
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $this->_modelOrder->load($orderId);
-
-            $arrayData['key'] = $this->_scopeConfig->getValue('payment/credomaticvisa/key',ScopeInterface::SCOPE_STORE);
-            $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomaticvisa/key_id',ScopeInterface::SCOPE_STORE);
-            $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomaticvisa/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
-            $arrayData['amount'] = number_format($order->getGrandTotal(),2,".","");
-            $arrayData['orderid'] = $order->getIncrementId();
+            $billingAddress = $order->getBillingAddress();
             $token = substr(md5(uniqid(rand())), 0, 49);
 
             $arrayData['type'] = 'sale';

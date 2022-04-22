@@ -14,6 +14,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Serialize\Serializer\Json $json,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Controller\ResultFactory $resultPageFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -25,6 +26,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Framework\HTTP\Client\Curl $curl
     ) {
         parent::__construct($context);
+        $this->json = $json;
         $this->_scopeConfig = $scopeConfig;
         $this->resultRedirect = $context->getResultFactory();
         $this->_checkoutSession = $checkoutSession;
@@ -54,6 +56,18 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         try {
+            $get = $this->getRequest()->getParams();
+            if(!empty($get)){
+                $model =  $this->_credomaticFactory->create();  
+                $data = $model->load($get['token'],'token');
+                
+                if(!empty($data->getData())){ 
+                    $model->setResponse($this->json->serialize($get));
+                    $model->setUpdatedAt();
+                    $model->save();
+                }
+
+            }
             $orderId = $this->_checkoutSession->getLastOrderId();
             $this->logger->info('Se inicia en modo '.$this->modo.' para la orden'.$orderId);
             $resultRedirect = $this->resultRedirectFactory->create();
@@ -147,7 +161,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
           if($attempts>$this->reintentos){
                 $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a cancelar');
                 // Cancel order Siempre retorna false para devolver al usuario al carrito
-                return $this->cancelOrder($respAndVerify,$order);
+                //return $this->cancelOrder($respAndVerify,$order);
            }else{
                if(!$respAndVerify){
                 $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());

@@ -56,42 +56,11 @@ define(
                 $.post(serviceUrl,{cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){
                     jQuery('body').trigger('processStart');
-                    
-                    let url = msg.url_gateway;
-                    // Proceso post por medio de AJAX
-                    let data = [];
-                    data.push({name:'type',value:'sale'});
-                    data.push({name:'key_id',value:msg.key_id});
-                    data.push({name:'hash',value:msg.hash});
-                    data.push({name:'time',value:msg.time});
-                    data.push({name:'amount',value:msg.amount});
-                    data.push({name:'orderid',value:msg.orderid});
-                    data.push({name:'processor_id',value:msg.processor_id});
-                    data.push({name:'firstname',value:msg.firstname});
-                    data.push({name:'lastname',value:msg.lastname});
-                    data.push({name:'email',value:msg.email});
-                    data.push({name:'phone',value:msg.phone});
-                    data.push({name:'street1',value:msg.address1});
-                    data.push({name:'street2',value:msg.address2});
-                    data.push({name:'cvv',value:cvv_});
-                    data.push({name:'ccnumber',value:number});
-                    data.push({name:'ccexp',value:msg.data3});
-                    data.push({name:'redirect',value:msg.url_resp});
-                    $.ajax({
 
-                        url: url,
-                        data: data,
-                        type: 'POST',
-                        crossDomain: true,
-                        dataType: 'jsonp',
-                        success: function() {
-                        },
-                        error: function() {
-                        }
-                    });
-                    setTimeout(function(){
-                        window.location.href = urlPaymentResponse; 
-                    }, 1000);
+                    let url = msg.url_gateway;
+                    let postForm =  '<form action="'+ url +'" metod="POST" id="credomaticVisaForm"> <input name="type" value="sale"><input name="key_id" value="' + msg.key_id + '"><input name="amount" value="' + msg.amount + '"><input name="time" value="' + msg.time + '"><input name="hash" value="' + msg.hash + '"><input name="orderid" value="' + msg.orderid + '"><input name="processor_id" value="' + msg.processor_id + '"><input name="firstname" value="' + msg.firstname + '"><input name="lastname" value="' + msg.lastname + '"><input name="email" value="' + msg.email + '"><input name="phone" value="' + msg.phone + '"><input name="street1" value="' + msg.street1 + '"><input name="street2" value="' + msg.street2 + '"><input name="cvv" value="' + cvv_ + '"><input name="ccnumber" value="' + number + '"><input name="ccexp" value="' + msg.ccexp + '"><input name="redirect" value="' + msg.redirect + '"></form>';
+                    jQuery('body').append(postForm);
+                    jQuery('#credomaticVisaForm').submit();s
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;
