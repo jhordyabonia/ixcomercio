@@ -162,7 +162,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a dejar en pending');
                 // Cancel order Siempre retorna false para devolver al usuario al carrito
                 //return $this->cancelOrder($respAndVerify,$order);
-                $this->_messageManager->addError('Estamos confirmando tu orden, en cuanto el pago sea verificado enviarmos un correo de confirmación');
+                $this->_messageManager->addError('Estamos confirmando tu orden, en cuanto el pago sea verificado enviaremos un correo de confirmación');
                 return false;
            }else{
                if(!$respAndVerify){
@@ -202,7 +202,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->logger->info('Respuesta servicio Credomatic');
 
         $xml=simplexml_load_string($dataResp);
-        $this->logger->info(print_r($xml,true));
+        if(isset($xml->transaction->action)){
+            $this->logger->info(print_r($xml->transaction->action,true));
+        }
         if(empty($xml)||!isset($xml->transaction)){
             $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
             return false;

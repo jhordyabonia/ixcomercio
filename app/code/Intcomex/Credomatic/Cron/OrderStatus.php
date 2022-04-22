@@ -71,7 +71,6 @@ class OrderStatus {
                 );
 
                 $this->_curl->post($this->urlQueryApi, $params); 
-                sleep(2);
                 $dataResp =  $this->_curl->getBody();
                 $this->logger->info('Respuesta servicio Credomatic');
                 $xml=simplexml_load_string($dataResp);
