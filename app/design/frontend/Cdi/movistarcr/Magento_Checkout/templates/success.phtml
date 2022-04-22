@@ -1,0 +1,63 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */
+$orderId = $block->getRealOrderId();
+$_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
+$order = $_mienvioHelper->getOrderDetails($orderId);
+if($order->getStatus()=='pending_payment'){
+?>
+<div class="checkout-success">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/espera.png")?>"></p>
+                <p><?= __('Estamos confirmando tu orden, en cuanto el pago sea verificado enviarmos un correo de confirmación') ?></p>
+
+                <?= $block->getAdditionalInfoHtml() ?>
+
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+}else{
+?>
+<div class="checkout-success">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <?php if ($block->getOrderId()):?>
+                    <?php if ($block->getCanViewOrder()) :?>
+                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                    <?php  else :?>
+                        <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                    <?php endif;?>
+                    <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+                <?php endif;?>
+
+                <?= $block->getAdditionalInfoHtml() ?>
+
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+}
+?>

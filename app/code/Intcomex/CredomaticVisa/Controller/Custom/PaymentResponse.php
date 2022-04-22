@@ -162,6 +162,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a cancelar');
                 // Cancel order Siempre retorna false para devolver al usuario al carrito
                 //return $this->cancelOrder($respAndVerify,$order);
+                return true;
            }else{
                if(!$respAndVerify){
                 $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());
