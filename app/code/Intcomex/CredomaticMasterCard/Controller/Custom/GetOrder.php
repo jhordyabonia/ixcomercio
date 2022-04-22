@@ -69,7 +69,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['ccexp'] = str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4);
             $arrayData['redirect'] = $this->storeManagerInterface->getStore()->getBaseUrl().'credomaticmastercard/custom/paymentresponse?token='.$token.'';
             $arrayData['url_gateway'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/url_gateway',ScopeInterface::SCOPE_STORE);
-            $url_gateway = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
+            $url_gateway = $this->_scopeConfig->getValue('payment/credomaticmastercard/url_gateway',ScopeInterface::SCOPE_STORE);
             
             
             $model =  $this->_credomaticFactory->create();
