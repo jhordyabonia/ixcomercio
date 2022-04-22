@@ -159,10 +159,11 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $respAndVerify = $this->respAndVerify($order->getIncrementId());
         
           if($attempts>$this->reintentos){
-                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a cancelar');
+                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a dejar en pending');
                 // Cancel order Siempre retorna false para devolver al usuario al carrito
                 //return $this->cancelOrder($respAndVerify,$order);
-                return true;
+                $this->_messageManager->addError('Estamos confirmando tu orden, en cuanto el pago sea verificado enviarmos un correo de confirmación');
+                return false;
            }else{
                if(!$respAndVerify){
                 $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());
