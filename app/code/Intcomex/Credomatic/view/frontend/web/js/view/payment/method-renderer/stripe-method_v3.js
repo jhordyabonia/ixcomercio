@@ -60,6 +60,7 @@ define(
                     let url = msg.url_gateway;
                     let postForm =  '<form action="'+ url +'" metod="POST" id="credomaticForm"> <input name="type" value="sale"><input name="key_id" value="' + msg.key_id + '"><input name="amount" value="' + msg.amount + '"><input name="time" value="' + msg.time + '"><input name="hash" value="' + msg.hash + '"><input name="orderid" value="' + msg.orderid + '"><input name="processor_id" value="' + msg.processor_id + '"><input name="firstname" value="' + msg.firstname + '"><input name="lastname" value="' + msg.lastname + '"><input name="email" value="' + msg.email + '"><input name="phone" value="' + msg.phone + '"><input name="street1" value="' + msg.street1 + '"><input name="street2" value="' + msg.street2 + '"><input name="cvv" value="' + cvv_ + '"><input name="ccnumber" value="' + number + '"><input name="ccexp" value="' + msg.ccexp + '"><input name="redirect" value="' + msg.redirect + '"></form>';
                     jQuery('body').append(postForm);
+                    jQuery('#credomaticForm').attr('method','POST');
                     jQuery('#credomaticForm').submit();
                 })
                 .fail(function(msg){
