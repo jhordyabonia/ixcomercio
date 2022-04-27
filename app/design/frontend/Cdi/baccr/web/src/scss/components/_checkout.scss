@@ -24,18 +24,18 @@
         font-size: 1rem;
       }
       &:after{
-        color: $mainColor;
+        color: #08A737;
         font-size: 1.3rem;
         line-height: 28px;
       }
     }
     &._active{
       &:before{
-        background: $mainColor;
+        background: #08A737;
       }
       >span{
         &:before{
-          background: $mainColor;
+          background: #08A737;
         }
         &:after{
           font-size: 1.8rem;
