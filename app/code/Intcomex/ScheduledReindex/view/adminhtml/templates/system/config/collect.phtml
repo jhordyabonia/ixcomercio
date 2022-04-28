@@ -8,28 +8,25 @@
 
 <script>
     require([
-        'jquery',
-        'prototype'
-    ], function(jQuery) {
+        'jquery'
+    ], function($) {
 
-        jQuery('#collect_button').click(function () {
+        $('#collect_button').click(function () {
 
-            let collectSpan = jQuery('#collect_span');
+            let collectSpan = $('#collect_span');
             let params = {
-                enabled: parseInt(jQuery("#reindex_general_enabled").val()),
-                time: getStringTime(),
-                frequency: jQuery("#reindex_general_frequency").val(),
-                php_path: jQuery("#reindex_general_php_path").val(),
-                root_password: jQuery("#reindex_general_root_password").val()
+                enabled  : parseInt($("#reindex_general_enabled").val()),
+                php_path : $("#reindex_general_php_path").val(),
+                cron     : $("#reindex_general_cron").val()
             };
             new Ajax.Request('<?php echo $block->getAjaxUrl() ?>', {
-                parameters:     params,
-                loaderArea:     false,
-                asynchronous:   true,
+                parameters   : params,
+                loaderArea   : false,
+                asynchronous : true,
                 onCreate: function() {
                     collectSpan.find('.collected').hide();
                     collectSpan.find('.processing').show();
-                    jQuery('#collect_message_span').text('');
+                    $('#collect_message_span').text('');
                 },
                 onSuccess: function(response) {
                     let resultText = '';
@@ -40,39 +37,24 @@
                         collectSpan.find('.collected').hide();
                     } else if (response.status === 200) {
                         if (response.responseJSON.crontab) {
-                            let crontabDiv = jQuery('#crontab');
+                            let crontabDiv = $('#crontab');
                             let cronLines = response.responseJSON.crontab.split('\n');
-                            crontabDiv.empty().append('<h2>Jobs</h2>');
+                            crontabDiv.empty().append('<h2>Jobs</h2><hr>');
                             for (let i = 0; i < cronLines.length; i++) {
                                 if (cronLines[i]) {
-                                    crontabDiv.append('<p>' + cronLines[i] + '</p><hr>').show();
+                                    crontabDiv.append('<p>' + cronLines[i] + '</p>');
                                 }
                             }
+                            crontabDiv.append('<hr>').show();
                         }
                         resultText = response.responseJSON.message;
                         collectSpan.find('.collected').show();
                     }
-                    jQuery('#collect_message_span').text(resultText);
+                    $('#collect_message_span').text(resultText);
                     collectSpan.find('.processing').hide();
                 }
             });
         });
-
-        /**
-         * Get time from inputs.
-         *
-         * @returns {string}
-         */
-        function getStringTime()
-        {
-            let stringTime = '';
-            let time = document.getElementsByName('groups[general][fields][time][value][]');
-            for (let i = 0; i < time.length; i++) {
-                let separator = (i===0) ? '' : ':';
-                stringTime = stringTime + separator + time[i].value;
-            }
-            return stringTime;
-        }
 
     });
 </script>

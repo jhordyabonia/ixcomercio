@@ -11,40 +11,27 @@
             <resource>Intcomex_TradeIn::tradein_config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
-                    <label>Enable </label>
+                    <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="functionality_enabled">1</field>
                     </depends>
                 </field>
-                <field id="time" translate="label" type="time" sortOrder="20" showInDefault="1">
-                    <label>Start Time</label>
+                <field id="cron" translate="label" type="text" sortOrder="20" showInDefault="1">
+                    <label>Cron</label>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="functionality_enabled">1</field>
                     </depends>
                 </field>
-                <field id="frequency" translate="label" type="select" sortOrder="30" showInDefault="1">
-                    <label>Frequency</label>
-                    <depends>
-                        <field id="enabled">1</field>
-                        <field id="functionality_enabled">1</field>
-                    </depends>
-                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
-                </field>
-                <field id="php_path" translate="label" type="text" sortOrder="40" showInDefault="1">
+                <field id="php_path" translate="label" type="text" sortOrder="30" showInDefault="1">
                     <label>PHP Binary Path</label>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="functionality_enabled">1</field>
                     </depends>
                 </field>
-                <field id="root_password" translate="label" type="password" sortOrder="50" showInDefault="1">
-                    <label>Root Password</label>
-                    <validate>required</validate>
-                    <backend_model>Intcomex\ScheduledReindex\Model\Config\Backend\RootPassword</backend_model>
-                </field>
-                <field id="mageplaza_backendreindex" translate="label comment" type="button" sortOrder="100" showInDefault="1">
+                <field id="mageplaza_backendreindex" translate="label comment" type="button" sortOrder="40" showInDefault="1">
                     <frontend_model>Intcomex\ScheduledReindex\Block\System\Config\Collect</frontend_model>
                 </field>
             </group>

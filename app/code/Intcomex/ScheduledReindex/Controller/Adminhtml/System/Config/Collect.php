@@ -45,24 +45,23 @@ class Collect extends Action
      */
     public function execute(): Json
     {
-        $post  = $this->getRequest()->getPostValue();
-
-        if (isset($post['root_password']) && !empty($post['root_password'])) {
-            try {
-                $rootPassword = $this->crontab->getDecryptPassword($post['root_password']);
-                $currentJobs = shell_exec("echo $rootPassword | sudo -S crontab -l");
-                $finalJobs = $this->crontab->getFinalJobs($currentJobs, $post);
-                $cronFile = $this->crontab->getCronFile();
-
-                file_put_contents($cronFile, $finalJobs);
-                exec("echo $rootPassword | sudo -S crontab $cronFile");
-
-                $response = ['success' => true, 'message' => 'Success!', 'crontab' => $finalJobs];
-            } catch (Exception $e) {
-                $response = ['success' => false, 'message' => $e->getMessage()];
-            }
-        } else {
-            $response = ['success' => false, 'message' => 'Required Root Password!'];
+        try {
+            $post  = $this->getRequest()->getPostValue();
+            $cronFile = $this->crontab->getCronFile();
+            $currentJobs = shell_exec('crontab -l');
+            $finalJobs = $this->crontab->getFinalJobs($currentJobs, $post);
+            file_put_contents($cronFile, $finalJobs);
+            shell_exec("crontab $cronFile");
+            $response = [
+                'success' => true,
+                'message' => __('Success!'),
+                'crontab' => shell_exec('crontab -l')
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
         }
 
         $result = $this->resultJsonFactory->create();

@@ -6,7 +6,6 @@ namespace Intcomex\ScheduledReindex\Helper;
 use Magento\Cron\Model\Config\Source\Frequency;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
-use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem\DirectoryList;
 
@@ -33,22 +32,14 @@ class Crontab extends AbstractHelper
     protected $directoryList;
 
     /**
-     * @var EncryptorInterface
-     */
-    protected $encryptor;
-
-    /**
      * @param Context $context
      * @param DirectoryList $directoryList
-     * @param EncryptorInterface $encryptor
      */
     public function __construct(
         Context $context,
-        DirectoryList $directoryList,
-        EncryptorInterface $encryptor
+        DirectoryList $directoryList
     ) {
         $this->directoryList = $directoryList;
-        $this->encryptor = $encryptor;
         parent::__construct($context);
     }
 
@@ -108,17 +99,6 @@ class Crontab extends AbstractHelper
     }
 
     /**
-     * Gets Password Decrypt.
-     *
-     * @param $password
-     * @return string
-     */
-    public function getDecryptPassword($password): string
-    {
-        return $this->encryptor->decrypt($password);
-    }
-
-    /**
      * Gets Crontab Line.
      *
      * @param array $params
@@ -128,30 +108,11 @@ class Crontab extends AbstractHelper
     {
         return sprintf(
             '%s %s %s/%s %s',
-            $this->_getCronExpression($params),
+            $params['cron'],
             $params['php_path'],
             $this->directoryList->getRoot(),
             self::BIN_PATH,
             self::INDEXER_COMMAND
         );
-    }
-
-    /**
-     * Gets cron expression.
-     *
-     * @param array $params
-     * @return string
-     */
-    private function _getCronExpression(array $params): string
-    {
-        $time = explode(':', $params['time']);
-        $cronExprArray = [
-            intval($time[1]),
-            intval($time[0]),
-            $params['frequency'] === Frequency::CRON_MONTHLY ? '1' : '*',
-            '*',
-            $params['frequency'] === Frequency::CRON_WEEKLY ? '1' : '*',
-        ];
-        return join(' ', $cronExprArray);
     }
 }
