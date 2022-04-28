@@ -150,11 +150,14 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $payment->setAdditionalInformation('payment_resp',json_encode($response));
             $order->setIsPaidCredo('Yes');
             $order->save();
+            $order->addStatusToHistory($order->getStatus(), 'Order update: last trans id and additional information');
             $this->_checkoutSession->setLastQuoteId($order->getId());
             $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
             $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
             $this->_checkoutSession->setLastRealOrderId($body['order_id']);
             $this->orderSender->send($order, true);
+            $order->addStatusToHistory($order->getStatus(), 'Order Send Email');
+            $this->logger->info("processOrder: " . $body);
             return true;
         } catch (\Exception $e) {
             return false;
