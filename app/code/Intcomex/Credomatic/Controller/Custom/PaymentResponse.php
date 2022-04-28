@@ -70,7 +70,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $model->setUpdatedAt();
                     $model->save();
 
-                    if($this->checkAndProcess( $this->respAndVerify($get['token']))){
+                    if($this->checkAndProcess( $this->json->serialize($get))){
                         $resultRedirect->setPath('checkout/onepage/success');
                     }
                 }
@@ -107,9 +107,9 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         }
     }
 
-    public function checkAndProcess($body, $orderId){
+    public function checkAndProcess($body){
 
-        $order = $this->_orderInterfaceFactory->create()->load($orderId);
+        $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
 
         try {
             $this->logger->info("checkAndProcess_response: " . $body);
@@ -131,15 +131,16 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         }
     }
 
-    public function processOrder($body,$transactionId,$order){
+    public function processOrder($body){
 
         try {
             $response = json_decode($body['response'],true);
+            $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
             $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
             $payment = $order->getPayment();
-            $payment->setLastTransId($transactionId);
+            $payment->setLastTransId($response['transactionid']);
             $payment->setAdditionalInformation('payment_resp',json_encode($response));
             $order->setIsPaidCredo('Yes');
             $order->save();
@@ -153,45 +154,4 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             return false;
         }
     }
-
-
-    public function respAndVerify($token){
-
-        $orderId = $this->_checkoutSession->getLastOrderId();
-
-        $model =  $this->_credomaticFactory->create();  
-        $data =   $model->getCollection()->addFieldToFilter('order_id', array('eq' => $orderId))
-                                         ->addFieldToFilter('token', array('eq' => $token));
-        if(empty($data->getData())){
-            return false;
-        }
-
-        $dataArray = $data->getData();
-        $this->logger->info("respAndVerify_collection: " . print_r($dataArray,true));
-
-        //validate transaction
-        $params = array(
-            'username' => $this->username,
-            'password' => $this->password,
-            'order_id' => $orderId
-        );
-
-
-        $this->_curl->post($this->urlQueryApi, $params); 
-
-        $dataResp =  $this->_curl->getBody();
-        $this->logger->info('Respuesta servicio Credomatic');
-
-        $xml=simplexml_load_string($dataResp);
-        if(isset($xml->transaction->action)){
-            $this->logger->info(print_r($xml->transaction->action,true));
-        }
-        if(empty($xml)||!isset($xml->transaction)){
-            $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
-            return false;
-        }
-        $this->logger->info('error: ' . print_r($dataArray[0], true));
-        return $dataArray[0];
-    }
-
 }
