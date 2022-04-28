@@ -90,17 +90,18 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function cancelOrder($body,$order){
         try {
+            $response = json_decode($body,true);
             $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden');
             $this->_messageManager->addError($this->customError);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED);
             $payment = $order->getPayment();
-            if(isset($body['authcode'])){
-                $payment->setLastTransId($body['authcode']);
+            if(isset($response['authcode'])){
+                $payment->setLastTransId($response['authcode']);
             }
-            if(!empty($body)){
-                $payment->setAdditionalInformation('payment_resp',json_encode($body));
+            if(!empty($response)){
+                $payment->setAdditionalInformation('payment_resp',json_encode($response));
             }
             $order->setIsPaidCredo('No');
             $order->save();    
@@ -139,7 +140,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function processOrder($body){
 
         try {
-            $response = json_decode($body['response'],true);
+            $response = json_decode($body,true);
             $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
