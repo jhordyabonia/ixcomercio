@@ -63,17 +63,22 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
             if(!empty($get)){
                 $model =  $this->_credomaticFactory->create();  
-                $data = $model->load($get['token'],'token');
-                
-                if(!empty($data->getData())){ 
-                    $model->setResponse($this->json->serialize($get));
-                    $model->setUpdatedAt();
-                    $model->save();
+                if(isset($get['token'])&&!empty($get['token'])){
 
-                    if($this->checkAndProcess( $this->json->serialize($get))){
-                        $resultRedirect->setPath('checkout/onepage/success');
+                    $data = $model->load($get['token'],'token');
+                
+                    if(!empty($data->getData())){ 
+                        $model->setResponse($this->json->serialize($get));
+                        $model->setUpdatedAt();
+                        $model->save();
+
+                        if($this->checkAndProcess($this->json->serialize($get))){
+                            $resultRedirect->setPath('checkout/onepage/success');
+                        }
                     }
+
                 }
+                
             }
             return $resultRedirect;
 
@@ -114,17 +119,17 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         try {
             $this->logger->info("checkAndProcess_response: " . $body);
             
-            if(!$body || !isset($body['response'])){
+            if(!$body){
                 return false;
             }
             
-            $response = json_decode($body['response'],true);
+            $response = json_decode($body,true);
             
-                if(!strcmp($response['response_code'], '100')){
-                    return $this->processOrder($body,$response['authcode'],$order);
-                }else{ 
-                    return $this->cancelOrder($body,$order);
-                }
+            if(!strcmp($response['response_code'], '100')){
+                return $this->processOrder($body,$response['authcode'],$order);
+            }else{ 
+                return $this->cancelOrder($body,$order);
+            }
             
         } catch (\Exception $e) {
             return false;
