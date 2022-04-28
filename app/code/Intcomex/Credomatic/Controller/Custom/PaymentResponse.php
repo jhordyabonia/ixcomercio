@@ -57,6 +57,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         try {
             $get = $this->getRequest()->getParams();
+
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setPath('checkout/cart');
+
             if(!empty($get)){
                 $model =  $this->_credomaticFactory->create();  
                 $data = $model->load($get['token'],'token');
@@ -65,16 +69,11 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                     $model->setResponse($this->json->serialize($get));
                     $model->setUpdatedAt();
                     $model->save();
-                }
 
-            }
-            $orderId = $this->_checkoutSession->getLastOrderId();
-            $this->logger->info('Se inicia en modo '.$this->modo.' para la orden'.$orderId);
-            $resultRedirect = $this->resultRedirectFactory->create();
-            $resultRedirect->setPath('checkout/cart');
-            // Se envia intento 0 a process data
-            if($this->processData(0)){
-                $resultRedirect->setPath('checkout/onepage/success');
+                    if($this->checkAndProcess( $this->respAndVerify($get['token']))){
+                        $resultRedirect->setPath('checkout/onepage/success');
+                    }
+                }
             }
             return $resultRedirect;
 
@@ -108,21 +107,24 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         }
     }
 
-    public function checkAndProcess($body,$order){
+    public function checkAndProcess($body, $orderId){
+
+        $order = $this->_orderInterfaceFactory->create()->load($orderId);
 
         try {
-
+            $this->logger->info("checkAndProcess_response: " . $body);
+            
+            if(!$body || !isset($body['response'])){
+                return false;
+            }
+            
             $response = json_decode($body['response'],true);
             
-            if($this->modo=='pruebas'){
-                   return $this->processOrder($body,$response['authcode'],$order);
-            }else{
-                if($response['response_code']!=100){
-                    return $this->cancelOrder($body,$order);
-                }else{ 
+                if(!strcmp($response['response_code'], '100')){
                     return $this->processOrder($body,$response['authcode'],$order);
+                }else{ 
+                    return $this->cancelOrder($body,$order);
                 }
-            }
             
         } catch (\Exception $e) {
             return false;
@@ -152,41 +154,20 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         }
     }
 
-    public function processData($attempts){
+
+    public function respAndVerify($token){
 
         $orderId = $this->_checkoutSession->getLastOrderId();
-        $order = $this->_orderInterfaceFactory->create()->load($orderId);
-        $respAndVerify = $this->respAndVerify($order->getIncrementId());
-        
-          if($attempts>$this->reintentos){
-                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a dejar en pending');
-                // Cancel order Siempre retorna false para devolver al usuario al carrito
-                //return $this->cancelOrder($respAndVerify,$order);
-                $this->_messageManager->addError('Estamos confirmando tu orden, en cuanto el pago sea verificado enviaremos un correo de confirmación');
-                return false;
-           }else{
-               if(!$respAndVerify){
-                $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());
-                    $attempts++;
-                    sleep($this->timeout);
-                   return $this->processData($attempts);
-               }else{
-                   return $this->checkAndProcess($respAndVerify,$order);
-               }
-           }
-  
-    }
 
-
-    public function respAndVerify($orderId){
         $model =  $this->_credomaticFactory->create();  
-        $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $orderId));
+        $data =   $model->getCollection()->addFieldToFilter('order_id', array('eq' => $orderId))
+                                         ->addFieldToFilter('token', array('eq' => $token));
         if(empty($data->getData())){
             return false;
         }
 
         $dataArray = $data->getData();
-        $this->logger->info(print_r($dataArray,true));
+        $this->logger->info("respAndVerify_collection: " . print_r($dataArray,true));
 
         //validate transaction
         $params = array(
@@ -209,7 +190,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
             return false;
         }
-
+        $this->logger->info('error: ' . print_r($dataArray[0], true));
         return $dataArray[0];
     }
 

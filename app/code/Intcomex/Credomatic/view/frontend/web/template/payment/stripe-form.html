@@ -31,7 +31,7 @@
             <!-- ko template: 'Intcomex_Credomatic/payment/cc-form' --><!-- /ko -->
 
         </form>
-        <form id="credomaticPaymentForm"method="POST" hidden>
+        <form id="credomaticPaymentForm" method="POST" style="display: none;">
                 <input name="type" value="sale">
                 <input name="key_id" value="">
                 <input name="amount" value="" >
@@ -47,11 +47,9 @@
                 <input name="street2" value="" >
                 <input name="cvv" value="" >
                 <input name="ccnumber" value="">
-                <input name="ccexp" value="">
+                <input name="ccexp" type="text" value="">
                 <input name="redirect" value="">
         </form>
-        <iframe id="frame_Credomatic" src="" style="display:none">
-        </iframe>
 
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->

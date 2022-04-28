@@ -51,13 +51,16 @@ define(
                 var cuotas = $("#credomatic_installments option:selected").val();
                 var year = $("#credomatic_expiration_yr option:selected").val();
                 var month = $("#credomatic_expiration option:selected").val();
+                var zeroPad = (num, places) => String(num).padStart(places, '0');
+                var monthFormatted = (month.slice(0, 2) >= 10) ? month.slice(0, 2) : zeroPad(month.slice(0, 2), 2);
                 var number = $("#credomatic_cc_number").val();
                 var cvv_ = $("#credomatic_cc_cid").val();
-                $.post(serviceUrl,{cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
+                var ccexp = monthFormatted + year.substring(2);
+                $.post(serviceUrl,{cuotas:cuotas})
                 .done(function(msg){
                     jQuery('body').trigger('processStart');
-
-                    jQuery('#credomaticPaymentForm').attr('action', url);
+                    console.log("ccexp: " + ccexp);
+                    jQuery('#credomaticPaymentForm').attr('action', msg.url_gateway);
                     jQuery("#credomaticPaymentForm input[name=key_id]").val(msg.key_id);
                     jQuery("#credomaticPaymentForm input[name=amount]").val(msg.amount);
                     jQuery("#credomaticPaymentForm input[name=time]").val(msg.time);
@@ -72,7 +75,7 @@ define(
                     jQuery("#credomaticPaymentForm input[name=street2]").val(msg.street2);
                     jQuery("#credomaticPaymentForm input[name=cvv]").val(cvv_);
                     jQuery("#credomaticPaymentForm input[name=ccnumber]").val(number);
-                    jQuery("#credomaticPaymentForm input[name=ccexp]").val(msg.ccexp);
+                    jQuery("#credomaticPaymentForm input[name=ccexp]").val(ccexp);
                     jQuery("#credomaticPaymentForm input[name=redirect]").val(msg.redirect);
                     jQuery('#credomaticPaymentForm').submit();
                 })

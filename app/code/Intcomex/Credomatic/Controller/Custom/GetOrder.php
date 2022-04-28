@@ -16,7 +16,6 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
-        \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Order $modelOrder,
         \Magento\Store\Model\StoreManagerInterface  $storeManagerInterface,
         \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory,
@@ -26,7 +25,6 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         $this->_scopeConfig = $scopeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->resultJsonFactory = $resultJsonFactory;
-        $this->encryptor = $encryptor;
         $this->_modelOrder = $modelOrder;
         $this->storeManagerInterface = $storeManagerInterface;
         $this->_credomaticFactory = $credomaticFactory;
@@ -54,13 +52,14 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $billingAddress = $order->getBillingAddress();
             
             $key = $this->_scopeConfig->getValue('payment/credomatic/key',ScopeInterface::SCOPE_STORE);
-            $token = substr(md5(uniqid(rand())), 0, 49);
+            
             
             $arrayData['type'] = 'sale';
             $arrayData['key_id'] = $this->_scopeConfig->getValue('payment/credomatic/key_id',ScopeInterface::SCOPE_STORE);
             $arrayData['amount'] = number_format($order->getGrandTotal(),2,".","");
             $arrayData['time'] = strtotime(date('Y-m-d H:i:s'));
-            $arrayData['hash'] = md5($order->getIncrementId().'|'.$arrayData['amount'].'|'.$arrayData['time'].'|'.$key);
+            $token = md5($order->getIncrementId().'|'.$arrayData['amount'].'|'.$arrayData['time'].'|'.$key);
+            $arrayData['hash'] = $token;
             $arrayData['orderid'] = $order->getIncrementId();
             $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
             $arrayData['firstname'] = $billingAddress->getFirstname();
@@ -69,12 +68,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['phone'] = $billingAddress->getTelephone();
             $arrayData['street1'] = isset($billingAddress->getStreet()[0]) ? $billingAddress->getStreet()[0] : '';
             $arrayData['street2'] = isset($billingAddress->getStreet()[1]) ? $billingAddress->getStreet()[1] : '';
-            /*$arrayData['cvv'] = $post['cvv_']; 
-            $arrayData['ccnumber'] = $post['number']; */
-            $arrayData['ccexp'] = str_pad($post['month'], 2, '0', STR_PAD_LEFT).substr($post['year'], 2, 4);
             $arrayData['redirect'] = $this->storeManagerInterface->getStore()->getBaseUrl().'credomatic/custom/paymentresponse?token='.$token.'';
             $arrayData['url_gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
-            $url_gateway = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
 
             
             $model =  $this->_credomaticFactory->create();
@@ -102,11 +97,5 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         
 
     }
-
-    public function encrypt($data){
-        $encrypt =  $this->encryptor->encrypt($data);
-        return $encrypt;
-    }
-    
 
 }
