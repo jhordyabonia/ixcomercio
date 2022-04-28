@@ -56,12 +56,25 @@ define(
                 $.post(serviceUrl,{cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
                 .done(function(msg){
                     jQuery('body').trigger('processStart');
-                    
-                    let url = msg.url_gateway;
-                    let postForm =  '<form action="'+ url +'" metod="POST" id="credomaticForm"> <input name="type" value="sale"><input name="key_id" value="' + msg.key_id + '"><input name="amount" value="' + msg.amount + '"><input name="time" value="' + msg.time + '"><input name="hash" value="' + msg.hash + '"><input name="orderid" value="' + msg.orderid + '"><input name="processor_id" value="' + msg.processor_id + '"><input name="firstname" value="' + msg.firstname + '"><input name="lastname" value="' + msg.lastname + '"><input name="email" value="' + msg.email + '"><input name="phone" value="' + msg.phone + '"><input name="street1" value="' + msg.street1 + '"><input name="street2" value="' + msg.street2 + '"><input name="cvv" value="' + cvv_ + '"><input name="ccnumber" value="' + number + '"><input name="ccexp" value="' + msg.ccexp + '"><input name="redirect" value="' + msg.redirect + '"></form>';
-                    jQuery('body').append(postForm);
-                    jQuery('#credomaticForm').attr('method','POST');
-                    jQuery('#credomaticForm').submit();
+
+                    jQuery('#credomaticPaymentForm').attr('action', url);
+                    jQuery("#credomaticPaymentForm input[name=key_id]").val(msg.key_id);
+                    jQuery("#credomaticPaymentForm input[name=amount]").val(msg.amount);
+                    jQuery("#credomaticPaymentForm input[name=time]").val(msg.time);
+                    jQuery("#credomaticPaymentForm input[name=hash]").val(msg.hash);
+                    jQuery("#credomaticPaymentForm input[name=orderid]").val(msg.orderid);
+                    jQuery("#credomaticPaymentForm input[name=processor_id]").val(msg.processor_id);
+                    jQuery("#credomaticPaymentForm input[name=firstname]").val(msg.firstname);
+                    jQuery("#credomaticPaymentForm input[name=lastname]").val(msg.lastname);
+                    jQuery("#credomaticPaymentForm input[name=email]").val(msg.email);
+                    jQuery("#credomaticPaymentForm input[name=phone]").val(msg.phone);
+                    jQuery("#credomaticPaymentForm input[name=street1]").val(msg.street1);
+                    jQuery("#credomaticPaymentForm input[name=street2]").val(msg.street2);
+                    jQuery("#credomaticPaymentForm input[name=cvv]").val(cvv_);
+                    jQuery("#credomaticPaymentForm input[name=ccnumber]").val(number);
+                    jQuery("#credomaticPaymentForm input[name=ccexp]").val(msg.ccexp);
+                    jQuery("#credomaticPaymentForm input[name=redirect]").val(msg.redirect);
+                    jQuery('#credomaticPaymentForm').submit();
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;
