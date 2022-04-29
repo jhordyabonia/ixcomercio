@@ -1,6 +1,6 @@
 header{
   .block-search{
-		top: 1%;
+		top: 10%;
 		width: 100%;
 		display: block;
 		position: absolute;
@@ -64,6 +64,9 @@ header{
         border-radius: 0 5px 5px 0;
         &:hover{
           background: #AD1F2C;
+          &:before{
+            color:#ffffff;
+          }
         }
     		&:before{
     			font-size: 30px;
