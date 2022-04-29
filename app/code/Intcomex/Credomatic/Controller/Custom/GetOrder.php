@@ -39,7 +39,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
     public function execute(){ 
         
         try {
-        $resultJson = $this->resultJsonFactory->create();
+            $resultJson = $this->resultJsonFactory->create();
             $arrayData = array();
             $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_request.log');
             $this->logger = new \Zend\Log\Logger();
@@ -48,6 +48,16 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getPostValue();
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $this->_modelOrder->load($orderId);
+
+            $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
+            $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
+            $order->save();
+            $this->logger->info('-----');
+            $this->logger->info('status');
+            $this->logger->info( $order->getIncrementId());
+            $this->logger->info($order->getState());
+            $this->logger->info('-----');
 
             $billingAddress = $order->getBillingAddress();
             
