@@ -1,8 +1,8 @@
 /**
- * Credomatic for Magento JS component
+ * CredomaticVisa for Magento JS component
  *
- * @category    Credomatic
- * @package     Credomatic
+ * @category    CredomaticVisa
+ * @package     CredomaticVisa
  * @author      Intcomex
  * @copyright   Intcomex (https://www.intcomex.com/)
  */
@@ -16,9 +16,7 @@ define(
         'Magento_Payment/js/model/credit-card-validation/validator',
         'Magento_Checkout/js/model/quote',
         'mage/storage',
-        'mage/url',
-        'mage/translate'
-
+        'mage/url'
     ],
     function (ko,Component, $,setPaymentMethodAction,quote,storage,url) {
         'use strict';
@@ -27,11 +25,11 @@ define(
             defaults: {
                 redirectAfterPlaceOrder: false,
                 template: 'Intcomex_CredomaticVisa/payment/stripe-form',
-            	/*paymentPayload: {
+            	  /*paymentPayload: {
                     nonce: null
                 },
-		creditCardInstallments: '',*/
-	    },
+                creditCardInstallments: '',*/
+	          },
 	    
             getCode: function() {
                 return 'credomaticvisa';
@@ -45,33 +43,32 @@ define(
                 var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
-
-            afterPlaceOrder: function () { 
+ 
+            afterPlaceOrder: function () {
                 jQuery('body').trigger('processStart');
                 var serviceUrl = url.build('credomaticvisa/custom/getorder');  
-                var urlPostOrder = url.build('credomaticvisa/custom/postorder');  
                 var urlPaymentResponse = url.build('credomaticvisa/custom/paymentresponse');  
                 var cuotas = $("#credomaticvisa_installments option:selected").val();
                 var year = $("#credomaticvisa_expiration_yr option:selected").val();
                 var month = $("#credomaticvisa_expiration option:selected").val();
                 var number = $("#credomaticvisa_cc_number").val();
                 var cvv_ = $("#credomaticvisa_cc_cid").val();
-                $.post(serviceUrl,{cart_id:quote.getQuoteId(),cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
-                .done(function(msg){ 
+                $.post(serviceUrl,{cuotas:cuotas,year:year,month:month,number:number,cvv_:cvv_})
+                .done(function(msg){
                     jQuery('body').trigger('processStart');
-                   var data = JSON.parse(JSON.stringify(msg));
-                    var serviceUrlPostOrder = urlPostOrder+'?'+data['info'];
-                    $("#frame_CredomaticVisa").attr("src", serviceUrlPostOrder);
 
-                    window.location.href = urlPaymentResponse;
-
+                    let url = msg.url_gateway;
+                    let postForm =  '<form action="'+ url +'" metod="POST" id="credomaticVisaForm"> <input name="type" value="sale"><input name="key_id" value="' + msg.key_id + '"><input name="amount" value="' + msg.amount + '"><input name="time" value="' + msg.time + '"><input name="hash" value="' + msg.hash + '"><input name="orderid" value="' + msg.orderid + '"><input name="processor_id" value="' + msg.processor_id + '"><input name="firstname" value="' + msg.firstname + '"><input name="lastname" value="' + msg.lastname + '"><input name="email" value="' + msg.email + '"><input name="phone" value="' + msg.phone + '"><input name="street1" value="' + msg.street1 + '"><input name="street2" value="' + msg.street2 + '"><input name="cvv" value="' + cvv_ + '"><input name="ccnumber" value="' + number + '"><input name="ccexp" value="' + msg.ccexp + '"><input name="redirect" value="' + msg.redirect + '"></form>';
+                    jQuery('body').append(postForm);
+                    jQuery('#credomaticForm').attr('method','POST');
+                    jQuery('#credomaticVisaForm').submit();
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;
-                })             
-
+                })
                 return false;
             },
+
             updateMenu: function () {
                 let menu = $("#payment_methods_menu").find('ul');
 
@@ -84,7 +81,7 @@ define(
 
                     $(menu).prepend(
                         '<li role="presentation" class="payment-group-item debitcard active">' +
-                            '<a class="link_option_credomatic" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
+                            '<a class="link_option_credomaticvisa" style="padding-bottom: .5rem !important;" id="link-' + code_payment + '" data-code="' + code_payment + '">' + title + '</a>' +
                             '<img style="padding-left: 1rem; padding-right: 2.5rem; padding-bottom: 1rem;" src="'+window.imgFranquiciasBAC+'" >' +
                         '</li>'
                     );
@@ -103,8 +100,7 @@ define(
                     });
                 }
             }
-	                
-            
+
         });
     }
 );

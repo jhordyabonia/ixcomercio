@@ -1,5 +1,5 @@
 <?php
-namespace Intcomex\Credomatic\Controller\Custom;
+namespace Intcomex\CredomaticVisa\Controller\Custom;
 
 class RegisterResponse extends \Magento\Framework\App\Action\Action
 {
@@ -35,9 +35,6 @@ class RegisterResponse extends \Magento\Framework\App\Action\Action
 
             }
         } catch (\Exception $e) {
-            echo '<pre>';
-            print_r($e->getMessage());
-            echo '</pre>';
             throw new \Magento\Framework\Validator\Exception(__($e->getMessage())); 
         }
     }

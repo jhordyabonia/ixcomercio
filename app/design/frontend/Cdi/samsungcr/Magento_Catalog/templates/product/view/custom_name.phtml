@@ -6,7 +6,7 @@ $_product = $block->getProduct();
     <span class="label"><?php echo __('SKU:')?></span>
     <span class="value"><?= $block->escapeHtml($_product->getSku()) ?></span>
     <div class="xlmreviews" data-xlmreviews-position-x="right" data-xlmreviews-position-y="bottom" data-xlmreviews-position-x-size="1rem" data-xlmreviews-position-y-size="1rem"></div>
-    <script type="text/javascript" data-flix-sku="<?= $block->escapeHtml($_product->getSku()) ?>"></script>
+    <script type="text/javascript" data-flix-sku="<?= $block->escapeHtml($_product->getMpn()) ?>"></script>
 </div>
 <div class="stock-status">
     <?php if ($_product->getIsSalable()){ ?>
