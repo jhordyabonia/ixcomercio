@@ -21,7 +21,7 @@ define(
         rendererList.push(
             {
                 type: 'credomaticmastercard',
-                component: 'Intcomex_CredomaticMasterCard/js/view/payment/method-renderer/stripe-method_v3'
+                component: 'Intcomex_CredomaticMasterCard/js/view/payment/method-renderer/stripe-method_v4'
             }
         );
         /** Add view logic here if needed */

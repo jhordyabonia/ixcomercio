@@ -29,9 +29,26 @@
 
         <form  class="form" data-bind="attr: {'id': getCode() + '-form'}">
             <!-- ko template: 'Intcomex_CredomaticMasterCard/payment/cc-form' --><!-- /ko -->
-
         </form>
-
+        <form id="credomaticMastercardPaymentForm" method="POST" style="display: none;">
+            <input name="type" value="sale">
+            <input name="key_id" value="">
+            <input name="amount" value="" >
+            <input name="time" value="">
+            <input name="hash" value="">
+            <input name="orderid" value="">
+            <input name="processor_id" value="" >
+            <input name="firstname" value="">
+            <input name="lastname" value="" >
+            <input name="email" value="" >
+            <input name="phone" value="" >
+            <input name="street1" value="" >
+            <input name="street2" value="" >
+            <input name="cvv" value="" >
+            <input name="ccnumber" value="">
+            <input name="ccexp" type="text" value="">
+            <input name="redirect" value="">
+        </form>
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
             <!-- ko template: getTemplate() --><!-- /ko -->
