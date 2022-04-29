@@ -250,12 +250,15 @@
     color:#ffffff;
   }
   .custom_alert{
-    color: #000 !important;
-    padding: .5rem .5rem .5rem .5rem;
-    border-radius: .7rem;
-    border: 1px solid #1428A0 !important;
-    margin-bottom: 10px;
-    font-weight: 700;
+    color: #000!important;
+    border-radius: 0.7rem;
+    border: 1px solid $mainColor !important;
+    background-color: #fff;
+    margin: 0 auto!important;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: justify;
+    padding: 10px 0 10px 0;
   }
   .custom_alert .icon{
     width: 40px;
@@ -297,6 +300,11 @@
   .tradein_alert .col-sm-11 p{
     line-height: 20px;
   }
+  .checkout-agreements-block .action-show{
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
 }
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.month, .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field.year{
   width: 50% !important;
@@ -461,4 +469,31 @@ div#pagalomastercard_cc_type_exp_div{
 }
 #pagalomastercard_cc_number-error{
   display: none;
+}
+
+.legal{
+  float: left;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.legal-img {
+  width: 20px;
+  height: 20px;
+  background: url(../images/icons/important.png) no-repeat center;
+  background-size: 100%;
+  @media only screen and (max-width: $desktop){
+    width: 42px;
+    height: 42px;
+  }
+  @media only screen and (max-width: $mobile){
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.legal-texto {
+  margin-left: 15px;
+  color:#0474f6 !important;
 }

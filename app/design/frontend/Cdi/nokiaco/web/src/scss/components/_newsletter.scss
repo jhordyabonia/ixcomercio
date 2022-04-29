@@ -1,0 +1,85 @@
+section{
+  &.newsletter{
+    .header-section{
+      text-align: center;
+      .title-section{
+        color: #000;
+        font-size: 22px;
+        text-transform: uppercase;
+      }
+      @media only screen and (max-width: $mobile){
+        padding: 0 15px;
+        width: 100% !important;
+      }
+    }
+    .block.newsletter{
+      width: 100%;
+      max-width: 560px;
+      margin: 20px auto 0;
+      form{
+        @media only screen and (max-width: $mobile){
+          padding: 0 15px;
+          text-align: center;
+          display: inline-block;
+          width: 100% !important;
+          margin-top: 10px;
+        }
+        .field.newsletter{
+          width: 75%;
+          float: left;
+          @media only screen and (max-width: $mobile){
+            width: 100%;
+          }
+          .control{
+            label{
+              width: 100%;
+            }
+            &:before{
+              line-height: 46px;
+            }
+          }
+          margin: 0;
+          input{
+            height: 46px;
+            border-radius: 5px 0 0 5px;
+            @media only screen and (max-width: $mobile){
+              border-radius: 5px;
+            }
+          }
+        }
+        .actions{
+          width: 25%;
+          display: inline-block;
+          @media only screen and (max-width: $mobile){
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+          }
+          .action{
+            width: 150%;
+            height: 46px;
+            position: relative;
+            text-transform: uppercase;
+            border-radius: 5px;
+            background-color: hsla(0,0%,100%,.1);
+            color: hsla(0,0%,100%,.55);
+            &:hover{
+              background: $mainColor;
+            }
+            @media only screen and (max-width: $mobile){
+              border-radius: 5px;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    &.bg-image-dark{
+      .header-section{
+        .title-section, p{
+          color: #fff;
+        }
+      }
+    }
+  }
+}

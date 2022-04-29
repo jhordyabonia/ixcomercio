@@ -123,26 +123,25 @@ function (
 
         customAlert: ko.computed(function () {
             findElement();
-
+        
             document.addEventListener("click", function(){
                 findElement();
             });
             function findElement(){
-                  (function theLoop (i) {
-                      setTimeout(function () {
-                          if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
-                              if(jQuery(".custom_alert").length==0){
-                                  jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+window.mediaUrl+'/icono_'+window.currentWebsiteCode+'.png" >'+window.customAlert+'</div>');
-                              }
-                              return false;
-                          }
-                          if (--i) {          // If i > 0, keep going
-                          theLoop(i);       // Call the loop again, and pass it the current value of i
-                          }
-                      }, 1000);
-                  })(40); 
-              }
-          
+                (function theLoop (i) {
+                    setTimeout(function () {
+                        if(jQuery("#checkout-shipping-method-load").length>0&&window.customAlert!=''){
+                            if(jQuery(".custom_alert").length==0){
+                                jQuery("#checkout-shipping-method-load").after('<div class="custom_alert" style="color:red" ><img class="icon"  src="'+window.customAlertImage+'" >'+window.customAlert+'</div>');
+                            }
+                            return false;
+                        }
+                        if (--i) {          // If i > 0, keep going
+                            theLoop(i);     // Call the loop again, and pass it the current value of i
+                        }
+                    }, 1000);
+                })(40); 
+            }
         }),
 
         /**
@@ -313,46 +312,6 @@ function (
          */
         getCode: function (parent) {
             return _.isFunction(parent.getCode) ? parent.getCode() : 'shared';
-        },
-        verifyTradeIn: ko.computed(function () {
-            
-            findElementTradeIn();
-
-            document.addEventListener("click", function(){
-                findElementTradeIn();
-            });
-            
-            function findElementTradeIn(){
-                (function theLoop (i) {
-                    setTimeout(function () {
-                        if((jQuery("#checkout-shipping-method-load").length>0&&jQuery(".alert_shipping").length==0)||(jQuery("#checkout-payment-method-load").length>0&&jQuery(".alert_payment").length==0)){
-                           var serviceUrl = url.build('intcomex/custom/tradein'); 
-                           jQuery.post(serviceUrl)
-                           .done(function(msg){
-                               if(msg.status=='success'){
-                                   if(jQuery(".tradein_alert").length==0){
-                                        var alertaDiv1 = '<div class="tradein_alert alert_shipping" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta1+'</div>';
-                                        var alertaDiv2 = '<div class="tradein_alert alert_payment" style="color:red"><img class="icon" src="'+msg.img+'">'+msg.alerta2+'</div>';
-                                        setTimeout(function(){ 
-                                            if(jQuery("#checkout-shipping-method-load").length>0){
-                                                jQuery("#checkout-shipping-method-load").after(alertaDiv1);
-                                            }
-                                            if(jQuery("#checkout-payment-method-load").length>0){
-                                                jQuery("#checkout-payment-method-load").after(alertaDiv2);
-                                            }
-                                         }, 3000);
-                                        return false;
-                                    }
-                                }
-                            })
-                            .fail(function(msg){
-                
-                            })
-                        }
-                      }, 1000);
-                  })(40); 
-              }
-          
-        })
+        }
     });
 });
