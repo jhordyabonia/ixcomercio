@@ -3104,6 +3104,9 @@ form {
     .cart-container .cart-summary button.action.primary:hover {
       background: #000000; }
 
+.checkout-index-index .field[name="shippingAddress.postcode"] {
+  display: none !important; }
+
 .checkout-index-index {
   /* The Modal (background) */
   /* Modal Content */
