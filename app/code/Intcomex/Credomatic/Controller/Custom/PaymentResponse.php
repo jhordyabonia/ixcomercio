@@ -160,6 +160,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->logger->info("processOrder: " . $body);
             return true;
         } catch (\Exception $e) {
+            $this->logger->info("processOrder_Exception : " . $e->getMessage());
             return false;
         }
     }
