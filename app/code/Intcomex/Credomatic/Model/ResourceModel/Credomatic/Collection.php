@@ -1,7 +1,5 @@
 <?php
- 
 namespace Intcomex\Credomatic\Model\ResourceModel\Credomatic;
- 
  
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 
@@ -15,5 +13,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             'Intcomex\Credomatic\Model\Credomatic',
             'Intcomex\Credomatic\Model\ResourceModel\Credomatic'
         );
+        parent::_construct();
     }
 }

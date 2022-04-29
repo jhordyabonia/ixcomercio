@@ -1,7 +1,5 @@
 <?php
- 
 namespace Intcomex\Credomatic\Model;
- 
  
 class Credomatic extends  \Magento\Framework\Model\AbstractModel
 {
@@ -12,4 +10,5 @@ class Credomatic extends  \Magento\Framework\Model\AbstractModel
     {
         $this->_init('Intcomex\Credomatic\Model\ResourceModel\Credomatic');
     }
+
 }

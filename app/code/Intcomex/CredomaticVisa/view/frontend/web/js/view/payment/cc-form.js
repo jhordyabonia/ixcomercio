@@ -108,7 +108,6 @@ define([
                     return false;
                 }
                 result = cardNumberValidator(value);
-                
 
                 if (!result.isPotentiallyValid && !result.isValid) {
                     return false;
