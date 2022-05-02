@@ -1,4 +1,7 @@
 .checkout-index-index{
+  .field[name="shippingAddress.postcode"] {
+    display: none!important;
+  }
   .page-wrapper .page-main .columns .column.main{
     max-width: 1300px;
     margin: 0 auto;
@@ -701,9 +704,6 @@
   }
   .checkout-index-index .tab-pane {
     padding: 20px 0;
-  }
-  .checkout-index-index .field[name="shippingAddress.postcode"] {
-    display: none!important;
   }
   .page-title-wrapper .page-title {
     font-size: 26px;
