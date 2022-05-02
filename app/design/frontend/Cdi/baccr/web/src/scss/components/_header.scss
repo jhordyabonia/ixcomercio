@@ -35,6 +35,9 @@ header{
     .header-wrapper{
       padding: 15px 0;
       position: relative;
+      @media only screen and (min-width: $desktopS){
+      min-height: 100px;
+      }
       .header-branding, .header-wrapper-nav{
         vertical-align: middle;
         display: inline-block;
@@ -398,6 +401,9 @@ header{
             display: inline-block;
             vertical-align: middle;
             margin: 0;
+            @media only screen and (min-width: $desktopS){
+              margin-top:15px;
+            }
             @media only screen and (max-width: $desktop){
               left: 0;
               top: 100%;
@@ -637,6 +643,9 @@ header{
               border-radius: 50%;
               cursor: pointer;
               float: left;
+              @media only screen and (min-width: $desktopS){
+                display: none;
+              }
               @media only screen and (max-width: $mobile){
                 width: 28px;
                 height: 28px;
