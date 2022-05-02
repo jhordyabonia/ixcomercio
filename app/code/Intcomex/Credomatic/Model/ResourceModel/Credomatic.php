@@ -1,5 +1,4 @@
 <?php
- 
 namespace Intcomex\Credomatic\Model\ResourceModel;
  
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;

@@ -44,6 +44,7 @@ define([
 
                     $("body").trigger("mpItemAddToCart", [enhancedecommerce, dataLayer]);
                     dataLayer.push({
+                        environment: 'production',
                         'event': 'addToCart',
                         'ecommerce': {
                             'add': {

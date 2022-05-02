@@ -78,6 +78,7 @@ class CreditMemo extends Template
     public function getJsonData()
     {
         $refundJson = [
+            'environment' => DataLayerEvent::ENVIRONMENT,
             'event' => DataLayerEvent::REFUND_EVENT,
             'ecommerce' => [
                 'refund' => [

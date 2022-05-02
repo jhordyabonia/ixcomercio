@@ -1,0 +1,48 @@
+<?php
+/**
+ *                       ######
+ *                       ######
+ * ############    ####( ######  #####. ######  ############   ############
+ * #############  #####( ######  #####. ######  #############  #############
+ *        ######  #####( ######  #####. ######  #####  ######  #####  ######
+ * ###### ######  #####( ######  #####. ######  #####  #####   #####  ######
+ * ###### ######  #####( ######  #####. ######  #####          #####  ######
+ * #############  #############  #############  #############  #####  ######
+ *  ############   ############  #############   ############  #####  ######
+ *                                      ######
+ *                               #############
+ *                               ############
+ *
+ * Adyen Payment module (https://www.adyen.com/)
+ *
+ * Copyright (c) 2015 Adyen BV (https://www.adyen.com/)
+ * See LICENSE.txt for license details.
+ *
+ * Author: Adyen <magento@adyen.com>
+ */
+
+/**
+ * @var \Adyen\Payment\Block\Checkout\Success $block
+ */
+?>
+<?php if ($block->renderAction()): ?>
+    <script type="text/javascript">
+        require([
+            'jquery',
+            'Adyen_Payment/js/bundle'
+        ], function ($, adyenComponent) {
+            var action = JSON.parse('<?= /* @noEscape */ $block->getAction(); ?>');
+            var checkoutComponent = new AdyenCheckout({
+                locale: '<?= $block->escapeHtml($block->getLocale()); ?>',
+                environment: '<?= $block->escapeHtml($block->getEnvironment()); ?>',
+                clientKey: '<?= $block->escapeHtml($block->getClientKey()); ?>'
+            });
+            try {
+                checkoutComponent.createFromAction(action).mount('#ActionContainer');
+            } catch(err) {
+                // Action component cannot be created
+            }
+        });
+    </script>
+    <div id="ActionContainer"></div>
+<?php endif; ?>

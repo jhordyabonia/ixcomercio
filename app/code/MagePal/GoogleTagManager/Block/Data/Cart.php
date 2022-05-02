@@ -50,6 +50,7 @@ class Cart extends Template
         $tm = $this->getParentBlock();
 
         $data = [
+            'environment' => DataLayerEvent::ENVIRONMENT,
             'event' => DataLayerEvent::CART_PAGE_EVENT,
             'cart' => $this->gtmCart->getCart()
         ];

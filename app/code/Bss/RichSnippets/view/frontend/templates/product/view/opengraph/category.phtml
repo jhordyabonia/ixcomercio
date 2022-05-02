@@ -1,0 +1,72 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_RichSnippets
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+/**
+ * Category Block
+ * @var $block \Bss\RichSnippets\Block\Category
+ */
+?>
+<?php
+$helper = $block->getHelper();
+$categoryName = $block->getTitlePage();
+$getEnableModule = $helper->getEnable();
+$categoryImage = $block->getCategoryImage();
+
+$description = $block->getCurrentCategory()->getDescription();
+$categoryUrl = $block->getCurrentCategory()->getUrl();
+$enableName = $helper->getEnableNameCategory();
+$websiteDescription = $helper->getWebsiteDescription();
+if ($description == null) {
+    $description = $websiteDescription;
+}
+$enableImage = $helper->getEnableImageCategory();
+$getEnable = $helper->getEnableForCategory();
+$getEnableTwitter = $helper->getEnableForCategoryT();
+$twitterUser = $helper->getTwitterUser();
+
+?>
+<?php
+if ($getEnableModule == '1') : ?>
+    <?php
+    if ($getEnable == '1') : ?>
+        <meta property="og:type" content="og:product" />
+        <meta property="og:title" content="<?php echo $block->escapeHtml($categoryName); ?>" />
+        <meta property="og:image" content="<?php echo $block->escapeUrl($categoryImage); ?>" />
+        <meta property="og:description" content="<?php echo $block->escapeHtml($description); ?>" />
+        <meta property="og:url" content="<?php echo $block->escapeUrl($categoryUrl); ?>" />
+        <?php
+    endif; ?>
+
+    <?php
+    if ($getEnableTwitter == '1') : ?>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="<?php echo $block->escapeUrl($twitterUser); ?>" />
+        <meta name="twitter:title" content="<?php echo $block->escapeHtml($categoryName); ?>" />
+        <?php
+        if ($description != null) : ?>
+            <meta name="twitter:description" content="<?php echo $block->escapeHtml($description); ?>" />
+            <?php
+        endif; ?>
+        <meta name="twitter:image" content="<?php echo $block->escapeUrl($categoryImage); ?>" />
+
+        <?php
+    endif; ?>
+    <?php
+endif;
+?>
