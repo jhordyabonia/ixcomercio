@@ -1,16 +1,26 @@
 header{
   .block-search{
-		top: 10%;
+		top: 70%;
 		width: 100%;
 		display: block;
 		position: absolute;
-		padding: 0;
+		padding: 20px 0;
 		transition: visibility 0s, opacity 0.3s linear;
-		background: transparent;
-		visibility: visible;
-		opacity: 1;
+		background: #f9f9f9;
+		visibility: hidden;
+		opacity: 0;
     @media only screen and (max-width: $mobile){
       margin-top: 0;
+    }
+    @media only screen and (min-width: $desktopS){
+      visibility: visible;
+      opacity: 1;
+      background: transparent;
+      position: relative;
+      margin: 0 auto;
+    margin-top: -70px;
+    width: 600px;
+    float: none;
     }
 		&.open{
 			top: 100%;
@@ -20,13 +30,13 @@ header{
     .control {
       border-top: 0;
       margin: 0;
-      padding: 0;
+      padding: 0 0 25px;
     }
   }
   .block-content{
-  	max-width: 650px;
+  	max-width: 1140px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 15px;
     form{
     	position: relative;
       label {
@@ -36,17 +46,19 @@ header{
       }
     	.control{
     		input[type="text"]{
-    			height: 40px;
+    			height: 60px;
     			font-size: 16px;
-			    padding: 5px 35px 5px 5px;
+			    padding: 15px 35px 15px 15px;
           margin: 0;
           position: static;
-          border-radius: 5px;
     		}
         .nested{
-          display: none;
+          display: block;
           padding-top: 5px;
           position: absolute;
+          @media only screen and (min-width: $desktopS){
+              display: none;
+          }
           a{
             color: $mainColor;
             font-size: 13px;
@@ -57,21 +69,26 @@ header{
         }
     	}
     	.action.search{
-    		top: 0;
-        background: #E4002B;
-        padding: 5px 10px;
-        right: 0;
-        border-radius: 0 5px 5px 0;
-        &:hover{
-          background: #AD1F2C;
-          &:before{
-            color:#ffffff;
+    		top: 12px;
+        @media only screen and (min-width: $desktopS){
+          background: #E4002B;
+          padding: 5px 10px;
+          right: 0;
+          border-radius: 0 5px 5px 0;
+          &:hover{
+            background: #AD1F2C;
+            &:before{
+              color:#ffffff;
+            }
           }
         }
+        
     		&:before{
     			font-size: 30px;
     			line-height: 30px;
-          color: #fff;
+          @media only screen and (min-width: $desktopS){
+            color: #fff;
+          }
     		}
     	}
     }
