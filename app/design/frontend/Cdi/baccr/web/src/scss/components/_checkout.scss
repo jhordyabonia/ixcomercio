@@ -346,15 +346,17 @@
     border-radius: 0.7rem;
     border: 1px solid $mainColor !important;
     background-color: #fff;
-    margin: 0 auto!important;
+    margin: 12px auto!important;
     font-size: 12px;
     line-height: 14px;
     text-align: justify;
-    padding: 10px 0 10px 0;
+    padding:8px 0 8px 0;
+    font-weight:bold;
   }
   .custom_alert .icon {
-      width: 40px;
-      margin-right: .8rem;
+    width: 40px;
+    margin-right: .8rem;
+    margin-left:.8rem;
   }
   .tradein_alert{
     font-weight: 400;
