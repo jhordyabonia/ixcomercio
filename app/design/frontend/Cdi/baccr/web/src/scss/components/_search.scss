@@ -18,7 +18,7 @@ header{
       background: transparent;
       position: relative;
       margin: 0 auto;
-    margin-top: -70px;
+    margin-top: -90px;
     width: 600px;
     float: none;
     }
@@ -30,7 +30,11 @@ header{
     .control {
       border-top: 0;
       margin: 0;
-      padding: 0 0 25px;
+      padding: 0;
+      input{
+        height: 40px;
+        padding: 5px 15px 5px 5px;
+      }
     }
   }
   .block-content{
@@ -75,6 +79,7 @@ header{
           padding: 5px 10px;
           right: 0;
           border-radius: 0 5px 5px 0;
+          top:0;
           &:hover{
             background: #AD1F2C;
             &:before{
