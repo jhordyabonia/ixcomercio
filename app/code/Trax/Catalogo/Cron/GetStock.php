@@ -1,10 +1,9 @@
 <?php
+
 namespace Trax\Catalogo\Cron;
-use \Psr\Log\LoggerInterface;
-use Magento\Framework\App\ResourceConnection;
 
-class GetStock {
-
+class GetStock
+{
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
@@ -48,23 +47,29 @@ class GetStock {
     const PRODUCT_PRICE = 'trax_catalogo/catalogo_iws/product_price';
 
     const PRODUCT_STOCK = 'trax_catalogo/catalogo_iws/product_stock';
-    
+
     private $helper;
 
-	
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
     protected $scopeConfig;
-    
-    protected $logger;
 
     protected  $productRepository;   
-    
+
     protected $resourceConnection;
 
-    public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository,\Magento\Eav\Model\Config $eavConfig, ResourceConnection $resourceConnection,\Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemInterface) {
+    public function __construct(
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,
+        \Trax\Catalogo\Helper\Email $email,
+        \Magento\Store\Api\StoreRepositoryInterface $storesRepository,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Framework\App\ResourceConnection $resourceConnection,
+        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemInterface,
+        \Intcomex\Auditoria\Helper\ReferencePriceValidation $priceValidation
+    ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -81,14 +86,16 @@ class GetStock {
         $this->_eavConfig = $eavConfig;
         $this->resourceConnection = $resourceConnection;
         $this->_sourceItemInterface = $sourceItemInterface;
+        $this->priceValidation = $priceValidation;
     }
 
-/**
-   * Write to system.log
-   *
-   * @return void
-   */
-
+    /**
+     * Write to system.log
+     *
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function execute() 
     {
         $table = 'inventory_reservation';
@@ -120,7 +127,6 @@ class GetStock {
         }
         //Se reindexa                            
         $this->reindexCatalogData();
-
     }
 
     //Obtiene los parámetros de configuración desde el cms
@@ -263,6 +269,7 @@ class GetStock {
     //Carga la información de precios e inventario del catalogo
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData) 
     {
+        $referencePriceErrors = '';
         $arrSourceItemInterfaces = array();
         $arrayProducts = array();
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();  
@@ -301,14 +308,20 @@ class GetStock {
                             'InStock' => $catalog->InStock,
                             'Status' => $productStatus
                         );
+
+                        $referencePriceResult = $this->_referencePriceValidation($catalog->Sku, $productStatus, $websiteCode, $storeId);
+                        $referencePriceErrors .= $referencePriceResult;
                     } catch(Exception $e){
                         $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
                     }
-                } 
+                }
             }
-            
         }
-        
+
+        // Intcomex_Auditoria ReferencePrice Email
+        if ($referencePriceErrors !== '') {
+            $this->priceValidation->sendReferencePriceErrorEmail($referencePriceErrors, $websiteCode, $storeId);
+        }
         if(!empty($arrayProducts)){
             $this->_setStoreViewStock($arrSourceItemInterfaces,$arrayProducts);
         }
@@ -365,5 +378,32 @@ class GetStock {
             $this->logger2->info(print_r($diffSku,true));
         }
         
+    }
+
+    /**
+     * Execute Reference Price Validation.
+     *
+     * @param $sku
+     * @param $status
+     * @param $websiteCode
+     * @param $storeId
+     * @param $errors
+     * @return string
+     */
+    private function _referencePriceValidation($sku, $status, $websiteCode, $storeId): string
+    {
+        $stringError = '';
+        if ($status) {
+            try {
+                $product = $this->productRepository->get($sku, false, $storeId);
+                $result = $this->priceValidation->execute($product, $product->getPrice(), $product->getSpecialPrice(), $websiteCode, $storeId);
+                if ($result !== true) {
+                    $stringError = $result['errors'];
+                }
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $this->logger->info('GetStock - ReferencePriceValidation Error: ' . $e->getMessage());
+            }
+        }
+        return $stringError;
     }
 }
