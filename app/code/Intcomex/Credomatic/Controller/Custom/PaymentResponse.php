@@ -79,10 +79,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
                 }
                 
-            }
-            
-            if($this->cancelOrderNoParams()){
-                return $resultRedirect;
+            }else{
+                if($this->cancelOrderNoParams()){
+                    return $resultRedirect;
+                }
             }
             return $resultRedirect;
 
