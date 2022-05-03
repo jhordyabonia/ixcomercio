@@ -59,26 +59,33 @@ define(
                 var ccexp = monthFormatted + year.substring(2);
                 $.post(serviceUrl,{cuotas:cuotas})
                 .done(function(msg){
-                    jQuery('body').trigger('processStart');
-                    console.log("ccexp: " + ccexp);
-                    jQuery('#credomaticvisaPaymentForm').attr('action', msg.url_gateway);
-                    jQuery("#credomaticvisaPaymentForm input[name=key_id]").val(msg.key_id);
-                    jQuery("#credomaticvisaPaymentForm input[name=amount]").val(msg.amount);
-                    jQuery("#credomaticvisaPaymentForm input[name=time]").val(msg.time);
-                    jQuery("#credomaticvisaPaymentForm input[name=hash]").val(msg.hash);
-                    jQuery("#credomaticvisaPaymentForm input[name=orderid]").val(msg.orderid);
-                    jQuery("#credomaticvisaPaymentForm input[name=processor_id]").val(msg.processor_id);
-                    jQuery("#credomaticvisaPaymentForm input[name=firstname]").val(msg.firstname);
-                    jQuery("#credomaticvisaPaymentForm input[name=lastname]").val(msg.lastname);
-                    jQuery("#credomaticvisaPaymentForm input[name=email]").val(msg.email);
-                    jQuery("#credomaticvisaPaymentForm input[name=phone]").val(msg.phone);
-                    jQuery("#credomaticvisaPaymentForm input[name=street1]").val(msg.street1);
-                    jQuery("#credomaticvisaPaymentForm input[name=street2]").val(msg.street2);
-                    jQuery("#credomaticvisaPaymentForm input[name=cvv]").val(cvv_);
-                    jQuery("#credomaticvisaPaymentForm input[name=ccnumber]").val(number);
-                    jQuery("#credomaticvisaPaymentForm input[name=ccexp]").val(ccexp);
-                    jQuery("#credomaticvisaPaymentForm input[name=redirect]").val(msg.redirect);
-                    jQuery('#credomaticvisaPaymentForm').submit();
+                    if ( !msg.error && msg.length != 0 ) {
+                        jQuery('body').trigger('processStart');
+                        jQuery('#credomaticvisaPaymentForm').attr('action', msg.url_gateway);
+                        jQuery("#credomaticvisaPaymentForm input[name=key_id]").val(msg.key_id);
+                        jQuery("#credomaticvisaPaymentForm input[name=amount]").val(msg.amount);
+                        jQuery("#credomaticvisaPaymentForm input[name=time]").val(msg.time);
+                        jQuery("#credomaticvisaPaymentForm input[name=hash]").val(msg.hash);
+                        jQuery("#credomaticvisaPaymentForm input[name=orderid]").val(msg.orderid);
+                        jQuery("#credomaticvisaPaymentForm input[name=processor_id]").val(msg.processor_id);
+                        jQuery("#credomaticvisaPaymentForm input[name=firstname]").val(msg.firstname);
+                        jQuery("#credomaticvisaPaymentForm input[name=lastname]").val(msg.lastname);
+                        jQuery("#credomaticvisaPaymentForm input[name=email]").val(msg.email);
+                        jQuery("#credomaticvisaPaymentForm input[name=phone]").val(msg.phone);
+                        jQuery("#credomaticvisaPaymentForm input[name=street1]").val(msg.street1);
+                        jQuery("#credomaticvisaPaymentForm input[name=street2]").val(msg.street2);
+                        jQuery("#credomaticvisaPaymentForm input[name=cvv]").val(cvv_);
+                        jQuery("#credomaticvisaPaymentForm input[name=ccnumber]").val(number);
+                        jQuery("#credomaticvisaPaymentForm input[name=ccexp]").val(ccexp);
+                        jQuery("#credomaticvisaPaymentForm input[name=redirect]").val(msg.redirect);
+                        if(jQuery("#credomaticPaymentForm input[name=redirect]").val() == ''){
+                            setTimeout(function(){
+                                jQuery('#credomaticPaymentForm').submit();
+                            }, 500)
+                        }
+                        jQuery('#credomaticPaymentForm').submit();
+                    }
+                    window.location.href = urlPaymentResponse;
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;

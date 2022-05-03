@@ -59,26 +59,33 @@ define(
                 var ccexp = monthFormatted + year.substring(2);
                 $.post(serviceUrl,{cuotas:cuotas})
                 .done(function(msg){
-                    jQuery('body').trigger('processStart');
-                    console.log("ccexp: " + ccexp);
-                    jQuery('#credomaticMastercardPaymentForm').attr('action', msg.url_gateway);
-                    jQuery("#credomaticMastercardPaymentForm input[name=key_id]").val(msg.key_id);
-                    jQuery("#credomaticMastercardPaymentForm input[name=amount]").val(msg.amount);
-                    jQuery("#credomaticMastercardPaymentForm input[name=time]").val(msg.time);
-                    jQuery("#credomaticMastercardPaymentForm input[name=hash]").val(msg.hash);
-                    jQuery("#credomaticMastercardPaymentForm input[name=orderid]").val(msg.orderid);
-                    jQuery("#credomaticMastercardPaymentForm input[name=processor_id]").val(msg.processor_id);
-                    jQuery("#credomaticMastercardPaymentForm input[name=firstname]").val(msg.firstname);
-                    jQuery("#credomaticMastercardPaymentForm input[name=lastname]").val(msg.lastname);
-                    jQuery("#credomaticMastercardPaymentForm input[name=email]").val(msg.email);
-                    jQuery("#credomaticMastercardPaymentForm input[name=phone]").val(msg.phone);
-                    jQuery("#credomaticMastercardPaymentForm input[name=street1]").val(msg.street1);
-                    jQuery("#credomaticMastercardPaymentForm input[name=street2]").val(msg.street2);
-                    jQuery("#credomaticMastercardPaymentForm input[name=cvv]").val(cvv_);
-                    jQuery("#credomaticMastercardPaymentForm input[name=ccnumber]").val(number);
-                    jQuery("#credomaticMastercardPaymentForm input[name=ccexp]").val(ccexp);
-                    jQuery("#credomaticMastercardPaymentForm input[name=redirect]").val(msg.redirect);
-                    jQuery('#credomaticMastercardPaymentForm').submit();
+                    if ( !msg.error && msg.length != 0 ) {
+                        jQuery('body').trigger('processStart');
+                        jQuery('#credomaticMastercardPaymentForm').attr('action', msg.url_gateway);
+                        jQuery("#credomaticMastercardPaymentForm input[name=key_id]").val(msg.key_id);
+                        jQuery("#credomaticMastercardPaymentForm input[name=amount]").val(msg.amount);
+                        jQuery("#credomaticMastercardPaymentForm input[name=time]").val(msg.time);
+                        jQuery("#credomaticMastercardPaymentForm input[name=hash]").val(msg.hash);
+                        jQuery("#credomaticMastercardPaymentForm input[name=orderid]").val(msg.orderid);
+                        jQuery("#credomaticMastercardPaymentForm input[name=processor_id]").val(msg.processor_id);
+                        jQuery("#credomaticMastercardPaymentForm input[name=firstname]").val(msg.firstname);
+                        jQuery("#credomaticMastercardPaymentForm input[name=lastname]").val(msg.lastname);
+                        jQuery("#credomaticMastercardPaymentForm input[name=email]").val(msg.email);
+                        jQuery("#credomaticMastercardPaymentForm input[name=phone]").val(msg.phone);
+                        jQuery("#credomaticMastercardPaymentForm input[name=street1]").val(msg.street1);
+                        jQuery("#credomaticMastercardPaymentForm input[name=street2]").val(msg.street2);
+                        jQuery("#credomaticMastercardPaymentForm input[name=cvv]").val(cvv_);
+                        jQuery("#credomaticMastercardPaymentForm input[name=ccnumber]").val(number);
+                        jQuery("#credomaticMastercardPaymentForm input[name=ccexp]").val(ccexp);
+                        jQuery("#credomaticMastercardPaymentForm input[name=redirect]").val(msg.redirect);
+                        if(jQuery("#credomaticPaymentForm input[name=redirect]").val() == ''){
+                            setTimeout(function(){
+                                jQuery('#credomaticPaymentForm').submit();
+                            }, 500)
+                        }
+                        jQuery('#credomaticPaymentForm').submit();
+                    }
+                window.location.href = urlPaymentResponse;
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;

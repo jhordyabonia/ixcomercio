@@ -80,6 +80,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
                 }
                 
             }
+            
+            if($this->cancelOrderNoParams()){
+                return $resultRedirect;
+            }
             return $resultRedirect;
 
         } catch (\Exception $e) {
@@ -109,7 +113,28 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->_checkoutSession->restoreQuote();
            return false;
         } catch (\Exception $e) {
+            $this->logger->info("cancelOrder_exception: " . $e->getMessage());
            return false;
+        }
+    }
+
+    public function cancelOrderNoParams(){
+        try {
+            $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
+            $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden por falta de parametros');
+            $this->_messageManager->addError($this->customError);
+
+            $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED);
+            $order->setIsPaidCredo('No');
+            $order->save();    
+            $this->_checkoutSession->restoreQuote();
+            $this->logger->info("cancelOrderNoParams: Se procede a cancelar la orden por falta de parametros");
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->info("cancelOrderNoParams_exception: " . $e->getMessage());
+            return false;
+
         }
     }
 
@@ -133,6 +158,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }
             
         } catch (\Exception $e) {
+            $this->logger->info("checkAndProcess_exception: " . $e->getMessage());
             return false;
         }
     }

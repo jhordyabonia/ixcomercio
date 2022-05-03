@@ -53,11 +53,9 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
             $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
             $order->save();
-            $this->logger->info('-----');
             $this->logger->info('status');
             $this->logger->info( $order->getIncrementId());
             $this->logger->info($order->getState());
-            $this->logger->info('-----');
 
             $billingAddress = $order->getBillingAddress();
             $key = $this->_scopeConfig->getValue('payment/credomaticvisa/key',ScopeInterface::SCOPE_STORE);
@@ -89,14 +87,11 @@ class GetOrder extends \Magento\Framework\App\Action\Action
 
             $this->logger->info('Data send to credomatic');
             $this->logger->info(print_r($arrayData,true));
-            $this->logger->info('- - - - ');
-            
-            
-            $arrayData['orderid'] = $order->getIncrementId();
 
         } catch (\Exception $e) {
              
             $arrayData = ['error' => 'true', 'message' => $e->getMessage()];
+            $this->logger->info("getOrder_exception: " . print_r($arrayData,true));
         }
 
         $resultJson->setData($arrayData);
