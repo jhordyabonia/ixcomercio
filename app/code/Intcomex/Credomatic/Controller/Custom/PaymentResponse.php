@@ -14,6 +14,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Serialize\Serializer\Json $json,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Controller\ResultFactory $resultPageFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -25,6 +26,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Framework\HTTP\Client\Curl $curl
     ) {
         parent::__construct($context);
+        $this->json = $json;
         $this->_scopeConfig = $scopeConfig;
         $this->resultRedirect = $context->getResultFactory();
         $this->_checkoutSession = $checkoutSession;
@@ -54,12 +56,29 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         try {
+            $get = $this->getRequest()->getParams();
 
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath('checkout/cart');
-            // Se envia intento 0 a process data
-            if($this->processData(0)){
-                $resultRedirect->setPath('checkout/onepage/success');
+
+            if(!empty($get)){
+                $model =  $this->_credomaticFactory->create();  
+                if(isset($get['token'])&&!empty($get['token'])){
+
+                    $data = $model->load($get['token'],'token');
+                
+                    if(!empty($data->getData())){ 
+                        $model->setResponse($this->json->serialize($get));
+                        $model->setUpdatedAt();
+                        $model->save();
+
+                        if($this->checkAndProcess($this->json->serialize($get))){
+                            $resultRedirect->setPath('checkout/onepage/success');
+                        }
+                    }
+
+                }
+                
             }
             return $resultRedirect;
 
@@ -71,17 +90,18 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function cancelOrder($body,$order){
         try {
-
+            $response = json_decode($body,true);
+            $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden');
             $this->_messageManager->addError($this->customError);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED);
             $payment = $order->getPayment();
-            if(isset($body['authcode'])){
-                $payment->setLastTransId($body['authcode']);
+            if(isset($response['authcode'])){
+                $payment->setLastTransId($response['authcode']);
             }
-            if(!empty($body)){
-                $payment->setAdditionalInformation('payment_resp',json_encode($body));
+            if(!empty($response)){
+                $payment->setAdditionalInformation('payment_resp',json_encode($response));
             }
             $order->setIsPaidCredo('No');
             $order->save();    
@@ -93,20 +113,23 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         }
     }
 
-    public function checkAndProcess($body,$order){
+    public function checkAndProcess($body){
+
+        $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
 
         try {
-
-            $response = json_decode($body['response'],true);
+            $this->logger->info("checkAndProcess_response: " . $body);
             
-            if($this->modo=='pruebas'){
-                   return $this->processOrder($body,$response['authcode'],$order);
-            }else{
-                if($response['response_code']!=100){
-                    return $this->cancelOrder($body,$order);
-                }else{ 
-                    return $this->processOrder($body,$response['authcode'],$order);
-                }
+            if(!$body){
+                return false;
+            }
+            
+            $response = json_decode($body,true);
+            
+            if(!strcmp($response['response_code'], '100')){
+                return $this->processOrder($body);
+            }else{ 
+                return $this->cancelOrder($body,$order);
             }
             
         } catch (\Exception $e) {
@@ -114,82 +137,27 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         }
     }
 
-    public function processOrder($body,$transactionId,$order){
+    public function processOrder($body){
 
         try {
-            $response = json_decode($body['response'],true);
+            $response = json_decode($body,true);
+            $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
             $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
             $payment = $order->getPayment();
-            $payment->setLastTransId($transactionId);
+            $payment->setLastTransId($response['transactionid']);
             $payment->setAdditionalInformation('payment_resp',json_encode($response));
             $order->setIsPaidCredo('Yes');
-            $order->save();
-            $this->_checkoutSession->setLastQuoteId($order->getId());
-            $this->_checkoutSession->setLastSuccessQuoteId($order->getId());
-            $this->_checkoutSession->setLastOrderId($order->getId()); // Not incrementId!!
-            $this->_checkoutSession->setLastRealOrderId($body['order_id']);
+            $order->addStatusToHistory($order->getStatus(), 'Order update: last trans id and additional information');
+            $order->save();                        
             $this->orderSender->send($order, true);
+            $order->addStatusToHistory($order->getStatus(), 'Order Send Email');
+            $this->logger->info("processOrder: " . $body);
             return true;
         } catch (\Exception $e) {
+            $this->logger->info("processOrder_Exception : " . $e->getMessage());
             return false;
         }
     }
-
-    public function processData($attempts){
-
-        $orderId = $this->_checkoutSession->getLastOrderId();
-        $order = $this->_orderInterfaceFactory->create()->load($orderId);
-        $respAndVerify = $this->respAndVerify($order->getIncrementId());
-        
-          if($attempts>$this->reintentos){
-                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a cancelar');
-                // Cancel order Siempre retorna false para devolver al usuario al carrito
-                return $this->cancelOrder($respAndVerify,$order);
-           }else{
-               if(!$respAndVerify){
-                $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());
-                    $attempts++;
-                    sleep($this->timeout);
-                   return $this->processData($attempts);
-               }else{
-                   return $this->checkAndProcess($respAndVerify,$order);
-               }
-           }
-  
-    }
-
-
-    public function respAndVerify($orderId){
-        $model =  $this->_credomaticFactory->create();  
-        $data = $model->getCollection()->addFieldToFilter('order_id', array('eq' => $orderId));
-        if(empty($data->getData())){
-            return false;
-        }
-
-        $dataArray = $data->getData();
-        $this->logger->info(print_r($dataArray,true));
-
-        //validate transaction
-        $params = array(
-            'username' => $this->username,
-            'password' => $this->password,
-            'order_id' => $orderId
-        );
-
-
-        $this->_curl->post($this->urlQueryApi, $params); 
-
-        $dataResp =  $this->_curl->getBody();
-        $this->logger->info('Respuesta servicio Credomatic');
-
-        $xml=simplexml_load_string($dataResp);
-        
-        if(empty($xml)||!isset($xml->transaction)){
-            return false;
-        }
-        return $dataArray[0];
-    }
-
 }

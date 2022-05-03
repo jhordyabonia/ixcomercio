@@ -14,6 +14,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Serialize\Serializer\Json $json,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Controller\ResultFactory $resultPageFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -25,6 +26,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         \Magento\Framework\HTTP\Client\Curl $curl
     ) {
         parent::__construct($context);
+        $this->json = $json;
         $this->_scopeConfig = $scopeConfig;
         $this->resultRedirect = $context->getResultFactory();
         $this->_checkoutSession = $checkoutSession;
@@ -33,16 +35,16 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->orderManagement = $orderManagement;
         $this->_credomaticFactory = $credomaticFactory;
         $this->_orderInterfaceFactory = $orderInterfaceFactory;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomatic_trans_resp.log');
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/credomaticvisa_trans_resp.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
-        $this->customError = (string) $this->_scopeConfig->getValue('payment/credomatic/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
-        $this->modo =  $this->_scopeConfig->getValue('payment/credomatic/modo',ScopeInterface::SCOPE_STORE);
-        $this->reintentos =  $this->_scopeConfig->getValue('payment/credomatic/reintentos',ScopeInterface::SCOPE_STORE);
-        $this->timeout =  $this->_scopeConfig->getValue('payment/credomatic/timeout',ScopeInterface::SCOPE_STORE);
-        $this->username =  $this->_scopeConfig->getValue('payment/credomatic/usuario',ScopeInterface::SCOPE_STORE);
-        $this->password =  $this->_scopeConfig->getValue('payment/credomatic/password',ScopeInterface::SCOPE_STORE);
-        $this->urlQueryApi =  $this->_scopeConfig->getValue('payment/credomatic/url_api',ScopeInterface::SCOPE_STORE);
+        $this->customError = (string) $this->_scopeConfig->getValue('payment/credomaticvisa/CustomErrorMsg',ScopeInterface::SCOPE_STORE);
+        $this->modo =  $this->_scopeConfig->getValue('payment/credomaticvisa/modo',ScopeInterface::SCOPE_STORE);
+        $this->reintentos =  $this->_scopeConfig->getValue('payment/credomaticvisa/reintentos',ScopeInterface::SCOPE_STORE);
+        $this->timeout =  $this->_scopeConfig->getValue('payment/credomaticvisa/timeout',ScopeInterface::SCOPE_STORE);
+        $this->username =  $this->_scopeConfig->getValue('payment/credomaticvisa/usuario',ScopeInterface::SCOPE_STORE);
+        $this->password =  $this->_scopeConfig->getValue('payment/credomaticvisa/password',ScopeInterface::SCOPE_STORE);
+        $this->urlQueryApi =  $this->_scopeConfig->getValue('payment/credomaticvisa/url_api',ScopeInterface::SCOPE_STORE);
         $this->_curl = $curl;
     }
 
@@ -54,7 +56,20 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
      */
     public function execute(){ 
         try {
+            $get = $this->getRequest()->getParams();
+            if(!empty($get)){
+                $model =  $this->_credomaticFactory->create();  
+                $data = $model->load($get['token'],'token');
+                
+                if(!empty($data->getData())){ 
+                    $model->setResponse($this->json->serialize($get));
+                    $model->setUpdatedAt();
+                    $model->save();
+                }
 
+            }
+            $orderId = $this->_checkoutSession->getLastOrderId();
+            $this->logger->info('Se inicia en modo '.$this->modo.' para la orden'.$orderId);
             $resultRedirect = $this->resultRedirectFactory->create();
             $resultRedirect->setPath('checkout/cart');
             // Se envia intento 0 a process data
@@ -71,7 +86,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
     public function cancelOrder($body,$order){
         try {
-
+            $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden');
             $this->_messageManager->addError($this->customError);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
@@ -144,9 +159,11 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $respAndVerify = $this->respAndVerify($order->getIncrementId());
         
           if($attempts>$this->reintentos){
-                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a cancelar');
+                $this->logger->info('Se cumplen la cantidad de reintentos para la orden '.$order->getIncrementId().' Se procede a dejar en pending');
                 // Cancel order Siempre retorna false para devolver al usuario al carrito
-                return $this->cancelOrder($respAndVerify,$order);
+                //return $this->cancelOrder($respAndVerify,$order);
+                $this->_messageManager->addError('Estamos confirmando tu orden, en cuanto el pago sea verificado enviaremos un correo de confirmación');
+                return false;
            }else{
                if(!$respAndVerify){
                 $this->logger->info('Reintento No. '.$attempts .' para verificar la transaccion para la orden: '.$order->getIncrementId());
@@ -185,10 +202,14 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
         $this->logger->info('Respuesta servicio Credomatic');
 
         $xml=simplexml_load_string($dataResp);
-        
+        if(isset($xml->transaction->action)){
+            $this->logger->info(print_r($xml->transaction->action,true));
+        }
         if(empty($xml)||!isset($xml->transaction)){
+            $this->logger->info('No se encuentra el nodo xml->transaction en la respues o no existe en credomatic');
             return false;
         }
+
         return $dataArray[0];
     }
 

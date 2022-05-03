@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Credomatic DI definitions
+* CredomaticMasterCard DI definitions
 *
-* @category    Credomatic
-* @package     Credomatic
+* @category    CredomaticMasterCard
+* @package     CredomaticMasterCard
 * @author      Intcomex
 * @copyright   Intcomex (https://www.intcomex.com/)
 */
