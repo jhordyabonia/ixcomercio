@@ -172,14 +172,22 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
             $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
-            $payment = $order->getPayment();
-            $payment->setLastTransId($response['transactionid']);
-            $payment->setAdditionalInformation('payment_resp',json_encode($response));
+            if($order->getPayment()){
+                if(isset($response['transactionid'])){
+                    $order->getPayment()->setLastTransId($response['transactionid']);
+                }
+                if(!empty($response)){
+                    $order->getPayment()->setAdditionalInformation('payment_resp',json_encode($response));
+                }
+            }else{
+                $this->logger->info("processOrder_paymentInfo: no payment information.");
+            }
             $order->setIsPaidCredo('Yes');
             $order->addStatusToHistory($order->getStatus(), 'Order update: last trans id and additional information');
             $order->save();                        
             $this->orderSender->send($order, true);
             $order->addStatusToHistory($order->getStatus(), 'Order Send Email');
+            $order->save();
             $this->logger->info("processOrder: " . $body);
             return true;
         } catch (\Exception $e) {
