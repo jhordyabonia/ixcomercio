@@ -80,8 +80,9 @@ define(
                             setTimeout(function(){
                                 jQuery('#credomaticPaymentForm').submit();
                             }, 500);
+                        }else{
+                            window.location.href = urlPaymentResponse;
                         }
-                    window.location.href = urlPaymentResponse;
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;
