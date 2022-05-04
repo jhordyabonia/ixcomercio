@@ -48,10 +48,11 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getPostValue();
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $this->_modelOrder->load($orderId);
+            $processor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
-            $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
+            $order->addStatusToHistory($order->getStatus(), 'Change state order to pending payment with processor_id ' . $processor_id);
             $order->save();
             $this->logger->info('status');
             $this->logger->info( $order->getIncrementId());
@@ -67,7 +68,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $token = md5($order->getIncrementId().'|'.$arrayData['amount'].'|'.$arrayData['time'].'|'.$key);
             $arrayData['hash'] = $token;
             $arrayData['orderid'] = $order->getIncrementId();
-            $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomaticmastercard/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
+            $arrayData['processor_id'] = $processor_id;
             $arrayData['firstname'] = $billingAddress->getFirstname();
             $arrayData['lastname'] = $billingAddress->getLastname();
             $arrayData['email'] = $billingAddress->getEmail();
