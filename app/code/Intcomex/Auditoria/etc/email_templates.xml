@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="email_auditoria_template" label="Alerta de auditoria de precios" file="alerta_auditoria.html" type="html" module="Intcomex_Auditoria" area="frontend"/>
+    <template id="currency_error_template" label="Currency Error" file="currency_error.html" type="html" module="Intcomex_Auditoria" area="frontend"/>
+</config>

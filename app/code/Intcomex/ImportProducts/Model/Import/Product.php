@@ -3,9 +3,11 @@
 namespace Intcomex\ImportProducts\Model\Import;
 
 use Exception;
+use Intcomex\Auditoria\Helper\ReferencePriceValidation;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
+use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\CatalogImportExport\Model\Import\Product as MagentoProduct;
 use Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor;
@@ -21,6 +23,7 @@ use Magento\Framework\Model\ResourceModel\Db\ObjectRelationProcessor;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\ImportExport\Model\Import;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingError;
+use Magento\Store\Api\StoreRepositoryInterface;
 use Magento\Store\Model\Store;
 use Zend_Validate_Exception;
 
@@ -70,6 +73,18 @@ class Product extends MagentoProduct
         'custom_design_to'
     ];
 
+    protected $storeRepository;
+
+    /**
+     * @var ReferencePriceValidation
+     */
+    protected $priceValidation;
+
+    /**
+     * @var array
+     */
+    protected $referencePriceErrors = [];
+
     /**
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
      * @param \Magento\ImportExport\Helper\Data $importExportData
@@ -111,6 +126,8 @@ class Product extends MagentoProduct
      * @param CatalogConfig|null $catalogConfig
      * @param MediaGalleryProcessor|null $mediaProcessor
      * @param ProductRepositoryInterface|null $productRepository
+     * @param StoreRepositoryInterface $storeRepository
+     * @param ReferencePriceValidation $priceValidation
      * @param array $data
      * @throws LocalizedException
      * @throws \Magento\Framework\Exception\FileSystemException
@@ -156,12 +173,16 @@ class Product extends MagentoProduct
         CatalogConfig $catalogConfig = null,
         MediaGalleryProcessor $mediaProcessor = null,
         ProductRepositoryInterface $productRepository = null,
+        StoreRepositoryInterface $storeRepository,
+        ReferencePriceValidation $priceValidation,
         array $data = []
     ) {
         $this->catalogConfig = $catalogConfig ?: ObjectManager::getInstance()->get(CatalogConfig::class);
         $this->mediaProcessor = $mediaProcessor ?: ObjectManager::getInstance()->get(MediaGalleryProcessor::class);
         $this->productRepository = $productRepository ?? ObjectManager::getInstance()->get(ProductRepositoryInterface::class);
         $this->filesystem = $filesystem;
+        $this->storeRepository= $storeRepository;
+        $this->priceValidation = $priceValidation;
         parent::__construct(
             $jsonHelper,
             $importExportData,
@@ -204,6 +225,37 @@ class Product extends MagentoProduct
     }
 
     /**
+     * Execute Reference Price Validation.
+     *
+     * @throws NoSuchEntityException
+     * @throws LocalizedException
+     */
+    private function _referencePriceValidation($rowNum, $rowData)
+    {
+        if (isset($rowData['status']) && $rowData['status'] === Status::STATUS_DISABLED) {
+            return;
+        }
+
+        $product = $this->productRepository->get($rowData['sku'], false);
+        $store = $this->storeRepository->get($rowData['store_view_code']);
+        $storeId = $store->getId();
+        $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
+
+        if ($result !== true) {
+            $this->referencePriceErrors[$result['website']][] = $result;
+            $this->addRowError(
+                    __('Reference Price Validation Error In Rows: '),
+                    $rowNum,
+                null,
+                null,
+                ProcessingError::ERROR_LEVEL_NOT_CRITICAL
+                )
+                ->getErrorAggregator()
+                ->addRowToSkip($rowNum);
+        }
+    }
+
+    /**
      * Gather and save information about product entities.
      *
      * @return $this
@@ -237,6 +289,10 @@ class Product extends MagentoProduct
             $existingImages = $this->getExistingImages($bunch);
 
             foreach ($bunch as $rowNum => $rowData) {
+
+                // Intcomex_Auditoria ReferencePrice Validation
+                $this->_referencePriceValidation($rowNum, $rowData);
+
                 // reset category processor's failed categories array
                 $this->categoryProcessor->clearFailedCategories();
 
@@ -552,6 +608,19 @@ class Product extends MagentoProduct
             foreach ($bunch as $rowNum => $rowData) {
                 if ($this->getErrorAggregator()->isRowInvalid($rowNum)) {
                     unset($bunch[$rowNum]);
+                }
+            }
+
+            // Intcomex_Auditoria ReferencePrice Email
+            if ($this->referencePriceErrors) {
+                foreach ($this->referencePriceErrors as $website => $errors) {
+                    $stringErrors = '';
+                    $storeId = null;
+                    foreach ($errors as $error) {
+                        $storeId = $error['store'];
+                        $stringErrors .= $error['errors'];
+                    }
+                    $this->priceValidation->sendReferencePriceErrorEmail($stringErrors, $website, $storeId);
                 }
             }
 
