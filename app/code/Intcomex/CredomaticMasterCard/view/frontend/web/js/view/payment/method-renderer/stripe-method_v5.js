@@ -78,12 +78,9 @@ define(
                         jQuery("#credomaticMastercardPaymentForm input[name=ccnumber]").val(number);
                         jQuery("#credomaticMastercardPaymentForm input[name=ccexp]").val(ccexp);
                         jQuery("#credomaticMastercardPaymentForm input[name=redirect]").val(msg.redirect);
-                        if(jQuery("#credomaticPaymentForm input[name=redirect]").val() == ''){
-                            setTimeout(function(){
-                                jQuery('#credomaticPaymentForm').submit();
-                            }, 500)
-                        }
-                        jQuery('#credomaticPaymentForm').submit();
+                        setTimeout(function(){
+                            jQuery('#credomaticPaymentForm').submit();
+                        }, 500)
                     }
                 window.location.href = urlPaymentResponse;
                 })
