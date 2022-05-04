@@ -80,7 +80,7 @@ define(
                         jQuery("#credomaticMastercardPaymentForm input[name=redirect]").val(msg.redirect);
                         setTimeout(function(){
                             jQuery('#credomaticPaymentForm').submit();
-                        }, 500)
+                        }, 500);
                     }
                 window.location.href = urlPaymentResponse;
                 })
