@@ -1,0 +1,19 @@
+<!--@subject {{trans "%subject" subject=$subject}} @-->
+<div>
+    <h1 style="text-align: center;" >Website {{var website}}</h1>
+    <h2 style="text-align: center;" >{{var extra_error|raw}}{{var message|raw}}</h2>
+    <table align="center" >
+        <thead>
+            <tr>
+                <th style="border:1px solid" >Sku</th>
+                <th style="border:1px solid" >Precio de Referencia</th>
+                <th style="border:1px solid" >Precio Normal</th>
+                <th style="border:1px solid" >Precio Especial</th>
+                <th style="border:1px solid" >Usuario</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{var data|html}}
+        </tbody>
+    </table>
+</div>
