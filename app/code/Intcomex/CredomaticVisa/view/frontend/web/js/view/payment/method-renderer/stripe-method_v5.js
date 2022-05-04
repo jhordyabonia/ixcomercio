@@ -78,11 +78,16 @@ define(
                         jQuery("#credomaticvisaPaymentForm input[name=ccnumber]").val(number);
                         jQuery("#credomaticvisaPaymentForm input[name=ccexp]").val(ccexp);
                         jQuery("#credomaticvisaPaymentForm input[name=redirect]").val(msg.redirect);
+                        if(jQuery("#credomaticvisaPaymentForm input[name=redirect]").val() != ''){
                             setTimeout(function(){
                                 jQuery('#credomaticPaymentForm').submit();
                             }, 500);
+                        }else{
+                            jQuery('#credomaticPaymentForm').submit();
+                        }  
+                    }else{
+                        window.location.href = urlPaymentResponse;
                     }
-                    window.location.href = urlPaymentResponse;
                 })
                 .fail(function(msg){
                     window.location.href = urlPaymentResponse;
