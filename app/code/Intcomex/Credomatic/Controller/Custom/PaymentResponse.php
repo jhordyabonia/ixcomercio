@@ -79,6 +79,10 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
 
                 }
                 
+            }else{
+                if($this->cancelOrderNoParams()){
+                    return $resultRedirect;
+                }
             }
             return $resultRedirect;
 
@@ -91,17 +95,18 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
     public function cancelOrder($body,$order){
         try {
             $response = json_decode($body,true);
-            $order->addStatusToHistory($order->getStatus(), 'Se procede a cancelar la orden');
+            $order->addStatusToHistory($order->getStatus(), 'The order is canceled');
             $this->_messageManager->addError($this->customError);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED);
-            $payment = $order->getPayment();
-            if(isset($response['authcode'])){
-                $payment->setLastTransId($response['authcode']);
-            }
-            if(!empty($response)){
-                $payment->setAdditionalInformation('payment_resp',json_encode($response));
+            if($order->getPayment()){
+                if(isset($response['authcode'])){
+                    $order->getPayment()->setLastTransId($response['authcode']);
+                }
+                if(!empty($response)){
+                    $order->getPayment()->setAdditionalInformation('payment_resp',json_encode($response));
+                }
             }
             $order->setIsPaidCredo('No');
             $order->save();    
@@ -109,7 +114,28 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $this->_checkoutSession->restoreQuote();
            return false;
         } catch (\Exception $e) {
+            $this->logger->info("cancelOrder_exception: " . $e->getMessage());
            return false;
+        }
+    }
+
+    public function cancelOrderNoParams(){
+        try {
+            $order = $this->_orderInterfaceFactory->create()->load($this->_checkoutSession->getLastOrderId());
+            $order->addStatusToHistory($order->getStatus(), 'no params received, cancel order');
+            $this->_messageManager->addError($this->customError);
+
+            $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED, true);
+            $order->setStatus(\Magento\Sales\Model\Order::STATE_CANCELED);
+            $order->setIsPaidCredo('No');
+            $order->save();    
+            $this->_checkoutSession->restoreQuote();
+            $this->logger->info("cancelOrderNoParams: no params received, cancel order");
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->info("cancelOrderNoParams_exception: " . $e->getMessage());
+            return false;
+
         }
     }
 
@@ -133,6 +159,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             }
             
         } catch (\Exception $e) {
+            $this->logger->info("checkAndProcess_exception: " . $e->getMessage());
             return false;
         }
     }
@@ -145,14 +172,22 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
             $order->addStatusToHistory($order->getStatus(), 'Order processing  successfully');
-            $payment = $order->getPayment();
-            $payment->setLastTransId($response['transactionid']);
-            $payment->setAdditionalInformation('payment_resp',json_encode($response));
+            if($order->getPayment()){
+                if(isset($response['transactionid'])){
+                    $order->getPayment()->setLastTransId($response['transactionid']);
+                }
+                if(!empty($response)){
+                    $order->getPayment()->setAdditionalInformation('payment_resp',json_encode($response));
+                }
+            }else{
+                $this->logger->info("processOrder_paymentInfo: no payment information.");
+            }
             $order->setIsPaidCredo('Yes');
             $order->addStatusToHistory($order->getStatus(), 'Order update: last trans id and additional information');
             $order->save();                        
             $this->orderSender->send($order, true);
             $order->addStatusToHistory($order->getStatus(), 'Order Send Email');
+            $order->save();
             $this->logger->info("processOrder: " . $body);
             return true;
         } catch (\Exception $e) {

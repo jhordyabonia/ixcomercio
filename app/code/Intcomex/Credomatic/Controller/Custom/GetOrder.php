@@ -48,16 +48,14 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $post  = $this->getRequest()->getPostValue();
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $this->_modelOrder->load($orderId);
+            $processor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
 
             $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
-            $order->addStatusToHistory($order->getStatus(), 'Order pending payment successfully with reference');
+            $order->addStatusToHistory($order->getStatus(), 'Change state order to pending payment with processor_id ' . $processor_id);
             $order->save();
-            $this->logger->info('-----');
-            $this->logger->info('status');
             $this->logger->info( $order->getIncrementId());
-            $this->logger->info($order->getState());
-            $this->logger->info('-----');
+            $this->logger->info('status: ' . $order->getState());
 
             $billingAddress = $order->getBillingAddress();
             
@@ -71,7 +69,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $token = md5($order->getIncrementId().'|'.$arrayData['amount'].'|'.$arrayData['time'].'|'.$key);
             $arrayData['hash'] = $token;
             $arrayData['orderid'] = $order->getIncrementId();
-            $arrayData['processor_id'] = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
+            $arrayData['processor_id'] = $processor_id;
             $arrayData['firstname'] = $billingAddress->getFirstname();
             $arrayData['lastname'] = $billingAddress->getLastname();
             $arrayData['email'] = $billingAddress->getEmail();
@@ -93,13 +91,11 @@ class GetOrder extends \Magento\Framework\App\Action\Action
 
             $this->logger->info('Data send to credomatic');
             $this->logger->info(print_r($arrayData,true));
-            $this->logger->info('- - - - ');
-           
-            $arrayData['orderid'] = $order->getIncrementId();
 
         } catch (\Exception $e) {
              
             $arrayData = ['error' => 'true', 'message' => $e->getMessage()];
+            $this->logger->info("getOrder_exception: " . print_r($arrayData,true));
         }
 
         $resultJson->setData($arrayData);
