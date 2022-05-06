@@ -3,6 +3,7 @@
 namespace Intcomex\Auditoria\Cron;
 
 use Magento\Catalog\Model\Product;
+use Magento\Store\Model\ScopeInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\App\ResourceConnection;
 
@@ -78,16 +79,25 @@ class GetPriceList
         foreach ($stores as $store) {
             $websiteId = $storeManager->getStore($store->getId())->getWebsiteId();
             $website = $storeManager->getWebsite($websiteId);
-            //Se obtienen parametros de configuración por Store
-            $configData = $this->getConfigParams($storeScope, $store->getCode()); 
-            //Se carga el servicio por curl
-            $serviceUrl = $this->getServiceUrl($configData, $store->getCode());
-            $this->beginPriceListLoad($configData, $website->getCode(), $store, $serviceUrl, $website->getDefaultGroup()->getDefaultStoreId(), 0);
+
+            $isActive = (bool)$this->scopeConfig->getValue('auditoria/general/enabled', ScopeInterface::SCOPE_STORE, $store->getId());
+            if ($isActive) {
+                $this->logger->info('GetSPriceList - IsActive Store: ' . $store->getId());
+                //Se obtienen parametros de configuración por Store
+                $configData = $this->getConfigParams($storeScope, $store->getCode());
+                //Se carga el servicio por curl
+                $serviceUrl = $this->getServiceUrl($configData, $store->getCode());
+                $this->beginPriceListLoad($configData, $website->getCode(), $store, $serviceUrl, $website->getDefaultGroup()->getDefaultStoreId(), 0);
+            } else {
+                $this->logger->info('GetSPriceList - IsNotActive Store: ' . $store->getId());
+            }
+
         }
         // Send Currency Errors Email
         if ($this->storesCurrencyErrors) {
             $this->helper->notifyCurrencyErrorEmail($this->storesCurrencyErrors, 0);
         }
+        $this->logger->info('Termina Cron de Auditoria');
     }
 
     public function getConfigParams($storeScope, $websiteCode) 
