@@ -13,7 +13,9 @@ class GetPriceList
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
 
-	const URL_PRICELIST = 'auditoria/general/url_pricelist';
+    const ENABLED = 'auditoria/general/enabled';
+
+    const URL_PRICELIST = 'auditoria/general/url_pricelist';
 
     const ERRORES = 'trax_general/catalogo_retailer/errores';
 
@@ -80,7 +82,7 @@ class GetPriceList
             $websiteId = $storeManager->getStore($store->getId())->getWebsiteId();
             $website = $storeManager->getWebsite($websiteId);
 
-            $isActive = (bool)$this->scopeConfig->getValue('auditoria/general/enabled', ScopeInterface::SCOPE_STORE, $store->getId());
+            $isActive = (bool)$this->scopeConfig->getValue(self::ENABLED, ScopeInterface::SCOPE_STORE, $store->getId());
             if ($isActive) {
                 $this->logger->info('GetSPriceList - IsActive Store: ' . $store->getId());
                 //Se obtienen parametros de configuración por Store
