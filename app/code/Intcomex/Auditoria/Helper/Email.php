@@ -139,9 +139,9 @@ class Email extends AbstractHelper
     public function notify($data, $websiteCode, $storeId, $extraError = null)
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $subject = $this->scopeConfig->getValue('auditoria/price/subject', $storeScope);
-        $message = $this->scopeConfig->getValue('auditoria/price/message', $storeScope);
-        $emails = explode(',',$this->scopeConfig->getValue('auditoria/price/emails', $storeScope));
+        $subject = $this->scopeConfig->getValue('auditoria/price/subject', $storeScope, $storeId);
+        $message = $this->scopeConfig->getValue('auditoria/price/message', $storeScope, $storeId);
+        $emails = explode(',',$this->scopeConfig->getValue('auditoria/price/emails', $storeScope, $storeId));
         
         /* Sender Detail  */
         $senderInfo = [
@@ -188,9 +188,9 @@ class Email extends AbstractHelper
     public function notifyCurrrencyErrorEmail($data, $storeId)
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $subject = $this->scopeConfig->getValue('auditoria/currency/subject', $storeScope);
-        $message = $this->scopeConfig->getValue('auditoria/currency/message', $storeScope);
-        $emails = explode(',',$this->scopeConfig->getValue('auditoria/currency/emails', $storeScope));
+        $subject = $this->scopeConfig->getValue('auditoria/currency/subject', $storeScope, $storeId);
+        $message = $this->scopeConfig->getValue('auditoria/currency/message', $storeScope, $storeId);
+        $emails = explode(',',$this->scopeConfig->getValue('auditoria/currency/emails', $storeScope, $storeId));
 
         /* Sender Detail  */
         $senderInfo = [
