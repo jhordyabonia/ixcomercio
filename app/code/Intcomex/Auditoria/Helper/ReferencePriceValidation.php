@@ -128,11 +128,7 @@ class ReferencePriceValidation
      */
     public function sendReferencePriceErrorEmail(string $errors, string $websiteCode, int $storeId = null)
     {
-        try {
-            $this->helper->notify($errors, $websiteCode, $storeId);
-        } catch (\Exception $e) {
-            $this->logger->info('Error Sending Reference Price Error: ' . $e->getMessage());
-        }
+        $this->helper->notify($errors, $websiteCode, $storeId);
     }
 
     /**

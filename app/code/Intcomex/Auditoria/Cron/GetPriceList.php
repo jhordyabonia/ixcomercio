@@ -86,7 +86,7 @@ class GetPriceList
         }
         // Send Currency Errors Email
         if ($this->storesCurrencyErrors) {
-            $this->helper->notifyCurrrencyErrorEmail($this->storesCurrencyErrors, 0);
+            $this->helper->notifyCurrencyErrorEmail($this->storesCurrencyErrors, 0);
         }
     }
 

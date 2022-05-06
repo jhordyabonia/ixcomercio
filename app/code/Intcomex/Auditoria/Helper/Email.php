@@ -130,11 +130,7 @@ class Email extends AbstractHelper
      * @param $data
      * @param $websiteCode
      * @param $storeId
-     * @param $extraError
-     * @return $this
-     * @throws LocalizedException
-     * @throws MailException
-     * @throws NoSuchEntityException
+     * @param null $extraError
      */
     public function notify($data, $websiteCode, $storeId, $extraError = null)
     {
@@ -166,26 +162,24 @@ class Email extends AbstractHelper
                     'email' => $value
                 ];
 
-                $this->inlineTranslation->suspend();
-                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId);
-                $transport = $this->transportBuilder->getTransport();
-                $transport->sendMessage();
-                $this->inlineTranslation->resume();
+                try {
+                    $this->inlineTranslation->suspend();
+                    $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId);
+                    $transport = $this->transportBuilder->getTransport();
+                    $transport->sendMessage();
+                    $this->inlineTranslation->resume();
+                } catch (\Exception $e) {
+                    $this->_logger->info('Error Sending Reference Price Error Email: ' . $e->getMessage() . " / Website: $websiteCode / Store: $storeId");
+                }
             }
         }
-
-        return $this;
     }
 
     /**
-     * @param $websiteCode
+     * @param $data
      * @param $storeId
-     * @return $this
-     * @throws LocalizedException
-     * @throws MailException
-     * @throws NoSuchEntityException
      */
-    public function notifyCurrrencyErrorEmail($data, $storeId)
+    public function notifyCurrencyErrorEmail($data, $storeId)
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $subject = $this->scopeConfig->getValue('auditoria/currency/subject', $storeScope, $storeId);
@@ -213,15 +207,17 @@ class Email extends AbstractHelper
                     'email' => $value
                 ];
 
-                $this->inlineTranslation->suspend();
-                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId);
-                $transport = $this->transportBuilder->getTransport();
-                $transport->sendMessage();
-                $this->inlineTranslation->resume();
+                try {
+                    $this->inlineTranslation->suspend();
+                    $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeId);
+                    $transport = $this->transportBuilder->getTransport();
+                    $transport->sendMessage();
+                    $this->inlineTranslation->resume();
+                } catch (\Exception $e) {
+                    $this->_logger->info('Error Sending Currency Error Email: ' . $e->getMessage() . " / Store: $storeId");
+                }
             }
         }
-
-        return $this;
     }
 
     public function clearSpecialCharac($String){
