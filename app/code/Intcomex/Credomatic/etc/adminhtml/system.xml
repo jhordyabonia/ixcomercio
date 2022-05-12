@@ -38,6 +38,10 @@
                     <label>Tiempo de espera</label>
                     <comment><![CDATA[Tiempo entre cada reintento]]></comment>
                 </field>
+                <field id="timeoutordercron" translate="label" type="text" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Tiempo de espera orden Cron</label>
+                    <comment><![CDATA[Tiempo espera cancelacion ordenes por cron]]></comment>
+                </field>
                 <field id="processor_id1" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id Contado</label>
                 </field>
