@@ -4,6 +4,7 @@
     <table name="transacciones_credomatic" resource="default" engine="innodb" comment="Transacciones Credomatic">
         <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
         <column xsi:type="varchar" name="order_id" nullable="false" length="50"  comment="Order Id"/>
+        <column xsi:type="varchar" name="token" nullable="false" length="50"  comment="token"/>
         <column xsi:type="varchar" name="response" nullable="true" length="500" comment="Response"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
         <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>

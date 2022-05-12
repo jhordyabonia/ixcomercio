@@ -1,0 +1,7 @@
+<?php
+/** @var \Cdi\Custom\Helper\Data $_helperCdi */
+$_helperCdi = $this->helper(Cdi\Custom\Helper\Data::class);
+$websiteCode = $_helperCdi->getWebsideCode();
+?>
+<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_free_shipping_en')->toHtml();?>
+<?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($websiteCode . '_free_shipping_es')->toHtml();?>

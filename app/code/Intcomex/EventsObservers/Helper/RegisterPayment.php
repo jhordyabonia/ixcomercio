@@ -1,6 +1,7 @@
 <?php
 
 namespace Intcomex\EventsObservers\Helper;
+use Adyen\Payment\Model\Ui\AdyenCcConfigProvider;
 use \Magento\Framework\App\Helper\AbstractHelper;
 use Trax\Ordenes\Model\IwsOrderFactory;
 
@@ -137,7 +138,8 @@ class RegisterPayment extends AbstractHelper
         // Close request to clear up some resources
         $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $curl_errors = curl_error($curl);
-        curl_close($curl);    
+        curl_close($curl);
+        $this->logger->info($method.' - Response: ' . $resp);
         $this->logger->info($method.' - status code: '.$status_code);
         $this->logger->info($method.' - '.$serviceUrl);
         if ($status_code == '200'){
@@ -325,7 +327,7 @@ class RegisterPayment extends AbstractHelper
 
     //Se carga relación de metodos de pago con trax
     public function loadPaymentMethodId($mp_order, $mp_paymentMethod, $storeCode)
-    {   
+    {
         $order = $this->loadOrderInformation($mp_order);
         $payment = $order->getPayment();
         $method = $payment->getMethodInstance();
@@ -333,9 +335,18 @@ class RegisterPayment extends AbstractHelper
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
 		$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
 		$connection = $resource->getConnection();
-		$tableName = $resource->getTableName('trax_match_payment'); 
-		//Select Data from table
+		$tableName = $resource->getTableName('trax_match_payment');
         $sql = "Select * FROM " . $tableName." where payment_type='".$method->getTitle()."' AND payment_code='".$mp_paymentMethod."' AND country_code='".$shipping->getCountryId()."' AND store_code='".$storeCode."'";
+
+        // Validate if Payment Method is Adyen
+        if ($payment->getMethod() === AdyenCcConfigProvider::CODE) {
+            if ($payment->getAdditionalInformation('combo_card_type') === 'credit') {
+                $sql .= " AND gateway='Adyen Credito MX'";
+            } else {
+                $sql .= " AND gateway='Adyen Debito MX'";
+            }
+        }
+
         $this->logger->info('loadPaymentMethodId: '. $sql);
         $trax = $connection->fetchAll($sql); 
         foreach ($trax as $key => $data) {

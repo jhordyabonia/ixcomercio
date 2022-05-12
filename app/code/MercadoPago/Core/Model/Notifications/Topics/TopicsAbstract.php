@@ -371,7 +371,7 @@ abstract class TopicsAbstract
         }
     }
 
-    /**
+     /**
      * @param $order
      * @param $payment
      * @param $message
@@ -379,6 +379,7 @@ abstract class TopicsAbstract
      */
     public function updateStatus($order, $payment, $message)
     {
+        $this->_dataHelper->log("Call updateStatus " . $order->getIncrementId(), 'mercadopago-basic.log');
         if ($order->getState() !== Order::STATE_COMPLETE) {
             $statusOrder = $this->getConfigStatus($payment, $order->canCreditmemo());
 
@@ -398,11 +399,19 @@ abstract class TopicsAbstract
             }
 
             $order->addStatusToHistory($statusOrder, $message, true);
+            $this->_dataHelper->log("Call addStatusToHistory " . $order->getIncrementId(), 'mercadopago-basic.log');
             if ($emailOrderCreate) {
                 if (!$order->getEmailSent()) {
+                    $this->_dataHelper->log("Call getEmailSent " . $order->getIncrementId(), 'mercadopago-basic.log');
                     $this->_orderSender->send($order, true);
                     $emailAlreadySent = true;
                 }
+                else{
+                    $this->_dataHelper->log("The value in getEmailSent() of order " . $order->getIncrementId() . " is " . $order->getEmailSent(), 'mercadopago-basic.log');    
+                }
+            }
+            else{
+                $this->_dataHelper->log("The value in emailOrderCreate of order " . $order->getIncrementId() . " is " . $emailOrderCreate, 'mercadopago-basic.log');
             }
 
             if ($emailAlreadySent === false) {
@@ -410,11 +419,16 @@ abstract class TopicsAbstract
                 $statusEmailList = explode(",", $statusEmail);
                 if (in_array($payment['status'], $statusEmailList)) {
                     $this->_orderSender->send($order, $notify = '1', str_replace("<br/>", "", $message));
-                }
+                    $this->_dataHelper->log("Call _orderSender::send " . $order->getIncrementId(), 'mercadopago-basic.log');               
+                 }
+                 else
+                 {
+                    $this->_dataHelper->log("statusEmailList of order " . $order->getIncrementId(),'mercadopago-basic.log', $statusEmailList);
+                 }
             }
         }
 
-        $this->_dataHelper->log("Update order", 'mercadopago-basic.log', $order->getData());
+        $this->_dataHelper->log("Update order " . $order->getIncrementId(), 'mercadopago-basic.log', $order->getData());
         $this->_dataHelper->log($message, 'mercadopago-basic.log');
 
         return $order->save();
