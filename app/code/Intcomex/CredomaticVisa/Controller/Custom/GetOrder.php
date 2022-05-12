@@ -54,9 +54,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
             $order->addStatusToHistory($order->getStatus(), 'Change state order to pending payment with processor_id ' . $processor_id);
             $order->save();
-            $this->logger->info('status');
             $this->logger->info( $order->getIncrementId());
-            $this->logger->info($order->getState());
+            $this->logger->info('status: ' . $order->getState());
 
             $billingAddress = $order->getBillingAddress();
             $key = $this->_scopeConfig->getValue('payment/credomaticvisa/key',ScopeInterface::SCOPE_STORE);
