@@ -1,59 +1,24 @@
 @font-face {
-  font-family: 'AvenirNext LT Pro';
-  src: url('../fonts/zagg/AvenirNextLTPro-Bold.woff2') format('woff2'),
-      url('../fonts/zagg/AvenirNextLTPro-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'NokiaPureHeadlineBold';
-  src: url('../fonts/nokia/NokiaPureHeadline-Bold.eot');
-  src: url('../fonts/nokia/NokiaPureHeadline-Bold.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/nokia/NokiaPureHeadline-Bold.woff2') format('woff2'),
-      url('../fonts/nokia/NokiaPureHeadline-Bold.woff') format('woff'),
-      url('../fonts/nokia/NokiaPureHeadline-Bold.ttf') format('truetype'),
-      url('../fonts/nokia/NokiaPureHeadline-Bold.svg#NokiaPureHeadline-Bold') format('svg');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'NokiaPureHeadlineLight';
-  src: url('../fonts/nokia/NokiaPureHeadline-Light.eot');
-  src: url('../fonts/nokia/NokiaPureHeadline-Light.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/nokia/NokiaPureHeadline-Light.woff2') format('woff2'),
-      url('../fonts/nokia/NokiaPureHeadline-Light.woff') format('woff'),
-      url('../fonts/nokia/NokiaPureHeadline-Light.ttf') format('truetype'),
-      url('../fonts/nokia/NokiaPureHeadline-Light.svg#NokiaPureHeadline-Light') format('svg');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'NokiaPureHeadlineRegular';
-  src: url('../fonts/nokia/NokiaPureHeadline-Regular.eot');
-  src: url('../fonts/nokia/NokiaPureHeadline-Regular.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/nokia/NokiaPureHeadline-Regular.woff2') format('woff2'),
-      url('../fonts/nokia/NokiaPureHeadline-Regular.woff') format('woff'),
-      url('../fonts/nokia/NokiaPureHeadline-Regular.ttf') format('truetype'),
-      url('../fonts/nokia/NokiaPureHeadline-Regular.svg#NokiaPureHeadline-Regular') format('svg');
+  font-family: 'ProximaNova-Regular';
+  src: url('../fonts/crocs/ProximaNova-Regular.eot');
+  src: url('../fonts/crocs/ProximaNova-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/crocs/ProximaNova-Regular.woff2') format('woff2'),
+      url('../fonts/crocs/ProximaNova-Regular.woff') format('woff'),
+      url('../fonts/crocs/ProximaNova-Regular.ttf') format('truetype'),
+      url('../fonts/crocs/ProximaNova-Regular.svg#ProximaNova-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'NokiaPureHeadlineExtraBold';
-  src: url('../fonts/nokia/NokiaPureHeadline-ExtraBold.eot');
-  src: url('../fonts/nokia/NokiaPureHeadline-ExtraBold.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.woff2') format('woff2'),
-      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.woff') format('woff'),
-      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.ttf') format('truetype'),
-      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.svg#NokiaPureHeadline-ExtraBold') format('svg');
+  font-family: 'ProximaNova-Bold';
+  src: url('../fonts/crocs/ProximaNova-Bold.eot');
+  src: url('../fonts/crocs/ProximaNova-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/crocs/ProximaNova-Bold.woff2') format('woff2'),
+      url('../fonts/crocs/ProximaNova-Bold.woff') format('woff'),
+      url('../fonts/crocs/ProximaNova-Bold.ttf') format('truetype'),
+      url('../fonts/crocs/ProximaNova-Bold.svg#ProximaNova-Bold') format('svg');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
