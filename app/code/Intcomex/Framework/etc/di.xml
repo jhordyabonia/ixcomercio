@@ -5,4 +5,5 @@
         <plugin name="disable_xssprotection_header"
                 type="Intcomex\Framework\Plugin\Framework\App\Response\HeaderProvider\XssProtection" sortOrder="1"/>
     </type>
+    <preference for="Magento\Customer\Controller\Account\EditPost" type="Intcomex\Framework\Controller\Account\EditPost" />
 </config>
