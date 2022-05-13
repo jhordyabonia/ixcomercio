@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Framework\App\Response\HeaderProvider\XssProtection">
-        <plugin name="disable_xssprotection_header"
-                type="Intcomex\Framework\Plugin\Framework\App\Response\HeaderProvider\XssProtection" sortOrder="1"/>
-    </type>
     <preference for="Magento\Customer\Controller\Account\EditPost" type="Intcomex\Framework\Controller\Account\EditPost" />
+    <preference for="Magento\Customer\Controller\Account\CreatePost" type="Intcomex\Framework\Controller\Account\CreatePost" />
 </config>

@@ -22,12 +22,18 @@ class SanatizeXss extends AbstractHelper
      */
     public function sanatize($data): array
     {
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $this->_logger = $logger;
+        $this->_logger->debug(json_encode($data));
         $arraySanatized = [];
         if (is_array($data)) {
             foreach ($data as $key => $value) {
                 $arraySanatized[$key] = htmlspecialchars(strip_tags(trim($value)));
             }
         }
+        $this->_logger->debug(json_encode($arraySanatized));
         return $arraySanatized;
     }
 }

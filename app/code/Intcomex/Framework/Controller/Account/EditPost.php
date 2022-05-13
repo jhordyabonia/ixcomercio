@@ -10,11 +10,9 @@ namespace Intcomex\Framework\Controller\Account;
 use Intcomex\Framework\Helper\SanatizeXss;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\AddressRegistry;
-use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
 use Magento\Customer\Model\AuthenticationInterface;
 use Magento\Customer\Model\Customer\Mapper;
 use Magento\Customer\Model\EmailNotificationInterface;
-use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
@@ -30,14 +28,13 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\State\UserLockedException;
-use Magento\Customer\Controller\AbstractAccount;
 use Magento\Framework\Phrase;
 
 /**
  * Class EditPost
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class EditPost extends AbstractAccount implements CsrfAwareActionInterface, HttpPostActionInterface
+class EditPost extends \Magento\Customer\Controller\Account\EditPost
 {
     /**
      * Form code for data extractor
@@ -121,7 +118,16 @@ class EditPost extends AbstractAccount implements CsrfAwareActionInterface, Http
         AddressRegistry $addressRegistry = null,
         SanatizeXss $sanatizeXss
     ) {
-        parent::__construct($context);
+        parent::__construct(
+            $context,
+            $customerSession,
+            $customerAccountManagement,
+            $customerRepository,
+            $formKeyValidator,
+            $customerExtractor,
+            $escaper,
+            $addressRegistry
+        );
         $this->session = $customerSession;
         $this->customerAccountManagement = $customerAccountManagement;
         $this->customerRepository = $customerRepository;
@@ -130,6 +136,10 @@ class EditPost extends AbstractAccount implements CsrfAwareActionInterface, Http
         $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
         $this->addressRegistry = $addressRegistry ?: ObjectManager::getInstance()->get(AddressRegistry::class);
         $this->sanatizeXss = $sanatizeXss;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $this->_logger = $logger;
     }
 
     /**
@@ -190,6 +200,20 @@ class EditPost extends AbstractAccount implements CsrfAwareActionInterface, Http
         return null;
     }
 
+    private function _validateFormKeyFromHeaders(): bool
+    {
+        $this->_logger->debug(print_r($_SERVER, true));
+        foreach ($_SERVER as $key => $value) {
+            $this->_logger->debug(print_r($key, true));
+            if ($key === 'form_key') {
+                $this->_logger->debug("Found!!! -> $value");
+                return false;
+            }
+        }
+        $this->_logger->debug(print_r($_SERVER, true));
+        return true;
+    }
+
     /**
      * Change customer email or password action
      *
@@ -197,6 +221,14 @@ class EditPost extends AbstractAccount implements CsrfAwareActionInterface, Http
      */
     public function execute()
     {
+//        if (!$this->_validateFormKeyFromHeaders()) {
+//            /** @var Redirect $resultRedirect */
+//            $this->messageManager->addErrorMessage('Bad Form Key From Headers!');
+//            $resultRedirect = $this->resultRedirectFactory->create();
+//            $resultRedirect->setPath('*/*/edit');
+//            return $resultRedirect;
+//        }
+
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         $validFormKey = $this->formKeyValidator->validate($this->getRequest());
