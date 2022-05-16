@@ -211,9 +211,10 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
 
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
-        $validFormKey = $this->formKeyValidator->validate($this->getRequest());
-
-        if ($validFormKey && $this->getRequest()->isPost()) {
+        $post = $this->getRequest()->getPostValue();
+        $validFormKey = $post['edit_form_key'];
+        $formKeyData = $this->session->getCustomFormKey();
+        if ($formKeyData['form-name'] == "form-edit-account" && $validFormKey == $formKeyData['token'] && $this->getRequest()->isPost()) {
             $currentCustomerDataObject = $this->getCustomerDataObject($this->session->getCustomerId());
             $customerCandidateDataObject = $this->populateNewCustomerDataObject(
                 $this->_request,
