@@ -373,10 +373,10 @@ class Data extends AbstractHelper{
 		if($this->customerSession->isLoggedIn()){
 
 			$token = md5($this->customerSession->getCustomerId() . time());
-			$formValidateKey = [];
-			$formValidateKey['form-name'] = $formName;
-			$formValidateKey['token'] = $token;
-			$this->customerSession->setCustomFormKey($formValidateKey);
+			$formCustomName = $formName;
+			$formKeyToken = $token;
+			$this->customerSession->setCustomFormName($formCustomName);
+			$this->customerSession->setCustomFormToken($formKeyToken);
 			return $token;
 
 		}else{
