@@ -12,7 +12,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 <form class="form form-edit-account" action="<?= /* @escapeNotVerified */ $block->getUrl('customer/account/editPost') ?>" method="post" id="form-validate" enctype="multipart/form-data" data-hasrequired="<?= /* @escapeNotVerified */ __('* Required Fields') ?>" autocomplete="off">
     <fieldset class="fieldset info">
         <?= $block->getBlockHtml('formkey') ?>
-        <input name="edit_form_key" type="hidden" value="<?= /* @escapeNotVerified */ __($_helperCdi->getCustomFormKey("form-edit-account"))?>">
+        <input name="edit_form_key" type="hidden" value="<?= /* @escapeNotVerified */ __($_helperCdi->getCustomFormAccountEdit())?>">
         <legend class="legend"><span><?= /* @escapeNotVerified */ __('Account Information') ?></span></legend><br>
         <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getCustomer())->toHtml() ?>
 

@@ -368,17 +368,17 @@ class Data extends AbstractHelper{
 		}
 	}
 
-	public function getCustomFormKey($formName){
-		
-		if($this->customerSession->isLoggedIn()){
-
-			$token = md5($this->customerSession->getCustomerId() . time());
-			$this->customerSession->setCustomFormAccountEdit($token);
-			
-			return $this->customerSession->getCustomFormAccountEdit();
-
-		}else{
-			return false;
+	public function getCustomFormAccountEdit()
+    {
+		if ($this->customerSession->isLoggedIn()) {
+            if (!$this->customerSession->getCustomFormAccountEdit()) {
+                $token = md5($this->customerSession->getCustomerId() . time());
+                $this->customerSession->setCustomFormAccountEdit($token);
+                return $this->customerSession->getCustomFormAccountEdit();
+            } else {
+                return $this->customerSession->getCustomFormAccountEdit();
+            }
 		}
+        return false;
 	}
 }
