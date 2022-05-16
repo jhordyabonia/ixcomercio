@@ -208,6 +208,23 @@ class FormPost extends \Magento\Customer\Controller\Address\FormPost
     {
         $this->getRequest()->setParams($this->sanitizeXss->sanitize($this->getRequest()->getParams())); // Sanitize Xss
 
+        /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $validFormKey = $this->getRequest()->getPostValue()['edit_form_key'];
+        $customFormToken = $this->_customerSession->getCustomFormAccountEdit();
+
+        if ($validFormKey !== $customFormToken) {
+            $this->messageManager->addErrorMessage(__('Invalid Form Key. Please refresh the page.'));
+            $resultRedirect->setPath(
+                '*/*/edit/',
+                [
+                    'id' => $this->getRequest()->getParam('id'),
+                    '_secure' => $this->getRequest()->isSecure()
+                ]
+            );
+            return $resultRedirect;
+        }
+
         $redirectUrl = null;
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->resultRedirectFactory->create()->setPath('*/*/');

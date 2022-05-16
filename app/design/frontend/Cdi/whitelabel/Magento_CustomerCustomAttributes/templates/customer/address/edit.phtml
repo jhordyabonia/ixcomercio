@@ -22,6 +22,7 @@ $requiredAttributesPrechecked = $block->getData('required_attributes_prechecked'
     <fieldset class="fieldset">
         <legend class="legend"><span><?= /* @escapeNotVerified */ __('Contact Information') ?></span></legend><br>
         <?= $block->getBlockHtml('formkey') ?>
+        <input name="edit_form_key" type="hidden" value="<?= /* @escapeNotVerified */ __($_helperCdi->getCustomFormAccountEdit())?>">
         <input type="hidden" name="success_url" value="<?= /* @escapeNotVerified */ $block->getSuccessUrl() ?>"/>
         <input type="hidden" name="error_url" value="<?= /* @escapeNotVerified */ $block->getErrorUrl() ?>"/>
         <?= $block->getNameBlockHtml() ?>
