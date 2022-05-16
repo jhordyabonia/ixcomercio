@@ -209,9 +209,8 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
         $resultRedirect = $this->resultRedirectFactory->create();
         $post = $this->getRequest()->getPostValue();
         $validFormKey = $post['edit_form_key'];
-        $CustomFormName = $this->session->getCustomFormName();
-        $CustomFormToken = $this->session->getCustomFormToken();
-        if ($CustomFormName == "form-edit-account" && $validFormKey == $CustomFormToken && $this->getRequest()->isPost()) {
+        $CustomFormToken = $this->session->getCustomFormAccountEdit();
+        if ( $validFormKey == $CustomFormToken && $this->getRequest()->isPost()) {
             $currentCustomerDataObject = $this->getCustomerDataObject($this->session->getCustomerId());
             $customerCandidateDataObject = $this->populateNewCustomerDataObject(
                 $this->_request,
