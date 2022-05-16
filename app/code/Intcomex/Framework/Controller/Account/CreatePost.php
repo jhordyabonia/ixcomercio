@@ -6,7 +6,7 @@
 
 namespace Intcomex\Framework\Controller\Account;
 
-use Intcomex\Framework\Helper\SanatizeXss;
+use Intcomex\Framework\Helper\SanitizeXss;
 use Magento\Customer\Model\Account\Redirect as AccountRedirect;
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Framework\Api\DataObjectHelper;
@@ -133,9 +133,9 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     private $formKeyValidator;
 
     /**
-     * @var SanatizeXss
+     * @var SanitizeXss
      */
-    private $sanatizeXss;
+    private $sanitizeXss;
 
     /**
      * @param Context $context
@@ -157,7 +157,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      * @param DataObjectHelper $dataObjectHelper
      * @param AccountRedirect $accountRedirect
      * @param Validator $formKeyValidator
-     * @param SanatizeXss $sanatizeXss
+     * @param SanitizeXss $sanitizeXss
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -181,7 +181,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         DataObjectHelper $dataObjectHelper,
         AccountRedirect $accountRedirect,
         Validator $formKeyValidator = null,
-        SanatizeXss $sanatizeXss
+        SanitizeXss $sanitizeXss
     ) {
         parent::__construct(
             $context,
@@ -222,11 +222,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
         $this->dataObjectHelper = $dataObjectHelper;
         $this->accountRedirect = $accountRedirect;
         $this->formKeyValidator = $formKeyValidator ?: ObjectManager::getInstance()->get(Validator::class);
-        $this->sanatizeXss = $sanatizeXss;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $this->_logger = $logger;
+        $this->sanitizeXss = $sanitizeXss;
     }
 
     /**
@@ -345,7 +341,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      */
     public function execute()
     {
-        $this->getRequest()->setParams($this->sanatizeXss->sanatize($this->getRequest()->getParams())); // Sanatize Xss
+        $this->getRequest()->setParams($this->sanitizeXss->sanitize($this->getRequest()->getParams())); // Sanitize Xss
 
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();

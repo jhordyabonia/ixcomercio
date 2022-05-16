@@ -3,4 +3,5 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Customer\Controller\Account\EditPost" type="Intcomex\Framework\Controller\Account\EditPost" />
     <preference for="Magento\Customer\Controller\Account\CreatePost" type="Intcomex\Framework\Controller\Account\CreatePost" />
+    <preference for="Magento\Customer\Controller\Address\FormPost" type="Intcomex\Framework\Controller\Address\FormPost" />
 </config>

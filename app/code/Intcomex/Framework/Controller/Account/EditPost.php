@@ -7,7 +7,7 @@
 
 namespace Intcomex\Framework\Controller\Account;
 
-use Intcomex\Framework\Helper\SanatizeXss;
+use Intcomex\Framework\Helper\SanitizeXss;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\AddressRegistry;
 use Magento\Customer\Model\AuthenticationInterface;
@@ -92,9 +92,9 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
     private $addressRegistry;
 
     /**
-     * @var SanatizeXss
+     * @var SanitizeXss
      */
-    private $sanatizeXss;
+    private $sanitizeXss;
 
     /**
      * @param Context $context
@@ -105,7 +105,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
      * @param CustomerExtractor $customerExtractor
      * @param Escaper|null $escaper
      * @param AddressRegistry|null $addressRegistry
-     * @param SanatizeXss $sanatizeXss
+     * @param SanitizeXss $sanitizeXss
      */
     public function __construct(
         Context $context,
@@ -116,7 +116,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
         CustomerExtractor $customerExtractor,
         ?Escaper $escaper = null,
         AddressRegistry $addressRegistry = null,
-        SanatizeXss $sanatizeXss
+        SanitizeXss $sanitizeXss
     ) {
         parent::__construct(
             $context,
@@ -135,11 +135,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
         $this->customerExtractor = $customerExtractor;
         $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
         $this->addressRegistry = $addressRegistry ?: ObjectManager::getInstance()->get(AddressRegistry::class);
-        $this->sanatizeXss = $sanatizeXss;
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $this->_logger = $logger;
+        $this->sanitizeXss = $sanitizeXss;
     }
 
     /**
@@ -207,7 +203,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
      */
     public function execute()
     {
-        $this->getRequest()->setParams($this->sanatizeXss->sanatize($this->getRequest()->getParams())); // Sanatize Xss
+        $this->getRequest()->setParams($this->sanitizeXss->sanitize($this->getRequest()->getParams())); // Sanitize Xss
 
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
