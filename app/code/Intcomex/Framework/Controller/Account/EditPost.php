@@ -200,20 +200,6 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
         return null;
     }
 
-    private function _validateFormKeyFromHeaders(): bool
-    {
-        $this->_logger->debug(print_r($_SERVER, true));
-        foreach ($_SERVER as $key => $value) {
-            $this->_logger->debug(print_r($key, true));
-            if ($key === 'form_key') {
-                $this->_logger->debug("Found!!! -> $value");
-                return false;
-            }
-        }
-        $this->_logger->debug(print_r($_SERVER, true));
-        return true;
-    }
-
     /**
      * Change customer email or password action
      *
@@ -221,18 +207,11 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
      */
     public function execute()
     {
-//        if (!$this->_validateFormKeyFromHeaders()) {
-//            /** @var Redirect $resultRedirect */
-//            $this->messageManager->addErrorMessage('Bad Form Key From Headers!');
-//            $resultRedirect = $this->resultRedirectFactory->create();
-//            $resultRedirect->setPath('*/*/edit');
-//            return $resultRedirect;
-//        }
+        $this->getRequest()->setParams($this->sanatizeXss->sanatize($this->getRequest()->getParams())); // Sanatize Xss
 
         /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         $validFormKey = $this->formKeyValidator->validate($this->getRequest());
-        $this->getRequest()->setParams($this->sanatizeXss->sanatize($this->getRequest()->getParams()));
 
         if ($validFormKey && $this->getRequest()->isPost()) {
             $currentCustomerDataObject = $this->getCustomerDataObject($this->session->getCustomerId());

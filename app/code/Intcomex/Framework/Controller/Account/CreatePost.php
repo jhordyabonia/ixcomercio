@@ -190,6 +190,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $storeManager,
             $accountManagement,
             $addressHelper,
+            $urlFactory,
             $formFactory,
             $subscriberFactory,
             $regionDataFactory,
@@ -198,7 +199,10 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $customerUrl,
             $registration,
             $escaper,
-            $customerExtractor
+            $customerExtractor,
+            $dataObjectHelper,
+            $accountRedirect,
+            $formKeyValidator
         );
         $this->session = $customerSession;
         $this->scopeConfig = $scopeConfig;
@@ -341,6 +345,8 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
      */
     public function execute()
     {
+        $this->getRequest()->setParams($this->sanatizeXss->sanatize($this->getRequest()->getParams())); // Sanatize Xss
+
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($this->session->isLoggedIn() || !$this->registration->isAllowed()) {

@@ -8,6 +8,11 @@ use Magento\Framework\App\Helper\Context;
 class SanatizeXss extends AbstractHelper
 {
     /**
+     * Keys to no validate.
+     */
+    const IGNORED_KEYS = ['form_key', 'current_password', 'password', 'password_confirmation'];
+
+    /**
      * @param Context $context
      */
     public function __construct(
@@ -30,7 +35,11 @@ class SanatizeXss extends AbstractHelper
         $arraySanatized = [];
         if (is_array($data)) {
             foreach ($data as $key => $value) {
-                $arraySanatized[$key] = htmlspecialchars(strip_tags(trim($value)));
+                if (!in_array($key, self::IGNORED_KEYS)) {
+                    $arraySanatized[$key] = htmlspecialchars(strip_tags(trim($value)));
+                } else {
+                    $arraySanatized[$key] = $value;
+                }
             }
         }
         $this->_logger->debug(json_encode($arraySanatized));
