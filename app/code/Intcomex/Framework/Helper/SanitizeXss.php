@@ -21,8 +21,8 @@ class SanitizeXss extends AbstractHelper
         Context $context
     ) {
         parent::__construct($context);
-        $writer = new \Zend_Log_Writer_Stream(BP . '/var/log/xss.log');
-        $logger = new \Zend_Log();
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
+        $logger = new \Zend\Log\Logger();
         $logger->addWriter($writer);
         $this->_logger = $logger;
     }
