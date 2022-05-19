@@ -925,6 +925,7 @@ class GetCatalog
         // Search all products in store
         $products = $productFactory->create()
             ->addAttributeToSelect('*')
+            ->addAttributeToFilter('type_id', ['neq' => 'configurable'])
             ->addStoreFilter($storeId);
 
         // Validates if product is in IWS
@@ -935,7 +936,7 @@ class GetCatalog
                     $this->product_iws_not[$count]['sku'] = $product->getSku();
                     $this->product_iws_not[$count]['store'] = $storeId;
                     $this->product_iws_not[$count]['status'] = $product->getStatus();
-                    $this->logger->info('GetCatalog - Se añade producto para eliminar ' . $product->getName());
+                    $this->logger->info('GetCatalog - Se añade producto para deshabilitar ' . $product->getName());
                 } else {
                     $this->logger->info('GetCatalog - El producto ya esta deshabilitado ' . $product->getName());
                 }

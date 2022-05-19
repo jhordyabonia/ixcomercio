@@ -28,7 +28,7 @@
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
                                                                 <item name="credomatic-payments" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Intcomex_Credomatic/js/view/payment/stripe-method_v5</item>
+                                                                    <item name="component" xsi:type="string">Intcomex_Credomatic/js/view/payment/stripe-method_v6</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="credomatic" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>

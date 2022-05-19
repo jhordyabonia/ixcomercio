@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
         <job name="cron_intcomex_auditoria" instance="Intcomex\Auditoria\Cron\GetPriceList" method="execute">
-            <schedule>0 0 * * *</schedule>
+            <schedule>0 19 * * *</schedule>
         </job>
     </group>
 </config>

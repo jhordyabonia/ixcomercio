@@ -27,6 +27,8 @@ class Data extends AbstractHelper{
 	
     protected $_bestSellersCollectionFactory;
 
+	protected $customerSession;
+
 	/**
      * @var array
      */
@@ -40,7 +42,8 @@ class Data extends AbstractHelper{
 		AddressRepositoryInterface $addressRepository,
 		\Magento\Store\Model\StoreManagerInterface $storeManager,
 		\Magento\Sales\Api\Data\OrderInterfaceFactory $orderInterfaceFactory,
-		\Magento\Checkout\Model\Session $checkoutSession
+		\Magento\Checkout\Model\Session $checkoutSession,
+		\Magento\Customer\Model\Session $customerSession
 	){
 		$this->pageFactory = $pageFactory;
 		$this->_scopeConfig = $scopeConfig;
@@ -50,6 +53,7 @@ class Data extends AbstractHelper{
 		$this->_storeManager = $storeManager;	
 		$this->_orderInterfaceFactory = $orderInterfaceFactory;
 		$this->_checkoutSession = $checkoutSession;	
+		$this->customerSession = $customerSession;
 	}
 	
 	/**
@@ -362,5 +366,19 @@ class Data extends AbstractHelper{
 			$order = $this->_orderInterfaceFactory->create()->load($orderId);
 			return $order; 
 		}
+	}
+
+	public function getCustomFormAccountEdit()
+    {
+		if ($this->customerSession->isLoggedIn()) {
+            if (!$this->customerSession->getCustomFormAccountEdit()) {
+                $token = md5($this->customerSession->getCustomerId() . time());
+                $this->customerSession->setCustomFormAccountEdit($token);
+                return $this->customerSession->getCustomFormAccountEdit();
+            } else {
+                return $this->customerSession->getCustomFormAccountEdit();
+            }
+		}
+        return false;
 	}
 }

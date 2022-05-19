@@ -66,7 +66,7 @@ class ObserverBeforeSaveProduct implements ObserverInterface
             $result = $this->priceValidation->execute($product, $product->getPrice(), $product->getSpecialPrice(), $websiteCode, $storeId);
             if ($result !== true) {
                 $this->priceValidation->sendReferencePriceErrorEmail($result['errors'], $result['website'], $result['store']);
-                $message = $this->scopeConfig->getValue('auditoria/price/message', ScopeInterface::SCOPE_STORE);
+                $message = $this->scopeConfig->getValue('auditoria/price/message', ScopeInterface::SCOPE_STORE, $storeId);
                 throw new Exception(__($message));
             }
         }
