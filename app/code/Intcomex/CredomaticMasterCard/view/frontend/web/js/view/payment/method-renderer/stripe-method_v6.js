@@ -78,12 +78,12 @@ define(
                         jQuery("#credomaticMastercardPaymentForm input[name=ccnumber]").val(number);
                         jQuery("#credomaticMastercardPaymentForm input[name=ccexp]").val(ccexp);
                         jQuery("#credomaticMastercardPaymentForm input[name=redirect]").val(msg.redirect);
-                        if(jQuery("#credomaticvisaPaymentForm input[name=redirect]").val() != ''){
+                        if(jQuery("#credomaticMastercardPaymentForm input[name=redirect]").val() == ''){
                             setTimeout(function(){
-                                jQuery('#credomaticPaymentForm').submit();
+                                jQuery('#credomaticMastercardPaymentForm').submit();
                             }, 500);
                         }else{
-                            jQuery('#credomaticPaymentForm').submit();
+                            jQuery('#credomaticMastercardPaymentForm').submit();
                         }  
                     }else{
                         window.location.href = urlPaymentResponse;

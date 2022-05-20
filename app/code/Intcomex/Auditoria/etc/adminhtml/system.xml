@@ -9,11 +9,15 @@
             <resource>Intcomex_Auditoria::auditoria_config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="10" showInWebsite="1" showInStore="1">
                 <label>General Configuration</label>
-                <field id="porcentaje_validacion" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="porcentaje_validacion" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Porcentaje de validación</label>
                     <validate>required number</validate>
                 </field>
-                <field id="url_pricelist" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="url_pricelist" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>URL Precio de lista</label>
                     <validate>required url</validate>
                 </field>

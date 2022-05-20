@@ -21,7 +21,7 @@ define(
         rendererList.push(
             {
                 type: 'credomatic',
-                component: 'Intcomex_Credomatic/js/view/payment/method-renderer/stripe-method_v5'
+                component: 'Intcomex_Credomatic/js/view/payment/method-renderer/stripe-method_v6'
             }
         );
         /** Add view logic here if needed */

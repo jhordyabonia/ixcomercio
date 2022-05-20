@@ -209,7 +209,6 @@
                     </block>
                 </container>
             </block>
-        <block class="Magento\Framework\View\Element\Template" name="custom.js" as="custom.js" template="Magento_Checkout::cart/js.phtml"/>
         </referenceContainer>
         <block class="Magento\Checkout\Block\Cart\Additional\Info" name="additional.product.info" template="Magento_Checkout::cart/additional/info.phtml"/>        
         <referenceContainer name="page.wrapper">
