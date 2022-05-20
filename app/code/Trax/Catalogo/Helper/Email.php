@@ -113,9 +113,11 @@ class Email extends AbstractHelper
     /**
      * @param $name
      * @param $email
+     * @param $reintentos
+     * @param $serviceUrl
+     * @param $payload
+     * @param $storeid
      * @return $this
-     * @throws \Magento\Framework\Exception\MailException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function notify($name, $email, $reintentos, $serviceUrl, $payload, $storeid)
     {
@@ -138,14 +140,96 @@ class Email extends AbstractHelper
         $variable['serviceUrl'] = $serviceUrl;
         $variable['payload'] = $payload;
 
-        $templateId = "trax_catalogo_catalogo_general_template_notification";
-        $this->inlineTranslation->suspend();
-        $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
-        $transport = $this->transportBuilder->getTransport();
-        $transport->sendMessage();
-        $this->inlineTranslation->resume();
+        try {
+            $templateId = "trax_catalogo_catalogo_general_template_notification";
+            $this->inlineTranslation->suspend();
+            $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
+            $transport = $this->transportBuilder->getTransport();
+            $transport->sendMessage();
+            $this->inlineTranslation->resume();
+        } catch (\Exception $e) {
+            $this->_logger->info('Error Sending Email: ' . $e->getMessage() . " / Store: $storeid / TemplateId: $templateId");
+        }
 
         return $this;
+    }
+
+
+    /**
+     * @param $name
+     * @param $data
+     * @param $text
+     * @return $this
+     */
+    public function notifyProductIWS($name,$data, $text)
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $email = explode(',',$this->scopeConfig->getValue('trax_catalogo/catalogo_general/catalogo_correo', $storeScope));
+
+        /* Sender Detail  */
+        $senderInfo = [
+            'name' => 'Whitelabel Store',
+            'email' => 'soporteb2c@ixcomercio.com',
+        ];
+
+        /* Assign values for your template variables  */
+        $variable = [];
+        $variable['text'] = $text;
+        $variable['productos'] = $this->getProductHtml($data);
+
+
+        
+        $templateId = "trax_catalogo_catalogo_general_template_notification_product_iws";
+        foreach($email as $key => $value){
+            if(!empty($value)){
+                 /* Receiver Detail */
+                $receiverInfo = [
+                    'name' => $name,
+                    'email' => $value
+                ];
+
+                try {
+                    $this->inlineTranslation->suspend();
+                    $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+                    $transport = $this->transportBuilder->getTransport();
+                    $transport->sendMessage();
+                    $this->inlineTranslation->resume();
+                } catch (\Exception $e) {
+                    $this->_logger->info('Error Sending Email: ' . $e->getMessage() . " / TemplateId: $templateId");
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add Html products
+     */
+    public function getProductHtml($products)
+    {
+        $html = '';
+        foreach ($products as $product) {
+            # code...
+
+            $status = 'Disable';
+
+            if($product['status'] == 1 ){
+                $status = 'Enable';
+            }
+
+            $html.= '
+            <tr>
+                <td style="border:1px solid" >'.$product['storeName'].'</td>                            
+                <td style="border:1px solid" >'.$product['sku'].'</td>                            
+                <td style="border:1px solid" >'.$status.'</td>
+                <td style="border:1px solid" >Disable</td>
+            </tr>
+            ';
+        }
+
+        return $html;
+
     }
 
     public function clearSpecialCharac($String){

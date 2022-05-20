@@ -13,6 +13,8 @@ use \Intcomex\EventsObservers\Helper\RegisterPayment;
  */
 class Api
 {
+    const TIMEOUT = 'trax_general/catalogo_retailer/timeout';
+
     /**
      * @var \Zend\Log\Logger
      */
@@ -62,12 +64,28 @@ class Api
 
     public function getOrdenByIncrementId($idOrden, $reintentos = 0)
     {
+        
         $this->logger->info('Mercadopago Helper - orden '.$idOrden);
         $order = $this->_orderInterface->loadByIncrementId($idOrden);
-        $this->logger->info('Mercadopago Helper - reintentos '.$reintentos);
+
+        $timeout = $this->timeoutOrder();
+        
 
         if (!$order->getId()) { 
-            $this->logger->info('Mercadopago Helper - oder '. $idOrden . ' not found');
+
+            //reintentos
+            if($reintentos < 2){
+                
+                sleep($timeout);
+                $reintentos = $reintentos++;
+                $this->getOrdenByIncrementId($idOrden,$reintentos);
+
+                $this->logger->info('Mercadopago Helper - reintentos '.$reintentos);
+                $this->logger->info('Mercadopago Helper - oder '. $idOrden . ' not found');
+    
+            }
+            
+            
         }
         else{
             $this->logger->info('Mercadopago Helper - oder id '.$order->getId().' found');
@@ -163,6 +181,19 @@ class Api
         
 
 
+    }
+
+
+    public function timeoutOrder()
+    {
+        # code...
+
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+
+        $timeout = $this->_scopeConfig->getValue(self::TIMEOUT, $storeScope, $storeManager->getStore()->getCode());
+        return $timeout;
     }
         
 }

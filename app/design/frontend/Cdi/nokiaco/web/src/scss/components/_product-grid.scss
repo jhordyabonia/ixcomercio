@@ -4,12 +4,11 @@
     .item:not(.rating-summary){
       max-width: 300px;
       padding: 20px;
-      border: 1px solid #eee;
       background: #fff;
       border-radius: 5px;
       position: relative;
       @media only screen and (max-width: $mobile){
-        max-width: 100%;
+        max-width: 50%;
       }
       .product-item-info{
         .product-item-photo{
@@ -95,16 +94,23 @@
             }
           }
           .product-item-name{
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
             line-height: normal;
             min-height: 60px;
+            text-align: left;
+            color:#001135;
+            @media only screen and (max-width: $mobile){
+              font-size: 14px;
+            }
             a{
               font-weight: bold;
             }
           }
           .price-box{
             min-height: 60px;
+            text-align: left;
+            margin: 5px 0 5px;
             .special-price, .old-price{
               width: 100%;
               display: block;

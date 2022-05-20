@@ -40,7 +40,12 @@ define([
 
             if (!_.isEqual(lastPushedCart, cart) || !_.isEqual(lastPushedCustomer, customer)) {
                 $('body').trigger('mpCustomerSession', [customer, cart, _gtmDataLayer]);
-                _gtmDataLayer.push({'event': 'mpCustomerSession', 'customer': customer, 'cart': cart});
+                _gtmDataLayer.push({
+                    environment: 'production',
+                    'event': 'mpCustomerSession',
+                    'customer': customer,
+                    'cart': cart
+                });
 
                 lastPushedCustomer = customer;
                 lastPushedCart = cart;

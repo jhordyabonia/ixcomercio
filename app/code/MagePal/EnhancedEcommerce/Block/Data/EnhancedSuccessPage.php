@@ -87,6 +87,7 @@ class EnhancedSuccessPage extends CatalogLayer
 
         if (!empty($list)) {
             $impressionsListData = [
+                'environment' => DataLayerEvent::ENVIRONMENT,
                 'event' => DataLayerEvent::PRODUCT_IMPRESSION_EVENT,
                 'currencyCode' => $this->getStoreCurrencyCode(),
                 'ecommerce' => [

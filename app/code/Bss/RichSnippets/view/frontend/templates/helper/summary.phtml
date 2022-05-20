@@ -1,0 +1,71 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category   BSS
+ * @package    Bss_RichSnippets
+ * @author     Extension Team
+ * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+<?php
+/**
+ * Summary Block
+ * @var $block \Bss\RichSnippets\Block\Product\ReviewRenderer
+ */
+?>
+<?php
+$myHelper = $block->getHelper();
+$enable = $myHelper->getEnable();
+?>
+<?php $url = $block->getReviewsUrl() . '#reviews'; ?>
+<?php $urlForm = $block->getReviewsUrl() . '#review-form'; ?>
+<?php if ($block->getReviewsCount()) : ?>
+    <?php $rating = $block->getRatingSummary(); ?>
+    <?php
+    if ($enable == '0') : ?>
+        <div class="product-reviews-summary<?= !$rating ? ' no-rating' : ''?>"
+             itemprop="aggregateRating"
+             itemscope itemtype="http://schema.org/AggregateRating">
+        <?php
+    else : ?>
+        <div class="product-reviews-summary<?= !$rating ? ' no-rating' : ''?>">
+        <?php
+    endif; ?>
+    <?php
+    if ($rating) :?>
+        <div class="rating-summary">
+             <span class="label"><span><?= __('Rating') ?>:</span></span>
+             <div class="rating-result" title="<?= $block->escapeHtml($rating); ?>%">
+                 <span style="width:<?= $rating; ?>%"><span><span itemprop="ratingValue">
+                         <?= $rating; ?>
+                         </span><?php /* @escapeNotVerified */ echo __('% of') ?> <span itemprop="bestRating">100</span></span></span>
+             </div>
+         </div>
+        <?php
+    endif;?>
+    <div class="reviews-actions">
+        <a class="action view" href="<?= $url ?>"><span itemprop="reviewCount">
+                <?= $block->getReviewsCount() ?></span>&nbsp;<span><?=($block->getReviewsCount() == 1) ? __('Review') : __('Reviews') ?></span></a>
+        <a class="action add" href="<?= $urlForm ?>"><?= __('Add Your Review') ?></a>
+    </div>
+    </div>
+    <?php
+elseif ($block->getDisplayIfEmpty()) : ?>
+    <div class="product-reviews-summary empty">
+        <div class="reviews-actions">
+            <a class="action add" href="<?php /* @escapeNotVerified */ echo $urlForm; ?>">
+                <?php /* @escapeNotVerified */ echo __('Be the first to review this product') ?>
+            </a>
+        </div>
+    </div>
+    <?php
+endif;

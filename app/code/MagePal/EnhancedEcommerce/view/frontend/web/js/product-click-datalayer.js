@@ -82,6 +82,7 @@ define([
                 $("body").trigger("mpProductClick", [product, dataLayer]);
 
                 dataLayer.push({
+                    environment: 'production',
                     'event': 'productClick',
                     'ecommerce': {
                         'click': {

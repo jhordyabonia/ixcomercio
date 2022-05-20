@@ -1,10 +1,9 @@
 <?php
+
 namespace Trax\Catalogo\Cron;
-use \Psr\Log\LoggerInterface;
-use Magento\Framework\App\ResourceConnection;
 
-class GetStock {
-
+class GetStock
+{
     const API_KEY = 'trax_general/catalogo_retailer/apikey';
 
 	const ACCESS_KEY = 'trax_general/catalogo_retailer/accesskey';
@@ -48,23 +47,29 @@ class GetStock {
     const PRODUCT_PRICE = 'trax_catalogo/catalogo_iws/product_price';
 
     const PRODUCT_STOCK = 'trax_catalogo/catalogo_iws/product_stock';
-    
+
     private $helper;
 
-	
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
     protected $scopeConfig;
-    
-    protected $logger;
 
     protected  $productRepository;   
-    
+
     protected $resourceConnection;
 
-    public function __construct(LoggerInterface $logger, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-    \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,     \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool, \Magento\Indexer\Model\IndexerFactory $indexerFactory,     \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory, \Trax\Catalogo\Helper\Email $email, \Magento\Store\Api\StoreRepositoryInterface $storesRepository,\Magento\Eav\Model\Config $eavConfig, ResourceConnection $resourceConnection) {
+    public function __construct(
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\Indexer\Model\IndexerFactory $indexerFactory,
+        \Magento\Indexer\Model\Indexer\CollectionFactory $indexerCollectionFactory,
+        \Trax\Catalogo\Helper\Email $email,
+        \Magento\Store\Api\StoreRepositoryInterface $storesRepository,
+        \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Framework\App\ResourceConnection $resourceConnection,
+        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemInterface,
+        \Intcomex\Auditoria\Helper\ReferencePriceValidation $priceValidation
+    ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -80,14 +85,17 @@ class GetStock {
         $this->helper = $email;
         $this->_eavConfig = $eavConfig;
         $this->resourceConnection = $resourceConnection;
+        $this->_sourceItemInterface = $sourceItemInterface;
+        $this->priceValidation = $priceValidation;
     }
 
-/**
-   * Write to system.log
-   *
-   * @return void
-   */
-
+    /**
+     * Write to system.log
+     *
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function execute() 
     {
         $table = 'inventory_reservation';
@@ -119,7 +127,6 @@ class GetStock {
         }
         //Se reindexa                            
         $this->reindexCatalogData();
-
     }
 
     //Obtiene los parámetros de configuración desde el cms
@@ -262,6 +269,7 @@ class GetStock {
     //Carga la información de precios e inventario del catalogo
     public function loadCatalogSalesData($data, $websiteCode, $store, $storeId, $configData) 
     {
+        $referencePriceErrors = '';
         $arrSourceItemInterfaces = array();
         $arrayProducts = array();
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();  
@@ -275,32 +283,22 @@ class GetStock {
             $products = $productCollectionFactory->create();
             $products->addAttributeToSelect('*');
             $products->addStoreFilter($storeId);
-            $productFix  = array();
+            $arraySkuMagento = array();
+            $arraySkuIWS = array();
             
             foreach($products as $product){
-                $sku = $product->getData('sku');
-                $attributes = $product->getAttributes();
-                foreach($attributes as $a){
-                    if($a->getName()=='activate_from_stock'){
-                        $attribute = $this->_eavConfig->getAttribute('catalog_product', $a->getName());
-                    }
-                }
-                $productFix[$sku] = array('activate_from_stock'=>$attribute->getFrontend()->getValue($product));
+                $arraySkuMagento[] = $product->getSku();
             }
         
             if($configData['product_stock']){
                 foreach ($data as $key => $catalog) {
                     try{
-                    if(isset($productFix[$catalog->Sku])){
+                        $arraySkuIWS[] = $catalog->Sku;
                         $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
                         $objSourceItemInterface->setSku($catalog->Sku);
                         $objSourceItemInterface->setSourceCode($websiteCode);
                         $objSourceItemInterface->setQuantity($catalog->InStock);
                         $productStatus = (($catalog->InStock > 0)?1:0);
-                        if($productFix[$catalog->Sku]['activate_from_stock']=='Si'){
-                            $productStatus = 1;
-                            $this->logger->info('Producto activado por defecto '.$catalog->Sku);
-                        }
                         $objSourceItemInterface->setStatus($productStatus);
                     
                         $arrSourceItemInterfaces[] = $objSourceItemInterface; 
@@ -310,17 +308,25 @@ class GetStock {
                             'InStock' => $catalog->InStock,
                             'Status' => $productStatus
                         );
-                    }
+
+                        $referencePriceResult = $this->_referencePriceValidation($catalog->Sku, $productStatus, $websiteCode, $storeId);
+                        $referencePriceErrors .= $referencePriceResult;
                     } catch(Exception $e){
                         $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
                     }
-                } 
+                }
             }
-
         }
-        
+
+        // Intcomex_Auditoria ReferencePrice Email
+        if ($referencePriceErrors !== '') {
+            $this->priceValidation->sendReferencePriceErrorEmail($referencePriceErrors, $websiteCode, $storeId);
+        }
         if(!empty($arrayProducts)){
             $this->_setStoreViewStock($arrSourceItemInterfaces,$arrayProducts);
+        }
+        if(!empty($arraySkuMagento)){
+            $this->disableNonExistProduct($arraySkuMagento,$arraySkuIWS,$websiteCode);
         }
     }
 
@@ -346,5 +352,58 @@ class GetStock {
         }catch(Exception $e){
             $this->logger->info('GetStock - Se ha producido un error al actualizar los datos '.print_r($arrayProducts,true).' . Error: '.$e->getMessage());
         }
+    }
+
+    public function disableNonExistProduct($magentoSku,$iwsSku,$websiteCode){
+        
+        $writer2 = new \Zend\Log\Writer\Stream(BP . '/var/log/disableProductsIWS.log');
+        $this->logger2 = new \Zend\Log\Logger();
+        $this->logger2->addWriter($writer2);
+        $this->logger2->info('Array Diference'); 
+        $diffSku = array_diff($magentoSku,$iwsSku);
+        $arrSourceItemInterfaces = array();
+
+        foreach($diffSku as $key => $value){
+
+            $objSourceItemInterface = $this->_sourceItemInterface->create();
+            $objSourceItemInterface->setSku($value);
+            $objSourceItemInterface->setSourceCode($websiteCode);
+            $objSourceItemInterface->setQuantity(0);
+            $objSourceItemInterface->setStatus(0);
+            $arrSourceItemInterfaces[] = $objSourceItemInterface;
+        }
+
+        if(!empty($diffSku)){
+            $this->_setStoreViewStock($arrSourceItemInterfaces,$diffSku);
+            $this->logger2->info(print_r($diffSku,true));
+        }
+        
+    }
+
+    /**
+     * Execute Reference Price Validation.
+     *
+     * @param $sku
+     * @param $status
+     * @param $websiteCode
+     * @param $storeId
+     * @param $errors
+     * @return string
+     */
+    private function _referencePriceValidation($sku, $status, $websiteCode, $storeId): string
+    {
+        $stringError = '';
+        if ($status) {
+            try {
+                $product = $this->productRepository->get($sku, false, $storeId);
+                $result = $this->priceValidation->execute($product, $product->getPrice(), $product->getSpecialPrice(), $websiteCode, $storeId);
+                if ($result !== true) {
+                    $stringError = $result['errors'];
+                }
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                $this->logger->info('GetStock - ReferencePriceValidation Error: ' . $e->getMessage());
+            }
+        }
+        return $stringError;
     }
 }

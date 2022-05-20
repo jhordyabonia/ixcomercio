@@ -180,12 +180,11 @@ class CancelOrder extends \Magento\Framework\App\Action\Action implements CsrfAw
     }
     
     //Se cancela orden en IWS
-    public function cancelIwsOrder($mp_order){   
+    public function cancelIwsOrder($mp_order, $storeId)
+    {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();     
-        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         //Se obtienen parametros de configuración por Store        
-        $configData = $this->getConfigParams($storeScope, $storeManager->getStore()->getCode()); 
+        $configData = $this->getConfigParams($storeScope, $storeId);
         $this->logger->info('CancelOrder - Se obtienen parámetros de configuración');
         $serviceUrl = $this->getServiceUrl($configData, 'cancelorder');   
         $this->logger->info('CancelOrder - url '.$serviceUrl);
@@ -193,10 +192,10 @@ class CancelOrder extends \Magento\Framework\App\Action\Action implements CsrfAw
             try{
                 $payload = $this->loadPayloadService($mp_order);
                 if($payload){
-                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeManager->getStore()->getCode(), 0);
+                    $this->beginCancelOrder($mp_order, $configData, $payload, $serviceUrl, $storeId, 0);
                 } else{
                     $this->logger->info('CancelOrder - Se ha producido un error al cargar la información de la orden en iws');
-                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeManager->getStore()->getCode());
+                    $this->helper->notify('Soporte Trax', $configData['cancelar_correo'], $configData['cancelar_reintentos'], $serviceUrl, $payload, $storeId);
                 }
             } catch(Exception $e){
                 $this->logger->info('CancelOrder - Se ha producido un error: '.$e->getMessage());

@@ -10,46 +10,62 @@
 -->
 
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
-    <div class="payment-method-title field choice">
-        <input type="radio"
-               name="payment[method]"
-               class="radio"
-               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+    <div class="payment-method-title credomatic field choice">
+        <input type="radio" name="payment[method]" class="radio"
+            data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
         <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
     </div>
-    <div class="payment-method-content">
+    <div data-bind="afterRender: updateMenu();" class="payment-method-content">
         <!-- ko foreach: getRegion('messages') -->
-        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- ko template: getTemplate() -->
+        <!-- /ko -->
         <!--/ko-->
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
-            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- ko template: getTemplate() -->
+            <!-- /ko -->
             <!--/ko-->
         </div>
 
-        <form  class="form" data-bind="attr: {'id': getCode() + '-form'}">
-            <!-- ko template: 'Intcomex_Credomatic/payment/cc-form' --><!-- /ko -->
-			
+        <form class="form" data-bind="attr: {'id': getCode() + '-form'}">
+            <!-- ko template: 'Intcomex_Credomatic/payment/cc-form' -->
+            <!-- /ko -->
+
         </form>
-        <iframe id="frame_Credomatic" src="" style="display:none">
-        </iframe>
+        <form id="credomaticPaymentForm" method="POST" style="display: none;">
+            <input name="type" value="sale">
+            <input name="key_id" value="">
+            <input name="amount" value="">
+            <input name="time" value="">
+            <input name="hash" value="">
+            <input name="orderid" value="">
+            <input name="processor_id" value="">
+            <input name="firstname" value="">
+            <input name="lastname" value="">
+            <input name="email" value="">
+            <input name="phone" value="">
+            <input name="street1" value="">
+            <input name="street2" value="">
+            <input name="cvv" value="">
+            <input name="ccnumber" value="">
+            <input name="ccexp" type="text" value="">
+            <input name="redirect" value="">
+        </form>
 
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
-            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- ko template: getTemplate() -->
+            <!-- /ko -->
             <!--/ko-->
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button class="action primary checkout"
-                        type="submit"
-                        data-bind="
+                <button class="action primary checkout" type="submit" data-bind="
                         click: placeOrder,
                         attr: {title: $t('Place Order')},
                         css: {disabled: !isPlaceOrderActionAllowed()},
                         enable: (getCode() == isChecked())
-                        "
-                        disabled>
+                        " disabled>
                     <span data-bind="text: $t('Place Order')"></span>
                 </button>
             </div>
