@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
 @font-face{
   font-family: "Frankfurter W05 Regular";
   src: url("../fonts/fka/545b8c4b-ee94-47dd-a9b0-55881ceeeeaa.eot?#iefix") format("eot"),
@@ -13,83 +15,6 @@
        url('../fonts/fontello/fontello.svg?25926270#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
-}
-/*** fonts movistar ****/
-@font-face {
-  font-family: 'Telefonica-Bold';
-  src: url('../fonts/movistar/Telefonica-Bold.eot');
-  src: url('../fonts/movistar/Telefonica-Bold.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/movistar/Telefonica-Bold.woff2') format('woff2'),
-      url('../fonts/movistar/Telefonica-Bold.woff') format('woff'),
-      url('../fonts/movistar/Telefonica-Bold.ttf') format('truetype'),
-      url('../fonts/movistar/Telefonica-Bold.svg#Telefonica-Bold') format('svg');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Telefonica-Cap';
-  src: url('../fonts/movistar/TelefonicaCap-Regular.eot');
-  src: url('../fonts/movistar/TelefonicaCap-Regular.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/movistar/TelefonicaCap-Regular.woff2') format('woff2'),
-      url('../fonts/movistar/TelefonicaCap-Regular.woff') format('woff'),
-      url('../fonts/movistar/TelefonicaCap-Regular.ttf') format('truetype'),
-      url('../fonts/movistar/TelefonicaCap-Regular.svg#TelefonicaCap-Regular') format('svg');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Telefonica-ExtraLight';
-  src: url('../fonts/movistar/Telefonica-ExtraLight.eot');
-  src: url('../fonts/movistar/Telefonica-ExtraLight.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/movistar/Telefonica-ExtraLight.woff2') format('woff2'),
-      url('../fonts/movistar/Telefonica-ExtraLight.woff') format('woff'),
-      url('../fonts/movistar/Telefonica-ExtraLight.ttf') format('truetype'),
-      url('../fonts/movistar/Telefonica-ExtraLight.svg#Telefonica-ExtraLight') format('svg');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Telefonica-RegularItalic';
-  src: url('../fonts/movistar/Telefonica-RegularItalic.eot');
-  src: url('../fonts/movistar/Telefonica-RegularItalic.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/movistar/Telefonica-RegularItalic.woff2') format('woff2'),
-      url('../fonts/movistar/Telefonica-RegularItalic.woff') format('woff'),
-      url('../fonts/movistar/Telefonica-RegularItalic.ttf') format('truetype'),
-      url('../fonts/movistar/Telefonica-RegularItalic.svg#Telefonica-RegularItalic') format('svg');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Telefonica-Light';
-  src: url('../fonts/movistar/Telefonica-Light.eot');
-  src: url('../fonts/movistar/Telefonica-Light.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/movistar/Telefonica-Light.woff2') format('woff2'),
-      url('../fonts/movistar/Telefonica-Light.woff') format('woff'),
-      url('../fonts/movistar/Telefonica-Light.ttf') format('truetype'),
-      url('../fonts/movistar/Telefonica-Light.svg#Telefonica-Light') format('svg');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Telefonica-Regular';
-  src: url('../fonts/movistar/Telefonica-Regular.eot');
-  src: url('../fonts/movistar/Telefonica-Regular.eot?#iefix') format('embedded-opentype'),
-      url('../fonts/movistar/Telefonica-Regular.woff2') format('woff2'),
-      url('../fonts/movistar/Telefonica-Regular.woff') format('woff'),
-      url('../fonts/movistar/Telefonica-Regular.ttf') format('truetype'),
-      url('../fonts/movistar/Telefonica-Regular.svg#Telefonica-Regular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
 
 * {
@@ -203,8 +128,9 @@ input.input-text, select, textarea {
   border: 1px solid #ddd;
   color: #888;
   box-sizing: border-box;
-  border-radius: 0;
   box-shadow: none;
+  border-radius: 50px;
+  height: 35px;
 }
 .skip-content {
   display: none;
@@ -282,4 +208,14 @@ h1, .h1{
   font-style: normal;
   line-height: 1.2;
   text-rendering: optimizeLegibility;
+}
+
+._keyfocus *:focus, input:not([disabled]):focus, textarea:not([disabled]):focus, select:not([disabled]):focus{
+  box-shadow: 0 0 1px 1px $mainColor;
+}
+li.payment-group-item.active{
+  background: #E4E4E4;
+}
+li.payment-group-item {
+  min-height: 70px;
 }

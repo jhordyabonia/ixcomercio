@@ -126,7 +126,7 @@
     .payment-option{
       .form{
         width: 100%;
-        max-width: 450px;
+        max-width: 100%;
         display: inline-block;
         float: none;
       }
@@ -557,4 +557,13 @@ div#credomaticmastercard_cc_type_exp_div{
 }
 #credomaticmastercard_cc_number-error{
   display: none;
+}
+
+.checkout-index-index .checkout-payment-method .payment-option._collapsible .payment-option-content{
+  display: block !important;
+}
+
+.checkout-index-index .checkout-payment-method .payment-option-title .action-toggle{
+  color: $colorText;
+  font-size: 16px;
 }

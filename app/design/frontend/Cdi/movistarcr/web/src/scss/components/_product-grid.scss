@@ -64,7 +64,7 @@
             z-index: 994;
           }
           &.disccount-tag{
-            background-color: #822980;
+            background-color: #FF7C00;
           }
           &.new-tag{
             background-color: #b0d114;
@@ -94,12 +94,12 @@
             }
           }
           .product-item-name{
-            font-size: 15px;
+            font-size: 16px;
             line-height: normal;
             font-family: $fontText;
             min-height: 60px;
             a{
-              color: $colorLink;
+              color: $colorText;
               
             }
           }
