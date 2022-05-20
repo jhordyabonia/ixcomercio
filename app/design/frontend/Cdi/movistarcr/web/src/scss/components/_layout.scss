@@ -580,12 +580,12 @@ section{
     width: 100%;
     color: #fff;
     background: $mainColor;
-    text-transform: uppercase;
+    text-transform: none;
     transition: .5s all ease;
     font-size: 1.7rem;
     letter-spacing: 1px;
     font-family: $fontText;
-    font-weight: 400;
+    font-weight: bold;
     border-radius: 50px !important;
     border: 0;
     &:hover{
@@ -597,9 +597,9 @@ section{
   &.action-update {
     color: $mainColor;
     background: none;
-    text-transform: uppercase;
+    text-transform: none;
     transition: .5s all ease;
-    font-weight: 400;
+    font-weight: bold;
     border-radius: 50px !important;
     border: 2px solid $mainColor;
     &:hover{
