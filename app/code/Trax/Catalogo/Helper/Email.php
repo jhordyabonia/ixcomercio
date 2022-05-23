@@ -113,9 +113,11 @@ class Email extends AbstractHelper
     /**
      * @param $name
      * @param $email
+     * @param $reintentos
+     * @param $serviceUrl
+     * @param $payload
+     * @param $storeid
      * @return $this
-     * @throws \Magento\Framework\Exception\MailException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function notify($name, $email, $reintentos, $serviceUrl, $payload, $storeid)
     {
@@ -138,23 +140,26 @@ class Email extends AbstractHelper
         $variable['serviceUrl'] = $serviceUrl;
         $variable['payload'] = $payload;
 
-        $templateId = "trax_catalogo_catalogo_general_template_notification";
-        $this->inlineTranslation->suspend();
-        $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
-        $transport = $this->transportBuilder->getTransport();
-        $transport->sendMessage();
-        $this->inlineTranslation->resume();
+        try {
+            $templateId = "trax_catalogo_catalogo_general_template_notification";
+            $this->inlineTranslation->suspend();
+            $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
+            $transport = $this->transportBuilder->getTransport();
+            $transport->sendMessage();
+            $this->inlineTranslation->resume();
+        } catch (\Exception $e) {
+            $this->_logger->info('Error Sending Email: ' . $e->getMessage() . " / Store: $storeid / TemplateId: $templateId");
+        }
 
         return $this;
     }
 
 
-
     /**
-     * 
+     * @param $name
+     * @param $data
+     * @param $text
      * @return $this
-     * @throws \Magento\Framework\Exception\MailException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function notifyProductIWS($name,$data, $text)
     {
@@ -183,11 +188,15 @@ class Email extends AbstractHelper
                     'email' => $value
                 ];
 
-                $this->inlineTranslation->suspend();
-                $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, \Magento\Store\Model\Store::DEFAULT_STORE_ID);
-                $transport = $this->transportBuilder->getTransport();
-                $transport->sendMessage();
-                $this->inlineTranslation->resume();
+                try {
+                    $this->inlineTranslation->suspend();
+                    $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+                    $transport = $this->transportBuilder->getTransport();
+                    $transport->sendMessage();
+                    $this->inlineTranslation->resume();
+                } catch (\Exception $e) {
+                    $this->_logger->info('Error Sending Email: ' . $e->getMessage() . " / TemplateId: $templateId");
+                }
             }
         }
 

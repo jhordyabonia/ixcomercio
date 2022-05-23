@@ -1,4 +1,5 @@
 <?php
+
 namespace Intcomex\CustomLog\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -115,52 +116,53 @@ class Email extends AbstractHelper
     }
 
     /**
-     * @param $name
      * @param $email
-     * @return $this
-     * @throws \Magento\Framework\Exception\MailException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @param $variables
+     * @param $templateId
+     * @return $this|void
      */
     public function notify($email,$variables,$templateId)
     {
-            
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance(); 
 
-            /* Sender Detail  */
-            $senderInfo = [
-                'name' => 'Whitelabel Store',
-                'email' => 'soporteb2c@ixcomercio.com',
-            ];
+        /* Sender Detail  */
+        $senderInfo = [
+            'name' => 'Whitelabel Store',
+            'email' => 'soporteb2c@ixcomercio.com',
+        ];
 
-            $receiverInfo = [
-                'name' => $email,
-                'email' => $email
-            ];
+        $receiverInfo = [
+            'name' => $email,
+            'email' => $email
+        ];
 
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test_email_log.log');
-            $this->logger = new \Zend\Log\Logger();
-            $this->logger->addWriter($writer);
-            $this->logger->info(print_r($variables,true));
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test_email_log.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+        $this->logger->info(print_r($variables,true));
 
-            // Assign values for your template variables  
-            $variable = $variables;
-            if(isset($variables['body'])&&$variables['body']!=''){
-                $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
-                $storeid = $theme->getStore()->getId();
-    
+        // Assign values for your template variables
+        $variable = $variables;
+        if(isset($variables['body'])&&$variables['body']!=''){
+            $theme = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+            $storeid = $theme->getStore()->getId();
+
+            try {
                 $this->inlineTranslation->suspend();
                 $this->generateTemplate($variable, $receiverInfo, $senderInfo, $templateId, $storeid);
                 $transport = $this->transportBuilder->getTransport();
                 $send = $transport->sendMessage();
-               
+                $this->inlineTranslation->resume();
                 $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/validacion_envio_correo.log');
                 $this->logger = new \Zend\Log\Logger();
                 $this->logger->addWriter($writer);
                 $this->logger->info(print_r($send,true));
-    
-                $this->inlineTranslation->resume();
-                return $this;
+            } catch (\Exception $e) {
+                $this->_logger->info('Error Sending Email: ' . $e->getMessage() . " / Store: $storeid / TemplateId: $templateId");
             }
+
+            return $this;
+        }
     }
 
     public function clearSpecialCharac($String){

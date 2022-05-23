@@ -1,6 +1,7 @@
 <?php
 
 namespace Intcomex\CredomaticMasterCard\Controller\Custom;
+use Magento\Store\Model\ScopeInterface;
 
 class Storeconfig extends \Magento\Framework\App\Action\Action
 {
@@ -33,10 +34,7 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
         error_log('StoreConfig / excecute() ');
         $response = [];
         try {
-            $configValue = $this->scopeConfig->getValue(
-                'payment/credomaticmastercard/CuotasOptions',
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
+            $configValue = $this->scopeConfig->getValue('payment/credomaticmastercard/CuotasOptions',ScopeInterface::SCOPE_STORE);
             error_log('Config Value: ' . print_r($configValue, true));
             $response = [
                 'success' => true,

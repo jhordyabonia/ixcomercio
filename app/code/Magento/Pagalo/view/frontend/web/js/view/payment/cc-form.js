@@ -168,8 +168,8 @@ define([
                 'cc_exp_year': this.creditCardExpYear(),
                 'cc_exp_month': this.creditCardExpMonth(),
                 'cc_number': this.creditCardNumber(),
-                'cc_installments': this.creditCardInstallments(),
-                'cc_fingerprint': cybs_dfprofiler("visanetgt_jupiter","live")
+                'cc_installments': this.creditCardInstallments(),                
+                'cc_fingerprint': cybs_dfprofiler("visanetgt_ixcomercioepson","live")
             };
 
             return $.extend(true, parent, {

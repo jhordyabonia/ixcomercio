@@ -60,6 +60,7 @@ if(!isset($showBilling) || $showBilling == null ){
         window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>';
         window.imgFranquiciasBAC = '<?php echo $block->getViewFileUrl('images/franquiciasBAC.png'); ?>'; 
         window.mercadoPagoRut = '<?php echo $_helperCdi->getStoreConfig('customer/address/billing_identification_label') ?>'; 
+        window.customAlertImage = '<?php echo $mediaUrl.'iconos_alerta/icono_'.$theme->getStore()->getCode().'.png';?>';
     </script>
     <script>
         require([

@@ -3,12 +3,27 @@
 $cnet = $block->getCnetData();
 ?>
 
-<div id="ccs-logos"></div>
-<div id="ccs-inline-content"></div>
-<div id="ccs-explore-product"></div>
-<div id="ccs-feature-icons"></div>
+<div id="cnet-content">
+    <div id="ccs-logos" style="display: none"></div>
+    <div id="ccs-inline-content" style="display: none"></div>
+    <div id="ccs-explore-product" style="display: none"></div>
+    <div id="ccs-feature-icons" style="display: none"></div>
+</div>
 
 <script type="text/javascript">
+    // Move Cnet Content to section required.
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+        let cnetContent = $('#cnet-content').html();
+        $('#description').append(cnetContent);
+        setTimeout(function() {
+            $("a#tab-label-description-title").trigger('click');
+            $('#ccs-logos, #ccs-inline-content, #ccs-explore-product, #ccs-feature-icons').show();
+        }, 2000);
+    });
+    // Include Cnet Content.
     var mf = "<?= $cnet['mf'] ?>",
         pn = "<?= $cnet['pn'] ?>",
         lang = "<?= $cnet['lang'] ?>",

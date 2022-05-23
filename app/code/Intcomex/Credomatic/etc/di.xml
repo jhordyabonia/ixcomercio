@@ -14,7 +14,20 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Console\CommandList">
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="upload" xsi:type="object">Intcomex\Credomatic\Console\Commands</item>
+           </argument>
+       </arguments>
+   </type>  
     <preference for="Magento\Payment\Helper\Data" type="Intcomex\Credomatic\Helper\Data" />
-    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Intcomex\Credomatic\Model\SendMailOrder" />
-    <preference for="Magento\Sales\Model\Order\Email\Sender\InvoiceSender" type="Intcomex\Credomatic\Model\SendMailInvoice" />
+    <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Intcomex\Credomatic\Model\SendMailOrder" /> 
+    <type name="Magento\Framework\Console\CommandList">
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="credomatic" xsi:type="object">Intcomex\Credomatic\Console\Commands</item>
+           </argument>
+       </arguments>
+   </type>  
 </config>
