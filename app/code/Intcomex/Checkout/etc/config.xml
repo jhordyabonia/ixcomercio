@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <intcomex_checkout>
+            <general>
+                <cfdi>0</cfdi>
+                <regimen_fiscal>0</regimen_fiscal>
+                <rfc>0</rfc>
+            </general>
+        </intcomex_checkout>
+    </default>
+</config>

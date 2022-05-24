@@ -59,7 +59,8 @@ class PlaceOrder extends AbstractHelper
      * @var \Trax\Grid\Model\GridFactory
      */
     private $gridFactory;
-    
+
+    protected $eavAttributeRepository;
 	/**
      * 
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -72,7 +73,8 @@ class PlaceOrder extends AbstractHelper
             \Magento\Sales\Model\Order $order,
             LoggerInterface $logger,
             \Magento\Framework\Controller\ResultFactory $result,
-            \Trax\Grid\Model\GridFactory $gridFactory
+            \Trax\Grid\Model\GridFactory $gridFactory,
+            \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepositoryInterface
     ) {
         $this->scopeConfig = $scopeConfig;        
         $this->helper = $email;
@@ -81,7 +83,7 @@ class PlaceOrder extends AbstractHelper
         $this->order = $order;     
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
-
+        $this->eavAttributeRepository = $eavAttributeRepositoryInterface;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/events_sales_order.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -282,6 +284,9 @@ class PlaceOrder extends AbstractHelper
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $billing->getTelephone(),
                     'DocumentId' => $billing->getIdentification(),
+                    'TaxSystem' =>  $this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal'),
+                    'DigitalTaxReceipt' => $this->getValueBillingAddress($billing->getCfdi(), 'cfdi'),
+                    'TaxRegistrationNumber' => $billing->getRfc(),
                 ),
                 'Billing' => array(
                     'FirstName' => $billing->getFirstname(),
@@ -432,5 +437,21 @@ class PlaceOrder extends AbstractHelper
         $specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
 
         return $specialPrice;
+    }
+
+    public function getValueBillingAddress($billing, $field)
+    {
+
+        $attribute = $this->eavAttributeRepository->get('customer_address', $field);
+        $optionText = $attribute->getSource()->getOptionText($billing);
+        $arrayOptions = explode("-", $optionText);
+
+        if (empty($arrayOptions[0])) {
+            $valueText = '';
+        } else {
+            $valueText = $arrayOptions[0];
+        }
+
+        return $valueText;
     }
 }

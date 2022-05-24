@@ -62,6 +62,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
      */
     private $gridFactory;
 
+    protected $eavAttributeRepository;
+
     /**
      * AdminFailed constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -73,7 +75,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Catalogo\Helper\Email $email,
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
         \Magento\Framework\Controller\ResultFactory $result,
-        \Trax\Grid\Model\GridFactory $gridFactory
+        \Trax\Grid\Model\GridFactory $gridFactory,
+        \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepositoryInterface
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
         $this->logger = new \Zend\Log\Logger();
@@ -85,6 +88,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->_iwsOrder = $iwsOrder;
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
+        $this->eavAttributeRepository = $eavAttributeRepositoryInterface;
 	}
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -379,6 +383,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $this->helper->clearSpecialCharac($billing->getTelephone()),
                     'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification()),
+                    'TaxSystem' =>  $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal')),
+                    'DigitalTaxReceipt' => $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getCfdi(), 'cfdi')),
+                    'TaxRegistrationNumber' => $this->helper->clearSpecialCharac($billing->getRfc()),
                 ),
                 'Billing' => array(
                     'FirstName' => $this->helper->clearSpecialCharac($billing->getFirstname()),
@@ -568,5 +575,21 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
 
         return $specialPrice;
+    }
+
+    public function getValueBillingAddress($billing, $field)
+    {
+
+        $attribute = $this->eavAttributeRepository->get('customer_address', $field);
+        $optionText = $attribute->getSource()->getOptionText($billing);
+        $arrayOptions = explode("-", $optionText);
+
+        if (empty($arrayOptions[0])) {
+            $valueText = '';
+        } else {
+            $valueText = $arrayOptions[0];
+        }
+
+        return $valueText;
     }
 }
