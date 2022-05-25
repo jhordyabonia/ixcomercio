@@ -98,7 +98,6 @@ class InstallData implements InstallDataInterface
         $attributeSetId = $categorySetup->getDefaultAttributeSetId($entityTypeId);
         $attributeSet->setData($data);
         $attributeSet->validate();
-        $attributeSet->save();
         $attributeSet->initFromSkeleton($attributeSetId);
         $attributeSet->save();
 
@@ -111,9 +110,9 @@ class InstallData implements InstallDataInterface
                 'type' => 'int',
                 'label' => 'Color',
                 'input' => 'swatch_visual',
-                'required' => false,
+                'required' => true,
                 'visible' => true,
-                'global' => ScopedAttributeInterface::SCOPE_STORE,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'used_in_product_listing' => true,
                 'visible_on_front' => true,
                 'user_defined' => true,
@@ -135,9 +134,9 @@ class InstallData implements InstallDataInterface
                 'type' => 'int',
                 'label' => 'Gender',
                 'input' => 'swatch_text',
-                'required' => false,
+                'required' => true,
                 'visible' => true,
-                'global' => ScopedAttributeInterface::SCOPE_STORE,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'used_in_product_listing' => true,
                 'visible_on_front' => true,
                 'user_defined' => true,
@@ -159,9 +158,9 @@ class InstallData implements InstallDataInterface
                 'type' => 'int',
                 'label' => 'Size',
                 'input' => 'swatch_text',
-                'required' => false,
+                'required' => true,
                 'visible' => true,
-                'global' => ScopedAttributeInterface::SCOPE_STORE,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'used_in_product_listing' => true,
                 'visible_on_front' => true,
                 'user_defined' => true,
@@ -217,6 +216,29 @@ class InstallData implements InstallDataInterface
                 'used_for_promo_rules' => true,
                 'is_html_allowed_on_front' => false,
                 'used_for_sort_by' => true
+            ]
+        );
+
+        // Product Attribute Sizes Match
+        $eavSetup->addAttribute(
+            Product::ENTITY,
+            'crocs_sizes_match',
+            [
+                'type' => 'int',
+                'label' => 'Sizes Match',
+                'input' => 'select',
+                'required' => false,
+                'visible' => true,
+                'global' => ScopedAttributeInterface::SCOPE_STORE,
+                'used_in_product_listing' => false,
+                'visible_on_front' => false,
+                'user_defined' => true,
+                'filterable' => false,
+                'searchable' => false,
+                'filterable_in_search' => false,
+                'used_for_promo_rules' => false,
+                'is_html_allowed_on_front' => false,
+                'used_for_sort_by' => false
             ]
         );
 
