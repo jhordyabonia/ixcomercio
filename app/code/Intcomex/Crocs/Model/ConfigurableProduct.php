@@ -9,7 +9,6 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Eav\Model\Config;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Validator\Exception;
 use Zend\Log\Logger;
 
 class ConfigurableProduct
@@ -58,6 +57,14 @@ class ConfigurableProduct
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
         $this->logger = new Logger();
         $this->logger->addWriter($writer);
+    }
+
+    public function getIsModuleEnabled($storeId)
+    {
+        if ($this->crocsHelper->isEnabled($storeId)) {
+            return true;
+        }
+        return false;
     }
 
     public function getSkuWithPrefixIfNeeded($sku, $storeId): string
@@ -165,11 +172,11 @@ class ConfigurableProduct
                 $configurableProduct->save();
 
                 if ($isNewConfigurableProduct) {
-                    $this->logger->debug("Created ConfigurableProductId: $configurableProductId");
+                    $this->logger->debug("Created ConfigurableProductId: $configurableProductId AssociatedProductId: " . $product->getId());
                 } else {
-                    $this->logger->debug("Updated ConfigurableProductId: $configurableProductId");
+                    $this->logger->debug("Updated ConfigurableProductId: $configurableProductId AssociatedProductId: " . $product->getId());
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logger->info('Error assign child to configurable product:: ' . $e->getMessage());
             }
         }

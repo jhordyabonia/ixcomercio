@@ -43,9 +43,8 @@ class BeforeSaveProduct implements ObserverInterface
         /** @var Product $product */
         $product = $observer->getData('product');
         $storeId = $product->getStoreId();
-
         $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
-//        return;
+
         if ($this->crocsHelper->isEnabled($storeId)) {
 //            $this->logger->debug($this->registry->registry('flag'));
             $this->_setSku($product);
@@ -60,21 +59,21 @@ class BeforeSaveProduct implements ObserverInterface
 
                     $configurableSku = $this->configurableProduct->getConfigurableSku($mpn, $storeId);
                     if ($configurableSku) {
-                        $this->configurableProduct->createConfigurableProduct($configurableSku, $product);
-                        //                $this->logger->debug($storeId);
+                        // Set data to First product
                         $color = $this->configurableProduct->getColor($mpn, $storeId);
                         $this->logger->debug($color);
 
                         $sizes = $this->configurableProduct->getSizes($mpn, $storeId);
                         $this->logger->debug(json_encode($sizes));
-
-                        // Set data to First product
                         $this->configurableProduct->setDataToFirstProduct($product, $sizes[0], $color);
+
+                        $this->configurableProduct->createConfigurableProduct($configurableSku, $product);
+                        $this->logger->debug('ConfigurableSku: ' . $configurableSku);
 
                         // If it is multi size
                         if (count($sizes) > 1) {
                             // Set data to Woman product
-//                            $this->configurableProduct->createSecondProduct($product, $sizes[1], $color);
+                            $this->configurableProduct->createSecondProduct($product, $sizes[1], $color);
                         }
                     }
                 } else {
