@@ -136,6 +136,10 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
         $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
         $this->addressRegistry = $addressRegistry ?: ObjectManager::getInstance()->get(AddressRegistry::class);
         $this->sanitizeXss = $sanitizeXss;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $this->_logger = $logger;
     }
 
     /**
@@ -210,7 +214,8 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
         $validFormKey = $this->getRequest()->getPostValue()['edit_form_key'];
         $customFormToken = $this->session->getCustomFormAccountEdit();
 
-        if ($validFormKey !== $customFormToken) {
+        $this->_logger->debug('CustomerId: ' . $this->session->getCustomerId() . ' Session: ' . $customFormToken . ' FormKey: ' . $validFormKey);
+        if (strcmp($validFormKey, $customFormToken)) {
             $this->messageManager->addErrorMessage(__('Invalid Form Key. Please refresh the page.'));
             $resultRedirect->setPath('*/*/');
             return $resultRedirect;

@@ -271,9 +271,9 @@
       }
       .cart.main.actions{
         .action{
-          color: $bgColorSecond;
+          color: $mainColor;
           background: none;
-          border: 1px solid $bgColorSecond;
+          border: 1px solid $mainColor;
           padding: 7px 15px;
           height: 44px;
           font-size: 16px;
@@ -398,7 +398,7 @@
       padding: 14px 17px;
       margin: 0;
       &:hover{
-        background: #000;
+        background: $bgColorSecond;
       }
     }
   }

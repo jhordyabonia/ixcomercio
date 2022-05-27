@@ -103,6 +103,10 @@ class FormPost extends \Magento\Customer\Controller\Address\FormPost
         $this->regionFactory = $regionFactory;
         $this->helperData = $helperData;
         $this->sanitizeXss = $sanitizeXss;
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/xss.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $this->_logger = $logger;
     }
 
     /**
@@ -213,7 +217,8 @@ class FormPost extends \Magento\Customer\Controller\Address\FormPost
         $validFormKey = $this->getRequest()->getPostValue()['edit_form_key'];
         $customFormToken = $this->_customerSession->getCustomFormAccountEdit();
 
-        if ($validFormKey !== $customFormToken) {
+        $this->_logger->debug('CustomerId: ' . $this->_customerSession->getCustomerId() . ' Session: ' . $customFormToken . ' FormKey: ' . $validFormKey);
+        if (strcmp($validFormKey, $customFormToken)) {
             $this->messageManager->addErrorMessage(__('Invalid Form Key. Please refresh the page.'));
             $resultRedirect->setPath(
                 '*/*/edit/',

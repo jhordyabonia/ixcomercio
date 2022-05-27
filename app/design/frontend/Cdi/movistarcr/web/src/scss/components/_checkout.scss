@@ -126,7 +126,7 @@
     .payment-option{
       .form{
         width: 100%;
-        max-width: 450px;
+        max-width: 100%;
         display: inline-block;
         float: none;
       }
@@ -404,10 +404,9 @@
   .bd2{
     border-left: 2px solid #CFCBCB;
   }
-  .link_option_credomatic{
+  .payment-group-item.debitcard > a{
     color: #000 !important;
-    padding-left: 1rem !important;
-    padding-bottom: .5rem !important;
+    padding-left: 1rem;
   }
 }
 @media (max-width: $mobile){
@@ -583,4 +582,13 @@ div#credomaticmastercard_cc_type_exp_div{
 }
 #credomaticmastercard_cc_number-error{
   display: none;
+}
+
+.checkout-index-index .checkout-payment-method .payment-option._collapsible .payment-option-content{
+  display: block !important;
+}
+
+.checkout-index-index .checkout-payment-method .payment-option-title .action-toggle{
+  color: $colorText;
+  font-size: 16px;
 }
