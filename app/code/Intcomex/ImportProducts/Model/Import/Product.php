@@ -4,6 +4,7 @@ namespace Intcomex\ImportProducts\Model\Import;
 
 use Exception;
 use Intcomex\Auditoria\Helper\ReferencePriceValidation;
+use Intcomex\Crocs\Model\ConfigurableProduct;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
@@ -24,6 +25,7 @@ use Magento\Framework\Stdlib\DateTime;
 use Magento\ImportExport\Model\Import;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingError;
 use Magento\Store\Api\StoreRepositoryInterface;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
 use Zend_Validate_Exception;
 
@@ -86,6 +88,11 @@ class Product extends MagentoProduct
     protected $referencePriceErrors = [];
 
     /**
+     * @var ConfigurableProduct
+     */
+    protected $configurableProduct;
+
+    /**
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\ResourceModel\Import\Data $importData
@@ -128,6 +135,7 @@ class Product extends MagentoProduct
      * @param ProductRepositoryInterface|null $productRepository
      * @param StoreRepositoryInterface $storeRepository
      * @param ReferencePriceValidation $priceValidation
+     * @param ConfigurableProduct $configurableProduct
      * @param array $data
      * @throws LocalizedException
      * @throws \Magento\Framework\Exception\FileSystemException
@@ -175,6 +183,7 @@ class Product extends MagentoProduct
         ProductRepositoryInterface $productRepository = null,
         StoreRepositoryInterface $storeRepository,
         ReferencePriceValidation $priceValidation,
+        ConfigurableProduct $configurableProduct,
         array $data = []
     ) {
         $this->catalogConfig = $catalogConfig ?: ObjectManager::getInstance()->get(CatalogConfig::class);
@@ -183,6 +192,12 @@ class Product extends MagentoProduct
         $this->filesystem = $filesystem;
         $this->storeRepository= $storeRepository;
         $this->priceValidation = $priceValidation;
+        $this->configurableProduct = $configurableProduct;
+
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+
         parent::__construct(
             $jsonHelper,
             $importExportData,
@@ -227,8 +242,8 @@ class Product extends MagentoProduct
     /**
      * Execute Reference Price Validation.
      *
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
+     * @param $rowNum
+     * @param $rowData
      */
     private function _referencePriceValidation($rowNum, $rowData)
     {
@@ -236,23 +251,48 @@ class Product extends MagentoProduct
             return;
         }
 
-        $product = $this->productRepository->get($rowData['sku'], false);
-        $store = $this->storeRepository->get($rowData['store_view_code']);
-        $storeId = $store->getId();
-        $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
+        try {
+            $product = $this->productRepository->get($rowData['sku'], false);
+            $store = $this->storeRepository->get($rowData['store_view_code']);
+            $storeId = $store->getId();
+            $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
 
-        if ($result !== true) {
-            $this->referencePriceErrors[$result['website']][] = $result;
-            $this->addRowError(
+            if ($result !== true) {
+                $this->referencePriceErrors[$result['website']][] = $result;
+                $this->addRowError(
                     __('Reference Price Validation Error In Rows: '),
                     $rowNum,
-                null,
-                null,
-                ProcessingError::ERROR_LEVEL_NOT_CRITICAL
-                )
-                ->getErrorAggregator()
-                ->addRowToSkip($rowNum);
+                    null,
+                    null,
+                    ProcessingError::ERROR_LEVEL_NOT_CRITICAL
+                )->getErrorAggregator()->addRowToSkip($rowNum);
+            }
+        } catch (NoSuchEntityException $e) {
+            return;
         }
+    }
+
+    private function _callCrocsLogic($rowData)
+    {
+        $store = $this->storeRepository->get($rowData['store_view_code']);
+        $isEnabled = $this->scopeConfig->getValue(\Intcomex\Crocs\Helper\Data::CROCS_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE, $store->getId());
+        if ($isEnabled) {
+            return true;
+        }
+        return false;
+    }
+
+    private function _getSkuWithPrefixIfNeeded($rowData): string
+    {
+        $store = $this->storeRepository->get($rowData['store_view_code']);
+        $isEnabled = $this->scopeConfig->getValue(\Intcomex\Crocs\Helper\Data::CROCS_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE, $store->getId());
+        if ($isEnabled) {
+            $prefix = $this->scopeConfig->getValue(\Intcomex\Crocs\Helper\Data::CROCS_GENERAL_PREFIX, ScopeInterface::SCOPE_STORE, $store->getId());
+            if (strpos($rowData['sku'], $prefix) === false) {
+                return $prefix . $rowData['sku'];
+            }
+        }
+        return $rowData['sku'];
     }
 
     /**
@@ -289,6 +329,14 @@ class Product extends MagentoProduct
             $existingImages = $this->getExistingImages($bunch);
 
             foreach ($bunch as $rowNum => $rowData) {
+
+                // Intcomex_Crocs set Custom Sku
+//                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
+//                $this->logger = new \Zend\Log\Logger();
+//                $this->logger->addWriter($writer);
+//                $this->logger->debug(json_encode($rowData));
+//                $rowData['sku'] = $this->_getSkuWithPrefixIfNeeded($rowData);
+//                $this->logger->debug(json_encode($rowData));
 
                 // Intcomex_Auditoria ReferencePrice Validation
                 $this->_referencePriceValidation($rowNum, $rowData);
@@ -647,6 +695,30 @@ class Product extends MagentoProduct
                 'catalog_product_import_bunch_save_after',
                 ['adapter' => $this, 'bunch' => $bunch]
             );
+
+            // Call Crocs Functionality
+            foreach ($bunch as $rowNum => $rowData) {
+                // Intcomex_Crocs Process
+//                $rowData['sku'] = $this->_getSkuWithPrefixIfNeeded($rowData);
+                $is = $this->_callCrocsLogic($rowData);
+                $this->logger->debug(json_encode($rowData));
+                if ($is) {
+                    $this->logger->debug('Dispatch');
+                    try {
+                        $store = $this->storeRepository->get($rowData['store_view_code']);
+                        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+                        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
+                        $product = $productFactory->create()->setStoreId($store->getId())->loadByAttribute('sku', $rowData['sku']);
+                        $this->_eventManager->dispatch(
+                            'intcomex_crocs_catalog_product_save_before',
+                            ['product' => $product]
+                        );
+                    } catch (NoSuchEntityException $e) {
+                        $this->logger->debug('Error---- ' . $e->getMessage());
+                        return $this;
+                    }
+                }
+            }
         }
 
         return $this;

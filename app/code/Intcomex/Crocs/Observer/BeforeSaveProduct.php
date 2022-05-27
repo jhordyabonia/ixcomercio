@@ -42,31 +42,46 @@ class BeforeSaveProduct implements ObserverInterface
     {
         /** @var Product $product */
         $product = $observer->getData('product');
-        if ($this->crocsHelper->isEnabled($product->getStoreId())) {
+        $storeId = $product->getStoreId();
+
+        $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
+//        return;
+        if ($this->crocsHelper->isEnabled($storeId)) {
 //            $this->logger->debug($this->registry->registry('flag'));
+            $this->_setSku($product);
+            $sku = $product->getSku();
+            $mpn = $product->getData('mpn');
+            $this->logger->debug('NewSku: ' . $product->getSku() . ' - Mpn: ' . $mpn);
 
-            if (!$this->registry->registry($product->getSku())) {
-                if ($product->getData('mpn')) {
-                    $this->_setSku($product);
-                    $this->logger->debug($product->getSku() . ': ' . $this->registry->registry($product->getSku()));
-//                $this->registry->unregister($product->getSku());
-//                $this->registry->register('flag', false);
+            if (!$this->registry->registry($sku)) {
+                if ($mpn) {
+                    $this->logger->debug($sku . ' Updated: ' . $this->registry->registry($sku));
+                    $this->registry->register($sku, true);
 
-                    $this->registry->register($product->getSku(), true);
-                    $this->logger->debug($product->getSku() . ': ' . $this->registry->registry($product->getSku()));
-                    $sku = $this->configurableProduct->getConfigurableSku($product->getData('mpn'), $product->getStoreId());
-                    $this->logger->debug($sku);
-                    if ($sku) {
-                        $this->configurableProduct->createConfigurableProduct($sku, $product);
-                        //                $this->logger->debug($product->getStoreId());
-                        $isMultiSize = $this->configurableProduct->getIfItIsMultiSize($product->getData('mpn'), $product->getStoreId());
-                        $this->logger->debug(json_encode($isMultiSize));
+                    $configurableSku = $this->configurableProduct->getConfigurableSku($mpn, $storeId);
+                    if ($configurableSku) {
+                        $this->configurableProduct->createConfigurableProduct($configurableSku, $product);
+                        //                $this->logger->debug($storeId);
+                        $color = $this->configurableProduct->getColor($mpn, $storeId);
+                        $this->logger->debug($color);
+
+                        $sizes = $this->configurableProduct->getSizes($mpn, $storeId);
+                        $this->logger->debug(json_encode($sizes));
+
+                        // Set data to First product
+                        $this->configurableProduct->setDataToFirstProduct($product, $sizes[0], $color);
+
+                        // If it is multi size
+                        if (count($sizes) > 1) {
+                            // Set data to Woman product
+//                            $this->configurableProduct->createSecondProduct($product, $sizes[1], $color);
+                        }
                     }
                 } else {
-                    $this->logger->debug($product->getSku() . ' Producto sin Mpn');
+                    $this->logger->debug($sku . ' Producto sin Mpn');
                 }
             } else {
-                $this->logger->debug('false: ' . $this->registry->registry('flag'));
+                $this->logger->debug($sku . ' Updated: ' . $this->registry->registry($sku));
             }
         }
     }

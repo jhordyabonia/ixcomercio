@@ -4,4 +4,7 @@
     <event name="catalog_product_save_before">
         <observer name="intcomex_crocs_product_save_before" instance="Intcomex\Crocs\Observer\BeforeSaveProduct" />
     </event>
+    <event name="intcomex_crocs_catalog_product_save_before">
+        <observer name="intcomex_crocs_product_save_before_custom" instance="Intcomex\Crocs\Observer\BeforeSaveProduct" />
+    </event>
 </config>
