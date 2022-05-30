@@ -119,11 +119,11 @@ class ConfigurableProduct
         return $mpnExploded[1];
     }
 
-    public function createConfigurableProduct($sku, Product $product)
+    public function createOrUpdateConfigurableProduct($sku, Product $product)
     {
         $configurableProductId = null;
         try {
-            $configurableProduct = $this->productRepository->get($sku, false);
+            $configurableProduct = $this->productRepository->get($sku, true);
             $configurableProductId = $configurableProduct->getId();
             $isNewConfigurableProduct = false;
             $this->logger->debug("Ya existe el producto configurable con Sku: $sku");
@@ -133,7 +133,7 @@ class ConfigurableProduct
             /** @var Product $configurableProduct */
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->setSku($sku);
-//                $configurableProduct->setName($product->getName());
+            // $configurableProduct->setName($product->getName()); @todo
             $configurableProduct->setAttributeSetId($product->getAttributeSetId());
             $configurableProduct->setStatus(1);
             $configurableProduct->setTypeId('configurable');
@@ -182,25 +182,25 @@ class ConfigurableProduct
         }
     }
 
-    public function setDataToFirstProduct(Product $product, $size, $color)
+    public function setDataToManProduct(Product $product, $size, $color, $isMultiSize)
     {
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $options = $this->_getAllAttributeOptions();
         $skuExploded = explode($separator, $product->getSku());
         $skuLastPart = $skuExploded[count($skuExploded)-1];
+        $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
 
-        if ($skuLastPart !== $size) $product->setSku($product->getSku() . $separator . $size);
+        if ($skuLastPart !== $size) $product->setSku($product->getSku() . $skuLastPartToPlus);
+        $product->setVisibility(1);
         $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
         $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
         $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
         $product->save();
     }
 
-    public function createSecondProduct(Product $product, $size, $color)
+    public function setDataToWomanProduct(Product $product, $size, $color)
     {
-        $this->logger->debug("Sku: " . $product->getSku());
-        $this->logger->debug("Size: $size");
-        $this->logger->debug("Color: $color");
+        $this->logger->debug("Sku: " . $product->getSku() . " Size: $size" . " Color: $color");
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $skuExploded = explode($separator, $product->getSku());
         $sku = $skuExploded[0] . $separator . $skuExploded[1] . $separator . $size;
@@ -209,14 +209,12 @@ class ConfigurableProduct
         try {
             $secondProduct = $this->productRepository->get($sku, false);
             $isNewProduct = false;
-            $this->logger->debug("Ya existe un producto con Sku: $sku");
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
         $this->logger->debug("IsNewSku?: " . $isNewProduct);
-//        return;
         $secondProduct->setSku($sku);
         $secondProduct->setData('mpn', $product->getData('mpn'));
         $secondProduct->setAttributeSetId($product->getAttributeSetId());
@@ -242,7 +240,7 @@ class ConfigurableProduct
                 $this->logger->debug('Second Product Updated: ' . $secondProduct->getSku());
             }
         } catch (\Exception $e) {
-            $this->logger->info('Error 1:: ' . $e->getMessage());
+            $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
         }
     }
 
