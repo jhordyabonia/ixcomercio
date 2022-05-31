@@ -680,3 +680,11 @@ section{
     }
   }
 }
+
+.products-grid .product-item-actions{
+  display: none;  
+}
+
+.products-grid .product-items>.item.product-item:hover  .product-item-actions{
+      display:block;
+}
