@@ -1,4 +1,63 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@font-face {
+  font-family: 'AvenirNext LT Pro';
+  src: url('../fonts/zagg/AvenirNextLTPro-Bold.woff2') format('woff2'),
+      url('../fonts/zagg/AvenirNextLTPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NokiaPureHeadlineBold';
+  src: url('../fonts/nokia/NokiaPureHeadline-Bold.eot');
+  src: url('../fonts/nokia/NokiaPureHeadline-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/nokia/NokiaPureHeadline-Bold.woff2') format('woff2'),
+      url('../fonts/nokia/NokiaPureHeadline-Bold.woff') format('woff'),
+      url('../fonts/nokia/NokiaPureHeadline-Bold.ttf') format('truetype'),
+      url('../fonts/nokia/NokiaPureHeadline-Bold.svg#NokiaPureHeadline-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NokiaPureHeadlineLight';
+  src: url('../fonts/nokia/NokiaPureHeadline-Light.eot');
+  src: url('../fonts/nokia/NokiaPureHeadline-Light.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/nokia/NokiaPureHeadline-Light.woff2') format('woff2'),
+      url('../fonts/nokia/NokiaPureHeadline-Light.woff') format('woff'),
+      url('../fonts/nokia/NokiaPureHeadline-Light.ttf') format('truetype'),
+      url('../fonts/nokia/NokiaPureHeadline-Light.svg#NokiaPureHeadline-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NokiaPureHeadlineRegular';
+  src: url('../fonts/nokia/NokiaPureHeadline-Regular.eot');
+  src: url('../fonts/nokia/NokiaPureHeadline-Regular.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/nokia/NokiaPureHeadline-Regular.woff2') format('woff2'),
+      url('../fonts/nokia/NokiaPureHeadline-Regular.woff') format('woff'),
+      url('../fonts/nokia/NokiaPureHeadline-Regular.ttf') format('truetype'),
+      url('../fonts/nokia/NokiaPureHeadline-Regular.svg#NokiaPureHeadline-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NokiaPureHeadlineExtraBold';
+  src: url('../fonts/nokia/NokiaPureHeadline-ExtraBold.eot');
+  src: url('../fonts/nokia/NokiaPureHeadline-ExtraBold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.woff2') format('woff2'),
+      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.woff') format('woff'),
+      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.ttf') format('truetype'),
+      url('../fonts/nokia/NokiaPureHeadline-ExtraBold.svg#NokiaPureHeadline-ExtraBold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face{
   font-family: "Frankfurter W05 Regular";
@@ -205,4 +264,110 @@ h1, .h1{
   line-height: 1.2;
   text-rendering: optimizeLegibility;
   font-family: $fontText;
+}
+/*** ajustes ***/
+.magestore-bannerslide-flex-slider .slides img {
+  height: auto !important;
+}
+.modals-wrapper .modal-popup .modal-inner-wrap .modal-content {
+  font-size: 14px;
+  font-weight: 400;
+}
+.modals-wrapper .modal-popup .modal-inner-wrap .modal-content h2{
+  font-size:18px;
+  font-weight: bold;
+}
+
+section.newsletter.bg-image-dark{
+background-color: #001135 !important;
+}
+section.newsletter .block.newsletter form .field.newsletter input {
+  height: 46px;
+  border-radius: 0.21875rem;
+  background: transparent;
+  border: 2px solid #fff;
+border-color: hsla(0,0%,100%,.55);
+}
+
+i.fa.fa-facebook {
+  font-size: 18px;
+  background: #001135;
+  width: 23px;
+  height: 23px;
+  display: block;
+  line-height: 30px;
+  border-radius: 50%;
+  color: #fff;
+}
+i.fa.fa-instagram, i.fa.fa-twitter, i.fa.fa-youtube-play{
+  font-size: 25px;
+ color:#001135;
+}
+a:hover i.fa.fa-facebook{
+background: #0065ed;
+}
+a:hover i.fa.fa-instagram, a:hover i.fa.fa-twitter,  a:hover i.fa.fa-youtube-play{
+color: #0065ed;
+}
+section.newsletter .block.newsletter form .actions .action{
+   width: 100%;
+   margin-left: 15px;
+}
+input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"]{
+ font-family: NokiaPureHeadlineRegular;
+}
+section.newsletter .block.newsletter form .field.newsletter input::placeholder {
+  font-style: normal;
+}
+nav.col.footer__main-nav .h3 a{
+font-size:30px;
+}
+footer .footer-bottom .footer-nav .link-block ul li a{
+font-size:17.5px;
+}
+footer .footer-bottom .footer-nav .link-block ul li{
+margin-bottom: 1em;
+}
+footer .footer-social ul li{
+margin: 0 15px;
+}
+.product.description {
+  text-align: left;
+  line-height: 18px;
+  min-height: 60px;
+}
+.product-info_media .product-tag.disccount-tag {
+  top: 15px;
+  left: 15px;
+  width: 65px;
+  height: 65px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  position: absolute;
+  border-radius: 50%;
+  padding: 6px 0;
+  z-index: 10;
+  background: #124191;
+  line-height: 55px;
+}
+.products-grid .product-items .item:not(.rating-summary) .product-item-info .product-tag.disccount-tag {
+  background-color: #124191;
+}
+footer .footer-social h5 {
+  color: #001135;
+  text-align: center;
+}
+
+.catalog-product-view section.block-products-list:nth-of-type(2n){
+display:none;
+}
+.product.attribute.description .row, .product.attribute.description img {
+  margin-bottom: 10px;
+}
+@media only screen and (max-width: 540px){
+      .products-grid .owl-carousel.product-items .item:not(.rating-summary) {
+   max-width: 100%;
+  }
 }
