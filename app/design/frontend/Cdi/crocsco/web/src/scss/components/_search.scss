@@ -9,6 +9,45 @@ header{
 		background: #f9f9f9;
 		visibility: hidden;
 		opacity: 0;
+    @media only screen and (min-width: $desktop){
+      visibility:visible;
+		  opacity: 1;
+      background: transparent;
+      width: 186px;
+      top: 30%;
+      right: 15%;
+      padding: 0;
+    }
+    @media only screen and (min-width: 1250px){
+      header .block-search{
+        right: 15%;
+          width: 280px;
+      }
+    }
+    @media only screen and (min-width: 1440px){
+      header .block-search{
+        right: 15%;
+          width: 360px;
+      }
+    }
+       @media only screen and (min-width: 1500px){
+      header .block-search{
+        right: 18%;
+          width: 360px;
+      }
+    }
+        @media only screen and (min-width: 1700px){
+           header .block-search{
+             right: 20%;
+               width: 360px;
+           }
+          }
+         @media only screen and (min-width: 1800px){
+           header .block-search{
+             right: 23%;
+               width: 360px;
+           }
+          }
     @media only screen and (max-width: $mobile){
       margin-top: 0;
     }
@@ -21,6 +60,31 @@ header{
       border-top: 0;
       margin: 0;
       padding: 0 0 25px;
+      @media only screen and (min-width: $desktop){
+        padding: 0;
+      }
+      input{
+        @media only screen and (min-width: $desktop){
+          height: 40px;
+          padding: 5px 15px 5px 5px;
+          }
+      }
+    }
+    .block-content{
+      form{
+        .control {
+          @media only screen and (min-width: $desktop){
+            padding: 0;
+          }
+          input{
+            @media only screen and (min-width: $desktop){
+              height: 40px;
+              padding: 5px 15px 5px 5px;
+              }
+          }
+        }
+      }
+
     }
   }
   .block-content{
@@ -46,6 +110,9 @@ header{
           display: block;
           padding-top: 5px;
           position: absolute;
+          @media only screen and (min-width: $desktop){
+            display: none;
+          }
           a{
             color: $mainColor;
             font-size: 13px;
@@ -57,6 +124,9 @@ header{
     	}
     	.action.search{
     		top: 12px;
+        @media only screen and (min-width: $desktop){
+          top: 0;
+        }
     		&:before{
     			font-size: 30px;
     			line-height: 30px;
