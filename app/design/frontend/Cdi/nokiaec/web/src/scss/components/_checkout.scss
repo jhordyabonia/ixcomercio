@@ -654,3 +654,7 @@ form#co-payment-form .fieldset > .legend + br{
 .checkout-onepage-failure h1.page-title:first-child{
   display: none!important;
 }
+
+div[name~="clearsalet"] {
+  display: none;
+}
