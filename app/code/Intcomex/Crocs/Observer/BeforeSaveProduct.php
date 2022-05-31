@@ -78,9 +78,12 @@ class BeforeSaveProduct implements ObserverInterface
     private function _setSku(Product $product)
     {
         $prefix = $this->crocsHelper->getPrefix($product->getStoreId());
+        $this->logger->debug('STORE_ID: ' . $product->getStoreId() . ' PREFIX ' . $prefix);
         if (strpos($product->getSku(), $prefix) !== false) {
+            $this->logger->debug('YES');
             $product->setSku($product->getSku());
         } else {
+            $this->logger->debug('YES');
             $product->setSku($prefix . $product->getSku());
         }
     }

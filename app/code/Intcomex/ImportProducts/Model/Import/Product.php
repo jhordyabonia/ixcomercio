@@ -252,8 +252,8 @@ class Product extends MagentoProduct
         }
 
         try {
-            $product = $this->productRepository->get($rowData['sku'], false);
-            $store = $this->storeRepository->get($rowData['store_view_code']);
+            $product = $this->productRepository->get($rowData[self::COL_SKU], false);
+            $store = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
             $storeId = $store->getId();
             $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
 
@@ -270,29 +270,6 @@ class Product extends MagentoProduct
         } catch (NoSuchEntityException $e) {
             return;
         }
-    }
-
-    private function _callCrocsLogic($rowData)
-    {
-        $store = $this->storeRepository->get($rowData['store_view_code']);
-        $isEnabled = $this->scopeConfig->getValue(\Intcomex\Crocs\Helper\Data::CROCS_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE, $store->getId());
-        if ($isEnabled) {
-            return true;
-        }
-        return false;
-    }
-
-    private function _getSkuWithPrefixIfNeeded($rowData): string
-    {
-        $store = $this->storeRepository->get($rowData['store_view_code']);
-        $isEnabled = $this->scopeConfig->getValue(\Intcomex\Crocs\Helper\Data::CROCS_GENERAL_ENABLED, ScopeInterface::SCOPE_STORE, $store->getId());
-        if ($isEnabled) {
-            $prefix = $this->scopeConfig->getValue(\Intcomex\Crocs\Helper\Data::CROCS_GENERAL_PREFIX, ScopeInterface::SCOPE_STORE, $store->getId());
-            if (strpos($rowData['sku'], $prefix) === false) {
-                return $prefix . $rowData['sku'];
-            }
-        }
-        return $rowData['sku'];
     }
 
     /**
@@ -332,7 +309,8 @@ class Product extends MagentoProduct
             {
                 // Intcomex_Crocs set Custom Sku
                 $this->logger->debug(json_encode($rowData));
-                $rowData[self::COL_SKU] = $this->_getSkuWithPrefixIfNeeded($rowData);
+                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+                $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
                 $this->logger->debug(json_encode($rowData));
 
                 // Intcomex_Auditoria ReferencePrice Validation
@@ -696,22 +674,21 @@ class Product extends MagentoProduct
             // Call Crocs Functionality
             foreach ($bunch as $rowNum => $rowData) {
                 // Intcomex_Crocs Process
-                $rowData['sku'] = $this->_getSkuWithPrefixIfNeeded($rowData);
-                $is = $this->_callCrocsLogic($rowData);
+                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+                $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
                 $this->logger->debug(json_encode($rowData));
-                if ($is) {
+                if ($this->configurableProduct->getIsModuleEnabled($storeId)) {
                     $this->logger->debug('Dispatch');
                     try {
-                        $store = $this->storeRepository->get($rowData['store_view_code']);
                         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
                         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
-                        $product = $productFactory->create()->setStoreId($store->getId())->loadByAttribute('sku', $rowData['sku']);
+                        $product = $productFactory->create()->setStoreId($storeId)->loadByAttribute(self::COL_SKU, $rowData[self::COL_SKU]);
                         $this->_eventManager->dispatch(
                             'intcomex_crocs_catalog_product_save_before',
                             ['product' => $product]
                         );
                     } catch (NoSuchEntityException $e) {
-                        $this->logger->debug('Error---- ' . $e->getMessage());
+                        $this->logger->debug('Error Product Not Found: ' . $e->getMessage());
                         return $this;
                     }
                 }
@@ -732,7 +709,8 @@ class Product extends MagentoProduct
      */
     protected function _prepareRowForDb(array $rowData)
     {
-        $rowData[self::COL_SKU] = $this->_getSkuWithPrefixIfNeeded($rowData);
+        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+        $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
         $rowData = $this->_customFieldsMapping($rowData);
         foreach ($rowData as $key => $val) {
             if ($val === '') {
@@ -989,7 +967,8 @@ class Product extends MagentoProduct
             return !$this->getErrorAggregator()->isRowInvalid($rowNum);
         }
         $this->_validatedRows[$rowNum] = true;
-        $rowData[self::COL_SKU] = $this->_getSkuWithPrefixIfNeeded($rowData);
+        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+        $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
 
         $rowScope = $this->getRowScope($rowData);
         $sku = $rowData[self::COL_SKU];

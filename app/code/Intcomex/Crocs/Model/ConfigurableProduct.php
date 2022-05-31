@@ -89,19 +89,24 @@ class ConfigurableProduct
 
     public function getSizes($mpn, $storeId): array
     {
+        $this->logger->info('MPN:: ' . $mpn . " StoreId: $storeId");
         $separator = $this->crocsHelper->getSeparator($storeId);
         $defaultStoreView = null;
         $mpnExploded = explode($separator, $mpn);
         $lastPart = $mpnExploded[count($mpnExploded)-1];
+        $this->logger->info($lastPart);
 
         $attribute = $this->eavConfig->getAttribute('catalog_product', 'crocs_sizes_match');
-        $options = $attribute->getSource()->getAllOptions();
+        $options = $attribute->setStoreId(0)->getSource()->getAllOptions();
+        $this->logger->info(json_encode($options));
         foreach ($options as $option) {
+            //$this->logger->info("0::: " . $attribute->setStoreId(0)->getSource()->getOptionText($option['value']));
+            //$this->logger->info("1::: " . $attribute->setStoreId(1)->getSource()->getOptionText($option['value']));
             if ($option['label'] === $lastPart) {
                 $defaultStoreView = $attribute->setStoreId(1)->getSource()->getOptionText($option['value']);
             }
         }
-
+        $this->logger->info($defaultStoreView);
         // If it is multi size
         if ($defaultStoreView) {
             $defaultStoreViewExploded = explode($separator, $defaultStoreView);
@@ -167,7 +172,12 @@ class ConfigurableProduct
                 $configurableProduct->setCanSaveConfigurableAttributes(true);
                 $configurableProduct->setConfigurableAttributesData($configurableAttributesData);
 
-                $configurableProduct->setAssociatedProductIds([$product->getId()]);
+                // Set Child Products
+                $children = [];
+                foreach ($configurableProduct->getTypeInstance()->getUsedProducts($configurableProduct) as $child) {
+                    $children[] = $child->getId();
+                }
+                $configurableProduct->setAssociatedProductIds(array_merge($children, [$product->getId()]));
                 $configurableProduct->setCanSaveConfigurableAttributes(true);
                 $configurableProduct->save();
 
