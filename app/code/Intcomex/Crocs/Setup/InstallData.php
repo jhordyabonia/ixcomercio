@@ -81,8 +81,8 @@ class InstallData implements InstallDataInterface
      * @throws LocalizedException
      * @throws StateException
      */
-    /*public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
-    {
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {/*
         $setup->startSetup();
         $categorySetup = $this->categorySetupFactory->create(['setup' => $setup]);
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
@@ -251,6 +251,6 @@ class InstallData implements InstallDataInterface
             $option
         );
 
-        $setup->endSetup();
-    }*/
+        $setup->endSetup();*/
+    }
 }
