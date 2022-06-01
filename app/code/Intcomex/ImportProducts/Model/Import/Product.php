@@ -237,21 +237,23 @@ class Product extends MagentoProduct
         }
 
         $product = $this->productRepository->get($rowData['sku'], false);
-        $store = $this->storeRepository->get($rowData['store_view_code']);
-        $storeId = $store->getId();
-        $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
+        if ($product->getId()) {
+            $store = $this->storeRepository->get($rowData['store_view_code']);
+            $storeId = $store->getId();
+            $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
 
-        if ($result !== true) {
-            $this->referencePriceErrors[$result['website']][] = $result;
-            $this->addRowError(
+            if ($result !== true) {
+                $this->referencePriceErrors[$result['website']][] = $result;
+                $this->addRowError(
                     __('Reference Price Validation Error In Rows: '),
                     $rowNum,
-                null,
-                null,
-                ProcessingError::ERROR_LEVEL_NOT_CRITICAL
+                    null,
+                    null,
+                    ProcessingError::ERROR_LEVEL_NOT_CRITICAL
                 )
-                ->getErrorAggregator()
-                ->addRowToSkip($rowNum);
+                    ->getErrorAggregator()
+                    ->addRowToSkip($rowNum);
+            }
         }
     }
 

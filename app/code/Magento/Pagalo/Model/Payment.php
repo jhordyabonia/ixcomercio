@@ -105,15 +105,15 @@ class Payment extends \Magento\Payment\Model\Method\Cc
      */
     public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
-        try {
+        try{
             $order = $payment->getOrder();
+            $shipping = $order->getShippingAddress();
             $billing = $order->getBillingAddress();
             $currency = strtolower($order->getBaseCurrencyCode());
             $card_number = $payment->getCcNumber();
             $exp_month = $payment->getCcExpMonth();
             $exp_year = $payment->getCcExpYear();
             $cvc = $payment->getCcCid();
-            $card_name = $billing->getName();
             $pg_token = $this->getConfigData('APIToken');
             if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
                 //check ip from share internet
@@ -124,7 +124,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             } else {
                 $pg_ip = $_SERVER['REMOTE_ADDR'];
             }
-    	    $payment->getAdditionalInformation();
+            $payment->getAdditionalInformation();
             // cc data
             $pg_nameCard = $billing->getName();
             $pg_accountNumber = str_replace(' ', '', $payment->getCcNumber()); 
@@ -141,14 +141,14 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             $str_empresa = json_encode($empresa);
             $cliente= array(
                 'order_id' => $order->getIncrementId(),
-                'firstName' => html_entity_decode($billing->getFirstname(), ENT_QUOTES, 'UTF-8'),
-                'lastName' => html_entity_decode($billing->getLastname(), ENT_QUOTES, 'UTF-8'),
-                'street1'=> html_entity_decode($billing->getStreetLine(1), ENT_QUOTES, 'UTF-8'),
-                'phone'=> $billing->getTelephone(),
-                'country'=> html_entity_decode($billing->getCountryId(), ENT_QUOTES, 'UTF-8'),
-                'city'=> html_entity_decode($billing->getCity(), ENT_QUOTES, 'UTF-8'),
-                'state'=> html_entity_decode($billing->getRegion(), ENT_QUOTES, 'UTF-8'),
-                'postalCode'=> html_entity_decode($billing->getPostcode(), ENT_QUOTES, 'UTF-8'),
+                'firstName' => html_entity_decode($shipping->getFirstname(), ENT_QUOTES, 'UTF-8'),
+                'lastName' => html_entity_decode($shipping->getLastname(), ENT_QUOTES, 'UTF-8'),
+                'street1'=> html_entity_decode($shipping->getStreetLine(1), ENT_QUOTES, 'UTF-8'),
+                'phone'=> $shipping->getTelephone(),
+                'country'=> html_entity_decode($shipping->getCountryId(), ENT_QUOTES, 'UTF-8'),
+                'city'=> html_entity_decode($shipping->getCity(), ENT_QUOTES, 'UTF-8'),
+                'state'=> html_entity_decode($shipping->getRegion(), ENT_QUOTES, 'UTF-8'),
+                'postalCode'=> html_entity_decode($shipping->getPostcode(), ENT_QUOTES, 'UTF-8'),
                 'email'=> $order->getCustomerEmail(),
                 'ipAddress'=> $pg_ip,
                 'Total'=> $order->getGrandTotal(),
@@ -247,7 +247,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
             /* Logs to var/log/pagalo.log */
             $this->_pagaloLogger->info('Data sent to Pagalo: ' . json_encode($debug_data, JSON_PRETTY_PRINT) );
             $this->_pagaloLogger->info('URL: ' . $url );
-            $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) ); 
+            $this->_pagaloLogger->info('Pagalo Response: ' . print_r($result, true) );
 
             if(isset($result->infotran)){
                 if(isset($result->infotran->authorizationNumber)){
@@ -471,7 +471,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                                 $errorMsg .= "Transacción rechazada, contacte a soporte.";
                                 break;
                             default:
-                               $errorMsg .= "Contacte al administrador de la tienda para más información o formas alternativas de pago.";
+                            $errorMsg .= "Contacte al administrador de la tienda para más información o formas alternativas de pago.";
                         }
                     }
                     if(property_exists($result, 'mensaje')) {
@@ -522,11 +522,13 @@ class Payment extends \Magento\Payment\Model\Method\Cc
                 $this->_pagaloLogger->info('Mensaje de error: ' . $errorMsg . '. Custom error: ' . $customError);
             }
         } catch (\Exception $e) {
-            $this->debugData(['request' => $debug_data, 'exception' => $e->getMessage()]);
+            $this->debugData(['exception' => $e->getMessage()]);
             $error = __('Payment capturing error pagalo:'); 
             throw new \Magento\Framework\Validator\Exception(__($error.$e->getMessage())); 
         }
+        
         return $this;
+
     }
     /**
      * Determine method availability based on quote amount and config data

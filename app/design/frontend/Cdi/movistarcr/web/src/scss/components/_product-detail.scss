@@ -405,7 +405,7 @@
             }
             &:hover{
               color: #fff;
-              background: #000;
+              background: $bgColorSecond;
             }
             @media only screen and (max-width: $mobile){
               width: 100%;
