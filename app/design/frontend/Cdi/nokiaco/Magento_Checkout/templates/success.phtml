@@ -16,11 +16,11 @@ $payment = $order->getPayment();
 if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
     $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
     $method = $payment->getData()['method'];
-   
+
 }
 
 $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
- 
+
 ?>
 <div class="checkout-success">
 <?php if((!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending')||!empty($method) && !empty($status) && $method == 'mercadopago_basic' && $status == 'pending'){ ?>
@@ -39,12 +39,12 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                             <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
                         <?php  else :?>
                             <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
-                        <?php endif;?>                            
+                        <?php endif;?>
 
                     <?php endif;?>
 
                     <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
-                </div> 
+                </div>
                 <p>
                     <?php echo __('Generate the ticket and pay it wherever you want.'); ?>
                 </p>
@@ -52,10 +52,10 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
                 <p>
                     <?php /* @escapeNotVerified */
                     echo __('Will be approved within 2 business days.'); ?>
-                </p>                
-    
+                </p>
+
                 <?= $block->getAdditionalInfoHtml() ?>
-    
+
                 <div class="actions-toolbar">
                     <div class="primary">
                         <?php if (isset($paymentResponse['transaction_details']) && $paymentResponse['transaction_details']['external_resource_url']) { ?>
@@ -105,39 +105,10 @@ $paymentResponse = $payment->getAdditionalInformation("paymentResponse");
             </div>
         </div>
     </main>
-<?php }elseif($order->getPayment()->getMethod() === 'ingenico' && $order->getStatus() !== 'approved_clearsale'){ ?>
-    <script>
-        let divsToHide = document.getElementsByClassName("page-title-wrapper");
-        for (let i = 0; i < divsToHide.length; i++) {divsToHide[i].style.display = "none"; }
-    </script>
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="page-title-wrapper">
-                    <h1 class="page-title">
-                        <span class="base" data-ui-id="page-title-wrapper"><?= $this->helper('Intcomex\Clearsale\Helper\Email')->getTransactionInValidationTest($order->getStoreId()) ?></span>
-                    </h1>
-                </div>
-                <?php if ($block->getOrderId()):?>
-                    <?php if ($block->getCanViewOrder()) :?>
-                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
-                    <?php  else :?>
-                        <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
-                    <?php endif;?>
-                <?php endif;?>
-                <?= $block->getAdditionalInfoHtml() ?>
-                <div class="actions-toolbar">
-                    <div class="primary">
-                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 <?php }else{ ?>
     <div class="container">
         <div class="row">
-            <div class="col-xs-12">        
+            <div class="col-xs-12">
                 <?php if ($block->getOrderId()):?>
                     <?php if ($block->getCanViewOrder()) :?>
                         <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
