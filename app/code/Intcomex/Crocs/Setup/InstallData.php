@@ -98,7 +98,6 @@ class InstallData implements InstallDataInterface
         $attributeSetId = $categorySetup->getDefaultAttributeSetId($entityTypeId);
         $attributeSet->setData($data);
         $attributeSet->validate();
-        $attributeSet->save();
         $attributeSet->initFromSkeleton($attributeSetId);
         $attributeSet->save();
 
