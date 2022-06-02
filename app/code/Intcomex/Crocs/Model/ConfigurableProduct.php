@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace Intcomex\Crocs\Model;
 
+use Exception;
 use Intcomex\Crocs\Helper\Data;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Eav\Model\Config;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Zend\Log\Logger;
 
@@ -43,6 +45,12 @@ class ConfigurableProduct
      */
     private $configurableAttributes = ['crocs_color', 'crocs_gender', 'crocs_size'];
 
+    /**
+     * @param Data $crocsHelper
+     * @param Config $eavConfig
+     * @param ProductRepositoryInterface $productRepository
+     * @param ProductFactory $productFactory
+     */
     public function __construct(
         Data $crocsHelper,
         Config $eavConfig,
@@ -53,12 +61,15 @@ class ConfigurableProduct
         $this->eavConfig = $eavConfig;
         $this->productRepository = $productRepository;
         $this->productFactory = $productFactory;
-
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
         $this->logger = new Logger();
         $this->logger->addWriter($writer);
     }
 
+    /**
+     * @param $storeId
+     * @return bool
+     */
     public function getIsModuleEnabled($storeId)
     {
         if ($this->crocsHelper->isEnabled($storeId)) {
@@ -67,6 +78,20 @@ class ConfigurableProduct
         return false;
     }
 
+    /**
+     * @param $storeId
+     * @return mixed
+     */
+    public function getSeparator($storeId)
+    {
+        return $this->crocsHelper->getSeparator($storeId);
+    }
+
+    /**
+     * @param $sku
+     * @param $storeId
+     * @return string
+     */
     public function getSkuWithPrefixIfNeeded($sku, $storeId): string
     {
         $isEnabled = $this->crocsHelper->isEnabled($storeId);
@@ -77,6 +102,11 @@ class ConfigurableProduct
         return $sku;
     }
 
+    /**
+     * @param $mpn
+     * @param $storeId
+     * @return false|string
+     */
     public function getConfigurableSku($mpn, $storeId)
     {
         $separator = $this->crocsHelper->getSeparator($storeId);
@@ -87,26 +117,28 @@ class ConfigurableProduct
         return false;
     }
 
+    /**
+     * @param $mpn
+     * @param $storeId
+     * @return array
+     * @throws LocalizedException
+     */
     public function getSizes($mpn, $storeId): array
     {
-        $this->logger->info('MPN:: ' . $mpn . " StoreId: $storeId");
         $separator = $this->crocsHelper->getSeparator($storeId);
         $defaultStoreView = null;
         $mpnExploded = explode($separator, $mpn);
         $lastPart = $mpnExploded[count($mpnExploded)-1];
-        $this->logger->info($lastPart);
 
         $attribute = $this->eavConfig->getAttribute('catalog_product', 'crocs_sizes_match');
         $options = $attribute->setStoreId(0)->getSource()->getAllOptions();
-        $this->logger->info(json_encode($options));
+
         foreach ($options as $option) {
-            //$this->logger->info("0::: " . $attribute->setStoreId(0)->getSource()->getOptionText($option['value']));
-            //$this->logger->info("1::: " . $attribute->setStoreId(1)->getSource()->getOptionText($option['value']));
             if ($option['label'] === $lastPart) {
                 $defaultStoreView = $attribute->setStoreId(1)->getSource()->getOptionText($option['value']);
             }
         }
-        $this->logger->info($defaultStoreView);
+
         // If it is multi size
         if ($defaultStoreView) {
             $defaultStoreViewExploded = explode($separator, $defaultStoreView);
@@ -117,6 +149,11 @@ class ConfigurableProduct
         }
     }
 
+    /**
+     * @param $mpn
+     * @param $storeId
+     * @return mixed|string
+     */
     public function getColor($mpn, $storeId)
     {
         $separator = $this->crocsHelper->getSeparator($storeId);
@@ -124,6 +161,10 @@ class ConfigurableProduct
         return $mpnExploded[1];
     }
 
+    /**
+     * @param $sku
+     * @param Product $product
+     */
     public function createOrUpdateConfigurableProduct($sku, Product $product)
     {
         $configurableProductId = null;
@@ -131,7 +172,7 @@ class ConfigurableProduct
             $configurableProduct = $this->productRepository->get($sku, true);
             $configurableProductId = $configurableProduct->getId();
             $isNewConfigurableProduct = false;
-            $this->logger->debug("Ya existe el producto configurable con Sku: $sku");
+            $this->logger->debug("Ya existe el producto con Sku: $sku");
         } catch (NoSuchEntityException $e) {
             $isNewConfigurableProduct = true;
 
@@ -155,7 +196,7 @@ class ConfigurableProduct
             try {
                 $configurableProduct->save();
                 $configurableProductId = $configurableProduct->getId();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->info('Error creating configurable product:: ' . $e->getMessage());
             }
         }
@@ -186,12 +227,19 @@ class ConfigurableProduct
                 } else {
                     $this->logger->debug("Updated ConfigurableProductId: $configurableProductId AssociatedProductId: " . $product->getId());
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->info('Error assign child to configurable product:: ' . $e->getMessage());
             }
         }
     }
 
+    /**
+     * @param Product $product
+     * @param $size
+     * @param $color
+     * @param $isMultiSize
+     * @throws Exception
+     */
     public function setDataToManProduct(Product $product, $size, $color, $isMultiSize)
     {
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
@@ -208,14 +256,18 @@ class ConfigurableProduct
         $product->save();
     }
 
+    /**
+     * @param Product $product
+     * @param $size
+     * @param $color
+     */
     public function setDataToWomanProduct(Product $product, $size, $color)
     {
-        $this->logger->debug("Sku: " . $product->getSku() . " Size: $size" . " Color: $color");
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $skuExploded = explode($separator, $product->getSku());
         $sku = $skuExploded[0] . $separator . $skuExploded[1] . $separator . $size;
         $options = $this->_getAllAttributeOptions();
-        $this->logger->debug("NewSku: " . $sku);
+
         try {
             $secondProduct = $this->productRepository->get($sku, false);
             $isNewProduct = false;
@@ -224,7 +276,7 @@ class ConfigurableProduct
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
-        $this->logger->debug("IsNewSku?: " . $isNewProduct);
+
         $secondProduct->setSku($sku);
         $secondProduct->setData('mpn', $product->getData('mpn'));
         $secondProduct->setAttributeSetId($product->getAttributeSetId());
@@ -240,20 +292,23 @@ class ConfigurableProduct
         $secondProduct->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
         $secondProduct->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
         $secondProduct->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
-        $this->logger->debug(json_encode($secondProduct->getData()));
 
         try {
             $secondProduct->save();
             if ($isNewProduct) {
-                $this->logger->debug('Second Product Created: ' . $secondProduct->getSku());
+                $this->logger->debug('Woman Product Created: ' . $secondProduct->getSku());
             } else {
-                $this->logger->debug('Second Product Updated: ' . $secondProduct->getSku());
+                $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku());
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
         }
     }
 
+    /**
+     * @param $size
+     * @return string|void
+     */
     private function _getGenderBySize($size)
     {
         if (str_contains($size, 'M')) return 'Man';
@@ -261,6 +316,9 @@ class ConfigurableProduct
         if (str_contains($size, 'C') || str_contains($size, 'J')) return 'Kid';
     }
 
+    /**
+     * @return array
+     */
     private function _getAllAttributeOptions(): array
     {
         $options = [];
@@ -272,7 +330,7 @@ class ConfigurableProduct
                     $options[$attribute][$eavAttribute->setStoreId(0)->getSource()->getOptionText($option['value'])] = $option['value'];
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $options = [];
             $this->logger->debug('Error obteniendo las opciones de atributos: ' . $e->getMessage());
         }

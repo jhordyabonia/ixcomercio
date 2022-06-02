@@ -253,8 +253,7 @@ class Product extends MagentoProduct
 
         try {
             $product = $this->productRepository->get($rowData[self::COL_SKU], false);
-            $store = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
-            $storeId = $store->getId();
+            $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
             $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
 
             if ($result !== true) {
@@ -308,10 +307,8 @@ class Product extends MagentoProduct
             foreach ($bunch as $rowNum => $rowData)
             {
                 // Intcomex_Crocs set Custom Sku
-                $this->logger->debug(json_encode($rowData));
-                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
                 $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
-                $this->logger->debug(json_encode($rowData));
 
                 // Intcomex_Auditoria ReferencePrice Validation
                 $this->_referencePriceValidation($rowNum, $rowData);
@@ -673,13 +670,11 @@ class Product extends MagentoProduct
 
             // Call Crocs Functionality
             foreach ($bunch as $rowNum => $rowData) {
-                // Intcomex_Crocs Process
-                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
-                $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
-                $this->logger->debug(json_encode($rowData));
+                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
                 if ($this->configurableProduct->getIsModuleEnabled($storeId)) {
-                    $this->logger->debug('Dispatch');
+                    $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
                     try {
+                        $this->logger->debug('NewData: ' . json_encode($rowData));
                         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
                         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                         $product = $productFactory->create()->setStoreId($storeId)->loadByAttribute(self::COL_SKU, $rowData[self::COL_SKU]);
@@ -709,7 +704,7 @@ class Product extends MagentoProduct
      */
     protected function _prepareRowForDb(array $rowData)
     {
-        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
         $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
         $rowData = $this->_customFieldsMapping($rowData);
         foreach ($rowData as $key => $val) {
@@ -967,7 +962,7 @@ class Product extends MagentoProduct
             return !$this->getErrorAggregator()->isRowInvalid($rowNum);
         }
         $this->_validatedRows[$rowNum] = true;
-        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE]);
+        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
         $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
 
         $rowScope = $this->getRowScope($rowData);

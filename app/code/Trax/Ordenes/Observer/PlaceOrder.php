@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use \Psr\Log\LoggerInterface;
 use Trax\Ordenes\Model\IwsOrderFactory;
 use Magento\Framework\Controller\ResultFactory;
@@ -63,6 +64,11 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
     private $gridFactory;
 
     /**
+     * @var \Intcomex\Crocs\Model\ConfigurableProduct
+     */
+    protected $configurableProduct;
+
+    /**
      * AdminFailed constructor.
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      */
@@ -73,7 +79,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Catalogo\Helper\Email $email,
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
         \Magento\Framework\Controller\ResultFactory $result,
-        \Trax\Grid\Model\GridFactory $gridFactory
+        \Trax\Grid\Model\GridFactory $gridFactory,
+        \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
         $this->logger = new \Zend\Log\Logger();
@@ -85,7 +92,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->_iwsOrder = $iwsOrder;
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
-	}
+        $this->configurableProduct = $configurableProduct;
+    }
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
@@ -340,31 +348,48 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }
         $items = array();
         $skuItems = array();
+        /** @var \Magento\Sales\Model\Order\Item $dataItem */
         foreach ($orderItems as $key => $dataItem) {
-            if (!array_key_exists($dataItem->getSku(), $skuItems) && $dataItem->getOriginalPrice() != 0) {
-                $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
-                $tempItem['Sku'] = $dataItem->getSku();
-                $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-                $tempItem['Price'] = $dataItem->getOriginalPrice();
+            $originalPrice = $dataItem->getOriginalPrice();
+            $qty = (int)$dataItem->getQtyOrdered();
+            $price = $dataItem->getPrice();
+            $productId = $dataItem->getProductId();
+            $id = $dataItem->getId();
+            $sku = $dataItem->getProduct()->getSku();
+            if ($dataItem->getParentItem() && $this->configurableProduct->getIsModuleEnabled($order->getStoreId())) {
+                $originalPrice = $dataItem->getParentItem()->getOriginalPrice();
+                $qty = (int)$dataItem->getParentItem()->getQtyOrdered();
+                $price = $dataItem->getParentItem()->getPrice();
+                $productId = $dataItem->getParentItem()->getProductId();
+                $id = $dataItem->getParentItem()->getItemId();
+                $sku = explode($this->configurableProduct->getSeparator($order->getStoreId()), $dataItem->getSku())[1];
+                $this->logger->info("ParentIsConfigurable SkuToSend: " . $sku);
+            }
+            if (!array_key_exists($dataItem->getSku(), $skuItems) && $originalPrice != 0 && $dataItem->getProduct()->getTypeId() !== Configurable::TYPE_CODE) {
+                $this->logger->info('SkuFinal: ' . $sku);
+                $tempItem['Sku'] = $sku;
+                $skuItems[$dataItem->getSku()] = $originalPrice;
+                $tempItem['Quantity'] = $qty;
+                $tempItem['Price'] = $originalPrice;
                 $discount = '';
                 if(count($coupon) == 0){
-                    $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
+                    $price = $originalPrice - $price;
                     if($price > 0){
                         $discount = $price;
                     }
                 }
 
                 $coupon_prod = $coupon;
-                $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
+                $specialPrice = $this->getDataProductInfo($productId,$storeCode);
 
                 if($specialPrice > 0 ){
-                    $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                    $discount = $originalPrice - $specialPrice;
                     $coupon_prod = '';
                 }
 
                 $tempItem['Discounts'] = $discount;
                 $tempItem['CouponCodes'] = $coupon_prod;
-                $tempItem['StoreItemId'] = $dataItem->getId();
+                $tempItem['StoreItemId'] = $id;
                 $items[] = $tempItem;
             }
         }

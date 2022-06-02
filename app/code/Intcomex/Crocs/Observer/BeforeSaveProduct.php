@@ -15,29 +15,31 @@ class BeforeSaveProduct implements ObserverInterface
     /**
      * @var ConfigurableProduct
      */
-    protected $configurableProduct;
+    private $configurableProduct;
 
     /**
      * @var Data
      */
     private $crocsHelper;
 
+    /**
+     * @param ConfigurableProduct $configurableProduct
+     * @param Data $crocsHelper
+     */
     public function __construct(
         ConfigurableProduct $configurableProduct,
         Data $crocsHelper
     ) {
         $this->configurableProduct = $configurableProduct;
         $this->crocsHelper = $crocsHelper;
-
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
         $this->logger = new Logger();
         $this->logger->addWriter($writer);
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $registry = $objectManager->create(\Magento\Framework\Registry::class);
-        $this->registry = $registry;
     }
 
+    /**
+     * @param Observer $observer
+     */
     public function execute(Observer $observer)
     {
         /** @var Product $product */
@@ -75,15 +77,15 @@ class BeforeSaveProduct implements ObserverInterface
         }
     }
 
+    /**
+     * @param Product $product
+     */
     private function _setSku(Product $product)
     {
         $prefix = $this->crocsHelper->getPrefix($product->getStoreId());
-        $this->logger->debug('STORE_ID: ' . $product->getStoreId() . ' PREFIX ' . $prefix);
         if (strpos($product->getSku(), $prefix) !== false) {
-            $this->logger->debug('YES');
             $product->setSku($product->getSku());
         } else {
-            $this->logger->debug('YES');
             $product->setSku($prefix . $product->getSku());
         }
     }
