@@ -466,12 +466,12 @@ header{
                     }  
                   }
                   > .level-top{
-                    color:$colorText;
+                    color:$mainColor;
                     font-size: 18px;
                     line-height: normal;
                     transition: .3s all ease;
                     border: 0;
-                    text-transform: uppercase;
+                    text-transform: none;
                     @media only screen and (max-width: $desktop){
                       width: 100%;
                       line-height: 36px;

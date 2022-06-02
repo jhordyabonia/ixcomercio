@@ -40,7 +40,7 @@ section{
           margin: 0;
           input{
             height: 46px;
-            border-radius: 5px 0 0 5px;
+            border-radius: 50px;
             @media only screen and (max-width: $mobile){
               border-radius: 5px;
             }
@@ -58,11 +58,14 @@ section{
             width: 100%;
             height: 46px;
             position: relative;
-            text-transform: uppercase;
-            border-radius: 0 5px 5px 0;
-            background: $mainColor;
+            text-transform:none;
+            border-radius: 50px;
+            background:#FFFFFF;
+            color: #0780EE;
+            font-weight: bold;
+            margin-left: 10px;
             @media only screen and (max-width: $mobile){
-              border-radius: 5px;
+              border-radius: 50px;
             }
           }
         }

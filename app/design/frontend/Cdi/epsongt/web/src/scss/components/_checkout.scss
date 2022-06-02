@@ -581,3 +581,10 @@ div#credomaticmastercard_cc_type_exp_div{
 #credomaticmastercard_cc_number-error{
   display: none;
 }
+.billing-address-same-as-shipping-block-notice{
+  padding-left: 17px;
+  color: #999;
+  label{
+    font-weight: 100;
+  }
+}
