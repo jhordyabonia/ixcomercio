@@ -1,4 +1,7 @@
 header{
+  .container{
+    max-width: 1440px;
+    }
   &.page-header{
     top: 0;
     width: 100%;
@@ -89,7 +92,7 @@ header{
           z-index: 1;
         }
         .header-toplinks{
-          width: auto;
+          width: 15%;
           border: 0;
           margin-bottom: 9px;
           box-shadow: none;
@@ -185,6 +188,7 @@ header{
                 }
               }
               span.sign-in-label{
+                display: none;
                 @media only screen and (max-width: $desktop){
                   display: none;
                 }
@@ -324,9 +328,9 @@ header{
           }
         }
         .wrapper-nav{
-          width: 100%;
+          width:85%;
           float: right;
-          text-align: right;
+          text-align: left;
           @media only screen and (max-width: $desktop){
             left: 0;
             width: 100%;
@@ -633,9 +637,13 @@ header{
             margin-left: 20px;
             display: inline-block;
             vertical-align: middle;
+            @media only screen and (min-width: $desktop){
+              display: none;
+            }
             @media only screen and (max-width: $mobile){
               margin-left: 10px;
             }
+
             .icon-search-button{
               width: 32px;
               height: 32px;
