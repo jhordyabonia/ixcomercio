@@ -190,7 +190,11 @@
     }
   }
 }
-.swatch-attribute.crocs_gender, .swatch-attribute.crocs_size, input.swatch-input.super-attribute-select{
+
+.page-products .products-grid .product-items .swatch-attribute.crocs_gender, .page-products .products-grid .product-items .swatch-attribute.crocs_size{
+  display: none;
+}
+input.swatch-input.super-attribute-select {
   display: none;
 }
 .catalog-product-view .swatch-attribute .swatch-option {
@@ -230,4 +234,10 @@ cursor: pointer;
 .catalog-product-view .swatch-attribute .swatch-option.selected, .catalog-product-view .swatch-attribute .swatch-option:hover{
   background: #000;
   color:#fff;
+}
+.catalog-product-view .swatch-attribute .swatch-option.disable{
+  color: #ccc;
+  border-color: #ccc;
+  background: url(../images/dis.png);
+  background-repeat: no-repeat;
 }
