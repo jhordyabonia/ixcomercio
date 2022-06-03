@@ -51,6 +51,12 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                         <span><?= /* @escapeNotVerified */ __('Close') ?></span>
                     </button>
                 </form>
+                <?php if ($total >= 3): ?>
+                    <div class="owl-dots">
+                        <button id="miniCompareFirstDot" role="button" class="owl-dot active"><span></span></button>
+                        <button id="miniCompareSecondDot" role="button" class="owl-dot"><span></span></button>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     <?php endif; ?>
@@ -58,7 +64,9 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
 <script type="text/x-magento-init">
     {
         "body": {
-            "intcomex/ajaxcompare" : {}
+            "intcomex/ajaxcompare" : {
+                "total": <?= /* @noEscape */ $total ?>
+            }
         }
     }
 </script>

@@ -9,7 +9,7 @@ define([
     /**
      * Component Ajax Compare.
      */
-    $.widget('intcomex.ajaxCompare',{
+    $.widget('intcomex.ajaxCompare', {
 
         /**
          * Component options.
@@ -56,6 +56,36 @@ define([
                 e.preventDefault();
                 e.stopPropagation();
                 self.addCompare($(this));
+            });
+
+            if (self.options.total >= 3) {
+                $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
+                    console.log(index, element)
+                    if (index === 2 || index === 3) {
+                        $(element).css('display', 'none');
+                    }
+                });
+            }
+
+            $('#miniCompareFirstDot').on('click', function() {
+                console.log('Yes1')
+                $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
+                    if (index === 0 || index === 1) {
+                        $(element).css('display', 'flex');
+                    } else if (index === 2 || index === 3) {
+                        $(element).css('display', 'none');
+                    }
+                });
+            });
+            $('#miniCompareSecondDot').on('click', function() {
+                console.log('Yes2')
+                $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
+                    if (index === 0 || index === 1) {
+                        $(element).css('display', 'none');
+                    } else if (index === 2 || index === 3) {
+                        $(element).css('display', 'flex');
+                    }
+                });
             });
         },
 
@@ -111,6 +141,7 @@ define([
                     if (self.options.showLoader) body.trigger(self.options.processStart);
                 },
                 success: function (res) {
+                    // $('#miniCompareFirstDot').trigger('click');
                     if (self.options.showLoader) body.trigger(self.options.processStop);
                     if (res.success) {
                         $(self.options.divMiniCompare).remove();
