@@ -44,6 +44,7 @@ class BeforeSaveProduct implements ObserverInterface
     {
         /** @var Product $product */
         $product = $observer->getData('product');
+        $genericName = $observer->getData('generic_name');
         $storeId = $product->getStoreId();
         $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
 
@@ -67,7 +68,7 @@ class BeforeSaveProduct implements ObserverInterface
                         $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
                     }
                     // Create Configurable Product
-                    $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product);
+                    $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $genericName);
                 } else {
                     $this->logger->debug($sku . ' Producto No Configurable');
                 }

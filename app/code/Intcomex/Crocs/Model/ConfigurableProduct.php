@@ -165,12 +165,14 @@ class ConfigurableProduct
      * @param $sku
      * @param Product $product
      */
-    public function createOrUpdateConfigurableProduct($sku, Product $product)
+    public function createOrUpdateConfigurableProduct($sku, Product $product, $genericName)
     {
         $configurableProductId = null;
         try {
             $configurableProduct = $this->productRepository->get($sku, true);
             $configurableProductId = $configurableProduct->getId();
+            $configurableProduct->setName($genericName);
+            $configurableProduct->save();
             $isNewConfigurableProduct = false;
             $this->logger->debug("Ya existe el producto con Sku: $sku");
         } catch (NoSuchEntityException $e) {
@@ -179,7 +181,7 @@ class ConfigurableProduct
             /** @var Product $configurableProduct */
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->setSku($sku);
-            // $configurableProduct->setName($product->getName()); @todo
+            $configurableProduct->setName($genericName);
             $configurableProduct->setAttributeSetId($product->getAttributeSetId());
             $configurableProduct->setStatus(1);
             $configurableProduct->setTypeId('configurable');
@@ -279,6 +281,9 @@ class ConfigurableProduct
 
         $secondProduct->setSku($sku);
         $secondProduct->setData('mpn', $product->getData('mpn'));
+        $secondProduct->setName($product->getName());
+        $secondProduct->setPrice($product->getPrice());
+        $secondProduct->setSpecialPrice($product->getSpecialPrice());
         $secondProduct->setAttributeSetId($product->getAttributeSetId());
         $secondProduct->setTypeId('simple');
         $secondProduct->setVisibility(1);

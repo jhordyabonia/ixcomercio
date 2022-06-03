@@ -680,7 +680,7 @@ class Product extends MagentoProduct
                         $product = $productFactory->create()->setStoreId($storeId)->loadByAttribute(self::COL_SKU, $rowData[self::COL_SKU]);
                         $this->_eventManager->dispatch(
                             'intcomex_crocs_catalog_product_save_before',
-                            ['product' => $product]
+                            ['product' => $product, 'generic_name' => $rowData['generic_name']]
                         );
                     } catch (NoSuchEntityException $e) {
                         $this->logger->debug('Error Product Not Found: ' . $e->getMessage());
