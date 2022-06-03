@@ -321,13 +321,9 @@ class GetCatalog
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        $this->logger->info('Response:');
-        $this->logger->info(count($data['resp']));
         if ($data['status']) {
-//            foreach ($data['resp'] as $item) {
-//                $this->logger->info($item->Mpn);
-//            }
-//            exit;
+            $this->logger->info('Count: ' . count($data['resp']));
+            // foreach ($data['resp'] as $item) { $this->logger->info('Sku: ' . $item->Sku . ' Mpn: ' .$item->Mpn); }exit;
             $this->loadCatalogData($data['resp'], $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
             $errors = explode(',',$configData['errores']);
@@ -399,7 +395,6 @@ class GetCatalog
     //Limpia cache despues de consultar el catalogo de un store view
     public function cleanCache()
     {
-        return;
         $types = array('config', 'collections', 'eav', 'full_page', 'translate');
         foreach ($types as $type) {
             $this->_cacheTypeList->cleanType($type);
@@ -460,12 +455,7 @@ class GetCatalog
         $rootCat = $objectManager->get('Magento\Catalog\Model\Category');
         $cat_info = $rootCat->load($rootNodeId);
 
-        $count = 0;
         foreach ($data as $key => $catalog) {
-//            if ($count >= 1) {
-//                exit;
-//            }
-//            $count++;
 
             $catId = $catalog->Category->CategoryId;
 
@@ -684,58 +674,14 @@ class GetCatalog
     //Carga la información de los productos
     public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds, $configData)
     {
-        // All Crocs Functionality
-        $configurableProductIsEnabled = $this->configurableProduct->getIsModuleEnabled($storeId);
-        $this->logger->info('Method::loadProductsData(): ' . $catalog->Sku);
-        if ($configurableProductIsEnabled) {
-            if ($catalog->Sku == 'MM900JBL67') {
-                $this->logger->info('BeforeSku: ' . $catalog->Sku);
-                $catalog->Sku = '101010';
-                $this->logger->info('AfterSku: ' . $catalog->Sku);
-
-                $this->logger->info('BeforeMpn: ' . $catalog->Mpn);
-                $catalog->Mpn = '202020-001-M4';
-                $this->logger->info('AfterMpn: ' . $catalog->Mpn);
-
-                $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
-                $this->logger->info('CrocsSku: ' . $catalog->Sku);
-            } else if ($catalog->Sku == 'MM104JBL71') {
-                $this->logger->info('BeforeSku: ' . $catalog->Sku);
-                $catalog->Sku = '303030';
-                $this->logger->info('AfterSku: ' . $catalog->Sku);
-
-                $this->logger->info('BeforeMpn: ' . $catalog->Mpn);
-                $catalog->Mpn = '404040';
-                $this->logger->info('AfterMpn: ' . $catalog->Mpn);
-
-                $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
-                $this->logger->info('CrocsSku: ' . $catalog->Sku);
-            } else if ($catalog->Sku == 'MM104JBL91') {
-                $this->logger->info('BeforeSku: ' . $catalog->Sku);
-                $catalog->Sku = 'YPL04CCS042';
-                $this->logger->info('AfterSku: ' . $catalog->Sku);
-
-                $this->logger->info('BeforeMpn: ' . $catalog->Mpn);
-                $catalog->Mpn = '2052892-001-M4W6';
-                $this->logger->info('AfterMpn: ' . $catalog->Mpn);
-
-                $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
-                $this->logger->info('CrocsSku: ' . $catalog->Sku);
-            } else {
-                return;
-            }
-        }
-
         $isNewProduct = false;
         try {
             $errors = '';
-            $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
             $product = $this->productRepository->get($catalog->Sku, true, $storeId, true);
             $style = 'style="border:1px solid"';
-            $productId = false;
-            $this->logger->debug('OK 1 ' . $product->getId());
+            $this->logger->debug('UpdateSku: ' . $product->getSku());
         } catch (NoSuchEntityException $e) {
-            $this->logger->debug('Error 1 ' . $e->getMessage());
+            $this->logger->debug('CreateSku: ' . $catalog->Sku);
             $isNewProduct = true;
         }
 
@@ -957,7 +903,9 @@ class GetCatalog
         }
 
         // Call Crocs Functionality
-        if ($productId) {
+        $configurableProductIsEnabled = $this->configurableProduct->getIsModuleEnabled($storeId);
+        if ($productId && $configurableProductIsEnabled) {
+            $this->logger->debug('Dispatch Event intcomex_crocs_catalog_product_save_before ProductId: ' . $productId);
             $this->eventManager->dispatch(
                 'intcomex_crocs_catalog_product_save_before',
                 ['product' => $product]

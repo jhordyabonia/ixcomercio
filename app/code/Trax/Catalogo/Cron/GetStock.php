@@ -249,7 +249,9 @@ class GetStock
     {
         //Se conecta al servicio
         $data = $this->loadIwsService($serviceUrl);
-        if($data['status']){              
+        if($data['status']){
+            $this->logger->info('Count: ' . count($data['resp']));
+            // foreach ($data['resp'] as $item) { $this->logger->info('Sku: ' . $item->Sku . ' Mpn: ' .$item->Mpn); }exit;
             $this->loadCatalogSalesData($data['resp'], $websiteCode, $store, $storeId, $configData);
         } else {
             $errors = explode(',',$configData['errores']);
