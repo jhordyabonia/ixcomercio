@@ -48,7 +48,7 @@ define(
                 var serviceUrl = url.build('credomatic/custom/copyorder'); 
                  $.post(serviceUrl)
                  .done(function(msg){
-                     console.log("copyOrder_response: " + msg.response);
+                     return true;
                  });
 
                  this.placeOrder();

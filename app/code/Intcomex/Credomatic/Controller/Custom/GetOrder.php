@@ -56,10 +56,9 @@ class GetOrder extends \Magento\Framework\App\Action\Action
 
             //Get Quote Copy
             $this->logger->info('BinCampaign_CopyQuoteData_id: ' . $order->getQuoteId());
-            $quote = $this->quoteFactory->create()->load($order->getQuoteId());
-            $getQuote = $quote->getData('copy_quote_data');
-            $this->logger->info('BinCampaign_CopyQuoteData_2: ' . print_r($getQuote, true));
-            $quote = json_decode($getQuote, true);
+            $model =  $this->_credomaticFactory->create()->load($order->getQuoteId(), 'quote_id');
+            $this->logger->info('BinCampaign_CopyQuoteData_2: ' . print_r($model->getData('copy_quote_data'), true));
+            $quote = json_decode($model->getData('copy_quote_data'), true);
             
             if($this->credoHelper->isBinRule($quote['applied_rule_ids']) && is_array($quote) && isset($quote['grand_total']) && $quote['grand_total'] > 0){
                 $order->setAppliedRuleIds($quote['applied_rule_ids']);
@@ -109,11 +108,11 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['url_gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
 
             
-            $model =  $this->_credomaticFactory->create();
+
             $model->addData([
                 'order_id' => $order->getIncrementId(),
                 'token' => $token,
-                'created_at' => $arrayData['time'],
+                'updated_at' => $arrayData['time'],
             ]);
             $model->save();
 
