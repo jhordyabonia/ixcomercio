@@ -72,7 +72,8 @@ class PlaceOrder extends AbstractHelper
             \Magento\Sales\Model\Order $order,
             LoggerInterface $logger,
             \Magento\Framework\Controller\ResultFactory $result,
-            \Trax\Grid\Model\GridFactory $gridFactory
+            \Trax\Grid\Model\GridFactory $gridFactory,
+            \Intcomex\Credomatic\Helper\DataRule $credoHelper
     ) {
         $this->scopeConfig = $scopeConfig;        
         $this->helper = $email;
@@ -81,7 +82,7 @@ class PlaceOrder extends AbstractHelper
         $this->order = $order;     
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
-
+        $this->credoHelper = $credoHelper;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/events_sales_order.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -251,6 +252,7 @@ class PlaceOrder extends AbstractHelper
                 $tempItem['Price'] = $dataItem->getOriginalPrice();
                 $discount = '';
                 if(count($coupon) == 0){
+                    
                     $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
                     if($price > 0){
                         $discount = $price;
@@ -260,9 +262,19 @@ class PlaceOrder extends AbstractHelper
                 $coupon_prod = $coupon;
                 $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
 
-                if($specialPrice > 0 ){
-                    $discount = $dataItem->getOriginalPrice() - $specialPrice;
-                    $coupon_prod = '';
+                if($this->credoHelper->isBinRule($dataItem->getAppliedRuleIds())){
+                    if($specialPrice > 0 ){
+                        $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                        $discount += $dataItem->getDiscountAmount();
+                        $coupon_prod = '';
+                    }else{
+                        $discount = $dataItem->getDiscountAmount();
+                    }
+                }else{
+                    if($specialPrice > 0 ){
+                        $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                        $coupon_prod = '';
+                    }
                 }
 
                 $tempItem['Discounts']   = $discount;
@@ -270,7 +282,7 @@ class PlaceOrder extends AbstractHelper
                 $tempItem['StoreItemId'] = $dataItem->getId();
                 $items[] = $tempItem;
             }
-        }
+        } 
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(

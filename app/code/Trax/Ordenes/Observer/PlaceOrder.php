@@ -73,7 +73,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Catalogo\Helper\Email $email,
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
         \Magento\Framework\Controller\ResultFactory $result,
-        \Trax\Grid\Model\GridFactory $gridFactory
+        \Trax\Grid\Model\GridFactory $gridFactory,
+        \Intcomex\Credomatic\Helper\DataRule $credoHelper
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
         $this->logger = new \Zend\Log\Logger();
@@ -85,6 +86,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->_iwsOrder = $iwsOrder;
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
+        $this->credoHelper = $credoHelper;
 	}
 
     public function execute(\Magento\Framework\Event\Observer $observer)
@@ -356,11 +358,22 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
 
                 $coupon_prod = $coupon;
                 $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
-
-                if($specialPrice > 0 ){
-                    $discount = $dataItem->getOriginalPrice() - $specialPrice;
-                    $coupon_prod = '';
+                
+                if($this->credoHelper->isBinRule($dataItem->getAppliedRuleIds())){
+                    if($specialPrice > 0 ){
+                        $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                        $discount += $dataItem->getDiscountAmount();
+                        $coupon_prod = '';
+                    }else{
+                        $discount = $dataItem->getDiscountAmount();
+                    }
+                }else{
+                    if($specialPrice > 0 ){
+                        $discount = $dataItem->getOriginalPrice() - $specialPrice;
+                        $coupon_prod = '';
+                    }
                 }
+
 
                 $tempItem['Discounts'] = $discount;
                 $tempItem['CouponCodes'] = $coupon_prod;

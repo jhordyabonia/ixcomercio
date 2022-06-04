@@ -59,6 +59,7 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $model =  $this->_credomaticFactory->create()->load($order->getQuoteId(), 'quote_id');
             $this->logger->info('BinCampaign_CopyQuoteData_2: ' . print_r($model->getData('copy_quote_data'), true));
             $quote = json_decode($model->getData('copy_quote_data'), true);
+            $quote_items = json_decode($model->getData('copy_quote_data_items'), true);
             
             if($this->credoHelper->isBinRule($quote['applied_rule_ids']) && is_array($quote) && isset($quote['grand_total']) && $quote['grand_total'] > 0){
                 $order->setAppliedRuleIds($quote['applied_rule_ids']);
@@ -71,6 +72,21 @@ class GetOrder extends \Magento\Framework\App\Action\Action
                 $order->setDiscountAmount($quote['subtotal'] - $quote['subtotal_with_discount']);
                 $order->setGrandTotal($quote['grand_total']);
                 $order->setBaseGrandTotal($quote['base_grand_total']);
+
+                $oder_items = $order->getAllItems();
+                foreach($oder_items as $key => $dataItem){
+		            $dataItem->setAppliedRuleIds($quote_items[$dataItem->getSku()]['applied_rule_ids'])->save();
+                    $dataItem->setPrice($quote_items[$dataItem->getSku()]['price'])->save();
+                    $dataItem->setBasePrice($quote_items[$dataItem->getSku()]['base_price'])->save();
+                    $dataItem->setDiscountPercent($quote_items[$dataItem->getSku()]['discount_percent'])->save();
+                    $dataItem->setDiscountAmount($quote_items[$dataItem->getSku()]['discount_amount'])->save();
+                    $dataItem->setBaseDiscountAmount($quote_items[$dataItem->getSku()]['base_discount_amount'])->save();
+                    $dataItem->setRowTotalWithDiscount($quote_items[$dataItem->getSku()]['row_total_with_discount'])->save();
+                    $dataItem->setPriceInclTax($quote_items[$dataItem->getSku()]['price_incl_tax'])->save();
+                    $dataItem->setBasePriceInclTax($quote_items[$dataItem->getSku()]['base_price_incl_tax'])->save();
+                    $dataItem->setRowTotalInclTax($quote_items[$dataItem->getSku()]['row_total_incl_tax'])->save();
+                }
+                
 
                 $payment = $order->getPayment();
                 $payment->setBaseAmountAuthorized($quote['base_grand_total']);

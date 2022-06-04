@@ -10,6 +10,7 @@
         <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
         <column xsi:type="varchar" name="quote_id" nullable="true" comment="quote_id"/>
         <column xsi:type="text" name="copy_quote_data" nullable="true" comment="CopyQuoteData custom Field Text"/>
+        <column xsi:type="text" name="copy_quote_data_items" nullable="true" comment="CopyQuoteDataItems custom Field Text"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>

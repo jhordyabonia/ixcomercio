@@ -66,7 +66,7 @@ define(
                 var number = $("#credomatic_cc_number").val();
                 var cvv_ = $("#credomatic_cc_cid").val();
                 var ccexp = monthFormatted + year.substring(2);
-                $.post(serviceUrl,{cuotas:cuotas, quote: quote.getQuoteId()})
+                $.post(serviceUrl,{cuotas:cuotas})
                 .done(function(msg){
                         if (!msg.error && msg.length != 0 ) {
                             jQuery('body').trigger('processStart'); 

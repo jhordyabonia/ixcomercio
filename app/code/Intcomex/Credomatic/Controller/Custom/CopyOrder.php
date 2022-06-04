@@ -36,10 +36,19 @@ class CopyOrder extends \Magento\Framework\App\Action\Action
             
             $resultJson = $this->resultJsonFactory->create();
             $quote_ = json_encode($this->_checkoutSession->getQuote()->getData());
+            $quote_items = $this->_checkoutSession->getQuote()->getAllItems();
+            $skuItems = [];
+            
+            foreach($quote_items as $key => $dataItem){
+                $skuItems[$dataItem->getSku()] = $dataItem->getData();
+            }
+            $skuItems = json_encode($skuItems);
+
             $model =  $this->_credomaticFactory->create();
             $model->addData([
                 'quote_id' => $this->_checkoutSession->getQuoteId(),
                 'copy_quote_data' => $quote_ ,
+                'copy_quote_data_items' => $skuItems,
                 'created_at' => strtotime(date('Y-m-d H:i:s'))
             ]);
             $model->save();
