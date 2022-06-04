@@ -55,12 +55,13 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $processor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
 
             //Get Quote Copy
-            $quote = $this->quoteFactory->create()->load($this->_checkoutSession->getQuote()->getId());
-            $getQuote = $quote->getCopyQuoteData();
-            $this->logger->info('BinCampaign_CopyQuoteData: ' . print_r($getQuote, true));
+            $this->logger->info('BinCampaign_CopyQuoteData_id: ' . $order->getQuoteId());
+            $quote = $this->quoteFactory->create()->load($order->getQuoteId());
+            $getQuote = $quote->getData('copy_quote_data');
+            $this->logger->info('BinCampaign_CopyQuoteData_2: ' . print_r($getQuote, true));
             $quote = json_decode($getQuote, true);
-
-            if($this->credoHelper->isBinRule($quote['applied_rule_ids'])){
+            
+            if($this->credoHelper->isBinRule($quote['applied_rule_ids']) && is_array($quote) && isset($quote['grand_total']) && $quote['grand_total'] > 0){
                 $order->setAppliedRuleIds($quote['applied_rule_ids']);
                 $order->setSubtotal($quote['subtotal']);
                 $order->setBaseSubtotal($quote['base_subtotal']);
@@ -82,10 +83,6 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
             $order->addStatusToHistory($order->getStatus(), 'Change state order to pending payment with processor_id ' . $processor_id);
             $order->save();
-            echo "discount_amount" . $order->getDiscountAmount();
-            echo "osb: " . $quote['subtotal'];
-            echo "sb: " . $order->getSubtotal();
-            echo "sb: " . $order->getGrandTotal();
             $this->logger->info( $order->getIncrementId());
             $this->logger->info('status: ' . $order->getState());
 

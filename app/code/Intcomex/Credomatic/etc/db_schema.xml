@@ -12,4 +12,7 @@
             <column name="id"/>
         </constraint>
     </table>
+    <table name="quote" resource="default" engine="innodb">
+        <column xsi:type="text" name="copy_quote_data" nullable="true" comment="CopyQuoteData custom Field Text"/>
+    </table>
 </schema>
