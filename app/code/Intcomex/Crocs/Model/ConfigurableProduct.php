@@ -164,8 +164,10 @@ class ConfigurableProduct
     /**
      * @param $sku
      * @param Product $product
+     * @param $womanProductId
+     * @param $genericName
      */
-    public function createOrUpdateConfigurableProduct($sku, Product $product, $genericName)
+    public function createOrUpdateConfigurableProduct($sku, Product $product, $womanProductId, $genericName)
     {
         $configurableProductId = null;
         try {
@@ -220,14 +222,22 @@ class ConfigurableProduct
                 foreach ($configurableProduct->getTypeInstance()->getUsedProducts($configurableProduct) as $child) {
                     $children[] = $child->getId();
                 }
-                $configurableProduct->setAssociatedProductIds(array_merge($children, [$product->getId()]));
+
+                // Adds $children (already has) $product (Man Product) & $womanProductId (Woman Product if is not null)
+                $productsToAdd = [];
+                $productsToAdd[] = $product->getId();
+                if ($womanProductId) {
+                    $productsToAdd[] = $womanProductId;
+                }
+                $associatedProductIds = array_merge($children, $productsToAdd);
+                $configurableProduct->setAssociatedProductIds($associatedProductIds);
                 $configurableProduct->setCanSaveConfigurableAttributes(true);
                 $configurableProduct->save();
 
                 if ($isNewConfigurableProduct) {
-                    $this->logger->debug("Created ConfigurableProductId: $configurableProductId AssociatedProductId: " . $product->getId());
+                    $this->logger->debug("Created ConfigurableProductId: $configurableProductId AssociatedProductIds: " . json_encode($associatedProductIds));
                 } else {
-                    $this->logger->debug("Updated ConfigurableProductId: $configurableProductId AssociatedProductId: " . $product->getId());
+                    $this->logger->debug("Updated ConfigurableProductId: $configurableProductId AssociatedProductIds: " . json_encode($associatedProductIds));
                 }
             } catch (Exception $e) {
                 $this->logger->info('Error assign child to configurable product:: ' . $e->getMessage());
@@ -250,18 +260,23 @@ class ConfigurableProduct
         $skuLastPart = $skuExploded[count($skuExploded)-1];
         $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
 
-        if ($skuLastPart !== $size) $product->setSku($product->getSku() . $skuLastPartToPlus);
-        $product->setVisibility(1);
-        $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
-        $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
-        $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
-        $product->save();
+        try {
+            if ($skuLastPart !== $size) $product->setSku($product->getSku() . $skuLastPartToPlus);
+            $product->setVisibility(1);
+            $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
+            $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
+            $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
+            $product->save();
+        } catch (Exception $e) {
+            $this->logger->info('Error Updating Man Product Sku: ' . $product->getSku() . ' Error: ' . $e->getMessage());
+        }
     }
 
     /**
      * @param Product $product
      * @param $size
      * @param $color
+     * @return int|void|null
      */
     public function setDataToWomanProduct(Product $product, $size, $color)
     {
@@ -284,11 +299,17 @@ class ConfigurableProduct
         $secondProduct->setName($product->getName());
         $secondProduct->setPrice($product->getPrice());
         $secondProduct->setSpecialPrice($product->getSpecialPrice());
+        $secondProduct->setSpecialFromDate($product->getSpecialFromDate());
+        $secondProduct->setSpecialToDate($product->getSpecialToDate());
         $secondProduct->setAttributeSetId($product->getAttributeSetId());
         $secondProduct->setTypeId('simple');
         $secondProduct->setVisibility(1);
         $secondProduct->setWebsiteIds($product->getWebsiteIds());
         $secondProduct->setCategoryIds($product->getCategoryIds());
+        $secondProduct->setWeight($product->getWeight());
+        $secondProduct->setTsDimensionsHeight($product->getTsDimensionsHeight());
+        $secondProduct->setTsDimensionsLength($product->getTsDimensionsLength());
+        $secondProduct->setTsDimensionsWidth($product->getTsDimensionsWidth());
         $secondProduct->setStockData([
             'use_config_manage_stock' => 0,
             'manage_stock' => 1,
@@ -297,6 +318,8 @@ class ConfigurableProduct
         $secondProduct->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
         $secondProduct->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
         $secondProduct->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
+        $secondProduct->setCrocsFit($product->getCrocsFit());
+        $secondProduct->setCrocsStyle($product->getCrocsStyle());
 
         try {
             $secondProduct->save();
@@ -305,6 +328,7 @@ class ConfigurableProduct
             } else {
                 $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku());
             }
+            return $secondProduct->getId();
         } catch (Exception $e) {
             $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
         }

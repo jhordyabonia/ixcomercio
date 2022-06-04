@@ -8,6 +8,7 @@ use Intcomex\Crocs\Model\ConfigurableProduct;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Zend\Log\Logger;
 
 class BeforeSaveProduct implements ObserverInterface
@@ -39,6 +40,7 @@ class BeforeSaveProduct implements ObserverInterface
 
     /**
      * @param Observer $observer
+     * @throws LocalizedException
      */
     public function execute(Observer $observer)
     {
@@ -63,12 +65,13 @@ class BeforeSaveProduct implements ObserverInterface
                     // Set data to Man product
                     $this->configurableProduct->setDataToManProduct($product, $sizes[0], $color, count($sizes) > 1);
                     // If it is multi size
+                    $womanProductId = null;
                     if (count($sizes) > 1) {
                         // Set data to Woman product
-                        $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
+                        $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
                     }
                     // Create Configurable Product
-                    $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $genericName);
+                    $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName);
                 } else {
                     $this->logger->debug($sku . ' Producto No Configurable');
                 }
