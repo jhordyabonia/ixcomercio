@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Intcomex\Crocs\Observer;
 
+use Exception;
 use Intcomex\Crocs\Helper\Data;
 use Intcomex\Crocs\Model\ConfigurableProduct;
 use Magento\Catalog\Model\Product;
@@ -83,6 +84,7 @@ class BeforeSaveProduct implements ObserverInterface
 
     /**
      * @param Product $product
+     * @throws Exception
      */
     private function _setSku(Product $product)
     {
@@ -92,5 +94,6 @@ class BeforeSaveProduct implements ObserverInterface
         } else {
             $product->setSku($prefix . $product->getSku());
         }
+        $product->save(); // Save name
     }
 }
