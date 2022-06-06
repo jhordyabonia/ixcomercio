@@ -129,7 +129,7 @@ class BeforeProductSave implements ObserverInterface
 
                     // If is admin user throw error || If is in CLI set log
                     if ($adminUser) {
-//                        throw new Exception(__($extraError));
+                        throw new Exception(__($extraError));
                     } else {
                         $this->logger->info('Price Error ProductId: ' . $productId . ' Extra Error: ' . $extraError);
                     }
