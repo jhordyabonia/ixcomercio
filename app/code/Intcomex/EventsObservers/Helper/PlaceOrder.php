@@ -79,7 +79,8 @@ class PlaceOrder extends AbstractHelper
             LoggerInterface $logger,
             \Magento\Framework\Controller\ResultFactory $result,
             \Trax\Grid\Model\GridFactory $gridFactory,
-            \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct
+            \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct,
+            \Intcomex\Credomatic\Helper\DataRule $credoHelper
     ) {
         $this->scopeConfig = $scopeConfig;        
         $this->helper = $email;
@@ -89,7 +90,7 @@ class PlaceOrder extends AbstractHelper
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
         $this->configurableProduct = $configurableProduct;
-
+        $this->credoHelper = $credoHelper;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/events_sales_order.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -259,6 +260,8 @@ class PlaceOrder extends AbstractHelper
             $productId = $dataItem->getProductId();
             $id = $dataItem->getId();
             $sku = $dataItem->getProduct()->getSku();
+            $discountAmount = $dataItem->getDiscountAmount();
+            $appliedRuleIds = $dataItem->getAppliedRuleIds();
             if ($dataItem->getParentItem() && $this->configurableProduct->getIsModuleEnabled($order->getStoreId())) {
                 $originalPrice = $dataItem->getParentItem()->getOriginalPrice();
                 $qty = (int)$dataItem->getParentItem()->getQtyOrdered();
@@ -266,6 +269,8 @@ class PlaceOrder extends AbstractHelper
                 $productId = $dataItem->getParentItem()->getProductId();
                 $id = $dataItem->getParentItem()->getItemId();
                 $sku = explode($this->configurableProduct->getSeparator($order->getStoreId()), $dataItem->getSku())[1];
+                $discountAmount = $dataItem->getParentItem()->getDiscountAmount();
+                $appliedRuleIds = $dataItem->getParentItem()->getAppliedRuleIds();
                 $this->logger->info("ParentIsConfigurable SkuToSend: " . $sku);
             }
             if (!array_key_exists($dataItem->getSku(), $skuItems) && $originalPrice != 0 && $dataItem->getProduct()->getTypeId() !== Configurable::TYPE_CODE) {
@@ -285,9 +290,19 @@ class PlaceOrder extends AbstractHelper
                 $coupon_prod = $coupon;
                 $specialPrice = $this->getDataProductInfo($productId,$storeCode);
 
-                if($specialPrice > 0 ){
-                    $discount = $originalPrice - $specialPrice;
-                    $coupon_prod = '';
+                if($this->credoHelper->isBinRule($appliedRuleIds)){
+                    if($specialPrice > 0 ){
+                        $discount = $originalPrice - $specialPrice;
+                        $discount += $discountAmount;
+                        $coupon_prod = '';
+                    }else{
+                        $discount = $discountAmount;
+                    }
+                }else{
+                    if($specialPrice > 0 ){
+                        $discount = $originalPrice - $specialPrice;
+                        $coupon_prod = '';
+                    }
                 }
 
                 $tempItem['Discounts'] = $discount;

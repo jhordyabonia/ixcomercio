@@ -80,7 +80,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
         \Magento\Framework\Controller\ResultFactory $result,
         \Trax\Grid\Model\GridFactory $gridFactory,
-        \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct
+        \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct,
+        \Intcomex\Credomatic\Helper\DataRule $credoHelper
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/placeorder.log');
         $this->logger = new \Zend\Log\Logger();
@@ -93,7 +94,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
         $this->configurableProduct = $configurableProduct;
-    }
+        $this->credoHelper = $credoHelper;
+	}
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
@@ -356,6 +358,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $productId = $dataItem->getProductId();
             $id = $dataItem->getId();
             $sku = $dataItem->getProduct()->getSku();
+            $discountAmount = $dataItem->getDiscountAmount();
+            $appliedRuleIds = $dataItem->getAppliedRuleIds();
             if ($dataItem->getParentItem() && $this->configurableProduct->getIsModuleEnabled($order->getStoreId())) {
                 $originalPrice = $dataItem->getParentItem()->getOriginalPrice();
                 $qty = (int)$dataItem->getParentItem()->getQtyOrdered();
@@ -363,6 +367,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $productId = $dataItem->getParentItem()->getProductId();
                 $id = $dataItem->getParentItem()->getItemId();
                 $sku = explode($this->configurableProduct->getSeparator($order->getStoreId()), $dataItem->getSku())[1];
+                $discountAmount = $dataItem->getParentItem()->getDiscountAmount();
+                $appliedRuleIds = $dataItem->getParentItem()->getAppliedRuleIds();
                 $this->logger->info("ParentIsConfigurable SkuToSend: " . $sku);
             }
             if (!array_key_exists($dataItem->getSku(), $skuItems) && $originalPrice != 0 && $dataItem->getProduct()->getTypeId() !== Configurable::TYPE_CODE) {
@@ -382,9 +388,19 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $coupon_prod = $coupon;
                 $specialPrice = $this->getDataProductInfo($productId,$storeCode);
 
-                if($specialPrice > 0 ){
-                    $discount = $originalPrice - $specialPrice;
-                    $coupon_prod = '';
+                if($this->credoHelper->isBinRule($appliedRuleIds)){
+                    if($specialPrice > 0 ){
+                        $discount = $originalPrice - $specialPrice;
+                        $discount += $discountAmount;
+                        $coupon_prod = '';
+                    }else{
+                        $discount = $discountAmount;
+                    }
+                }else{
+                    if($specialPrice > 0 ){
+                        $discount = $originalPrice - $specialPrice;
+                        $coupon_prod = '';
+                    }
                 }
 
                 $tempItem['Discounts'] = $discount;
