@@ -320,6 +320,9 @@ class ConfigurableProduct
         $secondProduct->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
         $secondProduct->setCrocsFit($product->getCrocsFit());
         $secondProduct->setCrocsStyle($product->getCrocsStyle());
+        $secondProduct->setPaisDeOrigen($product->getPaisDeOrigen());
+        $secondProduct->setMaterialCrocs($product->getMaterialCrocs());
+        $secondProduct->setGarantia($product->getGarantia());
 
         try {
             $secondProduct->save();
