@@ -4,6 +4,7 @@ namespace Intcomex\ImportProducts\Model\Import;
 
 use Exception;
 use Intcomex\Auditoria\Helper\ReferencePriceValidation;
+use Intcomex\Crocs\Model\ConfigurableProduct;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Config as CatalogConfig;
@@ -13,7 +14,7 @@ use Magento\CatalogImportExport\Model\Import\Product as MagentoProduct;
 use Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor;
 use Magento\CatalogImportExport\Model\Import\Product\TaxClassProcessor;
 use Magento\CatalogImportExport\Model\Import\Product\RowValidatorInterface as ValidatorInterface;
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\CatalogInventory\Api\Data\StockItemInterface;use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -24,6 +25,7 @@ use Magento\Framework\Stdlib\DateTime;
 use Magento\ImportExport\Model\Import;
 use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingError;
 use Magento\Store\Api\StoreRepositoryInterface;
+use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\Store;
 use Zend_Validate_Exception;
 
@@ -86,6 +88,11 @@ class Product extends MagentoProduct
     protected $referencePriceErrors = [];
 
     /**
+     * @var ConfigurableProduct
+     */
+    protected $configurableProduct;
+
+    /**
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\ResourceModel\Import\Data $importData
@@ -128,6 +135,7 @@ class Product extends MagentoProduct
      * @param ProductRepositoryInterface|null $productRepository
      * @param StoreRepositoryInterface $storeRepository
      * @param ReferencePriceValidation $priceValidation
+     * @param ConfigurableProduct $configurableProduct
      * @param array $data
      * @throws LocalizedException
      * @throws \Magento\Framework\Exception\FileSystemException
@@ -175,6 +183,7 @@ class Product extends MagentoProduct
         ProductRepositoryInterface $productRepository = null,
         StoreRepositoryInterface $storeRepository,
         ReferencePriceValidation $priceValidation,
+        ConfigurableProduct $configurableProduct,
         array $data = []
     ) {
         $this->catalogConfig = $catalogConfig ?: ObjectManager::getInstance()->get(CatalogConfig::class);
@@ -183,6 +192,12 @@ class Product extends MagentoProduct
         $this->filesystem = $filesystem;
         $this->storeRepository= $storeRepository;
         $this->priceValidation = $priceValidation;
+        $this->configurableProduct = $configurableProduct;
+
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
+        $this->logger = new \Zend\Log\Logger();
+        $this->logger->addWriter($writer);
+
         parent::__construct(
             $jsonHelper,
             $importExportData,
@@ -227,8 +242,8 @@ class Product extends MagentoProduct
     /**
      * Execute Reference Price Validation.
      *
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
+     * @param $rowNum
+     * @param $rowData
      */
     private function _referencePriceValidation($rowNum, $rowData)
     {
@@ -236,10 +251,9 @@ class Product extends MagentoProduct
             return;
         }
 
-        $product = $this->productRepository->get($rowData['sku'], false);
-        if ($product->getId()) {
-            $store = $this->storeRepository->get($rowData['store_view_code']);
-            $storeId = $store->getId();
+        try {
+            $product = $this->productRepository->get($rowData[self::COL_SKU], false);
+            $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
             $result = $this->priceValidation->execute($product, $rowData['price'] ?? null, $rowData['special_price'] ?? null, $rowData['product_websites'], $storeId);
 
             if ($result !== true) {
@@ -250,10 +264,10 @@ class Product extends MagentoProduct
                     null,
                     null,
                     ProcessingError::ERROR_LEVEL_NOT_CRITICAL
-                )
-                    ->getErrorAggregator()
-                    ->addRowToSkip($rowNum);
+                )->getErrorAggregator()->addRowToSkip($rowNum);
             }
+        } catch (NoSuchEntityException $e) {
+            return;
         }
     }
 
@@ -290,7 +304,11 @@ class Product extends MagentoProduct
             $prevAttributeSet = null;
             $existingImages = $this->getExistingImages($bunch);
 
-            foreach ($bunch as $rowNum => $rowData) {
+            foreach ($bunch as $rowNum => $rowData)
+            {
+                // Intcomex_Crocs set Custom Sku
+                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
+                $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
 
                 // Intcomex_Auditoria ReferencePrice Validation
                 $this->_referencePriceValidation($rowNum, $rowData);
@@ -649,9 +667,242 @@ class Product extends MagentoProduct
                 'catalog_product_import_bunch_save_after',
                 ['adapter' => $this, 'bunch' => $bunch]
             );
+
+            // Call Crocs Functionality
+            foreach ($bunch as $rowNum => $rowData) {
+                $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
+                if ($this->configurableProduct->getIsModuleEnabled($storeId)) {
+                    $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
+                    try {
+                        $this->logger->debug('NewData: ' . json_encode($rowData));
+                        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+                        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
+                        $product = $productFactory->create()->setStoreId($storeId)->loadByAttribute(self::COL_SKU, $rowData[self::COL_SKU]);
+                        $this->_eventManager->dispatch(
+                            'intcomex_crocs_catalog_product_save_before',
+                            ['product' => $product, 'generic_name' => $rowData['generic_name']]
+                        );
+                    } catch (NoSuchEntityException $e) {
+                        $this->logger->debug('Error Product Not Found: ' . $e->getMessage());
+                        return $this;
+                    }
+                }
+            }
         }
 
         return $this;
+    }
+
+    /**
+     * Set valid attribute set and product type to rows.
+     *
+     * Set valid attribute set and product type to rows with all
+     * scopes to ensure that existing products doesn't changed.
+     *
+     * @param array $rowData
+     * @return array
+     */
+    protected function _prepareRowForDb(array $rowData)
+    {
+        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
+        $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
+        $rowData = $this->_customFieldsMapping($rowData);
+        foreach ($rowData as $key => $val) {
+            if ($val === '') {
+                $rowData[$key] = null;
+            }
+        }
+
+        static $lastSku = null;
+        if (Import::BEHAVIOR_DELETE == $this->getBehavior()) {
+            return $rowData;
+        }
+
+        $lastSku = $rowData[self::COL_SKU];
+        if ($this->isSkuExist($lastSku)) {
+            $newSku = $this->skuProcessor->getNewSku($lastSku);
+            $rowData[self::COL_ATTR_SET] = $newSku['attr_set_code'] == null ? $rowData[self::COL_ATTR_SET] : $newSku['attr_set_code'];
+            $rowData[self::COL_TYPE] = $newSku['type_id'] == null ? $rowData[self::COL_TYPE] : $newSku['type_id'];
+        }
+
+        return $rowData;
+    }
+
+    /**
+     * Custom fields mapping for changed purposes of fields and field names.
+     *
+     * @param array $rowData
+     *
+     * @return array
+     */
+    private function _customFieldsMapping($rowData)
+    {
+        foreach ($this->_fieldsMap as $systemFieldName => $fileFieldName) {
+            if (array_key_exists($fileFieldName, $rowData)) {
+                $rowData[$systemFieldName] = $rowData[$fileFieldName];
+            }
+        }
+
+        $rowData = $this->_parseAdditionalAttributes($rowData);
+        $rowData = $this->_setStockUseConfigFieldsValues($rowData);
+
+        if (array_key_exists('status', $rowData)
+            && $rowData['status'] != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        ) {
+            if ($rowData['status'] == 'yes') {
+                $rowData['status'] = \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED;
+            } elseif (!empty($rowData['status']) || $this->getRowScope($rowData) == self::SCOPE_DEFAULT) {
+                $rowData['status'] = \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
+            }
+        }
+        return $rowData;
+    }
+
+    /**
+     * Parse attributes names and values string to array.
+     *
+     * @param array $rowData
+     *
+     * @return array
+     */
+    private function _parseAdditionalAttributes($rowData)
+    {
+        if (empty($rowData['additional_attributes'])) {
+            return $rowData;
+        }
+        $rowData = array_merge($rowData, $this->getAdditionalAttributes($rowData['additional_attributes']));
+        return $rowData;
+    }
+
+    /**
+     * Retrieves additional attributes in format:
+     * [
+     *      code1 => value1,
+     *      code2 => value2,
+     *      ...
+     *      codeN => valueN
+     * ]
+     *
+     * @param string $additionalAttributes Attributes data that will be parsed
+     * @return array
+     */
+    private function getAdditionalAttributes($additionalAttributes)
+    {
+        return empty($this->_parameters[Import::FIELDS_ENCLOSURE])
+            ? $this->parseAttributesWithoutWrappedValues($additionalAttributes)
+            : $this->parseAttributesWithWrappedValues($additionalAttributes);
+    }
+
+    /**
+     * Set values in use_config_ fields.
+     *
+     * @param array $rowData
+     *
+     * @return array
+     */
+    private function _setStockUseConfigFieldsValues($rowData)
+    {
+        $useConfigFields = [];
+        foreach ($rowData as $key => $value) {
+            $useConfigName = $key === StockItemInterface::ENABLE_QTY_INCREMENTS
+                ? StockItemInterface::USE_CONFIG_ENABLE_QTY_INC
+                : self::INVENTORY_USE_CONFIG_PREFIX . $key;
+
+            if (isset($this->defaultStockData[$key])
+                && isset($this->defaultStockData[$useConfigName])
+                && !empty($value)
+                && empty($rowData[$useConfigName])
+            ) {
+                $useConfigFields[$useConfigName] = ($value == self::INVENTORY_USE_CONFIG) ? 1 : 0;
+            }
+        }
+        $rowData = array_merge($rowData, $useConfigFields);
+        return $rowData;
+    }
+
+    /**
+     * Parses data and returns attributes in format:
+     * [
+     *      code1 => value1,
+     *      code2 => value2,
+     *      ...
+     *      codeN => valueN
+     * ]
+     *
+     * @param string $attributesData Attributes data that will be parsed. It keeps data in format:
+     *      code=value,code2=value2...,codeN=valueN
+     * @return array
+     */
+    private function parseAttributesWithoutWrappedValues($attributesData)
+    {
+        $attributeNameValuePairs = explode($this->getMultipleValueSeparator(), $attributesData);
+        $preparedAttributes = [];
+        $code = '';
+        foreach ($attributeNameValuePairs as $attributeData) {
+            //process case when attribute has ImportModel::DEFAULT_GLOBAL_MULTI_VALUE_SEPARATOR inside its value
+            if (strpos($attributeData, self::PAIR_NAME_VALUE_SEPARATOR) === false) {
+                if (!$code) {
+                    continue;
+                }
+                $preparedAttributes[$code] .= $this->getMultipleValueSeparator() . $attributeData;
+                continue;
+            }
+            list($code, $value) = explode(self::PAIR_NAME_VALUE_SEPARATOR, $attributeData, 2);
+            $code = mb_strtolower($code);
+            $preparedAttributes[$code] = $value;
+        }
+        return $preparedAttributes;
+    }
+
+    /**
+     * Parses data and returns attributes in format:
+     * [
+     *      code1 => value1,
+     *      code2 => value2,
+     *      ...
+     *      codeN => valueN
+     * ]
+     * All values have unescaped data except mupliselect attributes,
+     * they should be parsed in additional method - parseMultiselectValues()
+     *
+     * @param string $attributesData Attributes data that will be parsed. It keeps data in format:
+     *      code="value",code2="value2"...,codeN="valueN"
+     *  where every value is wrapped in double quotes. Double quotes as part of value should be duplicated.
+     *  E.g. attribute with code 'attr_code' has value 'my"value'. This data should be stored as attr_code="my""value"
+     *
+     * @return array
+     */
+    private function parseAttributesWithWrappedValues($attributesData)
+    {
+        $attributes = [];
+        preg_match_all(
+            '~((?:[a-zA-Z0-9_])+)="((?:[^"]|""|"' . $this->getMultiLineSeparatorForRegexp() . '")+)"+~',
+            $attributesData,
+            $matches
+        );
+        foreach ($matches[1] as $i => $attributeCode) {
+            $attribute = $this->retrieveAttributeByCode($attributeCode);
+            $value = 'multiselect' != $attribute->getFrontendInput()
+                ? str_replace('""', '"', $matches[2][$i])
+                : '"' . $matches[2][$i] . '"';
+            $attributes[mb_strtolower($attributeCode)] = $value;
+        }
+        return $attributes;
+    }
+
+    /**
+     * Retrieves escaped PSEUDO_MULTI_LINE_SEPARATOR if it is metacharacter for regular expression
+     *
+     * @return string
+     */
+    private function getMultiLineSeparatorForRegexp()
+    {
+        if (!$this->multiLineSeparatorForRegexp) {
+            $this->multiLineSeparatorForRegexp = in_array(self::PSEUDO_MULTI_LINE_SEPARATOR, str_split('[\^$.|?*+(){}'))
+                ? '\\' . self::PSEUDO_MULTI_LINE_SEPARATOR
+                : self::PSEUDO_MULTI_LINE_SEPARATOR;
+        }
+        return $this->multiLineSeparatorForRegexp;
     }
 
     /**
@@ -711,6 +962,8 @@ class Product extends MagentoProduct
             return !$this->getErrorAggregator()->isRowInvalid($rowNum);
         }
         $this->_validatedRows[$rowNum] = true;
+        $storeId = $this->storeRepository->get($rowData[self::COL_STORE_VIEW_CODE])->getId();
+        $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
 
         $rowScope = $this->getRowScope($rowData);
         $sku = $rowData[self::COL_SKU];
@@ -753,6 +1006,7 @@ class Product extends MagentoProduct
         $this->_processedEntitiesCount++;
 
         if ($this->isSkuExist($sku) && Import::BEHAVIOR_REPLACE !== $this->getBehavior()) {
+
             // can we get all necessary data from existent DB product?
             // check for supported type of existing product
             if (isset($this->_productTypeModels[$this->getExistingSku($sku)['type_id']])) {
