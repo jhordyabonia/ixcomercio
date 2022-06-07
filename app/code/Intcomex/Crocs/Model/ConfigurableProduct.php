@@ -323,6 +323,7 @@ class ConfigurableProduct
         $secondProduct->setPaisDeOrigen($product->getPaisDeOrigen());
         $secondProduct->setMaterialCrocs($product->getMaterialCrocs());
         $secondProduct->setGarantia($product->getGarantia());
+        $secondProduct->setTipoDeProductoCrocs($product->getTipoDeProductoCrocs());
 
         try {
             $secondProduct->save();
