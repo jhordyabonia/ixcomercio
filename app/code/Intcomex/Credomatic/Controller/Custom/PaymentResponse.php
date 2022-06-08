@@ -152,7 +152,7 @@ class PaymentResponse extends \Magento\Framework\App\Action\Action
             
             $response = json_decode($body,true);
             
-            if(!strcmp($response['response_code'], '100')){
+            if(!strcmp($response['response_code'], '300')){
                 return $this->processOrder($body);
             }else{ 
                 return $this->cancelOrder($body,$order);
