@@ -419,6 +419,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         }else {
             $identifi = $this->getIdentification($billing,$shipping);
         }
+
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(

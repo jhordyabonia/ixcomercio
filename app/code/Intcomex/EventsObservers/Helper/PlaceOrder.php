@@ -315,6 +315,13 @@ class PlaceOrder extends AbstractHelper
                 $items[] = $tempItem;
             }
         }
+
+        if (!empty($billing->getRfc())) {
+            $identifi = $billing->getRfc();
+        }else {
+            $identifi = $this->getIdentification($billing,$shipping);
+        }
+
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
@@ -325,10 +332,7 @@ class PlaceOrder extends AbstractHelper
                     'LastName' => $billing->getLastname(),
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $billing->getTelephone(),
-                    'DocumentId' => $billing->getIdentification(),
-                    'TaxSystem' =>  $this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal'),
-                    'DigitalTaxReceipt' => $this->getValueBillingAddress($billing->getCfdi(), 'cfdi'),
-                    'TaxRegistrationNumber' => $billing->getRfc(),
+                    'DocumentId' => $billing->getIdentification()
                 ),
                 'Billing' => array(
                     'FirstName' => $billing->getFirstname(),
@@ -370,7 +374,9 @@ class PlaceOrder extends AbstractHelper
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
-            'TaxRegistrationNumber' => $this->getIdentification($billing,$shipping),
+            'TaxRegistrationNumber' => $identifi,
+            'TaxSystem' =>  $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal')),
+            'DigitalTaxReceipt' => $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getCfdi(), 'cfdi')),
             'InvoiceRequested' => false,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
