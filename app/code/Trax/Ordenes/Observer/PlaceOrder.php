@@ -413,6 +413,12 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $items[] = $tempItem;
             }
         }
+
+        if (!empty($billing->getRfc())) {
+            $identifi = $billing->getRfc();
+        }else {
+            $identifi = $this->getIdentification($billing,$shipping);
+        }
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
@@ -423,10 +429,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'LastName' => $this->helper->clearSpecialCharac($billing->getLastname()),
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $this->helper->clearSpecialCharac($billing->getTelephone()),
-                    'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification()),
-                    'TaxSystem' =>  $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal')),
-                    'DigitalTaxReceipt' => $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getCfdi(), 'cfdi')),
-                    'TaxRegistrationNumber' => $this->helper->clearSpecialCharac($billing->getRfc()),
+                    'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification())
                 ),
                 'Billing' => array(
                     'FirstName' => $this->helper->clearSpecialCharac($billing->getFirstname()),
@@ -468,7 +471,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
-            'TaxRegistrationNumber' => $this->getIdentification($billing,$shipping),
+            'TaxRegistrationNumber' => $identifi,
+            'TaxSystem' =>  $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal')),
+            'DigitalTaxReceipt' => $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getCfdi(), 'cfdi')),
             'InvoiceRequested' => $requireInvoice,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
