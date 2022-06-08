@@ -5,6 +5,7 @@
       max-width: 300px;
       padding: 20px;
       background: #fff;
+      border: 1px solid #eee;
       border-radius: 5px;
       position: relative;
       @media only screen and (max-width: $mobile){
@@ -65,7 +66,7 @@
             z-index: 994;
           }
           &.disccount-tag{
-            background-color: #14d1ca;
+            background-color: #FF0000;
           }
           &.new-tag{
             background-color: #b0d114;
@@ -98,8 +99,8 @@
             font-weight: bold;
             line-height: normal;
             min-height: 60px;
-            text-align: left;
-            color:#001135;
+            text-align: center;
+            color:$colorText;
             @media only screen and (max-width: $mobile){
               font-size: 14px;
             }
@@ -109,7 +110,7 @@
           }
           .price-box{
             min-height: 60px;
-            text-align: left;
+            text-align: center;
             margin: 5px 0 5px;
             .special-price, .old-price{
               width: 100%;
@@ -188,4 +189,55 @@
       }
     }
   }
+}
+
+.page-products .products-grid .product-items .swatch-attribute.crocs_gender, .page-products .products-grid .product-items .swatch-attribute.crocs_size{
+  display: none;
+}
+input.swatch-input.super-attribute-select {
+  display: none;
+}
+.catalog-product-view .swatch-attribute .swatch-option {
+  width: 36px;
+  height: 36px;
+  display: inline-block;
+  margin-right: 10px;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 5px;
+  line-height: 36px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.page-products .swatch-attribute .swatch-attribute-options > div {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 50%;
+  border: 1px solid #666262;
+  cursor: pointer;
+}
+.page-products .swatch-attribute .swatch-attribute-options > div:hover, .page-products .catalog-product-view  .swatch-attribute .swatch-attribute-options > div.selected{
+  border:3px solid #84BD00;
+}
+.catalog-product-view  .swatch-attribute.crocs_color .swatch-attribute-options > div {
+  width: 76px;
+  height: 70px;
+  display: inline-block;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #666262;
+cursor: pointer;
+}
+.catalog-product-view .swatch-attribute .swatch-option.selected, .catalog-product-view .swatch-attribute .swatch-option:hover{
+  background: #000;
+  color:#fff;
+}
+.catalog-product-view .swatch-attribute .swatch-option.disable{
+  color: #ccc;
+  border-color: #ccc;
+  background: url(../images/dis.png);
+  background-repeat: no-repeat;
 }

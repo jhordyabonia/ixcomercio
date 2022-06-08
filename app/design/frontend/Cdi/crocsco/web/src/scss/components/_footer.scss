@@ -89,9 +89,10 @@
           li{
             line-height: 2em;
             a{
-              color: #001135;
+              color: $colorFooter;
               &:hover{
-                color: #0065ed;
+                color: $colorFooter;
+                text-decoration: underline;
             }
           }
         }
