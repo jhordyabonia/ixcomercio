@@ -321,7 +321,6 @@ class PlaceOrder extends AbstractHelper
         }else {
             $identifi = $this->getIdentification($billing,$shipping);
         }
-        error_log("IDENTIFI XXXXXXXXXXXXX:".$identifi);
 
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
