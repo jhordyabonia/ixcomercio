@@ -12,15 +12,21 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
 
     protected $scopeConfig;
 
+    protected $ruleMsi;
+
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Intcomex\Credomatic\Model\RuleMsi $ruleMsi
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
+        $this->_checkoutSession = $checkoutSession;
+        $this->ruleMsi = $ruleMsi;
         parent::__construct($context);
     }
 
@@ -36,6 +42,7 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
         try {
             $configValue = $this->scopeConfig->getValue('payment/credomatic/CuotasOptions',ScopeInterface::SCOPE_STORE);
             error_log('Config Value: ' . print_r($configValue, true));
+            $configValue = $this->ruleMsi->applyRule($this->_checkoutSession->getQuote()->getAllItems(),$configValue);
             $response = [
                 'success' => true,
                 'value' => __($configValue)

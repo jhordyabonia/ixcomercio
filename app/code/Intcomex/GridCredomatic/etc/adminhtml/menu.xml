@@ -2,6 +2,19 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Intcomex_GridCredomatic::manager" title="Credomatic" module="Intcomex_GridCredomatic" sortOrder="10" resource="Intcomex_GridCredomatic::manager" action="credomatic/grid/index" />
+        <add id="Intcomex_GridCredomatic::principal" title="Credomatic" module="Intcomex_GridCredomatic" sortOrder="10" 
+            resource="Intcomex_GridCredomatic::principal" />
+
+        <add id="Intcomex_GridCredomatic::manager" title="Credomatic Grid" module="Intcomex_GridCredomatic" sortOrder="20" 
+            parent="Intcomex_GridCredomatic::principal"
+            resource="Intcomex_GridCredomatic::manager" action="credomatic/grid/index" />
+
+        <add id="Intcomex_CredomaticMSI::credomatic_campana" title="Campaign" translate="title" module="Intcomex_CredomaticMSI"
+             parent="Intcomex_GridCredomatic::principal" sortOrder="30" action="credomatic/campaign"
+             resource="Intcomex_CredomaticMSI::credomatic_campana"/>
+
+        <add id="Intcomex_CredomaticMSI::credomatic_detalle_campana" title="Campaign Detail" translate="title" module="Intcomex_CredomaticMSI"
+             parent="Intcomex_GridCredomatic::principal" sortOrder="40" action="credomatic/campaigndetail"
+             resource="Intcomex_CredomaticMSI::credomatic_detalle_campana"/>
     </menu>
 </config>

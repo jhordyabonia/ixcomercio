@@ -57,6 +57,12 @@
                 <field id="processor_id12" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id 12 Cuotas</label>
                 </field>
+                <field id="processor_id18" translate="label" type="text" sortOrder="121" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processor Id 18 Cuotas</label>
+                </field>
+                <field id="processor_id24" translate="label" type="text" sortOrder="122" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processor Id 24 Cuotas</label>
+                </field>
                 <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Pago en Cuotas Disponibles</label>
                     <source_model>Intcomex\Credomatic\Model\Config\Source\CuotasOptions</source_model>
