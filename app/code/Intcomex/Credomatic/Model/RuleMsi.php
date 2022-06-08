@@ -50,7 +50,7 @@ class RuleMsi
         $arraFee = [];
         $arraSku = [];
         $arraApllyCamp = [];
-
+        var_dump($quoteSkus);
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
