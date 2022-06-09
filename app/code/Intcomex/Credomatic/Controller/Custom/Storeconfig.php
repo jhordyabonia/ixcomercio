@@ -45,10 +45,13 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
 
             $items = $this->_checkoutSession->getQuote()->getAllItems();
             foreach ($items as $item) {
-                var_dump($item->getQty());
+                $product []= [
+                    "sku" => $item->getSku(),
+                    "qty" => $item->getQty()
+                ];
             }
             $configValue = $this->ruleMsi->applyRule(
-                $this->_checkoutSession->getQuote()->getAllItems(),
+                $product,
                 $configValue
             );
             $response = [
