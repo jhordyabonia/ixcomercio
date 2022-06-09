@@ -57,7 +57,9 @@ class RuleMsi
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
-                if ($detailCam['sku'] == $quoteSku['sku'] && $quoteSku['qty'] <= $detailCam['max_units']) {
+                var_dump($quoteSku['qty']);
+                var_dump($detailCam['max_units']);
+                if ($detailCam['sku'] == $quoteSku['sku']) {
                     if (isset($arraProduct[$quoteSku['sku']]) && $detailCam['fee'] > $arraProduct[$quoteSku['sku']]) {
                         $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }
