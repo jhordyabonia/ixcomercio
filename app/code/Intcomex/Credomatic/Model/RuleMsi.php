@@ -29,7 +29,7 @@ class RuleMsi
         foreach ($quote as $item) {
             $product []= [
                 "sku" => $item->getSku(),
-                "qty" => $item->getQty()
+                "qty" => abs($item->getQty())
             ];
         }
         var_dump($product);
@@ -58,7 +58,7 @@ class RuleMsi
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
-                if ($detailCam['sku'] == $quoteSku['sku']) {
+                if ($detailCam['sku'] == $quoteSku['sku'] && $quoteSku['qty'] <= $detailCam['max_units']) {
                     if (isset($arraProduct[$quoteSku['sku']]) && $detailCam['fee'] > $arraProduct[$quoteSku['sku']]) {
                         $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }
