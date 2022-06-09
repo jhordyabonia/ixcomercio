@@ -97,6 +97,8 @@ class RuleMsi
                 }
                 $arrayConf = $arrayNewConfig;
             }
+        }else{
+            return [];
         }
 
         return $arrayConf;
