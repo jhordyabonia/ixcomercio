@@ -44,13 +44,13 @@ class RuleMsi
         return $configFee;
     }
     
-    public function getFee($quoteSkus, $detailsCampaign, $arrayConf)
+    public function getFee($quoteSkus, $qty,$detailsCampaign, $arrayConf)
     {
         $arraProduct = [];
         $arraFee = [];
         $arraSku = [];
         $arraApllyCamp = [];
-
+        var_dump($qty);
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
