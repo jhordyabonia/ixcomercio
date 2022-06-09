@@ -43,15 +43,8 @@ class Storeconfig extends \Magento\Framework\App\Action\Action
             $configValue = $this->scopeConfig->getValue('payment/credomatic/CuotasOptions',ScopeInterface::SCOPE_STORE);
             error_log('Config Value: ' . print_r($configValue, true));
 
-            $items = $this->_checkoutSession->getQuote()->getAllItems();
-            foreach ($items as $item) {
-                $product []= [
-                    "sku" => $item->getSku(),
-                    "qty" => $item->getQty()
-                ];
-            }
             $configValue = $this->ruleMsi->applyRule(
-                $product,
+                $this->_checkoutSession->getQuote()->getAllItems(),
                 $configValue
             );
             $response = [

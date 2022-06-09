@@ -24,15 +24,18 @@ class RuleMsi
     public function applyRule($quote, $configValue)
     {
         $detailsCampaign = $this->_collection->create()->getDetailsCampaignActive()->getData();
-        $quoteSkus = [];
+        $product = [];
 
         foreach ($quote as $item) {
-            $quoteSkus[] = $item->getSku();
+            $product []= [
+                "sku" => $item->getSku(),
+                "qty" => $item->getQty()
+            ];
         }
 
         $arrayConf = explode(',', $configValue);
 
-        $getFee = $this->getFee($quoteSkus, $detailsCampaign, $arrayConf);
+        $getFee = $this->getFee($product, $detailsCampaign, $arrayConf);
 
         if (empty($getFee)) {
             unset($arrayConf[array_search(18, $arrayConf)]);
@@ -54,12 +57,12 @@ class RuleMsi
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
-                if ($detailCam['sku'] == $quoteSku) {
-                    if (isset($arraProduct[$quoteSku]) && $detailCam['fee'] > $arraProduct[$quoteSku]) {
-                        $arraProduct[$quoteSku] = $detailCam['fee'];
+                if ($detailCam['sku'] == $quoteSku['sku']) {
+                    if (isset($arraProduct[$quoteSku['sku']]) && $detailCam['fee'] > $arraProduct[$quoteSku['sku']]) {
+                        $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }
-                    if (!isset($arraProduct[$quoteSku])) {
-                        $arraProduct[$quoteSku] = $detailCam['fee'];
+                    if (!isset($arraProduct[$quoteSku['sku']])) {
+                        $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }
                 }
             }
