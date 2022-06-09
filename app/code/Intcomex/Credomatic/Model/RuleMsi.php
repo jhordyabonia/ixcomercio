@@ -57,7 +57,7 @@ class RuleMsi
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
-                if ($detailCam['sku'] == $quoteSku['sku'] && (int)$quoteSku['qty'] <= (int)$detailCam['max_units']) {
+                if ($detailCam['sku'] == $quoteSku['sku'] && $quoteSku['qty'] <= $detailCam['max_units']) {
                     if (isset($arraProduct[$quoteSku['sku']]) && $detailCam['fee'] > $arraProduct[$quoteSku['sku']]) {
                         $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }
@@ -85,19 +85,20 @@ class RuleMsi
             $arraFee[] = $fee;
         }
 
-        if (min($arraFee) !== max($arrayConf)) {
-            $arrayNewConfig = [];
-            foreach ($arrayConf as $conf) {
-                if ($conf > min($arraFee)) {
-                    continue;
-                } else {
-                    $arrayNewConfig[] = $conf;
+        if (count($arraFee)) {
+            if (min($arraFee) !== max($arrayConf)) {
+                $arrayNewConfig = [];
+                foreach ($arrayConf as $conf) {
+                    if ($conf > min($arraFee)) {
+                        continue;
+                    } else {
+                        $arrayNewConfig[] = $conf;
+                    }
                 }
+                $arrayConf = $arrayNewConfig;
             }
-            $arrayConf = $arrayNewConfig;
         }
 
         return $arrayConf;
     }
-
 }
