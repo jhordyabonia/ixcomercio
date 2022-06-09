@@ -32,7 +32,6 @@ class RuleMsi
                 "qty" => abs($item->getQty())
             ];
         }
-        var_dump($product);
 
         $arrayConf = explode(',', $configValue);
 
