@@ -29,7 +29,7 @@ class RuleMsi
         foreach ($quote as $item) {
             $product []= [
                 "sku" => $item->getSku(),
-                "qty" => abs($item->getQty())
+                "qty" => $item->getQty()
             ];
         }
 
@@ -57,7 +57,7 @@ class RuleMsi
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
-                if ($detailCam['sku'] == $quoteSku['sku']) {
+                if ($detailCam['sku'] == $quoteSku['sku'] && (int)$quoteSku['qty'] <= (int)$detailCam['max_units']) {
                     if (isset($arraProduct[$quoteSku['sku']]) && $detailCam['fee'] > $arraProduct[$quoteSku['sku']]) {
                         $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }
@@ -70,7 +70,7 @@ class RuleMsi
 
         //check if all products apply to the campaign.
         foreach ($quoteSkus as $key => $sku) {
-            if (in_array($sku, $arraSku)) {
+            if (in_array($sku['sku'], $arraSku)) {
                 $arraApllyCamp[] = 1;
             } else {
                 $arraApllyCamp[] = 0;
