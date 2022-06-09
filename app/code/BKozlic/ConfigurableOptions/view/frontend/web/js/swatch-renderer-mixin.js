@@ -43,11 +43,7 @@ define([
                 return false;
             }
 
-            gallery.data('gallery') ?
-                widget._preselectProduct(simpleProduct) :
-                gallery.on('gallery:loaded', function () {
-                    widget._preselectProduct(simpleProduct);
-                });
+            widget._preselectProduct(simpleProduct);
         },
 
         /**
