@@ -11,6 +11,8 @@ define([
 ], function ($, _, getAsyncValues) {
     'use strict';
 
+    var simpleProductIdProcessed = [];
+
     let configurableMixin = {
         _create: function () {
             this.options.gallerySwitchStrategy = this.options.spConfig.gallerySwitchStrategy;
@@ -51,7 +53,7 @@ define([
                 selectOptions = this.options.spConfig.index[simpleProduct];
 
             if (!selectOptions) {
-                this._preselectFirstOptions();
+                this._preselectProductForIndex(this.options.jsonConfig.index);
                 return false;
             }
 
@@ -82,6 +84,27 @@ define([
                 $select.val($optionElement.val());
                 $select.trigger('change');
             });
+        },
+
+        /**
+         * Preselect first not disabled options of configurable product
+         * @private
+         */
+        _preselectProductForIndex: function (simpleProducts) {
+            let widget = this,
+                simpleProductId = '';
+
+            $.each(simpleProducts, function( index, value ) {
+                if(!simpleProductIdProcessed.includes(index)){
+                    simpleProductId = index;
+                    simpleProductIdProcessed.push(simpleProductId);
+                    return false;
+                }
+            });
+            if(simpleProductId === ''){
+                return false;
+            }
+            widget._preselectProduct(simpleProductId);
         },
 
         /**
