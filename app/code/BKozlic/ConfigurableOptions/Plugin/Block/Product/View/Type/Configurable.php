@@ -43,11 +43,13 @@ class Configurable
     public function __construct(
         SerializerInterface $serializer,
         Data $helper,
-        GetProductAttributeValuesService $getProductAttributeValues
+        GetProductAttributeValuesService $getProductAttributeValues,
+        Product $productModel
     ) {
         $this->serializer = $serializer;
         $this->helper = $helper;
         $this->getProductAttributeValues = $getProductAttributeValues;
+        $this->productModel = $productModel;
     }
 
     /**
@@ -85,7 +87,8 @@ class Configurable
      */
     protected function getSimpleProductId(Product $product)
     {
-        return $product->getData('simple_product_preselect');
+        $model = $this->productModel->load($product->getId());
+        return $model->getData('simple_product_preselect');
     }
 
     /**
