@@ -11,6 +11,8 @@ define([
 ], function ($, _, getAsyncValues) {
     'use strict';
 
+    var simpleProductIdProcessed = [];
+
     let swatchRendererMixin = {
         _init: function () {
             this.options.gallerySwitchStrategy = this.options.jsonConfig.gallerySwitchStrategy;
@@ -42,7 +44,6 @@ define([
             if (!preselectEnabled) {
                 return false;
             }
-
             widget._preselectProduct(simpleProduct);
         },
 
@@ -57,7 +58,7 @@ define([
                 selectOptions = this.options.jsonConfig.index[simpleProduct];
 
             if (!selectOptions) {
-                this._preselectFirstOptions();
+                this._preselectProductForIndex(this.options.jsonConfig.index);
                 return false;
             }
 
@@ -118,6 +119,27 @@ define([
                     $select.change();
                 }
             });
+        },
+
+        /**
+         * Preselect first not disabled options of configurable product
+         * @private
+         */
+        _preselectProductForIndex: function (simpleProducts) {
+            let widget = this,
+                simpleProductId = '';
+
+            $.each(simpleProducts, function( index, value ) {
+                if(!simpleProductIdProcessed.includes(index)){
+                    simpleProductId = index;
+                    simpleProductIdProcessed.push(simpleProductId);
+                    return false;
+                }
+            });
+            if(simpleProductId === ''){
+                return false;
+            }
+            widget._preselectProduct(simpleProductId);
         },
 
         /**
