@@ -38,16 +38,18 @@ define([
             let widget = this,
                 options = this.options,
                 preselectEnabled = options.jsonConfig.preselectEnabled,
-                simpleProduct = options.jsonConfig.simpleProduct,
-                gallery = widget.element.parents('.column.main').find(widget.options.mediaGallerySelector);
+                simpleProduct = options.jsonConfig.simpleProduct;
 
             if (!preselectEnabled) {
                 return false;
             }
-           /* $(document).on('swatch.initialized', function() {
+            if($('.category-list').length) {
+                setTimeout(function(){
+                    widget._preselectProduct(simpleProduct);
+                },4000);
+            }else{
                 widget._preselectProduct(simpleProduct);
-            });*/
-            widget._preselectProduct(simpleProduct);
+            }
         },
 
         /**

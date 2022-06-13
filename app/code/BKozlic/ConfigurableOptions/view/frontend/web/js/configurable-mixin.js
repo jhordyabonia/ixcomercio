@@ -33,14 +33,18 @@ define([
             let widget = this,
                 options = this.options,
                 preselectEnabled = options.spConfig.preselectEnabled,
-                simpleProduct = options.spConfig.simpleProduct,
-                gallery = widget.element.parents('.column.main').find(widget.options.mediaGallerySelector);
+                simpleProduct = options.spConfig.simpleProduct;
 
             if (!preselectEnabled) {
                 return false;
             }
-
-            widget._preselectProduct(simpleProduct);
+            if($('.category-list').length) {
+                setTimeout(function(){
+                    widget._preselectProduct(simpleProduct);
+                },4000);
+            }else{
+                widget._preselectProduct(simpleProduct);
+            }
         },
 
         /**
