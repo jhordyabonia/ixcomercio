@@ -674,7 +674,6 @@ class Product extends MagentoProduct
                 if ($this->configurableProduct->getIsModuleEnabled($storeId)) {
                     $rowData[self::COL_SKU] = $this->configurableProduct->getSkuWithPrefixIfNeeded($rowData[self::COL_SKU], $storeId);
                     try {
-                        $this->logger->debug('NewData: ' . json_encode($rowData));
                         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
                         $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
                         $product = $productFactory->create()->setStoreId($storeId)->loadByAttribute(self::COL_SKU, $rowData[self::COL_SKU]);

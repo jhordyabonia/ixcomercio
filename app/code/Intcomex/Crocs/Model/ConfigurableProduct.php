@@ -171,12 +171,11 @@ class ConfigurableProduct
     {
         $configurableProductId = null;
         try {
-            $configurableProduct = $this->productRepository->get($sku, true);
+            $configurableProduct = $this->productRepository->get($sku, true, $product->getStoreId(), true);
             $configurableProductId = $configurableProduct->getId();
             $configurableProduct->setName($genericName);
             $configurableProduct->save();
             $isNewConfigurableProduct = false;
-            $this->logger->debug("Ya existe el producto con Sku: $sku");
         } catch (NoSuchEntityException $e) {
             $isNewConfigurableProduct = true;
 
@@ -252,7 +251,7 @@ class ConfigurableProduct
      * @param $isMultiSize
      * @throws Exception
      */
-    public function setDataToManProduct(Product $product, $size, $color, $isMultiSize)
+    public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize)
     {
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $options = $this->_getAllAttributeOptions();
@@ -261,7 +260,9 @@ class ConfigurableProduct
         $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
 
         try {
-            if ($skuLastPart !== $size) $product->setSku($product->getSku() . $skuLastPartToPlus);
+            if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
+                $product->setSku($product->getSku() . $skuLastPartToPlus);
+            }
             $product->setVisibility(1);
             $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
             $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
@@ -286,7 +287,7 @@ class ConfigurableProduct
         $options = $this->_getAllAttributeOptions();
 
         try {
-            $secondProduct = $this->productRepository->get($sku, false);
+            $secondProduct = $this->productRepository->get($sku, true, $product->getStoreId());
             $isNewProduct = false;
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
