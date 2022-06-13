@@ -44,6 +44,9 @@ define([
             if (!preselectEnabled) {
                 return false;
             }
+           /* $(document).on('swatch.initialized', function() {
+                widget._preselectProduct(simpleProduct);
+            });*/
             widget._preselectProduct(simpleProduct);
         },
 
@@ -66,7 +69,8 @@ define([
                 let attributeId = index,
                     optionId = value,
                     $wrapper = $('.' + classes.attributeClass + '[attribute-id="' + attributeId + '"]'),
-                    $optionsWrapper;
+                    $optionsWrapper,
+                    optIdKey = '';
 
                 if (!$wrapper.length) {
                     $wrapper = $('.' + classes.attributeClass + '[data-attribute-id="' + attributeId + '"]');
@@ -74,11 +78,17 @@ define([
 
                 $optionsWrapper = $wrapper.find('.' + classes.attributeOptionsWrapper);
                 if ($optionsWrapper.children().is('div')) {
-                    let $optionElement = $wrapper.find('.' + classes.optionClass + '[option-id="' + optionId + '"]');
+                    optIdKey =  'option-id';
+                    let $optionElement = $wrapper.find('.' + classes.optionClass + '[' + optIdKey + '="' + optionId + '"]');
                     if (!$optionElement.length) {
-                        $optionElement = $wrapper.find('.' + classes.optionClass + '[data-option-id="' + optionId + '"]');
+                        optIdKey = 'data-option-id';
+                        $optionElement = $wrapper.find('.' + classes.optionClass + '[' + optIdKey + '="' + optionId + '"]');
                     }
-
+                    if($optionElement.length > 1){
+                        let code = widget.options.jsonConfig.mappedAttributes[index].code;
+                        let divId = 'option-label-' + code + '-' + index + '-item-' + value;
+                        $optionElement = $wrapper.find('.' + classes.optionClass + '[' + optIdKey + '="' + optionId + '"][id="' + divId +'"]');
+                    }
                     $optionElement.click();
                 } else {
                     let $select = $optionsWrapper.find('select'),
