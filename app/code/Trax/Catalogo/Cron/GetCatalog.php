@@ -674,6 +674,23 @@ class GetCatalog
     //Carga la información de los productos
     public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds, $configData)
     {
+        // Crocs Logic
+        $configurableProductIsEnabled = $this->configurableProduct->getIsModuleEnabled($storeId);
+        if ($configurableProductIsEnabled) {
+            $configurableSku = $this->configurableProduct->getConfigurableSku($catalog->Mpn, $storeId);
+            if ($configurableSku) {
+                $sizes = $this->configurableProduct->getSizes($catalog->Mpn, $storeId);
+                // If it is multi size
+                if (count($sizes) > 1) {
+                    $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku . $this->configurableProduct->getSeparator($storeId) . $sizes[0], $storeId);
+                } else {
+                    $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
+                }
+            } else {
+                $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
+            }
+        }
+
         $isNewProduct = false;
         try {
             $errors = '';
@@ -903,7 +920,6 @@ class GetCatalog
         }
 
         // Call Crocs Functionality
-        $configurableProductIsEnabled = $this->configurableProduct->getIsModuleEnabled($storeId);
         if ($productId && $configurableProductIsEnabled) {
             $this->logger->debug('Dispatch Event intcomex_crocs_catalog_product_save_before ProductId: ' . $productId);
             $this->eventManager->dispatch(

@@ -49,44 +49,56 @@ class BeforeSaveProduct implements ObserverInterface
         $product = $observer->getData('product');
         $genericName = $observer->getData('generic_name');
         $storeId = $product->getStoreId();
+        $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
 
         if ($this->crocsHelper->isEnabled($storeId)) {
-            $this->_setSku($product);
-            $sku = $product->getSku();
-            $mpn = $product->getData('mpn');
-            $this->logger->debug('NewSku: ' . $product->getSku() . ' - Mpn: ' . $mpn);
+            try {
+                $mpn = $product->getData('mpn');
 
-            if ($mpn) {
-                $configurableSku = $this->configurableProduct->getConfigurableSku($mpn, $storeId);
-                if ($configurableSku) {
-                    $color = $this->configurableProduct->getColor($mpn, $storeId);
-                    $sizes = $this->configurableProduct->getSizes($mpn, $storeId);
-                    $this->logger->debug('ConfigurableSku: ' . $configurableSku . ' Color: ' . $color . ' Sizes: ' . json_encode($sizes));
-                    // Set data to Man product
-                    $this->configurableProduct->setDataToManProduct($product, $sizes[0], $color, count($sizes) > 1);
-                    // If it is multi size
-                    $womanProductId = null;
-                    if (count($sizes) > 1) {
-                        // Set data to Woman product
-                        $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
+                if ($mpn) {
+                    $configurableSku = $this->configurableProduct->getConfigurableSku($mpn, $storeId);
+                    if ($configurableSku) {
+                        $this->_setSku($product, false);
+                        $this->logger->debug('NewSku: ' . $product->getSku() . ' - Mpn: ' . $mpn);
+                        $color = $this->configurableProduct->getColor($mpn, $storeId);
+                        $sizes = $this->configurableProduct->getSizes($mpn, $storeId);
+                        $this->logger->debug('ConfigurableSku: ' . $configurableSku . ' Color: ' . $color . ' Sizes: ' . json_encode($sizes));
+
+                        // Set data to First product / If editing product is Woman set in the first position
+                        $skuExploded = explode($separator, $product->getSku());
+                        if (isset($skuExploded[2]) && str_contains($skuExploded[2], 'W')) {
+                            $sizes[0] = $skuExploded[2];
+                        }
+                        $this->configurableProduct->setDataToFirstProduct($product, $sizes[0], $color, count($sizes) > 1);
+                        $skuExploded = explode($separator, $product->getSku());
+                        $womanProductId = null;
+                        // If it is multi size Man or Kid
+                        if (count($sizes) > 1 && isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C'))) {
+                            // Set data to Woman product
+                            $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
+                        }
+                        // Create Configurable Product
+                        $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName);
+                    } else {
+                        $this->_setSku($product, true);
+                        $this->logger->debug($product->getSku() . ' Producto No Configurable');
                     }
-                    // Create Configurable Product
-                    $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName);
                 } else {
-                    $this->logger->debug($sku . ' Producto No Configurable');
+                    $this->logger->debug($product->getSku() . ' Producto Sin Mpn');
                 }
-            } else {
-                $this->logger->debug($sku . ' Producto Sin Mpn');
+            } catch (Exception $e) {
+                $this->logger->debug('Error Crocs BeforeSaveProduct Observer: ' . $e->getMessage());
             }
         }
     }
 
     /**
      * @param Product $product
+     * @param bool $save
      * @throws Exception
      */
-    private function _setSku(Product $product)
+    private function _setSku(Product $product, bool $save)
     {
         $prefix = $this->crocsHelper->getPrefix($product->getStoreId());
         if (strpos($product->getSku(), $prefix) !== false) {
@@ -94,6 +106,8 @@ class BeforeSaveProduct implements ObserverInterface
         } else {
             $product->setSku($prefix . $product->getSku());
         }
-        $product->save(); // Save name
+        if ($save) {
+            $product->save(); // Save Sku
+        }
     }
 }
