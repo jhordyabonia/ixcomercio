@@ -41,7 +41,7 @@ define([
             if($('.category-list').length) {
                 setTimeout(function(){
                     widget._preselectProduct(simpleProduct);
-                },3000);
+                },2000);
             }else{
                 widget._preselectProduct(simpleProduct);
             }
