@@ -43,6 +43,16 @@ define(
                 var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
             },
+
+            beforePlaceOrder: function (){
+                var serviceUrl = url.build('credomatic/custom/copyorder'); 
+                 $.post(serviceUrl)
+                 .done(function(msg){
+                     return true;
+                 });
+
+                 this.placeOrder();
+            },
  
             afterPlaceOrder: function () {
                 jQuery('body').trigger('processStart');
