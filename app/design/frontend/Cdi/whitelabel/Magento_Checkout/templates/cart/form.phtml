@@ -19,6 +19,10 @@
           }'
           class="form form-cart">
     <?= $block->getBlockHtml('formkey') ?>
+    <div class="div-free-shipping-message">
+        <span class="free-shipping-message"><?= $this->helper(\Intcomex\FreeShippingMessage\Helper\FreeShippingMessage::class)->toHtml(); ?></span>
+        <div class="free-shipping-icon"></div>
+    </div>
     <div class="cart table-wrapper<?= $mergedCells == 2 ? ' detailed' : '' ?>">
         <?php if ($block->getPagerHtml()): ?>
             <div class="cart-products-toolbar cart-products-toolbar-top toolbar" data-attribute="cart-products-toolbar-top"><?= $block->getPagerHtml() ?></div>
