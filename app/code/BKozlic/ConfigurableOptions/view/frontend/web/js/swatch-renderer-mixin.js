@@ -17,7 +17,10 @@ define([
         _init: function () {
             this.options.gallerySwitchStrategy = this.options.jsonConfig.gallerySwitchStrategy;
             this._super();
-            this._preselect();
+            $(this).on('swatchPriorityItemsReady', function(event, widget){
+                widget._preselect();
+            });
+            this._eventPriorityItemsReady();
         },
 
         _OnClick: function ($this, $widget, eventName) {
@@ -28,6 +31,21 @@ define([
         _OnChange: function ($this, $widget) {
             this._super($this, $widget);
             this._updateSimpleProductAttributes();
+        },
+
+        _eventPriorityItemsReady : function(){
+            let widget = this;
+            if(!widget.options.jsonConfig.preselectEnabled){
+                return false;
+            }
+            let interval = setInterval(function(){
+                if (widget.element.parents(widget.options.selectorProduct)
+                    .find(widget.options.selectorProductPrice).is(':data(mage-priceBox)')
+                ){
+                    clearInterval(interval);
+                    $(widget).trigger("swatchPriorityItemsReady",[widget]);
+                }
+            },500);
         },
 
         /**
@@ -43,13 +61,7 @@ define([
             if (!preselectEnabled) {
                 return false;
             }
-            if($('.category-list').length) {
-                setTimeout(function(){
-                    widget._preselectProduct(simpleProduct);
-                },2000);
-            }else{
-                widget._preselectProduct(simpleProduct);
-            }
+            widget._preselectProduct(simpleProduct);
         },
 
         /**
