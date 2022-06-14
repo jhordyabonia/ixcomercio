@@ -34,14 +34,24 @@ define([
         },
 
         _eventPriorityItemsReady : function(){
-            let widget = this;
+            let widget = this,
+                productPrice;
+
             if(!widget.options.jsonConfig.preselectEnabled){
                 return false;
             }
+            productPrice = widget.element.parents(widget.options.selectorProduct)
+                .find(widget.options.selectorProductPrice);
+            if(!productPrice.length){
+                productPrice = $(widget.options.selectorProduct).find(widget.options.selectorProductPrice).length ?
+                    $(widget.options.selectorProduct).find(widget.options.selectorProductPrice) :
+                    $('.product-info_main').find(widget.options.selectorProductPrice);
+            }
+            if(!productPrice.length){
+                return false;
+            }
             let interval = setInterval(function(){
-                if (widget.element.parents(widget.options.selectorProduct)
-                    .find(widget.options.selectorProductPrice).is(':data(mage-priceBox)')
-                ){
+                if (productPrice.is(':data(mage-priceBox)')){
                     clearInterval(interval);
                     $(widget).trigger("swatchPriorityItemsReady",[widget]);
                 }
