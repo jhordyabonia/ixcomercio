@@ -38,8 +38,8 @@ define([
     $.widget('bss.Sdcp', $.mage.SwatchRenderer, {
         options: {
             sdcp_classes: {
-                sku: '.product.attribute.sku .value',
-                name: '.page-title .base',
+                sku: '.product-info_main .sku .value',
+                name: '.product-info_main .product-name',
                 fullDesc: {
                     label: '#tab-label-product\\.info\\.description',
                     content: '.product.attribute.description .value',
@@ -341,7 +341,7 @@ define([
 
             $widget._UpdateDesc(
                 data['desc'],
-                data['sdesc'],
+                data['desc'],
                 moduleConfig['desc']
             );
 
@@ -468,7 +468,7 @@ define([
         _UpdateDesc: function ($desc, $sdesc, $config) {
             if ($config > 0) {
                 this._UpdateFullDesc($desc);
-                this._UpdateShortDesc($sdesc);
+                this._UpdateShortDesc($desc);
             }
         },
         _UpdateFullDesc: function ($desc) {
@@ -499,7 +499,7 @@ define([
                         + '<div class="value" itemprop="description">'
                         + $sdesc
                         + '</div></div>';
-                    $(this.options.selectorProduct).append(html);
+                    $(".bss-sdcp-description.product.attribute.value_description").append(html);
                 }
             } else {
                 $(this.options.sdcp_classes.shortDesc).fadeOut();
