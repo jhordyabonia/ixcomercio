@@ -922,9 +922,10 @@ class GetCatalog
         // Call Crocs Functionality
         if ($productId && $configurableProductIsEnabled) {
             $this->logger->debug('Dispatch Event intcomex_crocs_catalog_product_save_before ProductId: ' . $productId);
+            $this->logger->debug('price catalog'. $product->getPrice());
             $this->eventManager->dispatch(
                 'intcomex_crocs_catalog_product_save_before',
-                ['product' => $product]
+                ['product' => $product, 'config_data' => $configData]
             );
         }
 

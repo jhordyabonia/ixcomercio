@@ -167,13 +167,20 @@ class ConfigurableProduct
      * @param $womanProductId
      * @param $genericName
      */
-    public function createOrUpdateConfigurableProduct($sku, Product $product, $womanProductId, $genericName)
+    public function createOrUpdateConfigurableProduct($sku, Product $product, $womanProductId, $genericName, $configData)
     {
         $configurableProductId = null;
         try {
-            $configurableProduct = $this->productRepository->get($sku, true, $product->getStoreId(), true);
+            $configurableProduct = $this->productFactory->create();
+            $configurableProduct->load($configurableProduct->getIdBySku($sku));
+
             $configurableProductId = $configurableProduct->getId();
-            $configurableProduct->setName($genericName);
+            $this->logger->debug('Configurable productId: '. $configurableProductId);
+            //$configurableProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
+
+            if($configData['product_name']){
+               $configurableProduct->setName($genericName);
+            }
             $configurableProduct->save();
             $isNewConfigurableProduct = false;
         } catch (NoSuchEntityException $e) {
@@ -182,7 +189,10 @@ class ConfigurableProduct
             /** @var Product $configurableProduct */
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->setSku($sku);
-            $configurableProduct->setName($genericName);
+
+            if($configData['product_name']){
+               $configurableProduct->setName($genericName);
+            }
             $configurableProduct->setAttributeSetId($product->getAttributeSetId());
             $configurableProduct->setStatus(1);
             $configurableProduct->setTypeId('configurable');
@@ -259,6 +269,7 @@ class ConfigurableProduct
         $skuLastPart = $skuExploded[count($skuExploded)-1];
         $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
 
+        $this->logger->debug('First productId: '. $product->getId());
         if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
             $product->setSku($product->getSku() . $skuLastPartToPlus);
         }
@@ -266,6 +277,9 @@ class ConfigurableProduct
         $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
         $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
         $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
+
+        $this->logger->debug('First price: '. $product->getPrice());
+        $product->setPrice($product->getPrice());
         $product->save();
     }
 
@@ -275,7 +289,7 @@ class ConfigurableProduct
      * @param $color
      * @return int|void|null
      */
-    public function setDataToWomanProduct(Product $product, $size, $color)
+    public function setDataToWomanProduct(Product $product, $size, $color, $configData)
     {
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $skuExploded = explode($separator, $product->getSku());
@@ -283,18 +297,26 @@ class ConfigurableProduct
         $options = $this->_getAllAttributeOptions();
 
         try {
-            $secondProduct = $this->productRepository->get($sku, true, $product->getStoreId());
+            $secondProduct = $this->productFactory->create();
+            $secondProduct->load($secondProduct->getIdBySku($sku));
+            $this->logger->debug('Second productId: '. $secondProduct->getId());
+            //$secondProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
             $isNewProduct = false;
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
-
         $secondProduct->setSku($sku);
-        $secondProduct->setData('mpn', $product->getData('mpn'));
-        $secondProduct->setName($product->getName());
-        $secondProduct->setPrice($product->getPrice());
+        if($configData['product_mpn']){
+            $secondProduct->setData('mpn', $product->getData('mpn'));
+        }
+        if($configData['product_name']){
+            $secondProduct->setName($product->getName());
+        }
+        if($configData['product_price']){
+            $secondProduct->setPrice($product->getPrice());
+        }
         $secondProduct->setSpecialPrice($product->getSpecialPrice());
         $secondProduct->setSpecialFromDate($product->getSpecialFromDate());
         $secondProduct->setSpecialToDate($product->getSpecialToDate());
@@ -303,10 +325,19 @@ class ConfigurableProduct
         $secondProduct->setVisibility(1);
         $secondProduct->setWebsiteIds($product->getWebsiteIds());
         $secondProduct->setCategoryIds($product->getCategoryIds());
-        $secondProduct->setWeight($product->getWeight());
-        $secondProduct->setTsDimensionsHeight($product->getTsDimensionsHeight());
-        $secondProduct->setTsDimensionsLength($product->getTsDimensionsLength());
-        $secondProduct->setTsDimensionsWidth($product->getTsDimensionsWidth());
+
+        if($configData['product_weight']){
+            $secondProduct->setWeight($product->getWeight());
+        }
+        if($configData['product_height']){
+            $secondProduct->setTsDimensionsHeight($product->getTsDimensionsHeight());
+        }
+        if($configData['product_length']){
+            $secondProduct->setTsDimensionsLength($product->getTsDimensionsLength());
+        }
+        if($configData['product_width']){
+            $secondProduct->setTsDimensionsWidth($product->getTsDimensionsWidth());
+        }
         $secondProduct->setStockData([
             'use_config_manage_stock' => 0,
             'manage_stock' => 1,

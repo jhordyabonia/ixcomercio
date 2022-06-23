@@ -47,7 +47,6 @@ class BeforeSaveProduct implements ObserverInterface
     {
         /** @var Product $product */
         $product = $observer->getData('product');
-        $genericName = $observer->getData('generic_name');
         $storeId = $product->getStoreId();
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
@@ -55,7 +54,22 @@ class BeforeSaveProduct implements ObserverInterface
         if ($this->crocsHelper->isEnabled($storeId)) {
             try {
                 $mpn = $product->getData('mpn');
+                $genericName = empty($observer->getData('generic_name')) ?
+                    $product->getName() : $observer->getData('generic_name');
 
+                if($observer->getData('config_data')){
+                    $configData = $observer->getData('config_data');
+                }else{
+                    $configData = [
+                        'product_name'      => true,
+                        'product_weight'    => true,
+                        'product_length'    => true,
+                        'product_width'     => true,
+                        'product_height'    => true,
+                        'product_price'     => true,
+                        'product_mpn'       => true
+                    ];
+                }
                 if ($mpn) {
                     $configurableSku = $this->configurableProduct->getConfigurableSku($mpn, $storeId);
                     if ($configurableSku) {
@@ -76,10 +90,10 @@ class BeforeSaveProduct implements ObserverInterface
                         // If it is multi size Man or Kid
                         if (count($sizes) > 1 && isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C'))) {
                             // Set data to Woman product
-                            $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
+                            $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color, $configData);
                         }
                         // Create Configurable Product
-                        $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName);
+                        $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName, $configData);
                     } else {
                         $this->_setSku($product, true);
                         $this->logger->debug($product->getSku() . ' Producto No Configurable');
