@@ -29,9 +29,12 @@
                 font-family: 'SamsungSharpSans-Medium';
             }
             .action.delete {
-                position: absolute;
-                top: 0;
+                right: 0px;
+                width: 30px;
+                padding: 0;
                 z-index: 99;
+                position: absolute; 
+                top: 0;
                 &:before {
                     content: "X";
                     font-size: 18px;
