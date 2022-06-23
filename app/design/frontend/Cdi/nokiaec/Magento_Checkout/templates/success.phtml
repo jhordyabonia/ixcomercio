@@ -1,0 +1,153 @@
+<?php
+$status = "";
+$method = "";
+$orderId = $block->getRealOrderId();
+$_mienvioHelper = $this->helper('Cdi\Custom\Helper\Data');
+$order = $_mienvioHelper->getOrderDetails($orderId);
+$billingAddress = $order->getBillingAddress();
+$payment = $order->getPayment();
+if(array_key_exists("paymentResponse",$payment->getAdditionalInformation())){
+    $status = $payment->getAdditionalInformation()['paymentResponse']["status"];
+    $method = $payment->getAdditionalInformation()['method'];
+}
+
+$paymentResponse = $payment->getAdditionalInformation("paymentResponse");
+
+?>
+<div class="checkout-success">
+<?php if(!empty($method) && !empty($status) && $method == 'mercadopago_customticket' && $status == 'pending'){ ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-wrapper">
+                    <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/espera.png")?>"></p>
+                    <h1 class="page-title">
+                        <span class="base" data-ui-id="page-title-wrapper">¡Recibimos tu pedido!</span>
+                    </h1>
+                    <h2>Solo falta que realices tu pago para completar tu compra</h2>
+
+                    <?php if ($block->getOrderId()):?>
+                        <?php if ($block->getCanViewOrder()) :?>
+                            <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                        <?php  else :?>
+                            <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                        <?php endif;?>                            
+
+                    <?php endif;?>
+
+                    <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
+                </div> 
+                <p>
+                    <?php echo __('Generate the ticket and pay it wherever you want.'); ?>
+                </p>
+
+                <p>
+                    <?php /* @escapeNotVerified */
+                    echo __('Will be approved within 2 business days.'); ?>
+                </p>                
+    
+                <?= $block->getAdditionalInfoHtml() ?>
+    
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <?php if (isset($paymentResponse['transaction_details']) && $paymentResponse['transaction_details']['external_resource_url']) { ?>
+
+                        <a class="action primary" href="<?php echo $block->escapeUrl(urldecode($paymentResponse['transaction_details']['external_resource_url'])); ?>"
+                        target="_blank" id="btn-boleto-mercadopago">
+                            <span><?php echo __('Generate Ticket'); ?></span>
+                        </a>
+                        <?php } else {
+                        echo __('Error getting the link to the ticket. Please contact the seller.');
+                        } ?>
+                        <!--<a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+}elseif( !empty($method) && !empty($status) && $method == 'mercadopago_custom' && $status == 'approved'){
+?>
+    <main id="maincontent" class="page-main"><a id="contentarea" tabindex="-1"></a>
+        <div class="page-title-wrapper">
+            <p><img class="ico-page-title" style="width: auto!important" src="<?php echo $block->getViewFileUrl("images/verificado.png")?>"></p>
+            <h1 class="page-title">
+                <span class="base" data-ui-id="page-title-wrapper">¡Gracias por tu compra!</span>
+            </h1>
+            <h2>Tu pedido ha sido confirmado con exito</h2>
+        </div>
+        <div class="page messages">
+            <div data-placeholder="messages"></div>
+            <div data-bind="scope: 'messages'">
+            <!-- ko if: cookieMessages && cookieMessages.length > 0 --><!-- /ko -->
+            <!-- ko if: messages().messages && messages().messages.length > 0 --><!-- /ko -->
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column main" style="min-height: auto">
+                <div class="container">
+                    <p>Tu número de pedido es <strong><?php echo $block->getOrderId(); ?></strong></p>
+                    <p>Te enviaremos un correo electrónico de confirmación a <strong><?php echo $billingAddress->getEmail(); ?></strong> con los detalles e información de envío.</p>
+                    <div class="actions-toolbar">
+                        <div class="primary" style="float: none !important;">
+                            <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<?php }elseif($order->getPayment()->getMethod() === 'ingenico' && $order->getStatus() !== 'approved_clearsale'){ ?>
+    <script>
+        let divsToHide = document.getElementsByClassName("page-title-wrapper");
+        for (let i = 0; i < divsToHide.length; i++) {divsToHide[i].style.display = "none"; }
+    </script>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-wrapper">
+                    <h1 class="page-title">
+                        <span class="base" data-ui-id="page-title-wrapper"><?= $this->helper('Intcomex\Clearsale\Helper\Email')->getTransactionInValidationTest($order->getStoreId()) ?></span>
+                    </h1>
+                </div>
+                <?php if ($block->getOrderId()):?>
+                    <?php if ($block->getCanViewOrder()) :?>
+                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                    <?php  else :?>
+                        <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                    <?php endif;?>
+                <?php endif;?>
+                <?= $block->getAdditionalInfoHtml() ?>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php }else{ ?>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">        
+                <?php if ($block->getOrderId()):?>
+                    <?php if ($block->getCanViewOrder()) :?>
+                        <p><?= __('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></p>
+                    <?php  else :?>
+                        <p><?= __('Your order # is: <span>%1</span>.', $block->escapeHtml($block->getOrderId())) ?></p>
+                    <?php endif;?>
+                        <p><?= /* @escapeNotVerified */ __('We\'ll email you an order confirmation with details and tracking info.') ?></p>
+                <?php endif;?>
+
+                <?= $block->getAdditionalInfoHtml() ?>
+
+                <div class="actions-toolbar">
+                    <div class="primary" style="float: none !important;">
+                        <a class="action primary continue" href="<?= /* @escapeNotVerified */ $block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */ __('Continue Shopping') ?></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+</div>
