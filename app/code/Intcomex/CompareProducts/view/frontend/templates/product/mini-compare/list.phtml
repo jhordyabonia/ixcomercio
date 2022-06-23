@@ -6,7 +6,7 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
 ?>
 <div class="container" id="floatingComparisonBar">
     <?php if ($total): ?>
-        <div class="row">
+        <div class="row" style="display:flex">
             <?php if ($block->getData('isLimitReached')): ?>
                 <span><?= /* @escapeNotVerified */ __('Ya tienes 4 productos para comparar.') ?></span>
             <?php elseif ($block->getData('isNotSameCategory')): ?>
