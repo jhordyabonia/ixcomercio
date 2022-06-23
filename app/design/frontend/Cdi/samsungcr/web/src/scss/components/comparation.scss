@@ -57,15 +57,16 @@
         }
         .action-close{
             border-radius: 100px;
-            height: 40px;
-            width: 40px;
-            line-height: 20px;
+            height: 30px;
+            width: 30px;
+            line-height: 0px;
             text-align: center;
             &:before{
                 content: "x";
-                font-size: 24px;
+                font-size: 20px;
                 font-weight: 900;
                 text-align: center;
+                margin-left: -5px;
             }
             span{
                 display: none;
