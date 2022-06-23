@@ -56,6 +56,11 @@ class GetStock
 
     protected $resourceConnection;
 
+    /**
+     * @var Intcomex\Crocs\Helper\Data
+     */
+    protected $_crocsHelper;
+
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
@@ -68,7 +73,8 @@ class GetStock
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\App\ResourceConnection $resourceConnection,
         \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemInterface,
-        \Intcomex\Auditoria\Helper\ReferencePriceValidation $priceValidation
+        \Intcomex\Auditoria\Helper\ReferencePriceValidation $priceValidation,
+        \Intcomex\Crocs\Helper\Data $crocsHelper
     ) {
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getStock.log');
         $this->logger = new \Zend\Log\Logger();
@@ -87,6 +93,7 @@ class GetStock
         $this->resourceConnection = $resourceConnection;
         $this->_sourceItemInterface = $sourceItemInterface;
         $this->priceValidation = $priceValidation;
+        $this->_crocsHelper = $crocsHelper;
     }
 
     /**
@@ -242,7 +249,9 @@ class GetStock
     {
         //Se conecta al servicio
         $data = $this->loadIwsService($serviceUrl);
-        if($data['status']){              
+        if($data['status']){
+            $this->logger->info('Count: ' . count($data['resp']));
+            // foreach ($data['resp'] as $item) { $this->logger->info('Sku: ' . $item->Sku . ' Mpn: ' .$item->Mpn); }exit;
             $this->loadCatalogSalesData($data['resp'], $websiteCode, $store, $storeId, $configData);
         } else {
             $errors = explode(',',$configData['errores']);
@@ -272,7 +281,8 @@ class GetStock
         $referencePriceErrors = '';
         $arrSourceItemInterfaces = array();
         $arrayProducts = array();
-        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();  
+        $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
+
         if(!in_array($websiteCode,$this->_sources)){
             $this->logger->info('The source inventory with code '.$websiteCode.' does not exist');
         }else{
@@ -283,35 +293,53 @@ class GetStock
             $products = $productCollectionFactory->create();
             $products->addAttributeToSelect('*');
             $products->addStoreFilter($storeId);
+
             $arraySkuMagento = array();
             $arraySkuIWS = array();
-            
             foreach($products as $product){
                 $arraySkuMagento[] = $product->getSku();
             }
         
-            if($configData['product_stock']){
-                foreach ($data as $key => $catalog) {
+            if($configData['product_stock'])
+            {
+                foreach ($data as $key => $catalog){
                     try{
-                        $arraySkuIWS[] = $catalog->Sku;
-                        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
-                        $objSourceItemInterface->setSku($catalog->Sku);
-                        $objSourceItemInterface->setSourceCode($websiteCode);
-                        $objSourceItemInterface->setQuantity($catalog->InStock);
-                        $productStatus = (($catalog->InStock > 0)?1:0);
-                        $objSourceItemInterface->setStatus($productStatus);
-                    
-                        $arrSourceItemInterfaces[] = $objSourceItemInterface; 
-                        $arrayProducts[] = array(
+                        $inventoryData = array(
+                            '$websiteCode' => $websiteCode,
+                            'storeId' => $storeId,
                             'sku' => $catalog->Sku,
-                            'websiteCode' => $websiteCode,
-                            'InStock' => $catalog->InStock,
-                            'Status' => $productStatus
+                            'stock' => $catalog->InStock
                         );
+                        if ($this->_crocsHelper->isEnabled($storeId))
+                        {
+                            $this->logger->info('GetStock - Store CROCS, Start Processing. Website: '.$websiteCode . ' Mpn: '.$catalog->Mpn);
+                            $productsCrocs = $productCollectionFactory->create();
+                            $productsCrocs->addAttributeToSelect('*');
+                            $productsCrocs->addAttributeToFilter('mpn', ['eq' => $catalog->Mpn]);
+                            $productsCrocs->addStoreFilter($storeId);
 
-                        $referencePriceResult = $this->_referencePriceValidation($catalog->Sku, $productStatus, $websiteCode, $storeId);
-                        $referencePriceErrors .= $referencePriceResult;
-                    } catch(Exception $e){
+                            foreach($productsCrocs as $productItem)
+                            {
+                                $this->logger->info('GetStock - Store CROCS, item: '.$productItem->getSku());
+                                $arraySkuIWS[] = $productItem->getSku();
+                                $inventoryData['sku'] = $productItem->getSku();
+                                $arrayInventoryDataReturn = $this->setInventoryData($objSourceItemInterfaceFactory, $inventoryData);
+
+                                $arrSourceItemInterfaces[] = $arrayInventoryDataReturn['itemInterface'];
+                                $arrayProducts[] = $arrayInventoryDataReturn['product'];
+                                $referencePriceErrors .= $arrayInventoryDataReturn['referencePriceResult'];
+                            }
+                            $this->logger->info('GetStock - Store CROCS, End Processing. Website: '.$websiteCode . ' Mpn: '.$catalog->Mpn);
+                        }else{
+                            $arraySkuIWS[] = $catalog->Sku;
+                            $arrayInventoryDataReturn = $this->setInventoryData($objSourceItemInterfaceFactory, $inventoryData);
+
+                            $arrSourceItemInterfaces[] = $arrayInventoryDataReturn['itemInterface'];
+                            $arrayProducts[] = $arrayInventoryDataReturn['product'];
+                            $referencePriceErrors .= $arrayInventoryDataReturn['referencePriceResult'];
+                        }
+                    }
+                    catch(\Exception $e){
                         $this->logger->info('GetStock - Se ha producido un error al actualizar los datos del producto con SKU '.$catalog->Sku.' en el Website: '.$websiteCode.'. Error: '.$e->getMessage());
                     }
                 }
@@ -406,4 +434,48 @@ class GetStock
         }
         return $stringError;
     }
+
+    /**
+     * Set Inventory Data.
+     *
+     * @param $objSourceItemInterfaceFactory
+     * @param $inventoryData
+     * @return array
+     */
+    private function setInventoryData(
+        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $objSourceItemInterfaceFactory,
+        array $inventoryData
+    ){
+        $objSourceItemInterface = $objSourceItemInterfaceFactory->create();
+        $objSourceItemInterface->setSku($inventoryData['sku']);
+        $objSourceItemInterface->setSourceCode($inventoryData['$websiteCode']);
+        $objSourceItemInterface->setQuantity($inventoryData['stock']);
+        $productStatus = (($inventoryData['stock'] > 0)?1:0);
+        $objSourceItemInterface->setStatus($productStatus);
+
+        $product = array(
+            'sku' => $inventoryData['sku'],
+            'websiteCode' => $inventoryData['$websiteCode'],
+            'InStock' => $inventoryData['stock'],
+            'Status' => $productStatus
+        );
+        $referencePriceResult = $this->_referencePriceValidation(
+            $inventoryData['sku'], $productStatus, $inventoryData['$websiteCode'], $inventoryData['storeId']
+        );
+        return array(
+            'itemInterface' => $objSourceItemInterface,
+            'product' => $product,
+            'referencePriceResult' => $referencePriceResult
+        );
+    }
+    // Datos de pruebas para la funcion loadCatalogSalesData
+    /*private function getStockTestData()
+    {
+        return array(
+            (object) ['Mpn' => '206340-0C4-M7W9', 'Sku' => 'YPL05CCS49', 'InStock' => 32],
+            (object) ['Mpn' => '10001-001-M4W6', 'Sku' => 'YPL01CCS01', 'InStock' => 14],
+            (object) ['Mpn' => '206995-4SW-J1', 'Sku' => 'YPL10CCS79', 'InStock' => 8],
+            (object) ['Mpn' => '206986-4SW-M4W6', 'Sku' => 'YPL10CCS90', 'InStock' => 10],
+        );
+    }*/
 }

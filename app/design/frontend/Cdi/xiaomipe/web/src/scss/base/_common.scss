@@ -1,4 +1,9 @@
-
+@font-face{
+  font-family: 'icons-blank-theme';
+  src: url("../fonts/icons-blank-theme/Blank-Theme-Icons.eot?#iefix") format("eot"),
+    url("../fonts/icons-blank-theme/Blank-Theme-Icons.woff") format("woff"),
+    url("../fonts/icons-blank-theme/Blank-Theme-Icons.woff2") format("woff");
+}
 @font-face{
   font-family: "Frankfurter W05 Regular";
   src: url("../fonts/fka/545b8c4b-ee94-47dd-a9b0-55881ceeeeaa.eot?#iefix") format("eot"),
@@ -259,4 +264,19 @@ h1, .h1{
   line-height: 1.2;
   text-rendering: optimizeLegibility;
   font-family: 'HuaweiFont-Bold';
+}
+.navigation .level0.parent > .level-top > .ui-menu-icon:after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 12px;
+  line-height: 20px;
+  color: inherit;
+  content: '\e622';
+  font-family: 'icons-blank-theme';
+  vertical-align: middle;
+  display: inline-block;
+  font-weight: normal;
+  overflow: hidden;
+  speak: none;
+  text-align: center;
 }

@@ -19,7 +19,9 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         \Magento\Sales\Model\Order $modelOrder,
         \Magento\Store\Model\StoreManagerInterface  $storeManagerInterface,
         \Intcomex\Credomatic\Model\CredomaticFactory $credomaticFactory,
-        \Magento\Framework\HTTP\Client\Curl $curl
+        \Magento\Framework\HTTP\Client\Curl $curl,
+        \Intcomex\Credomatic\Helper\DataRule $credoHelper,
+        \Magento\Quote\Model\QuoteFactory $quoteFactory
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -29,6 +31,8 @@ class GetOrder extends \Magento\Framework\App\Action\Action
         $this->storeManagerInterface = $storeManagerInterface;
         $this->_credomaticFactory = $credomaticFactory;
         $this->_curl = $curl;
+        $this->credoHelper = $credoHelper;
+        $this->quoteFactory = $quoteFactory;
     }
 
     /**
@@ -45,11 +49,51 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $this->logger = new \Zend\Log\Logger();
             $this->logger->addWriter($writer);
 
-            $post  = $this->getRequest()->getPostValue();
+            $post = $this->getRequest()->getPostValue();
             $orderId =  $this->_checkoutSession->getLastOrderId();
             $order = $this->_modelOrder->load($orderId);
             $processor_id = $this->_scopeConfig->getValue('payment/credomatic/processor_id'.$post['cuotas'],ScopeInterface::SCOPE_STORE);
 
+            //Get Quote Copy
+            $this->logger->info('BinCampaign_CopyQuoteData_id: ' . $order->getQuoteId());
+            $model =  $this->_credomaticFactory->create()->load($order->getQuoteId(), 'quote_id');
+            $this->logger->info('BinCampaign_CopyQuoteData_2: ' . print_r($model->getData('copy_quote_data'), true));
+            $quote = json_decode($model->getData('copy_quote_data'), true);
+            $quote_items = json_decode($model->getData('copy_quote_data_items'), true);
+            
+            if($this->credoHelper->isBinRule($quote['applied_rule_ids']) && is_array($quote) && isset($quote['grand_total']) && $quote['grand_total'] > 0){
+                $order->setAppliedRuleIds($quote['applied_rule_ids']);
+                $order->setSubtotal($quote['subtotal']);
+                $order->setBaseSubtotal($quote['base_subtotal']);
+                $order->setSubtotalWithDiscount($quote['subtotal_with_discount']);
+                $order->setBaseSubtotalWithDiscount($quote['base_subtotal_with_discount']);
+                $order->setDiscountCouponAmount($quote['discount_coupon_amount']);
+                $order->setBaseDiscountCouponAmount($quote['base_discount_coupon_amount']);
+                $order->setDiscountAmount($quote['subtotal'] - $quote['subtotal_with_discount']);
+                $order->setGrandTotal($quote['grand_total']);
+                $order->setBaseGrandTotal($quote['base_grand_total']);
+
+                $oder_items = $order->getAllItems();
+                foreach($oder_items as $key => $dataItem){
+		            $dataItem->setAppliedRuleIds($quote_items[$dataItem->getSku()]['applied_rule_ids'])->save();
+                    $dataItem->setPrice($quote_items[$dataItem->getSku()]['price'])->save();
+                    $dataItem->setBasePrice($quote_items[$dataItem->getSku()]['base_price'])->save();
+                    $dataItem->setDiscountPercent($quote_items[$dataItem->getSku()]['discount_percent'])->save();
+                    $dataItem->setDiscountAmount($quote_items[$dataItem->getSku()]['discount_amount'])->save();
+                    $dataItem->setBaseDiscountAmount($quote_items[$dataItem->getSku()]['base_discount_amount'])->save();
+                    $dataItem->setRowTotalWithDiscount($quote_items[$dataItem->getSku()]['row_total_with_discount'])->save();
+                    $dataItem->setPriceInclTax($quote_items[$dataItem->getSku()]['price_incl_tax'])->save();
+                    $dataItem->setBasePriceInclTax($quote_items[$dataItem->getSku()]['base_price_incl_tax'])->save();
+                    $dataItem->setRowTotalInclTax($quote_items[$dataItem->getSku()]['row_total_incl_tax'])->save();
+                }
+                
+
+                $payment = $order->getPayment();
+                $payment->setBaseAmountAuthorized($quote['base_grand_total']);
+                $payment->setBaseAmountOrdered($quote['base_grand_total']);
+                $payment->setAmountOrdered($quote['base_grand_total']);
+            }
+            
             $order->setState(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT, true);
             $order->setStatus(\Magento\Sales\Model\Order::STATE_PENDING_PAYMENT);
             $order->addStatusToHistory($order->getStatus(), 'Change state order to pending payment with processor_id ' . $processor_id);
@@ -80,11 +124,11 @@ class GetOrder extends \Magento\Framework\App\Action\Action
             $arrayData['url_gateway'] = $this->_scopeConfig->getValue('payment/credomatic/url_gateway',ScopeInterface::SCOPE_STORE);
 
             
-            $model =  $this->_credomaticFactory->create();
+
             $model->addData([
                 'order_id' => $order->getIncrementId(),
                 'token' => $token,
-                'created_at' => $arrayData['time'],
+                'updated_at' => $arrayData['time'],
             ]);
             $model->save();
 
