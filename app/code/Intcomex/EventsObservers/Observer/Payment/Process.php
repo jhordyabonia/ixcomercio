@@ -72,8 +72,9 @@ class Process implements ObserverInterface
         if (
             ($order->getState() == $stateProcessing && $payment->getMethod() != 'pasarela_bancomer') ||
             ($order->getState() == $statePending && $payment->getMethod() == 'mercadopago_custom') ||
-            ($order->getStatus() === 'approved_clearsale' && $payment->getMethod() === 'adyen_cc')
-            ) {
+            ($order->getStatus() === 'approved_clearsale' && $payment->getMethod() === 'adyen_cc') ||
+            ($order->getStatus() === 'approved_clearsale' && $payment->getMethod() === 'ingenico')
+        ) {
                 $storeScope    = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
                 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $storeManager  = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
