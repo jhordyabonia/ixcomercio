@@ -259,18 +259,14 @@ class ConfigurableProduct
         $skuLastPart = $skuExploded[count($skuExploded)-1];
         $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
 
-        try {
-            if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
-                $product->setSku($product->getSku() . $skuLastPartToPlus);
-            }
-            $product->setVisibility(1);
-            $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
-            $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
-            $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
-            $product->save();
-        } catch (Exception $e) {
-            $this->logger->info('Error Updating Man Product Sku: ' . $product->getSku() . ' Error: ' . $e->getMessage());
+        if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
+            $product->setSku($product->getSku() . $skuLastPartToPlus);
         }
+        $product->setVisibility(1);
+        $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
+        $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
+        $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
+        $product->save();
     }
 
     /**

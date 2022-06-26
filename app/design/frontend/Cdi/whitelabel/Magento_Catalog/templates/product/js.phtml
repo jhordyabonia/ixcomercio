@@ -6,7 +6,15 @@
             ], function  ($, priceUtils) {
                 var formatedPrice = priceUtils.formatPrice(price);
                 var idProductConf = jQuery('#product_addtocart_form input[name="product"]').val();
-                jQuery("#product-price-"+idProductConf+" .price").text(formatedPrice);
+                var idProductConfHome = jQuery(".price-box.price-final_price").attr("data-product-id");
+                var idProductConfPlp = jQuery(".price-box.price-final_price").attr("data-product-id");
+                if(idProductConf){
+                    jQuery("#product-price-"+idProductConf+" .price").text(formatedPrice);
+                }else if(idProductConfHome){
+                    jQuery("#old-price-"+idProductConfHome+"-widget-product-grid").text(formatedPrice);
+                }else if(idProductConfPlp){
+                    jQuery("#product-price-"+idProductConfPlp+" .price").text(formatedPrice);
+                }
                console.log(formatedPrice); 
             });
         } 
