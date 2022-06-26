@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
- define([
+define([
     'jquery',
     'underscore',
     'mage/template',
@@ -309,24 +309,7 @@
                 this._sortAttributes();
                 this._RenderControls();
                 this._setPreSelectedGallery();
-                // preload size swathes crocs
-                var $inputAttr = {};
-                var attributesObj = {};
-                $.each(this.options.jsonConfig.attributes, function (index, attribute) {
-                    if(attribute.code == "crocs_color"){
-                        attributesObj.color = attribute.id;
-                        $inputAttr.color = $('[name="super_attribute[' + attribute.id + ']"]').val();
-                    }
-                    if(attribute.code == "crocs_gender"){
-                        attributesObj.gender = attribute.id;
-                        $inputAttr.gender = $('[name="super_attribute[' + attribute.id + ']"]').val();
-                    }
-                    if(attribute.code == "crocs_size"){
-                        attributesObj.size = attribute;
-                    }
-                });
-                console.log("input_values_3: " + $inputAttr.color + " " + $inputAttr.gender);
-                this._RenderControlsSize($inputAttr.color, $inputAttr.gender, attributesObj.size);
+                this._RenderValidateInputsSwathes(this, "init");
                 $(this.element).trigger('swatch.initialized');
             } else {
                 console.log('SwatchRenderer: No input data received');
@@ -380,7 +363,7 @@
                 isInProductView = false;
 
             productId = this.element.parents('.product-item-details')
-                    .find('.price-box.price-final_price').attr('data-product-id');
+                .find('.price-box.price-final_price').attr('data-product-id');
 
             if (!productId) {
                 // Check individual product.
@@ -399,87 +382,126 @@
          *
          * @private
          */
-         _RenderControlsSize: function(colorAttr, genderAttr, sizeAttr){
+        _RenderValidateInputsSwathes: function ($widget, type) {
+            console.log("render init");
+            // preload size swathes crocs
+            var $inputAttr = {};
+            var attributesObj = {};
+            $.each(this.options.jsonConfig.attributes, function (index, attribute) {
+                if (attribute.code == $widget.options.jsonConfig.bss_simple_detail.configvalues.color) {
+                    attributesObj.color = attribute.id;
+                    $inputAttr.color = $('[name="super_attribute[' + attribute.id + ']"]').val();
+                }
+                if (attribute.code == $widget.options.jsonConfig.bss_simple_detail.configvalues.gender) {
+                    attributesObj.gender = attribute.id;
+                    $inputAttr.gender = $('[name="super_attribute[' + attribute.id + ']"]').val();
+                }
+                if (attribute.code == $widget.options.jsonConfig.bss_simple_detail.configvalues.size) {
+                    attributesObj.size = attribute;
+                }
+            });
+            this._RenderControlsSize($inputAttr.color, $inputAttr.gender, attributesObj.size, type);
+        },
+
+        /**
+         * Render controls Size
+         *
+         * @private
+         */
+        _RenderControlsSize: function (colorAttr, genderAttr, sizeAttr, type) {
             console.log("input_values_2: " + colorAttr + " " + genderAttr);
             var $widget = this,
                 container = this.element,
                 classes = this.options.classes,
                 chooseText = this.options.jsonConfig.chooseText;
-                $widget._ClearSizeContainer();
-                $widget.optionsMap = {};
-                var itemSizeFilter = {
-                    code: sizeAttr.code,
-                    id: sizeAttr.id,
-                    label: sizeAttr.label,
-                    options: {},
-                    position: "0"
-                };
-                var count = 0;
-                $.each(this.options.jsonConfig.bss_simple_detail.child, function (index, item) {
-                    if(item.gender == genderAttr && item.color == colorAttr){
-                        itemSizeFilter.options[count] = {
-                            id: item.size,
-                            label: item.size_label,
-                            products: item.id
-                        }
-                        count++;
+            $widget._ClearSizeContainer();
+            $widget.optionsMap = {};
+            var itemSizeFilter = {
+                code: sizeAttr.code,
+                id: sizeAttr.id,
+                label: sizeAttr.label,
+                options: {},
+                position: "0"
+            };
+            var count = 0;
+            $.each(this.options.jsonConfig.bss_simple_detail.child, function (index, item) {
+                if (item.gender == genderAttr && item.color == colorAttr) {
+                    itemSizeFilter.options[count] = {
+                        id: item.size,
+                        label: item.size_label,
+                        products: item.id
                     }
-                });
-                var controlLabelId = 'option-label-' + sizeAttr.code + '-' + sizeAttr.id;
-                var options = $widget._RenderSwatchOptions(itemSizeFilter, controlLabelId,$widget);
-                var select = $widget._RenderSwatchSelect(itemSizeFilter, chooseText);
-                var input = $widget._RenderFormInput(itemSizeFilter);
-                var listLabel = '';
-                var label = '';
+                    count++;
+                }
+            });
+            var controlLabelId = 'option-label-' + sizeAttr.code + '-' + sizeAttr.id;
+            var options = $widget._RenderSwatchOptions(itemSizeFilter, controlLabelId, $widget);
+            var select = $widget._RenderSwatchSelect(itemSizeFilter, chooseText);
+            var input = $widget._RenderFormInput(itemSizeFilter);
+            var listLabel = '';
+            var label = '';
 
-                if ($widget.options.onlySwatches && !$widget.options.jsonSwatchConfig.hasOwnProperty(sizeAttr.id)) {
-                    return;
-                }
+            if ($widget.options.onlySwatches && !$widget.options.jsonSwatchConfig.hasOwnProperty(sizeAttr.id)) {
+                return;
+            }
 
-                if ($widget.options.enableControlLabel) {
-                    label +=
-                        '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
-                        $('<i></i>').text(sizeAttr.label).html() +
-                        '</span>' +
-                        '<span class="' + classes.attributeSelectedOptionLabelClass + '"></span>';
-                }
-                if ($widget.inProductList) {
-                    $widget.productForm.append(input);
-                    input = '';
-                    listLabel = 'aria-label="' + $('<i></i>').text(sizeAttr.label).html() + '"';
-                } else {
-                    listLabel = 'aria-labelledby="' + controlLabelId + '"';
-                }
+            if ($widget.options.enableControlLabel) {
+                label +=
+                    '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
+                    $('<i></i>').text(sizeAttr.label).html() +
+                    '</span>' +
+                    '<span class="' + classes.attributeSelectedOptionLabelClass + '"></span>';
+            }
+            if ($widget.inProductList) {
+                $widget.productForm.append(input);
+                input = '';
+                listLabel = 'aria-label="' + $('<i></i>').text(sizeAttr.label).html() + '"';
+            } else {
+                listLabel = 'aria-labelledby="' + controlLabelId + '"';
+            }
+
+            if (type == "init") {
                 container.append(
                     '<div class="' + classes.attributeClass + ' ' + sizeAttr.code + '" ' +
-                         'attribute-code="' + sizeAttr.code + '" ' +
-                         'attribute-id="' + sizeAttr.id + '">' +
-                        label +
-                        '<div aria-activedescendant="" ' +
-                             'tabindex="0" ' +
-                             'aria-invalid="false" ' +
-                             'aria-required="true" ' +
-                             'role="listbox" ' + listLabel +
-                             'class="' + classes.attributeOptionsWrapper + ' clearfix">' +
-                            options + select +
-                        '</div>' + input +
+                    'attribute-code="' + sizeAttr.code + '" ' +
+                    'attribute-id="' + sizeAttr.id + '">' +
+                    label +
+                    '<div aria-activedescendant="" ' +
+                    'tabindex="0" ' +
+                    'aria-invalid="false" ' +
+                    'aria-required="true" ' +
+                    'role="listbox" ' + listLabel +
+                    'class="' + classes.attributeOptionsWrapper + ' clearfix">' +
+                    options + select +
+                    '</div>' + input +
                     '</div>'
                 );
-         },
+            } else {
+                $('.swatch-attribute.crocs_size').append(
 
-         /**
-         * Render controls Size
-         *
-         * @private
-         */
-          _ClearSizeContainer: function(){
-            var $widget = this,
-                container = this.element,
-                classes = this.options.classes,
-                chooseText = this.options.jsonConfig.chooseText;
-            $('.swatch-attribute.crocs_size').remove();
-            //$widget._RenderControls();
-         },
+                    '<div aria-activedescendant="" ' +
+                    'tabindex="0" ' +
+                    'aria-invalid="false" ' +
+                    'aria-required="true" ' +
+                    'role="listbox" ' + listLabel +
+                    'class="' + classes.attributeOptionsWrapper + ' clearfix">' +
+                    options + select +
+                    '</div>'
+                );
+            }
+
+
+
+        },
+
+        /**
+        * Render controls Size
+        *
+        * @private
+        */
+        _ClearSizeContainer: function () {
+            $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.size + ' div').remove();
+        },
 
         /**
          * Render controls
@@ -495,23 +517,23 @@
             $widget.optionsMap = {};
             $.each(this.options.jsonConfig.attributes, function () {
                 var item = this;
-                if(item.code != "crocs_size"){
-                        $widget.optionsMap[item.id] = {};
-                        // Aggregate options array to hash (key => value)
-                        $.each(item.options, function () {
-                            if (this.products.length > 0) {
-                                $widget.optionsMap[item.id][this.id] = {
-                                    price: parseInt(
-                                        $widget.options.jsonConfig.optionPrices[this.products[0]].finalPrice.amount,
-                                        10
-                                    ),
-                                    products: this.products
-                                };
-                            }
-                        });
+                if (item.code != $widget.options.jsonConfig.bss_simple_detail.configvalues.size) {
+                    $widget.optionsMap[item.id] = {};
+                    // Aggregate options array to hash (key => value)
+                    $.each(item.options, function () {
+                        if (this.products.length > 0) {
+                            $widget.optionsMap[item.id][this.id] = {
+                                price: parseInt(
+                                    $widget.options.jsonConfig.optionPrices[this.products[0]].finalPrice.amount,
+                                    10
+                                ),
+                                products: this.products
+                            };
+                        }
+                    });
 
-                        var controlLabelId = 'option-label-' + item.code + '-' + item.id,
-                        options = $widget._RenderSwatchOptions(item, controlLabelId,$widget),
+                    var controlLabelId = 'option-label-' + item.code + '-' + item.id,
+                        options = $widget._RenderSwatchOptions(item, controlLabelId, $widget),
                         select = $widget._RenderSwatchSelect(item, chooseText),
                         input = $widget._RenderFormInput(item),
                         listLabel = '',
@@ -541,17 +563,17 @@
                     // Create new control
                     container.append(
                         '<div class="' + classes.attributeClass + ' ' + item.code + '" ' +
-                            'attribute-code="' + item.code + '" ' +
-                            'attribute-id="' + item.id + '">' +
-                            label +
-                            '<div aria-activedescendant="" ' +
-                                'tabindex="0" ' +
-                                'aria-invalid="false" ' +
-                                'aria-required="true" ' +
-                                'role="listbox" ' + listLabel +
-                                'class="' + classes.attributeOptionsWrapper + ' clearfix">' +
-                                options + select +
-                            '</div>' + input +
+                        'attribute-code="' + item.code + '" ' +
+                        'attribute-id="' + item.id + '">' +
+                        label +
+                        '<div aria-activedescendant="" ' +
+                        'tabindex="0" ' +
+                        'aria-invalid="false" ' +
+                        'aria-required="true" ' +
+                        'role="listbox" ' + listLabel +
+                        'class="' + classes.attributeOptionsWrapper + ' clearfix">' +
+                        options + select +
+                        '</div>' + input +
                         '</div>'
                     );
 
@@ -671,7 +693,7 @@
                         '</div>';
                 } else if (type === 1) {
                     // Color
-                    html += '<div onclick="showPriceVariation('+$widget.optionsMap[config.id][id]['price']+')"  class="' + optionClass + ' color" ' + attr +
+                    html += '<div onclick="showPriceVariation(' + $widget.optionsMap[config.id][id]['price'] + ')"  class="' + optionClass + ' color" ' + attr +
                         ' style="background: ' + value +
                         ' no-repeat center; background-size: initial;">' + '' +
                         '</div>';
@@ -756,30 +778,16 @@
                 options = this.options.classes,
                 target;
 
-            $widget.element.on('click', '.' + options.optionClass, function () {
-            var classOn = this.className.split(" ");
-            var value = 'crocs_size';
-            if(!classOn.find((str) => str == value)){
-                console.log("logger " + classOn.find((str) => str == value));
-                var $inputAttr = {};
-                var attributesObj = {};
-                $.each($widget.options.jsonConfig.attributes, function (index, attribute) {
-                    if(attribute.code == "crocs_color"){
-                        attributesObj.color = attribute.id;
-                        $inputAttr.color = $('[name="super_attribute[' + attribute.id + ']"]').val();
-                    }
-                    if(attribute.code == "crocs_gender"){
-                        attributesObj.gender = attribute.id;
-                        $inputAttr.gender = $('[name="super_attribute[' + attribute.id + ']"]').val();
-                    }
-                    if(attribute.code == "crocs_size"){
-                        attributesObj.size = attribute;
-                    }
-                });
-                console.log("input_values_1: " + $inputAttr.color + " " + $inputAttr.gender);
-                $widget._RenderControlsSize($inputAttr.color, $inputAttr.gender, attributesObj.size);
-            }
-                return $widget._OnClick($(this), $widget);
+            $widget.element.on('click', '.' + options.optionClass, function (e) {
+                var classOn = this.className.split(" ");
+                var value = $widget.options.jsonConfig.bss_simple_detail.configvalues.size;
+                if (!classOn.find((str) => str == value)) {
+                    $widget._OnClick($(this), $widget);
+                    $widget._RenderValidateInputsSwathes($widget, "click");
+                }else{
+                    return $widget._OnClick($(this), $widget);
+                }
+                
             });
 
             $widget.element.on('change', '.' + options.selectClass, function () {
@@ -795,7 +803,6 @@
             $widget.element.on('keydown', function (e) {
                 if (e.which === 13) {
                     target = $(e.target);
-
                     if (target.is('.' + options.optionClass)) {
                         return $widget._OnClick(target, $widget);
                     } else if (target.is('.' + options.selectClass)) {
@@ -816,13 +823,13 @@
          */
         _loadMedia: function () {
             var $main = this.inProductList ?
-                    this.element.parents('.product-item-info') :
-                    this.element.parents('.column.main'),
+                this.element.parents('.product-item-info') :
+                this.element.parents('.column.main'),
                 images;
 
             if (this.options.useAjax) {
                 this._debouncedLoadProductMedia();
-            }  else {
+            } else {
                 images = this.options.jsonConfig.images[this.getProduct()];
 
                 if (!images) {
@@ -880,11 +887,10 @@
                 $this.addClass('selected');
                 $widget._toggleCheckedAttributes($this, $wrapper);
             }
-
             $widget._Rebuild();
 
             if ($widget.element.parents($widget.options.selectorProduct)
-                    .find(this.options.selectorProductPrice).is(':data(mage-priceBox)')
+                .find(this.options.selectorProductPrice).is(':data(mage-priceBox)')
             ) {
                 $widget._UpdatePrice();
             }
@@ -896,7 +902,8 @@
                 ]);
 
             $widget._loadMedia();
-            $input.trigger('change');            
+            $input.trigger('change');
+            
         },
 
         /**
@@ -921,7 +928,7 @@
          */
         _toggleCheckedAttributes: function ($this, $wrapper) {
             $wrapper.attr('aria-activedescendant', $this.attr('id'))
-                    .find('.' + this.options.classes.optionClass).attr('aria-checked', false);
+                .find('.' + this.options.classes.optionClass).attr('aria-checked', false);
             $this.attr('aria-checked', true);
         },
 
@@ -1147,7 +1154,7 @@
                 }
 
                 if (optionPriceDiff !== 0) {
-                    newPrices  = this.options.jsonConfig.optionPrices[allowedProduct];
+                    newPrices = this.options.jsonConfig.optionPrices[allowedProduct];
                 } else {
                     newPrices = $widget.options.jsonConfig.prices;
                 }

@@ -168,6 +168,8 @@ class ProductData extends AbstractHelper
             ];
         }
         $result['child']['default'] = $product->getName();
+        $result['configvalues'] = $this->getSwatchesLabel();
+
 
         return $result;
     }
@@ -182,6 +184,24 @@ class ProductData extends AbstractHelper
             $optionText = $isAttributeExist->getSource()->getOptionText($optionId);
         }
         return $optionText;
+    }
+
+    /**
+     * @return array
+     * @throws NoSuchEntityException
+     */
+    public function getSwatchesLabel(){
+
+        $result = [];
+        $configValues = $this->scopeConfig->getValue('crocs/general/crocsswatchesattributes', ScopeInterface::SCOPE_STORE);
+        $configValues = trim($configValues);
+        $configValues = explode(",", $configValues);
+
+        $result['color'] = $configValues[0];
+        $result['gender'] = $configValues[1];
+        $result['size'] = $configValues[2];
+
+        return $result;
     }
 
     /**
