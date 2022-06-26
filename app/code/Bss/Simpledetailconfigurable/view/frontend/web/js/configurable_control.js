@@ -46,7 +46,7 @@ define([
                     blockContent: '#product\\.info\\.description'
                 },
                 shortDesc: '.product.attribute.overview',
-                stock: '.stock.available span',
+                stock: '.stock-status span',
                 addtocart_button: '#product-addtocart-button',
                 increment: '.product.pricing',
                 qty_box: '#qty',
@@ -509,13 +509,12 @@ define([
             if ($config > 0) {
                 var stock_status = '';
                 if ($status > 0) {
-                    stock_status = $t('IN STOCK');
+                    stock_status = $t('IN STOCK') + " - " + Number($number);
                     $(this.options.sdcp_classes.addtocart_button).removeAttr('disabled');
                 } else {
                     stock_status = $t('OUT OF STOCK');
                     $(this.options.sdcp_classes.addtocart_button).attr('disabled', 'disabled');
                 }
-                stock_status += " - " + Number($number);
                 $(this.options.sdcp_classes.stock).html(stock_status);
             }
         },
