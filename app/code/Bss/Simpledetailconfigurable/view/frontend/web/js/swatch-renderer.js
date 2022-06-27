@@ -39,8 +39,11 @@ define([
                         $wrapper = $this.parents('.' + $widget.options.classes.attributeOptionsWrapper),
                         $label = $parent.find('.' + $widget.options.classes.attributeSelectedOptionLabelClass),
                         attributeId = $widget.getDataofAttr($parent, 'attribute-id'),
-                        $input = $parent.find('.' + $widget.options.classes.attributeInput),
-                        checkAdditionalData = JSON.parse(this.options.jsonSwatchConfig[attributeId]['additional_data']);
+                        $input = $parent.find('.' + $widget.options.classes.attributeInput);
+
+                    var checkAdditionalData = this.options.jsonSwatchConfig[attributeId].hasOwnProperty('additional_data') ?
+                        JSON.parse(this.options.jsonSwatchConfig[attributeId]['additional_data']) :
+                        { 'update_product_preview_image' : 1 };
 
                     if ($widget.inProductList) {
                         $input = $widget.productForm.find(
