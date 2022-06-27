@@ -46,7 +46,9 @@ define([
                     blockContent: '#product\\.info\\.description'
                 },
                 shortDesc: '.product.attribute.overview',
-                stock: '.stock-status span',
+                stock: '.stock-status',
+                in_stock: 'stock in-stock',
+                out_stock: 'stock out-stock',
                 addtocart_button: '#product-addtocart-button',
                 increment: '.product.pricing',
                 qty_box: '#qty',
@@ -507,15 +509,15 @@ define([
         },
         _UpdateStock: function ($status, $number, $config) {
             if ($config > 0) {
-                var stock_status = '';
+                var html_text = '';
                 if ($status > 0) {
-                    stock_status = $t('IN STOCK') + " - " + Number($number);
+                    html_text = '<span class="' + this.options.sdcp_classes.in_stock + '">' + $t('IN STOCK') + ': ' + Number($number) + '</span>';
                     $(this.options.sdcp_classes.addtocart_button).removeAttr('disabled');
                 } else {
-                    stock_status = $t('OUT OF STOCK');
+                    html_text = '<span class="' + this.options.sdcp_classes.out_stock + '">' + $t('OUT OF STOCK') + '</span>';
                     $(this.options.sdcp_classes.addtocart_button).attr('disabled', 'disabled');
                 }
-                $(this.options.sdcp_classes.stock).html(stock_status);
+                $(this.options.sdcp_classes.stock).remove('span').html(html_text);
             }
         },
         _UpdateIncrement: function ($increment, $name, $config) {
@@ -1003,15 +1005,15 @@ define([
         },
         _ResetStock: function ($config) {
             if ($config > 0) {
-                var stock_status = '';
+                var html_text = '';
                 if (this.options.jsonChildProduct['stock_status'] > 0) {
-                    stock_status = $t('IN STOCK');
+                    html_text = '<span class="' + this.options.sdcp_classes.in_stock + '">' + $t('IN STOCK') + '</span>';
                     $(this.options.sdcp_classes.addtocart_button).removeAttr('disabled');
                 } else {
-                    stock_status = $t('OUT OF STOCK');
+                    html_text = '<span class="' + this.options.sdcp_classes.out_stock + '">' + $t('OUT OF STOCK') + '</span>';
                     $(this.options.sdcp_classes.addtocart_button).attr('disabled', 'disabled');
                 }
-                $(this.options.sdcp_classes.stock).html(stock_status);
+                $(this.options.sdcp_classes.stock).remove('span').html(html_text);
             }
         },
         _ResetTierPrice: function ($config) {
