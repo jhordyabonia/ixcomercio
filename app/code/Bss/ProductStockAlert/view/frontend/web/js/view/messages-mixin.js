@@ -25,6 +25,22 @@ define([
          */
         bindStockCss: function () {
             $('div#product_stock_alert_container').trigger('contentUpdated');
+        },
+
+        /**
+         * Prepare the given message to be rendered as HTML
+         *
+         * @param {String} message
+         * @return {string}
+         */
+        prepareMessageForHtml: function (message) {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(message, 'text/html');
+            let html = doc.body.textContent;
+            if (!html.includes("</a>")) {
+                return message;
+            }
+            return html;
         }
     };
 
