@@ -16,17 +16,19 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
             <thead>
                 <tr>
                     <?php $index = 0 ?>
+                    <?php $cont = 1 ?>
                     <?php foreach ($block->getItems() as $item): ?>
                         <?php if ($index++ == 0): ?>
                             <th scope="row" class="cell label remove"><span><?= /* @escapeNotVerified */ __('Remove Product') ?></span></th>
                         <?php endif ?>
-                        <td class="cell remove product hidden-print">
+                        <td class="cell remove product hidden-print product<?php echo $cont?>">
                             <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare') ?>
                             <a href="#" data-post='<?= /* @escapeNotVerified */ $compareHelper->getPostDataRemove($item) ?>'
                                class="action delete" title="<?= /* @escapeNotVerified */ __('Remove Product') ?>">
                                 <span><?= /* @escapeNotVerified */ __('Remove Product') ?></span>
                             </a>
                         </td>
+                    <?php $cont++; ?>
                     <?php endforeach ?>
                 </tr>
             </thead>
