@@ -21,7 +21,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                         <?php if ($index++ == 0): ?>
                             <th scope="row" class="cell label remove"><span><?= /* @escapeNotVerified */ __('Remove Product') ?></span></th>
                         <?php endif ?>
-                        <td class="cell remove product hidden-print product<?php echo $cont?>">
+                        <?php $nameval = "carousel".$cont?>
+                        <td class="cell remove product hidden-print <?php echo $nameval?>">
                             <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare') ?>
                             <a href="#" data-post='<?= /* @escapeNotVerified */ $compareHelper->getPostDataRemove($item) ?>'
                                class="action delete" title="<?= /* @escapeNotVerified */ __('Remove Product') ?>">
