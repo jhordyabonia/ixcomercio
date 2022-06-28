@@ -364,15 +364,18 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             $sku = $dataItem->getProduct()->getSku();
             $discountAmount = $dataItem->getDiscountAmount();
             $appliedRuleIds = $dataItem->getAppliedRuleIds();
-            if ($dataItem->getParentItem() && $this->configurableProduct->getIsModuleEnabled($order->getStoreId())) {
-                $originalPrice = $dataItem->getParentItem()->getOriginalPrice();
-                $qty = (int)$dataItem->getParentItem()->getQtyOrdered();
-                $price = $dataItem->getParentItem()->getPrice();
-                $productId = $dataItem->getParentItem()->getProductId();
-                $id = $dataItem->getParentItem()->getItemId();
+            if ($this->configurableProduct->getIsModuleEnabled($order->getStoreId()))
+            {
+                if($dataItem->getParentItem()){
+                    $originalPrice = $dataItem->getParentItem()->getOriginalPrice();
+                    $qty = (int)$dataItem->getParentItem()->getQtyOrdered();
+                    $price = $dataItem->getParentItem()->getPrice();
+                    $productId = $dataItem->getParentItem()->getProductId();
+                    $id = $dataItem->getParentItem()->getItemId();
+                    $discountAmount = $dataItem->getParentItem()->getDiscountAmount();
+                    $appliedRuleIds = $dataItem->getParentItem()->getAppliedRuleIds();
+                }
                 $sku = explode($this->configurableProduct->getSeparator($order->getStoreId()), $dataItem->getSku())[1];
-                $discountAmount = $dataItem->getParentItem()->getDiscountAmount();
-                $appliedRuleIds = $dataItem->getParentItem()->getAppliedRuleIds();
                 $this->logger->info("ParentIsConfigurable SkuToSend: " . $sku);
             }
             if (!array_key_exists($dataItem->getSku(), $skuItems) && $originalPrice != 0 && $dataItem->getProduct()->getTypeId() !== Configurable::TYPE_CODE) {
