@@ -2289,7 +2289,7 @@ y el descriptor del producto puede ser de hasta 18, 14 o 9 caracteres respectiva
 "Buy %1 for %2 each","Comprar %1 por %2 cada uno",module,Magento_Catalog
 "Shop By","Comprar por",module,Magento_Catalog
 "Shopping Options","Opciones de compra",module,Magento_Catalog
-"Compare Products","Comparar productos",module,Magento_Catalog
+"Compare Products","Comparación de productos",module,Magento_Catalog
 "Print This Page","Imprimir esta página",module,Magento_Catalog
 "Remove Product","Eliminar artículo",module,Magento_Catalog
 "Add to Cart","Añadir al carrito",module,Magento_Catalog
