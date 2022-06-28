@@ -70,8 +70,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                     <?php $index = 0; ?>
                     <?php if ($block->hasAttributeValueForProducts($attribute)): ?>
                         <tr>
+                        <?php $contset = 1 ?>
                             <?php foreach ($block->getItems() as $item): ?>
-                                <?php $contset = 1 ?>
                                 <?php if ($index++ == 0): ?>
                                     <th scope="row" class="cell label">
                                         <span class="attribute label">
@@ -79,8 +79,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                         </span>
                                     </th>
                                 <?php endif; ?>
-                                <?php $nameval = "carousel".$contset?>
-                                <td class="cell product attribute <?php echo $nameval?>">
+                                <?php $carouselVal = "carousel".$contset?>
+                                <td class="cell product attribute <?php echo $carouselVal?>">
                                     <div class="attribute value">
                                         <?php switch ($attribute->getAttributeCode()) {
                                             case "price": ?>
@@ -109,11 +109,13 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                 <?php endforeach; ?>
                 <tr>
                     <?php $index = 0; ?>
+                    <?php $settingCont = 1 ?>
                     <?php foreach ($block->getItems() as $item): ?>
                         <?php if ($index++ == 0): ?>
                             <th scope="row" class="cell label remove"><span><?= /* @escapeNotVerified */ __('Price') ?></span></th>
                         <?php endif; ?>
-                        <td data-th="<?= $block->escapeHtml(__('Product')) ?>" class="cell product attribute">
+                        <?php $valCarousel = "carousel".$settingCont?>
+                        <td data-th="<?= $block->escapeHtml(__('Product')) ?>" class="cell product attribute <?php echo $valCarousel?>">
                             <div class="product-item-actions hidden-print">
                                 <div class="actions-primary">
                                     <?php if ($item->isSaleable()): ?>
@@ -146,6 +148,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                 <?php endif; ?>
                             </div>
                         </td>
+                        <?php $valCarousel++; ?>
                     <?php endforeach; ?>
                 </tr>
             </tbody>
