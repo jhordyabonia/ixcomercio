@@ -581,8 +581,6 @@ require(['jquery', 'owlCarouselJs', 'jquery/ui', 'mage/translate', 'mainJs', 'do
 	    	}
 	    });
 
-
-
 	});
 
 	

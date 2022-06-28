@@ -60,7 +60,6 @@ define([
 
             if (self.options.total >= 3) {
                 $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
-                    console.log(index, element)
                     if (index === 2 || index === 3) {
                         $(element).css('display', 'none');
                     }
@@ -68,7 +67,6 @@ define([
             }
 
             $('#miniCompareFirstDot').on('click', function() {
-                console.log('Yes1')
                 $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
                     if (index === 0 || index === 1) {
                         $(element).css('display', 'flex');
@@ -78,7 +76,6 @@ define([
                 });
             });
             $('#miniCompareSecondDot').on('click', function() {
-                console.log('Yes2')
                 $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
                     if (index === 0 || index === 1) {
                         $(element).css('display', 'none');
@@ -86,6 +83,20 @@ define([
                         $(element).css('display', 'flex');
                     }
                 });
+            });
+
+            $('body').on('click', '.dot-one', function() {
+                $('.carr-one').css('display', 'flex');
+                $('.carr-two').css('display', 'none');
+                $('.dot-two').removeClass("dot-selected").addClass('dot');
+                $('.dot-one').removeClass("dot").addClass('dot-selected');
+            });
+
+            $('body').on('click', '.dot-two', function() {
+                $('.carr-one').css('display', 'none');
+                $('.carr-two').css('display', 'flex');
+                $('.dot-one').removeClass("dot-selected").addClass('dot');
+                $('.dot-two').removeClass("dot").addClass('dot-selected');
             });
         },
 

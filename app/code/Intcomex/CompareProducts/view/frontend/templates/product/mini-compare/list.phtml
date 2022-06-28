@@ -13,12 +13,18 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                 <span><?= /* @escapeNotVerified */ __('No se puede agregar un producto de otra categoría. Elimina los productos actuales para comparar una nueva categoría.') ?></span>
             <?php else: ?>
                 <?php $index = 0; ?>
+                <?php $count = 0; ?>
                 <?php $helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
                 <?php /** @var $item \Magento\Catalog\Model\Product */ ?>
                 <?php foreach ($block->getItems() as $item): ?>
-                    <div class="item product product-item col-md-2">
-                        <a href="#" data-post='<?= /* @escapeNotVerified */ $compareHelper->getPostDataRemove($item) ?>'
-                           class="action delete" title="<?= /* @escapeNotVerified */ __('Remove Product') ?>">
+                    <?php $count++; ?>
+                    <?php if ($count > 2) : ?>
+                        <?php $classCom = "carr-two";?>
+                    <?php else : ?>
+                        <?php $classCom = "carr-one";?>  
+                    <?php endif; ?>
+                    <div class="item product product-item col-md-2 <?php /* @escapeNotVerified */ echo $classCom; ?>">
+                        <a href="#" data-post='<?= /* @escapeNotVerified */ $compareHelper->getPostDataRemove($item) ?>' class="action delete" title="<?= /* @escapeNotVerified */ __('Remove Product') ?>">
                             <span><?= /* @escapeNotVerified */ __('Remove Product') ?></span>
                         </a>
                         <a class="product-item-photo" href="<?= /* @escapeNotVerified */ $block->getProductUrl($item) ?>" title="<?= /* @escapeNotVerified */ $block->stripTags($item->getName(), null, true) ?>">
@@ -31,26 +37,39 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                         </strong>
                     </div>
                 <?php endforeach; ?>
-                <?php for ($i = 1; $i <= (4 - $total); $i++): ?>
-                    <div class="item product product-item col-md-2">
+                <?php for ($i = 1; $i <= (4 - $total); $i++) : ?>
+                    <?php if ($total > 2) : ?>
+                        <?php $classCom = "carr-two";?>
+                    <?php else : ?>
+                        <?php if ($total == 2) : ?>
+                            <?php $classCom = "carr-two";?>
+                        <?php else : ?>
+                            <?php if ($i == 1) : ?>
+                                <?php $classCom = "carr-one";?>
+                            <?php else : ?>
+                                <?php $classCom = "carr-two";?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <div class="item product product-item col-md-2 <?php /* @escapeNotVerified */ echo $classCom; ?>">
                         <strong class="product-item-name">
                             <span><?= /* @escapeNotVerified */ __('Agregar producto') ?></span>
                         </strong>
                     </div>
                 <?php endfor; ?>
                 <div class="item product product-item col-md-2">
+                    <form action="<?= /* @escapeNotVerified */ $block->getUrl('catalog/product_compare/removeall') ?>" method="post" class="remove-all">
+                        <button class="action-close" data-role="closeBtn" type="submit">
+                            <span><?= /* @escapeNotVerified */ __('Close') ?></span>
+                        </button>
+                    </form>
                     <p><?= /* @escapeNotVerified */ $total === 1 ? __("$total producto seleccionado") : __("$total productos seleccionados") ?></p>
                     <form action="<?= /* @escapeNotVerified */ $block->getUrl('catalog/product_compare') ?>">
-                        <button type="submit" title="<?= /* @escapeNotVerified */ __('Comparar') ?>" class="action tocart primary" <?= $total === 1 ? 'disabled' : '' ?> >
+                        <button type="submit" title="<?= /* @escapeNotVerified */ __('Comparar') ?>" class="action tocart primary compare-button" <?= $total === 1 ? 'disabled' : '' ?> >
                             <span><?= /* @escapeNotVerified */ __('Comparar') ?></span>
                         </button>
                     </form>
                 </div>
-                <form action="<?= /* @escapeNotVerified */ $block->getUrl('catalog/product_compare/removeall') ?>" method="post">
-                    <button class="action-close" data-role="closeBtn" type="submit">
-                        <span><?= /* @escapeNotVerified */ __('Close') ?></span>
-                    </button>
-                </form>
                 <?php if ($total >= 3): ?>
                     <div class="owl-dots">
                         <button id="miniCompareFirstDot" role="button" class="owl-dot active"><span></span></button>
@@ -59,6 +78,10 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                 <?php endif; ?>
             <?php endif; ?>
         </div>
+        <dots id="dots">
+            <div class="dot dot-one"></div>
+            <div class="dot dot-two"></div>
+        </dots>
     <?php endif; ?>
 </div>
 <script type="text/x-magento-init">
