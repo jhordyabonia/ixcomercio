@@ -37,12 +37,14 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                 <tr>
                     <?php $index = 0 ?>
                     <?php $helper = $this->helper('Magento\Catalog\Helper\Output') ?>
+                    <?php $count = 1 ?>
                     <?php /** @var $item \Magento\Catalog\Model\Product */ ?>
                     <?php foreach ($block->getItems() as $item): ?>
                         <?php if ($index++ == 0): ?>
                             <th scope="row" class="cell label product"><span><?= /* @escapeNotVerified */ __('Product') ?></span></th>
                         <?php endif ?>
-                        <td data-th="<?= $block->escapeHtml(__('Product')) ?>" class="cell product info">
+                        <?php $nameval = "carousel".$count?>
+                        <td data-th="<?= $block->escapeHtml(__('Product')) ?>" class="cell product info <?php echo $nameval?>">
                             <?php $discount = $_helperCdi->getDiscount($item) ?>
                             <?php if ($discount != 0): ?>
                                 <?php $discount = 100 - $discount ?>
@@ -59,6 +61,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             <?= $block->getReviewsSummaryHtml($item, 'short') ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($item) ?>
                         </td>
+                        <?php $count++; ?>
                     <?php endforeach; ?>
                 </tr>
             </tbody>
@@ -68,6 +71,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                     <?php if ($block->hasAttributeValueForProducts($attribute)): ?>
                         <tr>
                             <?php foreach ($block->getItems() as $item): ?>
+                                <?php $contset = 1 ?>
                                 <?php if ($index++ == 0): ?>
                                     <th scope="row" class="cell label">
                                         <span class="attribute label">
@@ -75,7 +79,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                         </span>
                                     </th>
                                 <?php endif; ?>
-                                <td class="cell product attribute">
+                                <?php $nameval = "carousel".$contset?>
+                                <td class="cell product attribute <?php echo $nameval?>">
                                     <div class="attribute value">
                                         <?php switch ($attribute->getAttributeCode()) {
                                             case "price": ?>
@@ -97,6 +102,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                                         } ?>
                                     </div>
                                 </td>
+                                <?php $contset++; ?>
                             <?php endforeach; ?>
                         </tr>
                     <?php endif; ?>
