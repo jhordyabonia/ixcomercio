@@ -11,13 +11,14 @@ define([
 ], function ($, _, getAsyncValues) {
     'use strict';
 
-    var simpleProductIdProcessed = [];
-
     let swatchRendererMixin = {
         _init: function () {
             this.options.gallerySwitchStrategy = this.options.jsonConfig.gallerySwitchStrategy;
             this._super();
-            this._preselect();
+            $(this).on('swatchPriorityItemsReady', function(event, widget){
+                widget._preselect();
+            });
+            this._eventPriorityItemsReady();
         },
 
         _OnClick: function ($this, $widget, eventName) {
@@ -30,6 +31,31 @@ define([
             this._updateSimpleProductAttributes();
         },
 
+        _eventPriorityItemsReady : function(){
+            let widget = this,
+                productPrice;
+
+            if(!widget.options.jsonConfig.preselectEnabled){
+                return false;
+            }
+            productPrice = widget.element.parents(widget.options.selectorProduct)
+                .find(widget.options.selectorProductPrice);
+            if(!productPrice.length){
+                productPrice = $(widget.options.selectorProduct).find(widget.options.selectorProductPrice).length ?
+                    $(widget.options.selectorProduct).find(widget.options.selectorProductPrice) :
+                    $('.product-info_main').find(widget.options.selectorProductPrice);
+            }
+            if(!productPrice.length){
+                return false;
+            }
+            let interval = setInterval(function(){
+                if (productPrice.is(':data(mage-priceBox)')){
+                    clearInterval(interval);
+                    $(widget).trigger("swatchPriorityItemsReady",[widget]);
+                }
+            },500);
+        },
+
         /**
          * Preselect configurable product options
          * @private
@@ -38,8 +64,7 @@ define([
             let widget = this,
                 options = this.options,
                 preselectEnabled = options.jsonConfig.preselectEnabled,
-                simpleProduct = options.jsonConfig.simpleProduct,
-                gallery = widget.element.parents('.column.main').find(widget.options.mediaGallerySelector);
+                simpleProduct = options.jsonConfig.simpleProduct;
 
             if (!preselectEnabled) {
                 return false;
@@ -58,27 +83,33 @@ define([
                 selectOptions = this.options.jsonConfig.index[simpleProduct];
 
             if (!selectOptions) {
-                this._preselectProductForIndex(this.options.jsonConfig.index);
+                this._preselectFirstOption(this.options.jsonConfig.index);
                 return false;
             }
-
             $.each(selectOptions, function (index, value) {
                 let attributeId = index,
                     optionId = value,
-                    $wrapper = $('.' + classes.attributeClass + '[attribute-id="' + attributeId + '"]'),
-                    $optionsWrapper;
+                    $wrapper,
+                    $optionsWrapper,
+                    optIdKey = '';
 
+                $wrapper = $(widget.element.context).find('.' + classes.attributeClass + '[attribute-id="' + attributeId + '"]');
                 if (!$wrapper.length) {
-                    $wrapper = $('.' + classes.attributeClass + '[data-attribute-id="' + attributeId + '"]');
+                    $wrapper = $(widget.element.context).find('.' + classes.attributeClass + '[data-attribute-id="' + attributeId + '"]');
                 }
-
                 $optionsWrapper = $wrapper.find('.' + classes.attributeOptionsWrapper);
                 if ($optionsWrapper.children().is('div')) {
-                    let $optionElement = $wrapper.find('.' + classes.optionClass + '[option-id="' + optionId + '"]');
+                    optIdKey =  'option-id';
+                    let $optionElement = $wrapper.find('.' + classes.optionClass + '[' + optIdKey + '="' + optionId + '"]');
                     if (!$optionElement.length) {
-                        $optionElement = $wrapper.find('.' + classes.optionClass + '[data-option-id="' + optionId + '"]');
+                        optIdKey = 'data-option-id';
+                        $optionElement = $wrapper.find('.' + classes.optionClass + '[' + optIdKey + '="' + optionId + '"]');
                     }
-
+                    if($optionElement.length > 1){
+                        let code = widget.options.jsonConfig.mappedAttributes[index].code;
+                        let divId = 'option-label-' + code + '-' + index + '-item-' + value;
+                        $optionElement = $wrapper.find('.' + classes.optionClass + '[' + optIdKey + '="' + optionId + '"][id="' + divId +'"]');
+                    }
                     $optionElement.click();
                 } else {
                     let $select = $optionsWrapper.find('select'),
@@ -90,53 +121,15 @@ define([
             });
         },
 
-
         /**
          * Preselect first not disabled options of configurable product
          * @private
          */
-        _preselectFirstOptions: function () {
+        _preselectFirstOption: function (simpleProducts) {
             let widget = this,
-                classes = widget.options.classes;
+                simpleProductId = Object.keys(simpleProducts).shift();
 
-            $('.' + classes.attributeClass).each(function () {
-                let $wrapper = $(this),
-                    $optionsWrapper = $wrapper.find('.' + classes.attributeOptionsWrapper);
-
-                if ($optionsWrapper.children().is('div')) {
-                    let $optionElement = $wrapper.find('.' + classes.optionClass + ':not([disabled])').first();
-
-                    $optionElement.click();
-                } else {
-                    let $select = $optionsWrapper.find('select'),
-                        $optionElement = $optionsWrapper.find('select option:not([disabled])').first();
-
-                    if (!$optionElement.val() > 0 || $optionElement.val() !== "") {
-                        $optionElement = $optionElement.nextAll('option:not([disabled])').first();
-                    }
-
-                    $select.val($optionElement.val());
-                    $select.change();
-                }
-            });
-        },
-
-        /**
-         * Preselect first not disabled options of configurable product
-         * @private
-         */
-        _preselectProductForIndex: function (simpleProducts) {
-            let widget = this,
-                simpleProductId = '';
-
-            $.each(simpleProducts, function( index, value ) {
-                if(!simpleProductIdProcessed.includes(index)){
-                    simpleProductId = index;
-                    simpleProductIdProcessed.push(simpleProductId);
-                    return false;
-                }
-            });
-            if(simpleProductId === ''){
+            if (typeof(simpleProductId) === "undefined" || simpleProductId === ''){
                 return false;
             }
             widget._preselectProduct(simpleProductId);

@@ -4,5 +4,12 @@
     <type name="Magento\CatalogWidget\Block\Product\ProductsList">
     	<plugin name="catalog_product_list_widget_name_sortorder" type="Cdi\Custom\Plugin\Block\Product\ProductsListPlugin" />
     </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+       <arguments>
+           <argument name="configProviders" xsi:type="array">
+               <item name="additional_provider_billing_address" xsi:type="object">Cdi\Custom\Model\CheckoutBillingLabels</item>
+           </argument>
+       </arguments>
+   </type>
 
 </config>

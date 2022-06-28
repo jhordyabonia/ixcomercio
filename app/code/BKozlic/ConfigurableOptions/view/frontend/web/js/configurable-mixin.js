@@ -11,18 +11,44 @@ define([
 ], function ($, _, getAsyncValues) {
     'use strict';
 
-    var simpleProductIdProcessed = [];
-
     let configurableMixin = {
         _create: function () {
             this.options.gallerySwitchStrategy = this.options.spConfig.gallerySwitchStrategy;
             this._super();
-            this._preselect();
+            $(this).on('swatchPriorityItemsReady', function(event, widget){
+                widget._preselect();
+            });
+            this._eventPriorityItemsReady();
         },
 
         _configureElement: function (element) {
             this._super(element);
             this._updateSimpleProductAttributes(element);
+        },
+
+        _eventPriorityItemsReady : function(){
+            let widget = this,
+                productPrice;
+
+            if(!widget.options.jsonConfig.preselectEnabled){
+                return false;
+            }
+            productPrice = widget.element.parents(widget.options.selectorProduct)
+                .find(widget.options.selectorProductPrice);
+            if(!productPrice.length){
+                productPrice = $(widget.options.selectorProduct).find(widget.options.selectorProductPrice).length ?
+                    $(widget.options.selectorProduct).find(widget.options.selectorProductPrice) :
+                    $('.product-info_main').find(widget.options.selectorProductPrice);
+            }
+            if(!productPrice.length){
+                return false;
+            }
+            let interval = setInterval(function(){
+                if (productPrice.is(':data(mage-priceBox)')){
+                    clearInterval(interval);
+                    $(widget).trigger("swatchPriorityItemsReady",[widget]);
+                }
+            },500);
         },
 
         /**
@@ -33,13 +59,11 @@ define([
             let widget = this,
                 options = this.options,
                 preselectEnabled = options.spConfig.preselectEnabled,
-                simpleProduct = options.spConfig.simpleProduct,
-                gallery = widget.element.parents('.column.main').find(widget.options.mediaGallerySelector);
+                simpleProduct = options.spConfig.simpleProduct;
 
             if (!preselectEnabled) {
                 return false;
             }
-
             widget._preselectProduct(simpleProduct);
         },
 
@@ -53,7 +77,7 @@ define([
                 selectOptions = this.options.spConfig.index[simpleProduct];
 
             if (!selectOptions) {
-                this._preselectProductForIndex(this.options.jsonConfig.index);
+                this._preselectFirstOption(this.options.jsonConfig.index);
                 return false;
             }
 
@@ -72,36 +96,11 @@ define([
          * Preselect first not disabled options of configurable product
          * @private
          */
-        _preselectFirstOptions: function () {
-            $(this.options.superSelector).each(function () {
-                let $select = $(this),
-                    $optionElement = $select.find('option:not([disabled])').first();
-
-                if (!$optionElement.val() > 0 || $optionElement.val() !== "") {
-                    $optionElement = $optionElement.nextAll('option:not([disabled])').first();
-                }
-
-                $select.val($optionElement.val());
-                $select.trigger('change');
-            });
-        },
-
-        /**
-         * Preselect first not disabled options of configurable product
-         * @private
-         */
-        _preselectProductForIndex: function (simpleProducts) {
+        _preselectFirstOption: function (simpleProducts) {
             let widget = this,
-                simpleProductId = '';
+                simpleProductId = Object.keys(simpleProducts).shift();
 
-            $.each(simpleProducts, function( index, value ) {
-                if(!simpleProductIdProcessed.includes(index)){
-                    simpleProductId = index;
-                    simpleProductIdProcessed.push(simpleProductId);
-                    return false;
-                }
-            });
-            if(simpleProductId === ''){
+            if (typeof(simpleProductId) === "undefined" || simpleProductId === ''){
                 return false;
             }
             widget._preselectProduct(simpleProductId);

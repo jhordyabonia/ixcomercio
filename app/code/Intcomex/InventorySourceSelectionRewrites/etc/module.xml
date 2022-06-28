@@ -1,0 +1,15 @@
+<!--
+/**
+ * @category    Rewrites
+ * @package     Intcomex_InventorySourceSelectionRewrites
+ * @author      Fernando Castaño
+ * @license     http://www.apache.org/licenses/LICENSE-2.0  Apache License Version 2.0
+ */
+-->
+<config
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd"
+>
+	<module name="Intcomex_InventorySourceSelectionRewrites" setup_version="1.0.0" active="true"/>
+</config>
+
