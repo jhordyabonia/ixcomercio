@@ -1,4 +1,7 @@
 var config = {
+    deps: [
+        "js/carousel.js",
+    ],
 	map: {
       '*': {
         bootstrap: "js/bootstrap.bundle",
