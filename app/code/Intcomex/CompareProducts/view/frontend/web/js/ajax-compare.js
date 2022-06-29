@@ -58,33 +58,6 @@ define([
                 self.addCompare($(this));
             });
 
-            if (self.options.total >= 3) {
-                $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
-                    if (index === 2 || index === 3) {
-                        $(element).css('display', 'none');
-                    }
-                });
-            }
-
-            $('#miniCompareFirstDot').on('click', function() {
-                $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
-                    if (index === 0 || index === 1) {
-                        $(element).css('display', 'flex');
-                    } else if (index === 2 || index === 3) {
-                        $(element).css('display', 'none');
-                    }
-                });
-            });
-            $('#miniCompareSecondDot').on('click', function() {
-                $(self.options.divMiniCompare + ' .row > .item').each(function(index, element) {
-                    if (index === 0 || index === 1) {
-                        $(element).css('display', 'none');
-                    } else if (index === 2 || index === 3) {
-                        $(element).css('display', 'flex');
-                    }
-                });
-            });
-
             $('body').on('click', '.dot-one', function() {
                 $('.carr-one').css('display', 'flex');
                 $('.carr-two').css('display', 'none');

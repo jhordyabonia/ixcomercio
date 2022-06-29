@@ -11,6 +11,7 @@ define([
     'jquery/ui',
 ], function ($, $t, _, idsResolver) {
     'use strict';
+    
     $('body').on('click', '.button-carousel', function() {
             console.log($(this).data("item"))
             switch ($(this).data("item")) {
@@ -41,7 +42,8 @@ define([
                 default:
                     break;
             }
-        });    
+    });  
+  
     $.widget('mage.catalogAddToCart', {
         options: {
             processStart: null,
