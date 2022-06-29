@@ -156,7 +156,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     </div>
     <div class="items-carousel">
         <?php for ($i = 1; $i <= $total; $i++) : ?>
-            <div class="button-carousel" onclick="writeConsole(<?php echo $i; ?>)" data-item="<?php echo $i; ?>">
+            <div class="button-carousel" data-item="<?php echo $i; ?>">
                 <p><?php echo $i ?></p>
             </div>
         <?php endfor ?>
