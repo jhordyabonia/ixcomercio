@@ -383,7 +383,6 @@ define([
          * @private
          */
         _RenderValidateInputsSwathes: function ($widget, type) {
-            console.log("render init");
             // preload size swathes crocs
             var $inputAttr = {};
             var attributesObj = {};
@@ -409,7 +408,6 @@ define([
          * @private
          */
         _RenderControlsSize: function (colorAttr, genderAttr, sizeAttr, type) {
-            console.log("input_values_2: " + colorAttr + " " + genderAttr);
             var $widget = this,
                 container = this.element,
                 classes = this.options.classes,
