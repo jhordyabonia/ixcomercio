@@ -245,7 +245,7 @@
                 }
 
                 .carousel2 {
-                    display: grid;
+                    display: revert;
 
                     @media only screen and (max-width: 991px) {
                         display: none;
@@ -253,7 +253,7 @@
                 }
 
                 .carousel3 {
-                    display: grid;
+                    display: revert;
 
                     @media only screen and (max-width: 991px) {
                         display: none;
@@ -261,7 +261,7 @@
                 }
 
                 .carousel4 {
-                    display: grid;
+                    display: revert;
 
                     @media only screen and (max-width: 991px) {
                         display: none;
@@ -290,5 +290,13 @@
         height: 30px;
         border: 2px solid grey;
         border-radius: 50%;
+    }
+
+    .carousel-visible {
+        display: revert !important;
+    }
+
+    .carousel-hidden {
+        display: none !important;
     }
 }
