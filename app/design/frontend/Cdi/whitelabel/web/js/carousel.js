@@ -5,7 +5,6 @@ define([
 
     return function myscript()
     {   
-        alert('oprimio el boton ');
         $('body').on('click', '.button-carousel', function() {
             console.log($(this).data("item"))
             switch ($(this).data("item")) {
