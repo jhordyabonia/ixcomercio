@@ -166,3 +166,8 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 <?php else: ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('You have no items to compare.') ?></div></div>
 <?php endif; ?>
+<script type="text/javascript">
+    require(['jquery', 'myscript'], function($, myscript) {
+        myscript();
+    });
+</script>
