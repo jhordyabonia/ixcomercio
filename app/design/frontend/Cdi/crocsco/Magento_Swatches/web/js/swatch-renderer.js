@@ -424,7 +424,7 @@
                         label +=
                             '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
                             $('<i></i>').text($.mage.__(item.label)).html() +
-                            '</span>' +
+                            ' </span>' +
                             '<span class="' + classes.attributeSelectedOptionLabelClass + '"></span>';
                     }
                 }
