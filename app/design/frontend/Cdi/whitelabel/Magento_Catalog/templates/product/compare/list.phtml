@@ -154,6 +154,16 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
             </tbody>
         </table>
     </div>
+    <div class="items-carousel">
+        <?php for ($i = 1; $i <= $total; $i++) : ?>
+            <div class="button-carousel" data-item="<?php echo $i; ?>">
+                <p><?php echo $i ?></p>
+            </div>
+        <?php endfor ?>
+        <div class="button-carousel">
+            <p>></p>
+        </div>
+    </div>
     <?php if (!$block->isRedirectToCartEnabled()) : ?>
         <script type="text/x-magento-init">
             {

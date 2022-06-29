@@ -243,7 +243,52 @@
                         }
                     }
                 }
+
+                .carousel2 {
+                    display: grid;
+
+                    @media only screen and (max-width: 991px) {
+                        display: none;
+                    }
+                }
+
+                .carousel3 {
+                    display: grid;
+
+                    @media only screen and (max-width: 991px) {
+                        display: none;
+                    }
+                }
+
+                .carousel4 {
+                    display: grid;
+
+                    @media only screen and (max-width: 991px) {
+                        display: none;
+                    }
+                }
             }
         }
+    }
+
+    .items-carousel {
+        display: none;
+
+        @media only screen and (max-width: 991px) {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    }
+
+    .button-carousel {
+        display: block;
+        width: 30px;
+        cursor: pointer;
+        margin: 0 3px;
+        background: #ffffff;
+        height: 30px;
+        border: 2px solid grey;
+        border-radius: 50%;
     }
 }
