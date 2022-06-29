@@ -5087,7 +5087,7 @@ new products will be created. Use this step to customize images and price for yo
 "Create an Account","Crear una cuenta",module,Magento_Customer
 "Set a New Password","Establecer nueva contraseña",module,Magento_Customer
 "You have signed out and will go to our homepage in 5 seconds.","Has cerrado la sesión, serás redirigido a la página de inicio en 5 segundos.",module,Magento_Customer
-"New Customers","Nuevos clientes",module,Magento_Customer
+"New Customers","Crear una cuenta",module,Magento_Customer
 "Creating an account has many benefits: check out faster, keep more than one address, track orders and more.","Crear una cuenta tiene muchos beneficios: Pago más rápido, guardar más de una dirección, seguimiento de pedidos y mucho más.",module,Magento_Customer
 "Company","Empresa",module,Magento_Customer
 "Fax","Fax",module,Magento_Customer
@@ -5647,7 +5647,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Inactive","Inactivo",module,Magento_CustomerSegment
 "Apply To","Aplicar a",module,Magento_CustomerSegment
 "Visitors and Registered Customers","Visitantes y clientes registrados",module,Magento_CustomerSegment
-"Registered Customers","Clientes registrados",module,Magento_CustomerSegment
+"Registered Customers","Ingresar a mi cuenta",module,Magento_CustomerSegment
 "Visitors","Visitantes",module,Magento_CustomerSegment
 "Please save this information to specify segmentation conditions.","Por favor guarde esta información para especificar las condiciones de segmentación.",module,Magento_CustomerSegment
 "Matched Customers (%1)","Clientes coincidencia (%1)",module,Magento_CustomerSegment
