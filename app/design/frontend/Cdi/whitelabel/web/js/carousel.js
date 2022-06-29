@@ -1,8 +1,8 @@
 define(['jquery'], function($){
   "use strict";
-      return function myscript()
+      return function myscript(botton)
       {
-          alert('hello myscript');
+          alert('oprimio el boton '+botton);
           //put all your myfile js code here
       }
 });

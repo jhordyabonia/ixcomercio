@@ -156,7 +156,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     </div>
     <div class="items-carousel">
         <?php for ($i = 1; $i <= $total; $i++) : ?>
-            <div class="button-carousel" data-item="<?php echo $i; ?>">
+            <div class="button-carousel" onclick="myscript(<?php echo $i; ?>)" data-item="<?php echo $i; ?>">
                 <p><?php echo $i ?></p>
             </div>
         <?php endfor ?>
@@ -178,6 +178,6 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 <?php endif; ?>
 <script type="text/javascript">
     require(['jquery', 'myscript'], function($, myscript) {
-        myscript();
+        myscript(botton);
     });
 </script>
