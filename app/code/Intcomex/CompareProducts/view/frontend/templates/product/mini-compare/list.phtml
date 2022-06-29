@@ -63,7 +63,7 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                             <span><?= /* @escapeNotVerified */ __('Close') ?></span>
                         </button>
                     </form>
-                    <p><?= /* @escapeNotVerified */ $total === 1 ? __("$total producto seleccionado") : __("$total productos seleccionados") ?></p>
+                    <p style="display: flex; justify-content: center; width: 100%;"><?= /* @escapeNotVerified */ $total === 1 ? __("$total producto seleccionado") : __("$total productos seleccionados") ?></p>
                     <form action="<?= /* @escapeNotVerified */ $block->getUrl('catalog/product_compare') ?>">
                         <button type="submit" title="<?= /* @escapeNotVerified */ __('Comparar') ?>" class="action tocart primary compare-button" <?= $total === 1 ? 'disabled' : '' ?> >
                             <span><?= /* @escapeNotVerified */ __('Comparar') ?></span>
