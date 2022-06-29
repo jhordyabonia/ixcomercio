@@ -156,7 +156,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
     </div>
     <div class="items-carousel">
         <?php for ($i = 1; $i <= $total; $i++) : ?>
-            <div class="button-carousel" data-item="<?php echo $i; ?>">
+            <div class="button-carousel" onclick="writeConsole(<?php echo $i; ?>)" data-item="<?php echo $i; ?>">
                 <p><?php echo $i ?></p>
             </div>
         <?php endfor ?>
@@ -176,3 +176,12 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
 <?php else: ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('You have no items to compare.') ?></div></div>
 <?php endif; ?>
+<script type="text/javascript">
+    require(['jquery', 'myscript'], function($, myscript) {
+        function writeConsole(bootton){
+            console.log("Mensaje de consola"+bootton);
+        }
+
+        //myscript();
+    });
+</script>

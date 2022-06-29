@@ -1,8 +1,5 @@
 var config = {
-    deps: [
-        "js/carousel.js",
-    ],
-	map: {
+    map: {
       '*': {
         bootstrap: "js/bootstrap.bundle",
         owlCarouselJs: "js/owl.carousel.min",

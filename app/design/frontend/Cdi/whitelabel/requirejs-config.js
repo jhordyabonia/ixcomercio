@@ -1,8 +1,9 @@
 var config = {
-	map: {
+    map: {
       '*': {
         bootstrap: "js/bootstrap.bundle",
         owlCarouselJs: "js/owl.carousel.min",
+        myscript: 'js/carousel',
         mainJs: "js/main.min"
 		}
 	},
