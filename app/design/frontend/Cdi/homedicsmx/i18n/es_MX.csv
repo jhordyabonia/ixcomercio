@@ -14836,7 +14836,7 @@ than a customer might expect. ","Configuración de descuentos de impuestos Adver
 "Search by keyword","Buscar por palabra clave",module,Magento_Ui
 "Keyword","Palabra clave",module,Magento_Ui
 "Select Date","Seleccionar fechas",module,Magento_Ui
-"Please enter more or equal than {0} symbols.","Este campo supera el límite máximo de {0} caracteres.",module,Magento_Ui
+"Please enter more or equal than {0} symbols.","Este campo no supera el límite mínimo de {0} caracteres.",module,Magento_Ui
 "Please enter less or equal than {0} symbols.","Este campo supera el límite máximo de {0} caracteres.",module,Magento_Ui
 "Please enter {0} words or less.","Introduce {0} palabras o menos.",module,Magento_Ui
 "Please enter at least {0} words.","Por favor introduce al menos {0} palabras.",module,Magento_Ui
@@ -16434,3 +16434,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "Out Stock","Sin inventario"
 "Zone","Colonia"
 "Please uncheck the box if you want to add your Invoice details","Por favor desmarque la casilla si desea agregar los datos de su Factura Fiscal"
+"Name or corporate name","Nombre o razón social"
