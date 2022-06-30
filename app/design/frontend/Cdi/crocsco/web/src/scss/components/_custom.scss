@@ -274,14 +274,14 @@ border: 1px solid #ccc;
 /***** carrusel home ****/
 .products-grid .product-items .product-item:not(.rating-summary) {
     max-width: 100%;
-    padding: 20px;
+    padding: 20px !important;
     border: 1px solid #eee;
     background: #fff;
     border-radius: 5px;
     position: relative;
-    width: 300px;
+    width: 300px !important;
 }
-.owl-item .swatch-attribute.crocs_gender, .owl-item, .owl-item .swatch-attribute.crocs_size {
+.owl-item .swatch-attribute.crocs_gender, .owl-item .swatch-attribute.crocs_size {
     display: none;
 }
 .owl-item .product-item .price-box .price{
