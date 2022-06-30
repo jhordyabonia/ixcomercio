@@ -216,6 +216,14 @@
                     }
 
                     tr {
+                        .carousel-visible {
+                            display: revert;
+                        }
+                        
+                        .carousel-hidden {
+                            display: none;
+                        } 
+
                         td {
                             border-left: 1px solid #ACA9A9;
                         }
@@ -241,6 +249,14 @@
                                 background: #1428a0;
                             }
                         }
+                    }
+                }
+
+                .carousel1 {
+                    display: revert;
+
+                    @media only screen and (max-width: 991px) {
+                        display: revert;
                     }
                 }
 
@@ -288,15 +304,13 @@
         margin: 0 3px;
         background: #ffffff;
         height: 30px;
-        border: 2px solid grey;
         border-radius: 50%;
     }
 
-    .carousel-visible {
-        display: revert !important;
-    }
-
-    .carousel-hidden {
-        display: none !important;
+    .button-selected{
+        background: #1428a0;
+        p{
+            color: aliceblue;
+        }
     }
 }

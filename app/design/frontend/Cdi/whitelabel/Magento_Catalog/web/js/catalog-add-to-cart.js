@@ -11,8 +11,6 @@ define([
     'jquery/ui',
 ], function ($, $t, _, idsResolver) {
     'use strict';
-    
-    
   
     $.widget('mage.catalogAddToCart', {
         options: {
