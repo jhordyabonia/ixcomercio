@@ -543,11 +543,13 @@ define([
                     }
 
                     if ($widget.options.enableControlLabel) {
-                        label +=
-                            '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
-                            $('<i></i>').text(item.label).html() +
-                            '</span>' +
-                            '<span class="' + classes.attributeSelectedOptionLabelClass + '"></span>';
+                        if(item.code != 'crocs_gender'){
+                            label +=
+                                '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
+                                $('<i></i>').text($.mage.__(item.label)).html() +
+                                ' </span>' +
+                                '<span class="' + classes.attributeSelectedOptionLabelClass + '"></span>';
+                        }
                     }
 
                     if ($widget.inProductList) {

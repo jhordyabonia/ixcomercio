@@ -12,12 +12,9 @@ use Magento\Framework\App\Action\Action;
 <?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
     <?php
     $type = 'widget-product-grid';
-
     $mode = 'grid';
-
     $image = 'new_products_content_widget_grid';
     $items = $block->getProductCollection()->getItems();
-
     $showWishlist = true;
     $showCompare = true;
     $showCart = true;
@@ -33,7 +30,7 @@ use Magento\Framework\App\Action\Action;
         <div class="block-content">
             <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
             <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
-                <ol class="product-items <?= /* @noEscape */ $type ?>">
+                <ul class="owl-carousel product-items <?= /* @noEscape */ $type ?>">
                     <?php $iterator = 1; ?>
                     <?php foreach ($items as $_item): ?>
                         <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
@@ -106,9 +103,8 @@ use Magento\Framework\App\Action\Action;
                         </div>
                         <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
                     <?php endforeach ?>
-                </ol>
+                </ul>
             </div>
-            <?= $block->getPagerHtml() ?>
         </div>
     </div>
 <?php endif;?>
