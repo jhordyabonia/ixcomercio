@@ -217,7 +217,6 @@ class ConfigurableProduct
             $configurableProduct->setTypeId('configurable');
             $configurableProduct->setVisibility(4);
             $configurableProduct->setWebsiteIds($product->getWebsiteIds());
-            $configurableProduct->setCategoryIds($product->getCategoryIds());
             $configurableProduct->setStockData([
                 'use_config_manage_stock' => 0,
                 'manage_stock' => 1,
@@ -235,6 +234,13 @@ class ConfigurableProduct
 
         if ($configurableProductId) {
             try {
+                if($configData['product_mpn']){
+                    $configurableProduct->setData('mpn', $product->getData('mpn'));
+                }
+                $productCategoryIds = empty($product->getCategoryIds()) ? [] : $product->getCategoryIds();
+                $parentCategoryIds  = empty($configurableProduct->getCategoryIds()) ? [] : $configurableProduct->getCategoryIds();
+                $configurableProduct->setCategoryIds(array_merge($parentCategoryIds, $productCategoryIds));
+
                 // Attributes to variations
                 $color_attr_id = $configurableProduct->getResource()->getAttribute('crocs_color')->getId();
                 $size_attr_id = $configurableProduct->getResource()->getAttribute('crocs_size')->getId();
