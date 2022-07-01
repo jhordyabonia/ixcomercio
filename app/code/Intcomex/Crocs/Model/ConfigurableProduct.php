@@ -239,7 +239,7 @@ class ConfigurableProduct
                 }
                 $productCategoryIds = empty($product->getCategoryIds()) ? [] : $product->getCategoryIds();
                 $parentCategoryIds  = empty($configurableProduct->getCategoryIds()) ? [] : $configurableProduct->getCategoryIds();
-                $configurableProduct->setCategoryIds(array_merge($parentCategoryIds, $productCategoryIds));
+                $configurableProduct->setCategoryIds(array_unique(array_merge($parentCategoryIds, $productCategoryIds)));
 
                 // Attributes to variations
                 $color_attr_id = $configurableProduct->getResource()->getAttribute('crocs_color')->getId();
