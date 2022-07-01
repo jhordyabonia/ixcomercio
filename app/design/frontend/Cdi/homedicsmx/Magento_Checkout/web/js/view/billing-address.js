@@ -46,6 +46,8 @@ function (
     var lastSelectedBillingAddress = null,
         countryData = customerData.get('directory-data'),
         lastLabel = '',
+        identiShipping = '',
+        zoneShipping = '',
         addressOptions = addressList().filter(function (address) {
             return address.getType() === 'customer-address';
         });
@@ -246,6 +248,18 @@ function (
                     }
                     addressData['save_in_address_book'] = this.saveInAddressBook() ? 1 : 0;
                     addressData['lastname'] = ".";
+
+                    quote.shippingAddress().customAttributes.forEach(function (op, index) {
+                        if (op.attribute_code == 'identification') {
+                            identiShipping = op.value;
+                        }
+                        if (op.attribute_code == 'zone_id') {
+                            zoneShipping  = op.value;
+                        }
+                    });
+                
+                    addressData['custom_attributes']['identification']= identiShipping;
+                    addressData['custom_attributes']['zone_id']= zoneShipping;
                     newBillingAddress = createBillingAddress(addressData);
 
                     // New address must be selected as a billing address
@@ -312,7 +326,13 @@ function (
          * @return {String}
          */
         customLabelVisible: function (text) {
-            if(text == 'zone_id' || text == 'identification'){
+            if (
+                text == 'zone_id'
+                || text == 'identification'
+                || text == 'regimen_fiscal'
+                || text == 'cfdi'
+                || text == 'rfc'
+            ) {
                 lastLabel = text;
                 return false;
             }
@@ -320,14 +340,19 @@ function (
         },
 
         /**
-         * @param {*} text
-         * @return {String}
-         */
+        * @param {*} text
+        * @return {String}
+        */
         getCustomText: function (text) {
-            if(lastLabel == 'zone_id'){
-                //
+            if (lastLabel == 'cfdi' || lastLabel == 'regimen_fiscal') {
+                var arr = checkoutConfig[lastLabel + '_data'];
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i].value === text) {
+                        text = arr[i].label
+                    }
+                }
             }
-            return text; 
+            return text;
         },
 
         /**
@@ -379,6 +404,6 @@ function (
             }
           
         }),
-     
+
     });
 });
