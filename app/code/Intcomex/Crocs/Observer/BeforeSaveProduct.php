@@ -46,16 +46,20 @@ class BeforeSaveProduct implements ObserverInterface
     public function execute(Observer $observer)
     {
         /** @var Product $product */
-        $product = $observer->getData('product');
-        $storeId = $product->getStoreId();
-        $separator = $this->crocsHelper->getSeparator($product->getStoreId());
+        $product    = $observer->getData('product');
+        $storeId    = $product->getStoreId();
+        $separator  = $this->crocsHelper->getSeparator($product->getStoreId());
         $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
+        $this->configurableProduct->resetProcessedProducts();
 
         if ($this->crocsHelper->isEnabled($storeId)) {
             try {
                 $mpn = $product->getData('mpn');
                 $genericName = empty($observer->getData('generic_name')) ?
                     $product->getName() : $observer->getData('generic_name');
+
+                $senderContext = empty($observer->getData('sender_context')) ?
+                    (Object)[] : $observer->getData('sender_context');
 
                 if($observer->getData('config_data')){
                     $configData = $observer->getData('config_data');
@@ -94,6 +98,9 @@ class BeforeSaveProduct implements ObserverInterface
                         }
                         // Create Configurable Product
                         $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName, $configData);
+                        if(method_exists($senderContext,'setProcessedProductsInCrocsEvent')){
+                            $senderContext->setProcessedProductsInCrocsEvent($this->configurableProduct->getProcessedProducts());
+                        }
                     } else {
                         $this->_setSku($product, true);
                         $this->logger->debug($product->getSku() . ' Producto No Configurable');
@@ -105,6 +112,7 @@ class BeforeSaveProduct implements ObserverInterface
                 $this->logger->debug('Error Crocs BeforeSaveProduct Observer: ' . $e->getMessage());
             }
         }
+        return $this;
     }
 
     /**

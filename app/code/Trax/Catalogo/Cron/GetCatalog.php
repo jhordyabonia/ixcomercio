@@ -2,7 +2,7 @@
 
 namespace Trax\Catalogo\Cron;
 
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Model\Product;use Magento\Framework\Exception\NoSuchEntityException;
 
 class GetCatalog
 {
@@ -142,6 +142,11 @@ class GetCatalog
      */
     private $product_iws_not;
 
+     /**
+     * @var array
+     */
+    private $processedProductsInCrocsEvent;
+
     /**
      * Class construct.
      *
@@ -198,6 +203,21 @@ class GetCatalog
         $this->_storesRepository = $storesRepository;
         $this->productAction = $productAction;
         $this->product_iws_not = array();
+        $this->processedProductsInCrocsEvent = array();
+    }
+
+    /**
+     * @return mixed|array
+     */
+    public function getProcessedProductsInCrocsEvent(){
+        return $this->processedProductsInCrocsEvent;
+    }
+
+    /**
+     * @param array processed
+     */
+    public function setProcessedProductsInCrocsEvent(array $processed){
+        $this->processedProductsInCrocsEvent = $processed;
     }
 
     /**
@@ -540,7 +560,16 @@ class GetCatalog
                 //Se asocian categorias a productos
                 if ($product_id) {
                     $allProducts[$product_id] = $product_id;
+                    foreach ($this->getProcessedProductsInCrocsEvent() as $key => $object)
+                    {
+                        $this->logger->info('Processed Products In Crocs Event: ' . $object['id']);
+                        $allProducts[$object['id']] = $object['id'];
+                        if($object['restore_price']){
+                            $this->restorePriceAttributeForProduct($object['store_id'], $object['id'], $object['price']);
+                        }
+                    }
                 }
+                $this->setProcessedProductsInCrocsEvent([]);
                 array_push($allCategories, $arrayCategories);
             } catch (Exception $e) {
                 $this->logger->info('GetCatalog - Se ha producido un error al guardar la categoria ' . $categoryTmp->getId() . '. Error: ' . $e->getMessage());
@@ -920,12 +949,12 @@ class GetCatalog
         }
 
         // Call Crocs Functionality
-        if ($productId && $configurableProductIsEnabled) {
+        if ($productId && $configurableProductIsEnabled)
+        {
             $this->logger->debug('Dispatch Event intcomex_crocs_catalog_product_save_before ProductId: ' . $productId);
-            $this->logger->debug('price catalog'. $product->getPrice());
             $this->eventManager->dispatch(
                 'intcomex_crocs_catalog_product_save_before',
-                ['product' => $product, 'config_data' => $configData]
+                ['product' => $product, 'config_data' => $configData, 'sender_context' => $this]
             );
         }
 
@@ -1163,5 +1192,31 @@ class GetCatalog
         $this->help_email->notifyProductIWS('Soporte Whitelabel',$list_products, $text_mail);
 
         $this->logger->info('GetCatalog - Se envia notificacion de productos');
+    }
+
+     /**
+      * @param Product $product
+      * @return int|void|null
+      */
+    private function restorePriceAttributeForProduct($storeId, $productId, $price)
+    {
+        try{
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+            $connection = $resource->getConnection();
+
+            $sql = 'INSERT INTO '. $connection->getTableName('catalog_product_entity_decimal');
+            $sql .= ' (attribute_id, store_id, value, row_id) ';
+            $sql .= 'VALUES(
+                (SELECT attribute_id FROM '.$connection->getTableName('eav_attribute').' AS eav WHERE eav.entity_type_id = 4 AND eav.attribute_code = "price"),
+                '.$storeId.',
+                '.$price.',
+                (SELECT row_id FROM '.$connection->getTableName('catalog_product_entity').' AS cpe WHERE cpe.entity_id = '.$productId.')
+            );';
+            $this->logger->debug('SQL - restore price: ' . $sql);
+            $connection->query($sql);
+        }catch (\Exception $e){
+            $this->logger->debug('SQL - execute restore price failed: ' . $e->getMessage());
+        }
     }
 }

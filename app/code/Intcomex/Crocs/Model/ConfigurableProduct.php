@@ -46,6 +46,11 @@ class ConfigurableProduct
     private $configurableAttributes = ['crocs_color', 'crocs_gender', 'crocs_size'];
 
     /**
+     * @var array
+     */
+    private $processedProducts;
+
+    /**
      * @param Data $crocsHelper
      * @param Config $eavConfig
      * @param ProductRepositoryInterface $productRepository
@@ -61,6 +66,7 @@ class ConfigurableProduct
         $this->eavConfig = $eavConfig;
         $this->productRepository = $productRepository;
         $this->productFactory = $productFactory;
+        $this->resetProcessedProducts();
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
         $this->logger = new Logger();
         $this->logger->addWriter($writer);
@@ -162,6 +168,20 @@ class ConfigurableProduct
     }
 
     /**
+     * @return mixed|array
+     */
+    public function getProcessedProducts(){
+        return $this->processedProducts;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function resetProcessedProducts(){
+        $this->processedProducts = [];
+    }
+
+    /**
      * @param $sku
      * @param Product $product
      * @param $womanProductId
@@ -173,7 +193,6 @@ class ConfigurableProduct
         try {
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->load($configurableProduct->getIdBySku($sku));
-
             $configurableProductId = $configurableProduct->getId();
             $this->logger->debug('Configurable productId: '. $configurableProductId);
             //$configurableProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
@@ -263,13 +282,14 @@ class ConfigurableProduct
      */
     public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize)
     {
+        $restorePrice = false;
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $options = $this->_getAllAttributeOptions();
         $skuExploded = explode($separator, $product->getSku());
         $skuLastPart = $skuExploded[count($skuExploded)-1];
         $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
-
         $this->logger->debug('First productId: '. $product->getId());
+
         if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
             $product->setSku($product->getSku() . $skuLastPartToPlus);
         }
@@ -277,10 +297,14 @@ class ConfigurableProduct
         $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
         $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
         $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
-
-        $this->logger->debug('First price: '. $product->getPrice());
-        $product->setPrice($product->getPrice());
         $product->save();
+
+        $productRefresh= $this->productFactory->create();
+        $productRefresh->load($productRefresh->getIdBySku($product->getSku()));
+        if($productRefresh->getprice() != $product->getprice()){
+            $restorePrice = true;
+        }
+        $this->collectProcessedProducts($product, $restorePrice);
     }
 
     /**
@@ -360,6 +384,7 @@ class ConfigurableProduct
             } else {
                 $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku());
             }
+            $this->collectProcessedProducts($secondProduct, false);
             return $secondProduct->getId();
         } catch (Exception $e) {
             $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
@@ -396,5 +421,19 @@ class ConfigurableProduct
             $this->logger->debug('Error obteniendo las opciones de atributos: ' . $e->getMessage());
         }
         return $options;
+    }
+
+    /**
+    * @param Product $product
+    * @return int|void|null
+    */
+    private function collectProcessedProducts(Product $product, bool $restorePrice)
+    {
+        $this->processedProducts[] = [
+              'restore_price' => $restorePrice,
+              'id' => $product->getId(),
+              'store_id' => $product->getStoreId(),
+              'price' => $product->getPrice()
+        ];
     }
 }
