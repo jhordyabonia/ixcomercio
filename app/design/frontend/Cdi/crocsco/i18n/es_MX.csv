@@ -16438,3 +16438,4 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "In Stock","Stock disponible",module,Magento_Catalog
 "In Stock","Stock disponible",module,Magento_CatalogInventory
 "Size","Talla",module,Magento_Swatches
+"Size","Talla",module,Bss_Simpledetailconfigurable

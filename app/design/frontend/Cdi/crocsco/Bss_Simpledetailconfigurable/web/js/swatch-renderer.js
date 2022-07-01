@@ -18,7 +18,8 @@ define([
     'jquery',
     'underscore',
     'jquery/ui',
-    'jquery/jquery.parsequery'
+    'jquery/jquery.parsequery',
+    'mage/translate'
 ], function ($, _) {
     'use strict';
     return function (widget) {
@@ -217,7 +218,7 @@ define([
                 if ($widget.options.enableControlLabel) {
                     label +=
                         '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
-                        $('<i></i>').text(sizeAttr.label).html() +
+                        $('<i></i>').text($.mage.__(sizeAttr.label)).html() +
                         '</span>' +
                         '<span class="' + classes.attributeSelectedOptionLabelClass + '"></span>';
                 }
@@ -363,6 +364,8 @@ define([
             */
             _ClearSizeContainer: function () {
                 $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.size + ' div').remove();
+                $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.gender + ' span').remove();
+                $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.size + ' .swatch-attribute-selected-option').text('');
             },
 
             /**
