@@ -15,5 +15,7 @@ public function toOptionArray()
         ['value' =>  6, 'label' => __('6 Cuotas')],
         ['value' =>  10, 'label' => __('10 Cuotas')],
         ['value' =>  12, 'label' => __('12 Cuotas')],
+        ['value' =>  18, 'label' => __('18 Cuotas')],
+        ['value' =>  24, 'label' => __('24 Cuotas')]
     ];
 }}
