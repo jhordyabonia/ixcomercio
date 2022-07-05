@@ -46,8 +46,8 @@ define([
              */
             _OnClick: function ($this, $widget) {
                 $widget._super($this, $widget);
-                $widget._UpdateDetailStock($this);
                 if (this.options.jsonConfig.productStockAlert !== undefined) {
+                    $widget._UpdateDetailStock($this);
                     if (this._isInProductDetailPage()) {
                         $widget._UpdateDetailStockForm($this);
                     }
@@ -63,8 +63,8 @@ define([
              */
             _OnChange: function ($this, $widget) {
                 $widget._super($this, $widget);
-                $widget._UpdateDetailStock($this);
                 if (this.options.jsonConfig.productStockAlert !== undefined) {
+                    $widget._UpdateDetailStock($this);
                     if (this._isInProductDetailPage()) {
                         $widget._UpdateDetailStockForm($this);
                     }
