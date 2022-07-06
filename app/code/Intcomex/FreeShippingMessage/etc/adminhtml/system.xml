@@ -27,6 +27,13 @@
                         <field id="*/*/enabled">1</field>
                     </depends>
                 </field>
+                <field id="successmessage" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free Shipping Success Message</label>
+                    <validate>required</validate>
+                    <depends>
+                        <field id="*/*/enabled">1</field>
+                    </depends>
+                </field>
             </group>
         </section>
     </system>

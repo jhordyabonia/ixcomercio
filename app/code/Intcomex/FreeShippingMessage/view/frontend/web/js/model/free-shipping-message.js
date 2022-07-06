@@ -13,8 +13,10 @@ define([
                     url: '/checkout/freeshippingmessage/getmessage',
                     async: false
                 }).done(function(data) {
-                    response = data;
-                    window.checkout.freeShippingMessage = data;
+                    let _data = JSON.parse(data);
+                    response = _data.msg;
+                    window.checkout.freeShippingMessage = _data.msg;
+                    window.checkout.lesspercent= _data.bar_percent;
                 });
                 return response;
             }

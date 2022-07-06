@@ -157,6 +157,7 @@ define([
                 }
                 this.cart[key](value);
             }, this);
+            customerData.reload(['cart'], false);
         },
 
         /**
@@ -194,6 +195,14 @@ define([
             var items = this.getCartParam('items') || [];
 
             return parseInt(items.length, 10);
+        },
+
+        isFreeShippingMsg: function (){
+            if(window.checkout.lesspercent){
+                return true;
+            }else{
+                return false;
+            }
         }
     });
 });
