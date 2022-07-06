@@ -5,10 +5,11 @@
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 define([
+    'jquery',
     'mage/url'
-], function (url) {
+], function ($,url) {
     'use strict';
-
+    url.setBaseUrl(BASE_URL);
     return function (productId) {
         let getUrl = url.build('configurableoptions/attributevalues/get/') + 'productId/' + productId;
         return fetch(getUrl, {
