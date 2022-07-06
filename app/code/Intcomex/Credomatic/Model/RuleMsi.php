@@ -46,8 +46,12 @@ class RuleMsi
         $getFee = $this->getFee($product, $detailsCampaign, $arrayConf);
 
         if (empty($getFee)) {
-            unset($arrayConf[array_search(18, $arrayConf)]);
-            unset($arrayConf[array_search(24, $arrayConf)]);
+            if(in_array(18,$arrayConf)){
+                unset($arrayConf[array_search(18, $arrayConf)]);
+            }
+            if(in_array(24,$arrayConf)){
+                unset($arrayConf[array_search(24, $arrayConf)]);
+            }
             $configFee = implode(",", $arrayConf);
         }else{
             $configFee = implode(",", $getFee);
