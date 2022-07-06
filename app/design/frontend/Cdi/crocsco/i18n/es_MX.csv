@@ -3345,9 +3345,9 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "If you believe it is the right one you can ignore this notice.","Si usted cree que es el correcto, puede ignorar este aviso.",module,Magento_Checkout
 "New Address","Nueva dirección",module,Magento_Checkout
 "Are you sure you would like to remove this item from the shopping cart?","¿Seguro que desea eliminar este artículo del carrito de la compra?",module,Magento_Checkout
-"Review & Payments","Revisión y Pagos",module,Magento_Checkout
+"Review & Payments","Realizar pago",module,Magento_Checkout
 "Select a new payment method","Seleccione un nuevo método de pago",module,Magento_Checkout
-"Shipping","Envío",module,Magento_Checkout
+"Shipping","Información de envío",module,Magento_Checkout
 "Save Address","Guardar dirección",module,Magento_Checkout
 "Please specify a shipping method.","Por favor, especifique un modo de envío.",module,Magento_Checkout
 "Checkout Options","Opciones para el proceso de pago",module,Magento_Checkout
@@ -5087,7 +5087,7 @@ new products will be created. Use this step to customize images and price for yo
 "Create an Account","Crear una cuenta",module,Magento_Customer
 "Set a New Password","Establecer nueva contraseña",module,Magento_Customer
 "You have signed out and will go to our homepage in 5 seconds.","Has cerrado la sesión, serás redirigido a la página de inicio en 5 segundos.",module,Magento_Customer
-"New Customers","Nuevos clientes",module,Magento_Customer
+"New Customers","Crear una cuenta",module,Magento_Customer
 "Creating an account has many benefits: check out faster, keep more than one address, track orders and more.","Crear una cuenta tiene muchos beneficios: Pago más rápido, guardar más de una dirección, seguimiento de pedidos y mucho más.",module,Magento_Customer
 "Company","Empresa",module,Magento_Customer
 "Fax","Fax",module,Magento_Customer
@@ -5647,7 +5647,7 @@ Plantilla de correo electrónico elegida en función de la devolución del tema 
 "Inactive","Inactivo",module,Magento_CustomerSegment
 "Apply To","Aplicar a",module,Magento_CustomerSegment
 "Visitors and Registered Customers","Visitantes y clientes registrados",module,Magento_CustomerSegment
-"Registered Customers","Clientes registrados",module,Magento_CustomerSegment
+"Registered Customers","Ingresar a mi cuenta",module,Magento_CustomerSegment
 "Visitors","Visitantes",module,Magento_CustomerSegment
 "Please save this information to specify segmentation conditions.","Por favor guarde esta información para especificar las condiciones de segmentación.",module,Magento_CustomerSegment
 "Matched Customers (%1)","Clientes coincidencia (%1)",module,Magento_CustomerSegment
@@ -16434,6 +16434,9 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "CancelBilling","Volver a datos de boleta",module,Magento_AdvancedCheckout
 "Please uncheck the box if you want to add your Invoice details","Si seleccionas esta opción, ingresa los siguientes datos."
 "SecurityCode","CVC"
+"Your Email","Tu correo electrónico"
 "Out Stock","Sin inventario"
 "In Stock","Stock disponible",module,Magento_Catalog
 "In Stock","Stock disponible",module,Magento_CatalogInventory
+"Size","Talla",module,Magento_Swatches
+"Size","Talla",module,Bss_Simpledetailconfigurable
