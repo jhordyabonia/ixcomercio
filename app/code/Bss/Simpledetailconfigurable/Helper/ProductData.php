@@ -100,6 +100,7 @@ class ProductData extends AbstractHelper
         \Bss\Simpledetailconfigurable\Model\ResourceModel\SourceStock\SalesChannel $salesChannel,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\ResourceModel\Review\CollectionFactory $_reviewsColFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->stockRegistry = $stockRegistry;
@@ -112,6 +113,7 @@ class ProductData extends AbstractHelper
         $this->productRepository = $productRepository;
         $this->_reviewsColFactory = $_reviewsColFactory;
         parent::__construct($context);
+        $this->productFactory = $productFactory;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -158,10 +160,46 @@ class ProductData extends AbstractHelper
             }
             $result['child'][$key] = [
                 'id' => $simpleProduct->getId(),
-                'name' => $simpleProduct->getName()
+                'name' => $simpleProduct->getName(),
+                'color' => $simpleProduct->getCrocsColor(),
+                'gender' => $simpleProduct->getCrocsGender(),
+                'size' => $simpleProduct->getCrocsSize(),
+                'size_label' => $optionValue = $this->getOptionLabelByValue('crocs_size',$simpleProduct->getCrocsSize())
             ];
         }
         $result['child']['default'] = $product->getName();
+        $result['configvalues'] = $this->getSwatchesLabel();
+
+
+        return $result;
+    }
+
+    /* Get Label by option id */
+    public function getOptionLabelByValue($attributeCode,$optionId)
+    {
+        $product = $this->productFactory->create();
+        $isAttributeExist = $product->getResource()->getAttribute($attributeCode); 
+        $optionText = '';
+        if ($isAttributeExist && $isAttributeExist->usesSource()) {
+            $optionText = $isAttributeExist->getSource()->getOptionText($optionId);
+        }
+        return $optionText;
+    }
+
+    /**
+     * @return array
+     * @throws NoSuchEntityException
+     */
+    public function getSwatchesLabel(){
+
+        $result = [];
+        $configValues = $this->scopeConfig->getValue('crocs/general/crocsswatchesattributes', ScopeInterface::SCOPE_STORE);
+        $configValues = trim($configValues);
+        $configValues = explode(",", $configValues);
+
+        $result['color'] = $configValues[0];
+        $result['gender'] = $configValues[1];
+        $result['size'] = $configValues[2];
 
         return $result;
     }

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+	<group id="default">
+		<job instance="Intcomex\CredomaticMSI\Cron\Campaign" method="execute" name="intcomex_credomatic_remove_campaign">
+			<schedule>*/1 * * * *</schedule>
+		</job>
+	</group>
+</config>

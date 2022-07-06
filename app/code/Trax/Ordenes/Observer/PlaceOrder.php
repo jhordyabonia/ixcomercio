@@ -63,6 +63,8 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
      */
     private $gridFactory;
 
+    protected $eavAttributeRepository;
+
     /**
      * @var \Intcomex\Crocs\Model\ConfigurableProduct
      */
@@ -80,6 +82,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         \Trax\Ordenes\Model\IwsOrderFactory  $iwsOrder,
         \Magento\Framework\Controller\ResultFactory $result,
         \Trax\Grid\Model\GridFactory $gridFactory,
+        \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepositoryInterface,
         \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct,
         \Intcomex\Credomatic\Helper\DataRule $credoHelper
     ) {
@@ -93,6 +96,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $this->_iwsOrder = $iwsOrder;
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
+        $this->eavAttributeRepository = $eavAttributeRepositoryInterface;
         $this->configurableProduct = $configurableProduct;
         $this->credoHelper = $credoHelper;
 	}
@@ -412,6 +416,13 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                 $items[] = $tempItem;
             }
         }
+
+        if (!empty($billing->getRfc())) {
+            $identifi = $billing->getRfc();
+        }else {
+            $identifi = $this->getIdentification($billing,$shipping);
+        }
+
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
@@ -422,7 +433,7 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
                     'LastName' => $this->helper->clearSpecialCharac($billing->getLastname()),
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $this->helper->clearSpecialCharac($billing->getTelephone()),
-                    'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification()),
+                    'DocumentId' => $this->helper->clearSpecialCharac($billing->getIdentification())
                 ),
                 'Billing' => array(
                     'FirstName' => $this->helper->clearSpecialCharac($billing->getFirstname()),
@@ -464,7 +475,9 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
-            'TaxRegistrationNumber' => $this->getIdentification($billing,$shipping),
+            'TaxRegistrationNumber' => $identifi,
+            'TaxSystem' =>  $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal')),
+            'DigitalTaxReceipt' => $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getCfdi(), 'cfdi')),
             'InvoiceRequested' => $requireInvoice,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
@@ -612,5 +625,21 @@ class PlaceOrder implements \Magento\Framework\Event\ObserverInterface
         $specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
 
         return $specialPrice;
+    }
+
+    public function getValueBillingAddress($billing, $field)
+    {
+
+        $attribute = $this->eavAttributeRepository->get('customer_address', $field);
+        $optionText = $attribute->getSource()->getOptionText($billing);
+        $arrayOptions = explode("-", $optionText);
+
+        if (empty($arrayOptions[0])) {
+            $valueText = '';
+        } else {
+            $valueText = $arrayOptions[0];
+        }
+
+        return $valueText;
     }
 }
