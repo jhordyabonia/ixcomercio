@@ -3347,7 +3347,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Are you sure you would like to remove this item from the shopping cart?","¿Seguro que desea eliminar este artículo del carrito de la compra?",module,Magento_Checkout
 "Review & Payments","Revisión y Pagos",module,Magento_Checkout
 "Select a new payment method","Seleccione un nuevo método de pago",module,Magento_Checkout
-"Shipping","Envío",module,Magento_Checkout
+"Shipping","Envíotest",module,Magento_Checkout
 "Save Address","Guardar dirección",module,Magento_Checkout
 "Please specify a shipping method.","Por favor, especifique un modo de envío.",module,Magento_Checkout
 "Checkout Options","Opciones para el proceso de pago",module,Magento_Checkout
