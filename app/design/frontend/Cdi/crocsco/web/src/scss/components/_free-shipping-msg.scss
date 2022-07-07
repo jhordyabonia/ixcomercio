@@ -1,5 +1,6 @@
 .div-free-shipping-message {
     text-align: center;
+    border: 1px solid #000;
 
     .free-shipping-message {
         font-size: 16px;
@@ -19,6 +20,7 @@
             position: relative;
             background: #FF6F00;
             float: left;
+            left: -10px;
             margin: auto 10px 10px 10px;
         }
     }
@@ -28,6 +30,9 @@
     .block-content {
         .div-free-shipping-message {
             text-align: center;
+            padding: 10px 0px;
+            margin-bottom: 10px;
+            border: 1px solid #000;
 
             .free-shipping-message {
                 font-size: 14px;
@@ -36,6 +41,7 @@
         }
         .free-shipping-icon {
             margin-top: 10px;
+            margin-bottom: 0px;
         }
     }
 }
