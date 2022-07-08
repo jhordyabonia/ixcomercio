@@ -1,6 +1,7 @@
 <?php
 namespace Intcomex\Credomatic\Model;
 use Intcomex\CredomaticMSI\Model\ResourceModel\Campaign\CollectionFactory;
+use \Magento\Framework\Stdlib\DateTime\DateTime;
 class RuleMsi
 {
 
@@ -14,11 +15,18 @@ class RuleMsi
      */
 	protected $logger;
 
+     /**
+    * @var DateTime
+    */
+    private $date;
+
     public function __construct(
-        CollectionFactory $collection
+        CollectionFactory $collection,
+        DateTime $date
     )
     {
         $this->_collection = $collection;
+        $this->date = $date;
     }
 
     public function applyRule($quote, $configValue)
@@ -53,11 +61,18 @@ class RuleMsi
         $arraFee = [];
         $arraSku = [];
         $arraApllyCamp = [];
-
+        $currentTime = $this->date->gmtDate();
+        $currentTime = date($currentTime);
+        $currentTime = strtotime('-6 hour', strtotime($currentTime));
+        $currentTime = date('Y-m-d H:i:s', $currentTime);
         foreach ($detailsCampaign as $detailCam) {
             $arraSku[] = $detailCam['sku'];
             foreach ($quoteSkus as $key => $quoteSku) {
-                if ($detailCam['sku'] == $quoteSku['sku'] && $quoteSku['qty'] <= $detailCam['max_units']) {
+                if (
+                    $detailCam['sku'] == $quoteSku['sku'] 
+                    && $quoteSku['qty'] <= $detailCam['max_units']
+                    && strtotime($detailCam['end_date']) >= strtotime($currentTime)
+                ) {
                     if (isset($arraProduct[$quoteSku['sku']]) && $detailCam['fee'] > $arraProduct[$quoteSku['sku']]) {
                         $arraProduct[$quoteSku['sku']] = $detailCam['fee'];
                     }

@@ -46,6 +46,11 @@ class ConfigurableProduct
     private $configurableAttributes = ['crocs_color', 'crocs_gender', 'crocs_size'];
 
     /**
+     * @var array
+     */
+    private $processedProducts;
+
+    /**
      * @param Data $crocsHelper
      * @param Config $eavConfig
      * @param ProductRepositoryInterface $productRepository
@@ -61,6 +66,7 @@ class ConfigurableProduct
         $this->eavConfig = $eavConfig;
         $this->productRepository = $productRepository;
         $this->productFactory = $productFactory;
+        $this->resetProcessedProducts();
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/crocs.log');
         $this->logger = new Logger();
         $this->logger->addWriter($writer);
@@ -162,18 +168,38 @@ class ConfigurableProduct
     }
 
     /**
+     * @return mixed|array
+     */
+    public function getProcessedProducts(){
+        return $this->processedProducts;
+    }
+
+    /**
+     * @return mixed|void
+     */
+    public function resetProcessedProducts(){
+        $this->processedProducts = [];
+    }
+
+    /**
      * @param $sku
      * @param Product $product
      * @param $womanProductId
      * @param $genericName
      */
-    public function createOrUpdateConfigurableProduct($sku, Product $product, $womanProductId, $genericName)
+    public function createOrUpdateConfigurableProduct($sku, Product $product, $womanProductId, $genericName, $configData)
     {
         $configurableProductId = null;
         try {
-            $configurableProduct = $this->productRepository->get($sku, true, $product->getStoreId(), true);
+            $configurableProduct = $this->productFactory->create();
+            $configurableProduct->load($configurableProduct->getIdBySku($sku));
             $configurableProductId = $configurableProduct->getId();
-            $configurableProduct->setName($genericName);
+            $this->logger->debug('Configurable productId: '. $configurableProductId);
+            //$configurableProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
+
+            if($configData['product_name']){
+               $configurableProduct->setName($genericName);
+            }
             $configurableProduct->save();
             $isNewConfigurableProduct = false;
         } catch (NoSuchEntityException $e) {
@@ -182,13 +208,15 @@ class ConfigurableProduct
             /** @var Product $configurableProduct */
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->setSku($sku);
-            $configurableProduct->setName($genericName);
+
+            if($configData['product_name']){
+               $configurableProduct->setName($genericName);
+            }
             $configurableProduct->setAttributeSetId($product->getAttributeSetId());
             $configurableProduct->setStatus(1);
             $configurableProduct->setTypeId('configurable');
             $configurableProduct->setVisibility(4);
             $configurableProduct->setWebsiteIds($product->getWebsiteIds());
-            $configurableProduct->setCategoryIds($product->getCategoryIds());
             $configurableProduct->setStockData([
                 'use_config_manage_stock' => 0,
                 'manage_stock' => 1,
@@ -206,6 +234,13 @@ class ConfigurableProduct
 
         if ($configurableProductId) {
             try {
+                if($configData['product_mpn']){
+                    $configurableProduct->setData('mpn', $product->getData('mpn'));
+                }
+                $productCategoryIds = empty($product->getCategoryIds()) ? [] : $product->getCategoryIds();
+                $parentCategoryIds  = empty($configurableProduct->getCategoryIds()) ? [] : $configurableProduct->getCategoryIds();
+                $configurableProduct->setCategoryIds(array_unique(array_merge($parentCategoryIds, $productCategoryIds)));
+
                 // Attributes to variations
                 $color_attr_id = $configurableProduct->getResource()->getAttribute('crocs_color')->getId();
                 $size_attr_id = $configurableProduct->getResource()->getAttribute('crocs_size')->getId();
@@ -253,20 +288,28 @@ class ConfigurableProduct
      */
     public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize)
     {
-        $separator = $this->crocsHelper->getSeparator($product->getStoreId());
-        $options = $this->_getAllAttributeOptions();
-        $skuExploded = explode($separator, $product->getSku());
-        $skuLastPart = $skuExploded[count($skuExploded)-1];
-        $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
+        try {
+            $separator = $this->crocsHelper->getSeparator($product->getStoreId());
+            $options = $this->_getAllAttributeOptions();
+            $skuExploded = explode($separator, $product->getSku());
+            $skuLastPart = $skuExploded[count($skuExploded)-1];
+            $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
+            $this->logger->debug('First productId: '. $product->getId());
 
-        if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
-            $product->setSku($product->getSku() . $skuLastPartToPlus);
+            if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
+                $product->setSku($product->getSku() . $skuLastPartToPlus);
+            }
+            $product->setVisibility(1);
+            $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
+            $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
+            $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
+            $product->save();
+            $this->collectProcessedProducts($product, false);
         }
-        $product->setVisibility(1);
-        $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
-        $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
-        $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
-        $product->save();
+        catch(\Exception $e){
+            $this->collectProcessedProducts($product, false);
+            $this->logger->debug('Error in setDataToFirstProduct : ' . $e->getMessage());
+        }
     }
 
     /**
@@ -275,7 +318,7 @@ class ConfigurableProduct
      * @param $color
      * @return int|void|null
      */
-    public function setDataToWomanProduct(Product $product, $size, $color)
+    public function setDataToWomanProduct(Product $product, $size, $color, $configData)
     {
         $separator = $this->crocsHelper->getSeparator($product->getStoreId());
         $skuExploded = explode($separator, $product->getSku());
@@ -283,18 +326,27 @@ class ConfigurableProduct
         $options = $this->_getAllAttributeOptions();
 
         try {
-            $secondProduct = $this->productRepository->get($sku, true, $product->getStoreId());
+            $secondProduct = $this->productFactory->create();
+            $secondProduct->load($secondProduct->getIdBySku($sku));
+            $this->logger->debug('Second productId: '. $secondProduct->getId());
+            //$secondProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
             $isNewProduct = false;
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
-
+        $this->collectProcessedProducts($secondProduct, false);
         $secondProduct->setSku($sku);
-        $secondProduct->setData('mpn', $product->getData('mpn'));
-        $secondProduct->setName($product->getName());
-        $secondProduct->setPrice($product->getPrice());
+        if($configData['product_mpn']){
+            $secondProduct->setData('mpn', $product->getData('mpn'));
+        }
+        if($configData['product_name']){
+            $secondProduct->setName($product->getName());
+        }
+        if($configData['product_price']){
+            $secondProduct->setPrice($product->getPrice());
+        }
         $secondProduct->setSpecialPrice($product->getSpecialPrice());
         $secondProduct->setSpecialFromDate($product->getSpecialFromDate());
         $secondProduct->setSpecialToDate($product->getSpecialToDate());
@@ -303,10 +355,19 @@ class ConfigurableProduct
         $secondProduct->setVisibility(1);
         $secondProduct->setWebsiteIds($product->getWebsiteIds());
         $secondProduct->setCategoryIds($product->getCategoryIds());
-        $secondProduct->setWeight($product->getWeight());
-        $secondProduct->setTsDimensionsHeight($product->getTsDimensionsHeight());
-        $secondProduct->setTsDimensionsLength($product->getTsDimensionsLength());
-        $secondProduct->setTsDimensionsWidth($product->getTsDimensionsWidth());
+
+        if($configData['product_weight']){
+            $secondProduct->setWeight($product->getWeight());
+        }
+        if($configData['product_height']){
+            $secondProduct->setTsDimensionsHeight($product->getTsDimensionsHeight());
+        }
+        if($configData['product_length']){
+            $secondProduct->setTsDimensionsLength($product->getTsDimensionsLength());
+        }
+        if($configData['product_width']){
+            $secondProduct->setTsDimensionsWidth($product->getTsDimensionsWidth());
+        }
         $secondProduct->setStockData([
             'use_config_manage_stock' => 0,
             'manage_stock' => 1,
@@ -365,5 +426,19 @@ class ConfigurableProduct
             $this->logger->debug('Error obteniendo las opciones de atributos: ' . $e->getMessage());
         }
         return $options;
+    }
+
+    /**
+    * @param Product $product
+    * @return int|void|null
+    */
+    private function collectProcessedProducts(Product $product, bool $restorePrice)
+    {
+        $this->processedProducts[] = [
+              'restore_price' => $restorePrice,
+              'id' => $product->getId(),
+              'store_id' => $product->getStoreId(),
+              'price' => $product->getPrice()
+        ];
     }
 }

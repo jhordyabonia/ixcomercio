@@ -46,16 +46,34 @@ class BeforeSaveProduct implements ObserverInterface
     public function execute(Observer $observer)
     {
         /** @var Product $product */
-        $product = $observer->getData('product');
-        $genericName = $observer->getData('generic_name');
-        $storeId = $product->getStoreId();
-        $separator = $this->crocsHelper->getSeparator($product->getStoreId());
+        $product    = $observer->getData('product');
+        $storeId    = $product->getStoreId();
+        $separator  = $this->crocsHelper->getSeparator($product->getStoreId());
         $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
+        $this->configurableProduct->resetProcessedProducts();
 
         if ($this->crocsHelper->isEnabled($storeId)) {
             try {
                 $mpn = $product->getData('mpn');
+                $genericName = empty($observer->getData('generic_name')) ?
+                    $product->getName() : $observer->getData('generic_name');
 
+                $senderContext = empty($observer->getData('sender_context')) ?
+                    (Object)[] : $observer->getData('sender_context');
+
+                if($observer->getData('config_data')){
+                    $configData = $observer->getData('config_data');
+                }else{
+                    $configData = [
+                        'product_name'      => true,
+                        'product_weight'    => true,
+                        'product_length'    => true,
+                        'product_width'     => true,
+                        'product_height'    => true,
+                        'product_price'     => true,
+                        'product_mpn'       => true
+                    ];
+                }
                 if ($mpn) {
                     $configurableSku = $this->configurableProduct->getConfigurableSku($mpn, $storeId);
                     if ($configurableSku) {
@@ -76,10 +94,13 @@ class BeforeSaveProduct implements ObserverInterface
                         // If it is multi size Man or Kid
                         if (count($sizes) > 1 && isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C'))) {
                             // Set data to Woman product
-                            $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color);
+                            $womanProductId = $this->configurableProduct->setDataToWomanProduct($product, $sizes[1], $color, $configData);
                         }
                         // Create Configurable Product
-                        $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName);
+                        $this->configurableProduct->createOrUpdateConfigurableProduct($configurableSku, $product, $womanProductId, $genericName, $configData);
+                        if(method_exists($senderContext,'setProcessedProductsInCrocsEvent')){
+                            $senderContext->setProcessedProductsInCrocsEvent($this->configurableProduct->getProcessedProducts());
+                        }
                     } else {
                         $this->_setSku($product, true);
                         $this->logger->debug($product->getSku() . ' Producto No Configurable');
@@ -91,6 +112,7 @@ class BeforeSaveProduct implements ObserverInterface
                 $this->logger->debug('Error Crocs BeforeSaveProduct Observer: ' . $e->getMessage());
             }
         }
+        return $this;
     }
 
     /**
