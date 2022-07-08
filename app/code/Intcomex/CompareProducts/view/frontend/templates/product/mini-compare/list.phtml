@@ -72,10 +72,12 @@ $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                 </div>
             <?php endif; ?>
         </div>
-        <dots id="dots">
-            <div class="dot dot-one"></div>
-            <div class="dot dot-two"></div>
-        </dots>
+        <?php if (!$block->getData('isLimitReached') && !$block->getData('isNotSameCategory')): ?>
+            <dots id="dots">
+                <div class="dot dot-one"></div>
+                <div class="dot dot-two"></div>
+            </dots>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 <script type="text/x-magento-init">
