@@ -14,6 +14,7 @@ class Data extends AbstractHelper
     const FREE_SHIPPING_MESSAGE_GENERAL_ENABLED = 'free_shipping_message/general/enabled';
     const FREE_SHIPPING_MESSAGE_GENERAL_AMOUNT = 'free_shipping_message/general/amount';
     const FREE_SHIPPING_MESSAGE_GENERAL_MESSAGE = 'free_shipping_message/general/message';
+    const FREE_SHIPPING_MESSAGE_GENERAL_SUCCESS_MESSAGE = 'free_shipping_message/general/successmessage';
 
     /**
      * @param null $store
@@ -49,6 +50,19 @@ class Data extends AbstractHelper
     {
         return $this->scopeConfig->getValue(
             self::FREE_SHIPPING_MESSAGE_GENERAL_MESSAGE,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    /**
+     * @param null $store
+     * @return mixed
+     */
+    public function getSuccessMessage($store = null)
+    {
+        return $this->scopeConfig->getValue(
+            self::FREE_SHIPPING_MESSAGE_GENERAL_SUCCESS_MESSAGE,
             ScopeInterface::SCOPE_STORE,
             $store
         );

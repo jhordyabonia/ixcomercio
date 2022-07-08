@@ -19,10 +19,15 @@
           }'
           class="form form-cart">
     <?= $block->getBlockHtml('formkey') ?>
+    <?php 
+     $msgFreeShipping = json_decode($this->helper(\Intcomex\FreeShippingMessage\Helper\FreeShippingMessage::class)->toHtml(), true); 
+     if ($msgFreeShipping):
+    ?>
     <div class="div-free-shipping-message">
-        <span class="free-shipping-message"><?= $this->helper(\Intcomex\FreeShippingMessage\Helper\FreeShippingMessage::class)->toHtml(); ?></span>
+        <span class="free-shipping-message"><?= $msgFreeShipping['msg'] ?></span>
         <div class="free-shipping-icon"></div>
     </div>
+    <?php endif ?>
     <div class="cart table-wrapper<?= $mergedCells == 2 ? ' detailed' : '' ?>">
         <?php if ($block->getPagerHtml()): ?>
             <div class="cart-products-toolbar cart-products-toolbar-top toolbar" data-attribute="cart-products-toolbar-top"><?= $block->getPagerHtml() ?></div>

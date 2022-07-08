@@ -61,21 +61,26 @@ class FreeShippingMessage extends AbstractHelper
      */
     public function toHtml()
     {
-        $html = '';
+        $data = array();
         try {
             if ($this->freeShippingData->isEnabled($this->storeManager->getStore()->getId())) {
                 $message = $this->freeShippingData->getMessage();
                 $amount = (float)$this->freeShippingData->getAmount();
                 $grandTotal = $this->checkoutSession->getQuote()->getGrandTotal();
-                $missingAmount = ($amount - $grandTotal);
-                if ($missingAmount > 0) {
+                $missingAmount = $amount - $grandTotal;
+                if ($missingAmount >= 0) {
                     $formattedPrice = $this->pricingHelper->currency($missingAmount, true, false);
-                    $html = str_replace(self::MISSING_AMOUNT, $formattedPrice, $message);
+                    $data['msg'] = str_replace("%1", $formattedPrice, $message);
+                    $data['bar_percent'] =  ( $grandTotal / $amount) * 100;
+                }else{
+                    $data['msg'] = $this->freeShippingData->getSuccessMessage();
+                    $data['bar_percent'] =  100;
                 }
             }
         } catch (Exception $e) {
-            $html = $e->getMessage();
+            $data['msg'] = $e->getMessage();
         }
-        return $html;
+        
+        return json_encode($data);
     }
 }

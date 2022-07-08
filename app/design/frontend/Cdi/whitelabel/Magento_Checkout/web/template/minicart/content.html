@@ -37,11 +37,13 @@
     </if>
 
     <if args="getCartParam('summary_count')">
-
+        
+        <!-- ko if: (isFreeShippingMsg()) -->
         <div class="div-free-shipping-message">
             <span class="free-shipping-message" data-bind="text: getFreeShippingBlock"></span>
-            <div class="free-shipping-icon"></div>
+            <div class="free-shipping-icon" id="free-shipping-icon-bar"></div>
         </div>
+        <!--/ko-->
 
         <div class="items-total">
             <span class="count" if="maxItemsToDisplay < getCartLineItemsCount()" text="maxItemsToDisplay"/>
