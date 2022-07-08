@@ -288,29 +288,28 @@ class ConfigurableProduct
      */
     public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize)
     {
-        $restorePrice = false;
-        $separator = $this->crocsHelper->getSeparator($product->getStoreId());
-        $options = $this->_getAllAttributeOptions();
-        $skuExploded = explode($separator, $product->getSku());
-        $skuLastPart = $skuExploded[count($skuExploded)-1];
-        $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
-        $this->logger->debug('First productId: '. $product->getId());
+        try {
+            $separator = $this->crocsHelper->getSeparator($product->getStoreId());
+            $options = $this->_getAllAttributeOptions();
+            $skuExploded = explode($separator, $product->getSku());
+            $skuLastPart = $skuExploded[count($skuExploded)-1];
+            $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
+            $this->logger->debug('First productId: '. $product->getId());
 
-        if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
-            $product->setSku($product->getSku() . $skuLastPartToPlus);
+            if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
+                $product->setSku($product->getSku() . $skuLastPartToPlus);
+            }
+            $product->setVisibility(1);
+            $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
+            $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
+            $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
+            $product->save();
+            $this->collectProcessedProducts($product, false);
         }
-        $product->setVisibility(1);
-        $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
-        $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
-        $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
-        $product->save();
-
-        $productRefresh= $this->productFactory->create();
-        $productRefresh->load($productRefresh->getIdBySku($product->getSku()));
-        if($productRefresh->getprice() != $product->getprice()){
-            $restorePrice = true;
+        catch(\Exception $e){
+            $this->collectProcessedProducts($product, false);
+            $this->logger->debug('Error in setDataToFirstProduct : ' . $e->getMessage());
         }
-        $this->collectProcessedProducts($product, $restorePrice);
     }
 
     /**
@@ -337,6 +336,7 @@ class ConfigurableProduct
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
+        $this->collectProcessedProducts($secondProduct, false);
         $secondProduct->setSku($sku);
         if($configData['product_mpn']){
             $secondProduct->setData('mpn', $product->getData('mpn'));
@@ -390,7 +390,6 @@ class ConfigurableProduct
             } else {
                 $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku());
             }
-            $this->collectProcessedProducts($secondProduct, false);
             return $secondProduct->getId();
         } catch (Exception $e) {
             $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
