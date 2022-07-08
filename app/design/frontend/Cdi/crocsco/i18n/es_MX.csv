@@ -3349,7 +3349,7 @@ Tiempo en segundos entre actualizaciones de widgets.,module,Magento_CatalogWidge
 "Select a new payment method","Seleccione un nuevo método de pago",module,Magento_Checkout
 "Shipping","Información de envío",module,Magento_Checkout
 "Save Address","Guardar dirección",module,Magento_Checkout
-"Please specify a shipping method.","Por favor, especifique un modo de envío.",module,Magento_Checkout
+"Please specify a shipping method.","Por favor, especifique unimage.png modo de envío.",module,Magento_Checkout
 "Checkout Options","Opciones para el proceso de pago",module,Magento_Checkout
 "Enable Onepage Checkout","Habilitar Checkout en una sola página",module,Magento_Checkout
 "Allow Guest Checkout","Permitir proceso de pago para visitantes",module,Magento_Checkout
@@ -14292,9 +14292,9 @@ Seleccione un rango diferente para agregar una nueva actualización futura.",mod
 "Product Price is %1 %2% of Matched Product(s) Price","El precio del producto es %1% %2% de producto (s) coincidentes Precio",module,Magento_TargetRule
 "Please define a product data object.","Define un objeto de datos de producto.",module,Magento_TargetRule
 "We can't rebuild the index for an undefined product.","No se puede reconstruir el índice para un artículo no definido.",module,Magento_TargetRule
-"Could not rebuild index for empty products array","No se pudo reconstruir el índice de una matriz de productos vacía",module,Magento_TargetRule
+"Could not rebuild index for empty produNo se pudo reconstruir el índice de una matriz de productos vacía",module,Magento_TargetRule
 "-- Please Select --","--Seleccione--",module,Magento_TargetRule
-"Related Products","Artículos relacionados",module,Magento_TargetRule
+"Related Products","Personaliza tus Crocs con Jibbitz&#8482;",module,Magento_TargetRule
 "Up-sells","Ventas ampliadas",module,Magento_TargetRule
 "Cross-sells","Ventas cruzadas",module,Magento_TargetRule
 "Model class name for attribute is invalid","Nombre de la clase de modelo de atributo no es válido",module,Magento_TargetRule
@@ -15301,7 +15301,7 @@ formElements/*[name(.)=../../@formElement]/settings/title,module,Magento_Ui
 "An error occurred while saving this role.","Error al guardar esta funcion.",module,Magento_User
 "You saved the user.","Se ha guardado el usuario.",module,Magento_User
 "A user with the same user name or email already exists.","Ya existe un usuario con el mismo nombre de usuario o correo electrónico.",module,Magento_User
-"Recommended","Recomendado",module,Magento_User
+"Recommended","",module,Magento_User
 "Forced","Forzado",module,Magento_User
 "Sorry, but this password has already been used. Please create another.","Lo sentimos, pero esta contraseña ya ha sido utilizada. Por favor crea otro.",module,Magento_User
 "email","correo electrónico",module,Magento_User
