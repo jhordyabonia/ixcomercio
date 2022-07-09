@@ -6,7 +6,14 @@ define([
 
     return function (Component) {
         return Component.extend({
-            getFreeShippingBlock: freeShippingMessage.getFreeShippingMessage()
+            getFreeShippingBlock: freeShippingMessage.getFreeShippingMessage(),
+            isFreeShippingMsg: function (){
+                if(window.checkout.lesspercent){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
         });
     }
 });
