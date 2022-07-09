@@ -1,0 +1,47 @@
+.div-free-shipping-message {
+    text-align: center;
+    border: 1px solid #000;
+
+    .free-shipping-message {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .free-shipping-icon {
+        height: 5px;
+        background: #e2e2e2;
+        margin: auto 10px 10px 10px;
+        --width-bar: 0;
+
+        &:after {
+            content: "";
+            height: 5px;
+            width: var(--width-bar);
+            position: relative;
+            background: #FF6F00;
+            float: left;
+            left: -10px;
+            margin: auto 10px 10px 10px;
+        }
+    }
+}
+
+#minicart-content-wrapper {
+    .block-content {
+        .div-free-shipping-message {
+            text-align: center;
+            padding: 10px 0px;
+            margin-bottom: 10px;
+            border: 1px solid #000;
+
+            .free-shipping-message {
+                font-size: 14px;
+                font-weight: bold;
+            }
+        }
+        .free-shipping-icon {
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
+    }
+}
