@@ -7,17 +7,17 @@
             &._show {
                 opacity: 1;
                 transform: scale(1) rotate(0) skewX(0deg);
+                z-index: 9999999 !important;
             }
             .modal-inner-wrap {
                 position: absolute;
                 width: auto;
                 max-width: 450px;
+                height: 150px;
                 margin: auto;
                 top: 50%;
                 transform: translateY(-50%);
                 max-height: 90%;
-                overflow-y: auto;
-                overflow-x: hidden;
                 padding: 30px;
                 .modal-content {
                     padding: 0;
@@ -38,6 +38,9 @@
                         width: 100%;
                         padding: 15px 15px;
                     }
+                }
+                .action-close{
+                    padding: 0;
                 }
                 .ajaxcompare-buttons {
                     .mgp-compare-close {
