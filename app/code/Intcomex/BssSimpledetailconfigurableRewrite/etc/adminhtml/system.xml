@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="crocs" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Crocs swatches Atributes</label>
+            <tab>intcomex_config</tab>
+            <resource>Intcomex_Crocs::crocs</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="crocsswatchesattributes" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Crocs Swatches Attributes</label>
+                    <validate>required</validate>
+                    <comment>Separación por comma, ej: color,genero,talla</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

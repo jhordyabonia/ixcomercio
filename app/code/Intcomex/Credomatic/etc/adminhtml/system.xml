@@ -57,6 +57,12 @@
                 <field id="processor_id12" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Processor Id 12 Cuotas</label>
                 </field>
+                <field id="processor_id18" translate="label" type="text" sortOrder="121" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processor Id 18 Cuotas</label>
+                </field>
+                <field id="processor_id24" translate="label" type="text" sortOrder="122" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Processor Id 24 Cuotas</label>
+                </field>
                 <field id="CuotasOptions" translate="label" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Pago en Cuotas Disponibles</label>
                     <source_model>Intcomex\Credomatic\Model\Config\Source\CuotasOptions</source_model>
@@ -76,6 +82,14 @@
                  <field id="url_api" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>URL Gateway</label>
                     <comment><![CDATA[url gateway para conexion API]]></comment>
+                </field>
+                <field id="bincampaign_active" translate="label" type="select" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Bin Campaign Activado</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field> 
+                <field id="cart_rule_id" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Id Regla de carrito Bin</label>
+                    <comment><![CDATA[Id regla de carrito Bin, separado por comma.]]></comment>
                 </field>
             </group>
         </section>

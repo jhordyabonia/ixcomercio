@@ -2,6 +2,8 @@
 
 namespace Trax\Catalogo\Cron;
 
+use Magento\Catalog\Model\Product;use Magento\Framework\Exception\NoSuchEntityException;
+
 class GetCatalog
 {
 
@@ -50,6 +52,18 @@ class GetCatalog
     const PRODUCT_MPN = 'trax_catalogo/catalogo_iws/product_mpn';
 
     const TEXT_MAIL = 'trax_catalogo/catalogo_iws/text_email_product_iws';
+
+    /**
+     * @var \Intcomex\Crocs\Model\ConfigurableProduct
+     */
+    protected $configurableProduct;
+
+    /**
+     * Core event manager proxy
+     *
+     * @var \Magento\Framework\Event\ManagerInterface
+     */
+    protected $eventManager;
 
     /**
      * @var \Zend\Log\Logger
@@ -128,9 +142,17 @@ class GetCatalog
      */
     private $product_iws_not;
 
+     /**
+     * @var array
+     */
+    private $processedProductsInCrocsEvent;
+
     /**
      * Class construct.
      *
+     * @param \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct
+     * @param \Magento\Framework\Event\ManagerInterface $eventManager
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
@@ -144,6 +166,9 @@ class GetCatalog
      * @author GDCP <german.cardenas@intcomex.com>
      */
     public function __construct(
+        \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct,
+        \Magento\Framework\Event\ManagerInterface $eventManager,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,        
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
@@ -164,6 +189,9 @@ class GetCatalog
         $this->logger_price = new \Zend\Log\Logger();
         $this->logger_price->addWriter($writer_price);
 
+        $this->configurableProduct = $configurableProduct;
+        $this->eventManager = $eventManager;
+        $this->productRepository = $productRepository;
         $this->scopeConfig = $scopeConfig;        
         $this->_cacheTypeList = $cacheTypeList;
         $this->_cacheFrontendPool = $cacheFrontendPool;
@@ -175,6 +203,21 @@ class GetCatalog
         $this->_storesRepository = $storesRepository;
         $this->productAction = $productAction;
         $this->product_iws_not = array();
+        $this->processedProductsInCrocsEvent = array();
+    }
+
+    /**
+     * @return mixed|array
+     */
+    public function getProcessedProductsInCrocsEvent(){
+        return $this->processedProductsInCrocsEvent;
+    }
+
+    /**
+     * @param array processed
+     */
+    public function setProcessedProductsInCrocsEvent(array $processed){
+        $this->processedProductsInCrocsEvent = $processed;
     }
 
     /**
@@ -298,9 +341,9 @@ class GetCatalog
     {
         //Se conecta al servicio 
         $data = $this->loadIwsService($serviceUrl);
-        $this->logger->info('Response:');
-        $this->logger->info($data);
         if ($data['status']) {
+            $this->logger->info('Count: ' . count($data['resp']));
+            // foreach ($data['resp'] as $item) { $this->logger->info('Sku: ' . $item->Sku . ' Mpn: ' .$item->Mpn); }exit;
             $this->loadCatalogData($data['resp'], $website->getCode(), $store, $store->getId(), $configData, $website->getId());
         } else {
             $errors = explode(',',$configData['errores']);
@@ -517,7 +560,16 @@ class GetCatalog
                 //Se asocian categorias a productos
                 if ($product_id) {
                     $allProducts[$product_id] = $product_id;
+                    foreach ($this->getProcessedProductsInCrocsEvent() as $key => $object)
+                    {
+                        $this->logger->info('Processed Products In Crocs Event: ' . $object['id']);
+                        $allProducts[$object['id']] = $object['id'];
+                        if($object['restore_price']){
+                            $this->restorePriceAttributeForProduct($object['store_id'], $object['id'], $object['price']);
+                        }
+                    }
                 }
+                $this->setProcessedProductsInCrocsEvent([]);
                 array_push($allCategories, $arrayCategories);
             } catch (Exception $e) {
                 $this->logger->info('GetCatalog - Se ha producido un error al guardar la categoria ' . $categoryTmp->getId() . '. Error: ' . $e->getMessage());
@@ -651,16 +703,38 @@ class GetCatalog
     //Carga la información de los productos
     public function loadProductsData($catalog, $objectManager, $storeId, $websiteId, $categoryIds, $configData)
     {
-        $errors = '';
-        $productFactory = $objectManager->get('\Magento\Catalog\Model\ProductFactory');
-        $products = $productFactory->create();
-        $product = $products->setStoreId($storeId)->loadByAttribute('sku', $catalog->Sku);
-        $style = 'style="border:1px solid"';
+        // Crocs Logic
+        $configurableProductIsEnabled = $this->configurableProduct->getIsModuleEnabled($storeId);
+        if ($configurableProductIsEnabled) {
+            $configurableSku = $this->configurableProduct->getConfigurableSku($catalog->Mpn, $storeId);
+            if ($configurableSku) {
+                $sizes = $this->configurableProduct->getSizes($catalog->Mpn, $storeId);
+                // If it is multi size
+                if (count($sizes) > 1) {
+                    $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku . $this->configurableProduct->getSeparator($storeId) . $sizes[0], $storeId);
+                } else {
+                    $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
+                }
+            } else {
+                $catalog->Sku = $this->configurableProduct->getSkuWithPrefixIfNeeded($catalog->Sku, $storeId);
+            }
+        }
 
-        if (!$product) {
+        $isNewProduct = false;
+        try {
+            $errors = '';
+            $product = $this->productRepository->get($catalog->Sku, true, $storeId, true);
+            $style = 'style="border:1px solid"';
+            $this->logger->debug('UpdateSku: ' . $product->getSku());
+        } catch (NoSuchEntityException $e) {
+            $this->logger->debug('CreateSku: ' . $catalog->Sku);
+            $isNewProduct = true;
+        }
+
+        if ($isNewProduct) {
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
             $product->setStoreId($storeId)->setSku($catalog->Sku); // Set your sku here
-            $product->setStatus(0); // Status on product enabled/ disabled 1/0           
+            $product->setStatus(0); // Status on product enabled/ disabled 1/0
             $url = strtolower(rand(0, 1000) . '-' . $catalog->Description . '-' . $catalog->Sku . '-' . $storeId);
             $cleanurl = html_entity_decode(strip_tags($url));
             try {
@@ -694,10 +768,10 @@ class GetCatalog
             );
             $product->setCategoryIds($categoryIds);
             if ($configData['product_name']) {
-                $product->setName($name); // Name of Product        
+                $product->setName($name); // Name of Product
             }
             if ($configData['product_description']) {
-                $product->setDescription($description); // Description of Product      
+                $product->setDescription($description); // Description of Product
             }
             $product->setAttributeSetId($configData['attribute_id']); // Attribute set id
             $product->setWebsiteIds($websiteIds);
@@ -751,7 +825,7 @@ class GetCatalog
                         $product->setCustomAttribute('ts_dimensions_height', $catalog->Freight->Item->Height);
                     }
                 }
-            }            
+            }
             //Set Price
             if ($configData['product_price']) {
 
@@ -767,14 +841,13 @@ class GetCatalog
                 }
 
             }
-            
 
             try {
                 $product->save();
-                $this->logger->info('GetCatalog - Se guarda producto ' . $product->getSku() . ' en el store: ' . $storeId);
-                return $product->getId();
+                $this->logger->info('GetCatalog - Se CREA producto ' . $product->getSku() . ' en el store: ' . $storeId);
+                $productId = $product->getId();
             } catch (Exception $e) {
-                $this->logger->info('GetCatalog - Se ha producido un error al guardar el producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
+                $this->logger->info('GetCatalog - Se ha producido un error al CREAR producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
                 return false;
             }
         }
@@ -786,7 +859,7 @@ class GetCatalog
                 $categoriesData[] = ['product_id' => $product->getId(), 'category_id' => $categoryId, 'position' => 0];
 
             try {
-                $this->_saveProductCategories($categoriesData);   
+                $this->_saveProductCategories($categoriesData);
             } catch (Exception $e) {
                 $this->logger->info('GetCatalog - Se ha producido un Error: ' . $e->getMessage());
             }
@@ -795,7 +868,7 @@ class GetCatalog
             $websitesData[] = ['product_id' => $product->getId(), 'website_id' => $websiteId];
 
             try {
-                $this->_saveProductWebsites($websitesData);   
+                $this->_saveProductWebsites($websitesData);
             } catch (Exception $e) {
                 $this->logger->info('GetCatalog - Se ha producido un Error: ' . $e->getMessage());
             }
@@ -845,38 +918,51 @@ class GetCatalog
 
             //Set product dimensions
             if (isset($catalog->Freight)) {
-                if (isset($catalog->Freight->Item)) {                    
-                   
+                if (isset($catalog->Freight->Item)) {
+
                     if ($configData['product_width']) {
                         $attibutes['Width'] = $catalog->Freight->Item->Width;
                         $attibutes['ts_dimensions_width'] = $catalog->Freight->Item->Width;
                     }
                     if ($configData['product_height']) {
                         $attibutes['Height'] = $catalog->Freight->Item->Height;
-                        $attibutes['ts_dimensions_height'] = $catalog->Freight->Item->Height;                    
+                        $attibutes['ts_dimensions_height'] = $catalog->Freight->Item->Height;
                     }
                     if ($configData['product_length']) {
                         $attibutes['ts_dimensions_length'] = $catalog->Freight->Item->Length;
                     }
                     if ($configData['product_weight']) {
-                        $attibutes['Weight'] = $catalog->Freight->Item->Weight;                        
+                        $attibutes['Weight'] = $catalog->Freight->Item->Weight;
                     }
                 }
-            }  
+            }
 
             try {
                 $this->logger->info('GetCatalog - Product:\n');
                 $this->setStoreViewDataProduct($product->getId(), $catalog->Sku, $storeId, $attibutes);
-                $this->logger->info('GetCatalog - Se actualiza producto ' . $product->getSku() . ' en el store: ' . $storeId);
-                return $product->getId();
+                $this->logger->info('GetCatalog - Se ACTUALIZA producto ' . $product->getSku() . ' en el store: ' . $storeId);
+                $productId = $product->getId();
             } catch (Exception $e) {
-                $this->logger->info('GetCatalog - Se ha producido un error al actualizar el producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
+                $this->logger->info('GetCatalog - Se ha producido un error al ACTUALIZAR producto con sku ' . $catalog->Sku . '. Error: ' . $e->getMessage());
                 return false;
             }
         }
-        if($errors!=''){
+
+        // Call Crocs Functionality
+        if ($productId && $configurableProductIsEnabled)
+        {
+            $this->logger->debug('Dispatch Event intcomex_crocs_catalog_product_save_before ProductId: ' . $productId);
+            $this->eventManager->dispatch(
+                'intcomex_crocs_catalog_product_save_before',
+                ['product' => $product, 'config_data' => $configData, 'sender_context' => $this]
+            );
+        }
+
+        if ($errors!='') {
             $this->notifyErrrorPrice($errors);
         }
+
+        return $productId;
     }
 
     //Deshabilita las categorias no retornadas en el servicio
@@ -1106,5 +1192,31 @@ class GetCatalog
         $this->help_email->notifyProductIWS('Soporte Whitelabel',$list_products, $text_mail);
 
         $this->logger->info('GetCatalog - Se envia notificacion de productos');
+    }
+
+     /**
+      * @param Product $product
+      * @return int|void|null
+      */
+    private function restorePriceAttributeForProduct($storeId, $productId, $price)
+    {
+        try{
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+            $connection = $resource->getConnection();
+
+            $sql = 'INSERT INTO '. $connection->getTableName('catalog_product_entity_decimal');
+            $sql .= ' (attribute_id, store_id, value, row_id) ';
+            $sql .= 'VALUES(
+                (SELECT attribute_id FROM '.$connection->getTableName('eav_attribute').' AS eav WHERE eav.entity_type_id = 4 AND eav.attribute_code = "price"),
+                '.$storeId.',
+                '.$price.',
+                (SELECT row_id FROM '.$connection->getTableName('catalog_product_entity').' AS cpe WHERE cpe.entity_id = '.$productId.')
+            );';
+            $this->logger->debug('SQL - restore price: ' . $sql);
+            $connection->query($sql);
+        }catch (\Exception $e){
+            $this->logger->debug('SQL - execute restore price failed: ' . $e->getMessage());
+        }
     }
 }

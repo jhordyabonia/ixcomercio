@@ -1,6 +1,7 @@
 <?php
 
 namespace Intcomex\EventsObservers\Helper;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use \Magento\Framework\App\Helper\AbstractHelper;
 use Trax\Ordenes\Model\IwsOrderFactory;
 
@@ -59,8 +60,15 @@ class PlaceOrder extends AbstractHelper
      * @var \Trax\Grid\Model\GridFactory
      */
     private $gridFactory;
-    
-	/**
+
+    protected $eavAttributeRepository;
+
+    /**
+     * @var \Intcomex\Crocs\Model\ConfigurableProduct
+     */
+    protected $configurableProduct;
+
+    /**
      * 
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Trax\Catalogo\Helper\Email $email
@@ -72,7 +80,10 @@ class PlaceOrder extends AbstractHelper
             \Magento\Sales\Model\Order $order,
             LoggerInterface $logger,
             \Magento\Framework\Controller\ResultFactory $result,
-            \Trax\Grid\Model\GridFactory $gridFactory
+            \Trax\Grid\Model\GridFactory $gridFactory,
+            \Magento\Eav\Api\AttributeRepositoryInterface $eavAttributeRepositoryInterface,
+            \Intcomex\Crocs\Model\ConfigurableProduct $configurableProduct,
+            \Intcomex\Credomatic\Helper\DataRule $credoHelper
     ) {
         $this->scopeConfig = $scopeConfig;        
         $this->helper = $email;
@@ -81,7 +92,9 @@ class PlaceOrder extends AbstractHelper
         $this->order = $order;     
         $this->resultRedirect = $result;
         $this->gridFactory = $gridFactory;
-
+        $this->eavAttributeRepository = $eavAttributeRepositoryInterface;
+        $this->configurableProduct = $configurableProduct;
+        $this->credoHelper = $credoHelper;
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/events_sales_order.log');
         $this->logger = new \Zend\Log\Logger();
         $this->logger->addWriter($writer);
@@ -243,34 +256,75 @@ class PlaceOrder extends AbstractHelper
         }
         $items = array();
         $skuItems = array();
+        /** @var \Magento\Sales\Model\Order\Item $dataItem */
         foreach ($orderItems as $key => $dataItem) {
-            if (!array_key_exists($dataItem->getSku(), $skuItems) && $dataItem->getOriginalPrice() != 0) {
-                $skuItems[$dataItem->getSku()] = $dataItem->getOriginalPrice();
-                $tempItem['Sku'] = $dataItem->getSku();
-                $tempItem['Quantity'] = (int)$dataItem->getQtyOrdered();
-                $tempItem['Price'] = $dataItem->getOriginalPrice();
+            $originalPrice = $dataItem->getOriginalPrice();
+            $qty = (int)$dataItem->getQtyOrdered();
+            $price = $dataItem->getPrice();
+            $productId = $dataItem->getProductId();
+            $id = $dataItem->getId();
+            $sku = $dataItem->getProduct()->getSku();
+            $discountAmount = $dataItem->getDiscountAmount();
+            $appliedRuleIds = $dataItem->getAppliedRuleIds();
+            if ($this->configurableProduct->getIsModuleEnabled($order->getStoreId()))
+            {
+                if($dataItem->getParentItem()){
+                    $originalPrice = $dataItem->getParentItem()->getOriginalPrice();
+                    $qty = (int)$dataItem->getParentItem()->getQtyOrdered();
+                    $price = $dataItem->getParentItem()->getPrice();
+                    $productId = $dataItem->getParentItem()->getProductId();
+                    $id = $dataItem->getParentItem()->getItemId();
+                    $discountAmount = $dataItem->getParentItem()->getDiscountAmount();
+                    $appliedRuleIds = $dataItem->getParentItem()->getAppliedRuleIds();
+                }
+                $sku = explode($this->configurableProduct->getSeparator($order->getStoreId()), $dataItem->getSku())[1];
+                $this->logger->info("ParentIsConfigurable SkuToSend: " . $sku);
+            }
+            if (!array_key_exists($dataItem->getSku(), $skuItems) && $originalPrice != 0 && $dataItem->getProduct()->getTypeId() !== Configurable::TYPE_CODE) {
+                $this->logger->info('SkuFinal: ' . $sku);
+                $tempItem['Sku'] = $sku;
+                $skuItems[$dataItem->getSku()] = $originalPrice;
+                $tempItem['Quantity'] = $qty;
+                $tempItem['Price'] = $originalPrice;
                 $discount = '';
                 if(count($coupon) == 0){
-                    $price = $dataItem->getOriginalPrice() - $dataItem->getPrice();
+                    $price = $originalPrice - $price;
                     if($price > 0){
                         $discount = $price;
                     }
                 }
 
                 $coupon_prod = $coupon;
-                $specialPrice = $this->getDataProductInfo($dataItem->getProductId(),$storeCode);
+                $specialPrice = $this->getDataProductInfo($productId,$storeCode);
 
-                if($specialPrice > 0 ){
-                    $discount = $dataItem->getOriginalPrice() - $specialPrice;
-                    $coupon_prod = '';
+                if($this->credoHelper->isBinRule($appliedRuleIds)){
+                    if($specialPrice > 0 ){
+                        $discount = $originalPrice - $specialPrice;
+                        $discount += $discountAmount;
+                        $coupon_prod = '';
+                    }else{
+                        $discount = $discountAmount;
+                    }
+                }else{
+                    if($specialPrice > 0 ){
+                        $discount = $originalPrice - $specialPrice;
+                        $coupon_prod = '';
+                    }
                 }
 
-                $tempItem['Discounts']   = $discount;
+                $tempItem['Discounts'] = $discount;
                 $tempItem['CouponCodes'] = $coupon_prod;
-                $tempItem['StoreItemId'] = $dataItem->getId();
+                $tempItem['StoreItemId'] = $id;
                 $items[] = $tempItem;
             }
         }
+
+        if (!empty($billing->getRfc())) {
+            $identifi = $billing->getRfc();
+        }else {
+            $identifi = $this->getIdentification($billing,$shipping);
+        }
+
         $discount = abs($order->getGiftCardsAmount()) + abs($order->getBaseDiscountAmount());
         $payload = array(
             'StoreOrder' => array(
@@ -281,7 +335,7 @@ class PlaceOrder extends AbstractHelper
                     'LastName' => $billing->getLastname(),
                     'Email' => $billing->getEmail(),
                     'Cellphone' => $billing->getTelephone(),
-                    'DocumentId' => $billing->getIdentification(),
+                    'DocumentId' => $billing->getIdentification()
                 ),
                 'Billing' => array(
                     'FirstName' => $billing->getFirstname(),
@@ -323,7 +377,9 @@ class PlaceOrder extends AbstractHelper
             ),
             'Discounts' => $discount,
             'CouponCodes' => $coupon,
-            'TaxRegistrationNumber' => $this->getIdentification($billing,$shipping),
+            'TaxRegistrationNumber' => $identifi,
+            'TaxSystem' =>  $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getRegimenFiscal(), 'regimen_fiscal')),
+            'DigitalTaxReceipt' => $this->helper->clearSpecialCharac($this->getValueBillingAddress($billing->getCfdi(), 'cfdi')),
             'InvoiceRequested' => false,
             'ReceiveInvoiceByMail' => false,
             'Shipments' => array(
@@ -432,5 +488,21 @@ class PlaceOrder extends AbstractHelper
         $specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
 
         return $specialPrice;
+    }
+
+    public function getValueBillingAddress($billing, $field)
+    {
+
+        $attribute = $this->eavAttributeRepository->get('customer_address', $field);
+        $optionText = $attribute->getSource()->getOptionText($billing);
+        $arrayOptions = explode("-", $optionText);
+
+        if (empty($arrayOptions[0])) {
+            $valueText = '';
+        } else {
+            $valueText = $arrayOptions[0];
+        }
+
+        return $valueText;
     }
 }
