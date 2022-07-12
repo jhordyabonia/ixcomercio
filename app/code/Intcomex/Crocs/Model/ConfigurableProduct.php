@@ -307,7 +307,7 @@ class ConfigurableProduct
             $product->save();
         }
         catch(\Exception $e){
-            $thisMsg = 'Error in setDataToFirstProduct for Sku '.$product->getSku().' : '.$e->getMessage();
+            $thisMsg = 'Error in attributes Crocs for Sku '.$product->getSku().' : '.$e->getMessage();
             $this->logger->debug($thisMsg);
             if($this->throwErrorForThisContext($senderContextName)){
                 throw new Exception($thisMsg);
