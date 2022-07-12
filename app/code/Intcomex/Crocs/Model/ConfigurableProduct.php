@@ -286,29 +286,32 @@ class ConfigurableProduct
      * @param $isMultiSize
      * @throws Exception
      */
-    public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize)
+    public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize, $senderContextName)
     {
-        try {
-            $separator = $this->crocsHelper->getSeparator($product->getStoreId());
-            $options = $this->_getAllAttributeOptions();
-            $skuExploded = explode($separator, $product->getSku());
-            $skuLastPart = $skuExploded[count($skuExploded)-1];
-            $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
-            $this->logger->debug('First productId: '. $product->getId());
+        $separator    = $this->crocsHelper->getSeparator($product->getStoreId());
+        $options      = $this->_getAllAttributeOptions();
+        $skuExploded  = explode($separator, $product->getSku());
+        $skuLastPart  = $skuExploded[count($skuExploded)-1];
+        $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
+        $this->logger->debug('First productId: '. $product->getId());
 
-            if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
-                $product->setSku($product->getSku() . $skuLastPartToPlus);
-            }
+        $this->collectProcessedProducts($product, false);
+        if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
+            $product->setSku($product->getSku() . $skuLastPartToPlus);
+        }
+        try {
             $product->setVisibility(1);
             $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
             $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
             $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
             $product->save();
-            $this->collectProcessedProducts($product, false);
         }
         catch(\Exception $e){
-            $this->collectProcessedProducts($product, false);
-            $this->logger->debug('Error in setDataToFirstProduct : ' . $e->getMessage());
+            $thisMsg = 'Error in setDataToFirstProduct for Sku '.$product->getSku().' : '.$e->getMessage();
+            $this->logger->debug($thisMsg);
+            if($this->throwErrorForThisContext($senderContextName)){
+                throw new Exception($thisMsg);
+            }
         }
     }
 
@@ -394,6 +397,20 @@ class ConfigurableProduct
         } catch (Exception $e) {
             $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
         }
+    }
+
+    /**
+    * @param string $contextName
+    * @return bool
+    */
+    public function throwErrorForThisContext($contextName)
+    {
+        $allContext = [
+            \Trax\Catalogo\Cron\GetCatalog::Class => false,
+            \Intcomex\ImportProducts\Model\Import\Product::Class => true
+        ];
+        return array_key_exists($contextName, $allContext) ?
+            $allContext[$contextName] : true;
     }
 
     /**

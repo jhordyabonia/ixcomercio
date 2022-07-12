@@ -45,22 +45,26 @@ class BeforeSaveProduct implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        /** @var Product $product */
-        $product    = $observer->getData('product');
-        $storeId    = $product->getStoreId();
-        $separator  = $this->crocsHelper->getSeparator($product->getStoreId());
-        $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
         $this->configurableProduct->resetProcessedProducts();
+
+        /** @var Product $product */
+        $product = $observer->getData('product');
+        $this->logger->debug('Sku: ' . $product->getSku() . ' - StoreId: ' . $product->getStoreId());
+
+        $genericName = empty($observer->getData('generic_name')) ?
+            $product->getName() : $observer->getData('generic_name');
+
+        $senderContext = empty($observer->getData('sender_context')) ?
+            (Object)[] : $observer->getData('sender_context');
+
+        $storeId    = $product->getStoreId();
+        $separator  = $this->crocsHelper->getSeparator($storeId);
+        $senderContextName = method_exists($senderContext,'getContextName') ?
+            $senderContext->getContextName() : "";
 
         if ($this->crocsHelper->isEnabled($storeId)) {
             try {
                 $mpn = $product->getData('mpn');
-                $genericName = empty($observer->getData('generic_name')) ?
-                    $product->getName() : $observer->getData('generic_name');
-
-                $senderContext = empty($observer->getData('sender_context')) ?
-                    (Object)[] : $observer->getData('sender_context');
-
                 if($observer->getData('config_data')){
                     $configData = $observer->getData('config_data');
                 }else{
@@ -88,7 +92,7 @@ class BeforeSaveProduct implements ObserverInterface
                         if (isset($skuExploded[2]) && str_contains($skuExploded[2], 'W')) {
                             $sizes[0] = $skuExploded[2];
                         }
-                        $this->configurableProduct->setDataToFirstProduct($product, $sizes[0], $color, count($sizes) > 1);
+                        $this->configurableProduct->setDataToFirstProduct($product, $sizes[0], $color, count($sizes) > 1, $senderContextName);
                         $skuExploded = explode($separator, $product->getSku());
                         $womanProductId = null;
                         // If it is multi size Man or Kid
@@ -110,6 +114,9 @@ class BeforeSaveProduct implements ObserverInterface
                 }
             } catch (Exception $e) {
                 $this->logger->debug('Error Crocs BeforeSaveProduct Observer: ' . $e->getMessage());
+                if($this->configurableProduct->throwErrorForThisContext($senderContextName)){
+                    throw new Exception($e->getMessage());
+                }
             }
         }
         return $this;
