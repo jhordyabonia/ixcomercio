@@ -18,6 +18,10 @@ define([
 
             switch (selected) {
                 case 1:
+                    $('.dot2').removeClass("dot-selected").addClass('dot');
+                    $('.dot3').removeClass("dot-selected").addClass('dot');
+                    $('.dot4').removeClass("dot-selected").addClass('dot');
+                    $('.dot1').removeClass("dot").addClass('dot-selected');
                     $('.button-carousel1').addClass('button-selected');
                     $('.button-carousel2').removeClass('button-selected');
                     $('.button-carousel3').removeClass('button-selected');
@@ -28,6 +32,10 @@ define([
                     $('.carousel4').removeClass("carousel-visible").addClass('carousel-hidden');
                     break;
                 case 2:
+                    $('.dot1').removeClass("dot-selected").addClass('dot');
+                    $('.dot3').removeClass("dot-selected").addClass('dot');
+                    $('.dot4').removeClass("dot-selected").addClass('dot');
+                    $('.dot2').removeClass("dot").addClass('dot-selected');
                     $('.button-carousel2').addClass('button-selected');
                     $('.button-carousel1').removeClass('button-selected');
                     $('.button-carousel3').removeClass('button-selected');
@@ -38,6 +46,10 @@ define([
                     $('.carousel4').removeClass("carousel-visible").addClass('carousel-hidden');
                     break;
                 case 3:
+                    $('.dot2').removeClass("dot-selected").addClass('dot');
+                    $('.dot1').removeClass("dot-selected").addClass('dot');
+                    $('.dot4').removeClass("dot-selected").addClass('dot');
+                    $('.dot3').removeClass("dot").addClass('dot-selected');
                     $('.button-carousel3').addClass('button-selected');
                     $('.button-carousel1').removeClass('button-selected');
                     $('.button-carousel2').removeClass('button-selected');
@@ -48,6 +60,10 @@ define([
                     $('.carousel4').removeClass("carousel-visible").addClass('carousel-hidden');
                     break;
                 case 4:
+                    $('.dot2').removeClass("dot-selected").addClass('dot');
+                    $('.dot3').removeClass("dot-selected").addClass('dot');
+                    $('.dot1').removeClass("dot-selected").addClass('dot');
+                    $('.dot4').removeClass("dot").addClass('dot-selected');
                     $('.button-carousel4').addClass('button-selected');
                     $('.button-carousel1').removeClass('button-selected');
                     $('.button-carousel2').removeClass('button-selected');
