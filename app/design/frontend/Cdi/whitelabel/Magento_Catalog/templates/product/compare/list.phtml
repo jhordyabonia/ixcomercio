@@ -60,6 +60,11 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             </strong>
                             <?= $block->getReviewsSummaryHtml($item, 'short') ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($item) ?>
+                            <dots>
+                                <?php for ($i = 1; $i <= $total; $i++) : ?>
+                                    <div class="dot dot<?php echo $i;?>"></div>
+                                <?php endfor ?>
+                            </dots>
                         </td>
                         <?php $count++; ?>
                     <?php endforeach; ?>
