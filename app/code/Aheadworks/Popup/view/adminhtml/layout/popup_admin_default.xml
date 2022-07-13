@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Aheadworks_Popup::css/style.css"/>
+    </head>
+    <body>
+        <referenceContainer name="page.main.actions">
+            <block class="Aheadworks\Popup\Block\Adminhtml\Menu" name="aw_popup.menu"/>
+        </referenceContainer>
+    </body>
+</page>

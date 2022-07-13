@@ -1,0 +1,35 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/* @var $block \Aheadworks\Popup\Block\Popup */
+
+$viewModel = $block->getPopupViewModel();
+$blockType = $block->getBlockType();
+$popups = $viewModel->prepareJsonPopups($blockType);
+?>
+<div class="<?php echo $block->escapeHtml($block->getNameInLayout()) ?>"></div>
+<script type="text/javascript">
+    require(['jquery', 'awPopupManager'], function(){
+        ajaxAddCookieUrl = '<?php echo $block->escapeHtml($block->getUrl('popup/ajax/addCookie', ['_secure' => $viewModel->isSecure()])) ?>';
+
+        jQuery.awPopupManager.ajaxAddCookieUrl = ajaxAddCookieUrl;
+
+        jQuery.ajax({
+            url: ajaxAddCookieUrl,
+            type: "GET",
+            dataType: 'json',
+            context: this,
+            data: {
+                isAjax: 'true',
+                form_key: <?php /* @noEscape */ echo $viewModel->getPreparedFormKey(); ?>,
+                cookie_type: '<?php echo $block->escapeHtml(\Aheadworks\Popup\Model\Source\Event::VIEWED_PAGE_COUNT_COOKIE_NAME);?>',
+                current_url: '<?php echo $block->escapeHtml($block->getUrl('*/*/*', ['_current' => true, '_secure' => $viewModel->isSecure()])) ?>'
+            },
+            complete: function(response) {
+                var popups = <?php /* @noEscape */ echo $popups ?>;
+
+                jQuery.awPopupManager.initObserversForPopup(popups);
+            }
+        });
+    });
+</script>
