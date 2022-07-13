@@ -1,0 +1,21 @@
+<?php
+/* @var $block \Aheadworks\Popup\Block\Adminhtml\Popup\Edit\PageBuilderRenderer */
+
+// @codingStandardsIgnoreFile
+?>
+<div data-role="aw-popup-page-builder-container"
+     data-bind="scope: 'pb_container'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+<script type="text/x-magento-init">
+{
+"*":{
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "pb_container":
+                    <?= /* @noEscape */ $block->getPageBuilderConfig() ?>
+            }
+        }
+    }
+}
+</script>

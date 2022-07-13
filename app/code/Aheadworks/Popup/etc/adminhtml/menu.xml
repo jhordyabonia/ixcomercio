@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Aheadworks_Popup::main" title="Popup Pro by Aheadworks" module="Aheadworks_Popup" sortOrder="999" dependsOnModule="Aheadworks_Popup" parent="Magento_Backend::content" resource="Aheadworks_Popup::main"/>
+        <add id="Aheadworks_Popup::popup" title="Manage Popups" module="Aheadworks_Popup" sortOrder="1" parent="Aheadworks_Popup::main" action="popup_admin/popup/index" resource="Aheadworks_Popup::popup"/>
+    </menu>
+</config>

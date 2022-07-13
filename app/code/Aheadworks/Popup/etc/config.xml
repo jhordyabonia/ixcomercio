@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <aw_popup>
+            <general>
+                <hide_for_search_engines>0</hide_for_search_engines>
+                <hide_for_mobile_devices>0</hide_for_mobile_devices>
+            </general>
+        </aw_popup>
+    </default>
+</config>
