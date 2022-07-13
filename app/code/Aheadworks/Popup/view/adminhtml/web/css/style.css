@@ -1,0 +1,90 @@
+/* MENU */
+
+.aw-extensions-menu.admin__action-dropdown-wrap {
+    float: left;
+}
+
+.aw-extensions-menu .admin__action-dropdown{
+    background-color: #f8f8f8;
+    font-size: 1.6rem;
+    letter-spacing: .025em;
+}
+.aw-extensions-menu .admin__action-dropdown-text:after{
+    right: -6px;
+    left: 0;
+}
+.aw-extensions-menu.active .admin__action-dropdown,
+.aw-extensions-menu.active .admin__action-dropdown-menu{
+    border-color: #adadad;
+    background-color: #fff;
+    z-index: 1111;
+}
+.aw-extensions-menu .admin__action-dropdown{
+    z-index: 3;
+}
+.aw-extensions-menu .admin__action-dropdown-menu{
+    z-index: 2;
+    right: auto;
+    left: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+.aw-extensions-menu .admin__action-dropdown-menu>li>a,
+.aw-extensions-menu .admin__action-dropdown-menu>li>a:hover{
+    text-decoration: none;
+    color: #41362f;
+}
+.aw-extensions-menu .admin__action-dropdown-menu>li>span{
+    display: block;
+    padding: 0.6rem 0.5rem;
+    cursor: default;
+}
+.aw-extensions-menu .admin__action-dropdown-menu>li{
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.aw-extensions-menu .admin__action-dropdown-menu>li:hover{
+    background: #e9e9e9;
+}
+.aw-extensions-menu .admin__action-dropdown-menu>li.current{
+    background: #eee;
+}
+
+/** Get Menu Item with separator */
+.aw-extensions-menu-separator {
+    border-top: 1px #adadad solid;
+}
+
+.aw-extensions-menu-separator a {
+    padding-top: .8rem;
+    padding-bottom: .8rem;
+}
+
+/* END MENU */
+
+.popup-admin-popup-edit #container.main-col {
+    width: 100%;
+    padding-left: 3rem;
+}
+
+#popup_category_fieldset  .field-category_ids .admin__field-control.control {
+    border: 1px solid #000;
+    padding-bottom: 15px;
+}
+
+#popup_category_fieldset .tree.x-tree {
+    display: inline-block;
+}
+
+#popup_category_fieldset .legend {
+    border-bottom: 0 !important;
+}
+
+#popup_conditions_fieldset .legend {
+    border-bottom: 0 !important;
+}
+
+#popup_preview a {
+    text-decoration: none;
+    color: #514943;
+}
