@@ -14,7 +14,7 @@
  * @copyright  Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
-define([
+ define([
     'jquery',
     'underscore',
     'jquery/ui',
@@ -23,7 +23,6 @@ define([
 ], function ($, _) {
     'use strict';
     return function (widget) {
-
 
         $.widget('bss.SwatchRenderer', widget, {
             options: {
@@ -92,7 +91,6 @@ define([
                             $widget._loadMedia();
                         }
                     }
-
                     $input.trigger('change');
                 }
                 if ($widget.inProductList) {
@@ -167,12 +165,27 @@ define([
                     }
                     if (attribute.code == $widget.options.jsonConfig.bss_simple_detail.configvalues.size) {
                         attributesObj.size = attribute;
+                        $inputAttr.size = $('[name="super_attribute[' + attribute.id + ']"]').val();
                     }
                 });
                 this._RenderControlsSize($inputAttr.color, $inputAttr.gender, attributesObj.size, type);
+                if ($inputAttr.color > 0 && $inputAttr.gender > 0) {
+                    if (window.preselectBssValue == 1) {
+                        window.preselectBssValue = 0;
+                    }else{
+                        $widget._PreselectSizeOnChange($widget);
+                    }
+
+                }
             },
 
-            
+            _PreselectSizeOnChange: function ($widget) {
+                //varDivClassBody[1].click();
+                let varDivClassBody = document.querySelectorAll('.swatch-option.' + $widget.options.jsonConfig.bss_simple_detail.configvalues.size);
+                varDivClassBody[0].click();
+            },
+
+
             /**
              * 
              * Render controls Size
@@ -184,7 +197,7 @@ define([
                     container = this.element,
                     classes = this.options.classes,
                     chooseText = this.options.jsonConfig.chooseText;
-                $widget._ClearSizeContainer();
+                $widget._ClearSizeContainer($widget);
                 $widget.optionsMap = {};
                 var itemSizeFilter = {
                     code: sizeAttr.code,
@@ -258,8 +271,6 @@ define([
                         '</div>'
                     );
                 }
-
-
 
             },
 
@@ -362,11 +373,16 @@ define([
             *
             * @private
             */
-            _ClearSizeContainer: function () {
+            _ClearSizeContainer: function ($widget) {
                 $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.size + ' div').remove();
                 $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.size + ' .swatch-attribute-label').text('Talla');
                 $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.gender + ' span').remove();
                 $('.swatch-attribute.' + this.options.jsonConfig.bss_simple_detail.configvalues.size + ' .swatch-attribute-selected-option').text('');
+                $.each(this.options.jsonConfig.attributes, function (index, attribute) {
+                    if (attribute.code == $widget.options.jsonConfig.bss_simple_detail.configvalues.size) {
+                        $('[name="super_attribute[' + attribute.id + ']"]').val("");
+                    }
+                });
             },
 
             /**
