@@ -193,10 +193,11 @@ class ConfigurableProduct
         try {
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->load($configurableProduct->getIdBySku($sku));
+            if(is_null($configurableProduct) || empty($configurableProduct->getId())){
+                throw new NoSuchEntityException();
+            }
             $configurableProductId = $configurableProduct->getId();
             $this->logger->debug('Configurable productId: '. $configurableProductId);
-            //$configurableProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
-
             if($configData['product_name']){
                $configurableProduct->setName($genericName);
             }
@@ -331,8 +332,10 @@ class ConfigurableProduct
         try {
             $secondProduct = $this->productFactory->create();
             $secondProduct->load($secondProduct->getIdBySku($sku));
+            if(is_null($secondProduct) || empty($secondProduct->getId())){
+                throw new NoSuchEntityException();
+            }
             $this->logger->debug('Second productId: '. $secondProduct->getId());
-            //$secondProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
             $isNewProduct = false;
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
