@@ -197,7 +197,6 @@ class ConfigurableProduct
                 throw new NoSuchEntityException();
             }
             $configurableProductId = $configurableProduct->getId();
-            $this->logger->debug('Configurable productId: '. $configurableProductId);
             if($configData['product_name']){
                $configurableProduct->setName($genericName);
             }
@@ -234,6 +233,7 @@ class ConfigurableProduct
         }
 
         if ($configurableProductId) {
+            $this->logger->debug('Configurable productId: '. $configurableProductId);
             try {
                 if($configData['product_mpn']){
                     $configurableProduct->setData('mpn', $product->getData('mpn'));
@@ -336,13 +336,13 @@ class ConfigurableProduct
                 throw new NoSuchEntityException();
             }
             $this->logger->debug('Second productId: '. $secondProduct->getId());
+            $this->collectProcessedProducts($secondProduct, false);
             $isNewProduct = false;
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
-        $this->collectProcessedProducts($secondProduct, false);
         $secondProduct->setSku($sku);
         if($configData['product_mpn']){
             $secondProduct->setData('mpn', $product->getData('mpn'));
@@ -392,9 +392,9 @@ class ConfigurableProduct
         try {
             $secondProduct->save();
             if ($isNewProduct) {
-                $this->logger->debug('Woman Product Created: ' . $secondProduct->getSku());
+                $this->logger->debug('Woman Product Created: ' . $secondProduct->getSku().', ID: '.$secondProduct->getId());
             } else {
-                $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku());
+                $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku().', ID: '.$secondProduct->getId());
             }
             return $secondProduct->getId();
         } catch (Exception $e) {
