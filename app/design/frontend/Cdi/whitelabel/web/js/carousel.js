@@ -98,24 +98,8 @@ define([
         $(window).resize(function(){
             if($(window).width() < 991){
                 $('#product-comparison').addClass('comparison-movil');
-                $('.dot1').removeClass("dot").addClass('dot-selected');
-                $('.dot2').removeClass("dot-selected").addClass('dot');
-                $('.dot3').removeClass("dot-selected").addClass('dot');
-                $('.dot4').removeClass("dot-selected").addClass('dot');
-                $('.button-carousel1').addClass('button-selected');
-                $('.button-carousel2').removeClass('button-selected');
-                $('.button-carousel3').removeClass('button-selected');
-                $('.button-carousel4').removeClass('button-selected');
-                $('.carousel1').removeClass("carousel-hidden").addClass('carousel-visible');
-                $('.carousel2').removeClass("carousel-visible").addClass('carousel-hidden');
-                $('.carousel3').removeClass("carousel-visible").addClass('carousel-hidden');
-                $('.carousel4').removeClass("carousel-visible").addClass('carousel-hidden');
             }else{
                 $('#product-comparison').removeClass('comparison-movil');
-                $('.carousel1').removeClass("carousel-hidden").addClass('carousel-visible');
-                $('.carousel2').removeClass("carousel-hidden").addClass('carousel-visible');
-                $('.carousel3').removeClass("carousel-hidden").addClass('carousel-visible');
-                $('.carousel4').removeClass("carousel-hidden").addClass('carousel-visible');
             }
         });
 
