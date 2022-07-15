@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="aw_popup_grid_data_source" xsi:type="string">Aheadworks\Popup\Model\ResourceModel\Popup\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Popup\Model\ResourceModel\Popup\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_popup_block</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_popup_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">popup_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\Popup\Model\ResourceModel\Popup</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\ContextInterface">
+        <plugin name="aw-popup-context-plugin" type="Aheadworks\Popup\Model\Event\Plugin\ContextPlugin" sortOrder="1" disabled="false" />
+    </type>
+    <type name="Aheadworks\Popup\Ui\Component\MassAction\Status\Options">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="urlPath" xsi:type="string">popup_admin/popup/massStatus</item>
+                <item name="paramName" xsi:type="string">status</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Popup\Model\ResourceModel\EntityRelation\Handler\Composite">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="customer_segments" xsi:type="object">Aheadworks\Popup\Model\ResourceModel\EntityRelation\Handler\CustomerSegments</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Aheadworks\CustomerSegmentation\Model\ResourceModel\Segment">
+        <plugin name="aw-popup-aw-customer-segment-plugin"
+                type="Aheadworks\Popup\Model\ThirdPartyModule\AwCustomerSegment\Plugin\ResourceModel\Segment"
+                sortOrder="10"
+                disabled="false"
+        />
+    </type>
+</config>
