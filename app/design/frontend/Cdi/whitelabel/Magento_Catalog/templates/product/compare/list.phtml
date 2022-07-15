@@ -60,7 +60,7 @@ $_helperCdi = $this->helper('Cdi\Custom\Helper\Data');
                             </strong>
                             <?= $block->getReviewsSummaryHtml($item, 'short') ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($item) ?>
-                            <dots class="items-carousel">
+                            <dots class="items-carousel dots_carrusel">
                                 <?php for ($i = 1; $i <= $total; $i++) : ?>
                                     <div class="dot button-carousel dot<?php echo $i;?>" data-item="<?php echo $i; ?>"></div>
                                 <?php endfor ?>
