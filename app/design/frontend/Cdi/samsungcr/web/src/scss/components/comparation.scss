@@ -236,14 +236,6 @@
                     }
 
                     tr {
-                        .carousel-visible {
-                            display: revert;
-                        }
-                        
-                        .carousel-hidden {
-                            display: none;
-                        } 
-
                         td {
                             border-left: 1px solid #ACA9A9;
                         }
@@ -303,6 +295,15 @@
                         display: none;
                     }
                 }
+
+                .carousel-visible {
+                    display: revert;
+                }
+                
+                .carousel-hidden {
+                    display: none;
+                } 
+
             }
         }
     }
