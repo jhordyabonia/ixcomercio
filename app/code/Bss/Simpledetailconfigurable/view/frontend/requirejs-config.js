@@ -17,7 +17,7 @@
 var config = {
     map: {
         '*': {
-            bss_configurable_control: 'Bss_Simpledetailconfigurable/js/configurable_control',
+            bss_configurable_control: 'Bss_Simpledetailconfigurable/js/configurable_control_v1',
             bssPriceOptions: 'Bss_Simpledetailconfigurable/js/bss-price-option',
             "Magento_Review/js/process-reviews": 'Bss_Simpledetailconfigurable/js/process-reviews',
             'priceBox' : 'Bss_Simpledetailconfigurable/js/price-box'
