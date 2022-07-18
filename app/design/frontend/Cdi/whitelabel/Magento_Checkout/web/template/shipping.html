@@ -6,6 +6,12 @@
 -->
 <li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
     <div class="step-title" translate="'Shipping Address'" data-role="title" />
+    <!-- ko if: (isFreeShippingMsg()) -->
+    <div class="div-free-shipping-message">
+        <span class="free-shipping-message" data-bind="text: getFreeShippingBlock"></span>
+        <div class="free-shipping-icon" id="free-shipping-icon-bar"></div>
+    </div>
+    <!--/ko-->
     <div id="checkout-step-shipping"
          class="step-content"
          data-role="content">
