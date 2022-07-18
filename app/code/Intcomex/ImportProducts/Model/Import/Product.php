@@ -272,6 +272,15 @@ class Product extends MagentoProduct
     }
 
     /**
+     * Nota: Esta funcion se utiliza en el evento BeforeSaveProducts de Crocs.
+     * Retorna el nombre del contexto de la clase.
+     * @return string
+     */
+    public function getContextName(){
+        return \Intcomex\ImportProducts\Model\Import\Product::Class;
+    }
+
+    /**
      * Gather and save information about product entities.
      *
      * @return $this
@@ -679,7 +688,11 @@ class Product extends MagentoProduct
                         $product = $productFactory->create()->setStoreId($storeId)->loadByAttribute(self::COL_SKU, $rowData[self::COL_SKU]);
                         $this->_eventManager->dispatch(
                             'intcomex_crocs_catalog_product_save_before',
-                            ['product' => $product, 'generic_name' => $rowData['generic_name']]
+                            [
+                                'product' => $product,
+                                'sender_context' => $this,
+                                'generic_name' => $rowData['generic_name']
+                            ]
                         );
                     } catch (NoSuchEntityException $e) {
                         $this->logger->debug('Error Product Not Found: ' . $e->getMessage());

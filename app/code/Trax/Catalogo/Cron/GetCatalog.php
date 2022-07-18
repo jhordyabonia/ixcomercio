@@ -207,6 +207,15 @@ class GetCatalog
     }
 
     /**
+     * Nota: Esta funcion se utiliza en el evento BeforeSaveProducts de Crocs.
+     * Retorna el nombre del contexto de la clase.
+     * @return string
+     */
+    public function getContextName(){
+        return \Trax\Catalogo\Cron\GetCatalog::Class;
+    }
+
+    /**
      * @return mixed|array
      */
     public function getProcessedProductsInCrocsEvent(){
@@ -954,7 +963,11 @@ class GetCatalog
             $this->logger->debug('Dispatch Event intcomex_crocs_catalog_product_save_before ProductId: ' . $productId);
             $this->eventManager->dispatch(
                 'intcomex_crocs_catalog_product_save_before',
-                ['product' => $product, 'config_data' => $configData, 'sender_context' => $this]
+                [
+                    'product' => $product,
+                    'sender_context' => $this,
+                    'config_data' => $configData
+                ]
             );
         }
 

@@ -193,10 +193,10 @@ class ConfigurableProduct
         try {
             $configurableProduct = $this->productFactory->create();
             $configurableProduct->load($configurableProduct->getIdBySku($sku));
+            if(is_null($configurableProduct) || empty($configurableProduct->getId())){
+                throw new NoSuchEntityException();
+            }
             $configurableProductId = $configurableProduct->getId();
-            $this->logger->debug('Configurable productId: '. $configurableProductId);
-            //$configurableProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
-
             if($configData['product_name']){
                $configurableProduct->setName($genericName);
             }
@@ -233,6 +233,7 @@ class ConfigurableProduct
         }
 
         if ($configurableProductId) {
+            $this->logger->debug('Configurable productId: '. $configurableProductId);
             try {
                 if($configData['product_mpn']){
                     $configurableProduct->setData('mpn', $product->getData('mpn'));
@@ -286,29 +287,32 @@ class ConfigurableProduct
      * @param $isMultiSize
      * @throws Exception
      */
-    public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize)
+    public function setDataToFirstProduct(Product $product, $size, $color, $isMultiSize, $senderContextName)
     {
-        try {
-            $separator = $this->crocsHelper->getSeparator($product->getStoreId());
-            $options = $this->_getAllAttributeOptions();
-            $skuExploded = explode($separator, $product->getSku());
-            $skuLastPart = $skuExploded[count($skuExploded)-1];
-            $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
-            $this->logger->debug('First productId: '. $product->getId());
+        $separator    = $this->crocsHelper->getSeparator($product->getStoreId());
+        $options      = $this->_getAllAttributeOptions();
+        $skuExploded  = explode($separator, $product->getSku());
+        $skuLastPart  = $skuExploded[count($skuExploded)-1];
+        $skuLastPartToPlus = ($isMultiSize) ? $separator . $size : '';
+        $this->logger->debug('First productId: '. $product->getId());
 
-            if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
-                $product->setSku($product->getSku() . $skuLastPartToPlus);
-            }
+        $this->collectProcessedProducts($product, false);
+        if ((count($skuExploded) === 2 && $skuLastPart !== $size) || (isset($skuExploded[2]) && (str_contains($skuExploded[2], 'M') || str_contains($skuExploded[2], 'C')) && $skuLastPart !== $size)) {
+            $product->setSku($product->getSku() . $skuLastPartToPlus);
+        }
+        try {
             $product->setVisibility(1);
             $product->setCrocsColor($options[$this->configurableAttributes[0]][$color]);
             $product->setCrocsGender($options[$this->configurableAttributes[1]][$this->_getGenderBySize($size)]);
             $product->setCrocsSize($options[$this->configurableAttributes[2]][$size]);
             $product->save();
-            $this->collectProcessedProducts($product, false);
         }
         catch(\Exception $e){
-            $this->collectProcessedProducts($product, false);
-            $this->logger->debug('Error in setDataToFirstProduct : ' . $e->getMessage());
+            $thisMsg = 'Error in attributes Crocs for Sku '.$product->getSku().' : '.$e->getMessage();
+            $this->logger->debug($thisMsg);
+            if($this->throwErrorForThisContext($senderContextName)){
+                throw new Exception($thisMsg);
+            }
         }
     }
 
@@ -328,15 +332,17 @@ class ConfigurableProduct
         try {
             $secondProduct = $this->productFactory->create();
             $secondProduct->load($secondProduct->getIdBySku($sku));
+            if(is_null($secondProduct) || empty($secondProduct->getId())){
+                throw new NoSuchEntityException();
+            }
             $this->logger->debug('Second productId: '. $secondProduct->getId());
-            //$secondProduct = $this->productRepository->getById($productId, true, $product->getStoreId(), true);
+            $this->collectProcessedProducts($secondProduct, false);
             $isNewProduct = false;
         } catch (NoSuchEntityException $e) {
             $secondProduct = $this->productFactory->create();
             $secondProduct->setUrlKey(html_entity_decode(strip_tags(strtolower(rand(0, 1000) . '-' . $product->getName() . '-' . $product->getSku() . '-' . $product->getStoreId()))));
             $isNewProduct = true;
         }
-        $this->collectProcessedProducts($secondProduct, false);
         $secondProduct->setSku($sku);
         if($configData['product_mpn']){
             $secondProduct->setData('mpn', $product->getData('mpn'));
@@ -386,14 +392,28 @@ class ConfigurableProduct
         try {
             $secondProduct->save();
             if ($isNewProduct) {
-                $this->logger->debug('Woman Product Created: ' . $secondProduct->getSku());
+                $this->logger->debug('Woman Product Created: ' . $secondProduct->getSku().', ID: '.$secondProduct->getId());
             } else {
-                $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku());
+                $this->logger->debug('Woman Product Updated: ' . $secondProduct->getSku().', ID: '.$secondProduct->getId());
             }
             return $secondProduct->getId();
         } catch (Exception $e) {
             $this->logger->info('Error Creating Woman Product: ' . $e->getMessage());
         }
+    }
+
+    /**
+    * @param string $contextName
+    * @return bool
+    */
+    public function throwErrorForThisContext($contextName)
+    {
+        $allContext = [
+            \Trax\Catalogo\Cron\GetCatalog::Class => false,
+            \Intcomex\ImportProducts\Model\Import\Product::Class => true
+        ];
+        return array_key_exists($contextName, $allContext) ?
+            $allContext[$contextName] : true;
     }
 
     /**
