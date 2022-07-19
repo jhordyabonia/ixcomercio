@@ -8,7 +8,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\RawFactory;
-use Intcomex\FreeShippingMessage\Helper\FreeShippingMessage;
+use Intcomex\FreeShippingMessagev2\Helper\FreeShippingMessage;
 use Magento\Framework\Controller\ResultInterface;
 
 class GetMessage extends Action  implements HttpGetActionInterface

@@ -10,7 +10,7 @@ define([
             } else {
                 let response = '';
                 $.ajax({
-                    url: '/checkout/freeshippingmessagev2/getmessage',
+                    url: '/checkout/freeshippingmessage/getmessage',
                     async: false
                 }).done(function(data) {
                     let _data = JSON.parse(data);

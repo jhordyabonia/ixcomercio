@@ -1,6 +1,6 @@
 define([
     'uiComponent',
-    'Intcomex_FreeShippingMessage/js/model/free-shipping-message'
+    'Intcomex_FreeShippingMessagev2/js/model/free-shipping-message'
 ], function (Component, freeShippingMessage) {
     'use strict';
 
