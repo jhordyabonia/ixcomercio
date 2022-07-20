@@ -14,7 +14,7 @@ define([
                     async: false
                 }).done(function(data) {
                     let _data = JSON.parse(data);
-                    response = _data.msg;
+                    response = _data;
                     window.checkout.freeShippingMessage = _data.msg;
                     window.checkout.lesspercent= _data.bar_percent;
                     window.checkout.modulestatus= _data.module_status;

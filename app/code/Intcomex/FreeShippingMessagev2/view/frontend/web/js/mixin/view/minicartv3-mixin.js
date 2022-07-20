@@ -6,7 +6,10 @@ define([
 
     return function (Component) {
         return Component.extend({
-            getFreeShippingBlock: freeShippingMessage.getFreeShippingMessage(),
+            getFreeShippingBlock: function() {
+                let message = freeShippingMessage.getFreeShippingMessage();
+                return message.msg;
+            },
             isFreeShippingMsg: function (){
                 if(window.checkout.modulestatus){
                     return true;
