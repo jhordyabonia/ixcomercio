@@ -464,7 +464,12 @@ define([
         },
         _UpdateName: function ($name, $config) {
             if ($config > 0) {
-                $(this.options.sdcp_classes.name).html($name);
+                const productNameOptions = $(this.options.sdcp_classes.name);
+                for(var idx = 0; idx < productNameOptions.length; idx++){
+                    if(!$(productNameOptions[idx]).parents('.owl-carousel').length){
+                        $(productNameOptions[idx]).html($name);
+                    }
+                }
             }
         },
         _UpdateDesc: function ($desc, $sdesc, $config) {
@@ -987,7 +992,12 @@ define([
         },
         _ResetName: function ($config) {
             if ($config > 0) {
-                $(this.options.sdcp_classes.name).html(this.options.jsonChildProduct['name']);
+                const productNameOptions = $(this.options.sdcp_classes.name);
+                for(var idx = 0; idx < productNameOptions.length; idx++){
+                    if(!$(productNameOptions[idx]).parents('.owl-carousel').length){
+                        $(productNameOptions[idx]).html(this.options.jsonChildProduct['name']);
+                    }
+                }
             }
         },
         _ResetDesc: function ($config) {
