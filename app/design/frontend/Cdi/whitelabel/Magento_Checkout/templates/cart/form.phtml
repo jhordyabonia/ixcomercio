@@ -20,7 +20,7 @@
           class="form form-cart">
     <?= $block->getBlockHtml('formkey') ?>
     <?php 
-     $msgFreeShipping = json_decode($this->helper(\Intcomex\FreeShippingMessage\Helper\FreeShippingMessage::class)->toHtml(), true); 
+     $msgFreeShipping = json_decode($this->helper(\Intcomex\FreeShippingMessagev2\Helper\FreeShippingMessage::class)->toHtml(), true); 
      if ($msgFreeShipping):
     ?>
     <div class="div-free-shipping-message">
