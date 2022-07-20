@@ -5,11 +5,10 @@ require([
     'use strict';
 
         var jquery = $;
-        
+
         if(typeof window.checkout.lesspercent === 'undefined'){
             let response = freeShippingMessage.getFreeShippingMessage();
             window.checkout.lesspercent = response.bar_percent;
-            console.log("percent: " + response.bar_percent);
         }
 
         let inputObserverCheckout = new MutationObserver(function (mutations) {
