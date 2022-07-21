@@ -2,7 +2,9 @@
 /** @var $block Magento\Catalog\Block\Product\ProductList\Item\AddTo\Compare */
 /* @var $compareHelper Magento\Catalog\Helper\Product\Compare */
 $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
+$comparIntHelper = $this->helper('Intcomex\CompareProducts\Helper\Product\Compare');
 $prechecked = in_array($block->getProduct()->getId(), $compareHelper->getItemCollection()->getAllIds()) ? 'checked' : '';
+if ($comparIntHelper->canShow()) {
 ?>
 
 <input
@@ -15,3 +17,5 @@ $prechecked = in_array($block->getProduct()->getId(), $compareHelper->getItemCol
     <?= /* @escapeNotVerified */ $prechecked ?>
     role="button">
     <?= /* @escapeNotVerified */ __('Comparar') ?>
+
+<?php }?>
