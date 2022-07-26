@@ -17,10 +17,11 @@
  define([
     'jquery',
     'underscore',
+    'Magento_Catalog/js/price-utils',
     'jquery/ui',
     'jquery/jquery.parsequery',
     'mage/translate'
-], function ($, _) {
+], function ($, _,priceUtils) {
     'use strict';
     return function (widget) {
 
@@ -288,6 +289,31 @@
                     return '';
                 }
 
+                window.getPrice = function(productId) {
+
+                    var itemPrices = null,out=0;
+                    var idProductConf = $('#product_addtocart_form input[name="product"]').val();
+
+                    itemPrices = $widget.options.jsonConfig.optionPrices[productId];
+
+                    $('.catalog-product-view .product-view .price-box.price-final_price .old-price').remove();
+                    if (itemPrices['oldPrice'].amount > itemPrices['finalPrice'].amount) {
+                         let oldPrice = priceUtils.formatPrice(itemPrices['oldPrice'].amount);
+                         let htmlOldPrice = '<span class="old-price"><span class="price-container "><span class="price-label">Precio habitual</span>\n' +
+                                            '<span id="old-price-'+idProductConf+'" data-price-amount="'+oldPrice+'" data-price-type="oldPrice" class="price-wrapper ">\n' +
+                                            '<span class="price">'+oldPrice+'</span></span></span></span>';
+                         $('.catalog-product-view .product-view .price-box.price-final_price').append(htmlOldPrice);
+
+                         out = itemPrices['finalPrice'].amount;
+                    }else {
+                        out = itemPrices['oldPrice'].amount;
+                    }
+                    showPriceVariation(out);
+                    let formatedPrice = priceUtils.formatPrice(out);
+
+                    return formatedPrice;
+                }
+
                 $.each(config.options, function (index) {
                     var id,
                         type,
@@ -346,7 +372,11 @@
                             '</div>';
                     } else if (type === 1) {
                         // Color
-                        html += '<div onclick="showPriceVariation(' + $widget.optionsMap[config.id][id]['price'] + ')"  class="' + optionClass + ' color" ' + attr +
+                        // html += '<div onclick="showPriceVariation(' + $widget.optionsMap[config.id][id]['price'] + ')"  class="' + optionClass + ' color" ' + attr +
+                        //     ' style="background: ' + value +
+                        //     ' no-repeat center; background-size: initial;">' + '' +
+                        //     '</div>';
+                        html += '<div onclick="getPrice(' + $widget.optionsMap[config.id][id]['products'][0] + ')"  class="' + optionClass + ' color" ' + attr +
                             ' style="background: ' + value +
                             ' no-repeat center; background-size: initial;">' + '' +
                             '</div>';
@@ -367,7 +397,6 @@
 
                 return html;
             },
-
             /**
             * Render controls Size
             *
