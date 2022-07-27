@@ -290,11 +290,16 @@
 
                 window.renderPrice = function(productId) {
 
-                    var itemPrices = null,out=0;
+                    var itemPrices = null,classPage = '',out=0;
                     var idProductConf = $('#product_addtocart_form input[name="product"]').val();
 
                     itemPrices = $widget.options.jsonConfig.optionPrices[productId];
-                    $('.catalog-product-view .product-view .price-box.price-final_price .old-price').remove();
+                    if($('body').hasClass('catalogsearch-result-index')){
+                        classPage = '[data-price-box="product-id-'+productId+'"]'
+                    }else{
+                        classPage = '.catalog-product-view .product-view ';
+                    }
+                    $(classPage+'.price-box.price-final_price .old-price').remove();
                     if (itemPrices['oldPrice'].amount > itemPrices['finalPrice'].amount) {
                          let oldPrice = priceUtils.formatPrice(itemPrices['oldPrice'].amount);
                          let htmlOldPrice = '<span class="old-price"><span class="price-container "><span class="price-label">Precio habitual</span>\n' +
