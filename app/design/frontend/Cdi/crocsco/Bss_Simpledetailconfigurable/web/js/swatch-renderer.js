@@ -313,7 +313,7 @@
                 }
 
                 window.setPrice = function(item){
-                    let productId = $(item).attr('product-id');
+                    let productId = $(item).data('product-id');
                     let optionId = $(item).attr('option-id');
                     let configId = $(item).attr('config-id');
                     if(productId == 0){
