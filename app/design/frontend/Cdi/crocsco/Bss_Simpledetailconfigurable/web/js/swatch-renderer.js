@@ -228,7 +228,6 @@
                 if ($widget.options.onlySwatches && !$widget.options.jsonSwatchConfig.hasOwnProperty(sizeAttr.id)) {
                     return;
                 }
-
                 if ($widget.options.enableControlLabel) {
                     label +=
                         '<span id="' + controlLabelId + '" class="' + classes.attributeLabelClass + '">' +
@@ -289,13 +288,12 @@
                     return '';
                 }
 
-                window.getPrice = function(productId) {
+                window.renderPrice = function(productId) {
 
                     var itemPrices = null,out=0;
                     var idProductConf = $('#product_addtocart_form input[name="product"]').val();
 
                     itemPrices = $widget.options.jsonConfig.optionPrices[productId];
-
                     $('.catalog-product-view .product-view .price-box.price-final_price .old-price').remove();
                     if (itemPrices['oldPrice'].amount > itemPrices['finalPrice'].amount) {
                          let oldPrice = priceUtils.formatPrice(itemPrices['oldPrice'].amount);
@@ -312,6 +310,33 @@
                     let formatedPrice = priceUtils.formatPrice(out);
 
                     return formatedPrice;
+                }
+
+                window.setPrice = function(item){
+                    let productId = $(item).attr('product-id');
+                    let optionId = $(item).attr('option-id');
+                    let configId = $(item).attr('config-id');
+                    if(productId != 0){
+                        if (window.configurationSelected == undefined) {
+                            window.configurationSelected = [];
+                        }
+                        window.configurationSelected[configId] = optionId;
+                        for (let indexProductId in $widget.options.jsonConfig.index) {
+                            let acum = 0;
+                            for (let index in window.configurationSelected) {
+                                if ($widget.options.jsonConfig.index[indexProductId][index] == window.configurationSelected[index]) {
+                                    acum++;
+                                }
+                            }
+                            if (acum > 2) {
+                                productId = indexProductId;
+                                break;
+                            }
+                        }
+                    }
+                    if(productId != null) {
+                        renderPrice(productId);
+                    }
                 }
 
                 $.each(config.options, function (index) {
@@ -357,7 +382,9 @@
                         ' option-tooltip-value="' + value + '"' +
                         ' role="option"' +
                         ' thumb-width="' + 120 + '"' +
-                        ' thumb-height="' + height + '"';
+                        ' thumb-height="' + height + '"' +
+                        ' config-id="' + config.id +'"'+
+                        ' data-product-id="' + (type===1?$widget.optionsMap[config.id][id]['products'][0]:0) +'"';
 
                     swatchImageWidth = _.has(sizeConfig, 'swatchImage') ? sizeConfig.swatchImage.width : 30;
                     swatchImageHeight = _.has(sizeConfig, 'swatchImage') ? sizeConfig.swatchImage.height : 20;
@@ -368,15 +395,15 @@
 
                     if (type === 0) {
                         // Text
-                        html += '<div class="' + optionClass + ' ' + config.code + ' text" ' + attr + '>' + (value ? value : label) +
+                        html += '<div onclick="setPrice(this)" class="' + optionClass + ' ' + config.code + ' text" ' + attr + '>' + (value ? value : label) +
                             '</div>';
                     } else if (type === 1) {
                         // Color
-                        // html += '<div onclick="showPriceVariation(' + $widget.optionsMap[config.id][id]['price'] + ')"  class="' + optionClass + ' color" ' + attr +
+                        // html += '<div onclick="showPriceVariation(' + $widget.optionsMap[config.id][id]['price'] + ');setPrice(this)"  class="' + optionClass + ' color" ' + attr +
                         //     ' style="background: ' + value +
                         //     ' no-repeat center; background-size: initial;">' + '' +
                         //     '</div>';
-                        html += '<div onclick="getPrice(' + $widget.optionsMap[config.id][id]['products'][0] + ')"  class="' + optionClass + ' color" ' + attr +
+                        html += '<div onclick="setPrice(this)"  class="' + optionClass + ' color" ' + attr +
                             ' style="background: ' + value +
                             ' no-repeat center; background-size: initial;">' + '' +
                             '</div>';
