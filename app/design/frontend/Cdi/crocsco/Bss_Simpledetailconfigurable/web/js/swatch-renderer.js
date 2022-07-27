@@ -316,7 +316,7 @@
                     let productId = $(item).attr('product-id');
                     let optionId = $(item).attr('option-id');
                     let configId = $(item).attr('config-id');
-                    if(productId != 0){
+                    if(productId == 0){
                         if (window.configurationSelected == undefined) {
                             window.configurationSelected = [];
                         }
@@ -334,7 +334,7 @@
                             }
                         }
                     }
-                    if(productId != null) {
+                    if(productId != 0) {
                         renderPrice(productId);
                     }
                 }
