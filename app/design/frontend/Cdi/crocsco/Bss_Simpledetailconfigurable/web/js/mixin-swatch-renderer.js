@@ -25,6 +25,11 @@
     'use strict';
     return function (widget) {
 
+        
+        if (window.widgets == undefined) {
+            window.widgets = [];
+        }
+
         $.widget('bss.SwatchRenderer', widget, {
             options: {
                 delay: 200,                             //how much ms before tooltip to show
@@ -207,6 +212,7 @@
                     options: {},
                     position: "0"
                 };
+                
                 var count = 0;
                 $.each(this.options.jsonConfig.bss_simple_detail.child, function (index, item) {
                     if (item.gender == genderAttr && item.color == colorAttr) {
@@ -288,61 +294,7 @@
                     return '';
                 }
 
-                window.renderPrice = function(productId) {
-
-                    var itemPrices = null,classPage = '',out=0;
-                    var idProductConf = $('#product_addtocart_form input[name="product"]').val();
-
-                    itemPrices = $widget.options.jsonConfig.optionPrices[productId];
-                    if($('body').hasClass('catalogsearch-result-index')){
-                        classPage = '[data-price-box="product-id-'+productId+'"]'
-                    }else{
-                        classPage = '.catalog-product-view .product-view .price-box.price-final_price';
-                    }
-                    $(classPage+' .old-price').remove();
-                    if (itemPrices['oldPrice'].amount > itemPrices['finalPrice'].amount) {
-                         let oldPrice = priceUtils.formatPrice(itemPrices['oldPrice'].amount);
-                         let htmlOldPrice = '<span class="old-price"><span class="price-container "><span class="price-label">Precio habitual</span>\n' +
-                                            '<span id="old-price-'+idProductConf+'" data-price-amount="'+oldPrice+'" data-price-type="oldPrice" class="price-wrapper ">\n' +
-                                            '<span class="price">'+oldPrice+'</span></span></span></span>';
-                         $(classPage).append(htmlOldPrice);
-
-                         out = itemPrices['finalPrice'].amount;
-                    }else {
-                        out = itemPrices['oldPrice'].amount;
-                    }
-                    showPriceVariation(out);
-                    let formatedPrice = priceUtils.formatPrice(out);
-
-                    return formatedPrice;
-                }
-
-                window.setPrice = function(item){
-                    let productId = 0
-                    let optionId = $(item).attr('option-id');
-                    let configId = $(item).attr('config-id');
-
-                    if (window.configurationSelected == undefined) {
-                        window.configurationSelected = [];
-                    }
-                    window.configurationSelected[configId] = optionId;
-                    for (let indexProductId in $widget.options.jsonConfig.index) {
-                        let acum = 0;
-                        for (let index in window.configurationSelected) {
-                            if ($widget.options.jsonConfig.index[indexProductId][index] == window.configurationSelected[index]) {
-                                acum++;
-                            }
-                        }
-                        if (acum > 2) {
-                            productId = indexProductId;
-                            break;
-                        }
-                    }
-
-                    if(productId != 0) {
-                        renderPrice(productId);
-                    }
-                }
+                window.widgets[this.uuid] = this;
 
                 $.each(config.options, function (index) {
                     var id,
@@ -399,7 +351,7 @@
 
                     if (type === 0) {
                         // Text
-                        html += '<div onclick="setPrice(this)" class="' + optionClass + ' ' + config.code + ' text" ' + attr + '>' + (value ? value : label) +
+                        html += '<div onclick="setPrice(this,'+$widget.uuid+')" class="' + optionClass + ' ' + config.code + ' text" ' + attr + '>' + (value ? value : label) +
                             '</div>';
                     } else if (type === 1) {
                         // Color
@@ -407,7 +359,7 @@
                         //     ' style="background: ' + value +
                         //     ' no-repeat center; background-size: initial;">' + '' +
                         //     '</div>';
-                        html += '<div onclick="setPrice(this)"  class="' + optionClass + ' color" ' + attr +
+                        html += '<div onclick="setPrice(this,'+$widget.uuid+')"  class="' + optionClass + ' color" ' + attr +
                             ' style="background: ' + value +
                             ' no-repeat center; background-size: initial;">' + '' +
                             '</div>';
@@ -508,6 +460,77 @@
                 return element.data(name);
             }
         });
+
+        
+        window.renderPrice = function(classPage,itemPrices) {
+
+            var out=0,idProductConf = $('#product_addtocart_form input[name="product"]').val();
+            
+            $(classPage+' .old-price').remove();
+            if (itemPrices['oldPrice'].amount > itemPrices['finalPrice'].amount) {
+                 let oldPrice = priceUtils.formatPrice(itemPrices['oldPrice'].amount);
+                 let htmlOldPrice = '<span class="old-price"><span class="price-container "><span class="price-label">Precio habitual</span>\n' +
+                                    '<span id="old-price-'+idProductConf+'" data-price-amount="'+oldPrice+'" data-price-type="oldPrice" class="price-wrapper ">\n' +
+                                    '<span class="price">'+oldPrice+'</span></span></span></span>';
+                 $(classPage).append(htmlOldPrice);
+
+                 out = itemPrices['finalPrice'].amount;
+            }else {
+                out = itemPrices['oldPrice'].amount;
+            }
+            
+            showPriceVariation(out);
+            let formatedPrice = priceUtils.formatPrice(out);
+
+            return formatedPrice;
+        }
+
+        window.setPrice = function(item,uuid){
+            let $privateWidget = window.widgets[uuid];
+            
+            let productId = 0
+            let optionId = $(item).attr('option-id');
+            let configId = $(item).attr('config-id');
+
+            if (window.configurationSelected == undefined) {
+                window.configurationSelected = [];
+            }
+            if (window.configurationSelected[uuid] == undefined) {
+                window.configurationSelected[uuid] = [];
+            }
+            window.configurationSelected[uuid][configId] = optionId;
+            for (let indexProductId in $privateWidget.options.jsonConfig.index) {
+                let acum = 0;
+                for (let index in window.configurationSelected[uuid]) {
+                    if (window.configurationSelected[uuid][index] ==
+                            $privateWidget.options.jsonConfig.index[indexProductId][index]) {
+                        acum++;
+                    }
+                }
+                if (acum > 2) {
+                    productId = indexProductId;
+                    break;
+                }
+            }
+
+            if(productId != 0) {
+                let classPage = '',
+                    itemPrice = $privateWidget.options.jsonConfig.optionPrices[productId];
+                if($('body').hasClass('catalog-product-view')){
+                    classPage = '.catalog-product-view .product-view .price-box.price-final_price';
+                }else{
+                    let productIdRenderer =
+                        $(item).closest('li.product-item')
+                                .find('.price-box.price-final_price')
+                                .data('price-box')
+                    classPage = '[data-price-box="'+productIdRenderer+'"]'
+                    if($(item).hasClass('color')){
+                        $privateWidget._PreselectSizeOnChange($privateWidget)
+                    }
+                }
+                renderPrice(classPage,itemPrice);
+            } 
+        }
 
         return $.bss.SwatchRenderer;
     }
