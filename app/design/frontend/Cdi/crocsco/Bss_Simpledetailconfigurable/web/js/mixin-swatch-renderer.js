@@ -305,7 +305,7 @@
                          let htmlOldPrice = '<span class="old-price"><span class="price-container "><span class="price-label">Precio habitual</span>\n' +
                                             '<span id="old-price-'+idProductConf+'" data-price-amount="'+oldPrice+'" data-price-type="oldPrice" class="price-wrapper ">\n' +
                                             '<span class="price">'+oldPrice+'</span></span></span></span>';
-                         $('.catalog-product-view .product-view .price-box.price-final_price').append(htmlOldPrice);
+                         $(classPage).append(htmlOldPrice);
 
                          out = itemPrices['finalPrice'].amount;
                     }else {
